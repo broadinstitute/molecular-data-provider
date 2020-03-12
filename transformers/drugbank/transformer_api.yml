@@ -1,24 +1,33 @@
 openapi: 3.0.0
 info:
-  title: Transformer API for Molecular Data Provider
+  title: Transformer API for DrugBank
   version: 2.0.0
+  termsOfService: https://www.drugbank.ca/legal/terms_of_use
   
   contact:
     email: translator@broadinstitute.org
   
 servers:
-- url: https://translator.broadinstitute.org/<path>
+- url: https://translator.broadinstitute.org/drugbank
 
 tags:
   - name: transformers
 
 paths:
-  /transformer_info:
+  /{service}/transformer_info:
     get:
       tags:
       - transformers
       summary: Retrieve transformer info
       description: Provides information about the transformer.
+      parameters:
+      - name: service
+        in: path
+        description: DrugBank service
+        required: true
+        schema:
+          type: string
+          enum: [drugs, targets, inhibitors]
       responses:
         200:
           description: successful operation
@@ -27,13 +36,21 @@ paths:
               schema:
                 $ref: '#/components/schemas/transformer_info'
 
-  /transform:
+  /{service}/transform:
     post:
       tags:
       - transformers
       summary: Transform a list of genes or compounds
       description: Depending on the function of a transformer, creates, expands, or
         filters a list.
+      parameters:
+      - name: service
+        in: path
+        description: DrugBank service
+        required: true
+        schema:
+          type: string
+          enum: [drugs, targets, inhibitors]
       requestBody:
         description: transformer query
         content:
@@ -49,10 +66,7 @@ paths:
               schema:
                 type: array
                 items:
-                  oneOf:
-                  - $ref: '#/components/schemas/gene_info'
-                  - $ref: '#/components/schemas/compound_info'
-                  - $ref: '#/components/schemas/element'
+                  $ref: '#/components/schemas/compound_info'
         400:
           description: bad request
           content:
