@@ -5,8 +5,8 @@ import json
 
 class Transformer:
 
-    def __init__(self, variables):
-        with open("transformer_info.json",'r') as f:
+    def __init__(self, variables, definition_file = 'transformer_info.json'):
+        with open(definition_file,'r') as f:
             self.info = TransformerInfo.from_dict(json.loads(f.read()))
             self.variables = variables
             self.parameters = dict(zip(variables, self.info.parameters))
@@ -28,14 +28,19 @@ class Transformer:
             return self.expand(self.getCollection(query), controls)
         if self.info.function == 'filter':
             return self.filter(self.getCollection(query), controls)
+        if self.info.function == 'exporter':
+            return self.export(self.getCollection(query), controls)
+        if self.info.function == 'transformer':
+            return self.map(self.getCollection(query), controls)
 
-        return ({ "status": 500, "title": "Internal Server Error", "detail": self.info.function+" not implemented", "type": "about:blank" }, 500 )
+        return ({ "status": 500, "title": "Internal Server Error",
+            "detail": "Function '"+self.info.function+"' not implemented", "type": "about:blank" }, 500 )
 
 
     def getCollection(self, query):
-        if self.info.input_class == 'gene':
+        if self.info.knowledge_map.input_class == 'gene':
             return query.genes
-        if self.info.input_class == 'compound':
+        if self.info.knowledge_map.input_class == 'compound':
             return query.compounds
 
 
@@ -49,6 +54,14 @@ class Transformer:
 
     def filter(self, collection, controls):
         return ({ "status": 500, "title": "Internal Server Error", "detail": "Filter not implemented", "type": "about:blank" }, 500 )
+
+
+    def export(self, collection, controls):
+        return ({ "status": 500, "title": "Internal Server Error", "detail": "Exporter not implemented", "type": "about:blank" }, 500 )
+
+
+    def map(self, collection, controls):
+        return ({ "status": 500, "title": "Internal Server Error", "detail": "Transformer not implemented", "type": "about:blank" }, 500 )
 
 
     @staticmethod
