@@ -1,13 +1,13 @@
 openapi: 3.0.0
 info:
-  title: Transformer API for Molecular Data Provider
+  title: Transformer API for CTRP
   version: 2.0.0
-  
+  termsOfService: https://ocg.cancer.gov/programs/ctd2/ctd2-publication-guidelines
   contact:
     email: translator@broadinstitute.org
   
 servers:
-- url: https://translator.broadinstitute.org/<path>
+- url: https://translator.broadinstitute.org/ctrp
 
 tags:
   - name: transformers
@@ -49,10 +49,7 @@ paths:
               schema:
                 type: array
                 items:
-                  oneOf:
-                  - $ref: '#/components/schemas/gene_info'
-                  - $ref: '#/components/schemas/compound_info'
-                  - $ref: '#/components/schemas/element'
+                  $ref: '#/components/schemas/compound_info'
         400:
           description: bad request
           content:
