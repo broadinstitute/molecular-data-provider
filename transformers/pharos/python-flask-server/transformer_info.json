@@ -1,0 +1,26 @@
+{
+    "name": "Pharos target transformer",
+    "label": "Pharos",
+    "description": "Compound-to-target transformer based on Pharos (https://pharos.nih.gov).",
+    "version": "2.0.0",
+    "function": "transformer",
+    "knowledge_map": {
+        "input_class": "compound",
+        "output_class": "gene",
+        "predicates": [
+            {
+                "subject": "chemical_substance",
+                "predicate": "affects",
+                "object": "gene"
+            }
+        ]
+    },
+    "properties": {
+        "list_predicate": "related_to",
+        "member_predicate": "related_to",
+        "source_url": "https://pharos.nih.gov",
+        "terms_of_service": "https://pharos.nih.gov/about"
+    },
+    "parameters": [],
+    "required_attributes": []
+}
