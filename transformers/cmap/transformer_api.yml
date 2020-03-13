@@ -1,24 +1,40 @@
 openapi: 3.0.0
 info:
-  title: Transformer API for Molecular Data Provider
+  title: API for CMAP gene-list and compound-list expander
   version: 2.0.0
+  termsOfService: https://clue.io/terms
   
   contact:
     email: translator@broadinstitute.org
   
 servers:
-- url: https://translator.broadinstitute.org/<path>
+- url: https://translator.broadinstitute.org/cmap
 
 tags:
   - name: transformers
 
 paths:
-  /transformer_info:
+  /{input_class}/{output_class}/transformer_info:
     get:
       tags:
       - transformers
       summary: Retrieve transformer info
       description: Provides information about the transformer.
+      parameters:
+      - name: input_class
+        in: path
+        description: input class for the transformer
+        required: true
+        schema:
+          type: string
+          enum: [gene, compound]
+      - name: output_class
+        in: path
+        description: output class for the transformer
+        required: true
+        schema:
+          type: string
+          enum: [gene, compound]
       responses:
         200:
           description: successful operation
@@ -27,13 +43,21 @@ paths:
               schema:
                 $ref: '#/components/schemas/transformer_info'
 
-  /transform:
+  /{input_class}/gene/transform:
     post:
       tags:
       - transformers
       summary: Transform a list of genes or compounds
       description: Depending on the function of a transformer, creates, expands, or
         filters a list.
+      parameters:
+      - name: input_class
+        in: path
+        description: input class for the transformer
+        required: true
+        schema:
+          type: string
+          enum: [gene, compound]
       requestBody:
         description: transformer query
         content:
@@ -49,10 +73,59 @@ paths:
               schema:
                 type: array
                 items:
-                  oneOf:
-                  - $ref: '#/components/schemas/gene_info'
-                  - $ref: '#/components/schemas/compound_info'
-                  - $ref: '#/components/schemas/element'
+                  $ref: '#/components/schemas/gene_info'
+
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_msg'
+        404:
+          description: not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_msg'
+        500:
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_msg'
+
+
+  /{input_class}/compound/transform:
+    post:
+      tags:
+      - transformers
+      summary: Transform a list of genes or compounds
+      description: Depending on the function of a transformer, creates, expands, or
+        filters a list.
+      parameters:
+      - name: input_class
+        in: path
+        description: input class for the transformer
+        required: true
+        schema:
+          type: string
+          enum: [gene, compound]
+      requestBody:
+        description: transformer query
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/transformer_query'
+        required: true
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/compound_info'
         400:
           description: bad request
           content:
