@@ -9,7 +9,23 @@ from openapi_server.models.transformer_query import TransformerQuery  # noqa: E5
 from openapi_server import util
 
 
-def input_class_compound_transform_post(input_class, transformer_query):  # noqa: E501
+from openapi_server.controllers.cmap_expander import CmapExpander
+
+transformers = {
+    'gene': {
+        'gene': CmapExpander('gene', 'gene'),
+        'compound':  CmapExpander('gene', 'compound')
+        },
+    'compound': {
+        'gene': CmapExpander('compound', 'gene'),
+        'compound':  CmapExpander('compound', 'compound')
+        }
+    }
+
+classes = {'compound', 'gene'}
+
+
+def input_class_compound_transform_post(input_class, body):  # noqa: E501
     """Transform a list of genes or compounds
 
     Depending on the function of a transformer, creates, expands, or filters a list. # noqa: E501
@@ -23,10 +39,11 @@ def input_class_compound_transform_post(input_class, transformer_query):  # noqa
     """
     if connexion.request.is_json:
         transformer_query = TransformerQuery.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+    if input_class in classes:
+        return transformers[input_class]['compound'].transform(transformer_query)
 
 
-def input_class_gene_transform_post(input_class, transformer_query):  # noqa: E501
+def input_class_gene_transform_post(input_class, body):  # noqa: E501
     """Transform a list of genes or compounds
 
     Depending on the function of a transformer, creates, expands, or filters a list. # noqa: E501
@@ -40,7 +57,8 @@ def input_class_gene_transform_post(input_class, transformer_query):  # noqa: E5
     """
     if connexion.request.is_json:
         transformer_query = TransformerQuery.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+    if input_class in classes:
+        return transformers[input_class]['gene'].transform(transformer_query)
 
 
 def input_class_output_class_transformer_info_get(input_class, output_class):  # noqa: E501
@@ -55,4 +73,8 @@ def input_class_output_class_transformer_info_get(input_class, output_class):  #
 
     :rtype: TransformerInfo
     """
-    return 'do some magic!'
+    if input_class in classes and output_class in classes:
+        return transformers[input_class][output_class].info
+    else:
+        msg = "invalid input or output class: '"+input_class+"/"+output_class+"'"
+        return ({ "status": 400, "title": "Bad Request", "detail": msg, "type": "about:blank" }, 400 )
