@@ -1,0 +1,39 @@
+{
+    "name": "CMAP ",
+    "label": "CMAP",
+    "description": "Expander based on CMAP (https://clue.io/).",
+    "version": "2.0.0",
+    "function": "expander",
+    "input_class": "none",
+    "output_class": "gene",
+    "knowledge_map": {
+        "input_class": "none",
+        "output_class": "compound",
+        "predicates": [
+            {
+                "subject": "gene",
+                "predicate": "correlated with",
+                "object": "gene"
+            }
+        ]
+    },
+    "properties": {
+        "list_predicate": "related_to",
+        "member_predicate": "related_to",
+        "source_url": "https://clue.io/",
+        "terms_of_service": "https://clue.io/terms"
+    },
+    "parameters": [
+        {
+            "default": "95",
+            "name": "score threshold",
+            "type": "double",
+            "suggested_values": "above 90 and below 100",
+            "allowed_range": [
+                0,
+                100
+            ]
+        }
+    ],
+    "required_attributes": []
+}
