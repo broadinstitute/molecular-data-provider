@@ -6,6 +6,8 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from openapi_server.models.base_model_ import Model
+from openapi_server.models.q_edge import QEdge
+from openapi_server.models.q_node import QNode
 from openapi_server import util
 
 

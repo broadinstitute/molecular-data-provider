@@ -4,11 +4,11 @@ import connexion
 
 from openapi_server import encoder
 
+app = connexion.App(__name__, specification_dir='./openapi/')
+app.app.json_encoder = encoder.JSONEncoder
+app.add_api('openapi.yaml', arguments={'title': 'Systems Molecular Data Provider for NCATS Biomedical Translator Reasoners'})
 
 def main():
-    app = connexion.App(__name__, specification_dir='./openapi/')
-    app.app.json_encoder = encoder.JSONEncoder
-    app.add_api('openapi.yaml', arguments={'title': 'Systems Molecular Data Provider for NCATS Biomedical Translator Reasoners'})
     app.run(port=8080)
 
 
