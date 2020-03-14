@@ -7,6 +7,9 @@ import apimodels.TransformerInfo;
 import apimodels.TransformerQuery;
 
 import play.mvc.Http;
+import transformer.Transformers;
+import transformer.collection.Aggregator;
+
 import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,20 +20,17 @@ import javax.validation.constraints.*;
 public class TransformersApiControllerImp implements TransformersApiControllerImpInterface {
     @Override
     public CollectionInfo aggregatePost(AggregationQuery aggregationQuery) throws Exception {
-        //Do your magic!!!
-        return new CollectionInfo();
+        return Aggregator.aggregate(aggregationQuery);
     }
 
     @Override
     public CollectionInfo transformPost(TransformerQuery transformerQuery) throws Exception {
-        //Do your magic!!!
-        return new CollectionInfo();
+    	return Transformers.getTransformer(transformerQuery.getName()).transform(transformerQuery);
     }
 
     @Override
     public List<TransformerInfo> transformersGet() throws Exception {
-        //Do your magic!!!
-        return new ArrayList<TransformerInfo>();
+    	return Transformers.getTransformers();
     }
 
 }

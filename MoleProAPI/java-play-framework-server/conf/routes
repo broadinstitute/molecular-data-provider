@@ -3,6 +3,7 @@
 # ~~~~
 
 GET     /api                        controllers.ApiDocController.api
+GET     /molecular_data_provider/api                        controllers.ApiDocController.api
 
 
 #Functions for Collections API
@@ -11,8 +12,8 @@ GET     /molecular_data_provider/compound/list/:listId                     contr
 GET     /molecular_data_provider/gene/list/:listId                     controllers.CollectionsApiController.geneListListIdGet(listId: String)
 
 #Functions for Compounds API
-GET     /molecular_data_provider/compound/by_id/:compoundId                     controllers.CompoundsApiController.compoundByIdCompoundIdGet(compoundId: String)
-GET     /molecular_data_provider/compound/by_name/:name                     controllers.CompoundsApiController.compoundByNameNameGet(name: String)
+GET     /molecular_data_provider/compound/by_id/*compoundId                     controllers.CompoundsApiController.compoundByIdCompoundIdGet(compoundId: String)
+GET     /molecular_data_provider/compound/by_name/*name                     controllers.CompoundsApiController.compoundByNameNameGet(name: String)
 POST     /molecular_data_provider/compound/by_structure                     controllers.CompoundsApiController.compoundByStructurePost()
 
 #Functions for Transformers API
@@ -23,3 +24,4 @@ GET     /molecular_data_provider/transformers                     controllers.Tr
 # Map static resources from the /public folder to the /assets URL path
 GET /assets/*file           controllers.Assets.at(file)
 GET /versionedAssets/*file  controllers.Assets.versioned(file)
+GET /molecular_data_provider/assets/*file           controllers.Assets.at(file)

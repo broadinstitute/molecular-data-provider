@@ -10,6 +10,6 @@ public class ApiDocController extends Controller {
     }
 
     public Result api() {
-        return redirect("/assets/lib/swagger-ui/index.html?/url=/assets/openapi.json");
+        return redirect("/molecular_data_provider/assets/lib/swagger-ui/index.html?url=/molecular_data_provider/assets/openapi.json");
     }
 }

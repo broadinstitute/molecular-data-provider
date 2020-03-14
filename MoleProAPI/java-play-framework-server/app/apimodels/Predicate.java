@@ -85,9 +85,9 @@ public class Predicate   {
       return false;
     }
     Predicate predicate = (Predicate) o;
-    return Objects.equals(subject, predicate.subject) &&
-        Objects.equals(predicate, predicate.predicate) &&
-        Objects.equals(_object, predicate._object);
+    return Objects.equals(this.subject, predicate.subject) &&
+        Objects.equals(this.predicate, predicate.predicate) &&
+        Objects.equals(this._object, predicate._object);
   }
 
   @Override

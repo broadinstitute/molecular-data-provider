@@ -1,0 +1,51 @@
+# compound-list producers
+https://translator.broadinstitute.org/pubchem_producer
+https://translator.broadinstitute.org/chembl/molecules
+https://translator.broadinstitute.org/drugbank/drugs
+https://translator.broadinstitute.org/chembank/compounds
+# gene-list producers
+=HGNC gene-list producer
+# disease producers
+https://translator.broadinstitute.org/drugcentral/indications
+=MONDO disease compound association
+=OMIM disease compound association
+https://translator.broadinstitute.org/disease_genes_producer
+https://translator.broadinstitute.org/common_to_rare_disease
+# targets
+https://translator.broadinstitute.org/drugbank/targets
+https://translator.broadinstitute.org/pharos
+https://translator.broadinstitute.org/chembl/targets
+https://translator.broadinstitute.org/hmdb/targets
+https://translator.broadinstitute.org/drugbank/inhibitors
+# profile similarity
+https://translator.broadinstitute.org/cmap/compound/compound
+https://translator.broadinstitute.org/ctrp
+https://translator.broadinstitute.org/cmap/compound/gene
+https://translator.broadinstitute.org/cmap/gene/compound
+https://translator.broadinstitute.org/cmap/gene/gene
+https://translator.broadinstitute.org/depmap_expander
+https://translator.broadinstitute.org/expression_correlation
+# exporters
+https://translator.broadinstitute.org/msigdb
+https://translator.broadinstitute.org/gelinea
+#
+# aggregators
+=union
+=intersection
+=difference
+=symmetric difference (XOR)
+#
+# gene-list sharpener transformers not used by MolePro
+#https://translator.broadinstitute.org/msigdb_producer
+#https://translator.broadinstitute.org/phenotype_similarity_expander
+#https://translator.broadinstitute.org/remove_genes_filter
+#https://translator.broadinstitute.org/attribute_filter
+#https://translator.broadinstitute.org/gene_gene_interaction_expander
+#https://translator.broadinstitute.org/pharos_filter
+#https://translator.broadinstitute.org/gene_gene_bicluster_expander
+#https://translator.broadinstitute.org/pathway_enrichment
+#https://translator.broadinstitute.org/string_expander
+#https://translator.broadinstitute.org/hypergeometric_enrichment_expander
+#https://translator.broadinstitute.org/hypergeometric_enrichment_filter
+#https://translator.broadinstitute.org/random_producer
+
