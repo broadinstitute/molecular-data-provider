@@ -10,6 +10,15 @@ import play.mvc.Http.*;
 import play.mvc.*;
 
 import javax.inject.*;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import apimodels.ErrorMsg;
+
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import static play.mvc.Results.*;
@@ -17,9 +26,14 @@ import static play.mvc.Results.*;
 @Singleton
 public class ErrorHandler extends DefaultHttpErrorHandler {
 
+    final static Logger log = LoggerFactory.getLogger("application");
+    
+    private final ObjectMapper mapper;
+    
     @Inject
     public ErrorHandler(Configuration configuration, Environment environment, OptionalSourceMapper sourceMapper, Provider<Router> routes) {
         super(configuration, environment, sourceMapper, routes);
+        mapper = new ObjectMapper();
     }
 
     @Override
@@ -43,7 +57,13 @@ public class ErrorHandler extends DefaultHttpErrorHandler {
     }
 
     private Result handleExceptions(Throwable t) {
-        //TODO: Handle exception that need special response (return a special apimodel, notFound(), etc..)
-        return ok();
+    	Throwable cause = (t.getCause() != null) ? t.getCause() : t;
+        log.warn(cause.getMessage(), cause);
+        return internalServerError(errorMsg(cause, 500, "Internal Server Error"));
+    }
+
+    private JsonNode errorMsg(Throwable cause, int status, String title) {
+        ErrorMsg msg = new ErrorMsg().status(status).title(title).detail(cause.getMessage()).type("about:blank");
+        return mapper.valueToTree(msg);
     }
 }
