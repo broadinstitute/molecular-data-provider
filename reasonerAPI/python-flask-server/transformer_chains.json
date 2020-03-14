@@ -1,0 +1,169 @@
+[
+    {
+        "subject": "disease",
+        "predicate": "related_to",
+        "object": "pathway",
+        "transformer_chain": [
+            {
+                "name": "DrugCentral indications transformer",
+                "controls": [
+                    {
+                        "name": "disease",
+                        "value": "#subject"
+                    }
+                ]
+            },
+            {
+                "name": "DrugBank target transformer",
+                "controls": []
+            },
+            {
+                "name": "MSigDB hypergeometric enrichment exporter",
+                "controls": [
+                    {
+                        "name": "maximum p-value",
+                        "value": "1e-05"
+                    },
+                    {
+                        "name": "maximum q-value",
+                        "value": "0.05"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "subject": "disease",
+        "predicate": "treated_by",
+        "object": "chemical_substance",
+        "transformer_chain": [
+            {
+                "name": "DrugCentral indications transformer",
+                "controls": [
+                    {
+                        "name": "disease",
+                        "value": "#subject"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "subject": "chemical_substance",
+        "predicate": "correlated_with",
+        "object": "chemical_substance",
+        "transformer_chain": [
+            {
+                "controls": [
+                    {
+                        "name": "score threshold",
+                        "value": "95"
+                    }
+                ],
+                "name": "CMAP compound-to-compound expander"
+            }
+        ]
+    },
+    {
+        "subject": "chemical_substance",
+        "predicate": "correlated_with",
+        "object": "gene",
+        "transformer_chain": [
+            {
+                "controls": [
+                    {
+                        "name": "score threshold",
+                        "value": "95"
+                    }
+                ],
+                "name": "CMAP compound-to-gene expander"
+            }
+        ]
+    },
+    {
+        "subject": "gene",
+        "predicate": "correlated_with",
+        "object": "chemical_substance",
+        "transformer_chain": [
+            {
+                "controls": [
+                    {
+                        "name": "score threshold",
+                        "value": "95"
+                    }
+                ],
+                "name": "CMAP gene-to-compound expander"
+            }
+        ]
+    },
+    {
+        "subject": "gene",
+        "predicate": "correlated_with",
+        "object": "gene",
+        "transformer_chain": [
+            {
+                "controls": [
+                    {
+                        "name": "score threshold",
+                        "value": "95"
+                    }
+                ],
+                "name": "CMAP gene-to-gene expander"
+            }
+        ]
+    },
+    {
+        "object": "gene",
+        "predicate": "affects",
+        "subject": "chemical_substance",
+        "transformer_chain": [
+            {
+                "controls": [],
+                "name": "DrugBank target transformer"
+            }
+        ]
+    },
+    {
+        "object": "gene",
+        "predicate": "affects",
+        "subject": "chemical_substance",
+        "transformer_chain": [
+            {
+                "controls": [],
+                "name": "ChEMBL target transformer"
+            }
+        ]
+    },
+    {
+        "object": "gene",
+        "predicate": "related_to",
+        "subject": "disease",
+        "transformer_chain": [
+            {
+                "controls": [
+                    {
+                        "name": "MONDO disease ID",
+                        "value": "#subject"
+                    }
+                ],
+                "name": "MONDO disease association"
+            }
+        ]
+    },
+    {
+        "object": "gene",
+        "predicate": "related_to",
+        "subject": "disease",
+        "transformer_chain": [
+            {
+                "controls": [
+                    {
+                        "name": "OMIM disease ID",
+                        "value": "#subject"
+                    }
+                ],
+                "name": "OMIM common-to-rare disease genes"
+            }
+        ]
+    }
+]
