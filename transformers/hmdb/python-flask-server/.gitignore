@@ -62,3 +62,7 @@ target/
 
 #Ipython Notebook
 .ipynb_checkpoints
+
+#data
+HMDB-KS.db
+UniProt2Entrez.txt

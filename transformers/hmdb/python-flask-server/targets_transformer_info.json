@@ -1,0 +1,23 @@
+{
+    "name": "HMDB target transformer",
+    "label": "HMDB",
+    "description": "Gene-list transformer based on the Human Metabolome Database target information (https://www.hmdb.ca/).",
+    "version": "2.0.0",
+    "function": "transformer",
+    "knowledge_map": {
+        "input_class": "compound",
+        "output_class": "gene",
+        "predicates": [{
+            "subject": "chemical_substance",
+            "predicate": "affects",
+            "object": "gene"
+        }]
+    },
+    "properties": {
+        "list_predicate": "related_to",
+        "member_predicate": "related_to",
+        "source_url": "https://www.hmdb.ca/",
+        "terms_of_service": "http://www.hmdb.ca/about"
+    },
+    "parameters": []
+}
