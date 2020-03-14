@@ -1,0 +1,197 @@
+[
+    {
+        "name": "HGNC#HGNC gene-list producer",
+        "label": "HGNC",
+        "url": "",
+        "version": "2.0.0",
+        "status": "online",
+        "function": "producer",
+        "description": "Gene-list specified by gene symbols.",
+        "knowledge_map": {
+            "input_class": "none",
+            "output_class": "gene",
+            "predicates": []
+        },
+        "properties": {
+            "list_predicate": "contained_in",
+            "member_predicate": "member_of",
+            "source_url": null,
+            "method": null
+        },
+        "parameters": [
+            {
+                "name": "gene symbols",
+                "type": "string",
+                "example": "TP53",
+                "suggested_values": "semicolon-separated list of gene symbols"
+            }
+        ],
+        "required_attributes": []
+    },
+    {
+        "name": "MONDO disease compound association",
+        "label": "MONDO",
+        "url": "",
+        "version": "2.0.0",
+        "status": "online",
+        "function": "producer",
+        "description": "Compounds connected to a disease via DrugBank target information",
+        "knowledge_map": {
+            "input_class": "disease",
+            "output_class": "compound",
+            "predicates": [
+                {
+                    "subject": "disease",
+                    "predicate": "related to",
+                    "object": "chemical substance"
+                }
+            ]
+        },
+        "properties": {
+            "list_predicate": "related_to",
+            "member_predicate": "related_to",
+            "source_url": null,
+            "method": null
+        },
+        "parameters": [
+            {
+                "name": "MONDO disease ID",
+                "type": "string",
+                "example": "MONDO:0005015",
+                "biolink_class": "disease"
+            }
+        ],
+        "required_attributes": [],
+        "chain": [
+            "MONDO disease association",
+            "DrugBank inhibitors transformer"
+        ]
+    },
+    {
+        "name": "OMIM disease compound association",
+        "label": "OMIM",
+        "url": "",
+        "version": "2.0.0",
+        "status": "online",
+        "function": "producer",
+        "description": "Compounds connected to a disease via DrugBank target information",
+        "knowledge_map": {
+            "input_class": "disease",
+            "output_class": "compound",
+            "predicates": [
+                {
+                    "subject": "disease",
+                    "predicate": "related to",
+                    "object": "chemical substance"
+                }
+            ]
+        },
+        "properties": {
+            "list_predicate": "related_to",
+            "member_predicate": "related_to",
+            "source_url": null,
+            "method": null
+        },
+        "parameters": [
+            {
+                "name": "OMIM disease ID",
+                "type": "string",
+                "example": "MIM:222100",
+                "biolink_class": "disease"
+            }
+        ],
+        "required_attributes": [],
+        "chain": [
+            "OMIM common-to-rare disease genes",
+            "DrugBank inhibitors transformer"
+        ]
+    },
+    {
+        "name": "union",
+        "label": "union",
+        "url": "",
+        "version": "2.0.0",
+        "status": "online",
+        "function": "aggregator",
+        "description": "The union consists of all genes present in any input gene list.",
+        "knowledge_map": {
+            "input_class": "any",
+            "output_class": "any",
+            "predicates": []
+        },
+        "properties": {
+            "list_predicate": "contained_in",
+            "member_predicate": "member_of",
+            "source_url": null,
+            "method": null
+        },
+        "parameters": [],
+        "required_attributes": []
+    },
+    {
+        "name": "intersection",
+        "label": "intersection",
+        "url": "",
+        "version": "1.3.1",
+        "status": "online",
+        "function": "aggregator",
+        "description": "The intersection consists of all genes present in all input gene lists.",
+        "knowledge_map": {
+            "input_class": "any",
+            "output_class": "any",
+            "predicates": []
+        },
+        "properties": {
+            "list_predicate": "contained_in",
+            "member_predicate": "member_of",
+            "source_url": null,
+            "method": null
+        },
+        "parameters": [],
+        "required_attributes": []
+    },
+    {
+        "name": "difference",
+        "label": "difference",
+        "url": "",
+        "version": "1.3.1",
+        "status": "online",
+        "function": "aggregator",
+        "description": "The difference consists of all genes present in the first input gene list, but not any other input gene list.",
+        "knowledge_map": {
+            "input_class": "any",
+            "output_class": "any",
+            "predicates": []
+        },
+        "properties": {
+            "list_predicate": "contained_in",
+            "member_predicate": "member_of",
+            "source_url": null,
+            "method": null
+        },
+        "parameters": [],
+        "required_attributes": []
+    },
+    {
+        "name": "symmetric difference (XOR)",
+        "label": "symmetric difference",
+        "url": "",
+        "version": "1.3.1",
+        "status": "online",
+        "function": "aggregator",
+        "description": "The symmetric difference consists of all genes present in the union but not present in the intersection.",
+        "knowledge_map": {
+            "input_class": "any",
+            "output_class": "any",
+            "predicates": []
+        },
+        "properties": {
+            "list_predicate": "contained_in",
+            "member_predicate": "member_of",
+            "source_url": null,
+            "method": null
+        },
+        "parameters": [],
+        "required_attributes": []
+    }
+]
