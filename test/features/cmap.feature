@@ -36,6 +36,10 @@ Feature: Check CMAP transformer
                 {
                     "name": "score threshold",
                     "value": "99.5"
+                },
+                {
+                    "name": "maximum number",
+                    "value": "0"
                 }
             ],
             "compounds": [
@@ -49,3 +53,31 @@ Feature: Check CMAP transformer
         }
         """
         then the size of the response is 13
+
+
+    Scenario: Check transformation with limit
+        Given the transformer
+        when we fire "/compound/compound/transform" query with the following body:
+        """
+        {
+            "controls": [
+                {
+                    "name": "score threshold",
+                    "value": "99.5"
+                },
+                {
+                    "name": "maximum number",
+                    "value": "2"
+                }
+            ],
+            "compounds": [
+                {
+                    "compound_id": "CID:2244",
+                    "identifiers": {
+                        "pubchem": "CID:2244"
+                    }
+                }
+            ]
+        }
+        """
+        then the size of the response is 2
