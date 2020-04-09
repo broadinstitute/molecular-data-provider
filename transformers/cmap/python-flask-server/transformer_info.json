@@ -1,8 +1,8 @@
 {
     "name": "CMAP ",
     "label": "CMAP",
-    "description": "Expander based on CMAP (https://clue.io/).",
-    "version": "2.0.0",
+    "description": "Transformer based on CMAP (https://clue.io/).",
+    "version": "2.0.1",
     "function": "expander",
     "input_class": "none",
     "output_class": "gene",
@@ -33,6 +33,11 @@
                 0,
                 100
             ]
+        },
+        {
+            "default": "0",
+            "name": "maximum number",
+            "type": "int"
         }
     ],
     "required_attributes": []
