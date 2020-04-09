@@ -12,7 +12,7 @@ CMAP_URL = 'https://s3.amazonaws.com/macchiato.clue.io/builds/touchstone/v1.1/ar
 
 class CmapExpander(Transformer):
 
-    variables = ['score threshold']
+    variables = ['score threshold', 'limit']
 
     def __init__(self, input_class, output_class):
         super().__init__(self.variables)
@@ -40,6 +40,7 @@ class CmapExpander(Transformer):
         elements = {}
         return self.connections(list, elements, collection, controls)
 
+
     def expand(self, collection, controls):
         list = []
         elements = {}
@@ -63,6 +64,7 @@ class CmapExpander(Transformer):
 
     def cmap_connections(self, pert_id, controls):
         min_score = controls['score threshold']
+        limit = controls['limit']
         url = CMAP_URL.format(pert_id)
         hits = []
         with closing(requests.get(url)) as response:
@@ -76,6 +78,8 @@ class CmapExpander(Transformer):
                         hits.append((float(score), self.output_id_map[pert_id]))
                 row_no = row_no + 1
         hits.sort(reverse=True)
+        if limit > 0 and limit < len(hits):
+            hits = hits[0:limit]
         return hits
 
 
