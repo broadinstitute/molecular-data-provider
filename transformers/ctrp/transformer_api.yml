@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Transformer API for CTRP
-  version: 2.0.0
+  version: 2.0.1
   termsOfService: https://ocg.cancer.gov/programs/ctd2/ctd2-publication-guidelines
   contact:
     email: translator@broadinstitute.org
