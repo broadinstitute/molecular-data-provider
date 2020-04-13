@@ -31,8 +31,8 @@ Feature: Check CMAP transformer
         | compounds                 |
         | aspirin; ibuprofen; ML210 |
         and we call "CMAP compound-to-gene transformer" transformer with the following parameters:
-        | score threshold |
-        | 99.5            |
+        | score threshold | maximum number |
+        | 99.5            | 0              |
         then the length of the collection should be 86
         and the value of "element_class" should be "gene"
         and the value of "source" should be "CMAP compound-to-gene transformer"
@@ -44,8 +44,8 @@ Feature: Check CMAP transformer
         | compounds                 |
         | aspirin; ibuprofen; ML210 |
         and we call "CMAP compound-to-compound expander" transformer with the following parameters:
-        | score threshold |
-        | 99.5            |
+        | score threshold | maximum number |
+        | 99.5            | 0              |
         then the length of the collection should be 60
         and the value of "element_class" should be "compound"
         and the value of "source" should be "CMAP compound-to-compound expander"
