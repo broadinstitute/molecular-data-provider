@@ -1,7 +1,7 @@
 Feature: Check CTRP transformer
 
     Background: Specify transformer API
-        Given a transformer at "http://localhost:8300/ctrp"
+        Given a transformer at "https://translator.broadinstitute.org/ctrp"
 
 
     Scenario: Check transformer info
