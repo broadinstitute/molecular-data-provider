@@ -2,7 +2,7 @@
     "name": "CTRP compound-list expander",
     "label": "CTRP",
     "description": "Compound-list expander based on CTRP (http://portals.broadinstitute.org/ctrp/).",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "function": "expander",
     "knowledge_map": {
         "input_class": "compound",
@@ -40,6 +40,11 @@
             "allowed_values": [
                 "pan-cancer (all lines)"
             ]
+        },
+        {
+            "default": "0",
+            "name": "maximum number",
+            "type": "int"
         }
     ]
 }

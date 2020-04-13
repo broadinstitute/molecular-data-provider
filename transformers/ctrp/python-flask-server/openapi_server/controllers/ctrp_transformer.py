@@ -10,7 +10,7 @@ from openapi_server.models.compound_info_structure import CompoundInfoStructure
 
 class CTRPTransformer(Transformer):
 
-    variables = ['maximum FDR','disease context']
+    variables = ['maximum FDR','disease context','limit']
 
     def __init__(self):
         super().__init__(self.variables, definition_file='ctrp_transformer_info.json')
@@ -19,6 +19,7 @@ class CTRPTransformer(Transformer):
     def expand(self, collection, controls):
         fdr_threshold = float(controls['maximum FDR'])
         context = find_context(controls['disease context'])
+        limit = controls['limit'] - 1
         if context is None:
             msg = "unknown disease context '"+controls['disease context']+"'"
             return ({ "status": 400, "title": "Bad Request", "detail": msg, "type": "about:blank" }, 400 )
@@ -39,6 +40,8 @@ class CTRPTransformer(Transformer):
             if compound.compound_id in cpd_id_map:
                 (cpd_id, query_name) = cpd_id_map[compound.compound_id]
                 connections = find_correlated_compounds(cpd_id, context, fdr_threshold)
+                if limit > 0 and limit < len(connections):
+                    connections = connections[0:limit]
                 for connection in connections:
                     connected_compound = compounds.get(connection[1])
                     if connected_compound is None:
@@ -138,6 +141,7 @@ def find_correlated_compounds(cpd_id, context, fdr_threshold):
         SELECT CPD_ID_1, CPD_ID_2, CONTEXT_ID, N_SAMPLES, CORRELATION_VALUE, FISHER_Z, FDR
         FROM CORRELATION
         WHERE CPD_ID_1 = ? AND CONTEXT_ID = ? AND FDR < ?
+        ORDER BY FDR
     """
     cur = connection.cursor()
     cur.execute(query,(cpd_id,context,fdr_threshold))

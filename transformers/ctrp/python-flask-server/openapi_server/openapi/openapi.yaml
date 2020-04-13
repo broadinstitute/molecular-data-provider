@@ -4,7 +4,7 @@ info:
     email: translator@broadinstitute.org
   termsOfService: https://ocg.cancer.gov/programs/ctd2/ctd2-publication-guidelines
   title: Transformer API for CTRP
-  version: 2.0.0
+  version: 2.0.1
 servers:
 - url: https://translator.broadinstitute.org/ctrp
 tags:
