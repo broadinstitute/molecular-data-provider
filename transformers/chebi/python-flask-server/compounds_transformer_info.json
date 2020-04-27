@@ -1,0 +1,26 @@
+{
+    "name": "ChEBI compound-list producer",
+    "label": "ChEBI",
+    "description": "Compound-list producer based on ChEBI (https://www.ebi.ac.uk/chebi).",
+    "version": "2.0.0",
+    "function": "producer",
+    "knowledge_map": {
+        "input_class": "none",
+        "output_class": "compound",
+        "predicates": []
+    },
+    "properties": {
+        "list_predicate": "related_to",
+        "member_predicate": "related_to",
+        "source_url": "https://www.ebi.ac.uk/chebi",
+        "terms_of_service": "https://www.ebi.ac.uk/about/terms-of-use/"
+    },
+    "parameters": [
+        {
+            "example": "aspirin",
+            "name": "compounds",
+            "type": "string",
+            "suggested_values": "semicolon-separated list of compound names, ChEBI IDs, InChIs, or InChIKeys"
+        }
+    ]
+}
