@@ -14,7 +14,7 @@ Feature: Check HMDB transformer
         and the size of "parameters" should be 0
 
 
-    Scenario: Check HMDB compound-list producer
+    Scenario: Check HMDB aspirin targets
         Given the transformer
         when we fire "/targets/transform" query with the following body:
         """
@@ -53,6 +53,31 @@ Feature: Check HMDB transformer
             | NCBIGene:5243  |
             | NCBIGene:9356  |
             | NCBIGene:10864 |
+        and the response contains the following entries in "source" of "attributes" array
+            | source                  |
+            | HMDB target transformer |
+        and the response only contains the following entries in "source" of "attributes" array
+            | source                  |
+            | HMDB target transformer |
+
+
+    Scenario: Check HMDB target producer
+        Given the transformer
+        when we fire "/targets/transform" query with the following body:
+        """
+        {
+            "controls": [],
+            "compounds": [
+                {
+                    "compound_id": "CID:28694",
+                    "identifiers": {
+                        "drugbank": "DrugBank:DB09130"
+                    }
+                }
+            ]
+        }
+        """
+        then the size of the response is 49
         and the response contains the following entries in "source" of "attributes" array
             | source                  |
             | HMDB target transformer |
