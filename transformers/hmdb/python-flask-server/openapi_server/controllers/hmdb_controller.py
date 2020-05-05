@@ -64,9 +64,10 @@ class HmdbTargets(Transformer):
             if target[1].startswith('UniProtKB:'):
                 uniprot = target[1][10:]
                 entrez = self.id_map.get(uniprot)
-                target_list.append(
-                    {'uniprot':uniprot, 'entrez': 'NCBIGene:'+entrez, 'name': target[2]}
-                )
+                if entrez is not None:
+                    target_list.append(
+                        {'uniprot':uniprot, 'entrez': 'NCBIGene:'+entrez, 'name': target[2]}
+                    )
         return target_list
 
 
@@ -135,22 +136,3 @@ def find_metabolite_by_id(id):
     cur.execute(query,(id,))
     return cur.fetchall()
 
-
-def main():
-    print(find_metabolite_by_hmdb_id('HMDB:HMDB0001879'))
-    print(find_metabolite_by_id('CHEBI:15365'))
-    print(find_metabolite_by_id('kegg.compound:C01405'))
-    print(find_targets(7040))
-
-def main_all_targets():
-    query = """
-        SELECT DISTINCT ID FROM BEACON_CONCEPT WHERE BEACON_CONCEPT_CATEGORY_ID = 7;
-    """
-    cur = connection.cursor()
-    cur.execute(query,())
-    for id in cur.fetchall():
-        if id[0].startswith('UniProtKB:'):
-            print(id[0][10:])
-
-if __name__ == '__main__':
-    main_all_targets()
