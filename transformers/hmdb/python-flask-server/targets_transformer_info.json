@@ -2,7 +2,7 @@
     "name": "HMDB target transformer",
     "label": "HMDB",
     "description": "Gene-list transformer based on the Human Metabolome Database target information (https://www.hmdb.ca/).",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "function": "transformer",
     "knowledge_map": {
         "input_class": "compound",
