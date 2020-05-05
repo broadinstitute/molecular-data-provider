@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Transformer API for the Human Metabolome Database
-  version: 2.0.0
+  version: 2.0.1
   termsOfService: http://www.hmdb.ca/about
   
   contact:
