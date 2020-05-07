@@ -15,6 +15,19 @@ Feature: Check CMAP transformer
             | online |
 
 
+    Scenario: Check HGNC producer
+        Given the Molecular Data Provider
+        when we call "HGNC gene-list producer" transformer with the following parameters:
+        | genes                 |
+        | GPX4;NCBIgene:6790;HGNC:2243;ENSEMBL:ENSG00000183044 |
+        then the length of the collection should be 4
+        and the value of "element_class" should be "gene"
+        and the value of "source" should be "HGNC gene-list producer"
+        and the value of "elements[0].gene_id" should be "HGNC:4556"
+        and the value of "elements[1].gene_id" should be "HGNC:11393"
+        and the value of "elements[2].identifiers.entrez" should be "NCBIGene:22818"
+        and the value of "elements[3].gene_id" should be "HGNC:23"
+
     Scenario: Check PubChem producer
         Given the Molecular Data Provider
         when we call "Pubchem compound-list producer" transformer with the following parameters:
