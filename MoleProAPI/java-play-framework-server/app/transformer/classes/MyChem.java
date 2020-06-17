@@ -59,7 +59,7 @@ public class MyChem {
 					return;
 				} catch (IOException e) {
 					compounds.put(PUBCHEM_CURIE.getPrefix(), pubchemCID, new Compound());
-					log.warn("Failed to obtain compound info from myChem.info for " + pubchemCID, e);
+					log.warn("Failed to obtain compound info from myChem.info for " + pubchemCID+"; "+e.getMessage());
 				}
 			}
 
@@ -71,7 +71,7 @@ public class MyChem {
 					return;
 				} catch (IOException e) {
 					compounds.put(CHEMBL_CURIE.getPrefix(), chemblId, new Compound());
-					log.warn("Failed to obtain compound info from myChem.info for " + chemblId, e);
+					log.warn("Failed to obtain compound info from myChem.info for " + chemblId+"; "+e.getMessage());
 				}
 			}
 
@@ -84,7 +84,7 @@ public class MyChem {
 						return;
 					} catch (IOException e) {
 						compounds.put(INCHIKEY, inchikey, new Compound());
-						log.warn("Failed to obtain compound info from myChem.info for " + inchikey, e);
+						log.warn("Failed to obtain compound info from myChem.info for " + inchikey+"; "+e.getMessage());
 					}
 				}
 			}
