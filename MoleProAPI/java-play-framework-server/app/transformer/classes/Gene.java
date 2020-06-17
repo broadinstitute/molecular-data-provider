@@ -123,11 +123,21 @@ public class Gene extends TransformerClass {
 
 
 		public CollectionsEntry transform(final Query query, final CollectionInfo collectionInfo) throws IOException, Exception {
-			final String[] geneSymbols = query.getPropertyValue("gene symbols").split(";");
-			GeneInfo[] genes = new GeneInfo[geneSymbols.length];
-			for (int i = 0; i < genes.length; i++) {
-				genes[i] = MyGene.Info.findGeneBySymbol(geneSymbols[i].trim());
+			String propertyValue = query.getPropertyValue("genes");
+			if (propertyValue == null) {
+				throw new BadRequestException("required parameter 'genes' not specified");
 			}
+			final String[] geneIds = propertyValue.split(";");
+			GeneInfo[] genes = new GeneInfo[geneIds.length];
+			for (int i = 0; i < genes.length; i++) {
+				final String geneId = geneIds[i].trim();
+				if (geneId.contains(":")) {
+					genes[i] = MyGene.Info.findGeneById(geneId, info.getName());
+				} else {
+					genes[i] = MyGene.Info.findGeneBySymbol(geneId, info.getName());
+				}
+			}
+			collectionInfo.setElementClass(CLASS);
 			return new GeneCollection(collectionInfo, genes);
 		}
 	}

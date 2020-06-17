@@ -3,7 +3,7 @@
         "name": "HGNC#HGNC gene-list producer",
         "label": "HGNC",
         "url": "",
-        "version": "2.0.0",
+        "version": "2.0.1",
         "status": "online",
         "function": "producer",
         "description": "Gene-list specified by gene symbols.",
@@ -20,7 +20,7 @@
         },
         "parameters": [
             {
-                "name": "gene symbols",
+                "name": "genes",
                 "type": "string",
                 "example": "TP53",
                 "suggested_values": "semicolon-separated list of gene symbols"
