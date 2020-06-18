@@ -30,8 +30,8 @@ def step_impl(context, compounds):
     print(url)
     with closing(requests.get(url)) as response:
         context.response_json = response.json()
-        context.collection = response.json()
-        print("Collection size ",context.collection['size'])
+        context.collection_info = response.json()
+        print("Collection size ",context.collection_info['size'])
 
 
 @given('another compound list "{compounds}"')
@@ -43,7 +43,7 @@ def step_impl(context, compounds):
     print(url)
     with closing(requests.get(url)) as response:
         context.response_json = response.json()
-        context.collection_1 = context.collection
+        context.collection_1 = context.collection_info
         context.collection_2 = response.json()
         print("Collection size ",context.collection_2['size'])
 
@@ -63,11 +63,12 @@ def step_impl(context, transformer):
     print(data)
     with closing(requests.post(url, json=data, stream=False)) as response:
         context.response = response
-        context.response_json = response.json()
-        print(context.response_json)
-        context.collection_id = context.response_json['id']
-        with closing(requests.get(context.response_json['url'])) as collection:
-            context.collection = collection.json()
+        context.collection_info = response.json()
+        print(context.collection_info)
+        context.collection_id = context.collection_info['id']
+        with closing(requests.get(context.collection_info['url'])) as collection:
+            context.response = collection
+            context.response_json = collection.json()
 
 
 @then('the length of the collection should be {size}')
@@ -78,8 +79,8 @@ def step_impl(context, size):
 
     print('collection.size =',context.response_json['size'])
     assert context.response_json['size'] == int(size)
-    print('collection.size =',len(context.collection['elements']))
-    assert len(context.collection['elements']) == int(size)
+    print('collection.size =',len(context.response_json['elements']))
+    assert len(context.response_json['elements']) == int(size)
 
 
 @when('we call aggregator "{aggregator}"')
@@ -92,11 +93,11 @@ def step_impl(context, aggregator):
     data = {"operation":aggregator,"collection_ids":[context.collection_1['id'],context.collection_2['id']]}
     print(data)
     with closing(requests.post(url, json=data, stream=False)) as response:
-        context.response = response
-        context.response_json = response.json()
-        print(context.response_json)
-        context.collection_id = context.response_json['id']
-        with closing(requests.get(context.response_json['url'])) as collection:
-            context.collection = collection.json()
+        context.collection_info = response.json()
+        print(context.collection_info)
+        context.collection_id = context.collection_info['id']
+        with closing(requests.get(context.collection_info['url'])) as collection:
+            context.response = collection
+            context.response_json = collection.json()
 
 
