@@ -298,6 +298,16 @@ public class Config {
 		}
 
 
+		public CURIE getHGNC() {
+			return curies.get("hgnc");
+		}
+
+
+		public CURIE getEnsembl() {
+			return curies.get("ensembl");
+		}
+
+
 		public CURIE getPubchem() {
 			return curies.get("pubchem");
 		}
@@ -335,11 +345,6 @@ public class Config {
 
 		public CURIE getCas() {
 			return curies.get("cas");
-		}
-
-
-		public CURIE getEnsembl() {
-			return curies.get("ensembl");
 		}
 
 

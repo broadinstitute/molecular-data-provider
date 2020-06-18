@@ -161,7 +161,7 @@ public class PubChem {
 			}
 		} catch (IOException e) {
 			compoundNames.put(PUBCHEM, String.valueOf(cid), new Response());
-			log.warn("Unable to obtain PubChem name", e);
+			log.warn("Unable to obtain PubChem name for CID:"+cid+"; "+e.getMessage());
 		} catch (InterruptedException e) {
 		}
 		return null;
@@ -184,7 +184,7 @@ public class PubChem {
 			}
 		} catch (IOException e) {
 			compoundSynonyms.put(PUBCHEM, String.valueOf(cid), new Response());
-			log.warn("Unable to obtain PubChem synonyms", e);
+			log.warn("Unable to obtain PubChem synonyms for CID:"+cid+"; "+e.getMessage());
 		} catch (InterruptedException e) {
 		}
 		return null;

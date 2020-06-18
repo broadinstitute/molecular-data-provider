@@ -240,6 +240,12 @@ public abstract class CollectionElement {
 
 		@Override
 		public String getId() {
+			if (compoundInfo.getStructure() != null && compoundInfo.getStructure().getInchikey() != null) {
+				return compoundInfo.getStructure().getInchikey();
+			}
+			if (compoundInfo.getIdentifiers() != null && compoundInfo.getIdentifiers().getMychemInfo() != null) {
+				compoundInfo.getIdentifiers().getMychemInfo();
+			}
 			return compoundInfo.getCompoundId();
 		}
 

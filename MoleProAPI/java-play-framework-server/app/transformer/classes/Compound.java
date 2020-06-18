@@ -12,6 +12,7 @@ import apimodels.CompoundInfo;
 import apimodels.CompoundInfoIdentifiers;
 import apimodels.CompoundInfoStructure;
 import apimodels.CompoundList;
+import apimodels.Names;
 import apimodels.Property;
 import apimodels.TransformerQuery;
 import transformer.Config;
@@ -64,7 +65,18 @@ public class Compound extends TransformerClass {
 			updateCompound(compound);
 		}
 		collectionInfo.setElementClass(CLASS);
-		return new CompoundCollection(collectionInfo, compounds);
+		return new CompoundCollection(collectionInfo, filter(compounds));
+	}
+
+	
+	private final CompoundInfo[] filter(final CompoundInfo[] src) {
+		final List<CompoundInfo> compounds = new ArrayList<>();
+		for (CompoundInfo compound : src) {
+			if (compound.getCompoundId() != null) {
+				compounds.add(compound);
+			}
+		}
+		return compounds.toArray(new CompoundInfo[compounds.size()]);
 	}
 
 
@@ -77,6 +89,9 @@ public class Compound extends TransformerClass {
 			compound.setCompoundId(compoundId);
 		}
 		// update name order
+		if (compound.getNamesSynonyms() == null) {
+			compound.setNamesSynonyms(new ArrayList<Names>());
+		}
 		compound.getNamesSynonyms().sort((names1, names2) -> {
 			return Config.config.getCompoundNamePriority(names1.getSource()) - Config.config.getCompoundNamePriority(names2.getSource());
 		});
@@ -85,43 +100,43 @@ public class Compound extends TransformerClass {
 
 
 	private static String getBestIdentifier(final CompoundInfoIdentifiers identifiers, final CompoundInfoStructure structure) {
-		if (identifiers.getChebi() != null) {
+		if (identifiers != null && identifiers.getChebi() != null) {
 			return identifiers.getChebi();
 		}
-		if (identifiers.getChembl() != null) {
+		if (identifiers != null && identifiers.getChembl() != null) {
 			return identifiers.getChembl();
 		}
-		if (identifiers.getDrugbank() != null) {
+		if (identifiers != null && identifiers.getDrugbank() != null) {
 			return identifiers.getDrugbank();
 		}
-		if (identifiers.getPubchem() != null) {
+		if (identifiers != null && identifiers.getPubchem() != null) {
 			return identifiers.getPubchem();
 		}
-		if (identifiers.getMesh() != null) {
+		if (identifiers != null && identifiers.getMesh() != null) {
 			return identifiers.getMesh();
 		}
-		if (identifiers.getHmdb() != null) {
+		if (identifiers != null && identifiers.getHmdb() != null) {
 			return identifiers.getHmdb();
 		}
-		if (structure.getInchi() != null) {
+		if (structure != null && structure.getInchi() != null) {
 			return structure.getInchi();
 		}
-		if (structure.getInchikey() != null) {
+		if (structure != null && structure.getInchikey() != null) {
 			return structure.getInchikey();
 		}
-		if (identifiers.getUnii() != null) {
+		if (identifiers != null && identifiers.getUnii() != null) {
 			return identifiers.getUnii();
 		}
-		if (identifiers.getKegg() != null) {
+		if (identifiers != null && identifiers.getKegg() != null) {
 			return identifiers.getKegg();
 		}
-		if (identifiers.getGtopdb() != null) {
+		if (identifiers != null && identifiers.getGtopdb() != null) {
 			return identifiers.getGtopdb();
 		}
-		if (identifiers.getChembank() != null) {
+		if (identifiers != null && identifiers.getChembank() != null) {
 			return identifiers.getChembank();
 		}
-		if (identifiers.getDrugcentral() != null) {
+		if (identifiers != null && identifiers.getDrugcentral() != null) {
 			return identifiers.getDrugcentral();
 		}
 		return null;

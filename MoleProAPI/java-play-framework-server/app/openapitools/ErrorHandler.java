@@ -20,6 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import apimodels.ErrorMsg;
 import transformer.exception.*;
 
+import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import static play.mvc.Results.*;
@@ -64,6 +65,14 @@ public class ErrorHandler extends DefaultHttpErrorHandler {
         if (cause instanceof NotFoundException) {
             log.debug(cause.getMessage());
             return notFound(errorMsg(cause, 403, "Not Found"));
+        }
+        if (cause instanceof BadRequestException) {
+            log.debug(cause.getMessage());
+            return badRequest(errorMsg(cause, 400, "Bad Request"));
+        }
+        if (cause instanceof IOException) {
+            log.warn(cause.getMessage());
+            return internalServerError(errorMsg(cause, 500, "Internal Server Error"));        	
         }
         log.warn(cause.getMessage(), cause);
         return internalServerError(errorMsg(cause, 500, "Internal Server Error"));

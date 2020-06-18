@@ -20,6 +20,14 @@
             "prefix": "NCBIGene:",
             "uri": "https://www.ncbi.nlm.nih.gov/gene/%s"
         },
+        "hgnc": {
+            "prefix": "HGNC:",
+            "uri": "https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/%s"
+        },
+        "ensembl": {
+            "prefix": "ENSEMBL:",
+            "uri": "https://useast.ensembl.org/Homo_sapiens/Gene/Summary?g=%s"
+        },
         "pubchem": {
             "prefix": "CID:",
             "uri": "https://pubchem.ncbi.nlm.nih.gov/compound/%s",
@@ -48,10 +56,6 @@
         },
         "cas": {
             "prefix": "CAS:"
-        },
-        "ensembl": {
-            "prefix": "ENSEMBL:",
-            "uri": "https://useast.ensembl.org/Homo_sapiens/Gene/Summary?g=%s"
         },
         "chebi": {
             "prefix": "CHEBI:",

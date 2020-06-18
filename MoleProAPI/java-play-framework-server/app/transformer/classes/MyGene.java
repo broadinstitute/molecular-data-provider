@@ -25,13 +25,13 @@ public class MyGene {
 
 	private static final String myGeneInfoSearch = Config.config.url().MyGeneInfo().search();
 	private static final String myGeneInfoQuery = Config.config.url().MyGeneInfo().query();
-	private static final String NCBI_GENE = Config.config.getCuries().getNbcigene().getPrefix();
+	private static final Config.CURIE NCBI_GENE = Config.config.getCuries().getNbcigene();
 	private static final Config.CURIE ENSEMBL = Config.config.getCuries().getEnsembl();
+	private static final Config.CURIE HGNC = Config.config.getCuries().getHGNC();
 
 	private static String SYMBOL = "Symbol";
 	private static String ALIAS = "Alias";
 	private static String ENTREZ = "Entrez";
-	private static String HGNC = "HGNC";
 	private static String CURIE = "CURIE";
 
 
@@ -84,7 +84,7 @@ public class MyGene {
 		}
 
 
-		static GeneInfo findGeneBySymbol(final String symbol) throws IOException {
+		static GeneInfo findGeneBySymbol(final String symbol, final String source) throws IOException {
 			Gene gene = getGeneBySymbol(symbol);
 			if (gene == null) {
 				Search search = query(symbol);
@@ -96,12 +96,34 @@ public class MyGene {
 			if (gene == null) {
 				GeneInfo unknownGene = new GeneInfo().geneId(symbol);
 				unknownGene.addAttributesItem(new Attribute().name("name").value("unknown gene").source("myGene.info"));
-				unknownGene.addAttributesItem(new Attribute().name("gene_symbol").value(symbol).source("user query"));
+				unknownGene.addAttributesItem(new Attribute().name("gene_symbol").value(symbol).source(source));
 				return unknownGene;
 			}
 			return gene.addInfo(new GeneInfo());
 		}
 
+		
+		static GeneInfo findGeneById(final String geneId, final String source) throws IOException {
+			Gene gene = getGeneById(geneId);
+			if (gene == null) {
+				if (NCBI_GENE.isPrefixOf(geneId)) {
+					gene = geneByEntrez(geneId);
+				}
+				else if (HGNC.isPrefixOf(geneId)) {
+					gene = geneByHGNC(geneId);
+				}
+				else if (ENSEMBL.isPrefixOf(geneId)) {
+					gene = geneByEnsembl(geneId);
+				}
+			}
+			if (gene == null) {
+				GeneInfo unknownGene = new GeneInfo().geneId(geneId);
+				unknownGene.addAttributesItem(new Attribute().name("name").value("unknown gene").source("myGene.info"));
+				unknownGene.addAttributesItem(new Attribute().name("gene_id").value(geneId).source(source));
+				return unknownGene;
+			}
+			return gene.addInfo(new GeneInfo());
+		}
 
 		private static Gene geneBySymbol(String symbol, Search searchResults) throws IOException {
 			for (Hit hit : searchResults.getHits()) {
@@ -177,7 +199,7 @@ public class MyGene {
 			if (src.getIdentifiers() != null) {
 				entrezGeneId = src.getIdentifiers().getEntrez();
 			}
-			if (entrezGeneId == null && src.getGeneId() != null && src.getGeneId().toUpperCase().startsWith(NCBI_GENE.toUpperCase())) {
+			if (entrezGeneId == null && src.getGeneId() != null && NCBI_GENE.isPrefixOf(src.getGeneId())){
 				entrezGeneId = src.getGeneId().toUpperCase();
 			}
 			return entrezGeneId;
@@ -185,9 +207,7 @@ public class MyGene {
 
 
 		private static Gene geneByEntrez(String entrezGeneId) throws IOException {
-			if (entrezGeneId.toUpperCase().startsWith(NCBI_GENE.toUpperCase())) {
-				entrezGeneId = entrezGeneId.substring(NCBI_GENE.length());
-			}
+			entrezGeneId = NCBI_GENE.removePrefix(entrezGeneId);
 			Gene gene = getGeneByEntrez(entrezGeneId);
 			if (gene == null) {
 				URL url = new URL(String.format(myGeneInfoQuery, entrezGeneId));
@@ -238,12 +258,17 @@ public class MyGene {
 
 
 		private synchronized static Gene getGeneByHGNC(String hgncId) {
-			return genes.get(HGNC, hgncId);
+			return genes.get(HGNC.getPrefix(), hgncId);
 		}
 
 
 		private synchronized static Gene getGeneByEnsembl(String ensemblGeneId) {
 			return genes.get(ENSEMBL.getPrefix(), ensemblGeneId);
+		}
+
+
+		private synchronized static Gene getGeneById(String geneId) {
+			return genes.get(CURIE, geneId);
 		}
 	}
 
@@ -332,8 +357,8 @@ public class MyGene {
 
 
 		@JsonProperty("HGNC")
-		public void setHGNC(String hGNC) {
-			this.hgnc = hGNC;
+		public void setHGNC(String hgnc) {
+			this.hgnc = hgnc;
 		}
 
 
@@ -343,8 +368,8 @@ public class MyGene {
 
 
 		@JsonProperty("MIM")
-		public void setMIM(String mIM) {
-			this.mim = mIM;
+		public void setMIM(String mim) {
+			this.mim = mim;
 		}
 
 
@@ -440,7 +465,7 @@ public class MyGene {
 				identifiers.setMygeneInfo(getId());
 			}
 			if (identifiers.getEntrez() == null && getEntrezgene() != null) {
-				identifiers.setEntrez(NCBI_GENE + getEntrezgene());
+				identifiers.setEntrez(NCBI_GENE.addPrefix(getEntrezgene()));
 			}
 			if (identifiers.getHgnc() == null && getHGNC() != null) {
 				identifiers.setHgnc(getHGNC());
@@ -463,7 +488,7 @@ public class MyGene {
 				src.setGeneId(getHGNC());
 			}
 			else if (getEntrezgene() != null) {
-				src.setGeneId(NCBI_GENE + getEntrezgene());
+				src.setGeneId(NCBI_GENE.addPrefix(getEntrezgene()));
 			}
 			else if (getEnsembl() != null && getEnsembl().length > 0) {
 				src.setGeneId(getEnsembl()[0]);
@@ -496,7 +521,7 @@ public class MyGene {
 			addKeySet(SYMBOL);
 			addKeySet(ALIAS);
 			addKeySet(ENTREZ);
-			addKeySet(HGNC);
+			addKeySet(HGNC.getPrefix());
 			addKeySet(CURIE);
 			addKeySet(ENSEMBL.getPrefix());
 		}
@@ -513,13 +538,14 @@ public class MyGene {
 			}
 			keys.add(new KeyPair<String,String>(ENTREZ, gene.getEntrezgene()));
 			if (gene.getEntrezgene() != null) {
-				keys.add(new KeyPair<String,String>(CURIE, NCBI_GENE + gene.getEntrezgene()));
+				keys.add(new KeyPair<String,String>(CURIE, NCBI_GENE.addPrefix(gene.getEntrezgene())));
 			}
-			keys.add(new KeyPair<String,String>(HGNC, gene.getHGNC()));
+			keys.add(new KeyPair<String,String>(HGNC.getPrefix(), gene.getHGNC()));
 			keys.add(new KeyPair<String,String>(CURIE, gene.getHGNC()));
 			if (gene.getEnsembl() != null) {
 				for (String ensembl : gene.getEnsembl()) {
 					keys.add(new KeyPair<String,String>(ENSEMBL.getPrefix(), ensembl));
+					keys.add(new KeyPair<String,String>(CURIE, ENSEMBL.addPrefix(ensembl)));
 				}
 			}
 			return keys;
