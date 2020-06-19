@@ -9,7 +9,7 @@ def step_impl(context, url):
     """
     Given a base URL of a transformer
     """
-    context.modap_url = url
+    context.molepro_url = url
 
 
 @given('the Molecular Data Provider')
@@ -17,8 +17,24 @@ def step_impl(context):
     """
     Given the gene-list sharpener
     """
-    context.base_url = context.modap_url
+    context.base_url = context.molepro_url
     context.collection_id = ""
+
+
+@given('a reasoner API at "{url}"')
+def step_impl(context, url):
+    """
+    Given a base URL of a transformer
+    """
+    context.reasoner_api_url = url
+
+
+@given('the reasoner API')
+def step_impl(context):
+    """
+    Given the gene-list sharpener
+    """
+    context.base_url = context.reasoner_api_url
 
 
 @given('a compound list "{compounds}"')
