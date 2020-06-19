@@ -1,7 +1,7 @@
 Feature: Check reasoner API
 
     Background: Specify Reasoner API
-        Given a reasoner API at "http://localhost:8080"
+        Given a reasoner API at "https://translator.broadinstitute.org/molepro_reasoner"
 
 
     Scenario: Check targets
