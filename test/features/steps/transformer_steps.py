@@ -65,6 +65,7 @@ def step_impl(context, path, size):
     json_path_expr = jsonpath_rw.parse(path)
     result = json_path_expr.find(context.response_json)
     print(result)
+    print("len = ",len(result[0].value))
     assert len(result[0].value) == int(size)
 
 
