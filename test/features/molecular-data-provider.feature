@@ -51,6 +51,44 @@ Feature: Check CMAP transformer
         and the value of "source" should be "CMAP compound-to-gene transformer"
 
 
+    Scenario: Check ChEMBL indications transformer
+        Given the Molecular Data Provider
+        when we call "Pubchem compound-list producer" transformer with the following parameters:
+        | compounds |
+        | aspirin   |
+        and we call "ChEMBL indications transformer" transformer with no parameters
+        then the length of the collection should be 108
+        and the value of "element_class" should be "disease"
+        and the value of "source" should be "ChEMBL indications transformer"
+
+
+    Scenario: Check ChEMBL compound-list producer
+        Given the Molecular Data Provider
+        when we call "ChEMBL compound-list producer" transformer with the following parameters:
+        | compounds |
+        | aspirin   |
+        and we call "CMAP compound-to-gene transformer" transformer with the following parameters:
+        | score threshold | maximum number |
+        | 99.5            | 0              |
+        then the length of the collection should be 11
+        and the value of "element_class" should be "gene"
+        and the value of "source" should be "CMAP compound-to-gene transformer"
+
+
+    Scenario: Check ChEMBL targets transformer
+        Given the Molecular Data Provider
+        when we call "ChEMBL compound-list producer" transformer with the following parameters:
+        | compounds |
+        | aspirin   |
+        and we call "ChEMBL target transformer" transformer with no parameters
+        and we call "CMAP gene-to-gene expander" transformer with the following parameters:
+        | score threshold | maximum number |
+        | 99.0            | 2              |
+        then the length of the collection should be 3
+        and the value of "element_class" should be "gene"
+        and the value of "source" should be "CMAP gene-to-gene expander"
+
+
     Scenario: Check CMAP compound-to-compound transformer
         Given the Molecular Data Provider
         when we call "Pubchem compound-list producer" transformer with the following parameters:
