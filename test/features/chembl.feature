@@ -1,7 +1,7 @@
 Feature: Check ChEMBL transformer
 
     Background: Specify transformer API
-        Given a transformer at "http://chembio-dev-01:8250/chembl"
+        Given a transformer at "http://localhost:8250/chembl"
 
 
     Scenario: Check ChEMBL producer info
@@ -138,15 +138,15 @@ Feature: Check ChEMBL transformer
         then the size of the response is 108
         and the response contains the following entries in "biolink_class"
             | biolink_class |
-            | disease       |
+            | Disease       |
         and the response only contains the following entries in "biolink_class"
             | biolink_class |
-            | disease       |
+            | Disease       |
         and the response contains the following entries in "source"
             | source                         |
-            | ChEMBL indications transformer |
+            | ChEMBL indication transformer |
         and the response only contains the following entries in "source"
             | source                         |
-            | ChEMBL indications transformer |
+            | ChEMBL indication transformer |
 
 

@@ -56,10 +56,10 @@ Feature: Check CMAP transformer
         when we call "Pubchem compound-list producer" transformer with the following parameters:
         | compounds |
         | aspirin   |
-        and we call "ChEMBL indications transformer" transformer with no parameters
+        and we call "ChEMBL indication transformer" transformer with no parameters
         then the length of the collection should be 108
         and the value of "element_class" should be "disease"
-        and the value of "source" should be "ChEMBL indications transformer"
+        and the value of "source" should be "ChEMBL indication transformer"
 
 
     Scenario: Check ChEMBL compound-list producer
@@ -87,6 +87,20 @@ Feature: Check CMAP transformer
         then the length of the collection should be 3
         and the value of "element_class" should be "gene"
         and the value of "source" should be "CMAP gene-to-gene expander"
+
+        @wip
+    Scenario: Check DGIdb inhibitors transformer
+        Given the Molecular Data Provider
+        when we call "HGNC gene-list producer" transformer with the following parameters:
+        | genes |
+        | FGFR1 |
+        and we call "DGIdb inhibitor transformer" transformer with no parameters
+        and we call "CMAP compound-to-gene transformer" transformer with the following parameters:
+        | score threshold | maximum number |
+        | 99.0            | 2              |
+        then the length of the collection should be 23
+        and the value of "element_class" should be "gene"
+        and the value of "source" should be "CMAP compound-to-gene transformer"
 
 
     Scenario: Check CMAP compound-to-compound transformer
