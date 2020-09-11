@@ -34,7 +34,40 @@ Feature: Check reasoner API
             }
         }
         """
-        then the size of "results" should be 30
+        then the size of "results" should be 65
+
+
+    Scenario: Check ChEMBL targets
+        Given the reasoner API
+        when we fire "/query" query with the following body:
+        """
+        {
+            "message": {
+                "query_graph": {
+                    "edges": [
+                        {
+                            "id": "e00",
+                            "source_id": "n00",
+                            "target_id": "n01",
+                            "type": "affects"
+                        }
+                    ],
+                    "nodes": [
+                        {
+                            "curie": "ChEMBL:CHEMBL25",
+                            "id": "n00",
+                            "type": "chemical_substance"
+                        },
+                        {
+                            "id": "n01",
+                            "type": "gene"
+                        }
+                    ]
+                }
+            }
+        }
+        """
+        then the size of "results" should be 65
 
 
     Scenario: Check indications
@@ -104,8 +137,7 @@ Feature: Check reasoner API
         then the size of "results" should be 55
 
 
-
-    Scenario: Check disease-gene connections
+    Scenario: Check has_metabolite
         Given the reasoner API
         when we fire "/query" query with the following body:
         """
@@ -114,26 +146,126 @@ Feature: Check reasoner API
                 "query_graph": {
                     "edges": [
                         {
-                            "id": "e01",
+                            "id": "e00",
                             "source_id": "n00",
-                            "target_id": "n02",
-                            "type": "related_to"
+                            "target_id": "n01",
+                            "type": "has_metabolite"
                         }
                     ],
                     "nodes": [
                         {
-                            "curie": "MONDO:0007455",
+                            "curie": "ChEMBL:CHEMBL424",
                             "id": "n00",
-                            "type": "disease"
+                            "type": "chemical_substance"
                         },
                         {
-                            "id": "n02",
-                            "type": "gene"
+                            "id": "n01",
+                            "type": "chemical_substance"
                         }
                     ]
                 }
             }
         }
         """
-        then the size of "results" should be 29
+        then the size of "results" should be 5
+
+
+
+    Scenario: Check indications
+        Given the reasoner API
+        when we fire "/query" query with the following body:
+        """
+        {
+            "message": {
+                "query_graph": {
+                    "edges": [
+                        {
+                            "id": "e00",
+                            "source_id": "n00",
+                            "target_id": "n01",
+                            "type": "treats"
+                        }
+                    ],
+                    "nodes": [
+                        {
+                            "curie": "ChEMBL:CHEMBL424",
+                            "id": "n00",
+                            "type": "chemical_substance"
+                        },
+                        {
+                            "id": "n01",
+                            "type": "disease"
+                        }
+                    ]
+                }
+            }
+        }
+        """
+        then the size of "results" should be 16
+
+
+    Scenario: Check assays
+        Given the reasoner API
+        when we fire "/query" query with the following body:
+        """
+        {
+            "message": {
+                "query_graph": {
+                    "edges": [
+                        {
+                            "id": "e00",
+                            "source_id": "n00",
+                            "target_id": "n01",
+                            "type": "has_evidence"
+                        }
+                    ],
+                    "nodes": [
+                        {
+                            "curie": "ChEMBL:CHEMBL424",
+                            "id": "n00",
+                            "type": "chemical_substance"
+                        },
+                        {
+                            "id": "n01",
+                            "type": "assay"
+                        }
+                    ]
+                }
+            }
+        }
+        """
+        then the size of "results" should be 518
+
+
+    Scenario: Check MOA
+        Given the reasoner API
+        when we fire "/query" query with the following body:
+        """
+        {
+            "message": {
+                "query_graph": {
+                    "edges": [
+                        {
+                            "id": "e00",
+                            "source_id": "n00",
+                            "target_id": "n01",
+                            "type": "affects"
+                        }
+                    ],
+                    "nodes": [
+                        {
+                            "curie": "CID:2244",
+                            "id": "n00",
+                            "type": "chemical_substance"
+                        },
+                        {
+                            "id": "n01",
+                            "type": "molecular_entity"
+                        }
+                    ]
+                }
+            }
+        }
+        """
+        then the size of "results" should be 1
 
