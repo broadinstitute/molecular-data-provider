@@ -64,6 +64,25 @@ def step_impl(context, compounds):
         print("Collection size ",context.collection_2['size'])
 
 
+@when('we call "{transformer}" transformer with no parameters')
+def step_impl(context, transformer):
+    """
+    This step launches a transformer
+    """
+    url = context.base_url+'/transform'
+    print(url)
+    data = {"name":transformer,"collection_id":context.collection_id, "controls":[]}
+    print(data)
+    with closing(requests.post(url, json=data, stream=False)) as response:
+        context.response = response
+        context.collection_info = response.json()
+        print(context.collection_info)
+        context.collection_id = context.collection_info['id']
+        with closing(requests.get(context.collection_info['url'])) as collection:
+            context.response = collection
+            context.response_json = collection.json()
+
+
 @when('we call "{transformer}" transformer with the following parameters')
 def step_impl(context, transformer):
     """

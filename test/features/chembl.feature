@@ -38,11 +38,11 @@ Feature: Check ChEMBL transformer
         }
         """
         then the size of the response is 1
-        and the response contains the following entries in "compound_id"
-            | compound_id |
+        and the response contains the following entries in "id"
+            | id |
             | ChEMBL:CHEMBL25    |
-        and the response only contains the following entries in "compound_id"
-            | compound_id |
+        and the response only contains the following entries in "id"
+            | id |
             | ChEMBL:CHEMBL25    |
         and the response contains the following entries in "source"
             | source                          |
@@ -62,16 +62,18 @@ Feature: Check ChEMBL transformer
         and the response only contains the following entries in "source" of "attributes" array
             | source                        |
             | ChEMBL compound-list producer |
-        and the response contains the following entries in "source" of "structure"
-            | source |
-            | ChEMBL |
-        and the response only contains the following entries in "source" of "structure"
-            | source |
-            | ChEMBL |
-        and the response contains the following entries in "inchikey" of "structure"
+        and the response contains the following entries in "value" of "attributes" array
+            | value  |
+            | aspirin |
+            | ChEMBL  |
+        and the response only contains the following entries in "value" of "attributes" array
+            | value  |
+            | aspirin |
+            | ChEMBL  |
+        and the response contains the following entries in "inchikey" of "identifiers"
             | inchikey                    |
             | BSYNRYMUTXBXSQ-UHFFFAOYSA-N |
-        and the response only contains the following entries in "inchikey" of "structure"
+        and the response only contains the following entries in "inchikey" of "identifiers"
             | inchikey                    |
             | BSYNRYMUTXBXSQ-UHFFFAOYSA-N |
 
@@ -82,9 +84,9 @@ Feature: Check ChEMBL transformer
         """
         {
             "controls": [],
-            "compounds": [
+            "collection": [
                 {
-                    "compound_id": "CID:2244",
+                    "id": "CID:2244",
                     "identifiers": {
                         "chembl": "ChEMBL:CHEMBL25"
                     }
@@ -101,11 +103,10 @@ Feature: Check ChEMBL transformer
         """
         {
             "controls": [],
-            "compounds": [
+            "collection": [
                 {
-                    "compound_id": "CID:2244",
-                    "identifiers": {},
-                    "structure": {
+                    "id": "CID:2244",
+                    "identifiers": {
                         "inchikey": "BSYNRYMUTXBXSQ-UHFFFAOYSA-N"
                     }
                 }
@@ -113,4 +114,39 @@ Feature: Check ChEMBL transformer
         }
         """
         then the size of the response is 2
+
+
+    Scenario: Check ChEMBL indications transformer on structure input
+        Given the transformer
+        when we fire "/indications/transform" query with the following body:
+        """
+        {
+            "controls": [],
+            "collection": [
+                {
+                    "id": "CID:2244",
+                    "identifiers": {
+                        "chembl": "ChEMBL:CHEMBL25"
+                    },
+                    "structure": {
+                        "inchikey": "BSYNRYMUTXBXSQ-UHFFFAOYSA-N"
+                    }
+                }
+            ]
+        }
+        """
+        then the size of the response is 108
+        and the response contains the following entries in "biolink_class"
+            | biolink_class |
+            | Disease       |
+        and the response only contains the following entries in "biolink_class"
+            | biolink_class |
+            | Disease       |
+        and the response contains the following entries in "source"
+            | source                         |
+            | ChEMBL indication transformer |
+        and the response only contains the following entries in "source"
+            | source                         |
+            | ChEMBL indication transformer |
+
 
