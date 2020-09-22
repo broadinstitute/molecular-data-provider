@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Molecular Data Provider
-  version: 2.0.0
+  version: 2.1.0
   contact:
     email: translator@broadinstitute.org
   
@@ -146,7 +146,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/transformer_query'
+              $ref: '#/components/schemas/mole_pro_query'
         required: true
       responses:
         200:
@@ -178,7 +178,7 @@ paths:
     get:
       tags:
       - collections
-      summary: Retrieve a collection_id
+      summary: Retrieve a collection
       description: Retrieves a collection for a given collection id.
       parameters:
       - name: collection_id
@@ -450,7 +450,7 @@ components:
       - predicate
       - object
 
-    transformer_query:
+    mole_pro_query:
       type: object
       properties:
         name:
@@ -458,14 +458,13 @@ components:
           description: Name of the transformer that will be executed.
         collection_id:
           type: string
-          description: Id of the gene list that will be transformed. Required for
-            expanders and filters;  should be omitted for producers.
+          description: Id of the gene list that will be transformed. Required for all transformers except producers.
         controls:
           type: array
-          description: Values that control the behavior of the transformer. Names
-            of the controls must match the names specified in the transformer's definition
-            and values must match types (and possibly allowed_values) specified in
-            the transformer's definition.
+          description: >-
+            Values that control the behavior of the transformer. Names of the controls must match the names
+            specified in the transformer's definition and values must match types (and possibly 
+            allowed_values) specified in the transformer's definition.
           items:
             $ref: '#/components/schemas/property'
       required:
@@ -551,13 +550,20 @@ components:
       properties:
         id:
           type: string
-          description: Id of the gene. 
+          description: Primary identifier of the element.
         biolink_class:
           type: string
           description: BioLink class of the element.
         identifiers:
           type: object
+          description: identifiers of the element.
           additionalProperties: true
+        alternative_identifiers:
+          type: array
+          description: identifiers of additional chemical structures associated with chemical substance.
+          items:
+            type: object
+            additionalProperties: true
         names_synonyms:
           type: array
           items:
@@ -569,6 +575,11 @@ components:
             collection membership. 
           items:
             $ref: '#/components/schemas/attribute'
+        connections:
+          type: array
+          description: connections to elements of the input collection. 
+          items:
+            $ref: '#/components/schemas/connection'
         source:
           type: string
           description: Name of a transformer that added the element to the collection.
@@ -720,12 +731,18 @@ components:
         value:
           type: string
           description: Value of the attribute.
+        type:
+          type: string
+          description: CURIE of the semantic type of the attribute, from the EDAM ontology if possible.
         source:
           type: string
-          description: Transformer that produced the attribute's value.
+          description: Source of the attribute, as a CURIE prefix.
         url:
           type: string
           description: URL for additional information.
+        provided_by:
+          type: string
+          description: Transformer that produced the attribute's value.
       required:
       - name
       - source
@@ -778,6 +795,25 @@ components:
       - collection_ids
       - operation
 
+    connection:
+      type: object
+      properties:
+        source_element_id:
+          type: string
+          description: id (CURIE) of the connected query node
+        type:
+          type: string
+          description: Biolink predicate
+        evidence_type:
+          type: string
+          description: evidence supporting the statement from the ECO ontology
+        attributes:
+          type: array
+          description: Additional information about the element and provenance about
+            collection membership. 
+          items:
+            $ref: '#/components/schemas/attribute'
+        
     error_msg:
       type: object
       properties:
