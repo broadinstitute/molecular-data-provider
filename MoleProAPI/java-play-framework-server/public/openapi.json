@@ -5,7 +5,7 @@
       "email" : "translator@broadinstitute.org"
     },
     "title" : "Molecular Data Provider",
-    "version" : "2.0.0"
+    "version" : "2.1.0"
   },
   "servers" : [ {
     "url" : "https://translator.broadinstitute.org/molecular_data_provider"
@@ -209,7 +209,7 @@
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "#/components/schemas/transformer_query"
+                "$ref" : "#/components/schemas/mole_pro_query"
               }
             }
           },
@@ -310,7 +310,7 @@
             "description" : "internal server error"
           }
         },
-        "summary" : "Retrieve a collection_id",
+        "summary" : "Retrieve a collection",
         "tags" : [ "collections" ],
         "x-accepts" : "application/json"
       }
@@ -669,18 +669,18 @@
         "required" : [ "object", "predicate", "subject" ],
         "type" : "object"
       },
-      "transformer_query" : {
+      "mole_pro_query" : {
         "properties" : {
           "name" : {
             "description" : "Name of the transformer that will be executed.",
             "type" : "string"
           },
           "collection_id" : {
-            "description" : "Id of the gene list that will be transformed. Required for expanders and filters;  should be omitted for producers.",
+            "description" : "Id of the gene list that will be transformed. Required for all transformers except producers.",
             "type" : "string"
           },
           "controls" : {
-            "description" : "Values that control the behavior of the transformer. Names of the controls must match the names specified in the transformer's definition and values must match types (and possibly allowed_values) specified in the transformer's definition.",
+            "description" : "Values that control the behavior of the transformer. Names of the controls must match the names specified in the transformer's definition and values must match types (and possibly  allowed_values) specified in the transformer's definition.",
             "items" : {
               "$ref" : "#/components/schemas/property"
             },
@@ -707,12 +707,16 @@
           "size" : 0,
           "attributes" : [ {
             "name" : "name",
+            "provided_by" : "provided_by",
             "source" : "source",
+            "type" : "type",
             "value" : "value",
             "url" : "url"
           }, {
             "name" : "name",
+            "provided_by" : "provided_by",
             "source" : "source",
+            "type" : "type",
             "value" : "value",
             "url" : "url"
           } ],
@@ -777,7 +781,7 @@
       "element" : {
         "properties" : {
           "id" : {
-            "description" : "Id of the gene.",
+            "description" : "Primary identifier of the element.",
             "type" : "string"
           },
           "biolink_class" : {
@@ -786,7 +790,16 @@
           },
           "identifiers" : {
             "additionalProperties" : true,
+            "description" : "identifiers of the element.",
             "type" : "object"
+          },
+          "alternative_identifiers" : {
+            "description" : "identifiers of additional chemical structures associated with chemical substance.",
+            "items" : {
+              "additionalProperties" : true,
+              "type" : "object"
+            },
+            "type" : "array"
           },
           "names_synonyms" : {
             "description" : "Names and synonyms of the element.",
@@ -799,6 +812,13 @@
             "description" : "Additional information about the element and provenance about collection membership.",
             "items" : {
               "$ref" : "#/components/schemas/attribute"
+            },
+            "type" : "array"
+          },
+          "connections" : {
+            "description" : "connections to elements of the input collection.",
+            "items" : {
+              "$ref" : "#/components/schemas/connection"
             },
             "type" : "array"
           },
@@ -854,12 +874,16 @@
           "compound_id" : "compound_id",
           "attributes" : [ {
             "name" : "name",
+            "provided_by" : "provided_by",
             "source" : "source",
+            "type" : "type",
             "value" : "value",
             "url" : "url"
           }, {
             "name" : "name",
+            "provided_by" : "provided_by",
             "source" : "source",
+            "type" : "type",
             "value" : "value",
             "url" : "url"
           } ],
@@ -918,7 +942,9 @@
       "attribute" : {
         "example" : {
           "name" : "name",
+          "provided_by" : "provided_by",
           "source" : "source",
+          "type" : "type",
           "value" : "value",
           "url" : "url"
         },
@@ -931,12 +957,20 @@
             "description" : "Value of the attribute.",
             "type" : "string"
           },
+          "type" : {
+            "description" : "CURIE of the semantic type of the attribute, from the EDAM ontology if possible.",
+            "type" : "string"
+          },
           "source" : {
-            "description" : "Transformer that produced the attribute's value.",
+            "description" : "Source of the attribute, as a CURIE prefix.",
             "type" : "string"
           },
           "url" : {
             "description" : "URL for additional information.",
+            "type" : "string"
+          },
+          "provided_by" : {
+            "description" : "Transformer that produced the attribute's value.",
             "type" : "string"
           }
         },
@@ -997,6 +1031,30 @@
           }
         },
         "required" : [ "collection_ids", "operation" ],
+        "type" : "object"
+      },
+      "connection" : {
+        "properties" : {
+          "source_element_id" : {
+            "description" : "id (CURIE) of the connected query node",
+            "type" : "string"
+          },
+          "type" : {
+            "description" : "Biolink predicate",
+            "type" : "string"
+          },
+          "evidence_type" : {
+            "description" : "evidence supporting the statement from the ECO ontology",
+            "type" : "string"
+          },
+          "attributes" : {
+            "description" : "Additional information about the element and provenance about collection membership.",
+            "items" : {
+              "$ref" : "#/components/schemas/attribute"
+            },
+            "type" : "array"
+          }
+        },
         "type" : "object"
       },
       "error_msg" : {
