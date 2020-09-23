@@ -10,7 +10,6 @@ import javax.validation.constraints.*;
 /**
  * GeneInfoIdentifiers
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", date = "2020-03-04T17:03:22.330-05:00[America/New_York]")
 
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class GeneInfoIdentifiers   {

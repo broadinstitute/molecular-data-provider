@@ -3,8 +3,8 @@ package controllers;
 import apimodels.AggregationQuery;
 import apimodels.CollectionInfo;
 import apimodels.ErrorMsg;
+import apimodels.MoleProQuery;
 import apimodels.TransformerInfo;
-import apimodels.TransformerQuery;
 
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -24,7 +24,6 @@ import play.Configuration;
 
 import openapitools.OpenAPIUtils.ApiAction;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", date = "2020-03-04T17:03:22.330-05:00[America/New_York]")
 
 public class TransformersApiController extends Controller {
 
@@ -62,17 +61,17 @@ public class TransformersApiController extends Controller {
 
     @ApiAction
     public Result transformPost() throws Exception {
-        JsonNode nodetransformerQuery = request().body().asJson();
-        TransformerQuery transformerQuery;
-        if (nodetransformerQuery != null) {
-            transformerQuery = mapper.readValue(nodetransformerQuery.toString(), TransformerQuery.class);
+        JsonNode nodemoleProQuery = request().body().asJson();
+        MoleProQuery moleProQuery;
+        if (nodemoleProQuery != null) {
+            moleProQuery = mapper.readValue(nodemoleProQuery.toString(), MoleProQuery.class);
             if (configuration.getBoolean("useInputBeanValidation")) {
-                OpenAPIUtils.validate(transformerQuery);
+                OpenAPIUtils.validate(moleProQuery);
             }
         } else {
-            throw new IllegalArgumentException("'TransformerQuery' parameter is required");
+            throw new IllegalArgumentException("'MoleProQuery' parameter is required");
         }
-        CollectionInfo obj = imp.transformPost(transformerQuery);
+        CollectionInfo obj = imp.transformPost(moleProQuery);
         if (configuration.getBoolean("useOutputBeanValidation")) {
             OpenAPIUtils.validate(obj);
         }
