@@ -3,8 +3,8 @@ package controllers;
 import apimodels.AggregationQuery;
 import apimodels.CollectionInfo;
 import apimodels.ErrorMsg;
+import apimodels.MoleProQuery;
 import apimodels.TransformerInfo;
-import apimodels.TransformerQuery;
 
 import play.mvc.Http;
 import java.util.List;
@@ -17,7 +17,7 @@ import javax.validation.constraints.*;
 public interface TransformersApiControllerImpInterface {
     CollectionInfo aggregatePost(AggregationQuery aggregationQuery) throws Exception;
 
-    CollectionInfo transformPost(TransformerQuery transformerQuery) throws Exception;
+    CollectionInfo transformPost(MoleProQuery moleProQuery) throws Exception;
 
     List<TransformerInfo> transformersGet() throws Exception;
 

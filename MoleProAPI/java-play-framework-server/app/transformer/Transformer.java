@@ -13,7 +13,7 @@ import apimodels.KnowledgeMap;
 import apimodels.Parameter;
 import apimodels.Predicate;
 import apimodels.TransformerInfo;
-import apimodels.TransformerQuery;
+import apimodels.MoleProQuery;
 import apimodels.Property;
 import transformer.classes.Compound;
 import transformer.classes.Gene;
@@ -21,7 +21,9 @@ import transformer.classes.None;
 import transformer.classes.TransformerClass;
 import transformer.collection.Collections;
 import transformer.collection.CollectionsEntry;
+import transformer.exception.BadRequestException;
 import transformer.exception.InternalServerError;
+import transformer.exception.NotFoundException;
 
 public abstract class Transformer {
 
@@ -45,10 +47,10 @@ public abstract class Transformer {
 	}
 
 
-	public CollectionInfo transform(final TransformerQuery transformerQuery) throws Exception {
+	public CollectionInfo transform(final MoleProQuery moleproQuery) throws Exception {
 		try {
-			final Query query = inputClass.getQuery(transformerQuery);
-			final CollectionInfo collectionInfo = createCollection(transformerQuery);
+			final Query query = mkQuery(moleproQuery);
+			final CollectionInfo collectionInfo = createCollection(moleproQuery);
 			final CollectionsEntry collection = transform(query, collectionInfo);
 			Collections.save(collection);
 			return collection.getInfo();
@@ -58,10 +60,18 @@ public abstract class Transformer {
 	}
 
 
+	private Query mkQuery(final MoleProQuery moleproQuery) throws NotFoundException, BadRequestException {
+		if (info.getVersion().startsWith("1.") || info.getVersion().startsWith("2.0."))
+			return inputClass.getQuery(moleproQuery);
+		boolean hasInput = !"none".equals(info.getKnowledgeMap().getInputClass());
+		return new TransformerQuery(moleproQuery, hasInput);
+	}
+
+
 	public abstract CollectionsEntry transform(Query query, CollectionInfo collectionInfo) throws Exception;
 
 
-	private CollectionInfo createCollection(final TransformerQuery query) {
+	private CollectionInfo createCollection(final MoleProQuery query) {
 		final CollectionInfo collectionInfo = new CollectionInfo();
 		collectionInfo.setSource(info.getName());
 		collectionInfo.setAttributes(new ArrayList<Attribute>());
@@ -144,7 +154,7 @@ public abstract class Transformer {
 		private final List<Property> controls;
 
 
-		public Query(final TransformerQuery query) {
+		public Query(final MoleProQuery query) {
 			controls = query.getControls();
 		}
 

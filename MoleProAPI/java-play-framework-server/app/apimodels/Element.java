@@ -1,6 +1,7 @@
 package apimodels;
 
 import apimodels.Attribute;
+import apimodels.Connection;
 import apimodels.Names;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,7 +15,6 @@ import javax.validation.constraints.*;
 /**
  * Element
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", date = "2020-03-04T17:03:22.330-05:00[America/New_York]")
 
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Element   {
@@ -27,11 +27,17 @@ public class Element   {
   @JsonProperty("identifiers")
   private Map<String, Object> identifiers = null;
 
+  @JsonProperty("alternative_identifiers")
+  private List<Map<String, Object>> alternativeIdentifiers = null;
+
   @JsonProperty("names_synonyms")
   private List<Names> namesSynonyms = null;
 
   @JsonProperty("attributes")
   private List<Attribute> attributes = null;
+
+  @JsonProperty("connections")
+  private List<Connection> connections = null;
 
   @JsonProperty("source")
   private String source;
@@ -42,7 +48,7 @@ public class Element   {
   }
 
    /**
-   * Id of the gene.
+   * Primary identifier of the element.
    * @return id
   **/
   @NotNull
@@ -85,7 +91,7 @@ public class Element   {
   }
 
    /**
-   * Get identifiers
+   * identifiers of the element.
    * @return identifiers
   **/
     public Map<String, Object> getIdentifiers() {
@@ -94,6 +100,32 @@ public class Element   {
 
   public void setIdentifiers(Map<String, Object> identifiers) {
     this.identifiers = identifiers;
+  }
+
+  public Element alternativeIdentifiers(List<Map<String, Object>> alternativeIdentifiers) {
+    this.alternativeIdentifiers = alternativeIdentifiers;
+    return this;
+  }
+
+  public Element addAlternativeIdentifiersItem(Map<String, Object> alternativeIdentifiersItem) {
+    if (alternativeIdentifiers == null) {
+      alternativeIdentifiers = new ArrayList<>();
+    }
+    alternativeIdentifiers.add(alternativeIdentifiersItem);
+    return this;
+  }
+
+   /**
+   * identifiers of additional chemical structures associated with chemical substance.
+   * @return alternativeIdentifiers
+  **/
+  @Valid
+  public List<Map<String, Object>> getAlternativeIdentifiers() {
+    return alternativeIdentifiers;
+  }
+
+  public void setAlternativeIdentifiers(List<Map<String, Object>> alternativeIdentifiers) {
+    this.alternativeIdentifiers = alternativeIdentifiers;
   }
 
   public Element namesSynonyms(List<Names> namesSynonyms) {
@@ -148,6 +180,32 @@ public class Element   {
     this.attributes = attributes;
   }
 
+  public Element connections(List<Connection> connections) {
+    this.connections = connections;
+    return this;
+  }
+
+  public Element addConnectionsItem(Connection connectionsItem) {
+    if (connections == null) {
+      connections = new ArrayList<>();
+    }
+    connections.add(connectionsItem);
+    return this;
+  }
+
+   /**
+   * connections to elements of the input collection.
+   * @return connections
+  **/
+  @Valid
+  public List<Connection> getConnections() {
+    return connections;
+  }
+
+  public void setConnections(List<Connection> connections) {
+    this.connections = connections;
+  }
+
   public Element source(String source) {
     this.source = source;
     return this;
@@ -178,14 +236,16 @@ public class Element   {
     return Objects.equals(id, element.id) &&
         Objects.equals(biolinkClass, element.biolinkClass) &&
         Objects.equals(identifiers, element.identifiers) &&
+        Objects.equals(alternativeIdentifiers, element.alternativeIdentifiers) &&
         Objects.equals(namesSynonyms, element.namesSynonyms) &&
         Objects.equals(attributes, element.attributes) &&
+        Objects.equals(connections, element.connections) &&
         Objects.equals(source, element.source);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, biolinkClass, identifiers, namesSynonyms, attributes, source);
+    return Objects.hash(id, biolinkClass, identifiers, alternativeIdentifiers, namesSynonyms, attributes, connections, source);
   }
 
   @SuppressWarnings("StringBufferReplaceableByString")
@@ -197,8 +257,10 @@ public class Element   {
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    biolinkClass: ").append(toIndentedString(biolinkClass)).append("\n");
     sb.append("    identifiers: ").append(toIndentedString(identifiers)).append("\n");
+    sb.append("    alternativeIdentifiers: ").append(toIndentedString(alternativeIdentifiers)).append("\n");
     sb.append("    namesSynonyms: ").append(toIndentedString(namesSynonyms)).append("\n");
     sb.append("    attributes: ").append(toIndentedString(attributes)).append("\n");
+    sb.append("    connections: ").append(toIndentedString(connections)).append("\n");
     sb.append("    source: ").append(toIndentedString(source)).append("\n");
     sb.append("}");
     return sb.toString();

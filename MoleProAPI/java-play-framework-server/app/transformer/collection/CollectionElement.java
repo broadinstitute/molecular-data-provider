@@ -9,6 +9,7 @@ import java.util.Map;
 import apimodels.Attribute;
 import apimodels.CompoundInfo;
 import apimodels.CompoundInfoIdentifiers;
+import apimodels.CompoundInfoStructure;
 import apimodels.Element;
 import apimodels.GeneInfo;
 import apimodels.GeneInfoIdentifiers;
@@ -25,6 +26,10 @@ public abstract class CollectionElement {
 	public abstract void merge(CollectionElement other);
 	
 	public abstract Element getElement();
+	
+	public abstract GeneInfo getGeneInfo();
+	
+	public abstract CompoundInfo getCompoundInfo();
 
 	protected abstract List<Attribute> getAttributes();
 
@@ -78,11 +83,17 @@ public abstract class CollectionElement {
 		}
 
 
+		@Override
 		public GeneInfo getGeneInfo() {
 			return geneInfo;
 		}
 
-
+		@Override
+		public CompoundInfo getCompoundInfo() {
+			throw new ClassCastException("GeneElement cannot be cast to CompoundInfo");
+		}
+		
+		
 		private HashMap<String,Object> identifiers() {
 			final HashMap<String,Object> identifiers = new HashMap<>();
 			if (geneInfo.getIdentifiers() != null) {
@@ -219,8 +230,15 @@ public abstract class CollectionElement {
 		}
 
 
+		@Override
 		public CompoundInfo getCompoundInfo() {
 			return compoundInfo;
+		}
+
+
+		@Override
+		public GeneInfo getGeneInfo() {
+			throw new ClassCastException("CompoundElement cannot be cast to GeneInfo");
 		}
 
 
@@ -233,6 +251,11 @@ public abstract class CollectionElement {
 				identifiers.put("chebi", compoundInfo.getIdentifiers().getChebi());
 				identifiers.put("hmdb", compoundInfo.getIdentifiers().getHmdb());
 				identifiers.put("mychem_info", compoundInfo.getIdentifiers().getMychemInfo());
+			}
+			if (compoundInfo.getStructure() != null) {
+				identifiers.put("inchikey", compoundInfo.getStructure().getInchikey());
+				identifiers.put("inchi", compoundInfo.getStructure().getInchi());
+				identifiers.put("smiles", compoundInfo.getStructure().getSmiles());
 			}
 			return identifiers;
 		}
@@ -335,7 +358,7 @@ public abstract class CollectionElement {
 		@Override
 		public Element getElement() {
 			return new Element()
-					.id(this.getId())
+					.id(compoundInfo.getCompoundId())
 					.biolinkClass(Compound.BIOLINK_CLASS)
 					.identifiers(identifiers())
 					.namesSynonyms(compoundInfo.getNamesSynonyms())
@@ -369,7 +392,150 @@ public abstract class CollectionElement {
 
 
 		@Override
+		public CompoundInfo getCompoundInfo() {
+			return getCompoundInfo(getElement());
+		}
+
+
+		static CompoundInfo getCompoundInfo(final Element element) {
+			if (!Compound.BIOLINK_CLASS.equals(element.getBiolinkClass())) {
+				throw new ClassCastException("Element("+element.getBiolinkClass()+") cannot be cast to CompoundInfo");
+			}
+			final CompoundInfo compoundInfo = new CompoundInfo();
+			compoundInfo.setCompoundId(element.getId());
+			final CompoundInfoIdentifiers identifiers = compoundIdentifiers(element);
+			compoundInfo.setIdentifiers(identifiers);
+			for (Names name: element.getNamesSynonyms()) {
+				compoundInfo.addNamesSynonymsItem(name);
+			}
+			final CompoundInfoStructure structure = new CompoundInfoStructure();
+			if (element.getIdentifiers().containsKey("smiles")) {
+				structure.setSmiles(element.getIdentifiers().get("smiles").toString());
+			}
+			if (element.getIdentifiers().containsKey("inchi")) {
+				structure.setInchi(element.getIdentifiers().get("inchi").toString());
+			}
+			if (element.getIdentifiers().containsKey("inchikey")) {
+				structure.setInchikey(element.getIdentifiers().get("inchikey").toString());
+			}
+			compoundInfo.setStructure(structure);
+			for (Attribute attribute : element.getAttributes()) {
+				if ("structure source".equals(attribute.getName())) {
+					structure.setSource(attribute.getValue());
+				}
+				else {
+					compoundInfo.addAttributesItem(attribute);
+				}
+			}
+			compoundInfo.setSource(element.getSource());
+			return compoundInfo;
+		}
+
+
+		private static CompoundInfoIdentifiers compoundIdentifiers(final Element element) {
+			final CompoundInfoIdentifiers identifiers = new CompoundInfoIdentifiers();
+			if (element.getIdentifiers().containsKey("chebi") && element.getIdentifiers().get("chebi") != null) {
+				identifiers.setChebi(element.getIdentifiers().get("chebi").toString());
+			}
+			if (element.getIdentifiers().containsKey("chembl") && element.getIdentifiers().get("chembl") != null) {
+				identifiers.setChembl(element.getIdentifiers().get("chembl").toString());
+			}
+			if (element.getIdentifiers().containsKey("drugbank") && element.getIdentifiers().get("drugbank") != null) {
+				identifiers.setDrugbank(element.getIdentifiers().get("drugbank").toString());
+			}
+			if (element.getIdentifiers().containsKey("pubchem") && element.getIdentifiers().get("pubchem") != null) {
+				identifiers.setPubchem(element.getIdentifiers().get("pubchem").toString());
+			}
+			if (element.getIdentifiers().containsKey("mesh") && element.getIdentifiers().get("mesh") != null) {
+				identifiers.setMesh(element.getIdentifiers().get("mesh").toString());
+			}
+			if (element.getIdentifiers().containsKey("hmdb") && element.getIdentifiers().get("hmdb") != null) {
+				identifiers.setHmdb(element.getIdentifiers().get("hmdb").toString());
+			}
+			if (element.getIdentifiers().containsKey("unii") && element.getIdentifiers().get("unii") != null) {
+				identifiers.setUnii(element.getIdentifiers().get("unii").toString());
+			}
+			if (element.getIdentifiers().containsKey("kegg") && element.getIdentifiers().get("kegg") != null) {
+				identifiers.setKegg(element.getIdentifiers().get("kegg").toString());
+			}
+			if (element.getIdentifiers().containsKey("gtopdb") && element.getIdentifiers().get("gtopdb") != null) {
+				identifiers.setGtopdb(element.getIdentifiers().get("gtopdb").toString());
+			}
+			if (element.getIdentifiers().containsKey("chembank") && element.getIdentifiers().get("chembank") != null) {
+				identifiers.setChembank(element.getIdentifiers().get("chembank").toString());
+			}
+			if (element.getIdentifiers().containsKey("drugcentral") && element.getIdentifiers().get("drugcentral") != null) {
+				identifiers.setDrugcentral(element.getIdentifiers().get("drugcentral").toString());
+			}
+			if (element.getIdentifiers().containsKey("cas") && element.getIdentifiers().get("cas") != null) {
+				identifiers.setCas(element.getIdentifiers().get("cas").toString());
+			}
+			if (element.getIdentifiers().containsKey("mychem_info") && element.getIdentifiers().get("mychem_info") != null) {
+				identifiers.setMychemInfo(element.getIdentifiers().get("mychem_info").toString());
+			}
+			return identifiers;
+		}
+
+
+		@Override
+		public GeneInfo getGeneInfo() {
+			return getGeneInfo(getElement());
+		}
+
+
+		public GeneInfo getGeneInfo(final Element element) {
+			if (!Gene.BIOLINK_CLASS.equals(element.getBiolinkClass())) {
+				throw new ClassCastException("Element(" + element.getBiolinkClass() + ") cannot be cast to GeneInfo");
+			}
+			final GeneInfo geneInfo = new GeneInfo();
+			geneInfo.setGeneId(element.getId());
+			final GeneInfoIdentifiers identifiers = geneIdentifiers(element);
+			geneInfo.setIdentifiers(identifiers);
+			for (Attribute attribute : element.getAttributes()) {
+				geneInfo.addAttributesItem(attribute);
+			}
+			geneInfo.setSource(element.getSource());
+			return geneInfo;
+		}
+
+
+		private GeneInfoIdentifiers geneIdentifiers(final Element element) {
+			final GeneInfoIdentifiers identifiers = new GeneInfoIdentifiers();
+			if (element.getIdentifiers().containsKey("entrez") && element.getIdentifiers().get("entrez") != null) {
+				identifiers.setEntrez(element.getIdentifiers().get("entrez").toString());
+			}			
+			if (element.getIdentifiers().containsKey("hgnc") && element.getIdentifiers().get("hgnc") != null) {
+				identifiers.setHgnc(element.getIdentifiers().get("hgnc").toString());
+			}			
+			if (element.getIdentifiers().containsKey("mim") && element.getIdentifiers().get("mim") != null) {
+				identifiers.setMim(element.getIdentifiers().get("mim").toString());
+			}			
+			if (element.getIdentifiers().containsKey("ensembl") && element.getIdentifiers().get("ensembl") != null) {
+				final List<String> ensembl = new ArrayList<>();
+				if (element.getIdentifiers().get("ensembl") instanceof String[]) {
+					final String[] ensemblSrc = (String[])element.getIdentifiers().get("ensembl");
+					for (String id : ensemblSrc) {
+						ensembl.add(id);
+					}
+				}
+				else {
+					ensembl.add(element.getIdentifiers().get("ensembl").toString());
+				}
+				identifiers.setEnsembl(ensembl);
+			}			
+			if (element.getIdentifiers().containsKey("mygene_info") && element.getIdentifiers().get("mygene_info") != null) {
+				identifiers.setMygeneInfo(element.getIdentifiers().get("mygene_info").toString());
+			}
+			return identifiers;
+		}
+
+
+		@Override
 		public String getId() {
+			if (Compound.BIOLINK_CLASS.equals(element.getBiolinkClass())) {
+				if (element.getIdentifiers() != null && element.getIdentifiers().get("inchikey") != null)
+					return element.getIdentifiers().get("inchikey").toString();
+			}
 			return element.getId();
 		}
 
@@ -428,4 +594,5 @@ public abstract class CollectionElement {
 		}
 
 	}
+
 }

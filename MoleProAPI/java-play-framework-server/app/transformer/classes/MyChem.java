@@ -17,6 +17,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import apimodels.CompoundInfo;
 import apimodels.CompoundInfoIdentifiers;
 import apimodels.CompoundInfoStructure;
+import apimodels.Element;
 import apimodels.Names;
 import transformer.Config;
 import transformer.Config.CURIE;
@@ -86,6 +87,77 @@ public class MyChem {
 						compounds.put(INCHIKEY, inchikey, new Compound());
 						log.warn("Failed to obtain compound info from myChem.info for " + inchikey+"; "+e.getMessage());
 					}
+				}
+			}
+		}
+		
+		private static void addIdentifiers(Map<String,Object> identifiers, CompoundInfo compoundInfo) {
+			if (!identifiers.containsKey("chebi") && compoundInfo.getIdentifiers().getChebi() != null) {
+				identifiers.put("chebi", compoundInfo.getIdentifiers().getChebi());
+			}
+			if (!identifiers.containsKey("chembl") && compoundInfo.getIdentifiers().getChembl() != null) {
+				identifiers.put("chembl", compoundInfo.getIdentifiers().getChembl());
+			}
+			if (!identifiers.containsKey("drugbank") && compoundInfo.getIdentifiers().getDrugbank() != null) {
+				identifiers.put("drugbank", compoundInfo.getIdentifiers().getDrugbank());
+			}
+			if (!identifiers.containsKey("pubchem") && compoundInfo.getIdentifiers().getPubchem() != null) {
+				identifiers.put("pubchem", compoundInfo.getIdentifiers().getPubchem());
+			}
+			if (!identifiers.containsKey("mesh") && compoundInfo.getIdentifiers().getMesh() != null) {
+				identifiers.put("mesh", compoundInfo.getIdentifiers().getMesh());
+			}
+			if (!identifiers.containsKey("hmdb") && compoundInfo.getIdentifiers().getHmdb() != null) {
+				identifiers.put("hmdb", compoundInfo.getIdentifiers().getHmdb());
+			}
+			if (!identifiers.containsKey("unii") && compoundInfo.getIdentifiers().getUnii() != null) {
+				identifiers.put("unii", compoundInfo.getIdentifiers().getUnii());
+			}
+			if (!identifiers.containsKey("kegg") && compoundInfo.getIdentifiers().getKegg() != null) {
+				identifiers.put("kegg", compoundInfo.getIdentifiers().getKegg());
+			}
+			if (!identifiers.containsKey("gtopdb") && compoundInfo.getIdentifiers().getGtopdb() != null) {
+				identifiers.put("gtopdb", compoundInfo.getIdentifiers().getGtopdb());
+			}
+			if (!identifiers.containsKey("chembank") && compoundInfo.getIdentifiers().getChembank() != null) {
+				identifiers.put("chembank", compoundInfo.getIdentifiers().getChembank());
+			}
+			if (!identifiers.containsKey("drugcentral") && compoundInfo.getIdentifiers().getDrugcentral() != null) {
+				identifiers.put("drugcentral", compoundInfo.getIdentifiers().getDrugcentral());
+			}
+			if (!identifiers.containsKey("cas") && compoundInfo.getIdentifiers().getCas() != null) {
+				identifiers.put("cas", compoundInfo.getIdentifiers().getCas());
+			}
+			if (!identifiers.containsKey("mychem_info") && compoundInfo.getIdentifiers().getMychemInfo() != null) {
+				identifiers.put("mychem_info", compoundInfo.getIdentifiers().getMychemInfo());
+			}
+		}
+
+		
+		static void addInfo(final Element src) {
+			if (src.getIdentifiers() == null || src.getIdentifiers().containsKey("mychem_info")) {
+				return;
+			}
+			CompoundInfo compoundInfo = new CompoundInfo().compoundId(src.getId());
+			CompoundInfoIdentifiers identifiers = new CompoundInfoIdentifiers();
+			if (src.getIdentifiers().containsKey("pubchem")) {
+				identifiers.setPubchem(src.getIdentifiers().get("pubchem").toString());
+			}
+			if (src.getIdentifiers().containsKey("chembl")) {
+				identifiers.setChembl(src.getIdentifiers().get("chembl").toString());
+			}
+			compoundInfo.setIdentifiers(identifiers);
+			if (src.getIdentifiers().containsKey("inchikey")) {
+				compoundInfo.setStructure(new CompoundInfoStructure().inchikey(src.getIdentifiers().get("inchikey").toString()));
+			}
+			addInfo(compoundInfo);
+			if (src.getIdentifiers() == null) {
+				src.setIdentifiers(new HashMap<String,Object>());
+			}
+			addIdentifiers(src.getIdentifiers(), compoundInfo);
+			if (compoundInfo.getNamesSynonyms() != null) {
+				for (Names names : compoundInfo.getNamesSynonyms()) {
+					src.addNamesSynonymsItem(names);
 				}
 			}
 		}

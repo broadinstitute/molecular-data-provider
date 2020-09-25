@@ -5,12 +5,11 @@ import java.util.List;
 import apimodels.CollectionInfo;
 import apimodels.Element;
 import apimodels.Property;
-import apimodels.TransformerQuery;
+import apimodels.MoleProQuery;
 import transformer.Config;
 import transformer.JSON;
 import transformer.Transformer.Query;
 import transformer.collection.CollectionsEntry;
-import transformer.exception.InternalServerError;
 
 public class Other extends TransformerClass {
 
@@ -24,7 +23,7 @@ public class Other extends TransformerClass {
 
 
 	@Override
-	public Query getQuery(TransformerQuery query) {
+	public Query getQuery(MoleProQuery query) {
 		return new Query(query);
 	}
 
@@ -37,9 +36,24 @@ public class Other extends TransformerClass {
 
 	@Override
 	public CollectionsEntry getCollection(final CollectionInfo collectionInfo, final String response) throws Exception {
+		return getElementCollection(elementClass, collectionInfo, response);
+	}
+
+
+	public static CollectionsEntry getElementCollection(String elementClass, final CollectionInfo collectionInfo, final String response) throws Exception {
 		final Element[] elements = JSON.mapper.readValue(response, Element[].class);
 		collectionInfo.setElementClass(elementClass);
 		collectionInfo.setUrl(Config.config.url().getBaseURL() + "/collection/");
+		if (Gene.CLASS.equals(elementClass)) {
+			for (Element element : elements) {
+				MyGene.Info.addInfo(element);
+			}
+		}
+		if (Compound.CLASS.equals(elementClass)) {
+			for (Element element : elements) {
+				MyChem.Info.addInfo(element);
+			}
+		}
 		return new CollectionsEntry(collectionInfo, elements);
 	}
 
