@@ -3,6 +3,7 @@ package transformer.classes;
 import java.util.List;
 
 import apimodels.CollectionInfo;
+import apimodels.Element;
 import apimodels.Property;
 import apimodels.MoleProQuery;
 import transformer.Transformer.Query;
@@ -15,19 +16,19 @@ public class None extends TransformerClass {
 
 
 	@Override
-	public Query getQuery(MoleProQuery query) {
+	public Query getQuery(final MoleProQuery query) {
 		return new Query(query);
 	}
 
 
 	@Override
-	public Query getQuery(final List<Property> controls, CollectionsEntry entry) {
+	public Query getQuery(final List<Property> controls, final CollectionsEntry entry) {
 		return new Query(controls);
 	}
 
 
 	@Override
-	public CollectionsEntry getCollection(CollectionInfo collectionInfo, String response) {
+	public CollectionsEntry getCollection(final CollectionInfo collectionInfo, final String response) {
 		throw new InternalServerError("Output class should not be NONE");
 	}
 

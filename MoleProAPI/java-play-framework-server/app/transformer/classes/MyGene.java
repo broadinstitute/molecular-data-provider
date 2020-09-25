@@ -3,6 +3,8 @@ package transformer.classes;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -12,8 +14,10 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import apimodels.Attribute;
+import apimodels.Element;
 import apimodels.GeneInfo;
 import apimodels.GeneInfoIdentifiers;
+import apimodels.Names;
 import transformer.Config;
 import transformer.HTTP;
 import transformer.JSON;
@@ -81,6 +85,78 @@ public class MyGene {
 				}
 			}
 			return src;
+		}
+
+
+		private static void addIdentifiers(Map<String,Object> identifiers, GeneInfo geneInfo) {
+			if (!identifiers.containsKey("entrez")) {
+				identifiers.put("entrez", geneInfo.getIdentifiers().getEntrez());
+			}
+			if (!identifiers.containsKey("hgnc")) {
+				identifiers.put("hgnc", geneInfo.getIdentifiers().getHgnc());
+			}
+			if (!identifiers.containsKey("mim")) {
+				identifiers.put("mim", geneInfo.getIdentifiers().getMim());
+			}
+			if (!identifiers.containsKey("ensembl")) {
+				identifiers.put("ensembl", geneInfo.getIdentifiers().getEnsembl());
+			}
+			if (!identifiers.containsKey("mygene_info")) {
+				identifiers.put("mygene_info", geneInfo.getIdentifiers().getMygeneInfo());
+			}
+		}
+
+
+		private static List<Names> namesAndSynonyms(GeneInfo geneInfo) {
+			final Names namesAndSynonyms = new Names();
+			final HashSet<String> synonyms = new HashSet<>();
+			for (Attribute attribute : geneInfo.getAttributes()) {
+				if ("gene_name".equals(attribute.getName())) {
+					synonyms.add(attribute.getValue());
+					namesAndSynonyms.setName(attribute.getValue());
+					namesAndSynonyms.setSource(attribute.getSource());
+				}
+				if ("gene_symbol".equals(attribute.getName())) {
+					if (!synonyms.contains(attribute.getValue())) {
+						synonyms.add(attribute.getValue());
+						namesAndSynonyms.addSynonymsItem(attribute.getValue());
+					}
+					if (namesAndSynonyms.getSource() == null) {
+						namesAndSynonyms.setSource(attribute.getSource());
+					}
+				}
+				if ("synonyms".equals(attribute.getName())) {
+					for (String synonym : attribute.getValue().split(";"))
+						if (!synonyms.contains(synonym)) {
+							synonyms.add(synonym);
+							namesAndSynonyms.addSynonymsItem(synonym);
+						}
+					if (namesAndSynonyms.getSource() == null) {
+						namesAndSynonyms.setSource(attribute.getSource());
+					}
+				}
+			}
+			final List<Names> namesAndSynonymsList = new ArrayList<>();
+			namesAndSynonymsList.add(namesAndSynonyms);
+			return namesAndSynonymsList;
+		}
+
+		static void addInfo(final Element src) {
+			if (src.getIdentifiers() != null && src.getIdentifiers().containsKey("mygene_info")) {
+				return;
+			}
+			GeneInfo geneInfo = addInfo(new GeneInfo().geneId(src.getId()));
+			src.setId(geneInfo.getGeneId());
+			if (src.getIdentifiers() == null) {
+				src.setIdentifiers(new HashMap<String,Object>());
+			}
+			addIdentifiers(src.getIdentifiers(), geneInfo);
+			for (Attribute attribute : geneInfo.getAttributes()) {
+				src.addAttributesItem(attribute);
+			}
+			for (Names names : namesAndSynonyms(geneInfo)) {
+				src.addNamesSynonymsItem(names);
+			}
 		}
 
 

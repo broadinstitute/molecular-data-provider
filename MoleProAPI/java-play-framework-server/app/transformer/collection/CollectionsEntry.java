@@ -85,7 +85,7 @@ public class CollectionsEntry {
 
 	public static final class GeneCollection extends CollectionsEntry {
 
-		GeneCollection(CollectionInfo collectionInfo, CollectionElement[] elements) {
+		public GeneCollection(CollectionInfo collectionInfo, CollectionElement[] elements) {
 			super(collectionInfo, elements);
 		}
 
@@ -99,7 +99,7 @@ public class CollectionsEntry {
 			CollectionElement[] elements = getElements();
 			GeneInfo[] genes = new GeneInfo[elements.length];
 			for (int i = 0; i < elements.length; i++) {
-				genes[i] = ((CollectionElement.GeneElement) elements[i]).getGeneInfo();
+				genes[i] = elements[i].getGeneInfo();
 			}
 			return genes;
 		}
@@ -131,7 +131,7 @@ public class CollectionsEntry {
 			CollectionElement[] elements = getElements();
 			CompoundInfo[] compounds = new CompoundInfo[elements.length];
 			for (int i = 0; i < elements.length; i++) {
-				compounds[i] = ((CollectionElement.CompoundElement) elements[i]).getCompoundInfo();
+				compounds[i] = elements[i].getCompoundInfo();
 			}
 			return compounds;
 		}

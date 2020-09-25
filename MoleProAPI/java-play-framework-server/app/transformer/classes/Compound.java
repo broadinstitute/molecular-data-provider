@@ -32,7 +32,7 @@ import transformer.exception.InternalServerError;
 public class Compound extends TransformerClass {
 
 	public static final String CLASS = "compound";
-	public static final String BIOLINK_CLASS = "chemical substance";
+	public static final String BIOLINK_CLASS = "ChemicalSubstance";
 
 	/**
 	 * Logger
@@ -51,6 +51,11 @@ public class Compound extends TransformerClass {
 		if (collection instanceof CompoundCollection) {
 			return new CompoundListQuery(controls, ((CompoundCollection) collection).getCompounds());
 		}
+		if (CLASS.equals(collection.getInfo().getElementClass())) {
+			CompoundCollection compoundCollection = new CompoundCollection(collection.getInfo(), collection.getElements());
+			return new CompoundListQuery(controls, compoundCollection.getCompounds());
+		}
+
 		throw new BadRequestException("Collection " + collection.getId() + " is not a compound list");
 	}
 
@@ -176,6 +181,9 @@ public class Compound extends TransformerClass {
 		final CollectionsEntry collection = Collections.getCollection(id);
 		if (collection instanceof CompoundCollection) {
 			return (CompoundCollection) collection;
+		}
+		if (CLASS.equals(collection.getInfo().getElementClass())) {
+			return new CompoundCollection(collection.getInfo(), collection.getElements());
 		}
 		throw new BadRequestException("Collection " + collection.getId() + " is not a compound list");
 	}

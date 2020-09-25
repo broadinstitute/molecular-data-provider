@@ -5,6 +5,7 @@ https://translator.broadinstitute.org/drugbank/drugs
 https://translator.broadinstitute.org/chembank/compounds
 https://translator.broadinstitute.org/chebi/compounds
 https://translator.broadinstitute.org/repurposing/compounds
+https://translator.broadinstitute.org/dgidb/molecules
 # gene-list producers
 =HGNC gene-list producer
 # disease producers
@@ -19,7 +20,11 @@ https://translator.broadinstitute.org/pharos
 https://translator.broadinstitute.org/chembl/targets
 https://translator.broadinstitute.org/hmdb/targets
 https://translator.broadinstitute.org/repurposing/targets
+https://translator.broadinstitute.org/dgidb/targets
 https://translator.broadinstitute.org/drugbank/inhibitors
+https://translator.broadinstitute.org/dgidb/inhibitors
+# compound relations
+https://translator.broadinstitute.org/chembl/metabolites
 # profile similarity
 https://translator.broadinstitute.org/cmap/compound/compound
 https://translator.broadinstitute.org/ctrp
@@ -29,6 +34,9 @@ https://translator.broadinstitute.org/cmap/gene/gene
 https://translator.broadinstitute.org/depmap_expander
 https://translator.broadinstitute.org/expression_correlation
 # exporters
+https://translator.broadinstitute.org/chembl/indications
+https://translator.broadinstitute.org/chembl/assays
+https://translator.broadinstitute.org/chembl/mechanisms
 https://translator.broadinstitute.org/msigdb
 https://translator.broadinstitute.org/gelinea
 #
@@ -47,8 +55,7 @@ https://translator.broadinstitute.org/gelinea
 #https://translator.broadinstitute.org/pharos_filter
 #https://translator.broadinstitute.org/gene_gene_bicluster_expander
 #https://translator.broadinstitute.org/pathway_enrichment
-#https://translator.broadinstitute.org/string_expander
+https://translator.broadinstitute.org/string_expander
 #https://translator.broadinstitute.org/hypergeometric_enrichment_expander
 #https://translator.broadinstitute.org/hypergeometric_enrichment_filter
 #https://translator.broadinstitute.org/random_producer
-

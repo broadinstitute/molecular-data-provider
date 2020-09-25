@@ -24,7 +24,7 @@ import transformer.exception.NotFoundException;
 public class Gene extends TransformerClass {
 
 	public static final String CLASS = "gene";
-	public static final String BIOLINK_CLASS = "gene";
+	public static final String BIOLINK_CLASS = "Gene";
 
 
 	@Override
@@ -37,6 +37,10 @@ public class Gene extends TransformerClass {
 	public Query getQuery(final List<Property> controls, CollectionsEntry collection) throws BadRequestException {
 		if (collection instanceof GeneCollection) {
 			return new GeneListQuery(controls, ((GeneCollection) collection).getGenes());
+		}
+		if (CLASS.equals(collection.getInfo().getElementClass())) {
+			final GeneCollection geneCollection = new GeneCollection(collection.getInfo(), collection.getElements());
+			return new GeneListQuery(controls, geneCollection.getGenes());
 		}
 		throw new BadRequestException("Collection " + collection.getId() + " is not a gene list");
 	}
@@ -94,6 +98,9 @@ public class Gene extends TransformerClass {
 		final CollectionsEntry collection = Collections.getCollection(id);
 		if (collection instanceof GeneCollection) {
 			return (GeneCollection) collection;
+		}
+		if (CLASS.equals(collection.getInfo().getElementClass())) {
+			return new GeneCollection(collection.getInfo(), collection.getElements());
 		}
 		throw new BadRequestException("Collection " + collection.getId() + " is not a gene list");
 	}

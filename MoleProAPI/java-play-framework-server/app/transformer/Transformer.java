@@ -21,7 +21,9 @@ import transformer.classes.None;
 import transformer.classes.TransformerClass;
 import transformer.collection.Collections;
 import transformer.collection.CollectionsEntry;
+import transformer.exception.BadRequestException;
 import transformer.exception.InternalServerError;
+import transformer.exception.NotFoundException;
 
 public abstract class Transformer {
 
@@ -45,16 +47,24 @@ public abstract class Transformer {
 	}
 
 
-	public CollectionInfo transform(final MoleProQuery moleProQuery) throws Exception {
+	public CollectionInfo transform(final MoleProQuery moleproQuery) throws Exception {
 		try {
-			final Query query = inputClass.getQuery(moleProQuery);
-			final CollectionInfo collectionInfo = createCollection(moleProQuery);
+			final Query query = mkQuery(moleproQuery);
+			final CollectionInfo collectionInfo = createCollection(moleproQuery);
 			final CollectionsEntry collection = transform(query, collectionInfo);
 			Collections.save(collection);
 			return collection.getInfo();
 		} catch (IOException e) {
 			throw new InternalServerError(info.getName() + " failed: " + e.getMessage(), e);
 		}
+	}
+
+
+	private Query mkQuery(final MoleProQuery moleproQuery) throws NotFoundException, BadRequestException {
+		if (info.getVersion().startsWith("1.") || info.getVersion().startsWith("2.0."))
+			return inputClass.getQuery(moleproQuery);
+		boolean hasInput = !"none".equals(info.getKnowledgeMap().getInputClass());
+		return new TransformerQuery(moleproQuery, hasInput);
 	}
 
 
