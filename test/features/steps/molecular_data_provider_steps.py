@@ -9,7 +9,7 @@ def step_impl(context, url):
     """
     Given a base URL of a transformer
     """
-    context.modap_url = url
+    context.molepro_url = url
 
 
 @given('the Molecular Data Provider')
@@ -17,8 +17,24 @@ def step_impl(context):
     """
     Given the gene-list sharpener
     """
-    context.base_url = context.modap_url
+    context.base_url = context.molepro_url
     context.collection_id = ""
+
+
+@given('a reasoner API at "{url}"')
+def step_impl(context, url):
+    """
+    Given a base URL of a transformer
+    """
+    context.reasoner_api_url = url
+
+
+@given('the reasoner API')
+def step_impl(context):
+    """
+    Given the gene-list sharpener
+    """
+    context.base_url = context.reasoner_api_url
 
 
 @given('a compound list "{compounds}"')
@@ -46,6 +62,25 @@ def step_impl(context, compounds):
         context.collection_1 = context.collection_info
         context.collection_2 = response.json()
         print("Collection size ",context.collection_2['size'])
+
+
+@when('we call "{transformer}" transformer with no parameters')
+def step_impl(context, transformer):
+    """
+    This step launches a transformer
+    """
+    url = context.base_url+'/transform'
+    print(url)
+    data = {"name":transformer,"collection_id":context.collection_id, "controls":[]}
+    print(data)
+    with closing(requests.post(url, json=data, stream=False)) as response:
+        context.response = response
+        context.collection_info = response.json()
+        print(context.collection_info)
+        context.collection_id = context.collection_info['id']
+        with closing(requests.get(context.collection_info['url'])) as collection:
+            context.response = collection
+            context.response_json = collection.json()
 
 
 @when('we call "{transformer}" transformer with the following parameters')
