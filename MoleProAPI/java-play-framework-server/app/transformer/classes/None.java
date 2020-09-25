@@ -4,7 +4,7 @@ import java.util.List;
 
 import apimodels.CollectionInfo;
 import apimodels.Property;
-import apimodels.TransformerQuery;
+import apimodels.MoleProQuery;
 import transformer.Transformer.Query;
 import transformer.collection.CollectionsEntry;
 import transformer.exception.InternalServerError;
@@ -15,7 +15,7 @@ public class None extends TransformerClass {
 
 
 	@Override
-	public Query getQuery(TransformerQuery query) {
+	public Query getQuery(MoleProQuery query) {
 		return new Query(query);
 	}
 

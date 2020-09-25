@@ -11,7 +11,7 @@ import apimodels.GeneInfo;
 import apimodels.GeneList;
 import apimodels.Property;
 import apimodels.TransformerInfo;
-import apimodels.TransformerQuery;
+import apimodels.MoleProQuery;
 import transformer.JSON;
 import transformer.Transformer;
 import transformer.Transformer.Query;
@@ -28,7 +28,7 @@ public class Gene extends TransformerClass {
 
 
 	@Override
-	public Query getQuery(final TransformerQuery query) throws NotFoundException, BadRequestException {
+	public Query getQuery(final MoleProQuery query) throws NotFoundException, BadRequestException {
 		return new GeneListQuery(query);
 	}
 
@@ -66,7 +66,7 @@ public class Gene extends TransformerClass {
 		private final GeneInfo[] genes;
 
 
-		GeneListQuery(final TransformerQuery query) throws NotFoundException, BadRequestException {
+		GeneListQuery(final MoleProQuery query) throws NotFoundException, BadRequestException {
 			super(query);
 			genes = getCollection(query.getCollectionId()).getGenes();
 		}

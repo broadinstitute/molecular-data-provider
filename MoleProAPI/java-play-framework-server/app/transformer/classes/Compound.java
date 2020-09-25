@@ -14,7 +14,7 @@ import apimodels.CompoundInfoStructure;
 import apimodels.CompoundList;
 import apimodels.Names;
 import apimodels.Property;
-import apimodels.TransformerQuery;
+import apimodels.MoleProQuery;
 import transformer.Config;
 import transformer.Config.CURIE;
 import transformer.JSON;
@@ -41,7 +41,7 @@ public class Compound extends TransformerClass {
 
 
 	@Override
-	public Query getQuery(final TransformerQuery query) throws NotFoundException, BadRequestException {
+	public Query getQuery(final MoleProQuery query) throws NotFoundException, BadRequestException {
 		return new CompoundListQuery(query);
 	}
 
@@ -148,7 +148,7 @@ public class Compound extends TransformerClass {
 		private final CompoundInfo[] compounds;
 
 
-		CompoundListQuery(final TransformerQuery query) throws NotFoundException, BadRequestException {
+		CompoundListQuery(final MoleProQuery query) throws NotFoundException, BadRequestException {
 			super(query);
 			this.compounds = getCollection(query.getCollectionId()).getCompounds();
 		}

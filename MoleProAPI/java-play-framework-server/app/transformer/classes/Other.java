@@ -5,7 +5,7 @@ import java.util.List;
 import apimodels.CollectionInfo;
 import apimodels.Element;
 import apimodels.Property;
-import apimodels.TransformerQuery;
+import apimodels.MoleProQuery;
 import transformer.Config;
 import transformer.JSON;
 import transformer.Transformer.Query;
@@ -24,7 +24,7 @@ public class Other extends TransformerClass {
 
 
 	@Override
-	public Query getQuery(TransformerQuery query) {
+	public Query getQuery(MoleProQuery query) {
 		return new Query(query);
 	}
 

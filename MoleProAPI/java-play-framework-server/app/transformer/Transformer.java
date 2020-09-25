@@ -13,7 +13,7 @@ import apimodels.KnowledgeMap;
 import apimodels.Parameter;
 import apimodels.Predicate;
 import apimodels.TransformerInfo;
-import apimodels.TransformerQuery;
+import apimodels.MoleProQuery;
 import apimodels.Property;
 import transformer.classes.Compound;
 import transformer.classes.Gene;
@@ -45,10 +45,10 @@ public abstract class Transformer {
 	}
 
 
-	public CollectionInfo transform(final TransformerQuery transformerQuery) throws Exception {
+	public CollectionInfo transform(final MoleProQuery moleProQuery) throws Exception {
 		try {
-			final Query query = inputClass.getQuery(transformerQuery);
-			final CollectionInfo collectionInfo = createCollection(transformerQuery);
+			final Query query = inputClass.getQuery(moleProQuery);
+			final CollectionInfo collectionInfo = createCollection(moleProQuery);
 			final CollectionsEntry collection = transform(query, collectionInfo);
 			Collections.save(collection);
 			return collection.getInfo();
@@ -61,7 +61,7 @@ public abstract class Transformer {
 	public abstract CollectionsEntry transform(Query query, CollectionInfo collectionInfo) throws Exception;
 
 
-	private CollectionInfo createCollection(final TransformerQuery query) {
+	private CollectionInfo createCollection(final MoleProQuery query) {
 		final CollectionInfo collectionInfo = new CollectionInfo();
 		collectionInfo.setSource(info.getName());
 		collectionInfo.setAttributes(new ArrayList<Attribute>());
@@ -144,7 +144,7 @@ public abstract class Transformer {
 		private final List<Property> controls;
 
 
-		public Query(final TransformerQuery query) {
+		public Query(final MoleProQuery query) {
 			controls = query.getControls();
 		}
 
