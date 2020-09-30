@@ -15,36 +15,46 @@ class Attribute(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name=None, value=None, source=None, url=None):  # noqa: E501
+    def __init__(self, name=None, value=None, type=None, source=None, url=None, provided_by=None):  # noqa: E501
         """Attribute - a model defined in OpenAPI
 
         :param name: The name of this Attribute.  # noqa: E501
         :type name: str
         :param value: The value of this Attribute.  # noqa: E501
         :type value: str
+        :param type: The type of this Attribute.  # noqa: E501
+        :type type: str
         :param source: The source of this Attribute.  # noqa: E501
         :type source: str
         :param url: The url of this Attribute.  # noqa: E501
         :type url: str
+        :param provided_by: The provided_by of this Attribute.  # noqa: E501
+        :type provided_by: str
         """
         self.openapi_types = {
             'name': str,
             'value': str,
+            'type': str,
             'source': str,
-            'url': str
+            'url': str,
+            'provided_by': str
         }
 
         self.attribute_map = {
             'name': 'name',
             'value': 'value',
+            'type': 'type',
             'source': 'source',
-            'url': 'url'
+            'url': 'url',
+            'provided_by': 'provided_by'
         }
 
         self._name = name
         self._value = value
+        self._type = type
         self._source = source
         self._url = url
+        self._provided_by = provided_by
 
     @classmethod
     def from_dict(cls, dikt) -> 'Attribute':
@@ -108,10 +118,33 @@ class Attribute(Model):
         self._value = value
 
     @property
+    def type(self):
+        """Gets the type of this Attribute.
+
+        CURIE of the semantic type of the attribute, from the EDAM ontology if possible.  # noqa: E501
+
+        :return: The type of this Attribute.
+        :rtype: str
+        """
+        return self._type
+
+    @type.setter
+    def type(self, type):
+        """Sets the type of this Attribute.
+
+        CURIE of the semantic type of the attribute, from the EDAM ontology if possible.  # noqa: E501
+
+        :param type: The type of this Attribute.
+        :type type: str
+        """
+
+        self._type = type
+
+    @property
     def source(self):
         """Gets the source of this Attribute.
 
-        Transformer that produced the attribute's value.  # noqa: E501
+        Source of the attribute, as a CURIE prefix.  # noqa: E501
 
         :return: The source of this Attribute.
         :rtype: str
@@ -122,7 +155,7 @@ class Attribute(Model):
     def source(self, source):
         """Sets the source of this Attribute.
 
-        Transformer that produced the attribute's value.  # noqa: E501
+        Source of the attribute, as a CURIE prefix.  # noqa: E501
 
         :param source: The source of this Attribute.
         :type source: str
@@ -154,3 +187,26 @@ class Attribute(Model):
         """
 
         self._url = url
+
+    @property
+    def provided_by(self):
+        """Gets the provided_by of this Attribute.
+
+        Transformer that produced the attribute's value.  # noqa: E501
+
+        :return: The provided_by of this Attribute.
+        :rtype: str
+        """
+        return self._provided_by
+
+    @provided_by.setter
+    def provided_by(self, provided_by):
+        """Sets the provided_by of this Attribute.
+
+        Transformer that produced the attribute's value.  # noqa: E501
+
+        :param provided_by: The provided_by of this Attribute.
+        :type provided_by: str
+        """
+
+        self._provided_by = provided_by

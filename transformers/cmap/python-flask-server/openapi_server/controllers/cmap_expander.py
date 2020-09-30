@@ -1,14 +1,17 @@
 from contextlib import closing
 import requests
+import time
 
 from transformers.transformer import Transformer
-from openapi_server.models.compound_info import CompoundInfo
-from openapi_server.models.compound_info_identifiers import CompoundInfoIdentifiers
-from openapi_server.models.gene_info import GeneInfo
-from openapi_server.models.gene_info_identifiers import GeneInfoIdentifiers
+from openapi_server.models.element import Element
+from openapi_server.models.connection import Connection
 from openapi_server.models.attribute import Attribute
 
 CMAP_URL = 'https://s3.amazonaws.com/macchiato.clue.io/builds/touchstone/v1.1/arfs/{}/pert_id_summary.gct'
+VERSION_URL = 'https://api.clue.io/api/touchstone-version'
+
+BIOLINK_CLASS = {'gene':'Gene','compound':'ChemicalSubstance'}
+ID_KEY = {'gene':'entrez','compound':'pubchem'}
 
 class CmapExpander(Transformer):
 
@@ -16,23 +19,17 @@ class CmapExpander(Transformer):
 
     def __init__(self, input_class, output_class):
         super().__init__(self.variables)
+        self.input_class = input_class
+        self.output_class = output_class
+        # update transformer_info
         self.info.function = 'expander' if input_class == output_class else 'transformer'
         self.info.knowledge_map.input_class = input_class
-        self.info.knowledge_map.predicates[0].subject = input_class
+        self.info.knowledge_map.predicates[0].subject = BIOLINK_CLASS[input_class]
         self.info.knowledge_map.output_class = output_class
-        self.info.knowledge_map.predicates[0].object = output_class
+        self.info.knowledge_map.predicates[0].object = BIOLINK_CLASS[output_class]
         self.info.name = self.info.name + input_class + '-to-' + output_class + ' ' + self.info.function
+        # load CMAP id map
         self.load_ids(input_class, output_class)
-        if input_class == 'gene':
-            self.get_id = self.get_gene_id
-            self.get_name = self.get_gene_symbol
-        if input_class == 'compound':
-            self.get_id = self.get_compound_id
-            self.get_name = self.get_compound_name
-        if output_class == 'gene':
-            self.create_element = self.create_gene
-        if output_class == 'compound':
-            self.create_element = self.create_compound
 
 
     def map(self, collection, controls):
@@ -46,6 +43,7 @@ class CmapExpander(Transformer):
         elements = {}
         for query in collection:
             query_id = self.get_id(query)
+            query.connections = []
             list.append(query)
             elements[query_id]=query
         return self.connections(list, elements, collection, controls)
@@ -58,7 +56,7 @@ class CmapExpander(Transformer):
                 hits = self.cmap_connections(self.input_id_map[query_id], controls)
                 for (score, hit_id) in hits:
                     element = self.get_element(hit_id, elements, list)
-                    self.add_score(element, score, query)
+                    self.add_connection(element, score, query_id)
         return list
 
 
@@ -92,66 +90,58 @@ class CmapExpander(Transformer):
         return element
 
 
-    def add_score(self, element, score, query):
-        if element.attributes is None:
-            element.attributes = []
-        element.attributes.append(
-            Attribute(
-                name = 'CMAP similarity score with '+self.get_name(query),
-                value = str(score),
-                source = self.info.name
-            )
+    def get_id(self, query):
+        return query.identifiers.get(ID_KEY[self.input_class])
+
+
+    def add_connection(self, element, score, query_id):
+        connection = Connection(
+            source_element_id = query_id,
+            type = self.info.knowledge_map.predicates[0].predicate,
+            attributes = [
+                Attribute(
+                    name = 'CMAP similarity score',
+                    value = str(score),
+                    type = 'CMAP similarity score',
+                    source = 'CMAP',
+                    provided_by = self.info.name
+                ),
+                Attribute(
+                    name = 'reference',
+                    value = 'PMID:29195078',
+                    type = 'reference',
+                    source = 'CMAP',
+                    provided_by = self.info.name
+                ),
+                Attribute(
+                    name = 'about CMAP',
+                    value = 'https://clue.io/cmap',
+                    type = 'about CMAP',
+                    source = 'CMAP',
+                    url = 'https://clue.io/cmap',
+                    provided_by = self.info.name
+                ),
+                Attribute(
+                    name = 'CMAP touchstone data version',
+                    value = self.get_version(),
+                    type = 'CMAP touchstone data version',
+                    source = 'CMAP',
+                    url = 'https://api.clue.io/api/touchstone-version',
+                    provided_by = self.info.name
+                )
+            ]
         )
+        element.connections.append(connection)
 
 
-    def get_id(self, element):
-        raise NotImplementedError('CMAP expander not configured')
-
-
-    def get_compound_id(self, element):
-        return element.identifiers.pubchem
-
-
-    def get_gene_id(self, element):
-        return element.identifiers.entrez
-
-
-    def get_name(self, element):
-        raise NotImplementedError('CMAP expander not configured')
-
-
-    def get_compound_name(self, compound):
-        if compound.names_synonyms is not None:
-            for name in compound.names_synonyms:
-                if name.name is not None:
-                    return name.name
-        return compound.compound_id
-
-
-    def get_gene_symbol(self, element):
-        for attribute in element.attributes:
-            if attribute.name == 'gene_symbol':
-                return attribute.value
-        return element.id
-
-
-    def create_element(self, hit):
-        raise NotImplementedError('CMAP expander not configured')
-
-
-    def create_compound(self, id):
-        return CompoundInfo(
-            compound_id = id,
-            identifiers = CompoundInfoIdentifiers(pubchem=id),
+    def create_element(self, hit_id):
+        return Element(
+            id = hit_id,
+            biolink_class = BIOLINK_CLASS[self.output_class],
+            identifiers = {ID_KEY[self.output_class]:hit_id},
             attributes = [],
-        )
-
-
-    def create_gene(self, id):
-        return GeneInfo(
-            gene_id = id,
-            attributes = [],
-            identifiers = GeneInfoIdentifiers(entrez = id)
+            connections = [],
+            source = self.info.name
         )
 
 
@@ -171,3 +161,24 @@ class CmapExpander(Transformer):
                     if pert_class == output_class:
                         self.output_id_map[pert_id] = id
                 first_line = False
+
+
+    data_version = '1.1'
+    version_timestamp = 0
+
+    def get_version(self):
+        now = time.time()
+        if now - self.version_timestamp > 24*60*60: # 1 day
+            try:
+                with closing(requests.get(VERSION_URL)) as response:
+                    if response.status_code == 200:
+                        version = response.json()['version']
+                        if version.startswith('1.1'):
+                            self.data_version = version
+                            self.version_timestamp = now
+                    else:
+                        print("WARNING: failed to obtain CMAP data version :"+response.status())
+            except:
+                print("WARNING: failed to obtain CMAP data version")
+                data_version = '1.1'
+        return self.data_version
