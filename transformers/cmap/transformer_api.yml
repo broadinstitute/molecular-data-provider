@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: API for CMAP gene-list and compound-list expander
-  version: 2.0.0
+  version: 2.1.0
   termsOfService: https://clue.io/terms
   
   contact:
@@ -125,7 +125,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/compound_info'
+                  $ref: '#/components/schemas/element'
         400:
           description: bad request
           content:
@@ -288,20 +288,12 @@ components:
     transformer_query:
       type: object
       properties:
-        genes:
+        collection:
           type: array
           items:
-            $ref: '#/components/schemas/gene_info'
+            $ref: '#/components/schemas/element'
           description: >-
-            List of genes that will be transformed. Required for expanders and filters;
-            should be omitted for producers.
-        compounds:
-          type: array
-          items:
-            $ref: '#/components/schemas/compound_info'
-          description: >-
-            List of compounds that will be transformed. Required for expanders and filters;
-            should be omitted for producers.
+            List of elements that will be transformed. Required for all transformers except producers.
         controls:
           type: array
           items:
@@ -465,13 +457,20 @@ components:
       properties:
         id:
           type: string
-          description: Id of the gene. 
+          description: Primary identifier of the element.
         biolink_class:
           type: string
           description: BioLink class of the element.
         identifiers:
           type: object
+          description: identifiers of the element.
           additionalProperties: true
+        alternative_identifiers:
+          type: array
+          description: identifiers of additional chemical structures associated with chemical substance.
+          items:
+            type: object
+            additionalProperties: true
         names_synonyms:
           type: array
           items:
@@ -483,6 +482,11 @@ components:
             collection membership. 
           items:
             $ref: '#/components/schemas/attribute'
+        connections:
+          type: array
+          description: connections to elements of the input collection. 
+          items:
+            $ref: '#/components/schemas/connection'
         source:
           type: string
           description: Name of a transformer that added the element to the collection.
@@ -498,12 +502,18 @@ components:
         value:
           type: string
           description: Value of the attribute.
+        type:
+          type: string
+          description: CURIE of the semantic type of the attribute, from the EDAM ontology if possible.
         source:
           type: string
-          description: Transformer that produced the attribute's value.
+          description: Source of the attribute, as a CURIE prefix.
         url:
           type: string
           description: URL for additional information.
+        provided_by:
+          type: string
+          description: Transformer that produced the attribute's value.
       required:
       - name
       - source
@@ -529,6 +539,25 @@ components:
       required:
       - source
 
+    connection:
+      type: object
+      properties:
+        source_element_id:
+          type: string
+          description: id (CURIE) of the connected query node
+        type:
+          type: string
+          description: Biolink predicate
+        evidence_type:
+          type: string
+          description: evidence supporting the statement from the ECO ontology
+        attributes:
+          type: array
+          description: Additional information about the element and provenance about
+            collection membership. 
+          items:
+            $ref: '#/components/schemas/attribute'
+        
     error_msg:
       type: object
       properties:
