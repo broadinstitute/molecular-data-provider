@@ -88,7 +88,7 @@ Feature: Check CMAP transformer
         and the value of "element_class" should be "gene"
         and the value of "source" should be "CMAP gene-to-gene expander"
 
-        @wip
+
     Scenario: Check DGIdb inhibitors transformer
         Given the Molecular Data Provider
         when we call "HGNC gene-list producer" transformer with the following parameters:
@@ -155,3 +155,12 @@ Feature: Check CMAP transformer
         and the length of the collection should be 2
         and the value of "element_class" should be "compound"
 
+
+    Scenario: Check batch compound list by id
+        Given the Molecular Data Provider
+        when we fire "/compound/by_id" query with the following body:
+        """
+            ["DrugBank:DB01050","CID:2244","ChEMBL:25"]
+        """
+        then the size of "attributes" should be 1
+        and the int value of "size" should be 2
