@@ -1,24 +1,33 @@
 openapi: 3.0.0
 info:
-  title: Transformer API for Molecular Data Provider
+  title: Transformer API for DGIdb
   version: 2.1.0
+  termsOfService: http://www.dgidb.org/getting_started
   
   contact:
     email: translator@broadinstitute.org
   
 servers:
-- url: https://translator.broadinstitute.org/<path>
+- url: https://translator.broadinstitute.org/dgidb
 
 tags:
   - name: transformers
 
 paths:
-  /transformer_info:
+  /{service}/transformer_info:
     get:
       tags:
       - transformers
       summary: Retrieve transformer info
       description: Provides information about the transformer.
+      parameters:
+      - name: service
+        in: path
+        description: DGIdb service
+        required: true
+        schema:
+          type: string
+          enum: [molecules, targets, inhibitors]
       responses:
         200:
           description: successful operation
@@ -27,13 +36,21 @@ paths:
               schema:
                 $ref: '#/components/schemas/transformer_info'
 
-  /transform:
+  /{service}/transform:
     post:
       tags:
       - transformers
       summary: Transform a list of genes or compounds
       description: Depending on the function of a transformer, creates, expands, or
         filters a list.
+      parameters:
+      - name: service
+        in: path
+        description: DGIdb service
+        required: true
+        schema:
+          type: string
+          enum: [molecules, targets, inhibitors]
       requestBody:
         description: transformer query
         content:
