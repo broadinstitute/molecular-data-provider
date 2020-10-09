@@ -1,0 +1,26 @@
+{
+    "name": "DGIdb compound-list producer",
+    "label": "DGIdb",
+    "description": "Compound-list producer based on DGIdb (http://dgidb.org/).",
+    "version": "2.1.0",
+    "function": "producer",
+    "knowledge_map": {
+        "input_class": "none",
+        "output_class": "compound",
+        "predicates": []
+    },
+    "properties": {
+        "list_predicate": "related_to",
+        "member_predicate": "related_to",
+        "source_url": "http://dgidb.org/",
+        "terms_of_service": "http://www.dgidb.org/getting_started"
+    },
+    "parameters": [
+        {
+            "example": "aspirin",
+            "name": "compounds",
+            "type": "string",
+            "suggested_values": "semicolon-separated list of compounds names or ChEMBL IDs"
+        }
+    ]
+}
