@@ -57,6 +57,17 @@ def step_impl(context, path, value):
     assert result[0].value == value
 
 
+@then('the int value of "{path}" should be {value}')
+def step_impl(context, path, value):
+    """
+    This step checks value specified by the path
+    """
+    json_path_expr = jsonpath_rw.parse(path)
+    result = json_path_expr.find(context.response_json)
+    print(result)
+    assert result[0].value == int(value)
+
+
 @then('the size of "{path}" should be {size}')
 def step_impl(context, path, size):
     """
