@@ -4,7 +4,7 @@ info:
     email: translator@broadinstitute.org
   termsOfService: https://www.ebi.ac.uk/about/terms-of-use/
   title: Transformer API for ChEMBL
-  version: 2.1.0
+  version: 2.1.2
 servers:
 - url: https://translator.broadinstitute.org/chembl
 tags:

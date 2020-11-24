@@ -11,16 +11,18 @@ from openapi_server.models.attribute import Attribute
 SOURCE = 'ChEMBL'
 
 # CURIE prefix
+ENSEMBL = 'ENSEMBL:'
 CHEMBL = 'ChEMBL:'
 MESH = 'MESH:'
 
 DOC_URL = 'https://www.ebi.ac.uk/chembl/document_report_card/'
 
 #Biolink class
-DISEASE = 'Disease'
 ASSAY = 'Assay'
-MOLECULAR_ENTITY = 'MolecularEntity'
 CHEMICAL_SUBSTANCE = 'ChemicalSubstance'
+DISEASE = 'Disease'
+GENE = 'Gene'
+MOLECULAR_ENTITY = 'MolecularEntity'
 
 inchikey_regex = re.compile('[A-Z]{14}-[A-Z]{10}-[A-Z]')
 
@@ -38,7 +40,7 @@ class ChemblProducer(Transformer):
         for name in names:
             name = name.strip()
             for compound in self.find_compound(name):
-                compound.attributes.append(Attribute(name='query name', value=name,source=self.info.name))
+                compound.attributes.append(Attribute(name='query name', value=name,source=SOURCE,provided_by=self.info.name))
                 compound_list.append(compound)
         return compound_list
 
@@ -85,7 +87,7 @@ class ChemblProducer(Transformer):
             source=self.info.name
         )
         if row['standard_inchi_key'] is not None:
-            element.attributes.append(Attribute(name='structure source', value=SOURCE,source=self.info.name))
+            element.attributes.append(Attribute(name='structure source', value=SOURCE,source=SOURCE,provided_by=self.info.name))
         self.add_attributes(element, row)
         return element
 
@@ -143,6 +145,60 @@ class ChemblProducer(Transformer):
         if row['availability_type'] is not None and row['availability_type'] in availability_type:
             attr = add_attribute(self, element, row, 'availability_type')
             attr.value = availability_type[row['availability_type']]
+
+
+class ChemblTargetTransformer(Transformer):
+
+    variables = []
+
+    def __init__(self):
+        super().__init__(self.variables, definition_file='info/targets_transformer_info.json')
+
+
+    def map(self, collection, controls):
+        gene_list = []
+        genes = {}
+        for compound in collection:
+            targets = self.get_targets(compound)
+            for target in targets:
+                gene_id = ENSEMBL+target['gene_id']
+                gene = genes.get(gene_id)
+                if gene is None:
+                    gene = Element(
+                        id=gene_id,
+                        biolink_class=GENE,
+                        identifiers = {'ensembl':[gene_id]},
+                        connections=[],
+                        attributes = [],
+                        source = self.info.name
+                    )
+                    gene_list.append(gene)
+                    genes[gene_id] = gene
+                gene.connections.append(target['connection'])
+        return gene_list
+
+
+    def get_targets(self, compound):
+        target_list = []
+        id = chembl_id(compound.identifiers)
+        if id is not None:
+            for target in get_targets(id):
+                connection = self.create_connection(compound, target)
+                for gene_id in target_xref(target['component_id']):
+                    target_list.append({'gene_id':gene_id, 'connection': connection})
+        return target_list
+
+
+    def create_connection(self, compound, target):
+        connection = Connection(
+            source_element_id=compound.id,
+            type = self.info.knowledge_map.predicates[0].predicate,
+            attributes=[]
+        )
+        add_attribute(self, connection, target, 'action_type')
+        add_attribute(self, connection, target,'mechanism_of_action')
+        add_references(self, connection, 'mechanism_refs', 'mec_id', target['mec_id'])
+        return connection
 
 
 class ChemblIndicationsExporter(Transformer):
@@ -477,10 +533,13 @@ class ChemblMetaboliteTransformer(Transformer):
 
 
 def chembl_id(identifiers):
-    if 'chembl' in identifiers:
+    if 'chembl' in identifiers and identifiers['chembl'] is not None:
         curie = identifiers['chembl']
         if curie is not None:
             return curie[len(CHEMBL):] if curie.startswith(CHEMBL) else curie
+    if 'inchikey' in identifiers and identifiers['inchikey'] is not None:
+        for compound in get_compound_by_inchikey(identifiers['inchikey']):
+            return compound['chembl_id']
     return None
 
 
@@ -715,14 +774,23 @@ def get_mechanisms(chembl_id):
     return cur.fetchall()
 
 
-def get_mechanism_refs(mec_id):
+def get_targets(chembl_id):
     query = """
-        SELECT ref_type, ref_id, ref_url
-        FROM mechanism_refs
-        WHERE mec_id = ?
+        SELECT 
+            drug_mechanism.mec_id,
+            drug_mechanism.mechanism_of_action,
+            drug_mechanism.action_type,
+            target_dictionary.chembl_id AS target_chembl_id,
+            target_components.component_id
+        FROM drug_mechanism
+        JOIN molecule_dictionary ON molecule_dictionary.molregno = drug_mechanism.molregno
+        JOIN target_dictionary ON target_dictionary.tid=drug_mechanism.tid
+        JOIN target_components ON target_components.tid = drug_mechanism.tid
+        WHERE (target_dictionary.target_type = 'SINGLE PROTEIN' OR target_dictionary.target_type = 'PROTEIN FAMILY')
+        AND molecule_dictionary.chembl_id = ?;
     """
     cur = connection.cursor()
-    cur.execute(query,(mec_id,))
+    cur.execute(query,(chembl_id,))
     return cur.fetchall()
 
 
@@ -790,3 +858,28 @@ def get_refs(ref_table, id_column, ref_id):
     return cur.fetchall()
 
 
+target_xref_con = sqlite3.connect("data/ChEMBL.target.xref.sqlite", check_same_thread=False)
+target_xref_con.row_factory = sqlite3.Row
+
+target_xrefs = {}
+
+
+def target_xref(component_id):
+    if component_id not in target_xrefs:
+        target_xrefs[component_id] = get_target_xrefs(component_id)
+    return target_xrefs[component_id]
+
+
+def get_target_xrefs(component_id):
+    query = """
+        SELECT xref_id
+        FROM component_xref
+        WHERE component_xref.xref_src_db = 'EnsemblGene'
+        AND component_id = ?
+    """
+    xrefs = []
+    cur = target_xref_con.cursor()
+    cur.execute(query,(component_id,))
+    for xref in cur.fetchall():
+        xrefs.append(xref['xref_id'])
+    return xrefs

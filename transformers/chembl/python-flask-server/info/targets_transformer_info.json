@@ -2,7 +2,7 @@
     "name": "ChEMBL target transformer",
     "label": "ChEMBL",
     "description": "Gene-list transformer based on ChEMBL target information (https://www.ebi.ac.uk/chembl/).",
-    "version": "2.1.0",
+    "version": "2.1.2",
     "function": "transformer",
     "knowledge_map": {
         "input_class": "compound",
