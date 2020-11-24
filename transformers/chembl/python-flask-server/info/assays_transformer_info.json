@@ -1,0 +1,21 @@
+{
+    "name": "ChEMBL assay transformer",
+    "label": "ChEMBL",
+    "description": "Assay exporter based on ChEMBL activities information (https://www.ebi.ac.uk/chembl/).",
+    "version": "2.1.0",
+    "function": "exporter",
+    "knowledge_map": {
+        "input_class": "compound",
+        "output_class": "assay",
+        "predicates": [{
+            "subject": "ChemicalSubstance",
+            "predicate": "has_experimental_evidence",
+            "object": "Assay"
+        }]
+    },
+    "properties": {
+        "source_url": "https://www.ebi.ac.uk/chembl/",
+        "terms_of_service": "https://www.ebi.ac.uk/about/terms-of-use/"
+    },
+    "parameters": []
+}

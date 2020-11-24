@@ -23,11 +23,11 @@ paths:
       parameters:
       - name: service
         in: path
-        description: DrugBank service
+        description: ChEMBL service
         required: true
         schema:
           type: string
-          enum: [molecules, targets, sharpener]
+          enum: [molecules, targets, indications, treatments, mechanisms, assays, metabolites]
       responses:
         200:
           description: successful operation
@@ -46,11 +46,11 @@ paths:
       parameters:
       - name: service
         in: path
-        description: DrugBank service
+        description: ChEMBL service
         required: true
         schema:
           type: string
-          enum: [molecules, targets, sharpener]
+          enum: [molecules, targets, indications, treatments, mechanisms, assays, metabolites]
       requestBody:
         description: transformer query
         content:

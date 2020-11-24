@@ -16,7 +16,7 @@ paths:
         filters a list.
       operationId: service_transform_post
       parameters:
-      - description: DrugBank service
+      - description: ChEMBL service
         explode: false
         in: path
         name: service
@@ -25,7 +25,11 @@ paths:
           enum:
           - molecules
           - targets
-          - sharpener
+          - indications
+          - treatments
+          - mechanisms
+          - assays
+          - metabolites
           type: string
         style: simple
       requestBody:
@@ -71,7 +75,7 @@ paths:
       description: Provides information about the transformer.
       operationId: service_transformer_info_get
       parameters:
-      - description: DrugBank service
+      - description: ChEMBL service
         explode: false
         in: path
         name: service
@@ -80,7 +84,11 @@ paths:
           enum:
           - molecules
           - targets
-          - sharpener
+          - indications
+          - treatments
+          - mechanisms
+          - assays
+          - metabolites
           type: string
         style: simple
       responses:
