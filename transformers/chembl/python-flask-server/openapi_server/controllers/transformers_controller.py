@@ -7,7 +7,7 @@ from openapi_server.models.transformer_info import TransformerInfo  # noqa: E501
 from openapi_server.models.transformer_query import TransformerQuery  # noqa: E501
 from openapi_server import util
 
-from openapi_server.controllers.chembl_transformer import ChemblProducer
+from openapi_server.controllers.chembl_db_transformer import ChemblProducer
 from openapi_server.controllers.chembl_transformer import ChemblTargetTransformer
 from openapi_server.controllers.chembl_db_transformer import ChemblIndicationsExporter
 from openapi_server.controllers.chembl_db_transformer import ChemblAssayExporter

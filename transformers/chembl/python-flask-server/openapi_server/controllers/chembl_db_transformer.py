@@ -1,4 +1,6 @@
 import sqlite3
+import re
+from collections import defaultdict
 
 from transformers.transformer import Transformer
 from openapi_server.models.element import Element
@@ -19,6 +21,129 @@ DISEASE = 'Disease'
 ASSAY = 'Assay'
 MOLECULAR_ENTITY = 'MolecularEntity'
 CHEMICAL_SUBSTANCE = 'ChemicalSubstance'
+
+inchikey_regex = re.compile('[A-Z]{14}-[A-Z]{10}-[A-Z]')
+
+class ChemblProducer(Transformer):
+
+    variables = ['compounds']
+
+    def __init__(self):
+        super().__init__(self.variables, definition_file='info/molecules_transformer_info.json')
+
+
+    def produce(self, controls):
+        compound_list = []
+        names = controls['compounds'].split(';')
+        for name in names:
+            name = name.strip()
+            for compound in self.find_compound(name):
+                compound.attributes.append(Attribute(name='query name', value=name,source=self.info.name))
+                compound_list.append(compound)
+        return compound_list
+
+
+    def find_compound(self, name):
+        if name.upper().startswith('CHEMBL:'):
+            return self.molecules(get_compound_by_id(name[7:]))
+        elif name.upper().startswith('CHEMBL'):
+            return self.molecules(get_compound_by_id(name))
+        elif inchikey_regex.match(name) is not None:
+            return self.molecules(get_compound_by_inchikey(name))
+        else:
+            molecules = self.molecules(get_compound_by_pref_name(name.upper()))
+            if len(molecules) != 0:
+                return molecules
+            molecules = self.molecules(get_compound_by_pref_name(name))
+            if len(molecules) != 0:
+                return molecules
+            return self.molecules(get_compound_by_synonym(name))
+
+
+    def molecules(self, results):
+        compounds = []
+        for row in results:
+            compounds.append(self.row_to_element(row))
+        return compounds
+
+
+    def row_to_element(self, row):
+        id = CHEMBL + row['chembl_id']
+        identifiers = {
+            'chembl': id,
+            'smiles':  row['canonical_smiles'],
+            'inchi': row['standard_inchi'],
+            'inchikey': row['standard_inchi_key'],
+        }
+        element = Element(
+            id=id,
+            biolink_class=CHEMICAL_SUBSTANCE,
+            identifiers=identifiers,
+            names_synonyms=self.get_names_synonyms(row['chembl_id'],row['pref_name'],row['molregno']),
+            attributes = [],
+            connections=[],
+            source=self.info.name
+        )
+        if row['standard_inchi_key'] is not None:
+            element.attributes.append(Attribute(name='structure source', value=SOURCE,source=self.info.name))
+        self.add_attributes(element, row)
+        return element
+
+
+    def get_names_synonyms(self, id, pref_name, molregno):
+        """
+            Build names and synonyms list
+        """
+        synonyms = defaultdict(list)
+        for molecule_synonym in get_molecule_synonyms(molregno):
+            if molecule_synonym['syn_type'] is None:
+                synonyms['ChEMBL'].append(molecule_synonym['synonyms'])
+            else:
+                synonyms[molecule_synonym['syn_type']].append(molecule_synonym['synonyms'])
+        names_synonyms = []
+        names_synonyms.append(
+            Names(
+                name =pref_name,
+                source = SOURCE,
+                synonyms = synonyms['ChEMBL'],
+                url = 'https://www.ebi.ac.uk/chembl/compound_report_card/'+id
+            )
+        ),
+        for syn_type, syn_list in synonyms.items():
+            if syn_type != 'ChEMBL':
+                names_synonyms.append(
+                    Names(
+                        name = syn_list[0] if len(syn_list) == 1 else  None,
+                        synonyms = syn_list if len(syn_list) > 1 else  None,
+                        source = syn_type+'@ChEMBL',
+                    )
+                )
+        return names_synonyms
+
+
+    def add_attributes(self, element, row):
+        str_attr = [
+            'max_phase','molecule_type','first_approval','usan_year',
+            'usan_stem','usan_substem','usan_stem_definition','indication_class',
+            'withdrawn_year','withdrawn_country','withdrawn_reason','withdrawn_class']
+        flag_attr = [
+            'therapeutic_flag','dosed_ingredient','oral','parenteral','topical','black_box_warning',
+            'natural_product','first_in_class','prodrug','inorganic_flag','polymer_flag','withdrawn_flag']
+        chirality = {0:'racemic mixture',1:'single stereoisomer',2:'achiral molecule'}
+        availability_type = {0: 'discontinued', 1: 'prescription only', 2: 'over the counter'}
+        for attr_name in str_attr:
+            add_attribute(self, element, row, attr_name)
+        for attr_name in flag_attr:
+            if row[attr_name] is not None and row[attr_name] > 0:
+                attr = add_attribute(self, element, row, attr_name)
+                attr.value = 'yes'
+        if row['chirality'] in chirality:
+            attr = add_attribute(self, element, row, 'chirality')
+            attr.value = chirality[row['chirality']]
+        if row['availability_type'] is not None and row['availability_type'] in availability_type:
+            attr = add_attribute(self, element, row, 'availability_type')
+            attr.value = availability_type[row['availability_type']]
+
 
 class ChemblIndicationsExporter(Transformer):
 
@@ -363,7 +488,7 @@ def add_attribute(transformer, element, row, name):
     if row[name] is not None:
         attribute = Attribute(
                 name=name,
-                value=row[name],
+                value=str(row[name]),
                 type=name,
                 source=SOURCE,
                 url=None,
@@ -397,6 +522,92 @@ def add_ref_prefix(ref_type, ref_id):
 
 connection = sqlite3.connect("data/ChEMBL.sqlite", check_same_thread=False)
 connection.row_factory = sqlite3.Row
+
+
+def get_compound_by_pref_name(name):
+    where = 'WHERE molecule_dictionary.pref_name = ?'
+    return get_compound('', where, name)
+
+
+def get_compound_by_id(chembl_id):
+    where = 'WHERE molecule_dictionary.chembl_id = ?'
+    return get_compound('', where, chembl_id)
+
+
+def get_compound_by_inchikey(inchikey):
+    where = 'WHERE compound_structures.standard_inchi_key = ?'
+    return get_compound('', where, inchikey)
+
+
+def get_compound_by_synonym(synonym):
+    join = """
+    JOIN (
+        SELECT DISTINCT molregno
+        FROM molecule_synonyms
+        WHERE synonyms = ? COLLATE NOCASE
+    ) AS syn
+    ON (syn.molregno=molecule_dictionary.molregno)
+
+    """
+    return get_compound(join, '', synonym)
+
+
+def get_compound(join, where, name):
+    query = """
+        SELECT
+            molecule_dictionary.molregno,
+            molecule_dictionary.pref_name,
+            molecule_dictionary.chembl_id,
+            molecule_dictionary.max_phase,
+            molecule_dictionary.therapeutic_flag,
+            molecule_dictionary.dosed_ingredient,
+            molecule_dictionary.chebi_par_id,
+            molecule_dictionary.molecule_type,
+            molecule_dictionary.first_approval,
+            molecule_dictionary.oral,
+            molecule_dictionary.parenteral,
+            molecule_dictionary.topical,
+            molecule_dictionary.black_box_warning,
+            molecule_dictionary.natural_product,
+            molecule_dictionary.first_in_class,
+            molecule_dictionary.chirality,
+            molecule_dictionary.prodrug,
+            molecule_dictionary.inorganic_flag,
+            molecule_dictionary.usan_year,
+            molecule_dictionary.availability_type,
+            molecule_dictionary.usan_stem,
+            molecule_dictionary.polymer_flag,
+            molecule_dictionary.usan_substem,
+            molecule_dictionary.usan_stem_definition,
+            molecule_dictionary.indication_class,
+            molecule_dictionary.withdrawn_flag,
+            molecule_dictionary.withdrawn_year,
+            molecule_dictionary.withdrawn_country,
+            molecule_dictionary.withdrawn_reason,
+            molecule_dictionary.withdrawn_class,
+
+            compound_structures.standard_inchi,
+            compound_structures.standard_inchi_key,
+            compound_structures.canonical_smiles
+        FROM molecule_dictionary
+        JOIN compound_structures ON (compound_structures.molregno = molecule_dictionary.molregno)
+        {}
+        {}
+    """.format(join, where)
+    cur = connection.cursor()
+    cur.execute(query,(name,))
+    return cur.fetchall()
+
+
+def get_molecule_synonyms(molregno):
+    query = """
+        SELECT syn_type, synonyms
+        FROM molecule_synonyms
+        WHERE molregno = ?
+    """
+    cur = connection.cursor()
+    cur.execute(query,(molregno,))
+    return cur.fetchall()
 
 
 def get_indications(chembl_id):

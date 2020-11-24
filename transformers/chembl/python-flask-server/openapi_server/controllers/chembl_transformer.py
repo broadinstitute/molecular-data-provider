@@ -21,7 +21,6 @@ REFERENCE = 'NCIT:C25641' # reference
 
 # URLs
 CHEMBL_NAME_URL = 'https://www.ebi.ac.uk/chembl/api/data/molecule?pref_name__exact={}&format=json'
-CHEMBL_ID_URL = 'https://www.ebi.ac.uk/chembl/api/data/molecule/{}?format=json'
 CHEMBL_INCHIKEY = 'https://www.ebi.ac.uk/chembl/api/data/molecule?molecule_structures__standard_inchi_key__exact={}&format=json'
 CHEMBL_MOA = 'https://www.ebi.ac.uk/chembl/api/data/mechanism?molecule_chembl_id__exact={}&format=json'
 CHEMBL_TARGET = 'https://www.ebi.ac.uk/chembl/api/data/target.json?target_chembl_id__exact={}'
@@ -44,8 +43,6 @@ class ChemblProducer(Transformer):
         names = controls['compounds'].split(';')
         for name in names:
             name = name.strip()
-            if name.upper().startswith('CHEMBL'):
-                compound_list.append(self.find_compound_by_id(name))
             for compound in self.find_compound_by_name(name):
                 compound_list.append(compound)
         return compound_list
@@ -58,44 +55,28 @@ class ChemblProducer(Transformer):
         compounds = []
         molecules = requests.get(CHEMBL_NAME_URL.format(name.upper())).json()
         for molecule in molecules['molecules']:
-            compounds.append(self.get_compound(molecule, name))
+            id = molecule['molecule_chembl_id']
+            compound_id = CHEMBL + id
+            identifiers = {
+                'chembl': compound_id,
+                'smiles':  molecule['molecule_structures']['canonical_smiles'],
+                'inchi': molecule['molecule_structures']['standard_inchi'],
+                'inchikey': molecule['molecule_structures']['standard_inchi_key'],
+            }
+            compound = Element(
+                id = compound_id,
+                biolink_class = CHEMICAL_SUBSTANCE,
+                identifiers = identifiers,
+                names_synonyms = self.get_names_synonyms(id, molecule['pref_name'], molecule['molecule_synonyms']),
+                attributes = [
+                    Attribute(name='query name', value=name,source=self.info.name),
+                    Attribute(name='structure source', value=SOURCE,source=self.info.name)
+                ],
+                connections = [],
+                source = self.info.name
+            )
+            compounds.append(compound)
         return compounds
-
-
-    def find_compound_by_id(self, id):
-        """
-            Find compound by a ChEMBL id
-        """
-        chembl_id = id
-        if chembl_id.upper().startswith('CHEMBL:'):
-            chembl_id = chembl_id[7:]
-        print(chembl_id)
-        molecule = requests.get(CHEMBL_ID_URL.format(chembl_id.upper())).json()
-        return self.get_compound(molecule, id)
-
-
-    def get_compound(self, molecule, name):
-        id = molecule['molecule_chembl_id']
-        compound_id = CHEMBL + id
-        identifiers = {
-            'chembl': compound_id,
-            'smiles':  molecule['molecule_structures']['canonical_smiles'],
-            'inchi': molecule['molecule_structures']['standard_inchi'],
-            'inchikey': molecule['molecule_structures']['standard_inchi_key'],
-        }
-        compound = Element(
-            id = compound_id,
-            biolink_class = CHEMICAL_SUBSTANCE,
-            identifiers = identifiers,
-            names_synonyms = self.get_names_synonyms(id, molecule['pref_name'], molecule['molecule_synonyms']),
-            attributes = [
-                Attribute(name='query name', value=name,source=self.info.name),
-                Attribute(name='structure source', value=SOURCE,source=self.info.name)
-            ],
-            connections = [],
-            source = self.info.name
-        )
-        return compound
 
 
     def get_names_synonyms(self, id, pref_name, molecule_synonyms):
@@ -165,20 +146,22 @@ class ChemblTargetTransformer(Transformer):
         chembl_id = self.get_chembl_id(compound)
         if chembl_id is not None:
             moa = requests.get(CHEMBL_MOA.format(chembl_id)).json()
-            while True:
-                for mechanism in moa['mechanisms']:
-                    connection = self.create_connection(compound, mechanism)
-                    target_id = mechanism['target_chembl_id']
-                    targets = requests.get(CHEMBL_TARGET.format(target_id)).json()
-                    for target in targets['targets']:
-                        if target['target_type'] == 'SINGLE PROTEIN' or target['target_type'] == 'PROTEIN FAMILY':
-                            for component in target['target_components']:
-                                gene_id = self.get_gene_id(component)
-                                if gene_id is not None:
-                                    target_list.append({'gene_id':gene_id, 'connection': connection})
-                if moa['page_meta']['next'] is None:
-                    break
-                moa = requests.get('https://www.ebi.ac.uk'+moa['page_meta']['next']).json()
+            if 'mechanisms' in moa:
+                while True:
+                    for mechanism in moa['mechanisms']:
+                        connection = self.create_connection(compound, mechanism)
+                        target_id = mechanism['target_chembl_id']
+                        targets = requests.get(CHEMBL_TARGET.format(target_id)).json()
+                        if 'targets' in targets:
+                            for target in targets['targets']:
+                                if target['target_type'] == 'SINGLE PROTEIN' or target['target_type'] == 'PROTEIN FAMILY':
+                                    for component in target['target_components']:
+                                        gene_id = self.get_gene_id(component)
+                                        if gene_id is not None:
+                                            target_list.append({'gene_id':gene_id, 'connection': connection})
+                    if moa['page_meta']['next'] is None:
+                        break
+                    moa = requests.get('https://www.ebi.ac.uk'+moa['page_meta']['next']).json()
 
         return target_list
 
@@ -235,11 +218,14 @@ class ChemblTargetTransformer(Transformer):
             return compound.identifiers['chembl']
         if 'inchikey' in compound.identifiers and compound.identifiers['inchikey'] is not None:
             molecules = requests.get(CHEMBL_INCHIKEY.format(compound.identifiers['inchikey'])).json()
-            if len(molecules['molecules']) == 1:
-                for molecule in molecules['molecules']:
-                    return molecule['molecule_chembl_id']
+            if 'molecules' in molecules:
+                if len(molecules['molecules']) == 1:
+                    for molecule in molecules['molecules']:
+                        return molecule['molecule_chembl_id']
+                else:
+                    print("WARNING: multiple molecules for an InChI key: ",CHEMBL_INCHIKEY.format(compound.identifiers['inchikey']))
             else:
-                print("WARNING: multiple molecules for an InChI key: ",CHEMBL_INCHIKEY.format(compound.structure.inchikey))
+                print("WARNING: InChI key request failed: ",CHEMBL_INCHIKEY.format(compound.identifiers['inchikey']))
         return None
 
 
