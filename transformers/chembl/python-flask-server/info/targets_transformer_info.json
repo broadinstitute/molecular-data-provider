@@ -2,15 +2,15 @@
     "name": "ChEMBL target transformer",
     "label": "ChEMBL",
     "description": "Gene-list transformer based on ChEMBL target information (https://www.ebi.ac.uk/chembl/).",
-    "version": "2.0.0",
+    "version": "2.1.2",
     "function": "transformer",
     "knowledge_map": {
         "input_class": "compound",
         "output_class": "gene",
         "predicates": [{
-            "subject": "chemical_substance",
+            "subject": "ChemicalSubstance",
             "predicate": "affects",
-            "object": "gene"
+            "object": "Gene"
         }]
     },
     "properties": {

@@ -1,0 +1,21 @@
+{
+    "name": "ChEMBL mechanism transformer",
+    "label": "ChEMBL",
+    "description": "Assay exporter based on ChEMBL mechanism information (https://www.ebi.ac.uk/chembl/).",
+    "version": "2.1.0",
+    "function": "exporter",
+    "knowledge_map": {
+        "input_class": "compound",
+        "output_class": "mechanism",
+        "predicates": [{
+            "subject": "ChemicalSubstance",
+            "predicate": "affects",
+            "object": "MolecularEntity"
+        }]
+    },
+    "properties": {
+        "source_url": "https://www.ebi.ac.uk/chembl/",
+        "terms_of_service": "https://www.ebi.ac.uk/about/terms-of-use/"
+    },
+    "parameters": []
+}
