@@ -1,5 +1,8 @@
 package apimodels;
 
+import apimodels.KmAttribute;
+import java.util.ArrayList;
+import java.util.List;
 import com.fasterxml.jackson.annotation.*;
 import java.util.Set;
 import javax.validation.*;
@@ -19,6 +22,18 @@ public class Predicate   {
 
   @JsonProperty("object")
   private String _object;
+
+  @JsonProperty("source")
+  private String source;
+
+  @JsonProperty("relations")
+  private List<String> relations = null;
+
+  @JsonProperty("count")
+  private Integer count;
+
+  @JsonProperty("attributes")
+  private List<KmAttribute> attributes = null;
 
   public Predicate subject(String subject) {
     this.subject = subject;
@@ -74,6 +89,91 @@ public class Predicate   {
     this._object = _object;
   }
 
+  public Predicate source(String source) {
+    this.source = source;
+    return this;
+  }
+
+   /**
+   * Source of the relationship.
+   * @return source
+  **/
+    public String getSource() {
+    return source;
+  }
+
+  public void setSource(String source) {
+    this.source = source;
+  }
+
+  public Predicate relations(List<String> relations) {
+    this.relations = relations;
+    return this;
+  }
+
+  public Predicate addRelationsItem(String relationsItem) {
+    if (relations == null) {
+      relations = new ArrayList<>();
+    }
+    relations.add(relationsItem);
+    return this;
+  }
+
+   /**
+   * Low-level relations from the underlying source.
+   * @return relations
+  **/
+    public List<String> getRelations() {
+    return relations;
+  }
+
+  public void setRelations(List<String> relations) {
+    this.relations = relations;
+  }
+
+  public Predicate count(Integer count) {
+    this.count = count;
+    return this;
+  }
+
+   /**
+   * Number of edge instances known to this knowledge source
+   * @return count
+  **/
+    public Integer getCount() {
+    return count;
+  }
+
+  public void setCount(Integer count) {
+    this.count = count;
+  }
+
+  public Predicate attributes(List<KmAttribute> attributes) {
+    this.attributes = attributes;
+    return this;
+  }
+
+  public Predicate addAttributesItem(KmAttribute attributesItem) {
+    if (attributes == null) {
+      attributes = new ArrayList<>();
+    }
+    attributes.add(attributesItem);
+    return this;
+  }
+
+   /**
+   * Get attributes
+   * @return attributes
+  **/
+  @Valid
+  public List<KmAttribute> getAttributes() {
+    return attributes;
+  }
+
+  public void setAttributes(List<KmAttribute> attributes) {
+    this.attributes = attributes;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -86,12 +186,16 @@ public class Predicate   {
     Predicate predicate = (Predicate) o;
     return Objects.equals(subject, predicate.subject) &&
         Objects.equals(predicate, predicate.predicate) &&
-        Objects.equals(_object, predicate._object);
+        Objects.equals(_object, predicate._object) &&
+        Objects.equals(source, predicate.source) &&
+        Objects.equals(relations, predicate.relations) &&
+        Objects.equals(count, predicate.count) &&
+        Objects.equals(attributes, predicate.attributes);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(subject, predicate, _object);
+    return Objects.hash(subject, predicate, _object, source, relations, count, attributes);
   }
 
   @SuppressWarnings("StringBufferReplaceableByString")
@@ -103,6 +207,10 @@ public class Predicate   {
     sb.append("    subject: ").append(toIndentedString(subject)).append("\n");
     sb.append("    predicate: ").append(toIndentedString(predicate)).append("\n");
     sb.append("    _object: ").append(toIndentedString(_object)).append("\n");
+    sb.append("    source: ").append(toIndentedString(source)).append("\n");
+    sb.append("    relations: ").append(toIndentedString(relations)).append("\n");
+    sb.append("    count: ").append(toIndentedString(count)).append("\n");
+    sb.append("    attributes: ").append(toIndentedString(attributes)).append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -1,8 +1,11 @@
 package apimodels;
 
+import apimodels.Node;
 import apimodels.Predicate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import com.fasterxml.jackson.annotation.*;
 import java.util.Set;
 import javax.validation.*;
@@ -19,6 +22,9 @@ public class KnowledgeMap   {
 
   @JsonProperty("output_class")
   private String outputClass;
+
+  @JsonProperty("nodes")
+  private Map<String, Node> nodes = null;
 
   @JsonProperty("predicates")
   private List<Predicate> predicates = null;
@@ -55,6 +61,32 @@ public class KnowledgeMap   {
 
   public void setOutputClass(String outputClass) {
     this.outputClass = outputClass;
+  }
+
+  public KnowledgeMap nodes(Map<String, Node> nodes) {
+    this.nodes = nodes;
+    return this;
+  }
+
+  public KnowledgeMap putNodesItem(String key, Node nodesItem) {
+    if (this.nodes == null) {
+      this.nodes = new HashMap<>();
+    }
+    this.nodes.put(key, nodesItem);
+    return this;
+  }
+
+   /**
+   * List of semantic types in the KnowledgeMap.
+   * @return nodes
+  **/
+  @Valid
+  public Map<String, Node> getNodes() {
+    return nodes;
+  }
+
+  public void setNodes(Map<String, Node> nodes) {
+    this.nodes = nodes;
   }
 
   public KnowledgeMap predicates(List<Predicate> predicates) {
@@ -95,12 +127,13 @@ public class KnowledgeMap   {
     KnowledgeMap knowledgeMap = (KnowledgeMap) o;
     return Objects.equals(inputClass, knowledgeMap.inputClass) &&
         Objects.equals(outputClass, knowledgeMap.outputClass) &&
+        Objects.equals(nodes, knowledgeMap.nodes) &&
         Objects.equals(predicates, knowledgeMap.predicates);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(inputClass, outputClass, predicates);
+    return Objects.hash(inputClass, outputClass, nodes, predicates);
   }
 
   @SuppressWarnings("StringBufferReplaceableByString")
@@ -111,6 +144,7 @@ public class KnowledgeMap   {
     
     sb.append("    inputClass: ").append(toIndentedString(inputClass)).append("\n");
     sb.append("    outputClass: ").append(toIndentedString(outputClass)).append("\n");
+    sb.append("    nodes: ").append(toIndentedString(nodes)).append("\n");
     sb.append("    predicates: ").append(toIndentedString(predicates)).append("\n");
     sb.append("}");
     return sb.toString();

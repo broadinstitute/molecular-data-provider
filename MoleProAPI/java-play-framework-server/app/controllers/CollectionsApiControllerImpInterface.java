@@ -14,10 +14,10 @@ import javax.validation.constraints.*;
 
 @SuppressWarnings("RedundantThrows")
 public interface CollectionsApiControllerImpInterface {
-    Collection collectionCollectionIdGet(String collectionId) throws Exception;
+    Collection collectionCollectionIdGet(String collectionId, String cache) throws Exception;
 
-    CompoundList compoundListListIdGet(String listId) throws Exception;
+    CompoundList compoundListListIdGet(String listId, String cache) throws Exception;
 
-    GeneList geneListListIdGet(String listId) throws Exception;
+    GeneList geneListListIdGet(String listId, String cache) throws Exception;
 
 }

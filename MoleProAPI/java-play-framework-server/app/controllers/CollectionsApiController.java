@@ -40,7 +40,14 @@ public class CollectionsApiController extends Controller {
 
     @ApiAction
     public Result collectionCollectionIdGet(String collectionId) throws Exception {
-        Collection obj = imp.collectionCollectionIdGet(collectionId);
+        String valuecache = request().getQueryString("cache");
+        String cache;
+        if (valuecache != null) {
+            cache = valuecache;
+        } else {
+            cache = null;
+        }
+        Collection obj = imp.collectionCollectionIdGet(collectionId, cache);
         if (configuration.getBoolean("useOutputBeanValidation")) {
             OpenAPIUtils.validate(obj);
         }
@@ -50,7 +57,14 @@ public class CollectionsApiController extends Controller {
 
     @ApiAction
     public Result compoundListListIdGet(String listId) throws Exception {
-        CompoundList obj = imp.compoundListListIdGet(listId);
+        String valuecache = request().getQueryString("cache");
+        String cache;
+        if (valuecache != null) {
+            cache = valuecache;
+        } else {
+            cache = null;
+        }
+        CompoundList obj = imp.compoundListListIdGet(listId, cache);
         if (configuration.getBoolean("useOutputBeanValidation")) {
             OpenAPIUtils.validate(obj);
         }
@@ -60,7 +74,14 @@ public class CollectionsApiController extends Controller {
 
     @ApiAction
     public Result geneListListIdGet(String listId) throws Exception {
-        GeneList obj = imp.geneListListIdGet(listId);
+        String valuecache = request().getQueryString("cache");
+        String cache;
+        if (valuecache != null) {
+            cache = valuecache;
+        } else {
+            cache = null;
+        }
+        GeneList obj = imp.geneListListIdGet(listId, cache);
         if (configuration.getBoolean("useOutputBeanValidation")) {
             OpenAPIUtils.validate(obj);
         }

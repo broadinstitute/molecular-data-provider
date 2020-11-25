@@ -15,13 +15,13 @@ import javax.validation.constraints.*;
 
 public class TransformersApiControllerImp implements TransformersApiControllerImpInterface {
     @Override
-    public CollectionInfo aggregatePost(AggregationQuery aggregationQuery) throws Exception {
+    public CollectionInfo aggregatePost(AggregationQuery aggregationQuery, String cache) throws Exception {
         //Do your magic!!!
         return new CollectionInfo();
     }
 
     @Override
-    public CollectionInfo transformPost(MoleProQuery moleProQuery) throws Exception {
+    public CollectionInfo transformPost(MoleProQuery moleProQuery, String cache) throws Exception {
         //Do your magic!!!
         return new CollectionInfo();
     }

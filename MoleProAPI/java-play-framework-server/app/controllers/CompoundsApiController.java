@@ -1,8 +1,10 @@
 package controllers;
 
+import apimodels.CollectionInfo;
 import apimodels.CompoundInfo;
 import apimodels.CompoundList;
 import apimodels.ErrorMsg;
+import java.util.List;
 
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -39,7 +41,43 @@ public class CompoundsApiController extends Controller {
 
     @ApiAction
     public Result compoundByIdCompoundIdGet(String compoundId) throws Exception {
-        CompoundInfo obj = imp.compoundByIdCompoundIdGet(compoundId);
+        String valuecache = request().getQueryString("cache");
+        String cache;
+        if (valuecache != null) {
+            cache = valuecache;
+        } else {
+            cache = null;
+        }
+        CompoundInfo obj = imp.compoundByIdCompoundIdGet(compoundId, cache);
+        if (configuration.getBoolean("useOutputBeanValidation")) {
+            OpenAPIUtils.validate(obj);
+        }
+        JsonNode result = mapper.valueToTree(obj);
+        return ok(result);
+    }
+
+    @ApiAction
+    public Result compoundByIdPost() throws Exception {
+        JsonNode noderequestBody = request().body().asJson();
+        List<String> requestBody;
+        if (noderequestBody != null) {
+            requestBody = mapper.readValue(noderequestBody.toString(), new TypeReference<List<String>>(){});
+            if (configuration.getBoolean("useInputBeanValidation")) {
+                for (String curItem : requestBody) {
+                    OpenAPIUtils.validate(curItem);
+                }
+            }
+        } else {
+            throw new IllegalArgumentException("'request_body' parameter is required");
+        }
+        String valuecache = request().getQueryString("cache");
+        String cache;
+        if (valuecache != null) {
+            cache = valuecache;
+        } else {
+            cache = null;
+        }
+        CollectionInfo obj = imp.compoundByIdPost(requestBody, cache);
         if (configuration.getBoolean("useOutputBeanValidation")) {
             OpenAPIUtils.validate(obj);
         }
@@ -49,7 +87,43 @@ public class CompoundsApiController extends Controller {
 
     @ApiAction
     public Result compoundByNameNameGet(String name) throws Exception {
-        CompoundList obj = imp.compoundByNameNameGet(name);
+        String valuecache = request().getQueryString("cache");
+        String cache;
+        if (valuecache != null) {
+            cache = valuecache;
+        } else {
+            cache = null;
+        }
+        CompoundList obj = imp.compoundByNameNameGet(name, cache);
+        if (configuration.getBoolean("useOutputBeanValidation")) {
+            OpenAPIUtils.validate(obj);
+        }
+        JsonNode result = mapper.valueToTree(obj);
+        return ok(result);
+    }
+
+    @ApiAction
+    public Result compoundByNamePost() throws Exception {
+        JsonNode noderequestBody = request().body().asJson();
+        List<String> requestBody;
+        if (noderequestBody != null) {
+            requestBody = mapper.readValue(noderequestBody.toString(), new TypeReference<List<String>>(){});
+            if (configuration.getBoolean("useInputBeanValidation")) {
+                for (String curItem : requestBody) {
+                    OpenAPIUtils.validate(curItem);
+                }
+            }
+        } else {
+            throw new IllegalArgumentException("'request_body' parameter is required");
+        }
+        String valuecache = request().getQueryString("cache");
+        String cache;
+        if (valuecache != null) {
+            cache = valuecache;
+        } else {
+            cache = null;
+        }
+        CollectionInfo obj = imp.compoundByNamePost(requestBody, cache);
         if (configuration.getBoolean("useOutputBeanValidation")) {
             OpenAPIUtils.validate(obj);
         }
@@ -69,7 +143,14 @@ public class CompoundsApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-        CompoundInfo obj = imp.compoundByStructurePost(body);
+        String valuecache = request().getQueryString("cache");
+        String cache;
+        if (valuecache != null) {
+            cache = valuecache;
+        } else {
+            cache = null;
+        }
+        CompoundInfo obj = imp.compoundByStructurePost(body, cache);
         if (configuration.getBoolean("useOutputBeanValidation")) {
             OpenAPIUtils.validate(obj);
         }

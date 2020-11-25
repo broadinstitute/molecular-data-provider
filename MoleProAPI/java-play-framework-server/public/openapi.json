@@ -5,7 +5,7 @@
       "email" : "translator@broadinstitute.org"
     },
     "title" : "Molecular Data Provider",
-    "version" : "2.1.0"
+    "version" : "2.2.0"
   },
   "servers" : [ {
     "url" : "https://translator.broadinstitute.org/molecular_data_provider"
@@ -30,6 +30,16 @@
             "type" : "string"
           },
           "style" : "simple"
+        }, {
+          "description" : "Directive for handling caching, can be 'yes' (default), 'no', 'bypass' or 'remove'",
+          "explode" : true,
+          "in" : "query",
+          "name" : "cache",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "form"
         } ],
         "responses" : {
           "200" : {
@@ -68,6 +78,71 @@
         "x-accepts" : "application/json"
       }
     },
+    "/compound/by_name" : {
+      "post" : {
+        "parameters" : [ {
+          "description" : "Directive for handling caching, can be 'yes' (default), 'no', 'bypass' or 'remove'",
+          "explode" : true,
+          "in" : "query",
+          "name" : "cache",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "form"
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "items" : {
+                  "type" : "string"
+                },
+                "type" : "array"
+              }
+            }
+          },
+          "description" : "Names of the compound",
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/collection_info"
+                }
+              }
+            },
+            "description" : "successful operation"
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error_msg"
+                }
+              }
+            },
+            "description" : "bad request"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error_msg"
+                }
+              }
+            },
+            "description" : "internal server error"
+          }
+        },
+        "summary" : "Retrieve multiple compounds specified by names",
+        "tags" : [ "compounds" ],
+        "x-contentType" : "application/json",
+        "x-accepts" : "application/json"
+      }
+    },
     "/compound/by_id/{compound_id}" : {
       "get" : {
         "parameters" : [ {
@@ -80,6 +155,16 @@
             "type" : "string"
           },
           "style" : "simple"
+        }, {
+          "description" : "Directive for handling caching, can be 'yes' (default), 'no', 'bypass' or 'remove'",
+          "explode" : true,
+          "in" : "query",
+          "name" : "cache",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "form"
         } ],
         "responses" : {
           "200" : {
@@ -118,8 +203,84 @@
         "x-accepts" : "application/json"
       }
     },
+    "/compound/by_id" : {
+      "post" : {
+        "parameters" : [ {
+          "description" : "Directive for handling caching, can be 'yes' (default), 'no', 'bypass' or 'remove'",
+          "explode" : true,
+          "in" : "query",
+          "name" : "cache",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "form"
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "items" : {
+                  "type" : "string"
+                },
+                "type" : "array"
+              }
+            }
+          },
+          "description" : "Ids (CURIEs) of the compound",
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/collection_info"
+                }
+              }
+            },
+            "description" : "successful operation"
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error_msg"
+                }
+              }
+            },
+            "description" : "bad request"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error_msg"
+                }
+              }
+            },
+            "description" : "internal server error"
+          }
+        },
+        "summary" : "Retrieve multiple compounds specified by ids",
+        "tags" : [ "compounds" ],
+        "x-contentType" : "application/json",
+        "x-accepts" : "application/json"
+      }
+    },
     "/compound/by_structure" : {
       "post" : {
+        "parameters" : [ {
+          "description" : "Directive for handling caching, can be 'yes' (default), 'no', 'bypass' or 'remove'",
+          "explode" : true,
+          "in" : "query",
+          "name" : "cache",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "form"
+        } ],
         "requestBody" : {
           "content" : {
             "text/plain" : {
@@ -205,6 +366,17 @@
     "/transform" : {
       "post" : {
         "description" : "Depending on the function of a transformer, creates, expands, or filters a list.",
+        "parameters" : [ {
+          "description" : "Directive for handling caching, can be 'yes' (default), 'no', 'bypass' or 'remove'",
+          "explode" : true,
+          "in" : "query",
+          "name" : "cache",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "form"
+        } ],
         "requestBody" : {
           "content" : {
             "application/json" : {
@@ -277,6 +449,16 @@
             "type" : "string"
           },
           "style" : "simple"
+        }, {
+          "description" : "Directive for handling caching, can be 'yes' (default), 'no', 'bypass' or 'remove'",
+          "explode" : true,
+          "in" : "query",
+          "name" : "cache",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "form"
         } ],
         "responses" : {
           "200" : {
@@ -328,6 +510,16 @@
             "type" : "string"
           },
           "style" : "simple"
+        }, {
+          "description" : "Directive for handling caching, can be 'yes' (default), 'no', 'bypass' or 'remove'",
+          "explode" : true,
+          "in" : "query",
+          "name" : "cache",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "form"
         } ],
         "responses" : {
           "200" : {
@@ -379,6 +571,16 @@
             "type" : "string"
           },
           "style" : "simple"
+        }, {
+          "description" : "Directive for handling caching, can be 'yes' (default), 'no', 'bypass' or 'remove'",
+          "explode" : true,
+          "in" : "query",
+          "name" : "cache",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "form"
         } ],
         "responses" : {
           "200" : {
@@ -420,6 +622,17 @@
     "/aggregate" : {
       "post" : {
         "description" : "Aggregates multiple collections into one collections.",
+        "parameters" : [ {
+          "description" : "Directive for handling caching, can be 'yes' (default), 'no', 'bypass' or 'remove'",
+          "explode" : true,
+          "in" : "query",
+          "name" : "cache",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "form"
+        } ],
         "requestBody" : {
           "content" : {
             "application/json" : {
@@ -459,12 +672,51 @@
             "predicates" : [ {
               "predicate" : "predicate",
               "subject" : "subject",
+              "count" : 6,
+              "attributes" : [ {
+                "names" : [ "PubMed Identifier" ],
+                "source" : "UniProtKB",
+                "type" : "EDAM:data_1187"
+              }, {
+                "names" : [ "PubMed Identifier" ],
+                "source" : "UniProtKB",
+                "type" : "EDAM:data_1187"
+              } ],
+              "source" : "ChEMBL",
+              "relations" : [ "binds_to" ],
               "object" : "object"
             }, {
               "predicate" : "predicate",
               "subject" : "subject",
+              "count" : 6,
+              "attributes" : [ {
+                "names" : [ "PubMed Identifier" ],
+                "source" : "UniProtKB",
+                "type" : "EDAM:data_1187"
+              }, {
+                "names" : [ "PubMed Identifier" ],
+                "source" : "UniProtKB",
+                "type" : "EDAM:data_1187"
+              } ],
+              "source" : "ChEMBL",
+              "relations" : [ "binds_to" ],
               "object" : "object"
             } ],
+            "nodes" : {
+              "key" : {
+                "id_prefixes" : [ "ChEMBL:", "inchikey:" ],
+                "count" : 0,
+                "attributes" : [ {
+                  "names" : [ "PubMed Identifier" ],
+                  "source" : "UniProtKB",
+                  "type" : "EDAM:data_1187"
+                }, {
+                  "names" : [ "PubMed Identifier" ],
+                  "source" : "UniProtKB",
+                  "type" : "EDAM:data_1187"
+                } ]
+              }
+            },
             "output_class" : "output_class",
             "input_class" : "input_class"
           },
@@ -477,7 +729,7 @@
             "allowed_values" : [ "allowed_values", "allowed_values" ],
             "biolink_class" : "biolink_class",
             "default" : "default",
-            "allowed_range" : [ 0.8008281904610115, 0.8008281904610115 ],
+            "allowed_range" : [ 1.4658129805029452, 1.4658129805029452 ],
             "name" : "name",
             "suggested_values" : "suggested_values",
             "lookup_url" : "lookup_url",
@@ -487,7 +739,7 @@
             "allowed_values" : [ "allowed_values", "allowed_values" ],
             "biolink_class" : "biolink_class",
             "default" : "default",
-            "allowed_range" : [ 0.8008281904610115, 0.8008281904610115 ],
+            "allowed_range" : [ 1.4658129805029452, 1.4658129805029452 ],
             "name" : "name",
             "suggested_values" : "suggested_values",
             "lookup_url" : "lookup_url",
@@ -496,10 +748,10 @@
           } ],
           "url" : "url",
           "properties" : {
-            "list_predicate" : "list_predicate",
+            "source_version" : "source_version",
             "method" : "method",
             "terms_of_service" : "terms_of_service",
-            "member_predicate" : "member_predicate",
+            "method_url" : "method_url",
             "source_url" : "source_url"
           },
           "status" : "online"
@@ -557,7 +809,7 @@
           "allowed_values" : [ "allowed_values", "allowed_values" ],
           "biolink_class" : "biolink_class",
           "default" : "default",
-          "allowed_range" : [ 0.8008281904610115, 0.8008281904610115 ],
+          "allowed_range" : [ 1.4658129805029452, 1.4658129805029452 ],
           "name" : "name",
           "suggested_values" : "suggested_values",
           "lookup_url" : "lookup_url",
@@ -620,12 +872,51 @@
           "predicates" : [ {
             "predicate" : "predicate",
             "subject" : "subject",
+            "count" : 6,
+            "attributes" : [ {
+              "names" : [ "PubMed Identifier" ],
+              "source" : "UniProtKB",
+              "type" : "EDAM:data_1187"
+            }, {
+              "names" : [ "PubMed Identifier" ],
+              "source" : "UniProtKB",
+              "type" : "EDAM:data_1187"
+            } ],
+            "source" : "ChEMBL",
+            "relations" : [ "binds_to" ],
             "object" : "object"
           }, {
             "predicate" : "predicate",
             "subject" : "subject",
+            "count" : 6,
+            "attributes" : [ {
+              "names" : [ "PubMed Identifier" ],
+              "source" : "UniProtKB",
+              "type" : "EDAM:data_1187"
+            }, {
+              "names" : [ "PubMed Identifier" ],
+              "source" : "UniProtKB",
+              "type" : "EDAM:data_1187"
+            } ],
+            "source" : "ChEMBL",
+            "relations" : [ "binds_to" ],
             "object" : "object"
           } ],
+          "nodes" : {
+            "key" : {
+              "id_prefixes" : [ "ChEMBL:", "inchikey:" ],
+              "count" : 0,
+              "attributes" : [ {
+                "names" : [ "PubMed Identifier" ],
+                "source" : "UniProtKB",
+                "type" : "EDAM:data_1187"
+              }, {
+                "names" : [ "PubMed Identifier" ],
+                "source" : "UniProtKB",
+                "type" : "EDAM:data_1187"
+              } ]
+            }
+          },
           "output_class" : "output_class",
           "input_class" : "input_class"
         },
@@ -638,6 +929,13 @@
             "description" : "BioLink class for the members of the output list.",
             "type" : "string"
           },
+          "nodes" : {
+            "additionalProperties" : {
+              "$ref" : "#/components/schemas/node"
+            },
+            "description" : "List of semantic types in the KnowledgeMap.",
+            "type" : "object"
+          },
           "predicates" : {
             "description" : "Predicates describing relationships between subjects and objects.",
             "items" : {
@@ -648,11 +946,63 @@
         },
         "type" : "object"
       },
+      "node" : {
+        "additionalProperties" : false,
+        "description" : "Description of semantic types provided by this knowledge source.",
+        "example" : {
+          "id_prefixes" : [ "ChEMBL:", "inchikey:" ],
+          "count" : 0,
+          "attributes" : [ {
+            "names" : [ "PubMed Identifier" ],
+            "source" : "UniProtKB",
+            "type" : "EDAM:data_1187"
+          }, {
+            "names" : [ "PubMed Identifier" ],
+            "source" : "UniProtKB",
+            "type" : "EDAM:data_1187"
+          } ]
+        },
+        "properties" : {
+          "id_prefixes" : {
+            "description" : "List of CURIE prefixes that this knowledge source understands and accepts on the input.",
+            "example" : [ "ChEMBL:", "inchikey:" ],
+            "items" : {
+              "type" : "string"
+            },
+            "type" : "array"
+          },
+          "count" : {
+            "description" : "Number of node instances known to this knowledge source",
+            "type" : "integer"
+          },
+          "attributes" : {
+            "items" : {
+              "$ref" : "#/components/schemas/km_attribute"
+            },
+            "type" : "array"
+          }
+        },
+        "required" : [ "id_prefixes" ],
+        "type" : "object"
+      },
       "predicate" : {
+        "additionalProperties" : false,
         "description" : "Predicate describing relationship between a subject and an object.",
         "example" : {
           "predicate" : "predicate",
           "subject" : "subject",
+          "count" : 6,
+          "attributes" : [ {
+            "names" : [ "PubMed Identifier" ],
+            "source" : "UniProtKB",
+            "type" : "EDAM:data_1187"
+          }, {
+            "names" : [ "PubMed Identifier" ],
+            "source" : "UniProtKB",
+            "type" : "EDAM:data_1187"
+          } ],
+          "source" : "ChEMBL",
+          "relations" : [ "binds_to" ],
           "object" : "object"
         },
         "properties" : {
@@ -664,9 +1014,63 @@
           },
           "object" : {
             "type" : "string"
+          },
+          "source" : {
+            "description" : "Source of the relationship.",
+            "example" : "ChEMBL",
+            "type" : "string"
+          },
+          "relations" : {
+            "description" : "Low-level relations from the underlying source.",
+            "example" : [ "binds_to" ],
+            "items" : {
+              "type" : "string"
+            },
+            "type" : "array"
+          },
+          "count" : {
+            "description" : "Number of edge instances known to this knowledge source",
+            "type" : "integer"
+          },
+          "attributes" : {
+            "items" : {
+              "$ref" : "#/components/schemas/km_attribute"
+            },
+            "type" : "array"
           }
         },
         "required" : [ "object", "predicate", "subject" ],
+        "type" : "object"
+      },
+      "km_attribute" : {
+        "additionalProperties" : false,
+        "description" : "Description of attribute types provided by this knowledge source.",
+        "example" : {
+          "names" : [ "PubMed Identifier" ],
+          "source" : "UniProtKB",
+          "type" : "EDAM:data_1187"
+        },
+        "properties" : {
+          "type" : {
+            "description" : "CURIE of the semantic type of the attribute, from the EDAM ontology if possible. If a suitable identifier does not exist, enter a descriptive phrase here and submit the new type for consideration by the appropriate authority.",
+            "example" : "EDAM:data_1187",
+            "type" : "string"
+          },
+          "source" : {
+            "description" : "Source of the attribute, as a CURIE prefix.",
+            "example" : "UniProtKB",
+            "type" : "string"
+          },
+          "names" : {
+            "description" : "Human-readable names or labels for the attribute for attributes of  given type.",
+            "example" : [ "PubMed Identifier" ],
+            "items" : {
+              "type" : "string"
+            },
+            "type" : "array"
+          }
+        },
+        "required" : [ "type" ],
         "type" : "object"
       },
       "mole_pro_query" : {
@@ -1043,18 +1447,31 @@
             "description" : "Biolink predicate",
             "type" : "string"
           },
+          "relation" : {
+            "description" : "Lower-level relationship type of this connection",
+            "type" : "string"
+          },
           "evidence_type" : {
             "description" : "evidence supporting the statement from the ECO ontology",
             "type" : "string"
           },
+          "source" : {
+            "description" : "Source of the attribute, as a CURIE prefix.",
+            "type" : "string"
+          },
+          "provided_by" : {
+            "description" : "Transformer that produced the connection.",
+            "type" : "string"
+          },
           "attributes" : {
-            "description" : "Additional information about the element and provenance about collection membership.",
+            "description" : "Additional information and provenance about the connection.",
             "items" : {
               "$ref" : "#/components/schemas/attribute"
             },
             "type" : "array"
           }
         },
+        "required" : [ "source_element_id", "type" ],
         "type" : "object"
       },
       "error_msg" : {
@@ -1077,23 +1494,19 @@
       "transformer_info_properties" : {
         "description" : "Additional metadata for the transformer.",
         "example" : {
-          "list_predicate" : "list_predicate",
+          "source_version" : "source_version",
           "method" : "method",
           "terms_of_service" : "terms_of_service",
-          "member_predicate" : "member_predicate",
+          "method_url" : "method_url",
           "source_url" : "source_url"
         },
         "properties" : {
-          "list_predicate" : {
-            "description" : "BioLink model predicate describing relationship between input and output gene lists.",
-            "type" : "string"
-          },
-          "member_predicate" : {
-            "description" : "BioLink model predicate describing relationship between input and output genes.",
-            "type" : "string"
-          },
           "source_url" : {
             "description" : "URL for underlying data or a wrapped service.",
+            "type" : "string"
+          },
+          "source_version" : {
+            "description" : "Version of the underlying source or data.",
             "type" : "string"
           },
           "terms_of_service" : {
@@ -1101,7 +1514,11 @@
             "type" : "string"
           },
           "method" : {
-            "description" : "A method used to generate output gene lists.",
+            "description" : "A method used to generate output lists.",
+            "type" : "string"
+          },
+          "method_url" : {
+            "description" : "Link to a description of a method used to generate output lists.",
             "type" : "string"
           }
         }
