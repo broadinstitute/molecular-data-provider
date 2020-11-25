@@ -20,8 +20,17 @@ public class Connection   {
   @JsonProperty("type")
   private String type;
 
+  @JsonProperty("relation")
+  private String relation;
+
   @JsonProperty("evidence_type")
   private String evidenceType;
+
+  @JsonProperty("source")
+  private String source;
+
+  @JsonProperty("provided_by")
+  private String providedBy;
 
   @JsonProperty("attributes")
   private List<Attribute> attributes = null;
@@ -35,7 +44,8 @@ public class Connection   {
    * id (CURIE) of the connected query node
    * @return sourceElementId
   **/
-    public String getSourceElementId() {
+  @NotNull
+  public String getSourceElementId() {
     return sourceElementId;
   }
 
@@ -52,12 +62,30 @@ public class Connection   {
    * Biolink predicate
    * @return type
   **/
-    public String getType() {
+  @NotNull
+  public String getType() {
     return type;
   }
 
   public void setType(String type) {
     this.type = type;
+  }
+
+  public Connection relation(String relation) {
+    this.relation = relation;
+    return this;
+  }
+
+   /**
+   * Lower-level relationship type of this connection
+   * @return relation
+  **/
+    public String getRelation() {
+    return relation;
+  }
+
+  public void setRelation(String relation) {
+    this.relation = relation;
   }
 
   public Connection evidenceType(String evidenceType) {
@@ -77,6 +105,40 @@ public class Connection   {
     this.evidenceType = evidenceType;
   }
 
+  public Connection source(String source) {
+    this.source = source;
+    return this;
+  }
+
+   /**
+   * Source of the attribute, as a CURIE prefix.
+   * @return source
+  **/
+    public String getSource() {
+    return source;
+  }
+
+  public void setSource(String source) {
+    this.source = source;
+  }
+
+  public Connection providedBy(String providedBy) {
+    this.providedBy = providedBy;
+    return this;
+  }
+
+   /**
+   * Transformer that produced the connection.
+   * @return providedBy
+  **/
+    public String getProvidedBy() {
+    return providedBy;
+  }
+
+  public void setProvidedBy(String providedBy) {
+    this.providedBy = providedBy;
+  }
+
   public Connection attributes(List<Attribute> attributes) {
     this.attributes = attributes;
     return this;
@@ -91,7 +153,7 @@ public class Connection   {
   }
 
    /**
-   * Additional information about the element and provenance about collection membership.
+   * Additional information and provenance about the connection.
    * @return attributes
   **/
   @Valid
@@ -115,13 +177,16 @@ public class Connection   {
     Connection connection = (Connection) o;
     return Objects.equals(sourceElementId, connection.sourceElementId) &&
         Objects.equals(type, connection.type) &&
+        Objects.equals(relation, connection.relation) &&
         Objects.equals(evidenceType, connection.evidenceType) &&
+        Objects.equals(source, connection.source) &&
+        Objects.equals(providedBy, connection.providedBy) &&
         Objects.equals(attributes, connection.attributes);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(sourceElementId, type, evidenceType, attributes);
+    return Objects.hash(sourceElementId, type, relation, evidenceType, source, providedBy, attributes);
   }
 
   @SuppressWarnings("StringBufferReplaceableByString")
@@ -132,7 +197,10 @@ public class Connection   {
     
     sb.append("    sourceElementId: ").append(toIndentedString(sourceElementId)).append("\n");
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
+    sb.append("    relation: ").append(toIndentedString(relation)).append("\n");
     sb.append("    evidenceType: ").append(toIndentedString(evidenceType)).append("\n");
+    sb.append("    source: ").append(toIndentedString(source)).append("\n");
+    sb.append("    providedBy: ").append(toIndentedString(providedBy)).append("\n");
     sb.append("    attributes: ").append(toIndentedString(attributes)).append("\n");
     sb.append("}");
     return sb.toString();

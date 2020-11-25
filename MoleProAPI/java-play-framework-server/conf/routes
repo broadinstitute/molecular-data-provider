@@ -13,7 +13,9 @@ GET     /molecular_data_provider/gene/list/:listId                     controlle
 
 #Functions for Compounds API
 GET     /molecular_data_provider/compound/by_id/*compoundId                     controllers.CompoundsApiController.compoundByIdCompoundIdGet(compoundId: String)
+POST     /molecular_data_provider/compound/by_id                     controllers.CompoundsApiController.compoundByIdPost()
 GET     /molecular_data_provider/compound/by_name/*name                     controllers.CompoundsApiController.compoundByNameNameGet(name: String)
+POST     /molecular_data_provider/compound/by_name                     controllers.CompoundsApiController.compoundByNamePost()
 POST     /molecular_data_provider/compound/by_structure                     controllers.CompoundsApiController.compoundByStructurePost()
 
 #Functions for Transformers API

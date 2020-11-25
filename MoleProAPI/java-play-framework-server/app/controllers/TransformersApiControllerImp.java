@@ -18,12 +18,12 @@ import javax.validation.constraints.*;
 
 public class TransformersApiControllerImp implements TransformersApiControllerImpInterface {
     @Override
-    public CollectionInfo aggregatePost(AggregationQuery aggregationQuery) throws Exception {
+    public CollectionInfo aggregatePost(AggregationQuery aggregationQuery, String cache) throws Exception {
         return Aggregator.aggregate(aggregationQuery);
     }
 
     @Override
-    public CollectionInfo transformPost(MoleProQuery moleProQuery) throws Exception {
+    public CollectionInfo transformPost(MoleProQuery moleProQuery, String cache) throws Exception {
         return Transformers.getTransformer(moleProQuery.getName()).transform(moleProQuery);
     }
 

@@ -11,14 +11,11 @@ import javax.validation.constraints.*;
 
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class TransformerInfoProperties   {
-  @JsonProperty("list_predicate")
-  private String listPredicate;
-
-  @JsonProperty("member_predicate")
-  private String memberPredicate;
-
   @JsonProperty("source_url")
   private String sourceUrl;
+
+  @JsonProperty("source_version")
+  private String sourceVersion;
 
   @JsonProperty("terms_of_service")
   private String termsOfService;
@@ -26,39 +23,8 @@ public class TransformerInfoProperties   {
   @JsonProperty("method")
   private String method;
 
-  public TransformerInfoProperties listPredicate(String listPredicate) {
-    this.listPredicate = listPredicate;
-    return this;
-  }
-
-   /**
-   * BioLink model predicate describing relationship between input and output gene lists.
-   * @return listPredicate
-  **/
-    public String getListPredicate() {
-    return listPredicate;
-  }
-
-  public void setListPredicate(String listPredicate) {
-    this.listPredicate = listPredicate;
-  }
-
-  public TransformerInfoProperties memberPredicate(String memberPredicate) {
-    this.memberPredicate = memberPredicate;
-    return this;
-  }
-
-   /**
-   * BioLink model predicate describing relationship between input and output genes.
-   * @return memberPredicate
-  **/
-    public String getMemberPredicate() {
-    return memberPredicate;
-  }
-
-  public void setMemberPredicate(String memberPredicate) {
-    this.memberPredicate = memberPredicate;
-  }
+  @JsonProperty("method_url")
+  private String methodUrl;
 
   public TransformerInfoProperties sourceUrl(String sourceUrl) {
     this.sourceUrl = sourceUrl;
@@ -75,6 +41,23 @@ public class TransformerInfoProperties   {
 
   public void setSourceUrl(String sourceUrl) {
     this.sourceUrl = sourceUrl;
+  }
+
+  public TransformerInfoProperties sourceVersion(String sourceVersion) {
+    this.sourceVersion = sourceVersion;
+    return this;
+  }
+
+   /**
+   * Version of the underlying source or data.
+   * @return sourceVersion
+  **/
+    public String getSourceVersion() {
+    return sourceVersion;
+  }
+
+  public void setSourceVersion(String sourceVersion) {
+    this.sourceVersion = sourceVersion;
   }
 
   public TransformerInfoProperties termsOfService(String termsOfService) {
@@ -100,7 +83,7 @@ public class TransformerInfoProperties   {
   }
 
    /**
-   * A method used to generate output gene lists.
+   * A method used to generate output lists.
    * @return method
   **/
     public String getMethod() {
@@ -109,6 +92,23 @@ public class TransformerInfoProperties   {
 
   public void setMethod(String method) {
     this.method = method;
+  }
+
+  public TransformerInfoProperties methodUrl(String methodUrl) {
+    this.methodUrl = methodUrl;
+    return this;
+  }
+
+   /**
+   * Link to a description of a method used to generate output lists.
+   * @return methodUrl
+  **/
+    public String getMethodUrl() {
+    return methodUrl;
+  }
+
+  public void setMethodUrl(String methodUrl) {
+    this.methodUrl = methodUrl;
   }
 
 
@@ -121,16 +121,16 @@ public class TransformerInfoProperties   {
       return false;
     }
     TransformerInfoProperties transformerInfoProperties = (TransformerInfoProperties) o;
-    return Objects.equals(listPredicate, transformerInfoProperties.listPredicate) &&
-        Objects.equals(memberPredicate, transformerInfoProperties.memberPredicate) &&
-        Objects.equals(sourceUrl, transformerInfoProperties.sourceUrl) &&
+    return Objects.equals(sourceUrl, transformerInfoProperties.sourceUrl) &&
+        Objects.equals(sourceVersion, transformerInfoProperties.sourceVersion) &&
         Objects.equals(termsOfService, transformerInfoProperties.termsOfService) &&
-        Objects.equals(method, transformerInfoProperties.method);
+        Objects.equals(method, transformerInfoProperties.method) &&
+        Objects.equals(methodUrl, transformerInfoProperties.methodUrl);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(listPredicate, memberPredicate, sourceUrl, termsOfService, method);
+    return Objects.hash(sourceUrl, sourceVersion, termsOfService, method, methodUrl);
   }
 
   @SuppressWarnings("StringBufferReplaceableByString")
@@ -139,11 +139,11 @@ public class TransformerInfoProperties   {
     StringBuilder sb = new StringBuilder();
     sb.append("class TransformerInfoProperties {\n");
     
-    sb.append("    listPredicate: ").append(toIndentedString(listPredicate)).append("\n");
-    sb.append("    memberPredicate: ").append(toIndentedString(memberPredicate)).append("\n");
     sb.append("    sourceUrl: ").append(toIndentedString(sourceUrl)).append("\n");
+    sb.append("    sourceVersion: ").append(toIndentedString(sourceVersion)).append("\n");
     sb.append("    termsOfService: ").append(toIndentedString(termsOfService)).append("\n");
     sb.append("    method: ").append(toIndentedString(method)).append("\n");
+    sb.append("    methodUrl: ").append(toIndentedString(methodUrl)).append("\n");
     sb.append("}");
     return sb.toString();
   }

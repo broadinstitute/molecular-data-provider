@@ -1,8 +1,10 @@
 package controllers;
 
+import apimodels.CollectionInfo;
 import apimodels.CompoundInfo;
 import apimodels.CompoundList;
 import apimodels.ErrorMsg;
+import java.util.List;
 
 import play.mvc.Http;
 import transformer.classes.Compound;
@@ -15,17 +17,29 @@ import javax.validation.constraints.*;
 
 public class CompoundsApiControllerImp implements CompoundsApiControllerImpInterface {
     @Override
-    public CompoundInfo compoundByIdCompoundIdGet(String compoundId) throws Exception {
+    public CompoundInfo compoundByIdCompoundIdGet(String compoundId, String cache) throws Exception {
         return Compound.getCompoundById(compoundId);
     }
 
     @Override
-    public CompoundList compoundByNameNameGet(String name) throws Exception {
+    public CollectionInfo compoundByIdPost(List<String> requestBody, String cache) throws Exception {
+        //Do your magic!!!
+        return new CollectionInfo();
+    }
+
+    @Override
+    public CompoundList compoundByNameNameGet(String name, String cache) throws Exception {
         return Compound.getCompoundByName(name);
     }
 
     @Override
-    public CompoundInfo compoundByStructurePost(String body) throws Exception {
+    public CollectionInfo compoundByNamePost(List<String> requestBody, String cache) throws Exception {
+        //Do your magic!!!
+        return new CollectionInfo();
+    }
+
+    @Override
+    public CompoundInfo compoundByStructurePost(String body, String cache) throws Exception {
         return Compound.getCompoundByStructure(body);
     }
 
