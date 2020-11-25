@@ -12,12 +12,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import apimodels.CompoundInfo;
 import apimodels.CompoundInfoIdentifiers;
+import apimodels.Element;
 import apimodels.Names;
 import transformer.Config;
-import transformer.HTTP;
-import transformer.JSON;
 import transformer.classes.PubChem.Response.InformationList.Information;
 import transformer.util.Cache;
+import transformer.util.HTTP;
+import transformer.util.JSON;
 import transformer.Config.CURIE;
 
 public class PubChem {
@@ -79,6 +80,39 @@ public class PubChem {
 		} catch (Exception e) {
 			return null;
 		}
+	}
+
+
+	static void addInfo(final Element src) {
+		if (hasPubChemNames(src)) {
+			return;
+		}
+		final Long cid = getPubChemCID(src);
+		if (cid != null) {
+			final Names names = getNameAndSynonyms(cid);
+			src.addNamesSynonymsItem(names);
+		}
+	}
+
+
+	private static Boolean hasPubChemNames(final Element src) {
+		if (src.getNamesSynonyms() == null) {
+			return false;
+		}
+		for (Names names : src.getNamesSynonyms())
+			if (PUBCHEM.equals(names.getSource())) {
+				return true;
+			}
+
+		return false;
+	}
+
+
+	private static Long getPubChemCID(final Element src) {
+		if (src.getIdentifiers() != null && src.getIdentifiers().get("pubchem") != null) {
+			return getPubChemCID(src.getIdentifiers().get("pubchem").toString());
+		}
+		return null;
 	}
 
 

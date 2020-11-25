@@ -22,8 +22,8 @@ import apimodels.Names;
 import transformer.Config;
 import transformer.Config.CURIE;
 import transformer.util.Cache;
-import transformer.HTTP;
-import transformer.JSON;
+import transformer.util.HTTP;
+import transformer.util.JSON;
 
 public class MyChem {
 

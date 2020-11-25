@@ -15,9 +15,9 @@ import javax.validation.constraints.*;
 
 @SuppressWarnings("RedundantThrows")
 public interface TransformersApiControllerImpInterface {
-    CollectionInfo aggregatePost(AggregationQuery aggregationQuery) throws Exception;
+    CollectionInfo aggregatePost(AggregationQuery aggregationQuery, String cache) throws Exception;
 
-    CollectionInfo transformPost(MoleProQuery moleProQuery) throws Exception;
+    CollectionInfo transformPost(MoleProQuery moleProQuery, String cache) throws Exception;
 
     List<TransformerInfo> transformersGet() throws Exception;
 

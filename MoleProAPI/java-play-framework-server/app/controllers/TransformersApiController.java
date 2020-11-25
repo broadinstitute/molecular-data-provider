@@ -51,7 +51,14 @@ public class TransformersApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'AggregationQuery' parameter is required");
         }
-        CollectionInfo obj = imp.aggregatePost(aggregationQuery);
+        String valuecache = request().getQueryString("cache");
+        String cache;
+        if (valuecache != null) {
+            cache = valuecache;
+        } else {
+            cache = null;
+        }
+        CollectionInfo obj = imp.aggregatePost(aggregationQuery, cache);
         if (configuration.getBoolean("useOutputBeanValidation")) {
             OpenAPIUtils.validate(obj);
         }
@@ -71,7 +78,14 @@ public class TransformersApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'MoleProQuery' parameter is required");
         }
-        CollectionInfo obj = imp.transformPost(moleProQuery);
+        String valuecache = request().getQueryString("cache");
+        String cache;
+        if (valuecache != null) {
+            cache = valuecache;
+        } else {
+            cache = null;
+        }
+        CollectionInfo obj = imp.transformPost(moleProQuery, cache);
         if (configuration.getBoolean("useOutputBeanValidation")) {
             OpenAPIUtils.validate(obj);
         }

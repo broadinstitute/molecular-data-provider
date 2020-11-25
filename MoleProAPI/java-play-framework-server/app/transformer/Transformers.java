@@ -14,6 +14,11 @@ import java.util.HashMap;
 import apimodels.TransformerInfo;
 import transformer.InternalTransformer.InternalTransformerInfo;
 import transformer.exception.NotFoundException;
+import transformer.mapping.MappedAttribute;
+import transformer.mapping.MappedBiolinkClass;
+import transformer.mapping.MappedConnection;
+import transformer.util.HTTP;
+import transformer.util.JSON;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -85,6 +90,13 @@ public class Transformers {
 		}
 		updateTransformerMap(transformers);
 		log.debug("Obtained " + transformers.size() + " transformers");
+		MappedAttribute.loadMapping();
+		MappedConnection.loadMapping();
+		MappedBiolinkClass.loadMapping();
+		for (Transformer transformer : transformers) {
+			MappedBiolinkClass.map(transformer.info.getKnowledgeMap().getPredicates());
+			MappedConnection.mapPredicates(transformer.info.getLabel(), transformer.info.getKnowledgeMap().getPredicates());
+		}
 		return getInfo(transformers);
 	}
 

@@ -119,9 +119,6 @@ public abstract class Transformer {
 		final String subject = kmap.getInputClass().toString();
 		if (!"none".equals(subject)) {
 			String predicate = "related to";
-			if (info.getProperties() != null && info.getProperties().getMemberPredicate() != null) {
-				predicate = info.getProperties().getMemberPredicate();
-			}
 			final String object = kmap.getOutputClass().toString();
 			kmap.addPredicatesItem(new Predicate().subject(subject).predicate(predicate)._object(object));
 		}

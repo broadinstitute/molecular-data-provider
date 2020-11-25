@@ -19,9 +19,9 @@ import apimodels.GeneInfo;
 import apimodels.GeneInfoIdentifiers;
 import apimodels.Names;
 import transformer.Config;
-import transformer.HTTP;
-import transformer.JSON;
 import transformer.util.Cache;
+import transformer.util.HTTP;
+import transformer.util.JSON;
 
 public class MyGene {
 

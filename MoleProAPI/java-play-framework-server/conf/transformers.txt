@@ -6,6 +6,7 @@ https://translator.broadinstitute.org/chembank/compounds
 https://translator.broadinstitute.org/chebi/compounds
 https://translator.broadinstitute.org/repurposing/compounds
 https://translator.broadinstitute.org/dgidb/molecules
+https://translator.broadinstitute.org/gtopdb/molecules
 # gene-list producers
 =HGNC gene-list producer
 # disease producers
@@ -21,8 +22,10 @@ https://translator.broadinstitute.org/chembl/targets
 https://translator.broadinstitute.org/hmdb/targets
 https://translator.broadinstitute.org/repurposing/targets
 https://translator.broadinstitute.org/dgidb/targets
+https://translator.broadinstitute.org/gtopdb/targets
 https://translator.broadinstitute.org/drugbank/inhibitors
 https://translator.broadinstitute.org/dgidb/inhibitors
+https://translator.broadinstitute.org/gtopdb/inhibitors
 # compound relations
 https://translator.broadinstitute.org/chembl/metabolites
 # profile similarity

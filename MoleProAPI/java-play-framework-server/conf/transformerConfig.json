@@ -40,7 +40,8 @@
         },
         "chembl": {
             "prefix": "ChEMBL:",
-            "uri": "https://www.ebi.ac.uk/chembl/compound_report_card/%s/"
+            "uri": "https://www.ebi.ac.uk/chembl/compound_report_card/%s/",
+            "producer": "ChEMBL compound-list producer"
         },
         "hmdb": {
             "prefix": "HMDB:",
@@ -59,7 +60,8 @@
         },
         "chebi": {
             "prefix": "CHEBI:",
-            "uri": "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=%s"
+            "uri": "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=%s",
+            "producer":"ChEBI compound-list producer"
         }
     },
     "curie prefix map":{

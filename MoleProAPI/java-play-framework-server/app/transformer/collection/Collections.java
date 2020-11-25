@@ -29,9 +29,9 @@ public class Collections {
 		info.setId(id);
 		String url = info.getUrl();
 		if (url == null) {
-			url = Config.config.url().getBaseURL()+"/"+info.getElementClass()+"/list/";
+			url = Config.config.url().getBaseURL() + "/collection/";
 		}
-		url = url +id;
+		url = url + id;
 		info.setUrl(url);
 		collections.put(id, collection);
 	}

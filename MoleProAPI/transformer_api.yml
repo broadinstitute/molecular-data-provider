@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Transformer API for Molecular Data Provider
-  version: 2.1.0
+  version: 2.2.0
   
   contact:
     email: translator@broadinstitute.org
@@ -104,23 +104,21 @@ components:
         properties:
           type: object
           properties:
-            list_predicate:
-              type: string
-              description: BioLink model predicate describing relationship between
-                input and output gene lists.
-            member_predicate:
-              type: string
-              description: BioLink model predicate describing relationship between
-                input and output genes.
             source_url:
               type: string
               description: URL for underlying data or a wrapped service.
+            source_version:
+              type: string
+              description: Version of the underlying source or data.
             terms_of_service:
               type: string
               description: Link to the page that describes the terms of service for the transformer.
             method:
               type: string
-              description: A method used to generate output gene lists.
+              description: A method used to generate output lists.
+            method_url:
+              type: string
+              description: Link to a description of a method used to generate output lists.
           description: Additional metadata for the transformer.
         parameters:
           type: array
@@ -188,11 +186,41 @@ components:
         output_class:
           type: string
           description: BioLink class for the members of the output list.
+        nodes:
+          type: object
+          description: List of semantic types in the KnowledgeMap.
+          additionalProperties:
+            $ref: '#/components/schemas/node'
         predicates:
           type: array
           description: Predicates describing relationships between subjects and objects.
           items:
             $ref: '#/components/schemas/predicate'
+
+    node:
+      type: object
+      description: >-
+        Description of semantic types provided by this knowledge source.
+      properties:
+        id_prefixes:
+          type: array
+          description: >-
+            List of CURIE prefixes that this knowledge source understands and
+            accepts on the input.
+          items: 
+            type: string
+          example: ['ChEMBL:','inchikey:']
+        count:
+          type: integer
+          description: >-
+            Number of node instances known to this knowledge source
+        attributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/km_attribute'
+      required:
+        - id_prefixes
+      additionalProperties: false
 
     predicate:
       type: object
@@ -204,10 +232,58 @@ components:
           type: string
         object:
           type: string
-      required: 
+        source: 
+          type: string
+          description: Source of the relationship.
+          example: ChEMBL
+        relations: 
+          type: array
+          description: Low-level relations from the underlying source.
+          items:
+            type: string
+          example: [binds_to]
+        count:
+          type: integer
+          description: >-
+            Number of edge instances known to this knowledge source
+        attributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/km_attribute'
+      required:
       - subject
       - predicate
       - object
+      additionalProperties: false
+
+    km_attribute:
+      type: object
+      description: >-
+        Description of attribute types provided by this knowledge source.
+      properties:
+        type:
+          type: string
+          description: >-
+            CURIE of the semantic type of the attribute, from the EDAM ontology
+            if possible. If a suitable identifier does not exist, enter a
+            descriptive phrase here and submit the new type for consideration
+            by the appropriate authority.
+          example: EDAM:data_1187
+        source:
+          type: string
+          description: Source of the attribute, as a CURIE prefix.
+          example: UniProtKB
+        names:
+          type: array
+          description: >-
+            Human-readable names or labels for the attribute for attributes of 
+            given type.
+          items:
+            type: string
+          example: [PubMed Identifier]
+      required:
+        - type
+      additionalProperties: false
 
     transformer_query:
       type: object
@@ -472,15 +548,26 @@ components:
         type:
           type: string
           description: Biolink predicate
+        relation:
+          type: string
+          description: Lower-level relationship type of this connection
         evidence_type:
           type: string
           description: evidence supporting the statement from the ECO ontology
+        source:
+          type: string
+          description: Source of the attribute, as a CURIE prefix.
+        provided_by:
+          type: string
+          description: Transformer that produced the connection.
         attributes:
           type: array
-          description: Additional information about the element and provenance about
-            collection membership. 
+          description: Additional information and provenance about the connection. 
           items:
             $ref: '#/components/schemas/attribute'
+      required:
+      - source_element_id
+      - type
         
     error_msg:
       type: object
