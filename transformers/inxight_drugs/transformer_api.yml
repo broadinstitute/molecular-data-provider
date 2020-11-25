@@ -1,24 +1,33 @@
 openapi: 3.0.0
 info:
-  title: Transformer API for Molecular Data Provider
+  title: Transformer API for Inxight_Drugs 
   version: 2.2.0
+  termsOfService: https://ncats.nih.gov/disclaimer
   
   contact:
     email: translator@broadinstitute.org
   
 servers:
-- url: https://translator.broadinstitute.org/<path>
+- url: https://translator.broadinstitute.org/inxight_drugs
 
 tags:
   - name: transformers
 
 paths:
-  /transformer_info:
+  /{service}/transformer_info:
     get:
       tags:
       - transformers
       summary: Retrieve transformer info
       description: Provides information about the transformer.
+      parameters:
+      - name: service
+        in: path
+        description: Inxight_Drugs service
+        required: true
+        schema:
+          type: string
+          enum: [substances, relationships, drugs, active_ingredients]
       responses:
         200:
           description: successful operation
@@ -27,11 +36,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/transformer_info'
 
-  /transform:
+  /{service}/transform:
     post:
       tags:
       - transformers
-      summary: Transform a list of genes or compounds
+      summary: Transform a list of drugs or substances
       description: Depending on the function of a transformer, creates, expands, or
         filters a list.
       requestBody:
@@ -41,6 +50,14 @@ paths:
             schema:
               $ref: '#/components/schemas/transformer_query'
         required: true
+      parameters:
+      - name: service
+        in: path
+        description: Inxight_Drugs service
+        required: true
+        schema:
+          type: string
+          enum: [substances, relationships, drugs, active_ingredients]
       responses:
         200:
           description: successful operation
