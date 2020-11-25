@@ -2,6 +2,8 @@ package transformer.classes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,21 +14,23 @@ import apimodels.CompoundInfo;
 import apimodels.CompoundInfoIdentifiers;
 import apimodels.CompoundInfoStructure;
 import apimodels.CompoundList;
+import apimodels.Element;
 import apimodels.Names;
 import apimodels.Property;
 import apimodels.MoleProQuery;
 import transformer.Config;
 import transformer.Config.CURIE;
-import transformer.JSON;
 import transformer.Transformer;
 import transformer.Transformer.Query;
 import transformer.Transformers;
 import transformer.collection.Aggregator;
+import transformer.collection.CollectionElement;
 import transformer.collection.Collections;
 import transformer.collection.CollectionsEntry;
 import transformer.collection.CollectionsEntry.CompoundCollection;
 import transformer.exception.BadRequestException;
 import transformer.exception.NotFoundException;
+import transformer.util.JSON;
 import transformer.exception.InternalServerError;
 
 public class Compound extends TransformerClass {
@@ -82,6 +86,40 @@ public class Compound extends TransformerClass {
 			}
 		}
 		return compounds.toArray(new CompoundInfo[compounds.size()]);
+	}
+
+	
+	public static void updateCompound(final Element compound) {
+		MyChem.Info.addInfo(compound);
+		PubChem.addInfo(compound);
+		// update primary identifier
+		final String compoundId = getBestIdentifier(compound.getIdentifiers());
+		if (compoundId != null) {
+			compound.setId(compoundId);
+		}
+		// update name order
+		if (compound.getNamesSynonyms() == null) {
+			compound.setNamesSynonyms(new ArrayList<Names>());
+		}
+		compound.getNamesSynonyms().sort((names1, names2) -> {
+			return Config.config.getCompoundNamePriority(names1.getSource()) - Config.config.getCompoundNamePriority(names2.getSource());
+		});
+	}
+
+
+	private static String getBestIdentifier(Map<String,Object> identifiers) {
+		final String[] idKeys = { "chebi", "chembl", "drugbank", "pubchem", "unii", "inchikey" };
+		for (String key : idKeys) {
+			if (identifiers.containsKey(key)) {
+				if (identifiers.get(key) instanceof String) {
+					return (String) identifiers.get(key);
+				}
+				if (identifiers.get(key) instanceof String[]) {
+					return ((String[]) identifiers.get(key))[0];
+				}
+			}
+		}
+		return null;
 	}
 
 
@@ -206,6 +244,16 @@ public class Compound extends TransformerClass {
 
 
 	public static CompoundList getCompoundByName(final String name) throws NotFoundException, BadRequestException {
+		return getCompoundList(getCompoundsByName(name).getId());
+	}
+
+
+	public static CollectionInfo getCompoundsByName(final List<String> compoundNames) throws Exception {
+		return getCompoundsByName(compoundNames.stream().collect(Collectors.joining(";", "", ""))).getInfo();
+	}
+
+
+	public static CollectionsEntry getCompoundsByName(final String name) throws NotFoundException, BadRequestException {
 		final List<CollectionsEntry> collections = new ArrayList<>();
 		for (String producerName : Config.config.getCompoundSearchProducers()) {
 			try {
@@ -223,7 +271,7 @@ public class Compound extends TransformerClass {
 		union.getInfo().setSource(source);
 		union.getInfo().addAttributesItem(new Attribute().name("query name").value(name).source(source));
 		Collections.save(union);
-		return getCompoundList(union.getId());
+		return union;
 	}
 
 
@@ -242,7 +290,35 @@ public class Compound extends TransformerClass {
 		if (compoundId == null || compoundId.length() == 0) {
 			throw new BadRequestException("Empty ID in the compound-by-id query");
 		}
-		return updateCompound(findCompoundById(Config.config.mapCuriePrefix(compoundId)));
+		return updateCompound(findCompoundById(Config.config.mapCuriePrefix(compoundId)).getCompoundInfo());
+	}
+
+
+	public static CollectionInfo getCompoundsById(final List<String> compoundIds) {
+		final CollectionInfo collectionInfo = new CollectionInfo();
+		collectionInfo.setSource("MolePro");
+		collectionInfo.setAttributes(new ArrayList<Attribute>());
+		collectionInfo.setElementClass(CLASS);
+		final List<CollectionElement> elements = new ArrayList<>();
+		for (final String compoundId : compoundIds) {
+			try {
+				elements.add(findCompoundById(compoundId));
+			} catch (NotFoundException e) {
+				collectionInfo.addAttributesItem(warningAttribute(e, "NotFoundException"));
+			} catch (Exception e) {
+				collectionInfo.addAttributesItem(warningAttribute(e, "InternalServerError"));
+			} catch (InternalServerError e) {
+				collectionInfo.addAttributesItem(warningAttribute(e, "InternalServerError"));
+			}
+		}
+		final CollectionsEntry collection = new CollectionsEntry(collectionInfo, elements.toArray(new CollectionElement[elements.size()]));
+		Collections.save(collection);
+		return collection.getInfo();
+	}
+
+
+	private static Attribute warningAttribute(Throwable e, String name) {
+		return new Attribute().name(name).value(e.getMessage()).type("warning").source("MolePro");
 	}
 
 
@@ -273,7 +349,7 @@ public class Compound extends TransformerClass {
 	}
 
 
-	private static CompoundInfo findCompoundById(final String compoundId) throws NotFoundException {
+	private static CollectionElement findCompoundById(final String compoundId) throws NotFoundException {
 		for (CURIE curie : Config.getConfig().getCuries().getAllCuries()) {
 			if (curie.isPrefixOf(compoundId) && curie.getProducer() != null) {
 				return findCompoundById(curie.getProducer(), compoundId);
@@ -281,23 +357,22 @@ public class Compound extends TransformerClass {
 		}
 		CompoundInfo compound = MyChem.Info.findCompoundById(compoundId);
 		if (compound != null) {
-			return compound;
+			return new CollectionElement.CompoundElement(compound);
 		}
 		throw new NotFoundException("Compound with id '" + compoundId + "' not found");
 	}
 
 
-	private static CompoundInfo findCompoundById(final String producer, final String compoundId) {
+	private static CollectionElement findCompoundById(final String producer, final String compoundId) {
 		try {
 			final CollectionsEntry entry = getCompoundByName(producer, compoundId);
 			if (entry.getInfo().getSize() == 0) {
-				throw new NotFoundException(producer+": compound not found");
+				throw new NotFoundException(compoundId + " not found in " + producer);
 			}
-			return ((CompoundCollection) entry).getCompounds()[0];
-		} 
-		catch (Exception e) {
-			log.warn(e.getMessage(),e);
-			throw new InternalServerError("Unable to obtain compound from "+producer+": " + e.getMessage());
+			return entry.getElements()[0];
+		} catch (Exception e) {
+			log.warn(e.getMessage(), e);
+			throw new InternalServerError("Unable to obtain compound " + compoundId + " from " + producer + ": " + e.getMessage());
 		}
 	}
 

@@ -17,14 +17,14 @@ import javax.validation.constraints.*;
 
 public class CompoundsApiControllerImp implements CompoundsApiControllerImpInterface {
     @Override
+
     public CompoundInfo compoundByIdCompoundIdGet(String compoundId, String cache) throws Exception {
         return Compound.getCompoundById(compoundId);
     }
 
     @Override
     public CollectionInfo compoundByIdPost(List<String> requestBody, String cache) throws Exception {
-        //Do your magic!!!
-        return new CollectionInfo();
+    	return Compound.getCompoundsById(requestBody);
     }
 
     @Override
@@ -34,8 +34,7 @@ public class CompoundsApiControllerImp implements CompoundsApiControllerImpInter
 
     @Override
     public CollectionInfo compoundByNamePost(List<String> requestBody, String cache) throws Exception {
-        //Do your magic!!!
-        return new CollectionInfo();
+    	return Compound.getCompoundsByName(requestBody);
     }
 
     @Override

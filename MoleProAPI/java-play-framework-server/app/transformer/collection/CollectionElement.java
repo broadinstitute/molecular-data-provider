@@ -219,12 +219,12 @@ public abstract class CollectionElement {
 	}
 	
 
-	static class CompoundElement extends CollectionElement {
+	public static class CompoundElement extends CollectionElement {
 
 		private final CompoundInfo compoundInfo;
 
 
-		protected CompoundElement(final CompoundInfo compoundInfo) {
+		public CompoundElement(final CompoundInfo compoundInfo) {
 			super();
 			this.compoundInfo = compoundInfo;
 		}
@@ -405,17 +405,19 @@ public abstract class CollectionElement {
 			compoundInfo.setCompoundId(element.getId());
 			final CompoundInfoIdentifiers identifiers = compoundIdentifiers(element);
 			compoundInfo.setIdentifiers(identifiers);
-			for (Names name: element.getNamesSynonyms()) {
-				compoundInfo.addNamesSynonymsItem(name);
+			if (element.getNamesSynonyms() != null) {
+				for (Names name : element.getNamesSynonyms()) {
+					compoundInfo.addNamesSynonymsItem(name);
+				}
 			}
 			final CompoundInfoStructure structure = new CompoundInfoStructure();
-			if (element.getIdentifiers().containsKey("smiles")) {
+			if (element.getIdentifiers().containsKey("smiles") && element.getIdentifiers().get("smiles") != null) {
 				structure.setSmiles(element.getIdentifiers().get("smiles").toString());
 			}
-			if (element.getIdentifiers().containsKey("inchi")) {
+			if (element.getIdentifiers().containsKey("inchi") && element.getIdentifiers().get("inchi") != null) {
 				structure.setInchi(element.getIdentifiers().get("inchi").toString());
 			}
-			if (element.getIdentifiers().containsKey("inchikey")) {
+			if (element.getIdentifiers().containsKey("inchikey") && element.getIdentifiers().get("inchikey") != null) {
 				structure.setInchikey(element.getIdentifiers().get("inchikey").toString());
 			}
 			compoundInfo.setStructure(structure);

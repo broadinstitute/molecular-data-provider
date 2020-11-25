@@ -1,0 +1,33 @@
+source	type	relation	attributeName	attributeValue	biolinkPredicate	mappedRelation
+ChEMBL	affects		action_type	ACTIVATOR	biolink:positively_regulates	CHEMBL.MECHANISM:ACTIVATOR
+ChEMBL	affects		action_type	AGONIST	biolink:increases_activity_of	CHEMBL.MECHANISM:AGONIST
+ChEMBL	affects		action_type	ALLOSTERIC ANTAGONIST	biolink:decreases_activity_of	CHEMBL.MECHANISM:ALLOSTERIC ANTAGONIST
+ChEMBL	affects		action_type	ANTAGONIST	biolink:decreases_activity_of	CHEMBL.MECHANISM:ANTAGONIST
+ChEMBL	affects		action_type	ANTISENSE INHIBITOR	biolink:decreases_expression_of	CHEMBL.MECHANISM:ANTISENSE INHIBITOR
+ChEMBL	affects		action_type	BINDING AGENT	biolink:physically_interacts_with	CHEMBL.MECHANISM:BINDING AGENT
+ChEMBL	affects		action_type	BLOCKER	biolink:negatively_regulates	CHEMBL.MECHANISM:BLOCKER
+ChEMBL	affects		action_type	CHELATING AGENT	biolink:physically_interacts_with	CHEMBL.MECHANISM:CHELATING AGENT
+ChEMBL	affects		action_type	CROSS-LINKING AGENT	biolink:physically_interacts_with	CHEMBL.MECHANISM:CROSS-LINKING AGENT
+ChEMBL	affects		action_type	DEGRADER	biolink:increases_degradation_of	CHEMBL.MECHANISM:DEGRADER
+ChEMBL	affects		action_type	DISRUPTING AGENT	biolink:disrupts	CHEMBL.MECHANISM:DISRUPTING AGENT
+ChEMBL	affects		action_type	HYDROLYTIC ENZYME	biolink:increases_degradation_of	CHEMBL.MECHANISM:HYDROLYTIC ENZYME
+ChEMBL	affects		action_type	INHIBITOR	biolink:negatively_regulates	CHEMBL.MECHANISM:INHIBITOR
+ChEMBL	affects		action_type	INVERSE AGONIST	biolink:decreases_activity_of	CHEMBL.MECHANISM:INVERSE AGONIST
+ChEMBL	affects		action_type	METHYLATING AGENT	biolink:affects	CHEMBL.MECHANISM:METHYLATING AGENT
+ChEMBL	affects		action_type	MODULATOR	biolink:regulates	CHEMBL.MECHANISM:MODULATOR
+ChEMBL	affects		action_type	NEGATIVE ALLOSTERIC MODULATOR	biolink:negatively_regulates	CHEMBL.MECHANISM:NEGATIVE ALLOSTERIC MODULATOR
+ChEMBL	affects		action_type	NEGATIVE MODULATOR	biolink:negatively_regulates	CHEMBL.MECHANISM:NEGATIVE MODULATOR
+ChEMBL	affects		action_type	OPENER	biolink:increases_activity_of	CHEMBL.MECHANISM:OPENER
+ChEMBL	affects		action_type	OTHER	biolink:affects	CHEMBL.MECHANISM:OTHER
+ChEMBL	affects		action_type	OXIDATIVE ENZYME	biolink:physically_interacts_with	CHEMBL.MECHANISM:OXIDATIVE ENZYME
+ChEMBL	affects		action_type	PARTIAL AGONIST	biolink:increases_activity_of	CHEMBL.MECHANISM:PARTIAL AGONIST
+ChEMBL	affects		action_type	POSITIVE ALLOSTERIC MODULATOR	biolink:increases_activity_of	CHEMBL.MECHANISM:POSITIVE ALLOSTERIC MODULATOR
+ChEMBL	affects		action_type	POSITIVE MODULATOR	biolink:increases_activity_of	CHEMBL.MECHANISM:POSITIVE MODULATOR
+ChEMBL	affects		action_type	PROTEOLYTIC ENZYME	biolink:increases_degradation_of	CHEMBL.MECHANISM:PROTEOLYTIC ENZYME
+ChEMBL	affects		action_type	REDUCING AGENT	biolink:physically_interacts_with	CHEMBL.MECHANISM:REDUCING AGENT
+ChEMBL	affects		action_type	RELEASING AGENT	biolink:increases_expression_of	CHEMBL.MECHANISM:RELEASING AGENT
+ChEMBL	affects		action_type	RNAI INHIBITOR	biolink:negatively_regulates	CHEMBL.MECHANISM:RNAI INHIBITOR
+ChEMBL	affects		action_type	SEQUESTERING AGENT	biolink:physically_interacts_with	CHEMBL.MECHANISM:SEQUESTERING AGENT
+ChEMBL	affects		action_type	STABILISER	biolink:increases_stability_of	CHEMBL.MECHANISM:STABILISER
+ChEMBL	affects		action_type	SUBSTRATE	biolink:physically_interacts_with	CHEMBL.MECHANISM:SUBSTRATE
+DrugBank	affects^-1				biolink:is_affected_by	biolink:is_affected_by

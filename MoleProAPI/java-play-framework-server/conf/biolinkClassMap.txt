@@ -1,0 +1,5 @@
+class	biolink_class
+compound	ChemicalSubstance
+chemical_substance	ChemicalSubstance
+gene	Gene
+disease	Disease

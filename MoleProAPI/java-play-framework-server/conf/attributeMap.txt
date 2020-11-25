@@ -1,0 +1,5 @@
+source	name	srcType	mappedType
+CMAP	CMAP similarity score	CMAP similarity score	CMAP similarity score
+CMAP	reference	reference	SIO:000176
+CMAP	about CMAP	about CMAP	SIO:000811
+CMAP	CMAP touchstone data version	CMAP touchstone data version	SIO:000653

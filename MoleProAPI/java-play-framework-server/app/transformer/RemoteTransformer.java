@@ -3,9 +3,10 @@ package transformer;
 import java.net.URL;
 
 import apimodels.CollectionInfo;
-import apimodels.Element;
 import apimodels.TransformerInfo;
 import transformer.collection.CollectionsEntry;
+import transformer.util.HTTP;
+import transformer.util.JSON;
 import transformer.Transformer.Query;
 import transformer.classes.Other;
 
@@ -35,7 +36,7 @@ public class RemoteTransformer extends Transformer {
 	private CollectionsEntry getCollection(final CollectionInfo collectionInfo, final String response) throws Exception {
 		if (info.getVersion().startsWith("1.") || info.getVersion().startsWith("2.0."))
 			return outputClass.getCollection(collectionInfo, response);
-		return Other.getElementCollection(info.getKnowledgeMap().getOutputClass(), collectionInfo, response);
+		return Other.getElementCollection(info, collectionInfo, response);
 	}
 
 }

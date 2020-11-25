@@ -12,7 +12,6 @@ import apimodels.GeneList;
 import apimodels.Property;
 import apimodels.TransformerInfo;
 import apimodels.MoleProQuery;
-import transformer.JSON;
 import transformer.Transformer;
 import transformer.Transformer.Query;
 import transformer.collection.Collections;
@@ -20,6 +19,7 @@ import transformer.collection.CollectionsEntry;
 import transformer.collection.CollectionsEntry.GeneCollection;
 import transformer.exception.BadRequestException;
 import transformer.exception.NotFoundException;
+import transformer.util.JSON;
 
 public class Gene extends TransformerClass {
 
