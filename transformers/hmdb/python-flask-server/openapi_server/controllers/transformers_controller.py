@@ -1,15 +1,21 @@
 import connexion
 import six
 
+from openapi_server.models.element import Element  # noqa: E501
 from openapi_server.models.error_msg import ErrorMsg  # noqa: E501
-from openapi_server.models.gene_info import GeneInfo  # noqa: E501
 from openapi_server.models.transformer_info import TransformerInfo  # noqa: E501
 from openapi_server.models.transformer_query import TransformerQuery  # noqa: E501
 from openapi_server import util
 
 from openapi_server.controllers.hmdb_controller import HmdbTargets
+from openapi_server.controllers.hmdb_controller import HmdbMetabolites
+from openapi_server.controllers.hmdb_controller import HmdbDisorders
 
-transformer = {'targets':HmdbTargets()}
+transformer = {
+    'targets': HmdbTargets(),
+    'metabolites': HmdbMetabolites(),
+    'disorders': HmdbDisorders()
+}
 
 def service_transform_post(service, body):  # noqa: E501
     """Transform a list of genes or compounds
@@ -21,7 +27,7 @@ def service_transform_post(service, body):  # noqa: E501
     :param transformer_query: transformer query
     :type transformer_query: dict | bytes
 
-    :rtype: List[GeneInfo]
+    :rtype: List[Element]
     """
     if connexion.request.is_json:
         transformer_query = TransformerQuery.from_dict(connexion.request.get_json())  # noqa: E501

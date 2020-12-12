@@ -6,8 +6,8 @@ import unittest
 from flask import json
 from six import BytesIO
 
+from openapi_server.models.element import Element  # noqa: E501
 from openapi_server.models.error_msg import ErrorMsg  # noqa: E501
-from openapi_server.models.gene_info import GeneInfo  # noqa: E501
 from openapi_server.models.transformer_info import TransformerInfo  # noqa: E501
 from openapi_server.models.transformer_query import TransformerQuery  # noqa: E501
 from openapi_server.test import BaseTestCase
