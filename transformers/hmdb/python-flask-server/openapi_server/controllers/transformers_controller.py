@@ -8,8 +8,14 @@ from openapi_server.models.transformer_query import TransformerQuery  # noqa: E5
 from openapi_server import util
 
 from openapi_server.controllers.hmdb_controller import HmdbTargets
+from openapi_server.controllers.hmdb_controller import HmdbMetabolites
+from openapi_server.controllers.hmdb_controller import HmdbDisorders
 
-transformer = {'targets':HmdbTargets()}
+transformer = {
+    'targets': HmdbTargets(),
+    'metabolites': HmdbMetabolites(),
+    'disorders': HmdbDisorders()
+}
 
 def service_transform_post(service, body):  # noqa: E501
     """Transform a list of genes or compounds
