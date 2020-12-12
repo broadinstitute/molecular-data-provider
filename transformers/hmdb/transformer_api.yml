@@ -3,6 +3,7 @@ info:
   title: Transformer API for the Human Metabolome Database
   version: 2.2.0
   termsOfService: http://www.hmdb.ca/about
+  
   contact:
     email: translator@broadinstitute.org
   
@@ -26,7 +27,7 @@ paths:
         required: true
         schema:
           type: string
-          enum: [metabolites, indications, targets, sharpener]
+          enum: [metabolites, disorders, targets]
       responses:
         200:
           description: successful operation
@@ -49,7 +50,7 @@ paths:
         required: true
         schema:
           type: string
-          enum: [metabolites, indications, targets, sharpener]
+          enum: [metabolites, disorders, targets]
       requestBody:
         description: transformer query
         content:
