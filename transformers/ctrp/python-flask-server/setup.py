@@ -4,7 +4,7 @@ import sys
 from setuptools import setup, find_packages
 
 NAME = "ctrp-transformer"
-VERSION = "2.0.1"
+VERSION = "2.2.0"
 
 # To install the library, run the following
 #
