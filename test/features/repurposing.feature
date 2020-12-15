@@ -1,7 +1,7 @@
 Feature: Check Drug Repurposing Hub transformer
 
     Background: Specify transformer API
-        Given a transformer at "http://localhost:8320/repurposing"
+        Given a transformer at "https://translator.broadinstitute.org/repurposing"
 
 
     Scenario: Check compounds transformer info

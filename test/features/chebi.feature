@@ -1,7 +1,7 @@
 Feature: Check ChEBI transformer
 
     Background: Specify transformer API
-        Given a transformer at "http://localhost:8310/chebi"
+        Given a transformer at "https://translator.broadinstitute.org/chebi"
 
 
     Scenario: Check compounds producer info

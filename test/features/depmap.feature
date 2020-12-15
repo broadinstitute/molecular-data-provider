@@ -1,7 +1,7 @@
 Feature: Check CMAP transformer
 
     Background: Specify transformer API
-        Given a transformer at "http://localhost:8080/depmap_expander"
+        Given a transformer at "https://translator.broadinstitute.org/depmap_expander"
 
 
     Scenario: Check transformer info

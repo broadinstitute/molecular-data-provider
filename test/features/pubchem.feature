@@ -1,7 +1,7 @@
 Feature: Check CMAP transformer
 
     Background: Specify transformer API
-        Given a transformer at "http://localhost:8200/pubchem_producer"
+        Given a transformer at "https://translator.broadinstitute.org/pubchem_producer"
 
 
     Scenario: Check transformer info
