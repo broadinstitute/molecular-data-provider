@@ -12,7 +12,7 @@ Feature: Check ChEBI transformer
         and the value of "knowledge_map.output_class" should be "compound"
 
 
-    Scenario: Check Drug Repurposing Hub compound-list producer
+    Scenario: Check ChEBI compound-list producer
         Given the transformer
         when we fire "/compounds/transform" query with the following body:
         """
