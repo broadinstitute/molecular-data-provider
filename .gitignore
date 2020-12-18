@@ -1,0 +1,6 @@
+ignore Mac system files
+**/.DS_Store
+
+ignore IDE files
+.idea
+
