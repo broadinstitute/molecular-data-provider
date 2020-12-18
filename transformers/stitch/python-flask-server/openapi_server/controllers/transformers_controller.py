@@ -8,11 +8,13 @@ from openapi_server.models.transformer_query import TransformerQuery  # noqa: E5
 from openapi_server import util
 
 
-def transform_post(transformer_query):  # noqa: E501
+def service_transform_post(service, transformer_query):  # noqa: E501
     """Transform a list of genes or compounds
 
     Depending on the function of a transformer, creates, expands, or filters a list. # noqa: E501
 
+    :param service: STITCH service
+    :type service: str
     :param transformer_query: transformer query
     :type transformer_query: dict | bytes
 
@@ -23,11 +25,13 @@ def transform_post(transformer_query):  # noqa: E501
     return 'do some magic!'
 
 
-def transformer_info_get():  # noqa: E501
+def service_transformer_info_get(service):  # noqa: E501
     """Retrieve transformer info
 
     Provides information about the transformer. # noqa: E501
 
+    :param service: STITCH service
+    :type service: str
 
     :rtype: TransformerInfo
     """

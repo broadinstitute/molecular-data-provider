@@ -2,18 +2,31 @@ openapi: 3.0.0
 info:
   contact:
     email: translator@broadinstitute.org
-  title: Transformer API for Molecular Data Provider
+  termsOfService: http://stitch.embl.de/cgi/access.pl?footer_active_subpage=licensing
+  title: Transformer API for STITCH
   version: 2.2.0
 servers:
-- url: https://translator.broadinstitute.org/<path>
+- url: https://translator.broadinstitute.org/stitch
 tags:
 - name: transformers
 paths:
-  /transform:
+  /{service}/transform:
     post:
       description: Depending on the function of a transformer, creates, expands, or
         filters a list.
-      operationId: transform_post
+      operationId: service_transform_post
+      parameters:
+      - description: STITCH service
+        explode: false
+        in: path
+        name: service
+        required: true
+        schema:
+          enum:
+          - chemicals
+          - links
+          type: string
+        style: simple
       requestBody:
         content:
           application/json:
@@ -52,10 +65,22 @@ paths:
       tags:
       - transformers
       x-openapi-router-controller: openapi_server.controllers.transformers_controller
-  /transformer_info:
+  /{service}/transformer_info:
     get:
       description: Provides information about the transformer.
-      operationId: transformer_info_get
+      operationId: service_transformer_info_get
+      parameters:
+      - description: STITCH service
+        explode: false
+        in: path
+        name: service
+        required: true
+        schema:
+          enum:
+          - chemicals
+          - links
+          type: string
+        style: simple
       responses:
         200:
           content:
