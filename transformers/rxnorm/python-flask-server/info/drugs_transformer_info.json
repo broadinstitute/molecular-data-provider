@@ -1,0 +1,26 @@
+{
+    "name": "RxNorm drug-list producer",
+    "label": "RxNorm",
+    "description": "drug-list producer based on RxNorm (https://www.nlm.nih.gov/research/umls/rxnorm/index.html).",
+    "version": "2.1.0",
+    "function": "producer",
+    "knowledge_map": {
+        "input_class": "none",
+        "output_class": "drug",
+        "predicates": []
+    },
+    "properties": {
+        "list_predicate": "related_to",
+        "member_predicate": "related_to",
+        "source_url": "https://www.nlm.nih.gov/research/umls/rxnorm/index.html",
+        "terms_of_service": "https://www.nlm.nih.gov/research/umls/rxnorm/docs/termsofservice.html"
+    },
+    "parameters": [
+        {
+            "example": "aspirin",
+            "name": "drugs",
+            "type": "string",
+            "suggested_values": "semicolon-separated list of drugs names or drug ids"
+        }
+    ]
+}

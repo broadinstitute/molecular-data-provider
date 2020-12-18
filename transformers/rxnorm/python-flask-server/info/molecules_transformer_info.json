@@ -1,0 +1,26 @@
+{
+    "name": "RxNorm compound-list producer",
+    "label": "RxNorm",
+    "description": "Compound-list producer based on RxNorm (https://www.nlm.nih.gov/research/umls/rxnorm/index.html).",
+    "version": "2.1.0",
+    "function": "producer",
+    "knowledge_map": {
+        "input_class": "none",
+        "output_class": "compound",
+        "predicates": []
+    },
+    "properties": {
+        "list_predicate": "related_to",
+        "member_predicate": "related_to",
+        "source_url": "https://www.nlm.nih.gov/research/umls/rxnorm/index.html",
+        "terms_of_service": "https://www.nlm.nih.gov/research/umls/rxnorm/docs/termsofservice.html"
+    },
+    "parameters": [
+        {
+            "example": "aspirin",
+            "name": "compounds",
+            "type": "string",
+            "suggested_values": "semicolon-separated list of compounds names or drug names"
+        }
+    ]
+}
