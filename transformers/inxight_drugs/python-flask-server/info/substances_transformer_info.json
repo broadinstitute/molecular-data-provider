@@ -1,0 +1,37 @@
+{
+    "description": "Substance-list producer based on Inxight_Drugs (https://drugs.ncats.io/).",
+    "function": "producer",
+    "knowledge_map": {
+        "input_class": "none",
+        "nodes": {
+            "ChemicalSubstance": {
+                "attributes": [],
+                "count": 107352,
+                "id_prefixes": [
+                    "UNII",
+                    "INCHIKEY",
+                    "CID"
+                ]
+            }
+        },
+        "output_class": "substance",
+        "predicates": []
+    },
+    "label": "Inxight_Drugs",
+    "name": "Inxight:Drugs substance-list producer",
+    "parameters": [
+        {
+            "example": "aspirin",
+            "name": "substances",
+            "suggested_values": "semicolon-separated list of substances",
+            "type": "string"
+        }
+    ],
+    "properties": {
+        "list_predicate": "related_to",
+        "member_predicate": "related_to",
+        "source_url": "https://drugs.ncats.io/",
+        "terms_of_service": "https://ncats.nih.gov/disclaimer"
+    },
+    "version": "2.2.0"
+}
