@@ -1,0 +1,30 @@
+{
+    "name": "STITCH compound-list producer",
+    "label": "STITCH",
+    "description": "Compound-list producer based on STITCH (http://stitch.embl.de).",
+    "version": "2.2.0",
+    "function": "producer",
+    "knowledge_map": {
+        "input_class": "none",
+        "output_class": "compound",
+        "nodes": {
+            "ChemicalSubstance": {
+                "id_prefixes": ["CID:"]
+            }
+        },
+        "predicates": []
+    },
+    "properties": {
+        "source_url": "http://stitch.embl.de",
+        "source_version": "5.0",
+        "terms_of_service": "http://stitch.embl.de/cgi/access.pl?footer_active_subpage=licensing"
+    },
+    "parameters": [
+        {
+            "example": "aspirin",
+            "name": "compounds",
+            "type": "string",
+            "suggested_values": "semicolon-separated list of compounds names, PubChem CIDs, or InChI keys"
+        }
+    ]
+}

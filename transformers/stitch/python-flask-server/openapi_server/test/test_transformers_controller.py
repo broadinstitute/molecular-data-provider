@@ -16,8 +16,8 @@ from openapi_server.test import BaseTestCase
 class TestTransformersController(BaseTestCase):
     """TransformersController integration test stubs"""
 
-    def test_transform_post(self):
-        """Test case for transform_post
+    def test_service_transform_post(self):
+        """Test case for service_transform_post
 
         Transform a list of genes or compounds
         """
@@ -27,7 +27,7 @@ class TestTransformersController(BaseTestCase):
             'Content-Type': 'application/json',
         }
         response = self.client.open(
-            '/<path>/transform',
+            '/stitch/{service}/transform'.format(service='service_example'),
             method='POST',
             headers=headers,
             data=json.dumps(transformer_query),
@@ -35,8 +35,8 @@ class TestTransformersController(BaseTestCase):
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
-    def test_transformer_info_get(self):
-        """Test case for transformer_info_get
+    def test_service_transformer_info_get(self):
+        """Test case for service_transformer_info_get
 
         Retrieve transformer info
         """
@@ -44,7 +44,7 @@ class TestTransformersController(BaseTestCase):
             'Accept': 'application/json',
         }
         response = self.client.open(
-            '/<path>/transformer_info',
+            '/stitch/{service}/transformer_info'.format(service='service_example'),
             method='GET',
             headers=headers)
         self.assert200(response,
