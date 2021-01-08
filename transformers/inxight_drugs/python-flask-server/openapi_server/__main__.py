@@ -11,7 +11,7 @@ def main():
     app.add_api('openapi.yaml',
                 arguments={'title': 'Transformer API for Inxight_Drugs'},
                 pythonic_params=True)
-    app.run(port=8080)
+    app.run(port=8360,debug=True)
 
 
 if __name__ == '__main__':

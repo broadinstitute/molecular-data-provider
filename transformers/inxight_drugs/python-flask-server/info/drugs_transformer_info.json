@@ -1,0 +1,35 @@
+{
+    "description": "Drug transformer based on Inxight:Drugs information (https://drugs.ncats.io/).",
+    "function": "producer",
+    "knowledge_map": {
+        "input_class": "none",
+        "nodes": {
+            "Drug": {
+                "attributes": [],
+                "count": 12334,
+                "id_prefixes": [
+                    "RXCUI"
+                ]
+            }
+        },
+        "output_class": "drug",
+        "predicates": []
+    },
+    "label": "Inxight_Drugs",
+    "name": "Inxight:Drugs drug producer",
+    "parameters": [
+        {
+            "example": "aspirin",
+            "name": "drugs",
+            "suggested_values": "semicolon-separated list of drug names",
+            "type": "string"
+        }
+    ],
+    "properties": {
+        "list_predicate": "related_to",
+        "member_predicate": "related_to",
+        "source_url": "https://drugs.ncats.io/",
+        "terms_of_service": "https://ncats.nih.gov/disclaimer"
+    },
+    "version": "2.2.0"
+}
