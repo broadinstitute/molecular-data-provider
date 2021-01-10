@@ -174,40 +174,41 @@ class StitchLinksTransformer(Transformer):
         protein_list = []
         proteins = {}
         for compound in compound_list:
-            if compound.identifiers['pubchem'] is not None:
-                cid_without_leading_zeros = self.get_pubchemCID(compound)
-                cid = "CIDs" + "0" * (8 - len(cid_without_leading_zeros)) + cid_without_leading_zeros
-                query = """
-                SELECT DISTINCT
-                    chemical,
-                    protein,
-                    experimental_direct,
-                    experimental_transferred,
-                    prediction_direct,
-                    prediction_transferred,
-                    database_direct,
-                    database_transferred,
-                    textmining_direct,
-                    textmining_transferred,
-                    combined_score
-                FROM protein_chemical_links_transfer 
-                WHERE chemical = ? AND combined_score >= ?
-                ORDER BY combined_score DESC;
-                """
-                proteins_added = 0
-                cur = connection.execute(query, (cid,min_score))
-                for row in cur.fetchall():
-                    if proteins_added < limit:
-                        protein_id = "ENSEMBL:" + row["protein"][9:]
-                        if protein_id not in proteins:
-                            protein = self.get_protein(protein_id)[0]
-                            protein_list.append(protein)
-                            proteins[protein_id] = protein
-                        #else: protein = proteins[protein_id]
-                        protein = proteins[protein_id]
-                        # add connection element here by calling add_connection function
-                        self.add_connections(row, protein, compound)
-                        proteins_added += 1
+            if compound.identifiers.get('pubchem') == None:
+                continue
+            cid_without_leading_zeros = self.get_pubchemCID(compound)
+            cid = "CIDs" + "0" * (8 - len(cid_without_leading_zeros)) + cid_without_leading_zeros
+            query = """
+            SELECT DISTINCT
+                chemical,
+                protein,
+                experimental_direct,
+                experimental_transferred,
+                prediction_direct,
+                prediction_transferred,
+                database_direct,
+                database_transferred,
+                textmining_direct,
+                textmining_transferred,
+                combined_score
+            FROM protein_chemical_links_transfer 
+            WHERE chemical = ? AND combined_score >= ?
+            ORDER BY combined_score DESC;
+            """
+            proteins_added = 0
+            cur = connection.execute(query, (cid,min_score))
+            for row in cur.fetchall():
+                if limit <= 0 or proteins_added < limit:
+                    protein_id = "ENSEMBL:" + row["protein"][5:]
+                    if protein_id not in proteins:
+                        protein = self.get_protein(protein_id)[0]
+                        protein_list.append(protein)
+                        proteins[protein_id] = protein
+                    #else: protein = proteins[protein_id]
+                    protein = proteins[protein_id]
+                    # add connection element here by calling add_connection function
+                    self.add_connections(row, protein, compound)
+                    proteins_added += 1
         return protein_list
 
     # Gets information about target from target id and creates element and adds to gene_list
@@ -266,7 +267,7 @@ class StitchLinksTransformer(Transformer):
             if row[attribute] is not None and row[attribute] != '':
                 connection1.attributes.append(Attribute(
                     name=attribute,
-                    value=row[attribute],
+                    value=str(row[attribute]),
                     provided_by=self.info.name,
                     type=attribute,
                     source=SOURCE
@@ -292,7 +293,7 @@ class StitchLinksTransformer(Transformer):
             prot_is_acting = (prot_is_item_a == item_a_is_acting)
             connection1.attributes.append(Attribute(
                 name='protein_is_acting',
-                value=prot_is_acting,
+                value=str(prot_is_acting),
                 provided_by=self.info.name,
                 type='protein_is_acting',
                 source=SOURCE
@@ -303,7 +304,7 @@ class StitchLinksTransformer(Transformer):
                 if actions_row[attribute] is not None and actions_row[attribute] != '':
                     connection1.attributes.append(Attribute(
                         name=attribute,
-                        value=actions_row[attribute],
+                        value=str(actions_row[attribute]),
                         provided_by=self.info.name,
                         type=attribute,
                         source=SOURCE
