@@ -4,10 +4,13 @@ from contextlib import closing
 
 from openapi_server.models.query_graph import QueryGraph
 
+from openapi_server.controllers.utils import translate_type
+
 definition_file = 'transformer_chains.json'
 
 
 class KnowledgeMap:
+
 
     def __init__(self):
         self.kmap = self.read_knowledge_map()
@@ -54,7 +57,7 @@ class KnowledgeMap:
         return transformers
 
 
-    def match_query_graph(self, query_graph: QueryGraph):
+    def match_query_graph_old(self, query_graph: QueryGraph):
         nodes = {node.id:node for node in query_graph.nodes}
         edge = query_graph.edges[0]
         id = edge.id
@@ -65,6 +68,32 @@ class KnowledgeMap:
         object_class = target.type
         edge = {'id':id, 'source':source, 'type':predicate, 'target':target}
         return (edge,self.get_transformers(subject_class, predicate, object_class))
+
+    def match_query_graph(self, query_graph: QueryGraph):
+        # trapi v1.0.0 - nodes are now keyed map by id, so no translation needed
+        # nodes = {node.id:node for node in query_graph.nodes}
+        nodes = query_graph.nodes
+        for key, value in nodes.items(): 
+            value.node_id = key
+            #print("key: {} with value {}".format(key, value))
+
+        # trapi v.1.0.0 - edges are map keyed by id, so convert to list
+        # edge = query_graph.edges[0]
+        edge_list = []
+        for key, value in query_graph.edges.items():
+            value.edge_id = key
+            edge_list.append(value)
+
+        # build the edge object that will be returned; add node 
+        edge = edge_list[0]
+        edge_id = edge.edge_id
+        source = nodes[edge.subject]
+        target = nodes[edge.object]
+        #subject_class = translate_type(source.category)
+        predicate = edge.predicate
+        #object_class = translate_type(target.category)
+        edge = {'id':edge_id, 'source':source, 'type':predicate, 'target':target}
+        return (edge, self.get_transformers(source.category, predicate, target.category))
 
 
 def transformer_as_chain(transformer):
