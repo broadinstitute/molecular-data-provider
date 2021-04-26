@@ -4,7 +4,7 @@ import sys
 from setuptools import setup, find_packages
 
 NAME = "gtopdb-transformer"
-VERSION = "2.1.0"
+VERSION = "2.1.2"
 
 # To install the library, run the following
 #

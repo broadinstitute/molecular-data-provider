@@ -4,7 +4,7 @@ info:
     email: translator@broadinstitute.org
   termsOfService: https://www.guidetopharmacology.org/linking.jsp
   title: Transformer API for Guide to PHARMACOLOGY
-  version: 2.1.0
+  version: 2.1.2
 servers:
 - url: https://translator.broadinstitute.org/gtopdb
 tags:

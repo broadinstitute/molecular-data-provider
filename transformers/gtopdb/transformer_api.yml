@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Transformer API for Guide to PHARMACOLOGY
-  version: 2.1.0
+  version: 2.1.2
   termsOfService: https://www.guidetopharmacology.org/linking.jsp
   
   contact:
