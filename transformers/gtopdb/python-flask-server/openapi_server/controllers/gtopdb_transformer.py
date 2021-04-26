@@ -252,43 +252,46 @@ class GtoPdbTargetsTransformer(Transformer):
         gene_list = []
         genes = {}
         for compound in compound_list:
-            if compound.identifiers['pubchem'] is not None:
-                cid= self.get_pubchemCID(compound)
-                query = """
-                SELECT DISTINCT
-                    TARGET_ID,
-                    INTERACTION.INTERACTION_ID, 
-                    INTERACTION.TARGET_SPECIES, 
-                    INTERACTION.LIGAND_ID,
-                    INTERACTION.TYPE, 
-                    INTERACTION.ACTION, 
-                    INTERACTION.ACTION_COMMENT, 
-                    INTERACTION.SELECTIVITY, 
-                    INTERACTION.ENDOGENOUS, 
-                    INTERACTION.PRIMARY_TARGET,
-                    INTERACTION.CONCENTRATION_RANGE, 
-                    INTERACTION.AFFINITY_UNITS, 
-                    INTERACTION.AFFINITY_HIGH, 
-                    INTERACTION.AFFINITY_MEDIAN, 
-                    INTERACTION.AFFINITY_LOW, 
-                    INTERACTION.ORIGINAL_AFFINITY_UNITS,
-                    INTERACTION.ORIGINAL_AFFINITY_LOW_NM,
-                    INTERACTION.ORIGINAL_AFFINITY_MEDIAN_NM,
-                    INTERACTION.ORIGINAL_AFFINITY_HIGH_NM,
-                    INTERACTION.ORIGINAL_AFFINITY_RELATION, 
-                    INTERACTION.ASSAY_DESCRIPTION,
-                    INTERACTION.RECEPTOR_SITE, 
-                    INTERACTION.LIGAND_CONTEXT, 
-                    INTERACTION.PUBMED_ID    
-                FROM LIGAND
-                JOIN INTERACTION ON LIGAND.LIGAND_ID = INTERACTION.LIGAND_ID
-                WHERE LIGAND.PUBCHEMCID = ?;
-                """
-                cur=connection.execute(query,(cid,))
-                for row in cur.fetchall():
-                    target_id= row["TARGET_ID"]
-                    if target_id not in genes:   
-                        target= self.get_target(target_id)[0]
+            if compound.identifiers.get('pubchem') is None:
+                continue
+            cid= self.get_pubchemCID(compound)
+            query = """
+            SELECT DISTINCT
+                TARGET_ID,
+                INTERACTION.INTERACTION_ID, 
+                INTERACTION.TARGET_SPECIES, 
+                INTERACTION.LIGAND_ID,
+                INTERACTION.TYPE, 
+                INTERACTION.ACTION, 
+                INTERACTION.ACTION_COMMENT, 
+                INTERACTION.SELECTIVITY, 
+                INTERACTION.ENDOGENOUS, 
+                INTERACTION.PRIMARY_TARGET,
+                INTERACTION.CONCENTRATION_RANGE, 
+                INTERACTION.AFFINITY_UNITS, 
+                INTERACTION.AFFINITY_HIGH, 
+                INTERACTION.AFFINITY_MEDIAN, 
+                INTERACTION.AFFINITY_LOW, 
+                INTERACTION.ORIGINAL_AFFINITY_UNITS,
+                INTERACTION.ORIGINAL_AFFINITY_LOW_NM,
+                INTERACTION.ORIGINAL_AFFINITY_MEDIAN_NM,
+                INTERACTION.ORIGINAL_AFFINITY_HIGH_NM,
+                INTERACTION.ORIGINAL_AFFINITY_RELATION, 
+                INTERACTION.ASSAY_DESCRIPTION,
+                INTERACTION.RECEPTOR_SITE, 
+                INTERACTION.LIGAND_CONTEXT, 
+                INTERACTION.PUBMED_ID    
+            FROM LIGAND
+            JOIN INTERACTION ON LIGAND.LIGAND_ID = INTERACTION.LIGAND_ID
+            WHERE LIGAND.PUBCHEMCID = ?;
+            """
+            cur=connection.execute(query,(cid,))
+            for row in cur.fetchall():
+                target_id= row["TARGET_ID"]
+                target_list= self.get_target(target_id)
+                if target_list != None: 
+                    if target_id not in genes:  
+                        target= target_list[0]
                         gene_list.append(target)
                         genes[target_id]= target
                     target= genes[target_id]
@@ -346,7 +349,10 @@ class GtoPdbTargetsTransformer(Transformer):
         gene_list=[]
         cur=connection.execute(query,(target_id,))
         for row in cur.fetchall():
-            self.add_element(row,gene_list)
+            if row['HGNC_ID'] != '':
+                self.add_element(row,gene_list)
+            else:
+                return None
         return gene_list
 
     # Creates element for genes
@@ -468,7 +474,7 @@ class GtoPdbInhibitorsTransformer(Transformer):
         compounds = {}
         for gene in gene_list:
             # Only search if gene has HGNC id
-            if 'hgnc' in gene.identifiers:
+            if 'hgnc' in gene.identifiers and gene.identifiers['hgnc'] is not None:
                 hgnc= self.get_hgnc(gene)
                 query = """
                 SELECT DISTINCT
