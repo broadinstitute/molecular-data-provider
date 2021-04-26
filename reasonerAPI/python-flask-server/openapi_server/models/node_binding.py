@@ -15,26 +15,21 @@ class NodeBinding(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, qg_id=None, kg_id=None):  # noqa: E501
+    def __init__(self, id=None):  # noqa: E501
         """NodeBinding - a model defined in OpenAPI
 
-        :param qg_id: The qg_id of this NodeBinding.  # noqa: E501
-        :type qg_id: str
-        :param kg_id: The kg_id of this NodeBinding.  # noqa: E501
-        :type kg_id: object
+        :param id: The id of this NodeBinding.  # noqa: E501
+        :type id: str
         """
         self.openapi_types = {
-            'qg_id': str,
-            'kg_id': object
+            'id': str
         }
 
         self.attribute_map = {
-            'qg_id': 'qg_id',
-            'kg_id': 'kg_id'
+            'id': 'id'
         }
 
-        self._qg_id = qg_id
-        self._kg_id = kg_id
+        self._id = id
 
     @classmethod
     def from_dict(cls, dikt) -> 'NodeBinding':
@@ -48,51 +43,26 @@ class NodeBinding(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def qg_id(self):
-        """Gets the qg_id of this NodeBinding.
+    def id(self):
+        """Gets the id of this NodeBinding.
 
-        Query-graph node id, i.e. the `node_id` of a QNode  # noqa: E501
+        A Compact URI, consisting of a prefix and a reference separated by a colon, such as UniProtKB:P00738. Via an external context definition, the CURIE prefix and colon may be replaced by a URI prefix, such as http://identifiers.org/uniprot/, to form a full URI.  # noqa: E501
 
-        :return: The qg_id of this NodeBinding.
+        :return: The id of this NodeBinding.
         :rtype: str
         """
-        return self._qg_id
+        return self._id
 
-    @qg_id.setter
-    def qg_id(self, qg_id):
-        """Sets the qg_id of this NodeBinding.
+    @id.setter
+    def id(self, id):
+        """Sets the id of this NodeBinding.
 
-        Query-graph node id, i.e. the `node_id` of a QNode  # noqa: E501
+        A Compact URI, consisting of a prefix and a reference separated by a colon, such as UniProtKB:P00738. Via an external context definition, the CURIE prefix and colon may be replaced by a URI prefix, such as http://identifiers.org/uniprot/, to form a full URI.  # noqa: E501
 
-        :param qg_id: The qg_id of this NodeBinding.
-        :type qg_id: str
+        :param id: The id of this NodeBinding.
+        :type id: str
         """
-        if qg_id is None:
-            raise ValueError("Invalid value for `qg_id`, must not be `None`")  # noqa: E501
+        if id is None:
+            raise ValueError("Invalid value for `id`, must not be `None`")  # noqa: E501
 
-        self._qg_id = qg_id
-
-    @property
-    def kg_id(self):
-        """Gets the kg_id of this NodeBinding.
-
-        One or more knowledge-graph node ids, i.e. the `id` of a KNode  # noqa: E501
-
-        :return: The kg_id of this NodeBinding.
-        :rtype: object
-        """
-        return self._kg_id
-
-    @kg_id.setter
-    def kg_id(self, kg_id):
-        """Sets the kg_id of this NodeBinding.
-
-        One or more knowledge-graph node ids, i.e. the `id` of a KNode  # noqa: E501
-
-        :param kg_id: The kg_id of this NodeBinding.
-        :type kg_id: object
-        """
-        if kg_id is None:
-            raise ValueError("Invalid value for `kg_id`, must not be `None`")  # noqa: E501
-
-        self._kg_id = kg_id
+        self._id = id
