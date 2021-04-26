@@ -3,8 +3,8 @@
 import sys
 from setuptools import setup, find_packages
 
-NAME = "molepro-reasoner-api"
-VERSION = "2.0.0"
+NAME = "molepro-trapi"
+VERSION = "1.0.0.1"
 
 # To install the library, run the following
 #
@@ -14,18 +14,18 @@ VERSION = "2.0.0"
 # http://pypi.python.org/pypi/setuptools
 
 REQUIRES = [
-    "connexion==2.0.0",
-    "swagger-ui-bundle==0.0.2",
-    "python_dateutil==2.6.0"
+    "connexion>=2.0.2",
+    "swagger-ui-bundle>=0.0.2",
+    "python_dateutil>=2.6.0"
 ]
 
 setup(
     name=NAME,
     version=VERSION,
-    description="Systems Molecular Data Provider for NCATS Biomedical Translator Reasoners",
+    description="Molecular Data Provider for NCATS Biomedical Translator Reasoners",
     author_email="translator@broadinstitute.org",
     url="",
-    keywords=["OpenAPI", "Systems Molecular Data Provider for NCATS Biomedical Translator Reasoners"],
+    keywords=["OpenAPI", "Molecular Data Provider for NCATS Biomedical Translator Reasoners"],
     install_requires=REQUIRES,
     packages=find_packages(),
     package_data={'': ['openapi/openapi.yaml']},
