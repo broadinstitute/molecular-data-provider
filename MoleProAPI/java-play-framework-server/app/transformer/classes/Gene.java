@@ -28,8 +28,8 @@ public class Gene extends TransformerClass {
 
 
 	@Override
-	public Query getQuery(final MoleProQuery query) throws NotFoundException, BadRequestException {
-		return new GeneListQuery(query);
+	public Query getQuery(final MoleProQuery query, String cache) throws NotFoundException, BadRequestException {
+		return new GeneListQuery(query, cache);
 	}
 
 
@@ -70,9 +70,9 @@ public class Gene extends TransformerClass {
 		private final GeneInfo[] genes;
 
 
-		GeneListQuery(final MoleProQuery query) throws NotFoundException, BadRequestException {
+		GeneListQuery(final MoleProQuery query, String cache) throws NotFoundException, BadRequestException {
 			super(query);
-			genes = getCollection(query.getCollectionId()).getGenes();
+			genes = getCollection(query.getCollectionId(), cache).getGenes();
 		}
 
 
@@ -94,8 +94,8 @@ public class Gene extends TransformerClass {
 	}
 
 
-	private static GeneCollection getCollection(final String id) throws NotFoundException, BadRequestException {
-		final CollectionsEntry collection = Collections.getCollection(id);
+	private static GeneCollection getCollection(final String id, String cache) throws NotFoundException, BadRequestException {
+		final CollectionsEntry collection = Collections.getCollection(id, cache);
 		if (collection instanceof GeneCollection) {
 			return (GeneCollection) collection;
 		}
@@ -106,8 +106,8 @@ public class Gene extends TransformerClass {
 	}
 
 
-	public static GeneList getGeneList(final String id) throws NotFoundException, BadRequestException {
-		final GeneCollection collection = getCollection(id);
+	public static GeneList getGeneList(final String id, String cache) throws NotFoundException, BadRequestException {
+		final GeneCollection collection = getCollection(id, cache);
 		final GeneList geneList = new GeneList();
 		geneList.setId(collection.getInfo().getId());
 		geneList.setElementClass(collection.getInfo().getElementClass());

@@ -106,6 +106,17 @@ public class TimeOrderedMap<S,T> implements Container<S> {
 
 
 	/**
+	 * Removes the mapping for a key from this map.
+	 */
+	public synchronized void remove(final S key) {
+		final Entry<S,T> entry = getEntry(key);
+		if (entry != null) {
+			this.remove(entry);
+		}
+	}
+
+
+	/**
 	 * Returns the entry associated with the specified key, or null if this map
 	 * contains no mapping for the key.
 	 */

@@ -89,6 +89,9 @@ public class MyGene {
 
 
 		private static void addIdentifiers(Map<String,Object> identifiers, GeneInfo geneInfo) {
+			if (geneInfo.getIdentifiers() == null) {
+				return;
+			}
 			if (!identifiers.containsKey("entrez")) {
 				identifiers.put("entrez", geneInfo.getIdentifiers().getEntrez());
 			}
@@ -151,8 +154,10 @@ public class MyGene {
 				src.setIdentifiers(new HashMap<String,Object>());
 			}
 			addIdentifiers(src.getIdentifiers(), geneInfo);
-			for (Attribute attribute : geneInfo.getAttributes()) {
-				src.addAttributesItem(attribute);
+			if (geneInfo.getAttributes() != null) {
+				for (Attribute attribute : geneInfo.getAttributes()) {
+					src.addAttributesItem(attribute);
+				}
 			}
 			for (Names names : namesAndSynonyms(geneInfo)) {
 				src.addNamesSynonymsItem(names);
@@ -626,6 +631,11 @@ public class MyGene {
 			}
 			return keys;
 		}
+	}
+
+
+	public static int size() {
+		return Info.genes.size();
 	}
 
 }

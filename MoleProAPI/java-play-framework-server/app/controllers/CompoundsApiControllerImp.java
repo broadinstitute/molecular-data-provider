@@ -24,17 +24,17 @@ public class CompoundsApiControllerImp implements CompoundsApiControllerImpInter
 
     @Override
     public CollectionInfo compoundByIdPost(List<String> requestBody, String cache) throws Exception {
-    	return Compound.getCompoundsById(requestBody);
+    	return Compound.getCompoundsById(requestBody, cache);
     }
 
     @Override
     public CompoundList compoundByNameNameGet(String name, String cache) throws Exception {
-        return Compound.getCompoundByName(name);
+        return Compound.getCompoundByName(name, cache);
     }
 
     @Override
     public CollectionInfo compoundByNamePost(List<String> requestBody, String cache) throws Exception {
-    	return Compound.getCompoundsByName(requestBody);
+    	return Compound.getCompoundsByName(requestBody, cache);
     }
 
     @Override

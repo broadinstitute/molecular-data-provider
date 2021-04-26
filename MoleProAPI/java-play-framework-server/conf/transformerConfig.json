@@ -68,7 +68,7 @@
     	"PUBCHEM:":"CID:"
     },
     "expirationTimes": {
-        "collections": "2w",
+        "collections": "2h",
         "myGene.info cache": "2w",
         "myChem.info cache": "2w",
         "PubChem cache": "2w"

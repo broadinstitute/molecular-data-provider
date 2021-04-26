@@ -13,6 +13,7 @@ import apimodels.KnowledgeMap;
 import apimodels.Parameter;
 import apimodels.Predicate;
 import apimodels.TransformerInfo;
+import apimodels.TransformerInfoProperties;
 import apimodels.MoleProQuery;
 import apimodels.Property;
 import transformer.classes.Compound;
@@ -44,12 +45,26 @@ public abstract class Transformer {
 		}
 		this.inputClass = getInputClass(info.getKnowledgeMap(), info.getName());
 		this.outputClass = getOutputClass(info.getKnowledgeMap(), info.getName());
+		TransformerInfoProperties properties = this.info.getProperties();
+		if (properties == null) {
+			properties = new TransformerInfoProperties();
+			this.info.setProperties(properties);
+		}
+		if (properties.getSourceUrl() == null) {
+			properties.setSourceUrl("");
+		}
+		if (properties.getSourceVersion() == null) {
+			properties.setSourceVersion("");
+		}
+		if (properties.getTermsOfService() == null) {
+			properties.setTermsOfService("");
+		}
 	}
 
 
-	public CollectionInfo transform(final MoleProQuery moleproQuery) throws Exception {
+	public CollectionInfo transform(final MoleProQuery moleproQuery, String cache) throws Exception {
 		try {
-			final Query query = mkQuery(moleproQuery);
+			final Query query = mkQuery(moleproQuery, cache);
 			final CollectionInfo collectionInfo = createCollection(moleproQuery);
 			final CollectionsEntry collection = transform(query, collectionInfo);
 			Collections.save(collection);
@@ -60,11 +75,11 @@ public abstract class Transformer {
 	}
 
 
-	private Query mkQuery(final MoleProQuery moleproQuery) throws NotFoundException, BadRequestException {
+	private Query mkQuery(final MoleProQuery moleproQuery, String cache) throws NotFoundException, BadRequestException {
 		if (info.getVersion().startsWith("1.") || info.getVersion().startsWith("2.0."))
-			return inputClass.getQuery(moleproQuery);
+			return inputClass.getQuery(moleproQuery, cache);
 		boolean hasInput = !"none".equals(info.getKnowledgeMap().getInputClass());
-		return new TransformerQuery(moleproQuery, hasInput);
+		return new TransformerQuery(moleproQuery, cache, hasInput);
 	}
 
 

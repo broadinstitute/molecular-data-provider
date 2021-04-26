@@ -36,7 +36,7 @@ public abstract class Cache<S,K,V> {
 
 
 	public synchronized V get(S keySet, K key) {
-		if (map.containsKey(keySet) && map.get(keySet).contains(key)) {
+		if (map.containsKey(keySet) && map.get(keySet).contains(key) && map.get(keySet).get(key) != null) {
 			return map.get(keySet).get(key).get();
 		}
 		return null;
@@ -46,6 +46,15 @@ public abstract class Cache<S,K,V> {
 	public synchronized void put(S keySet, K key, V value) {
 		SoftReference<V> reference = new SoftReference<>(value);
 		map.get(keySet).put(key, reference);
+	}
+
+
+	public synchronized int size() {
+		int size = 0;
+		for (SoftTimeOrderedMap<K,V> map: map.values()) {
+			size = Math.max(size, map.size());
+		}
+		return size;
 	}
 
 
