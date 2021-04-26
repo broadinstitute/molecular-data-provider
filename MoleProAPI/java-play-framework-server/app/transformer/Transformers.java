@@ -12,7 +12,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import apimodels.TransformerInfo;
+import transformer.collection.Collections;
 import transformer.InternalTransformer.InternalTransformerInfo;
+import transformer.classes.MyChem;
+import transformer.classes.MyGene;
+import transformer.classes.PubChem;
 import transformer.exception.NotFoundException;
 import transformer.mapping.MappedAttribute;
 import transformer.mapping.MappedBiolinkClass;
@@ -166,5 +170,17 @@ public class Transformers {
 			log.debug("Transformer '" + transformerName + "' not found");
 			throw new NotFoundException("Transformer '" + transformerName + "' not found");
 		}
+	}
+	
+	public static void status() {
+		StringBuilder status = new StringBuilder();
+		status.append("transformers:"+transformers.size()+", ");
+		status.append("collections:"+Collections.size()+", ");
+		status.append("genes:"+MyGene.size()+", ");
+		status.append("compounds:"+MyChem.size()+", ");
+		status.append("pubchem:"+PubChem.size()+", ");
+		status.append("free memory:"+Runtime.getRuntime().freeMemory()/1000000);
+		status.append("/"+Runtime.getRuntime().totalMemory()/1000000);
+		System.out.println(status.toString());
 	}
 }

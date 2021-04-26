@@ -28,7 +28,7 @@ public class Other extends TransformerClass {
 
 
 	@Override
-	public Query getQuery(MoleProQuery query) {
+	public Query getQuery(MoleProQuery query, String cache) {
 		return new Query(query);
 	}
 

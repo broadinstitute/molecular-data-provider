@@ -19,17 +19,17 @@ import javax.validation.constraints.*;
 public class CollectionsApiControllerImp implements CollectionsApiControllerImpInterface {
     @Override
     public Collection collectionCollectionIdGet(String collectionId, String cache) throws Exception {
-        return Collections.getCollection(collectionId).asCollection();
+        return Collections.getCollection(collectionId, cache).asCollection();
     }
 
     @Override
     public CompoundList compoundListListIdGet(String listId, String cache) throws Exception {
-    	return Compound.getCompoundList(listId);
+    	return Compound.getCompoundList(listId, cache);
     }
 
     @Override
     public GeneList geneListListIdGet(String listId, String cache) throws Exception {
-    	return Gene.getGeneList(listId);
+    	return Gene.getGeneList(listId, cache);
     }
 
 }

@@ -18,11 +18,11 @@ public class TransformerQuery extends Query {
 	final ArrayList<Element> collection = new ArrayList<Element>();
 
 
-	public TransformerQuery(final MoleProQuery query, final boolean hasInput) throws NotFoundException {
+	public TransformerQuery(final MoleProQuery query, String cache, final boolean hasInput) throws NotFoundException {
 		super(query);
 		if (hasInput) {
 			final String collectionId = query.getCollectionId();
-			final CollectionsEntry collection = Collections.getCollection(collectionId);
+			final CollectionsEntry collection = Collections.getCollection(collectionId, cache);
 			for (CollectionElement srcElement : collection.getElements()) {
 				Element element = new Element();
 				element.id(srcElement.getElement().getId());

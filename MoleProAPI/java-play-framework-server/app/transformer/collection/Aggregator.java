@@ -12,9 +12,9 @@ import transformer.exception.BadRequestException;
 
 public class Aggregator {
 
-	public static CollectionInfo aggregate(final AggregationQuery query) throws Exception {
+	public static CollectionInfo aggregate(final AggregationQuery query, String cache) throws Exception {
 		final String operation = query.getOperation();
-		final List<CollectionsEntry> collections = getCollections(query.getCollectionIds());
+		final List<CollectionsEntry> collections = getCollections(query.getCollectionIds(), cache);
 		CollectionsEntry aggregate = aggregate(operation, collections);
 		aggregate.getInfo().setSource(operation);
 		Collections.save(aggregate);
@@ -41,14 +41,14 @@ public class Aggregator {
 	}
 
 
-	private static List<CollectionsEntry> getCollections(final List<String> collectionIds) throws Exception {
+	private static List<CollectionsEntry> getCollections(final List<String> collectionIds, String cache) throws Exception {
 		if (collectionIds == null || collectionIds.size() == 0) {
 			throw new BadRequestException("Empty collection list");
 		}
 		final List<CollectionsEntry> collections = new ArrayList<>(collectionIds.size());
 		String collectionClass = null;
 		for (String id : collectionIds) {
-			CollectionsEntry collection = Collections.getCollection(id);
+			CollectionsEntry collection = Collections.getCollection(id, cache);
 			if (collectionClass == null) {
 				collectionClass = collection.getInfo().getElementClass();
 			}

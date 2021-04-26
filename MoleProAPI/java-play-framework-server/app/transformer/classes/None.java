@@ -3,7 +3,6 @@ package transformer.classes;
 import java.util.List;
 
 import apimodels.CollectionInfo;
-import apimodels.Element;
 import apimodels.Property;
 import apimodels.MoleProQuery;
 import transformer.Transformer.Query;
@@ -16,7 +15,7 @@ public class None extends TransformerClass {
 
 
 	@Override
-	public Query getQuery(final MoleProQuery query) {
+	public Query getQuery(final MoleProQuery query, String cache) {
 		return new Query(query);
 	}
 

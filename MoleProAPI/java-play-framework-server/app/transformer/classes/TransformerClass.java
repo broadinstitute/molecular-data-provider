@@ -12,7 +12,7 @@ import transformer.exception.NotFoundException;
 
 public abstract class TransformerClass {
 
-	public abstract Transformer.Query getQuery(MoleProQuery query) throws NotFoundException, BadRequestException;
+	public abstract Transformer.Query getQuery(MoleProQuery query, String cache) throws NotFoundException, BadRequestException;
 
 
 	public abstract Transformer.Query getQuery(final List<Property> controls, CollectionsEntry entry) throws BadRequestException;

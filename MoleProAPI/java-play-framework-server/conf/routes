@@ -4,7 +4,7 @@
 
 GET     /api                        controllers.ApiDocController.api
 GET     /molecular_data_provider/api                        controllers.ApiDocController.api
-
+GET     /molecular_data_provider/status                        controllers.ApiDocController.status
 
 #Functions for Collections API
 GET     /molecular_data_provider/collection/:collectionId                     controllers.CollectionsApiController.collectionCollectionIdGet(collectionId: String)

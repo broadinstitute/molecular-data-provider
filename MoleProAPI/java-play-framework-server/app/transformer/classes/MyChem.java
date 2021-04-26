@@ -837,4 +837,9 @@ public class MyChem {
 			return keys;
 		}
 	}
+
+
+	public static int size() {
+		return Info.compounds.size();
+	}
 }

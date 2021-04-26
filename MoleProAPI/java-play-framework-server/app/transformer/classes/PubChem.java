@@ -64,7 +64,7 @@ public class PubChem {
 	}
 
 
-	private static CompoundInfo findCompoundByStructure(final String url, final String key, final String structure) {
+	private synchronized static CompoundInfo findCompoundByStructure(final String url, final String key, final String structure) {
 		try {
 			String json = HTTP.post(new URL(url), key, structure);
 			Thread.sleep(200); // PubChem only allows 5 requests per second
@@ -179,7 +179,7 @@ public class PubChem {
 	}
 
 
-	private static String getName(final long cid) {
+	private synchronized static String getName(final long cid) {
 		try {
 			Response response = compoundNames.get(PUBCHEM, String.valueOf(cid));
 			if (response == null) {
@@ -202,7 +202,7 @@ public class PubChem {
 	}
 
 
-	private static List<String> getSynonyms(final long cid) {
+	private synchronized static List<String> getSynonyms(final long cid) {
 		try {
 			Response response = compoundSynonyms.get(PUBCHEM, String.valueOf(cid));
 			if (response == null) {
@@ -359,5 +359,9 @@ public class PubChem {
 			}
 			return keys;
 		}
+	}
+	
+	public static String size() {
+		return ""+compoundNames.size()+"/"+compoundSynonyms.size();
 	}
 }
