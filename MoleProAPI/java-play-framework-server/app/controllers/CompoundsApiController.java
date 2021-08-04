@@ -1,8 +1,8 @@
 package controllers;
 
+import apimodels.Collection;
 import apimodels.CollectionInfo;
-import apimodels.CompoundInfo;
-import apimodels.CompoundList;
+import apimodels.Element;
 import apimodels.ErrorMsg;
 import java.util.List;
 
@@ -48,7 +48,7 @@ public class CompoundsApiController extends Controller {
         } else {
             cache = null;
         }
-        CompoundInfo obj = imp.compoundByIdCompoundIdGet(compoundId, cache);
+        Element obj = imp.compoundByIdCompoundIdGet(compoundId, cache);
         if (configuration.getBoolean("useOutputBeanValidation")) {
             OpenAPIUtils.validate(obj);
         }
@@ -94,7 +94,7 @@ public class CompoundsApiController extends Controller {
         } else {
             cache = null;
         }
-        CompoundList obj = imp.compoundByNameNameGet(name, cache);
+        Collection obj = imp.compoundByNameNameGet(name, cache);
         if (configuration.getBoolean("useOutputBeanValidation")) {
             OpenAPIUtils.validate(obj);
         }
@@ -150,7 +150,7 @@ public class CompoundsApiController extends Controller {
         } else {
             cache = null;
         }
-        CompoundInfo obj = imp.compoundByStructurePost(body, cache);
+        Element obj = imp.compoundByStructurePost(body, cache);
         if (configuration.getBoolean("useOutputBeanValidation")) {
             OpenAPIUtils.validate(obj);
         }

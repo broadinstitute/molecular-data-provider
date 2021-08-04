@@ -26,6 +26,9 @@ public class KnowledgeMap   {
   @JsonProperty("nodes")
   private Map<String, Node> nodes = null;
 
+  @JsonProperty("edges")
+  private List<Predicate> edges = null;
+
   @JsonProperty("predicates")
   private List<Predicate> predicates = null;
 
@@ -38,7 +41,8 @@ public class KnowledgeMap   {
    * BioLink class for the members of the input list.
    * @return inputClass
   **/
-    public String getInputClass() {
+  @NotNull
+  public String getInputClass() {
     return inputClass;
   }
 
@@ -55,7 +59,8 @@ public class KnowledgeMap   {
    * BioLink class for the members of the output list.
    * @return outputClass
   **/
-    public String getOutputClass() {
+  @NotNull
+  public String getOutputClass() {
     return outputClass;
   }
 
@@ -87,6 +92,32 @@ public class KnowledgeMap   {
 
   public void setNodes(Map<String, Node> nodes) {
     this.nodes = nodes;
+  }
+
+  public KnowledgeMap edges(List<Predicate> edges) {
+    this.edges = edges;
+    return this;
+  }
+
+  public KnowledgeMap addEdgesItem(Predicate edgesItem) {
+    if (edges == null) {
+      edges = new ArrayList<>();
+    }
+    edges.add(edgesItem);
+    return this;
+  }
+
+   /**
+   * Predicates describing relationships between subjects and objects.
+   * @return edges
+  **/
+  @Valid
+  public List<Predicate> getEdges() {
+    return edges;
+  }
+
+  public void setEdges(List<Predicate> edges) {
+    this.edges = edges;
   }
 
   public KnowledgeMap predicates(List<Predicate> predicates) {
@@ -128,12 +159,13 @@ public class KnowledgeMap   {
     return Objects.equals(inputClass, knowledgeMap.inputClass) &&
         Objects.equals(outputClass, knowledgeMap.outputClass) &&
         Objects.equals(nodes, knowledgeMap.nodes) &&
+        Objects.equals(edges, knowledgeMap.edges) &&
         Objects.equals(predicates, knowledgeMap.predicates);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(inputClass, outputClass, nodes, predicates);
+    return Objects.hash(inputClass, outputClass, nodes, edges, predicates);
   }
 
   @SuppressWarnings("StringBufferReplaceableByString")
@@ -145,6 +177,7 @@ public class KnowledgeMap   {
     sb.append("    inputClass: ").append(toIndentedString(inputClass)).append("\n");
     sb.append("    outputClass: ").append(toIndentedString(outputClass)).append("\n");
     sb.append("    nodes: ").append(toIndentedString(nodes)).append("\n");
+    sb.append("    edges: ").append(toIndentedString(edges)).append("\n");
     sb.append("    predicates: ").append(toIndentedString(predicates)).append("\n");
     sb.append("}");
     return sb.toString();

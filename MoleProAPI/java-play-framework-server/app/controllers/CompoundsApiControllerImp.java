@@ -1,8 +1,8 @@
 package controllers;
 
+import apimodels.Collection;
 import apimodels.CollectionInfo;
-import apimodels.CompoundInfo;
-import apimodels.CompoundList;
+import apimodels.Element;
 import apimodels.ErrorMsg;
 import java.util.List;
 
@@ -15,9 +15,9 @@ import javax.validation.constraints.*;
 
 public class CompoundsApiControllerImp implements CompoundsApiControllerImpInterface {
     @Override
-    public CompoundInfo compoundByIdCompoundIdGet(String compoundId, String cache) throws Exception {
+    public Element compoundByIdCompoundIdGet(String compoundId, String cache) throws Exception {
         //Do your magic!!!
-        return new CompoundInfo();
+        return new Element();
     }
 
     @Override
@@ -27,9 +27,9 @@ public class CompoundsApiControllerImp implements CompoundsApiControllerImpInter
     }
 
     @Override
-    public CompoundList compoundByNameNameGet(String name, String cache) throws Exception {
+    public Collection compoundByNameNameGet(String name, String cache) throws Exception {
         //Do your magic!!!
-        return new CompoundList();
+        return new Collection();
     }
 
     @Override
@@ -39,9 +39,9 @@ public class CompoundsApiControllerImp implements CompoundsApiControllerImpInter
     }
 
     @Override
-    public CompoundInfo compoundByStructurePost(String body, String cache) throws Exception {
+    public Element compoundByStructurePost(String body, String cache) throws Exception {
         //Do your magic!!!
-        return new CompoundInfo();
+        return new Element();
     }
 
 }

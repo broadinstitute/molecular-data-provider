@@ -19,11 +19,17 @@ public class Names   {
   @JsonProperty("synonyms")
   private List<String> synonyms = null;
 
+  @JsonProperty("name_type")
+  private String nameType;
+
   @JsonProperty("source")
   private String source;
 
-  @JsonProperty("url")
-  private String url;
+  @JsonProperty("provided_by")
+  private String providedBy;
+
+  @JsonProperty("language")
+  private String language;
 
   public Names name(String name) {
     this.name = name;
@@ -67,13 +73,31 @@ public class Names   {
     this.synonyms = synonyms;
   }
 
+  public Names nameType(String nameType) {
+    this.nameType = nameType;
+    return this;
+  }
+
+   /**
+   * Type of names and synonyms, e.g. inn, trademarked name.
+   * @return nameType
+  **/
+  @NotNull
+  public String getNameType() {
+    return nameType;
+  }
+
+  public void setNameType(String nameType) {
+    this.nameType = nameType;
+  }
+
   public Names source(String source) {
     this.source = source;
     return this;
   }
 
    /**
-   * Source of names and synonyms.
+   * Primary source of names and synonyms.
    * @return source
   **/
   @NotNull
@@ -85,21 +109,39 @@ public class Names   {
     this.source = source;
   }
 
-  public Names url(String url) {
-    this.url = url;
+  public Names providedBy(String providedBy) {
+    this.providedBy = providedBy;
     return this;
   }
 
    /**
-   * URL for additional information.
-   * @return url
+   * Transformer that produced the names and synonyms.
+   * @return providedBy
   **/
-    public String getUrl() {
-    return url;
+  @NotNull
+  public String getProvidedBy() {
+    return providedBy;
   }
 
-  public void setUrl(String url) {
-    this.url = url;
+  public void setProvidedBy(String providedBy) {
+    this.providedBy = providedBy;
+  }
+
+  public Names language(String language) {
+    this.language = language;
+    return this;
+  }
+
+   /**
+   * Language of names and synonyms.
+   * @return language
+  **/
+    public String getLanguage() {
+    return language;
+  }
+
+  public void setLanguage(String language) {
+    this.language = language;
   }
 
 
@@ -114,13 +156,15 @@ public class Names   {
     Names names = (Names) o;
     return Objects.equals(name, names.name) &&
         Objects.equals(synonyms, names.synonyms) &&
+        Objects.equals(nameType, names.nameType) &&
         Objects.equals(source, names.source) &&
-        Objects.equals(url, names.url);
+        Objects.equals(providedBy, names.providedBy) &&
+        Objects.equals(language, names.language);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, synonyms, source, url);
+    return Objects.hash(name, synonyms, nameType, source, providedBy, language);
   }
 
   @SuppressWarnings("StringBufferReplaceableByString")
@@ -131,8 +175,10 @@ public class Names   {
     
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    synonyms: ").append(toIndentedString(synonyms)).append("\n");
+    sb.append("    nameType: ").append(toIndentedString(nameType)).append("\n");
     sb.append("    source: ").append(toIndentedString(source)).append("\n");
-    sb.append("    url: ").append(toIndentedString(url)).append("\n");
+    sb.append("    providedBy: ").append(toIndentedString(providedBy)).append("\n");
+    sb.append("    language: ").append(toIndentedString(language)).append("\n");
     sb.append("}");
     return sb.toString();
   }

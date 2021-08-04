@@ -143,7 +143,8 @@ public class TransformerInfo   {
    * Short label for GUI display.
    * @return label
   **/
-    public String getLabel() {
+  @NotNull
+  public String getLabel() {
     return label;
   }
 
@@ -195,7 +196,8 @@ public class TransformerInfo   {
    * Transformer's version.
    * @return version
   **/
-    public String getVersion() {
+  @NotNull
+  public String getVersion() {
     return version;
   }
 
@@ -248,7 +250,8 @@ public class TransformerInfo   {
    * Get knowledgeMap
    * @return knowledgeMap
   **/
-  @Valid
+  @NotNull
+@Valid
   public KnowledgeMap getKnowledgeMap() {
     return knowledgeMap;
   }

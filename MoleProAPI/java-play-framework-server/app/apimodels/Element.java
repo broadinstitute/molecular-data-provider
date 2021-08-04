@@ -25,7 +25,7 @@ public class Element   {
   private String biolinkClass;
 
   @JsonProperty("identifiers")
-  private Map<String, Object> identifiers = null;
+  private Map<String, Object> identifiers = new HashMap<>();
 
   @JsonProperty("alternative_identifiers")
   private List<Map<String, Object>> alternativeIdentifiers = null;
@@ -41,6 +41,9 @@ public class Element   {
 
   @JsonProperty("source")
   private String source;
+
+  @JsonProperty("provided_by")
+  private String providedBy;
 
   public Element id(String id) {
     this.id = id;
@@ -69,7 +72,8 @@ public class Element   {
    * BioLink class of the element.
    * @return biolinkClass
   **/
-    public String getBiolinkClass() {
+  @NotNull
+  public String getBiolinkClass() {
     return biolinkClass;
   }
 
@@ -83,9 +87,6 @@ public class Element   {
   }
 
   public Element putIdentifiersItem(String key, Object identifiersItem) {
-    if (this.identifiers == null) {
-      this.identifiers = new HashMap<>();
-    }
     this.identifiers.put(key, identifiersItem);
     return this;
   }
@@ -94,7 +95,8 @@ public class Element   {
    * identifiers of the element.
    * @return identifiers
   **/
-    public Map<String, Object> getIdentifiers() {
+  @NotNull
+  public Map<String, Object> getIdentifiers() {
     return identifiers;
   }
 
@@ -212,15 +214,34 @@ public class Element   {
   }
 
    /**
-   * Name of a transformer that added the element to the collection.
+   * Source of the element
    * @return source
   **/
-    public String getSource() {
+  @NotNull
+  public String getSource() {
     return source;
   }
 
   public void setSource(String source) {
     this.source = source;
+  }
+
+  public Element providedBy(String providedBy) {
+    this.providedBy = providedBy;
+    return this;
+  }
+
+   /**
+   * Name of a transformer that added the element to the collection.
+   * @return providedBy
+  **/
+  @NotNull
+  public String getProvidedBy() {
+    return providedBy;
+  }
+
+  public void setProvidedBy(String providedBy) {
+    this.providedBy = providedBy;
   }
 
 
@@ -240,12 +261,13 @@ public class Element   {
         Objects.equals(namesSynonyms, element.namesSynonyms) &&
         Objects.equals(attributes, element.attributes) &&
         Objects.equals(connections, element.connections) &&
-        Objects.equals(source, element.source);
+        Objects.equals(source, element.source) &&
+        Objects.equals(providedBy, element.providedBy);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, biolinkClass, identifiers, alternativeIdentifiers, namesSynonyms, attributes, connections, source);
+    return Objects.hash(id, biolinkClass, identifiers, alternativeIdentifiers, namesSynonyms, attributes, connections, source, providedBy);
   }
 
   @SuppressWarnings("StringBufferReplaceableByString")
@@ -262,6 +284,7 @@ public class Element   {
     sb.append("    attributes: ").append(toIndentedString(attributes)).append("\n");
     sb.append("    connections: ").append(toIndentedString(connections)).append("\n");
     sb.append("    source: ").append(toIndentedString(source)).append("\n");
+    sb.append("    providedBy: ").append(toIndentedString(providedBy)).append("\n");
     sb.append("}");
     return sb.toString();
   }
