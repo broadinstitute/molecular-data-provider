@@ -3,7 +3,6 @@ package transformer;
 import java.util.ArrayList;
 import java.util.List;
 
-import apimodels.Attribute;
 import apimodels.Element;
 import apimodels.MoleProQuery;
 import apimodels.Property;
@@ -28,11 +27,8 @@ public class TransformerQuery extends Query {
 				element.id(srcElement.getElement().getId());
 				element.biolinkClass(srcElement.getElement().getBiolinkClass());
 				element.identifiers(srcElement.getElement().getIdentifiers());
-				for (Attribute attribute : srcElement.getElement().getAttributes()) {
-					if (attribute.getName() != null && attribute.getValue() != null && attribute.getSource() != null) {
-						element.addAttributesItem(attribute);
-					}
-				}
+				element.source(srcElement.getElement().getSource());
+				element.providedBy(srcElement.getElement().getProvidedBy());
 				this.collection.add(element);
 			}
 		}

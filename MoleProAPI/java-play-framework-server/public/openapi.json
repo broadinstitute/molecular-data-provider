@@ -5,7 +5,7 @@
       "email" : "translator@broadinstitute.org"
     },
     "title" : "Molecular Data Provider",
-    "version" : "2.2.1"
+    "version" : "2.3.0"
   },
   "servers" : [ {
     "url" : "https://translator.broadinstitute.org/molecular_data_provider"
@@ -46,7 +46,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/compound_list"
+                  "$ref" : "#/components/schemas/collection"
                 }
               }
             },
@@ -171,7 +171,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/compound_info"
+                  "$ref" : "#/components/schemas/element"
                 }
               }
             },
@@ -297,7 +297,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/compound_info"
+                  "$ref" : "#/components/schemas/element"
                 }
               }
             },
@@ -499,6 +499,7 @@
     },
     "/gene/list/{list_id}" : {
       "get" : {
+        "deprecated" : true,
         "description" : "Retrieves a gene list for a given gene-list id.",
         "parameters" : [ {
           "description" : "gene-list id",
@@ -560,6 +561,7 @@
     },
     "/compound/list/{list_id}" : {
       "get" : {
+        "deprecated" : true,
         "description" : "Retrieves a compound list for a given compound-list id.",
         "parameters" : [ {
           "description" : "compound-list id",
@@ -671,35 +673,43 @@
           "knowledge_map" : {
             "predicates" : [ {
               "predicate" : "predicate",
+              "inverse_relations" : [ "inverse_relations", "inverse_relations" ],
               "subject" : "subject",
               "count" : 6,
               "attributes" : [ {
                 "names" : [ "PubMed Identifier" ],
+                "attribute_type_id" : "EDAM:data_1187",
                 "source" : "UniProtKB",
                 "type" : "EDAM:data_1187"
               }, {
                 "names" : [ "PubMed Identifier" ],
+                "attribute_type_id" : "EDAM:data_1187",
                 "source" : "UniProtKB",
                 "type" : "EDAM:data_1187"
               } ],
               "source" : "ChEMBL",
               "relations" : [ "binds_to" ],
+              "inverse_predicate" : "inverse_predicate",
               "object" : "object"
             }, {
               "predicate" : "predicate",
+              "inverse_relations" : [ "inverse_relations", "inverse_relations" ],
               "subject" : "subject",
               "count" : 6,
               "attributes" : [ {
                 "names" : [ "PubMed Identifier" ],
+                "attribute_type_id" : "EDAM:data_1187",
                 "source" : "UniProtKB",
                 "type" : "EDAM:data_1187"
               }, {
                 "names" : [ "PubMed Identifier" ],
+                "attribute_type_id" : "EDAM:data_1187",
                 "source" : "UniProtKB",
                 "type" : "EDAM:data_1187"
               } ],
               "source" : "ChEMBL",
               "relations" : [ "binds_to" ],
+              "inverse_predicate" : "inverse_predicate",
               "object" : "object"
             } ],
             "nodes" : {
@@ -708,16 +718,59 @@
                 "count" : 0,
                 "attributes" : [ {
                   "names" : [ "PubMed Identifier" ],
+                  "attribute_type_id" : "EDAM:data_1187",
                   "source" : "UniProtKB",
                   "type" : "EDAM:data_1187"
                 }, {
                   "names" : [ "PubMed Identifier" ],
+                  "attribute_type_id" : "EDAM:data_1187",
                   "source" : "UniProtKB",
                   "type" : "EDAM:data_1187"
                 } ]
               }
             },
             "output_class" : "output_class",
+            "edges" : [ {
+              "predicate" : "predicate",
+              "inverse_relations" : [ "inverse_relations", "inverse_relations" ],
+              "subject" : "subject",
+              "count" : 6,
+              "attributes" : [ {
+                "names" : [ "PubMed Identifier" ],
+                "attribute_type_id" : "EDAM:data_1187",
+                "source" : "UniProtKB",
+                "type" : "EDAM:data_1187"
+              }, {
+                "names" : [ "PubMed Identifier" ],
+                "attribute_type_id" : "EDAM:data_1187",
+                "source" : "UniProtKB",
+                "type" : "EDAM:data_1187"
+              } ],
+              "source" : "ChEMBL",
+              "relations" : [ "binds_to" ],
+              "inverse_predicate" : "inverse_predicate",
+              "object" : "object"
+            }, {
+              "predicate" : "predicate",
+              "inverse_relations" : [ "inverse_relations", "inverse_relations" ],
+              "subject" : "subject",
+              "count" : 6,
+              "attributes" : [ {
+                "names" : [ "PubMed Identifier" ],
+                "attribute_type_id" : "EDAM:data_1187",
+                "source" : "UniProtKB",
+                "type" : "EDAM:data_1187"
+              }, {
+                "names" : [ "PubMed Identifier" ],
+                "attribute_type_id" : "EDAM:data_1187",
+                "source" : "UniProtKB",
+                "type" : "EDAM:data_1187"
+              } ],
+              "source" : "ChEMBL",
+              "relations" : [ "binds_to" ],
+              "inverse_predicate" : "inverse_predicate",
+              "object" : "object"
+            } ],
             "input_class" : "input_class"
           },
           "function" : "producer",
@@ -727,23 +780,23 @@
           "version" : "version",
           "parameters" : [ {
             "allowed_values" : [ "allowed_values", "allowed_values" ],
-            "biolink_class" : "biolink_class",
             "default" : "default",
             "allowed_range" : [ 1.4658129805029452, 1.4658129805029452 ],
+            "multivalued" : true,
             "name" : "name",
             "suggested_values" : "suggested_values",
-            "lookup_url" : "lookup_url",
             "type" : "Boolean",
+            "required" : true,
             "example" : "example"
           }, {
             "allowed_values" : [ "allowed_values", "allowed_values" ],
-            "biolink_class" : "biolink_class",
             "default" : "default",
             "allowed_range" : [ 1.4658129805029452, 1.4658129805029452 ],
+            "multivalued" : true,
             "name" : "name",
             "suggested_values" : "suggested_values",
-            "lookup_url" : "lookup_url",
             "type" : "Boolean",
+            "required" : true,
             "example" : "example"
           } ],
           "url" : "url",
@@ -801,19 +854,19 @@
             "type" : "array"
           }
         },
-        "required" : [ "function", "name", "status", "url" ],
+        "required" : [ "function", "knowledge_map", "label", "name", "status", "url", "version" ],
         "type" : "object"
       },
       "parameter" : {
         "example" : {
           "allowed_values" : [ "allowed_values", "allowed_values" ],
-          "biolink_class" : "biolink_class",
           "default" : "default",
           "allowed_range" : [ 1.4658129805029452, 1.4658129805029452 ],
+          "multivalued" : true,
           "name" : "name",
           "suggested_values" : "suggested_values",
-          "lookup_url" : "lookup_url",
           "type" : "Boolean",
+          "required" : true,
           "example" : "example"
         },
         "properties" : {
@@ -826,16 +879,20 @@
             "enum" : [ "Boolean", "int", "double", "string" ],
             "type" : "string"
           },
+          "required" : {
+            "description" : "Indicates whether the parameter is required(default true).",
+            "type" : "boolean"
+          },
+          "multivalued" : {
+            "description" : "Indicates whether multiple occurences of the parameter are allowed (default false).",
+            "type" : "boolean"
+          },
           "default" : {
             "description" : "Default value of the parameter.",
             "type" : "string"
           },
           "example" : {
             "description" : "Example value of the parameter.",
-            "type" : "string"
-          },
-          "biolink_class" : {
-            "description" : "BioLink class of the parameter. Applicable to producers only and only one parameter can have a BioLink class.",
             "type" : "string"
           },
           "allowed_values" : {
@@ -857,10 +914,6 @@
           "suggested_values" : {
             "description" : "Suggested value range for the parameter.",
             "type" : "string"
-          },
-          "lookup_url" : {
-            "description" : "URL to search for suitable parameter values.",
-            "type" : "string"
           }
         },
         "required" : [ "name", "type" ],
@@ -871,35 +924,43 @@
         "example" : {
           "predicates" : [ {
             "predicate" : "predicate",
+            "inverse_relations" : [ "inverse_relations", "inverse_relations" ],
             "subject" : "subject",
             "count" : 6,
             "attributes" : [ {
               "names" : [ "PubMed Identifier" ],
+              "attribute_type_id" : "EDAM:data_1187",
               "source" : "UniProtKB",
               "type" : "EDAM:data_1187"
             }, {
               "names" : [ "PubMed Identifier" ],
+              "attribute_type_id" : "EDAM:data_1187",
               "source" : "UniProtKB",
               "type" : "EDAM:data_1187"
             } ],
             "source" : "ChEMBL",
             "relations" : [ "binds_to" ],
+            "inverse_predicate" : "inverse_predicate",
             "object" : "object"
           }, {
             "predicate" : "predicate",
+            "inverse_relations" : [ "inverse_relations", "inverse_relations" ],
             "subject" : "subject",
             "count" : 6,
             "attributes" : [ {
               "names" : [ "PubMed Identifier" ],
+              "attribute_type_id" : "EDAM:data_1187",
               "source" : "UniProtKB",
               "type" : "EDAM:data_1187"
             }, {
               "names" : [ "PubMed Identifier" ],
+              "attribute_type_id" : "EDAM:data_1187",
               "source" : "UniProtKB",
               "type" : "EDAM:data_1187"
             } ],
             "source" : "ChEMBL",
             "relations" : [ "binds_to" ],
+            "inverse_predicate" : "inverse_predicate",
             "object" : "object"
           } ],
           "nodes" : {
@@ -908,16 +969,59 @@
               "count" : 0,
               "attributes" : [ {
                 "names" : [ "PubMed Identifier" ],
+                "attribute_type_id" : "EDAM:data_1187",
                 "source" : "UniProtKB",
                 "type" : "EDAM:data_1187"
               }, {
                 "names" : [ "PubMed Identifier" ],
+                "attribute_type_id" : "EDAM:data_1187",
                 "source" : "UniProtKB",
                 "type" : "EDAM:data_1187"
               } ]
             }
           },
           "output_class" : "output_class",
+          "edges" : [ {
+            "predicate" : "predicate",
+            "inverse_relations" : [ "inverse_relations", "inverse_relations" ],
+            "subject" : "subject",
+            "count" : 6,
+            "attributes" : [ {
+              "names" : [ "PubMed Identifier" ],
+              "attribute_type_id" : "EDAM:data_1187",
+              "source" : "UniProtKB",
+              "type" : "EDAM:data_1187"
+            }, {
+              "names" : [ "PubMed Identifier" ],
+              "attribute_type_id" : "EDAM:data_1187",
+              "source" : "UniProtKB",
+              "type" : "EDAM:data_1187"
+            } ],
+            "source" : "ChEMBL",
+            "relations" : [ "binds_to" ],
+            "inverse_predicate" : "inverse_predicate",
+            "object" : "object"
+          }, {
+            "predicate" : "predicate",
+            "inverse_relations" : [ "inverse_relations", "inverse_relations" ],
+            "subject" : "subject",
+            "count" : 6,
+            "attributes" : [ {
+              "names" : [ "PubMed Identifier" ],
+              "attribute_type_id" : "EDAM:data_1187",
+              "source" : "UniProtKB",
+              "type" : "EDAM:data_1187"
+            }, {
+              "names" : [ "PubMed Identifier" ],
+              "attribute_type_id" : "EDAM:data_1187",
+              "source" : "UniProtKB",
+              "type" : "EDAM:data_1187"
+            } ],
+            "source" : "ChEMBL",
+            "relations" : [ "binds_to" ],
+            "inverse_predicate" : "inverse_predicate",
+            "object" : "object"
+          } ],
           "input_class" : "input_class"
         },
         "properties" : {
@@ -936,7 +1040,15 @@
             "description" : "List of semantic types in the KnowledgeMap.",
             "type" : "object"
           },
+          "edges" : {
+            "description" : "Predicates describing relationships between subjects and objects.",
+            "items" : {
+              "$ref" : "#/components/schemas/predicate"
+            },
+            "type" : "array"
+          },
           "predicates" : {
+            "deprecated" : true,
             "description" : "Predicates describing relationships between subjects and objects.",
             "items" : {
               "$ref" : "#/components/schemas/predicate"
@@ -944,6 +1056,7 @@
             "type" : "array"
           }
         },
+        "required" : [ "input_class", "output_class" ],
         "type" : "object"
       },
       "node" : {
@@ -954,10 +1067,12 @@
           "count" : 0,
           "attributes" : [ {
             "names" : [ "PubMed Identifier" ],
+            "attribute_type_id" : "EDAM:data_1187",
             "source" : "UniProtKB",
             "type" : "EDAM:data_1187"
           }, {
             "names" : [ "PubMed Identifier" ],
+            "attribute_type_id" : "EDAM:data_1187",
             "source" : "UniProtKB",
             "type" : "EDAM:data_1187"
           } ]
@@ -990,19 +1105,23 @@
         "description" : "Predicate describing relationship between a subject and an object.",
         "example" : {
           "predicate" : "predicate",
+          "inverse_relations" : [ "inverse_relations", "inverse_relations" ],
           "subject" : "subject",
           "count" : 6,
           "attributes" : [ {
             "names" : [ "PubMed Identifier" ],
+            "attribute_type_id" : "EDAM:data_1187",
             "source" : "UniProtKB",
             "type" : "EDAM:data_1187"
           }, {
             "names" : [ "PubMed Identifier" ],
+            "attribute_type_id" : "EDAM:data_1187",
             "source" : "UniProtKB",
             "type" : "EDAM:data_1187"
           } ],
           "source" : "ChEMBL",
           "relations" : [ "binds_to" ],
+          "inverse_predicate" : "inverse_predicate",
           "object" : "object"
         },
         "properties" : {
@@ -1010,6 +1129,9 @@
             "type" : "string"
           },
           "predicate" : {
+            "type" : "string"
+          },
+          "inverse_predicate" : {
             "type" : "string"
           },
           "object" : {
@@ -1028,6 +1150,13 @@
             },
             "type" : "array"
           },
+          "inverse_relations" : {
+            "description" : "Inverse low-level relations from the underlying source.",
+            "items" : {
+              "type" : "string"
+            },
+            "type" : "array"
+          },
           "count" : {
             "description" : "Number of edge instances known to this knowledge source",
             "type" : "integer"
@@ -1039,7 +1168,7 @@
             "type" : "array"
           }
         },
-        "required" : [ "object", "predicate", "subject" ],
+        "required" : [ "inverse_predicate", "object", "predicate", "subject" ],
         "type" : "object"
       },
       "km_attribute" : {
@@ -1047,11 +1176,18 @@
         "description" : "Description of attribute types provided by this knowledge source.",
         "example" : {
           "names" : [ "PubMed Identifier" ],
+          "attribute_type_id" : "EDAM:data_1187",
           "source" : "UniProtKB",
           "type" : "EDAM:data_1187"
         },
         "properties" : {
           "type" : {
+            "deprecated" : true,
+            "description" : "CURIE of the semantic type of the attribute, from the EDAM ontology if possible. If a suitable identifier does not exist, enter a descriptive phrase here and submit the new type for consideration by the appropriate authority.",
+            "example" : "EDAM:data_1187",
+            "type" : "string"
+          },
+          "attribute_type_id" : {
             "description" : "CURIE of the semantic type of the attribute, from the EDAM ontology if possible. If a suitable identifier does not exist, enter a descriptive phrase here and submit the new type for consideration by the appropriate authority.",
             "example" : "EDAM:data_1187",
             "type" : "string"
@@ -1070,7 +1206,7 @@
             "type" : "array"
           }
         },
-        "required" : [ "type" ],
+        "required" : [ "attribute_type_id" ],
         "type" : "object"
       },
       "mole_pro_query" : {
@@ -1110,19 +1246,23 @@
         "example" : {
           "size" : 0,
           "attributes" : [ {
-            "name" : "name",
+            "value_url" : "https://pubmed.ncbi.nlm.nih.gov/32529952",
+            "attribute_source" : "UniProtKB",
+            "value_type_id" : "EDAM:data_1187",
+            "description" : "Assertion Authored By Dr. Trans L. Ator",
             "provided_by" : "provided_by",
-            "source" : "source",
-            "type" : "type",
-            "value" : "value",
-            "url" : "url"
+            "attribute_type_id" : "Biolink:has_p-value_evidence, Biolink:has_original_source",
+            "original_attribute_name" : "p-value",
+            "value" : 0.000153
           }, {
-            "name" : "name",
+            "value_url" : "https://pubmed.ncbi.nlm.nih.gov/32529952",
+            "attribute_source" : "UniProtKB",
+            "value_type_id" : "EDAM:data_1187",
+            "description" : "Assertion Authored By Dr. Trans L. Ator",
             "provided_by" : "provided_by",
-            "source" : "source",
-            "type" : "type",
-            "value" : "value",
-            "url" : "url"
+            "attribute_type_id" : "Biolink:has_p-value_evidence, Biolink:has_original_source",
+            "original_attribute_name" : "p-value",
+            "value" : 0.000153
           } ],
           "id" : "id",
           "source" : "source",
@@ -1173,16 +1313,121 @@
           "$ref" : "#/components/schemas/collection_info"
         }, {
           "$ref" : "#/components/schemas/gene_list_allOf"
-        } ]
+        } ],
+        "deprecated" : true
       },
       "compound_list" : {
         "allOf" : [ {
           "$ref" : "#/components/schemas/collection_info"
         }, {
           "$ref" : "#/components/schemas/compound_list_allOf"
-        } ]
+        } ],
+        "deprecated" : true
       },
       "element" : {
+        "example" : {
+          "biolink_class" : "biolink_class",
+          "identifiers" : {
+            "key" : "{}"
+          },
+          "provided_by" : "provided_by",
+          "attributes" : [ {
+            "value_url" : "https://pubmed.ncbi.nlm.nih.gov/32529952",
+            "attribute_source" : "UniProtKB",
+            "value_type_id" : "EDAM:data_1187",
+            "description" : "Assertion Authored By Dr. Trans L. Ator",
+            "provided_by" : "provided_by",
+            "attribute_type_id" : "Biolink:has_p-value_evidence, Biolink:has_original_source",
+            "original_attribute_name" : "p-value",
+            "value" : 0.000153
+          }, {
+            "value_url" : "https://pubmed.ncbi.nlm.nih.gov/32529952",
+            "attribute_source" : "UniProtKB",
+            "value_type_id" : "EDAM:data_1187",
+            "description" : "Assertion Authored By Dr. Trans L. Ator",
+            "provided_by" : "provided_by",
+            "attribute_type_id" : "Biolink:has_p-value_evidence, Biolink:has_original_source",
+            "original_attribute_name" : "p-value",
+            "value" : 0.000153
+          } ],
+          "id" : "id",
+          "source" : "source",
+          "names_synonyms" : [ {
+            "name_type" : "name_type",
+            "synonyms" : [ "synonyms", "synonyms" ],
+            "name" : "name",
+            "provided_by" : "provided_by",
+            "language" : "language",
+            "source" : "source"
+          }, {
+            "name_type" : "name_type",
+            "synonyms" : [ "synonyms", "synonyms" ],
+            "name" : "name",
+            "provided_by" : "provided_by",
+            "language" : "language",
+            "source" : "source"
+          } ],
+          "connections" : [ {
+            "inverse_relation" : "inverse_relation",
+            "provided_by" : "provided_by",
+            "biolink_predicate" : "biolink_predicate",
+            "attributes" : [ {
+              "value_url" : "https://pubmed.ncbi.nlm.nih.gov/32529952",
+              "attribute_source" : "UniProtKB",
+              "value_type_id" : "EDAM:data_1187",
+              "description" : "Assertion Authored By Dr. Trans L. Ator",
+              "provided_by" : "provided_by",
+              "attribute_type_id" : "Biolink:has_p-value_evidence, Biolink:has_original_source",
+              "original_attribute_name" : "p-value",
+              "value" : 0.000153
+            }, {
+              "value_url" : "https://pubmed.ncbi.nlm.nih.gov/32529952",
+              "attribute_source" : "UniProtKB",
+              "value_type_id" : "EDAM:data_1187",
+              "description" : "Assertion Authored By Dr. Trans L. Ator",
+              "provided_by" : "provided_by",
+              "attribute_type_id" : "Biolink:has_p-value_evidence, Biolink:has_original_source",
+              "original_attribute_name" : "p-value",
+              "value" : 0.000153
+            } ],
+            "source" : "source",
+            "inverse_predicate" : "inverse_predicate",
+            "source_element_id" : "source_element_id",
+            "relation" : "relation"
+          }, {
+            "inverse_relation" : "inverse_relation",
+            "provided_by" : "provided_by",
+            "biolink_predicate" : "biolink_predicate",
+            "attributes" : [ {
+              "value_url" : "https://pubmed.ncbi.nlm.nih.gov/32529952",
+              "attribute_source" : "UniProtKB",
+              "value_type_id" : "EDAM:data_1187",
+              "description" : "Assertion Authored By Dr. Trans L. Ator",
+              "provided_by" : "provided_by",
+              "attribute_type_id" : "Biolink:has_p-value_evidence, Biolink:has_original_source",
+              "original_attribute_name" : "p-value",
+              "value" : 0.000153
+            }, {
+              "value_url" : "https://pubmed.ncbi.nlm.nih.gov/32529952",
+              "attribute_source" : "UniProtKB",
+              "value_type_id" : "EDAM:data_1187",
+              "description" : "Assertion Authored By Dr. Trans L. Ator",
+              "provided_by" : "provided_by",
+              "attribute_type_id" : "Biolink:has_p-value_evidence, Biolink:has_original_source",
+              "original_attribute_name" : "p-value",
+              "value" : 0.000153
+            } ],
+            "source" : "source",
+            "inverse_predicate" : "inverse_predicate",
+            "source_element_id" : "source_element_id",
+            "relation" : "relation"
+          } ],
+          "alternative_identifiers" : [ {
+            "key" : "{}"
+          }, {
+            "key" : "{}"
+          } ]
+        },
         "properties" : {
           "id" : {
             "description" : "Primary identifier of the element.",
@@ -1227,14 +1472,19 @@
             "type" : "array"
           },
           "source" : {
+            "description" : "Source of the element",
+            "type" : "string"
+          },
+          "provided_by" : {
             "description" : "Name of a transformer that added the element to the collection.",
             "type" : "string"
           }
         },
-        "required" : [ "id" ],
+        "required" : [ "biolink_class", "id", "identifiers", "provided_by", "source" ],
         "type" : "object"
       },
       "gene_info" : {
+        "deprecated" : true,
         "properties" : {
           "gene_id" : {
             "description" : "Id of the gene. Preferably HGNC id; can be Entrez or ENSEMBL id if HGNC id is not available.",
@@ -1259,57 +1509,7 @@
         "type" : "object"
       },
       "compound_info" : {
-        "example" : {
-          "identifiers" : {
-            "drugbank" : "DrugBank:DB00945",
-            "chebi" : "CHEBI:15365",
-            "drugcentral" : "DrugCentral:74",
-            "kegg" : "KEGG.COMPOUND:C01405",
-            "chembank" : "ChemBank:1171",
-            "chembl" : "ChEMBL:CHEMBL25",
-            "unii" : "UNII:R16CO5Y76E",
-            "hmdb" : "HMDB:HMDB0001879",
-            "cas" : "CAS:50-78-2",
-            "gtopdb" : "GTOPDB:4139",
-            "mychem_info" : "mychem_info",
-            "pubchem" : "CID:2244",
-            "mesh" : "MESH:D001241"
-          },
-          "compound_id" : "compound_id",
-          "attributes" : [ {
-            "name" : "name",
-            "provided_by" : "provided_by",
-            "source" : "source",
-            "type" : "type",
-            "value" : "value",
-            "url" : "url"
-          }, {
-            "name" : "name",
-            "provided_by" : "provided_by",
-            "source" : "source",
-            "type" : "type",
-            "value" : "value",
-            "url" : "url"
-          } ],
-          "source" : "source",
-          "names_synonyms" : [ {
-            "synonyms" : [ "synonyms", "synonyms" ],
-            "name" : "name",
-            "source" : "source",
-            "url" : "url"
-          }, {
-            "synonyms" : [ "synonyms", "synonyms" ],
-            "name" : "name",
-            "source" : "source",
-            "url" : "url"
-          } ],
-          "structure" : {
-            "inchikey" : "inchikey",
-            "inchi" : "inchi",
-            "smiles" : "smiles",
-            "source" : "source"
-          }
-        },
+        "deprecated" : true,
         "properties" : {
           "compound_id" : {
             "description" : "Ids of the compound.",
@@ -1344,33 +1544,54 @@
         "type" : "object"
       },
       "attribute" : {
+        "description" : "Generic attribute for a node or an edge that expands the key-value pair concept by including fields for additional metadata. These fields can be used to describe the source of the statement made in key-value pair of the attribute object, or describe the attribute's value itself including its semantic type, or a url providing additional information about it.",
         "example" : {
-          "name" : "name",
+          "value_url" : "https://pubmed.ncbi.nlm.nih.gov/32529952",
+          "attribute_source" : "UniProtKB",
+          "value_type_id" : "EDAM:data_1187",
+          "description" : "Assertion Authored By Dr. Trans L. Ator",
           "provided_by" : "provided_by",
-          "source" : "source",
-          "type" : "type",
-          "value" : "value",
-          "url" : "url"
+          "attribute_type_id" : "Biolink:has_p-value_evidence, Biolink:has_original_source",
+          "original_attribute_name" : "p-value",
+          "value" : 0.000153
         },
         "properties" : {
-          "name" : {
-            "description" : "Name of the attribute.",
+          "attribute_type_id" : {
+            "description" : "The 'key' of the attribute object, holding a CURIE of an ontology property defining the attribute (preferably the CURIE of a Biolink association slot). This property captures the relationship asserted to hold between the value of the attribute, and the node or edge from  which it hangs. For example, that a value of '0.000153' represents a p-value supporting an edge, or that a value of 'ChEMBL' represents the original source of the knowledge expressed in the edge.",
+            "example" : "Biolink:has_p-value_evidence, Biolink:has_original_source",
+            "type" : "string"
+          },
+          "original_attribute_name" : {
+            "description" : "The term used by the original source of an attribute to describe the meaning or significance of the value it captures. This may be a column name in a source tsv file, or a key in a source json document for the field in the data that held the attribute's value. Capturing this information  where possible lets us preserve what the original source said. Note that the data type is string' but the contents of the field could also be a CURIE of a third party ontology term.",
+            "example" : "p-value",
+            "nullable" : true,
             "type" : "string"
           },
           "value" : {
-            "description" : "Value of the attribute.",
+            "description" : "Value of the attribute. May be any data type, including a list.",
+            "example" : 0.000153
+          },
+          "value_type_id" : {
+            "description" : "CURIE describing the semantic type of an  attribute's value. Use a Biolink class if possible, otherwise a term from an external ontology. If a suitable CURIE/identifier does not exist, enter a descriptive phrase here and submit the new type for consideration by the appropriate authority.",
+            "example" : "EDAM:data_1187",
             "type" : "string"
           },
-          "type" : {
-            "description" : "CURIE of the semantic type of the attribute, from the EDAM ontology if possible.",
+          "attribute_source" : {
+            "description" : "The source of the core assertion made by the key-value pair of an attribute object. Use a CURIE or namespace designator for this resource where possible.",
+            "example" : "UniProtKB",
+            "nullable" : true,
             "type" : "string"
           },
-          "source" : {
-            "description" : "Source of the attribute, as a CURIE prefix.",
+          "value_url" : {
+            "description" : "Human-consumable URL linking to a web document that provides additional information about an  attribute's value (not the node or the edge fom which it hangs).",
+            "example" : "https://pubmed.ncbi.nlm.nih.gov/32529952",
+            "nullable" : true,
             "type" : "string"
           },
-          "url" : {
-            "description" : "URL for additional information.",
+          "description" : {
+            "description" : "Human-readable description for the attribute and its value.",
+            "example" : "Assertion Authored By Dr. Trans L. Ator",
+            "nullable" : true,
             "type" : "string"
           },
           "provided_by" : {
@@ -1378,15 +1599,17 @@
             "type" : "string"
           }
         },
-        "required" : [ "name", "source", "value" ],
+        "required" : [ "attribute_source", "attribute_type_id", "original_attribute_name", "value" ],
         "type" : "object"
       },
       "names" : {
         "example" : {
+          "name_type" : "name_type",
           "synonyms" : [ "synonyms", "synonyms" ],
           "name" : "name",
-          "source" : "source",
-          "url" : "url"
+          "provided_by" : "provided_by",
+          "language" : "language",
+          "source" : "source"
         },
         "properties" : {
           "name" : {
@@ -1400,16 +1623,24 @@
             },
             "type" : "array"
           },
-          "source" : {
-            "description" : "Source of names and synonyms.",
+          "name_type" : {
+            "description" : "Type of names and synonyms, e.g. inn, trademarked name.",
             "type" : "string"
           },
-          "url" : {
-            "description" : "URL for additional information.",
+          "source" : {
+            "description" : "Primary source of names and synonyms.",
+            "type" : "string"
+          },
+          "provided_by" : {
+            "description" : "Transformer that produced the names and synonyms.",
+            "type" : "string"
+          },
+          "language" : {
+            "description" : "Language of names and synonyms.",
             "type" : "string"
           }
         },
-        "required" : [ "source" ],
+        "required" : [ "name_type", "provided_by", "source" ],
         "type" : "object"
       },
       "aggregation_query" : {
@@ -1438,25 +1669,57 @@
         "type" : "object"
       },
       "connection" : {
+        "example" : {
+          "inverse_relation" : "inverse_relation",
+          "provided_by" : "provided_by",
+          "biolink_predicate" : "biolink_predicate",
+          "attributes" : [ {
+            "value_url" : "https://pubmed.ncbi.nlm.nih.gov/32529952",
+            "attribute_source" : "UniProtKB",
+            "value_type_id" : "EDAM:data_1187",
+            "description" : "Assertion Authored By Dr. Trans L. Ator",
+            "provided_by" : "provided_by",
+            "attribute_type_id" : "Biolink:has_p-value_evidence, Biolink:has_original_source",
+            "original_attribute_name" : "p-value",
+            "value" : 0.000153
+          }, {
+            "value_url" : "https://pubmed.ncbi.nlm.nih.gov/32529952",
+            "attribute_source" : "UniProtKB",
+            "value_type_id" : "EDAM:data_1187",
+            "description" : "Assertion Authored By Dr. Trans L. Ator",
+            "provided_by" : "provided_by",
+            "attribute_type_id" : "Biolink:has_p-value_evidence, Biolink:has_original_source",
+            "original_attribute_name" : "p-value",
+            "value" : 0.000153
+          } ],
+          "source" : "source",
+          "inverse_predicate" : "inverse_predicate",
+          "source_element_id" : "source_element_id",
+          "relation" : "relation"
+        },
         "properties" : {
           "source_element_id" : {
-            "description" : "id (CURIE) of the connected query node",
+            "description" : "Id (CURIE) of the connected query node.",
             "type" : "string"
           },
-          "type" : {
-            "description" : "Biolink predicate",
+          "biolink_predicate" : {
+            "description" : "Biolink predicate.",
+            "type" : "string"
+          },
+          "inverse_predicate" : {
+            "description" : "Inverse Biolink predicate.",
             "type" : "string"
           },
           "relation" : {
-            "description" : "Lower-level relationship type of this connection",
+            "description" : "Lower-level relationship type of this connection.",
             "type" : "string"
           },
-          "evidence_type" : {
-            "description" : "evidence supporting the statement from the ECO ontology",
+          "inverse_relation" : {
+            "description" : "Inverse lower-level relationship type of this connection.",
             "type" : "string"
           },
           "source" : {
-            "description" : "Source of the attribute, as a CURIE prefix.",
+            "description" : "Source of the connection, as a CURIE prefix.",
             "type" : "string"
           },
           "provided_by" : {
@@ -1471,7 +1734,7 @@
             "type" : "array"
           }
         },
-        "required" : [ "source_element_id", "type" ],
+        "required" : [ "biolink_predicate", "inverse_predicate", "provided_by", "source", "source_element_id" ],
         "type" : "object"
       },
       "error_msg" : {
@@ -1589,21 +1852,6 @@
         }
       },
       "compound_info_identifiers" : {
-        "example" : {
-          "drugbank" : "DrugBank:DB00945",
-          "chebi" : "CHEBI:15365",
-          "drugcentral" : "DrugCentral:74",
-          "kegg" : "KEGG.COMPOUND:C01405",
-          "chembank" : "ChemBank:1171",
-          "chembl" : "ChEMBL:CHEMBL25",
-          "unii" : "UNII:R16CO5Y76E",
-          "hmdb" : "HMDB:HMDB0001879",
-          "cas" : "CAS:50-78-2",
-          "gtopdb" : "GTOPDB:4139",
-          "mychem_info" : "mychem_info",
-          "pubchem" : "CID:2244",
-          "mesh" : "MESH:D001241"
-        },
         "properties" : {
           "chebi" : {
             "description" : "ChEBI id of the compound (CURIE).",
@@ -1672,12 +1920,6 @@
         }
       },
       "compound_info_structure" : {
-        "example" : {
-          "inchikey" : "inchikey",
-          "inchi" : "inchi",
-          "smiles" : "smiles",
-          "source" : "source"
-        },
         "properties" : {
           "smiles" : {
             "description" : "SMILES representation of the compound's structure.",

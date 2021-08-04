@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import apimodels.Attribute;
+import apimodels.Collection;
 import apimodels.CollectionInfo;
 import apimodels.CompoundInfo;
 import apimodels.CompoundInfoIdentifiers;
@@ -244,8 +245,8 @@ public class Compound extends TransformerClass {
 	}
 
 
-	public static CompoundList getCompoundByName(final String name, String cache) throws NotFoundException, BadRequestException {
-		return getCompoundList(getCompoundsByName(name, CACHE.YES).getId(), cache);
+	public static Collection getCompoundByName(final String name, String cache) throws NotFoundException, BadRequestException {
+		return getCompoundsByName(name, cache).asCollection();
 	}
 
 
@@ -270,7 +271,7 @@ public class Compound extends TransformerClass {
 		}
 		final String source = "Molecular Data Provider";
 		union.getInfo().setSource(source);
-		union.getInfo().addAttributesItem(new Attribute().name("query name").value(name).source(source));
+		union.getInfo().addAttributesItem(new Attribute().originalAttributeName("query name").value(name).attributeSource(source));
 		Collections.save(union, cache);
 		return union;
 	}
@@ -287,11 +288,12 @@ public class Compound extends TransformerClass {
 	}
 
 
-	public static CompoundInfo getCompoundById(final String compoundId) throws BadRequestException, NotFoundException {
+	public static Element getCompoundById(final String compoundId) throws BadRequestException, NotFoundException {
 		if (compoundId == null || compoundId.length() == 0) {
 			throw new BadRequestException("Empty ID in the compound-by-id query");
 		}
-		return updateCompound(findCompoundById(Config.config.mapCuriePrefix(compoundId)).getCompoundInfo());
+		CompoundInfo compound = updateCompound(findCompoundById(Config.config.mapCuriePrefix(compoundId)).getCompoundInfo());
+		return new CollectionElement.CompoundElement(compound).getElement();
 	}
 
 
@@ -319,16 +321,16 @@ public class Compound extends TransformerClass {
 
 
 	private static Attribute warningAttribute(Throwable e, String name) {
-		return new Attribute().name(name).value(e.getMessage()).type("warning").source("MolePro");
+		return new Attribute().originalAttributeName(name).value(e.getMessage()).attributeTypeId("molepro:warning").attributeSource("MolePro");
 	}
 
 
-	public static CompoundInfo getCompoundByStructure(final String structure) throws BadRequestException, NotFoundException {
+	public static Element getCompoundByStructure(final String structure) throws BadRequestException, NotFoundException {
 		if (structure == null || structure.length() == 0) {
 			throw new BadRequestException("Empty string in the compound-by-structure query");
 		}
 		final CompoundInfo compound = (structure.startsWith("InChI=")) ? findCompoundByInChI(structure) : findCompoundBySmiles(structure);
-		return updateCompound(compound);
+		return new CollectionElement.CompoundElement(updateCompound(compound)).getElement();
 	}
 
 

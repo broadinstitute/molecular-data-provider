@@ -14,6 +14,7 @@ import transformer.collection.CollectionsEntry;
 import transformer.mapping.MappedAttribute;
 import transformer.mapping.MappedBiolinkClass;
 import transformer.mapping.MappedConnection;
+import transformer.mapping.MappedName;
 import transformer.util.JSON;
 
 public class Other extends TransformerClass {
@@ -60,9 +61,14 @@ public class Other extends TransformerClass {
 						connection.setProvidedBy(info.getName());
 				}
 			}
+			if (element.getProvidedBy() == null) {
+				element.setProvidedBy(info.getName());
+				element.setSource(info.getLabel());
+			}
 			MappedConnection.mapConnections(element);
 			MappedAttribute.mapAttributes(element);
 			MappedBiolinkClass.map(element);
+			MappedName.mapNames(element, info.getName(), info.getLabel());
 		}
 		return new CollectionsEntry(collectionInfo, elements);
 	}

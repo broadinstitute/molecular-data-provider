@@ -1,8 +1,8 @@
 package controllers;
 
+import apimodels.Collection;
 import apimodels.CollectionInfo;
-import apimodels.CompoundInfo;
-import apimodels.CompoundList;
+import apimodels.Element;
 import apimodels.ErrorMsg;
 import java.util.List;
 
@@ -15,14 +15,14 @@ import javax.validation.constraints.*;
 
 @SuppressWarnings("RedundantThrows")
 public interface CompoundsApiControllerImpInterface {
-    CompoundInfo compoundByIdCompoundIdGet(String compoundId, String cache) throws Exception;
+    Element compoundByIdCompoundIdGet(String compoundId, String cache) throws Exception;
 
     CollectionInfo compoundByIdPost(List<String> requestBody, String cache) throws Exception;
 
-    CompoundList compoundByNameNameGet(String name, String cache) throws Exception;
+    Collection compoundByNameNameGet(String name, String cache) throws Exception;
 
     CollectionInfo compoundByNamePost(List<String> requestBody, String cache) throws Exception;
 
-    CompoundInfo compoundByStructurePost(String body, String cache) throws Exception;
+    Element compoundByStructurePost(String body, String cache) throws Exception;
 
 }

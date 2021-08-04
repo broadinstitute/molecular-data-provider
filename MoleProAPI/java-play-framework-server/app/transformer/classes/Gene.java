@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
+import apimodels.Attribute;
 import apimodels.CollectionInfo;
 import apimodels.GeneInfo;
 import apimodels.GeneList;
@@ -72,13 +73,13 @@ public class Gene extends TransformerClass {
 
 		GeneListQuery(final MoleProQuery query, String cache) throws NotFoundException, BadRequestException {
 			super(query);
-			genes = getCollection(query.getCollectionId(), cache).getGenes();
+			genes = geneInfo(getCollection(query.getCollectionId(), cache).getGenes());
 		}
 
 
 		private GeneListQuery(List<Property> controls, GeneInfo[] genes) {
 			super(controls);
-			this.genes = genes;
+			this.genes = geneInfo(genes);
 		}
 
 
@@ -86,6 +87,16 @@ public class Gene extends TransformerClass {
 			return genes;
 		}
 
+		
+		private GeneInfo[] geneInfo(GeneInfo[] srcGenes) {
+			GeneInfo[] genes = new GeneInfo[srcGenes.length];
+			for (int i = 0; i < genes.length; i++) {
+				GeneInfo srcGene = srcGenes[i];
+				genes[i] = new GeneInfo().geneId(srcGene.getGeneId()).identifiers(srcGene.getIdentifiers()).source(srcGene.getSource());
+				genes[i].setAttributes(new ArrayList<Attribute>());
+			}
+			return genes;
+		}
 
 		@Override
 		public Query query(final List<Property> controls) {

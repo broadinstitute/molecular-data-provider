@@ -98,8 +98,8 @@ public class Transformers {
 		MappedConnection.loadMapping();
 		MappedBiolinkClass.loadMapping();
 		for (Transformer transformer : transformers) {
-			MappedBiolinkClass.map(transformer.info.getKnowledgeMap().getPredicates());
-			MappedConnection.mapPredicates(transformer.info.getLabel(), transformer.info.getKnowledgeMap().getPredicates());
+			MappedBiolinkClass.map(transformer.info.getKnowledgeMap().getEdges());
+			MappedConnection.mapPredicates(transformer.info.getLabel(), transformer.info.getKnowledgeMap().getEdges());
 		}
 		return getInfo(transformers);
 	}

@@ -55,14 +55,17 @@ public class Parameter   {
   @JsonProperty("type")
   private TypeEnum type;
 
+  @JsonProperty("required")
+  private Boolean required;
+
+  @JsonProperty("multivalued")
+  private Boolean multivalued;
+
   @JsonProperty("default")
   private String _default;
 
   @JsonProperty("example")
   private String example;
-
-  @JsonProperty("biolink_class")
-  private String biolinkClass;
 
   @JsonProperty("allowed_values")
   private List<String> allowedValues = null;
@@ -72,9 +75,6 @@ public class Parameter   {
 
   @JsonProperty("suggested_values")
   private String suggestedValues;
-
-  @JsonProperty("lookup_url")
-  private String lookupUrl;
 
   public Parameter name(String name) {
     this.name = name;
@@ -112,6 +112,40 @@ public class Parameter   {
     this.type = type;
   }
 
+  public Parameter required(Boolean required) {
+    this.required = required;
+    return this;
+  }
+
+   /**
+   * Indicates whether the parameter is required(default true).
+   * @return required
+  **/
+    public Boolean getRequired() {
+    return required;
+  }
+
+  public void setRequired(Boolean required) {
+    this.required = required;
+  }
+
+  public Parameter multivalued(Boolean multivalued) {
+    this.multivalued = multivalued;
+    return this;
+  }
+
+   /**
+   * Indicates whether multiple occurences of the parameter are allowed (default false).
+   * @return multivalued
+  **/
+    public Boolean getMultivalued() {
+    return multivalued;
+  }
+
+  public void setMultivalued(Boolean multivalued) {
+    this.multivalued = multivalued;
+  }
+
   public Parameter _default(String _default) {
     this._default = _default;
     return this;
@@ -144,23 +178,6 @@ public class Parameter   {
 
   public void setExample(String example) {
     this.example = example;
-  }
-
-  public Parameter biolinkClass(String biolinkClass) {
-    this.biolinkClass = biolinkClass;
-    return this;
-  }
-
-   /**
-   * BioLink class of the parameter. Applicable to producers only and only one parameter can have a BioLink class.
-   * @return biolinkClass
-  **/
-    public String getBiolinkClass() {
-    return biolinkClass;
-  }
-
-  public void setBiolinkClass(String biolinkClass) {
-    this.biolinkClass = biolinkClass;
   }
 
   public Parameter allowedValues(List<String> allowedValues) {
@@ -232,23 +249,6 @@ public class Parameter   {
     this.suggestedValues = suggestedValues;
   }
 
-  public Parameter lookupUrl(String lookupUrl) {
-    this.lookupUrl = lookupUrl;
-    return this;
-  }
-
-   /**
-   * URL to search for suitable parameter values.
-   * @return lookupUrl
-  **/
-    public String getLookupUrl() {
-    return lookupUrl;
-  }
-
-  public void setLookupUrl(String lookupUrl) {
-    this.lookupUrl = lookupUrl;
-  }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -261,18 +261,18 @@ public class Parameter   {
     Parameter parameter = (Parameter) o;
     return Objects.equals(name, parameter.name) &&
         Objects.equals(type, parameter.type) &&
+        Objects.equals(required, parameter.required) &&
+        Objects.equals(multivalued, parameter.multivalued) &&
         Objects.equals(_default, parameter._default) &&
         Objects.equals(example, parameter.example) &&
-        Objects.equals(biolinkClass, parameter.biolinkClass) &&
         Objects.equals(allowedValues, parameter.allowedValues) &&
         Objects.equals(allowedRange, parameter.allowedRange) &&
-        Objects.equals(suggestedValues, parameter.suggestedValues) &&
-        Objects.equals(lookupUrl, parameter.lookupUrl);
+        Objects.equals(suggestedValues, parameter.suggestedValues);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, type, _default, example, biolinkClass, allowedValues, allowedRange, suggestedValues, lookupUrl);
+    return Objects.hash(name, type, required, multivalued, _default, example, allowedValues, allowedRange, suggestedValues);
   }
 
   @SuppressWarnings("StringBufferReplaceableByString")
@@ -283,13 +283,13 @@ public class Parameter   {
     
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
+    sb.append("    required: ").append(toIndentedString(required)).append("\n");
+    sb.append("    multivalued: ").append(toIndentedString(multivalued)).append("\n");
     sb.append("    _default: ").append(toIndentedString(_default)).append("\n");
     sb.append("    example: ").append(toIndentedString(example)).append("\n");
-    sb.append("    biolinkClass: ").append(toIndentedString(biolinkClass)).append("\n");
     sb.append("    allowedValues: ").append(toIndentedString(allowedValues)).append("\n");
     sb.append("    allowedRange: ").append(toIndentedString(allowedRange)).append("\n");
     sb.append("    suggestedValues: ").append(toIndentedString(suggestedValues)).append("\n");
-    sb.append("    lookupUrl: ").append(toIndentedString(lookupUrl)).append("\n");
     sb.append("}");
     return sb.toString();
   }

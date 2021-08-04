@@ -16,6 +16,9 @@ public class KmAttribute   {
   @JsonProperty("type")
   private String type;
 
+  @JsonProperty("attribute_type_id")
+  private String attributeTypeId;
+
   @JsonProperty("source")
   private String source;
 
@@ -31,13 +34,30 @@ public class KmAttribute   {
    * CURIE of the semantic type of the attribute, from the EDAM ontology if possible. If a suitable identifier does not exist, enter a descriptive phrase here and submit the new type for consideration by the appropriate authority.
    * @return type
   **/
-  @NotNull
-  public String getType() {
+    public String getType() {
     return type;
   }
 
   public void setType(String type) {
     this.type = type;
+  }
+
+  public KmAttribute attributeTypeId(String attributeTypeId) {
+    this.attributeTypeId = attributeTypeId;
+    return this;
+  }
+
+   /**
+   * CURIE of the semantic type of the attribute, from the EDAM ontology if possible. If a suitable identifier does not exist, enter a descriptive phrase here and submit the new type for consideration by the appropriate authority.
+   * @return attributeTypeId
+  **/
+  @NotNull
+  public String getAttributeTypeId() {
+    return attributeTypeId;
+  }
+
+  public void setAttributeTypeId(String attributeTypeId) {
+    this.attributeTypeId = attributeTypeId;
   }
 
   public KmAttribute source(String source) {
@@ -93,13 +113,14 @@ public class KmAttribute   {
     }
     KmAttribute kmAttribute = (KmAttribute) o;
     return Objects.equals(type, kmAttribute.type) &&
+        Objects.equals(attributeTypeId, kmAttribute.attributeTypeId) &&
         Objects.equals(source, kmAttribute.source) &&
         Objects.equals(names, kmAttribute.names);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(type, source, names);
+    return Objects.hash(type, attributeTypeId, source, names);
   }
 
   @SuppressWarnings("StringBufferReplaceableByString")
@@ -109,6 +130,7 @@ public class KmAttribute   {
     sb.append("class KmAttribute {\n");
     
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
+    sb.append("    attributeTypeId: ").append(toIndentedString(attributeTypeId)).append("\n");
     sb.append("    source: ").append(toIndentedString(source)).append("\n");
     sb.append("    names: ").append(toIndentedString(names)).append("\n");
     sb.append("}");

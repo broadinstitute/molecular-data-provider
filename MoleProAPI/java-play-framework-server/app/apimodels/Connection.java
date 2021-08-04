@@ -17,14 +17,17 @@ public class Connection   {
   @JsonProperty("source_element_id")
   private String sourceElementId;
 
-  @JsonProperty("type")
-  private String type;
+  @JsonProperty("biolink_predicate")
+  private String biolinkPredicate;
+
+  @JsonProperty("inverse_predicate")
+  private String inversePredicate;
 
   @JsonProperty("relation")
   private String relation;
 
-  @JsonProperty("evidence_type")
-  private String evidenceType;
+  @JsonProperty("inverse_relation")
+  private String inverseRelation;
 
   @JsonProperty("source")
   private String source;
@@ -41,7 +44,7 @@ public class Connection   {
   }
 
    /**
-   * id (CURIE) of the connected query node
+   * Id (CURIE) of the connected query node.
    * @return sourceElementId
   **/
   @NotNull
@@ -53,22 +56,44 @@ public class Connection   {
     this.sourceElementId = sourceElementId;
   }
 
-  public Connection type(String type) {
-    this.type = type;
+  public Connection biolinkPredicate(String biolinkPredicate) {
+    this.biolinkPredicate = biolinkPredicate;
     return this;
   }
 
    /**
-   * Biolink predicate
-   * @return type
+   * Biolink predicate.
+   * @return biolinkPredicate
   **/
   @NotNull
-  public String getType() {
-    return type;
+  public String getBiolinkPredicate() {
+    return biolinkPredicate;
+  }
+
+  public void setBiolinkPredicate(String biolinkPredicate) {
+    this.biolinkPredicate = biolinkPredicate;
   }
 
   public void setType(String type) {
-    this.type = type;
+	  this.biolinkPredicate = type;
+  }
+
+  public Connection inversePredicate(String inversePredicate) {
+    this.inversePredicate = inversePredicate;
+    return this;
+  }
+
+   /**
+   * Inverse Biolink predicate.
+   * @return inversePredicate
+  **/
+  @NotNull
+  public String getInversePredicate() {
+    return inversePredicate;
+  }
+
+  public void setInversePredicate(String inversePredicate) {
+    this.inversePredicate = inversePredicate;
   }
 
   public Connection relation(String relation) {
@@ -77,7 +102,7 @@ public class Connection   {
   }
 
    /**
-   * Lower-level relationship type of this connection
+   * Lower-level relationship type of this connection.
    * @return relation
   **/
     public String getRelation() {
@@ -88,21 +113,21 @@ public class Connection   {
     this.relation = relation;
   }
 
-  public Connection evidenceType(String evidenceType) {
-    this.evidenceType = evidenceType;
+  public Connection inverseRelation(String inverseRelation) {
+    this.inverseRelation = inverseRelation;
     return this;
   }
 
    /**
-   * evidence supporting the statement from the ECO ontology
-   * @return evidenceType
+   * Inverse lower-level relationship type of this connection.
+   * @return inverseRelation
   **/
-    public String getEvidenceType() {
-    return evidenceType;
+    public String getInverseRelation() {
+    return inverseRelation;
   }
 
-  public void setEvidenceType(String evidenceType) {
-    this.evidenceType = evidenceType;
+  public void setInverseRelation(String inverseRelation) {
+    this.inverseRelation = inverseRelation;
   }
 
   public Connection source(String source) {
@@ -111,10 +136,11 @@ public class Connection   {
   }
 
    /**
-   * Source of the attribute, as a CURIE prefix.
+   * Source of the connection, as a CURIE prefix.
    * @return source
   **/
-    public String getSource() {
+  @NotNull
+  public String getSource() {
     return source;
   }
 
@@ -131,7 +157,8 @@ public class Connection   {
    * Transformer that produced the connection.
    * @return providedBy
   **/
-    public String getProvidedBy() {
+  @NotNull
+  public String getProvidedBy() {
     return providedBy;
   }
 
@@ -176,9 +203,10 @@ public class Connection   {
     }
     Connection connection = (Connection) o;
     return Objects.equals(sourceElementId, connection.sourceElementId) &&
-        Objects.equals(type, connection.type) &&
+        Objects.equals(biolinkPredicate, connection.biolinkPredicate) &&
+        Objects.equals(inversePredicate, connection.inversePredicate) &&
         Objects.equals(relation, connection.relation) &&
-        Objects.equals(evidenceType, connection.evidenceType) &&
+        Objects.equals(inverseRelation, connection.inverseRelation) &&
         Objects.equals(source, connection.source) &&
         Objects.equals(providedBy, connection.providedBy) &&
         Objects.equals(attributes, connection.attributes);
@@ -186,7 +214,7 @@ public class Connection   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(sourceElementId, type, relation, evidenceType, source, providedBy, attributes);
+    return Objects.hash(sourceElementId, biolinkPredicate, inversePredicate, relation, inverseRelation, source, providedBy, attributes);
   }
 
   @SuppressWarnings("StringBufferReplaceableByString")
@@ -196,9 +224,10 @@ public class Connection   {
     sb.append("class Connection {\n");
     
     sb.append("    sourceElementId: ").append(toIndentedString(sourceElementId)).append("\n");
-    sb.append("    type: ").append(toIndentedString(type)).append("\n");
+    sb.append("    biolinkPredicate: ").append(toIndentedString(biolinkPredicate)).append("\n");
+    sb.append("    inversePredicate: ").append(toIndentedString(inversePredicate)).append("\n");
     sb.append("    relation: ").append(toIndentedString(relation)).append("\n");
-    sb.append("    evidenceType: ").append(toIndentedString(evidenceType)).append("\n");
+    sb.append("    inverseRelation: ").append(toIndentedString(inverseRelation)).append("\n");
     sb.append("    source: ").append(toIndentedString(source)).append("\n");
     sb.append("    providedBy: ").append(toIndentedString(providedBy)).append("\n");
     sb.append("    attributes: ").append(toIndentedString(attributes)).append("\n");

@@ -10,6 +10,7 @@ import apimodels.Attribute;
 import apimodels.CompoundInfo;
 import apimodels.CompoundInfoIdentifiers;
 import apimodels.CompoundInfoStructure;
+import apimodels.Connection;
 import apimodels.Element;
 import apimodels.GeneInfo;
 import apimodels.GeneInfoIdentifiers;
@@ -38,18 +39,18 @@ public abstract class CollectionElement {
 		if (srcAttributes == null) {
 			return;
 		}
-		final HashMap<String,HashMap<String,String>> attributes = new HashMap<>();
+		final HashMap<String,HashMap<String,Object>> attributes = new HashMap<>();
 		if (this.getAttributes() != null && this.getAttributes().size() > 0) {
 			for (Attribute attribute : this.getAttributes()) {
-				if (!attributes.containsKey(attribute.getSource())) {
-					attributes.put(attribute.getSource(), new HashMap<String,String>());
+				if (!attributes.containsKey(attribute.getAttributeSource())) {
+					attributes.put(attribute.getAttributeSource(), new HashMap<String,Object>());
 				}
-				attributes.get(attribute.getSource()).put(attribute.getName(), attribute.getValue());
+				attributes.get(attribute.getAttributeSource()).put(attribute.getOriginalAttributeName(), attribute.getValue());
 			}
 		}
 		for (Attribute attribute : srcAttributes) {
-			if (!attributes.containsKey(attribute.getSource())
-					|| !attributes.get(attribute.getSource()).containsKey(attribute.getName())) {
+			if (!attributes.containsKey(attribute.getAttributeSource())
+					|| !attributes.get(attribute.getAttributeSource()).containsKey(attribute.getOriginalAttributeName())) {
 				this.getAttributes().add(attribute);
 			}
 		}
@@ -111,28 +112,31 @@ public abstract class CollectionElement {
 			final Names namesAndSynonyms = new Names();
 			final HashSet<String> synonyms = new HashSet<>();
 			for (Attribute attribute : geneInfo.getAttributes()) {
-				if ("gene_name".equals(attribute.getName())) {
-					synonyms.add(attribute.getValue());
-					namesAndSynonyms.setName(attribute.getValue());
-					namesAndSynonyms.setSource(attribute.getSource());
+				if ("gene_name".equals(attribute.getOriginalAttributeName())) {
+					synonyms.add(attribute.getValue().toString());
+					namesAndSynonyms.setName(attribute.getValue().toString());
+					namesAndSynonyms.setSource(attribute.getAttributeSource());
+					namesAndSynonyms.setProvidedBy(attribute.getProvidedBy());
 				}
-				if ("gene_symbol".equals(attribute.getName())) {
+				if ("gene_symbol".equals(attribute.getOriginalAttributeName())) {
 					if (!synonyms.contains(attribute.getValue())) {
-						synonyms.add(attribute.getValue());
-						namesAndSynonyms.addSynonymsItem(attribute.getValue());
+						synonyms.add(attribute.getValue().toString());
+						namesAndSynonyms.addSynonymsItem(attribute.getValue().toString());
 					}
 					if (namesAndSynonyms.getSource() == null) {
-						namesAndSynonyms.setSource(attribute.getSource());
+						namesAndSynonyms.setSource(attribute.getAttributeSource());
+						namesAndSynonyms.setProvidedBy(attribute.getProvidedBy());
 					}
 				}
-				if ("synonyms".equals(attribute.getName())) {
-					for (String synonym : attribute.getValue().split(";"))
+				if ("synonyms".equals(attribute.getOriginalAttributeName())) {
+					for (String synonym : attribute.getValue().toString().split(";"))
 						if (!synonyms.contains(synonym)) {
 							synonyms.add(synonym);
 							namesAndSynonyms.addSynonymsItem(synonym);
 						}
 					if (namesAndSynonyms.getSource() == null) {
-						namesAndSynonyms.setSource(attribute.getSource());
+						namesAndSynonyms.setSource(attribute.getAttributeSource());
+						namesAndSynonyms.setProvidedBy(attribute.getProvidedBy());
 					}
 				}
 			}
@@ -207,7 +211,8 @@ public abstract class CollectionElement {
 					.identifiers(identifiers())
 					.namesSynonyms(namesAndSynonyms())
 					.attributes(geneInfo.getAttributes())
-					.source(geneInfo.getSource());
+					.source(geneInfo.getSource())
+					.providedBy(geneInfo.getSource());
 		}
 
 
@@ -363,7 +368,8 @@ public abstract class CollectionElement {
 					.identifiers(identifiers())
 					.namesSynonyms(compoundInfo.getNamesSynonyms())
 					.attributes(compoundInfo.getAttributes())
-					.source(compoundInfo.getSource());
+					.source(compoundInfo.getSource())
+					.providedBy(compoundInfo.getSource());
 		}
 
 
@@ -422,8 +428,8 @@ public abstract class CollectionElement {
 			}
 			compoundInfo.setStructure(structure);
 			for (Attribute attribute : element.getAttributes()) {
-				if ("structure source".equals(attribute.getName())) {
-					structure.setSource(attribute.getValue());
+				if ("structure source".equals(attribute.getOriginalAttributeName())) {
+					structure.setSource(attribute.getValue().toString());
 				}
 				else {
 					compoundInfo.addAttributesItem(attribute);
@@ -551,7 +557,9 @@ public abstract class CollectionElement {
 					.identifiers(element.getIdentifiers())
 					.namesSynonyms(element.getNamesSynonyms())
 					.attributes(new ArrayList<Attribute>())
+					.connections(new ArrayList<Connection>())
 					.source(element.getSource())
+					.providedBy(element.getProvidedBy())
 			);
 		}
 
@@ -575,6 +583,7 @@ public abstract class CollectionElement {
 				mergeNames(this.element.getNamesSynonyms(), other.element.getNamesSynonyms());
 			}
 			mergeAttributes(other.getAttributes());
+			mergeConnections(other.element.getConnections());
 		}
 
 
@@ -590,6 +599,28 @@ public abstract class CollectionElement {
 		}
 
 
+		private void mergeConnections(final List<Connection> connections) {
+			if (connections == null || connections.size() == 0) {
+				return;
+			}
+			if (this.element.getConnections() == null || this.element.getConnections().size() == 0) {
+				this.element.setConnections(connections);
+				return;
+			}
+			HashMap<String,Connection> connectionMap = new HashMap<>();
+			for (Connection connection : this.element.getConnections()) {
+				String key = connection.getSourceElementId() + " # " + connection.getProvidedBy();
+				connectionMap.put(key, connection);
+			}
+			for (Connection connection : connections) {
+				String key = connection.getSourceElementId() + " # " + connection.getProvidedBy();
+				if (!connectionMap.containsKey(key)) {
+					this.element.addConnectionsItem(connection);
+				}
+			}
+		}
+
+		
 		@Override
 		protected List<Attribute> getAttributes() {
 			return element.getAttributes();
