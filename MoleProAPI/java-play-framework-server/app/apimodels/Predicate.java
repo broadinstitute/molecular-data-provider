@@ -20,6 +20,9 @@ public class Predicate   {
   @JsonProperty("predicate")
   private String predicate;
 
+  @JsonProperty("inverse_predicate")
+  private String inversePredicate;
+
   @JsonProperty("object")
   private String _object;
 
@@ -28,6 +31,9 @@ public class Predicate   {
 
   @JsonProperty("relations")
   private List<String> relations = null;
+
+  @JsonProperty("inverse_relations")
+  private List<String> inverseRelations = null;
 
   @JsonProperty("count")
   private Integer count;
@@ -69,6 +75,24 @@ public class Predicate   {
 
   public void setPredicate(String predicate) {
     this.predicate = predicate;
+  }
+
+  public Predicate inversePredicate(String inversePredicate) {
+    this.inversePredicate = inversePredicate;
+    return this;
+  }
+
+   /**
+   * Get inversePredicate
+   * @return inversePredicate
+  **/
+  @NotNull
+  public String getInversePredicate() {
+    return inversePredicate;
+  }
+
+  public void setInversePredicate(String inversePredicate) {
+    this.inversePredicate = inversePredicate;
   }
 
   public Predicate _object(String _object) {
@@ -131,6 +155,31 @@ public class Predicate   {
     this.relations = relations;
   }
 
+  public Predicate inverseRelations(List<String> inverseRelations) {
+    this.inverseRelations = inverseRelations;
+    return this;
+  }
+
+  public Predicate addInverseRelationsItem(String inverseRelationsItem) {
+    if (inverseRelations == null) {
+      inverseRelations = new ArrayList<>();
+    }
+    inverseRelations.add(inverseRelationsItem);
+    return this;
+  }
+
+   /**
+   * Inverse low-level relations from the underlying source.
+   * @return inverseRelations
+  **/
+    public List<String> getInverseRelations() {
+    return inverseRelations;
+  }
+
+  public void setInverseRelations(List<String> inverseRelations) {
+    this.inverseRelations = inverseRelations;
+  }
+
   public Predicate count(Integer count) {
     this.count = count;
     return this;
@@ -186,16 +235,18 @@ public class Predicate   {
     Predicate predicate = (Predicate) o;
     return Objects.equals(subject, predicate.subject) &&
         Objects.equals(this.predicate, predicate.predicate) &&
+        Objects.equals(inversePredicate, predicate.inversePredicate) &&
         Objects.equals(_object, predicate._object) &&
         Objects.equals(source, predicate.source) &&
         Objects.equals(relations, predicate.relations) &&
+        Objects.equals(inverseRelations, predicate.inverseRelations) &&
         Objects.equals(count, predicate.count) &&
         Objects.equals(attributes, predicate.attributes);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(subject, predicate, _object, source, relations, count, attributes);
+    return Objects.hash(subject, predicate, inversePredicate, _object, source, relations, inverseRelations, count, attributes);
   }
 
   @SuppressWarnings("StringBufferReplaceableByString")
@@ -206,9 +257,11 @@ public class Predicate   {
     
     sb.append("    subject: ").append(toIndentedString(subject)).append("\n");
     sb.append("    predicate: ").append(toIndentedString(predicate)).append("\n");
+    sb.append("    inversePredicate: ").append(toIndentedString(inversePredicate)).append("\n");
     sb.append("    _object: ").append(toIndentedString(_object)).append("\n");
     sb.append("    source: ").append(toIndentedString(source)).append("\n");
     sb.append("    relations: ").append(toIndentedString(relations)).append("\n");
+    sb.append("    inverseRelations: ").append(toIndentedString(inverseRelations)).append("\n");
     sb.append("    count: ").append(toIndentedString(count)).append("\n");
     sb.append("    attributes: ").append(toIndentedString(attributes)).append("\n");
     sb.append("}");

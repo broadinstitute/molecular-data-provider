@@ -6,115 +6,156 @@ import javax.validation.*;
 import java.util.Objects;
 import javax.validation.constraints.*;
 /**
- * Attribute
+ * Generic attribute for a node or an edge that expands the key-value pair concept by including fields for additional metadata. These fields can be used to describe the source of the statement made in key-value pair of the attribute object, or describe the attribute&#39;s value itself including its semantic type, or a url providing additional information about it.
  */
 
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Attribute   {
-  @JsonProperty("name")
-  private String name;
+  @JsonProperty("attribute_type_id")
+  private String attributeTypeId;
+
+  @JsonProperty("original_attribute_name")
+  private String originalAttributeName;
 
   @JsonProperty("value")
-  private String value;
+  private Object value = null;
 
-  @JsonProperty("type")
-  private String type;
+  @JsonProperty("value_type_id")
+  private String valueTypeId;
 
-  @JsonProperty("source")
-  private String source;
+  @JsonProperty("attribute_source")
+  private String attributeSource;
 
-  @JsonProperty("url")
-  private String url;
+  @JsonProperty("value_url")
+  private String valueUrl;
+
+  @JsonProperty("description")
+  private String description;
 
   @JsonProperty("provided_by")
   private String providedBy;
 
-  public Attribute name(String name) {
-    this.name = name;
+  public Attribute attributeTypeId(String attributeTypeId) {
+    this.attributeTypeId = attributeTypeId;
     return this;
   }
 
    /**
-   * Name of the attribute.
-   * @return name
+   * The 'key' of the attribute object, holding a CURIE of an ontology property defining the attribute (preferably the CURIE of a Biolink association slot). This property captures the relationship asserted to hold between the value of the attribute, and the node or edge from  which it hangs. For example, that a value of '0.000153' represents a p-value supporting an edge, or that a value of 'ChEMBL' represents the original source of the knowledge expressed in the edge.
+   * @return attributeTypeId
   **/
   @NotNull
-  public String getName() {
-    return name;
+  public String getAttributeTypeId() {
+    return attributeTypeId;
   }
 
-  public void setName(String name) {
-    this.name = name;
+  public void setAttributeTypeId(String attributeTypeId) {
+    this.attributeTypeId = attributeTypeId;
   }
 
-  public Attribute value(String value) {
+  public Attribute originalAttributeName(String originalAttributeName) {
+    this.originalAttributeName = originalAttributeName;
+    return this;
+  }
+
+   /**
+   * The term used by the original source of an attribute to describe the meaning or significance of the value it captures. This may be a column name in a source tsv file, or a key in a source json document for the field in the data that held the attribute's value. Capturing this information  where possible lets us preserve what the original source said. Note that the data type is string' but the contents of the field could also be a CURIE of a third party ontology term.
+   * @return originalAttributeName
+  **/
+  @NotNull
+  public String getOriginalAttributeName() {
+    return originalAttributeName;
+  }
+
+  public void setOriginalAttributeName(String originalAttributeName) {
+    this.originalAttributeName = originalAttributeName;
+  }
+
+  public Attribute value(Object value) {
     this.value = value;
     return this;
   }
 
    /**
-   * Value of the attribute.
+   * Value of the attribute. May be any data type, including a list.
    * @return value
   **/
   @NotNull
-  public String getValue() {
+  public Object getValue() {
     return value;
   }
 
-  public void setValue(String value) {
+  public void setValue(Object value) {
     this.value = value;
   }
 
-  public Attribute type(String type) {
-    this.type = type;
+  public Attribute valueTypeId(String valueTypeId) {
+    this.valueTypeId = valueTypeId;
     return this;
   }
 
    /**
-   * CURIE of the semantic type of the attribute, from the EDAM ontology if possible.
-   * @return type
+   * CURIE describing the semantic type of an  attribute's value. Use a Biolink class if possible, otherwise a term from an external ontology. If a suitable CURIE/identifier does not exist, enter a descriptive phrase here and submit the new type for consideration by the appropriate authority.
+   * @return valueTypeId
   **/
-    public String getType() {
-    return type;
+    public String getValueTypeId() {
+    return valueTypeId;
   }
 
-  public void setType(String type) {
-    this.type = type;
+  public void setValueTypeId(String valueTypeId) {
+    this.valueTypeId = valueTypeId;
   }
 
-  public Attribute source(String source) {
-    this.source = source;
+  public Attribute attributeSource(String attributeSource) {
+    this.attributeSource = attributeSource;
     return this;
   }
 
    /**
-   * Source of the attribute, as a CURIE prefix.
-   * @return source
+   * The source of the core assertion made by the key-value pair of an attribute object. Use a CURIE or namespace designator for this resource where possible.
+   * @return attributeSource
   **/
   @NotNull
-  public String getSource() {
-    return source;
+  public String getAttributeSource() {
+    return attributeSource;
   }
 
-  public void setSource(String source) {
-    this.source = source;
+  public void setAttributeSource(String attributeSource) {
+    this.attributeSource = attributeSource;
   }
 
-  public Attribute url(String url) {
-    this.url = url;
+  public Attribute valueUrl(String valueUrl) {
+    this.valueUrl = valueUrl;
     return this;
   }
 
    /**
-   * URL for additional information.
-   * @return url
+   * Human-consumable URL linking to a web document that provides additional information about an  attribute's value (not the node or the edge fom which it hangs).
+   * @return valueUrl
   **/
-    public String getUrl() {
-    return url;
+    public String getValueUrl() {
+    return valueUrl;
   }
 
-  public void setUrl(String url) {
-    this.url = url;
+  public void setValueUrl(String valueUrl) {
+    this.valueUrl = valueUrl;
+  }
+
+  public Attribute description(String description) {
+    this.description = description;
+    return this;
+  }
+
+   /**
+   * Human-readable description for the attribute and its value.
+   * @return description
+  **/
+    public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
   }
 
   public Attribute providedBy(String providedBy) {
@@ -144,17 +185,19 @@ public class Attribute   {
       return false;
     }
     Attribute attribute = (Attribute) o;
-    return Objects.equals(name, attribute.name) &&
+    return Objects.equals(attributeTypeId, attribute.attributeTypeId) &&
+        Objects.equals(originalAttributeName, attribute.originalAttributeName) &&
         Objects.equals(value, attribute.value) &&
-        Objects.equals(type, attribute.type) &&
-        Objects.equals(source, attribute.source) &&
-        Objects.equals(url, attribute.url) &&
+        Objects.equals(valueTypeId, attribute.valueTypeId) &&
+        Objects.equals(attributeSource, attribute.attributeSource) &&
+        Objects.equals(valueUrl, attribute.valueUrl) &&
+        Objects.equals(description, attribute.description) &&
         Objects.equals(providedBy, attribute.providedBy);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, value, type, source, url, providedBy);
+    return Objects.hash(attributeTypeId, originalAttributeName, value, valueTypeId, attributeSource, valueUrl, description, providedBy);
   }
 
   @SuppressWarnings("StringBufferReplaceableByString")
@@ -163,11 +206,13 @@ public class Attribute   {
     StringBuilder sb = new StringBuilder();
     sb.append("class Attribute {\n");
     
-    sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    attributeTypeId: ").append(toIndentedString(attributeTypeId)).append("\n");
+    sb.append("    originalAttributeName: ").append(toIndentedString(originalAttributeName)).append("\n");
     sb.append("    value: ").append(toIndentedString(value)).append("\n");
-    sb.append("    type: ").append(toIndentedString(type)).append("\n");
-    sb.append("    source: ").append(toIndentedString(source)).append("\n");
-    sb.append("    url: ").append(toIndentedString(url)).append("\n");
+    sb.append("    valueTypeId: ").append(toIndentedString(valueTypeId)).append("\n");
+    sb.append("    attributeSource: ").append(toIndentedString(attributeSource)).append("\n");
+    sb.append("    valueUrl: ").append(toIndentedString(valueUrl)).append("\n");
+    sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    providedBy: ").append(toIndentedString(providedBy)).append("\n");
     sb.append("}");
     return sb.toString();
