@@ -53,6 +53,10 @@ public class Attribute   {
     this.attributeTypeId = attributeTypeId;
   }
 
+  public void setType(String type) {
+    this.attributeTypeId = type;
+  }
+
   public Attribute originalAttributeName(String originalAttributeName) {
     this.originalAttributeName = originalAttributeName;
     return this;
@@ -69,6 +73,10 @@ public class Attribute   {
 
   public void setOriginalAttributeName(String originalAttributeName) {
     this.originalAttributeName = originalAttributeName;
+  }
+
+  public void setName(String name) {
+    this.originalAttributeName = name;
   }
 
   public Attribute value(Object value) {
@@ -124,6 +132,10 @@ public class Attribute   {
     this.attributeSource = attributeSource;
   }
 
+  public void setSource(String source) {
+	this.attributeSource = source;
+  }
+
   public Attribute valueUrl(String valueUrl) {
     this.valueUrl = valueUrl;
     return this;
@@ -141,6 +153,10 @@ public class Attribute   {
     this.valueUrl = valueUrl;
   }
 
+  public void setUrl(String url) {
+    this.valueUrl = url;
+  }
+  
   public Attribute description(String description) {
     this.description = description;
     return this;

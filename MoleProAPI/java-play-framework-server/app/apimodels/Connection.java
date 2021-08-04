@@ -74,6 +74,10 @@ public class Connection   {
     this.biolinkPredicate = biolinkPredicate;
   }
 
+  public void setType(String type) {
+	  this.biolinkPredicate = type;
+  }
+
   public Connection inversePredicate(String inversePredicate) {
     this.inversePredicate = inversePredicate;
     return this;

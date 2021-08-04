@@ -17,25 +17,31 @@ public class MappedAttribute extends Attribute {
 
 	final static Logger log = LoggerFactory.getLogger("application");
 
-	private static HashMap<String,String> attributeMap = new HashMap<>();
+	private static HashMap<String,MappedType> attributeMap = new HashMap<>();
 
 
 	public MappedAttribute(final Attribute src) {
 		super();
-		this.setName(src.getName());
-		this.setProvidedBy(src.getProvidedBy());
-		this.setSource(src.getSource());
-		this.setType(mappedType(src.getSource(), src.getName(), src.getType()));
-		this.setUrl(src.getUrl());
+		MappedType mappedType = mappedType(src.getAttributeSource(), src.getOriginalAttributeName(), src.getAttributeTypeId(), src.getValueTypeId());
+		this.setAttributeTypeId(mappedType.attributeType);
+		this.setOriginalAttributeName(src.getOriginalAttributeName());
 		this.setValue(src.getValue());
+		this.setValueTypeId(mappedType.valueType);
+		this.setAttributeSource(src.getAttributeSource());
+		this.setValueUrl(src.getValueUrl());
+		this.setDescription(src.getDescription());
+		this.setProvidedBy(src.getProvidedBy());
 	}
 
 
-	private String mappedType(final String source, final String name, final String type) {
-		if (type == null) {
-			return null;
+	private MappedType mappedType(final String source, final String name, final String type, final String valueType) {
+		if (type != null) {
+			String key = key(source, name, type);
+			if (attributeMap.containsKey(key)) {
+				return attributeMap.get(key);
+			}
 		}
-		return attributeMap.getOrDefault(key(source, name, type), type);
+		return new MappedType(type, valueType);
 	}
 
 
@@ -50,7 +56,8 @@ public class MappedAttribute extends Attribute {
 			for (Attribute attribute : srcAttributes) {
 				if (attribute instanceof MappedAttribute) {
 					attributes.add(attribute);
-				} else {
+				}
+				else {
 					attributes.add(new MappedAttribute(attribute));
 				}
 			}
@@ -70,21 +77,37 @@ public class MappedAttribute extends Attribute {
 
 
 	public static void loadMapping() {
-		final HashMap<String,String> map = new HashMap<>();
+		final HashMap<String,MappedType> map = new HashMap<>();
 		try {
 			final BufferedReader mapFile = new BufferedReader(new FileReader("conf/attributeMap.txt"));
 			for (String line = mapFile.readLine(); line != null; line = mapFile.readLine()) {
-				final String[] row = line.split("\t");
-				map.put(key(row[0], row[1], row[2]), row[3]);
+				final String[] row = line.split("\t", 5);
+				map.put(key(row[0], row[1], row[2]), new MappedType(row[3], row[4]));
 			}
 			mapFile.close();
 			attributeMap = map;
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			log.warn("Failed to load attribute mapping", e);
 		}
 	}
 
 	static {
 		loadMapping();
+	}
+
+
+	private static class MappedType {
+
+		private final String attributeType;
+		private final String valueType;
+
+
+		MappedType(String attributeType, String valueType) {
+			super();
+			this.attributeType = attributeType;
+			this.valueType = valueType;
+		}
+
 	}
 }

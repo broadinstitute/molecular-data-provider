@@ -114,28 +114,31 @@ public class MyGene {
 			final Names namesAndSynonyms = new Names();
 			final HashSet<String> synonyms = new HashSet<>();
 			for (Attribute attribute : geneInfo.getAttributes()) {
-				if ("gene_name".equals(attribute.getName())) {
-					synonyms.add(attribute.getValue());
-					namesAndSynonyms.setName(attribute.getValue());
-					namesAndSynonyms.setSource(attribute.getSource());
+				if ("gene_name".equals(attribute.getOriginalAttributeName())) {
+					synonyms.add(attribute.getValue().toString());
+					namesAndSynonyms.setName(attribute.getValue().toString());
+					namesAndSynonyms.setSource(attribute.getAttributeSource());
+					namesAndSynonyms.setProvidedBy(attribute.getProvidedBy());
 				}
-				if ("gene_symbol".equals(attribute.getName())) {
-					if (!synonyms.contains(attribute.getValue())) {
-						synonyms.add(attribute.getValue());
-						namesAndSynonyms.addSynonymsItem(attribute.getValue());
+				if ("gene_symbol".equals(attribute.getOriginalAttributeName())) {
+					if (!synonyms.contains(attribute.getValue().toString())) {
+						synonyms.add(attribute.getValue().toString());
+						namesAndSynonyms.addSynonymsItem(attribute.getValue().toString());
 					}
 					if (namesAndSynonyms.getSource() == null) {
-						namesAndSynonyms.setSource(attribute.getSource());
+						namesAndSynonyms.setSource(attribute.getAttributeSource());
+						namesAndSynonyms.setProvidedBy(attribute.getProvidedBy());
 					}
 				}
-				if ("synonyms".equals(attribute.getName())) {
-					for (String synonym : attribute.getValue().split(";"))
+				if ("synonyms".equals(attribute.getOriginalAttributeName())) {
+					for (String synonym : attribute.getValue().toString().split(";"))
 						if (!synonyms.contains(synonym)) {
 							synonyms.add(synonym);
 							namesAndSynonyms.addSynonymsItem(synonym);
 						}
 					if (namesAndSynonyms.getSource() == null) {
-						namesAndSynonyms.setSource(attribute.getSource());
+						namesAndSynonyms.setSource(attribute.getAttributeSource());
+						namesAndSynonyms.setProvidedBy(attribute.getProvidedBy());
 					}
 				}
 			}
@@ -143,6 +146,7 @@ public class MyGene {
 			namesAndSynonymsList.add(namesAndSynonyms);
 			return namesAndSynonymsList;
 		}
+
 
 		static void addInfo(final Element src) {
 			if (src.getIdentifiers() != null && src.getIdentifiers().containsKey("mygene_info")) {
@@ -158,9 +162,9 @@ public class MyGene {
 				for (Attribute attribute : geneInfo.getAttributes()) {
 					src.addAttributesItem(attribute);
 				}
-			}
-			for (Names names : namesAndSynonyms(geneInfo)) {
-				src.addNamesSynonymsItem(names);
+				for (Names names : namesAndSynonyms(geneInfo)) {
+					src.addNamesSynonymsItem(names);
+				}
 			}
 		}
 
@@ -176,8 +180,8 @@ public class MyGene {
 			}
 			if (gene == null) {
 				GeneInfo unknownGene = new GeneInfo().geneId(symbol);
-				unknownGene.addAttributesItem(new Attribute().name("name").value("unknown gene").source("myGene.info"));
-				unknownGene.addAttributesItem(new Attribute().name("gene_symbol").value(symbol).source(source));
+				unknownGene.addAttributesItem(new Attribute().originalAttributeName("name").value("unknown gene").attributeSource("myGene.info"));
+				unknownGene.addAttributesItem(new Attribute().originalAttributeName("gene_symbol").value(symbol).attributeSource(source));
 				return unknownGene;
 			}
 			return gene.addInfo(new GeneInfo());
@@ -199,8 +203,8 @@ public class MyGene {
 			}
 			if (gene == null) {
 				GeneInfo unknownGene = new GeneInfo().geneId(geneId);
-				unknownGene.addAttributesItem(new Attribute().name("name").value("unknown gene").source("myGene.info"));
-				unknownGene.addAttributesItem(new Attribute().name("gene_id").value(geneId).source(source));
+				unknownGene.addAttributesItem(new Attribute().originalAttributeName("name").value("unknown gene").attributeSource("myGene.info"));
+				unknownGene.addAttributesItem(new Attribute().originalAttributeName("gene_id").value(geneId).attributeSource(source));
 				return unknownGene;
 			}
 			return gene.addInfo(new GeneInfo());
@@ -578,13 +582,13 @@ public class MyGene {
 				src.setGeneId(getSymbol());
 			}
 			if (getSymbol() != null) {
-				src.addAttributesItem(new Attribute().name("gene_symbol").value(getSymbol()).source("myGene.info"));
+				src.addAttributesItem(new Attribute().attributeTypeId("biolink:symbol").originalAttributeName("gene_symbol").value(getSymbol()).attributeSource("myGene.info"));
 			}
 			if (getAlias() != null && getAlias().length > 0) {
-				src.addAttributesItem(new Attribute().name("synonyms").value(String.join(";", getAlias())).source("myGene.info"));
+				src.addAttributesItem(new Attribute().originalAttributeName("synonyms").value(String.join(";", getAlias())).attributeSource("myGene.info"));
 			}
 			if (getName() != null) {
-				src.addAttributesItem(new Attribute().name("gene_name").value(getName()).source("myGene.info"));
+				src.addAttributesItem(new Attribute().originalAttributeName("gene_name").value(getName()).attributeSource("myGene.info"));
 			}
 			if (src.getIdentifiers() == null) {
 				src.setIdentifiers(new GeneInfoIdentifiers());

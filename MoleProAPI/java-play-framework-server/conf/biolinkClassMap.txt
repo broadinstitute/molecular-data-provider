@@ -1,5 +1,19 @@
 class	biolink_class
+ChemicalSubstance	ChemicalSubstance
 compound	ChemicalSubstance
 chemical_substance	ChemicalSubstance
+chemical substance	ChemicalSubstance
+Gene	Gene
 gene	Gene
+Disease	Disease
 disease	Disease
+Pathway	Pathway
+pathway	Pathway
+Protein	Protein
+protein	Protein
+Drug	Drug
+drug	Drug
+Assay	Assay
+assay	Assay
+MolecularEntity	MolecularEntity
+molecular_entity	MolecularEntity

@@ -36,7 +36,7 @@ public class MappedBiolinkClass {
 	public static void loadMapping() {
 		final HashMap<String,String> map = new HashMap<>();
 		try {
-			final BufferedReader mapFile = new BufferedReader(new FileReader("conf/biolinkClassMap.txt"));
+			final BufferedReader mapFile = new BufferedReader(new FileReader("conf/BiolinkClassMap.txt"));
 			for (String line = mapFile.readLine(); line != null; line = mapFile.readLine()) {
 				final String[] row = line.split("\t");
 				map.put(row[0], row[1]);

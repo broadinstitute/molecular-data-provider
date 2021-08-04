@@ -9,12 +9,13 @@ import org.slf4j.LoggerFactory;
 
 import apimodels.Attribute;
 import apimodels.CollectionInfo;
+import apimodels.KmAttribute;
 import apimodels.KnowledgeMap;
-import apimodels.Parameter;
 import apimodels.Predicate;
 import apimodels.TransformerInfo;
 import apimodels.TransformerInfoProperties;
 import apimodels.MoleProQuery;
+import apimodels.Node;
 import apimodels.Property;
 import transformer.classes.Compound;
 import transformer.classes.Gene;
@@ -29,6 +30,8 @@ import transformer.exception.NotFoundException;
 public abstract class Transformer {
 
 	final static Logger log = LoggerFactory.getLogger(Config.class);
+	
+	private final static TransformerInfo.FunctionEnum PRODUCER = TransformerInfo.FunctionEnum.PRODUCER;
 
 	public final TransformerInfo info;
 
@@ -59,6 +62,34 @@ public abstract class Transformer {
 		if (properties.getTermsOfService() == null) {
 			properties.setTermsOfService("");
 		}
+		// migrate transformer info to version 2.3
+		final KnowledgeMap knowledgeMap = this.info.getKnowledgeMap();
+		if (knowledgeMap.getEdges() == null) {
+			knowledgeMap.setEdges(knowledgeMap.getPredicates());
+			knowledgeMap.setPredicates(null);
+		}
+		if (knowledgeMap.getNodes() != null) {
+			for (Node node : knowledgeMap.getNodes().values()) {
+				if (node.getAttributes() != null)
+					for (KmAttribute attr : node.getAttributes()) {
+						if (attr.getAttributeTypeId() == null) {
+							attr.setAttributeTypeId(attr.getType());
+							attr.setType(null);
+						}
+					}
+			}
+		}
+		if (knowledgeMap.getEdges() != null) {
+			for (Predicate predicate : knowledgeMap.getEdges()) {
+				if (predicate.getAttributes() != null)
+					for (KmAttribute attr : predicate.getAttributes()) {
+						if (attr.getAttributeTypeId() == null) {
+							attr.setAttributeTypeId(attr.getType());
+							attr.setType(null);
+						}
+					}
+			}
+		}
 	}
 
 
@@ -78,7 +109,7 @@ public abstract class Transformer {
 	private Query mkQuery(final MoleProQuery moleproQuery, String cache) throws NotFoundException, BadRequestException {
 		if (info.getVersion().startsWith("1.") || info.getVersion().startsWith("2.0."))
 			return inputClass.getQuery(moleproQuery, cache);
-		boolean hasInput = !"none".equals(info.getKnowledgeMap().getInputClass());
+		boolean hasInput = !(PRODUCER.equals(info.getFunction()) || "none".equals(info.getKnowledgeMap().getInputClass()));
 		return new TransformerQuery(moleproQuery, cache, hasInput);
 	}
 
@@ -91,7 +122,7 @@ public abstract class Transformer {
 		collectionInfo.setSource(info.getName());
 		collectionInfo.setAttributes(new ArrayList<Attribute>());
 		for (Property property : query.getControls()) {
-			final Attribute attribute = new Attribute().name(property.getName()).source(info.getName()).value(property.getValue());
+			final Attribute attribute = new Attribute().originalAttributeName(property.getName()).attributeSource(info.getName()).value(property.getValue());
 			collectionInfo.addAttributesItem(attribute);
 		}
 		return collectionInfo;
@@ -130,12 +161,12 @@ public abstract class Transformer {
 		final KnowledgeMap kmap = new KnowledgeMap();
 		kmap.setInputClass(getInputClass(info));
 		kmap.setOutputClass(Gene.CLASS);
-		kmap.setPredicates(new ArrayList<Predicate>());
+		kmap.setEdges(new ArrayList<Predicate>());
 		final String subject = kmap.getInputClass().toString();
-		if (!"none".equals(subject)) {
+		if (!None.CLASS.equals(subject)) {
 			String predicate = "related to";
 			final String object = kmap.getOutputClass().toString();
-			kmap.addPredicatesItem(new Predicate().subject(subject).predicate(predicate)._object(object));
+			kmap.addEdgesItem(new Predicate().subject(subject).predicate(predicate)._object(object));
 		}
 		return kmap;
 	}
@@ -143,22 +174,12 @@ public abstract class Transformer {
 
 	private static String getInputClass(final TransformerInfo info) {
 		if (info.getFunction() == TransformerInfo.FunctionEnum.PRODUCER) {
-			return getBiolinkClass(info);
+			return None.CLASS;
 		}
 		if (info.getFunction() == TransformerInfo.FunctionEnum.AGGREGATOR) {
 			return None.CLASS;
 		}
 		return Gene.CLASS;
-	}
-
-
-	private static String getBiolinkClass(final TransformerInfo info) {
-		for (Parameter parameter : info.getParameters()) {
-			if (parameter.getBiolinkClass() != null) {
-				return parameter.getBiolinkClass();
-			}
-		}
-		return "none";
 	}
 
 

@@ -174,7 +174,7 @@ public class PubChem {
 		names.setName(getName(cid));
 		names.setSynonyms(getSynonyms(cid));
 		names.setSource(PUBCHEM);
-		names.setUrl(String.format(PUBCHEM_CURIE.getUri(), cid));
+		names.setProvidedBy(PUBCHEM);
 		return names;
 	}
 

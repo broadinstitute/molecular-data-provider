@@ -226,7 +226,7 @@ public class MyChem {
 		List<String> getSynonyms();
 
 
-		String getURL();
+		//String getURL();
 	}
 
 
@@ -349,12 +349,6 @@ public class MyChem {
 			}
 
 
-			@Override
-			public String getURL() {
-				return String.format(CHEBI_CURIE.getUri(), id);
-			}
-
-
 			public String getId() {
 				return id;
 			}
@@ -455,16 +449,6 @@ public class MyChem {
 			}
 
 
-			@Override
-			public String getURL() {
-				String id = this.id;
-				if (this.id.startsWith(DRUGBANK_CURIE.getPrefix())) {
-					id = this.id.substring(DRUGBANK_CURIE.getPrefix().length());
-				}
-				return String.format(DRUGBANK_CURIE.getUri(), id);
-			}
-
-
 			public String getId() {
 				return id;
 			}
@@ -523,12 +507,6 @@ public class MyChem {
 			@Override
 			public String getSource() {
 				return "ChEMBL";
-			}
-
-
-			@Override
-			public String getURL() {
-				return String.format(CHEMBL_CURIE.getUri(), CHEMBL_CURIE.removePrefix(id));
 			}
 
 
@@ -751,9 +729,9 @@ public class MyChem {
 				if (source.getName() != null) {
 					Names compoundName = new Names();
 					compoundName.setSource(source.getSource());
+					compoundName.setProvidedBy("myChem.info");
 					compoundName.setName(source.getName());
 					compoundName.setSynonyms(source.getSynonyms());
-					compoundName.setUrl(source.getURL());
 					names.add(compoundName);
 				}
 			}

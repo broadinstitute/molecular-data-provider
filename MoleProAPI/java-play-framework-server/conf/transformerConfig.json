@@ -45,7 +45,8 @@
         },
         "hmdb": {
             "prefix": "HMDB:",
-            "uri": "http://www.hmdb.ca/metabolites/%s"
+            "uri": "http://www.hmdb.ca/metabolites/%s",
+            "producer": "HMDB metabolite producer"
         },
         "kegg": {
             "prefix": "KEGG.COMPOUND:",
