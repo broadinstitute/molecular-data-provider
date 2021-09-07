@@ -1,4 +1,4 @@
-Feature: Check CMAP transformer
+Feature: Check DepMap transformer
 
     Background: Specify transformer API
         Given a transformer at "https://translator.broadinstitute.org/depmap_expander"

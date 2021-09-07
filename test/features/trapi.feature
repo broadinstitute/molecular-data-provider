@@ -1,4 +1,4 @@
-Feature: Check reasoner API
+Feature: Check Translator Reasoner API
 
     Background: Specify Reasoner API
         Given a reasoner API at "https://translator.broadinstitute.org/molepro/trapi/v1.2"

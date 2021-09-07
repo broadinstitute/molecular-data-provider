@@ -1,4 +1,4 @@
-Feature: Check CMAP transformer
+Feature: Check DrugBank transformer
 
     Background: Specify transformer API
         Given a transformer at "https://translator.broadinstitute.org/drugbank"

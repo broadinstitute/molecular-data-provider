@@ -1,4 +1,4 @@
-Feature: Check CMAP transformer
+Feature: Check PubChem transformer
 
     Background: Specify transformer API
         Given a transformer at "https://translator.broadinstitute.org/pubchem_producer"

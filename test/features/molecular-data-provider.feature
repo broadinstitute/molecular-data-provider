@@ -1,4 +1,4 @@
-Feature: Check CMAP transformer
+Feature: Check MolePro
 
     Background: Specify Molecular Data Provider API
         Given a Molecular Data Provider at "https://translator.broadinstitute.org/molecular_data_provider"
