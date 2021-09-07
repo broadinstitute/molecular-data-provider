@@ -20,37 +20,43 @@ Feature: Check ChEBI transformer
             "controls": [
                 {
                     "name": "compounds",
-                    "value": "aspirin"
+                    "value": "Aspirin"
                 }
             ]
         }
         """
         then the size of the response is 1
+        and the response contains the following entries in "provided_by"
+            | provided_by                  |
+            | ChEBI compound-list producer |
+        and the response only contains the following entries in "provided_by"
+            | provided_by                  |
+            | ChEBI compound-list producer |
         and the response contains the following entries in "source"
-            | source                                 |
-            | ChEBI compound-list producer |
+            | source |
+            | ChEBI  |
         and the response only contains the following entries in "source"
-            | source                                 |
-            | ChEBI compound-list producer |
+            | source |
+            | ChEBI  |
         and the response contains the following entries in "source" of "names_synonyms" array
             | source |
             | ChEBI  |
         and the response contains the following entries in "name" of "names_synonyms" array
             | name                 |
             | acetylsalicylic acid |
-        and the response contains the following entries in "source" of "attributes" array
-            | source                                 |
+        and the response contains the following entries in "provided_by" of "attributes" array
+            | provided_by                  |
             | ChEBI compound-list producer |
-        and the response only contains the following entries in "source" of "attributes" array
-            | source                                 |
+        and the response only contains the following entries in "provided_by" of "attributes" array
+            | provided_by                  |
             | ChEBI compound-list producer |
         and the response contains the following entries in "value" of "attributes" array
             | value   |
-            | aspirin |
-        and the response contains the following entries in "inchikey" of "structure"
+            | Aspirin |
+        and the response contains the following entries in "inchikey" of "identifiers"
             | inchikey                    |
             | BSYNRYMUTXBXSQ-UHFFFAOYSA-N |
-        and the response only contains the following entries in "inchikey" of "structure"
+        and the response only contains the following entries in "inchikey" of "identifiers"
             | inchikey                    |
             | BSYNRYMUTXBXSQ-UHFFFAOYSA-N |
 
