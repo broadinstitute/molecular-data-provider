@@ -47,18 +47,18 @@ Feature: Check Drug Repurposing Hub transformer
             | name    |
             | aspirin |
         and the response contains the following entries in "source" of "attributes" array
-            | source                                 |
-            | Repurposing Hub compound-list producer |
+            | source               |
+            | Drug Repurposing Hub |
         and the response only contains the following entries in "source" of "attributes" array
-            | source                                 |
-            | Repurposing Hub compound-list producer |
+            | source               |
+            | Drug Repurposing Hub |
         and the response contains the following entries in "value" of "attributes" array
-            | value   |
-            | aspirin |
-        and the response contains the following entries in "inchikey" of "structure"
+            | value                    |
+            | cyclooxygenase inhibitor |
+        and the response contains the following entries in "inchikey" of "identifiers"
             | inchikey                    |
             | BSYNRYMUTXBXSQ-UHFFFAOYSA-N |
-        and the response only contains the following entries in "inchikey" of "structure"
+        and the response only contains the following entries in "inchikey" of "identifiers"
             | inchikey                    |
             | BSYNRYMUTXBXSQ-UHFFFAOYSA-N |
 
@@ -69,13 +69,11 @@ Feature: Check Drug Repurposing Hub transformer
         """
         {
             "controls": [],
-            "compounds": [
+            "collection": [
                 {
-                    "compound_id": "ChEMBL:CHEMBL25",
+                    "id": "ChEMBL:CHEMBL25",
                     "identifiers": {
-                        "pubchem": "CID:2244"
-                    },
-                    "structure": {
+                        "pubchem": "CID:2244",
                         "inchikey": "BSYNRYMUTXBXSQ-UHFFFAOYSA-N"
                     }
                 }
@@ -83,10 +81,10 @@ Feature: Check Drug Repurposing Hub transformer
         }
         """
         then the size of the response is 19
-        and the response contains the following entries in "source" of "attributes" array
-            | source                             |
+        and the response contains the following entries in "provided_by" of "connections" array
+            | provided_by                        |
             | Repurposing Hub target transformer |
-        and the response only contains the following entries in "source" of "attributes" array
-            | source                             |
+        and the response only contains the following entries in "provided_by" of "connections" array
+            | provided_by                        |
             | Repurposing Hub target transformer |
 
