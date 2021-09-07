@@ -56,17 +56,19 @@ Feature: Check ChEMBL transformer
         and the response contains the following entries in "name" of "names_synonyms" array
             | name                 |
             | Acetylsalicylic Acid |
+        and the response contains the following entries in "provided_by" of "attributes" array
+            | provided_by                   |
+            | ChEMBL compound-list producer |
+        and the response only contains the following entries in "provided_by" of "attributes" array
+            | provided_by                   |
+            | ChEMBL compound-list producer |
         and the response contains the following entries in "source" of "attributes" array
-            | source                        |
-            | ChEMBL compound-list producer |
+            | source |
+            | ChEMBL |
         and the response only contains the following entries in "source" of "attributes" array
-            | source                        |
-            | ChEMBL compound-list producer |
+            | source |
+            | ChEMBL |
         and the response contains the following entries in "value" of "attributes" array
-            | value  |
-            | aspirin |
-            | ChEMBL  |
-        and the response only contains the following entries in "value" of "attributes" array
             | value  |
             | aspirin |
             | ChEMBL  |
@@ -116,7 +118,7 @@ Feature: Check ChEMBL transformer
         then the size of the response is 2
 
 
-    Scenario: Check ChEMBL indications transformer on structure input
+    Scenario: Check ChEMBL indications transformer
         Given the transformer
         when we fire "/indications/transform" query with the following body:
         """

@@ -32,57 +32,57 @@ Feature: Check GeLiNEA transformer
                     "value": "H - hallmark gene sets"
                 }
             ],
-            "genes": [
+            "collection": [
                 {
-                    "gene_id": "HGNC:18017",
+                    "id": "HGNC:18017",
                     "identifiers": {
                         "entrez": "NCBIGene:23279"
                     }
                 },
                 {
-                    "gene_id": "HGNC:12017",
+                    "id": "HGNC:12017",
                     "identifiers": {
                         "entrez": "NCBIGene:7175"
                     }
                 },
                 {
-                    "gene_id": "HGNC:25525",
+                    "id": "HGNC:25525",
                     "identifiers": {
                         "entrez": "NCBIGene:55706"
                     }
                 },
                 {
-                    "gene_id": "HGNC:9021",
+                    "id": "HGNC:9021",
                     "identifiers": {
                         "entrez": "NCBIGene:5315"
                     }
                 },
                 {
-                    "gene_id": "HGNC:9380",
+                    "id": "HGNC:9380",
                     "identifiers": {
                         "entrez": "NCBIGene:5566"
                     }
                 },
                 {
-                    "gene_id": "HGNC:3350",
+                    "id": "HGNC:3350",
                     "identifiers": {
                         "entrez": "NCBIGene:2023"
                     }
                 },
                 {
-                    "gene_id": "HGNC:29929",
+                    "id": "HGNC:29929",
                     "identifiers": {
                         "entrez": "NCBIGene:79023"
                     }
                 },
                 {
-                    "gene_id": "HGNC:30379",
+                    "id": "HGNC:30379",
                     "identifiers": {
                         "entrez": "NCBIGene:81929"
                     }
                 },
                 {
-                    "gene_id": "HGNC:13666",
+                    "id": "HGNC:13666",
                     "identifiers": {
                         "entrez": "NCBIGene:8086"
                     }
@@ -99,7 +99,7 @@ Feature: Check GeLiNEA transformer
             | MSigDB:HALLMARK_GLYCOLYSIS |
         and the response contains the following entries in "biolink_class"
             | biolink_class |
-            | pathway       |
+            | Pathway       |
         and the response only contains the following entries in "biolink_class"
             | biolink_class |
-            | pathway       |
+            | Pathway       |

@@ -1,4 +1,4 @@
-Feature: Check CMAP transformer
+Feature: Check MolePro
 
     Background: Specify Molecular Data Provider API
         Given a Molecular Data Provider at "https://translator.broadinstitute.org/molecular_data_provider"
@@ -23,10 +23,10 @@ Feature: Check CMAP transformer
         then the length of the collection should be 4
         and the value of "element_class" should be "gene"
         and the value of "source" should be "HGNC gene-list producer"
-        and the value of "elements[0].gene_id" should be "HGNC:4556"
-        and the value of "elements[1].gene_id" should be "HGNC:11393"
+        and the value of "elements[0].id" should be "HGNC:4556"
+        and the value of "elements[1].id" should be "HGNC:11393"
         and the value of "elements[2].identifiers.entrez" should be "NCBIGene:22818"
-        and the value of "elements[3].gene_id" should be "HGNC:23"
+        and the value of "elements[3].id" should be "HGNC:23"
 
     Scenario: Check PubChem producer
         Given the Molecular Data Provider
@@ -88,7 +88,7 @@ Feature: Check CMAP transformer
         and the value of "element_class" should be "gene"
         and the value of "source" should be "CMAP gene-to-gene expander"
 
-        @wip
+
     Scenario: Check DGIdb inhibitors transformer
         Given the Molecular Data Provider
         when we call "HGNC gene-list producer" transformer with the following parameters:
@@ -114,6 +114,22 @@ Feature: Check CMAP transformer
         then the length of the collection should be 60
         and the value of "element_class" should be "compound"
         and the value of "source" should be "CMAP compound-to-compound expander"
+
+
+    Scenario: Check GeLiNEA
+        Given the Molecular Data Provider
+        when we call "DrugCentral indications transformer" transformer with the following parameters:
+        | disease                 |
+        | acute lymphoid leukemia |
+        and we call "CMAP compound-to-gene transformer" transformer with the following parameters:
+        | score threshold | maximum number |
+        | 99              | 0              |
+        and we call "Gene-list network enrichment analysis" transformer with the following parameters:
+        | network          | gene-set collection    | maximum p-value |
+        | STRING-human-700 | H - hallmark gene sets | 0.01            |
+        then the length of the collection should be 3
+        and the value of "element_class" should be "pathway"
+        and the value of "source" should be "Gene-list network enrichment analysis"
 
 
     Scenario: Check union
@@ -155,3 +171,12 @@ Feature: Check CMAP transformer
         and the length of the collection should be 2
         and the value of "element_class" should be "compound"
 
+
+    Scenario: Check batch compound list by id
+        Given the Molecular Data Provider
+        when we fire "/compound/by_id" query with the following body:
+        """
+            ["DrugBank:DB01050","CID:2244","ChEMBL:25"]
+        """
+        then the size of "attributes" should be 1
+        and the int value of "size" should be 2

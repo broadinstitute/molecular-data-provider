@@ -30,9 +30,9 @@ Feature: Check CTRP transformer
                     "value": "0"
                 }
             ],
-            "compounds": [
+            "collection": [
                 {
-                    "compound_id": "CID:49793307",
+                    "id": "CID:49793307",
                     "identifiers": {
                         "pubchem": "CID:49793307"
                     }
@@ -62,9 +62,9 @@ Feature: Check CTRP transformer
                     "value": "5"
                 }
             ],
-            "compounds": [
+            "collection": [
                 {
-                    "compound_id": "CID:49793307",
+                    "id": "CID:49793307",
                     "identifiers": {
                         "pubchem": "CID:49793307"
                     }
