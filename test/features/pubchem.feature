@@ -25,14 +25,14 @@ Feature: Check CMAP transformer
         }
         """
         then the size of the response is 2
-        and the response contains the following entries in "compound_id"
-            | compound_id |
-            | CID:2244    |
-            | CID:387447  |
-        and the response only contains the following entries in "compound_id"
-            | compound_id |
-            | CID:2244    |
-            | CID:387447  |
+        and the response contains the following entries in "id"
+            | id         |
+            | CID:2244   |
+            | CID:387447 |
+        and the response only contains the following entries in "id"
+            | id         |
+            | CID:2244   |
+            | CID:387447 |
         and the response contains the following entries in "source"
             | source                         |
             | Pubchem compound-list producer |
@@ -55,14 +55,14 @@ Feature: Check CMAP transformer
         }
         """
         then the size of the response is 2
-        and the response contains the following entries in "compound_id"
-            | compound_id |
-            | CID:2244    |
-            | CID:387447  |
-        and the response only contains the following entries in "compound_id"
-            | compound_id |
-            | CID:2244    |
-            | CID:387447  |
+        and the response contains the following entries in "id"
+            | id         |
+            | CID:2244   |
+            | CID:387447 |
+        and the response only contains the following entries in "id"
+            | id         |
+            | CID:2244   |
+            | CID:387447 |
         and the response contains the following entries in "source"
             | source                         |
             | Pubchem compound-list producer |
