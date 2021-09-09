@@ -2,11 +2,15 @@ import sqlite3
 from collections import defaultdict
 
 from transformers.transformer import Transformer
-from openapi_server.models.compound_info import CompoundInfo
-from openapi_server.models.compound_info_identifiers import CompoundInfoIdentifiers
+
 from openapi_server.models.names import Names
 from openapi_server.models.attribute import Attribute
-from openapi_server.models.compound_info_structure import CompoundInfoStructure
+from openapi_server.models.element import Element
+from openapi_server.models.connection import Connection
+
+connection = sqlite3.connect("data/ChemBank.sqlite", check_same_thread=False)
+connection.row_factory = sqlite3.Row
+
 
 
 class ChemBankProducer(Transformer):
@@ -14,51 +18,66 @@ class ChemBankProducer(Transformer):
     variables = ['compounds']
 
     def __init__(self):
-        super().__init__(self.variables, definition_file='compounds_transformer_info.json')
+        super().__init__(self.variables, definition_file='info/compounds_transformer_info.json')
 
 
     def produce(self, controls):
-        compound_list = []
-        names = controls['compounds'].split(';')
+        element_list = []
+        elements = {}
+        names  = controls[self.variables[0]]
+        if len(names) == 1 and ';' in names[0]:
+            names  = names[0].split(';')
         for name in names:
             name = name.strip()
-            for compound_info in self.find_compound_by_name(name):
-                compound_list.append(compound_info)
-        return compound_list
-
+            for element in self.find_compound_by_name(name):
+                if element.id not in elements:
+                    elements[element.id] = element
+                    element_list.append(element)
+                elements[element.id].attributes.append(Attribute(
+                    original_attribute_name= 'query name',
+                    value= name,
+                    attribute_type_id= 'query name',
+                    attribute_source= self.SOURCE,
+                    provided_by= self.PROVIDED_BY
+                ))
+        return element_list
 
     def find_compound_by_name(self, name):
         """
             Find compound by a name
         """
         compound_list = []
-        compounds = find_compound_by_id(name) if name.upper().startswith('CHEMBANK:') else find_compound_by_name(name)
+        compounds = self.find_compound_by_id(name) if self.has_prefix('chembank', str(name), "compound") else find_compound_by_name(name)
         for compound in compounds:
-            chembank_id = compound[0]
-            compound_id = 'ChemBank:'+str(chembank_id)
-            smiles = compound[1]
-            inchi = compound[2]
-            inchi_key = compound[3]
+            chembank_id = compound['CHEMBANK_ID']
+            compound_id = self.add_prefix('chembank', str(chembank_id))
             names = self.get_names(chembank_id)
-            compound_info = CompoundInfo(
-                compound_id = compound_id,
-                identifiers = CompoundInfoIdentifiers(
-                    drugbank = 'DrugBank:'+names['DrugBank'][0] if 'DrugBank' in names else None,
-                    pubchem = names['PubChem'][0] if 'PubChem' in names else None,
-                    chembank = compound_id,
-                    cas = names['CAS'][0] if 'CAS' in names else None
-                ),
-                names_synonyms = self.get_names_synonyms(names),
-                structure = CompoundInfoStructure(
-                    smiles = smiles,
-                    inchi = inchi,
-                    inchikey = inchi_key,
-                    source = 'ChemBank'
-                ),
-                attributes = [Attribute(name='query name', value=name,source=self.info.name)],
-                source = self.info.name
+            identifiers = {}
+            if compound[ 'CHEMBANK_ID'] is not None and compound['CHEMBANK_ID'] != '':
+                identifiers['chembank'] = self.add_prefix('chembank', str(compound['CHEMBANK_ID']))
+            if compound['SMILES'] is not None and compound['SMILES'] != '':
+                identifiers['smiles'] = compound['SMILES']
+            if compound['INCHI'] is not None and compound['INCHI'] != '':
+                identifiers['inchi'] = compound['INCHI']
+            if compound['INCHI_KEY'] is not None and compound['INCHI_KEY'] != '':
+                identifiers['inchikey'] = compound['INCHI_KEY']
+            if 'DrugBank' in names:
+                identifiers['drugbank'] = self.add_prefix('drugbank', str(names['DrugBank'][0]))
+            if 'PubChem' in names: 
+                identifiers['pubchem'] = self.add_prefix('pubchem', str(names['PubChem'][0]))
+            if 'CAS' in names:
+                identifiers['cas'] = self.add_prefix('cas', names['CAS'][0])
+            element = Element(
+                id= compound_id,
+                biolink_class= self.biolink_class('ChemicalSubstance'),
+                identifiers= identifiers,
+                names_synonyms= self.get_names_synonyms(names),
+                attributes= [],
+                connections= [],
+                provided_by= self.PROVIDED_BY,
+                source= self.SOURCE
             )
-            compound_list.append(compound_info)
+            compound_list.append(element)
         return compound_list
 
 
@@ -68,7 +87,7 @@ class ChemBankProducer(Transformer):
         """
         names = defaultdict(list)
         for name in get_names(chembank_id):
-            names[name[2]].append(name[1])
+            names[name['CPD_NAME_TYPE']].append(name['CPD_NAME'])
         return names
 
 
@@ -82,7 +101,9 @@ class ChemBankProducer(Transformer):
                 Names(
                     name = names['primary-common'][0] if 'primary-common' in names else None,
                     synonyms = names['common'] if 'common' in names else None,
-                    source = 'ChemBank'
+                    source = self.SOURCE,
+                    name_type= "",
+                    provided_by= self.PROVIDED_BY
                 )
             )
 
@@ -91,7 +112,9 @@ class ChemBankProducer(Transformer):
                 Names(
                     name = names['primary-brand'][0] if 'primary-brand' in names else None,
                     synonyms = names['brand'] if 'brand' in names else None,
-                    source = 'brand-name@ChemBank'
+                    source = self.SOURCE,
+                    provided_by= self.PROVIDED_BY,
+                    name_type= 'brand name'
                 )
             )
 
@@ -100,7 +123,9 @@ class ChemBankProducer(Transformer):
                 Names(
                     name = names['primary-chemical'][0] if 'primary-chemical' in names else None,
                     synonyms = names['chemical'] if 'chemical' in names else None,
-                    source = 'chemical-name@ChemBank'
+                    source = self.SOURCE,
+                    provided_by= self.PROVIDED_BY,
+                    name_type= 'chemical name'
                 )
             )
 
@@ -110,13 +135,27 @@ class ChemBankProducer(Transformer):
                     Names(
                         name = name_list[0] if len(name_list) == 1 else  None,
                         synonyms = name_list if len(name_list) > 1 else  None,
-                        source = name_type+'@ChemBank' if name_type != 'ChemBank' else 'ChemBank ID',
+                        source= self.SOURCE,
+                        provided_by= self.PROVIDED_BY,
+                        name_type= name_type if name_type != 'ChemBank' else 'ChemBank ID'
                     )
                 )
         return names_synonyms
 
 
-connection = sqlite3.connect("ChemBank.sqlite", check_same_thread=False)
+    def find_compound_by_id(self, id):
+        chembank_id = self.de_prefix('chembank', str(id), 'compound')
+        compound = get_compound(chembank_id)
+        if len(compound) > 1:
+            print("WARNING: found multiple compounds for '"+id+"'")
+        if len(compound) > 0:
+            return compound
+        compound = find_compound_by_name(id)
+        if len(compound) > 1:
+            print("WARNING: found multiple compounds for '"+id+"'")
+        if len(compound) > 0:
+            return compound
+        return []
 
 
 def find_compound_by_name(name):
@@ -131,21 +170,6 @@ def find_compound_by_name(name):
     cur = connection.cursor()
     cur.execute(query,(name,))
     return cur.fetchall()
-
-
-def find_compound_by_id(id):
-    chembank_id = int(id[9:] if id.upper().startswith('CHEMBANK:') else id)
-    compound = get_compound(chembank_id)
-    if len(compound) > 1:
-        print("WARNING: found multiple compounds for '"+id+"'")
-    if len(compound) > 0:
-        return compound
-    compound = find_compound_by_name(id)
-    if len(compound) > 1:
-        print("WARNING: found multiple compounds for '"+id+"'")
-    if len(compound) > 0:
-        return compound
-    return []
 
 
 def get_compound(chembank_id):

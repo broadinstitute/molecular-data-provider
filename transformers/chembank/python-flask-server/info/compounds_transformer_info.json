@@ -2,23 +2,34 @@
     "name": "ChemBank compound-list producer",
     "label": "ChemBank",
     "description": "Compound-list producer based on ChemBank (http://chembank.broadinstitute.org/).",
-    "version": "2.0.0",
+    "version": "2.3.0",
     "function": "producer",
     "knowledge_map": {
         "input_class": "none",
         "output_class": "compound",
-        "predicates": []
+        "nodes": {
+            "ChemicalSubstance": {
+                "count": 24867,
+                "id_prefixes":[
+                    "CAS",
+                    "ChemBank",
+                    "DrugBank",
+                    "CID"
+                ]
+            }
+        }
     },
     "properties": {
-        "list_predicate": "related_to",
-        "member_predicate": "related_to",
-        "source_url": "http://chembank.broadinstitute.org/"
+        "source_url": "http://chembank.broadinstitute.org/",
+        "source_version": "2"
     },
     "parameters": [
         {
             "example": "aspirin",
             "name": "compounds",
             "type": "string",
+            "required": true,
+            "multivalued": true,
             "suggested_values": "semicolon-separated list of compound names or ChemBank IDs"
         }
     ]
