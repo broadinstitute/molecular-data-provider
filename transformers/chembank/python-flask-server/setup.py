@@ -22,10 +22,10 @@ REQUIRES = [
 setup(
     name=NAME,
     version=VERSION,
-    description="Transformer API for ChemBank",
+    description="Transformer API for Molecular Data Provider",
     author_email="translator@broadinstitute.org",
     url="",
-    keywords=["OpenAPI", "Transformer API for ChemBank"],
+    keywords=["OpenAPI", "Transformer API for Molecular Data Provider"],
     install_requires=REQUIRES,
     packages=find_packages(),
     package_data={'': ['openapi/openapi.yaml']},
