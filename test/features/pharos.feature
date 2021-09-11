@@ -1,7 +1,7 @@
 Feature: Check Pharos transformer
 
     Background: Specify transformer API
-        Given a transformer at "http://localhost:8220/pharos"
+        Given a transformer at "https://translator.broadinstitute.org/pharos"
 
 
     Scenario: Check Pharos transformer info
