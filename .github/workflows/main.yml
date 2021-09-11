@@ -16,6 +16,18 @@ on:
 
 jobs:
 # This workflow contains a multiple jobs to test each transformer
+
+  chebi:
+    runs-on: ubuntu-latest
+    steps:    
+        - uses: actions/checkout@v2
+    
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/chebi.feature
+
   chembank:
     runs-on: ubuntu-latest
     steps:    
@@ -49,7 +61,19 @@ jobs:
         - name: Start the BDD testing of the checked out feature file
           run: behave test/features/cmap.feature
 
-  demap:
+  ctrp:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v2
+    
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/ctrp.feature
+
+
+  depmap:
     runs-on: ubuntu-latest
     steps:
         - uses: actions/checkout@v2
@@ -92,7 +116,7 @@ jobs:
           
         - name: Start the BDD testing of the checked out feature file
           run: behave test/features/drugcentral.feature
-          
+
   gelinea:
     runs-on: ubuntu-latest
     steps:
@@ -103,7 +127,7 @@ jobs:
           
         - name: Start the BDD testing of the checked out feature file
           run: behave test/features/gelinea.feature
-          
+
   gtopdb:
     runs-on: ubuntu-latest
     steps:
@@ -114,7 +138,7 @@ jobs:
           
         - name: Start the BDD testing of the checked out feature file
           run: behave test/features/gtopdb.feature
-          
+
   hmdb:
     runs-on: ubuntu-latest
     steps:
@@ -136,17 +160,6 @@ jobs:
           
         - name: Start the BDD testing of the checked out feature file
           run: behave test/features/molecular_data_provider.feature
-
-  moleprodb:
-    runs-on: ubuntu-latest
-    steps:
-        - uses: actions/checkout@v2
-    
-        - name: download all the required python modules
-          run: pip install -r test/requirements.txt
-          
-        - name: Start the BDD testing of the checked out feature file
-          run: behave test/features/moleprodb.feature
 
   pharos:
     runs-on: ubuntu-latest
@@ -170,6 +183,16 @@ jobs:
         - name: Start the BDD testing of the checked out feature file
           run: behave test/features/pubchem.feature
 
+  repurposing:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v2
+    
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/repurposing.feature
 
   stitch:
     runs-on: ubuntu-latest
