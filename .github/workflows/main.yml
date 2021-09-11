@@ -82,7 +82,7 @@ jobs:
           run: pip install -r test/requirements.txt
           
         - name: Start the BDD testing of the checked out feature file
-          run: behave test/features/demap.feature
+          run: behave test/features/depmap.feature
 
   dgidb:
     runs-on: ubuntu-latest
