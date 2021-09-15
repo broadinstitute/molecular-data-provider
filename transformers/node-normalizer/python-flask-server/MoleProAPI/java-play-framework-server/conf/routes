@@ -1,0 +1,29 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+GET     /api                        controllers.ApiDocController.api
+GET     /molecular_data_provider/api                        controllers.ApiDocController.api
+GET     /molecular_data_provider/status                        controllers.ApiDocController.status
+
+#Functions for Collections API
+GET     /molecular_data_provider/collection/:collectionId                     controllers.CollectionsApiController.collectionCollectionIdGet(collectionId: String)
+GET     /molecular_data_provider/compound/list/:listId                     controllers.CollectionsApiController.compoundListListIdGet(listId: String)
+GET     /molecular_data_provider/gene/list/:listId                     controllers.CollectionsApiController.geneListListIdGet(listId: String)
+
+#Functions for Compounds API
+GET     /molecular_data_provider/compound/by_id/*compoundId                     controllers.CompoundsApiController.compoundByIdCompoundIdGet(compoundId: String)
+POST     /molecular_data_provider/compound/by_id                     controllers.CompoundsApiController.compoundByIdPost()
+GET     /molecular_data_provider/compound/by_name/*name                     controllers.CompoundsApiController.compoundByNameNameGet(name: String)
+POST     /molecular_data_provider/compound/by_name                     controllers.CompoundsApiController.compoundByNamePost()
+POST     /molecular_data_provider/compound/by_structure                     controllers.CompoundsApiController.compoundByStructurePost()
+
+#Functions for Transformers API
+POST     /molecular_data_provider/aggregate                     controllers.TransformersApiController.aggregatePost()
+POST     /molecular_data_provider/transform                     controllers.TransformersApiController.transformPost()
+GET     /molecular_data_provider/transformers                     controllers.TransformersApiController.transformersGet()
+
+# Map static resources from the /public folder to the /assets URL path
+GET /assets/*file           controllers.Assets.at(file)
+GET /versionedAssets/*file  controllers.Assets.versioned(file)
+GET /molecular_data_provider/assets/*file           controllers.Assets.at(file)
