@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: node-normalizer
+  namespace: molepro
+spec:
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 8430
+  selector:
+    app: node-normalizer
+  type: NodePort

@@ -73,5 +73,22 @@ pipeline {
                 }
             }
         }
+        stage('Deploy') {
+            steps {
+                    dir("transformers/node-normalizer/deploy") {
+                        configFileProvider([
+                            configFile(fileId: 'node-normalizer-ci-env', targetLocation: 'transformers/node-normalizer/deploy/.env')
+                        ]){
+                            withAWS(credentials:'aws-ifx-deploy') {
+                                sh '''
+                                aws --region ${AWS_REGION} eks update-kubeconfig --name ${KUBERNETES_CLUSTER_NAME}
+                                cd transformers/node-normalizer/deploy/
+                                /bin/bash deploy.sh
+                                '''
+                            }
+                        }
+                    }    
+            }
+        }
     }
 }

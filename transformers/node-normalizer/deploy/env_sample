@@ -1,0 +1,4 @@
+ENVIRONMENT_TAG=CI
+NODE_NORMALIZER_HOSTNAME=node-normalizer.ci.transltr.io
+NODE_NORMALIZER_ALB_TAG=translator-eks-ci-blue-cluster
+NODE_NORMALIZER_ALB_SG=molepro-ci-alb-http-sg

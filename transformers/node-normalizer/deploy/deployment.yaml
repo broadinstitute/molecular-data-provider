@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-normalizer
+  namespace: molepro
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: node-normalizer
+  template:
+    metadata:
+      labels:
+        app: node-normalizer
+    spec:
+      containers:
+        - name: nodenormalizerserver
+          image: 853771734544.dkr.ecr.us-east-1.amazonaws.com/translator-molepro-node-normalizer:DOCKER_VERSION_VALUE
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8430
+      restartPolicy: Always
