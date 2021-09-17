@@ -76,7 +76,6 @@ pipeline {
         stage('Deploy') {
             steps {
                     dir("transformers/node-normalizer/deploy") {
-                        {
                             withAWS(credentials:'aws-ifx-deploy') {
                                 sh '''
                                 aws --region ${AWS_REGION} eks update-kubeconfig --name ${KUBERNETES_CLUSTER_NAME}
@@ -84,7 +83,6 @@ pipeline {
                                 /bin/bash deploy.sh
                                 '''
                             }
-                        }
                     }    
             }
         }
