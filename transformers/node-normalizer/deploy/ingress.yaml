@@ -23,6 +23,6 @@ spec:
             serviceName: ssl-redirect
             servicePort: use-annotation
         - backend:
-            serviceName: molepro
+            serviceName: node-normalizer
             servicePort: 80
           path: /*
