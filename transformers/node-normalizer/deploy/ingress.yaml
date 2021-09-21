@@ -6,8 +6,8 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: alb
     alb.ingress.kubernetes.io/scheme: internet-facing
-    alb.ingress.kubernetes.io/tags: Name=translator-eks-ci-blue-cluster,Environment=ENVIRONMENT_TAG_VALUE
-    alb.ingress.kubernetes.io/security-groups: translator-ci-alb-http-sg
+    alb.ingress.kubernetes.io/tags: Name=NODE_NORMALIZER_ALB_TAG_VALUE,Environment=ENVIRONMENT_TAG_VALUE
+    alb.ingress.kubernetes.io/security-groups: NODE_NORMALIZER_ALB_SG_VALUE
     alb.ingress.kubernetes.io/ssl-policy: ELBSecurityPolicy-TLS-1-2-Ext-2018-06
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS":443}]'
     alb.ingress.kubernetes.io/actions.ssl-redirect: '{"Type": "redirect", "RedirectConfig": { "Protocol": "HTTPS", "Port": "443", "StatusCode": "HTTP_301"}}'
@@ -15,7 +15,7 @@ metadata:
     alb.ingress.kubernetes.io/healthcheck-path: '/node/ui'
 spec:
   rules:
-    - host: node-normalizer.ci.transltr.io
+    - host: NODE_NORMALIZER_HOSTNAME_VALUE
       http:
         paths:
         - path: /*
