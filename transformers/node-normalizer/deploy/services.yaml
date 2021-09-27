@@ -8,7 +8,7 @@ spec:
   - name: http
     port: 80
     protocol: TCP
-    targetPort: 8430
+    targetPort: 8080
   selector:
     app: node-normalizer
   type: NodePort
