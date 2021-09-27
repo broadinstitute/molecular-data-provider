@@ -1,5 +1,5 @@
 {
-    "query": "/get_normalized_nodes?curie=",
-    "url": "https://nodenormalization-sri.renci.org/1.1",
-    "version": "1.1"
+    "query": "/get_normalized_nodes?&conflate=false&curie=",
+    "url": "https://nodenormalization-sri.renci.org",
+    "version": "2.0.1"
 }
