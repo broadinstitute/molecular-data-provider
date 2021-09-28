@@ -11,8 +11,7 @@ app.add_api('openapi.yaml',
             pythonic_params=True)
 
 def main():
-    app.run(port=8240)
-
+    app.run(port=8240,debug=True)
 
 if __name__ == '__main__':
     main()

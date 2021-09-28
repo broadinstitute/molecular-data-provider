@@ -6,13 +6,11 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from openapi_server.models.base_model_ import Model
-from openapi_server.models.compound_info import CompoundInfo
-from openapi_server.models.gene_info import GeneInfo
+from openapi_server.models.element import Element
 from openapi_server.models.model_property import ModelProperty
 from openapi_server import util
 
-from openapi_server.models.compound_info import CompoundInfo  # noqa: E501
-from openapi_server.models.gene_info import GeneInfo  # noqa: E501
+from openapi_server.models.element import Element  # noqa: E501
 from openapi_server.models.model_property import ModelProperty  # noqa: E501
 
 class TransformerQuery(Model):
@@ -21,30 +19,25 @@ class TransformerQuery(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, genes=None, compounds=None, controls=None):  # noqa: E501
+    def __init__(self, collection=None, controls=None):  # noqa: E501
         """TransformerQuery - a model defined in OpenAPI
 
-        :param genes: The genes of this TransformerQuery.  # noqa: E501
-        :type genes: List[GeneInfo]
-        :param compounds: The compounds of this TransformerQuery.  # noqa: E501
-        :type compounds: List[CompoundInfo]
+        :param collection: The collection of this TransformerQuery.  # noqa: E501
+        :type collection: List[Element]
         :param controls: The controls of this TransformerQuery.  # noqa: E501
         :type controls: List[ModelProperty]
         """
         self.openapi_types = {
-            'genes': List[GeneInfo],
-            'compounds': List[CompoundInfo],
+            'collection': List[Element],
             'controls': List[ModelProperty]
         }
 
         self.attribute_map = {
-            'genes': 'genes',
-            'compounds': 'compounds',
+            'collection': 'collection',
             'controls': 'controls'
         }
 
-        self._genes = genes
-        self._compounds = compounds
+        self._collection = collection
         self._controls = controls
 
     @classmethod
@@ -59,50 +52,27 @@ class TransformerQuery(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def genes(self):
-        """Gets the genes of this TransformerQuery.
+    def collection(self):
+        """Gets the collection of this TransformerQuery.
 
-        List of genes that will be transformed. Required for expanders and filters; should be omitted for producers.  # noqa: E501
+        List of elements that will be transformed. Required for all transformers except producers.  # noqa: E501
 
-        :return: The genes of this TransformerQuery.
-        :rtype: List[GeneInfo]
+        :return: The collection of this TransformerQuery.
+        :rtype: List[Element]
         """
-        return self._genes
+        return self._collection
 
-    @genes.setter
-    def genes(self, genes):
-        """Sets the genes of this TransformerQuery.
+    @collection.setter
+    def collection(self, collection):
+        """Sets the collection of this TransformerQuery.
 
-        List of genes that will be transformed. Required for expanders and filters; should be omitted for producers.  # noqa: E501
+        List of elements that will be transformed. Required for all transformers except producers.  # noqa: E501
 
-        :param genes: The genes of this TransformerQuery.
-        :type genes: List[GeneInfo]
-        """
-
-        self._genes = genes
-
-    @property
-    def compounds(self):
-        """Gets the compounds of this TransformerQuery.
-
-        List of compounds that will be transformed. Required for expanders and filters; should be omitted for producers.  # noqa: E501
-
-        :return: The compounds of this TransformerQuery.
-        :rtype: List[CompoundInfo]
-        """
-        return self._compounds
-
-    @compounds.setter
-    def compounds(self, compounds):
-        """Sets the compounds of this TransformerQuery.
-
-        List of compounds that will be transformed. Required for expanders and filters; should be omitted for producers.  # noqa: E501
-
-        :param compounds: The compounds of this TransformerQuery.
-        :type compounds: List[CompoundInfo]
+        :param collection: The collection of this TransformerQuery.
+        :type collection: List[Element]
         """
 
-        self._compounds = compounds
+        self._collection = collection
 
     @property
     def controls(self):

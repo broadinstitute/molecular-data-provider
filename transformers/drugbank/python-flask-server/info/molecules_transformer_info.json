@@ -1,18 +1,24 @@
 {
-    "name": "DrugBank compound-list producer",
+    "name": "DrugBank molecule-list producer",
     "label": "DrugBank",
-    "description": "Compound-list producer based on DrugBank (https://www.drugbank.ca/).",
-    "version": "2.0.0",
+    "description": "Molecule-list producer based on DrugBank (https://www.drugbank.ca/).",
+    "version": "2.4.0",
     "function": "producer",
     "knowledge_map": {
         "input_class": "none",
-        "output_class": "compound",
+        "output_class": "MolecularEntity",
+        "nodes": {
+            "MolecularEntity" : {
+                "id_prefixes": ["CID","DrugBank"],
+                "count": 14315,
+                "attributes": []
+            }
+        },
         "predicates": []
     },
     "properties": {
-        "list_predicate": "related_to",
-        "member_predicate": "related_to",
         "source_url": "https://www.drugbank.ca/",
+        "source_version": "5.1.8 (2021-01-03)",
         "terms_of_service": "https://www.drugbank.ca/legal/terms_of_use"
     },
     "parameters": [
