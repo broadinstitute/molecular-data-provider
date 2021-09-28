@@ -1,66 +1,121 @@
 package org.broadinstitute.translator.parser.drugbank
 
+import scala.language.reflectiveCalls
+import scala.language.implicitConversions
+
 import org.broadinstitute.translator.xml._
 import collection.mutable.HashMap
 import collection.mutable.ArrayBuffer
 
 object TargetBuilder {
 
-  val targets = new HashMap[String, Int]()
+  private val targets = new HashMap[String, Int]()
 
-  def +=(entry: Tuple2[String, Int]): Unit = {
+  private def +=(entry: Tuple2[String, Int]): Unit = {
     targets += entry
   }
 
-  def get(targetId: String) = targets.get(targetId)
+  def apply(targetId: String) = targets.get(targetId)
 
-  implicit def createTargetBuilder(tag: String): TargetBuilder = new TargetBuilder
+  implicit def createTargetBuilder(tag: String): TargetBuilder = new TargetBuilder(tag)
 }
 
-class TargetBuilder extends ParentBuilder {
-  val tag = "target"
+class TargetBuilder(val tag: String) extends ParentBuilder with Attributes {
 
-  val targetIdBuilder = new TextValueBuilder("id") =>: children
+  import PolypeptideBuilder.GOBuilder
+  import PolypeptideBuilder.PFamBuilder
   
-  val actionBuilder = new SequenceBuilder[TextValueBuilder]("actions", "action") =>: children
-  val polypeptideBuilder = new ArrayBuffer[PolypeptideBuilder]()
+  val targetIdBuilder = new TextValueBuilder("id") =>: children
+  val nameBuilder = new TextValueBuilder("name") =>: children
+  val organismBuilder = new TextValueBuilder("organism") =>: children
+  val actionsBuilder = new SequenceBuilder[TextValueBuilder]("actions", "action") =>: children
+  val referencesBuilder = new ReferencesBuilder("references") =>: children
+  val knownActionBuilder = new TextValueBuilder("known-action") =>: children
+  val polypeptidesBuilder = new ArrayBuffer[PolypeptideBuilder]()
+  val inhibitionStrengthBuilder = new TextValueBuilder("inhibition-strength") =>: children
+  val inductionStrengthBuilder = new TextValueBuilder("induction-strength") =>: children
 
   override def createBuilder(tag: String, attr: Map[String, String]): Option[Builder] = tag match {
-    case "polypeptide" => Some(new PolypeptideBuilder(attr("id"), attr("source")))
+    case "polypeptide" => {
+      val polypeptideBuilder = new PolypeptideBuilder()
+      polypeptidesBuilder += polypeptideBuilder
+      Some(polypeptideBuilder)
+    }
     case other => super.createBuilder(tag, attr)
   }
-  
-  def actions: String = actionBuilder.elements.map(_.text).mkString(";")
+
+  def actions: String = actionsBuilder.elements.map(_.text).mkString(";")
 
   override def close() {
-    println("  " + targetIdBuilder.text + ": " + actions)
-  }
-
-  class PolypeptideBuilder(val id: String, val source: String) extends ParentBuilder {
-
-    val tag = "polypeptide"
-    
-    val nameBuilder = new TextValueBuilder("name") =>: children
-    val idsBuilder = new SequenceBuilder[PropertyBuilder]("external-identifiers", "external-identifier")(createIdentifierBuilder) =>: children
-
-    def createIdentifierBuilder(tag: String) = new PropertyBuilder(tag, "resource", "identifier")
-
-    def uniprot = getId("UniProtKB");
-    def geneId = getId("HUGO Gene Nomenclature Committee (HGNC)");
-
-    private def getId(key: String): Option[String] = {
-      for (id <- idsBuilder) {
-        if (id.nameBuilder.text == key) {
-          return Some(id.value)
-        }
+    val targetIdentifier = targetIdBuilder.text
+    if (TargetBuilder(targetIdentifier) == None) {
+      val targetId = DB.insertTarget(targetIdentifier, nameBuilder.text, organismBuilder.get, knownActionBuilder.get)
+      for (polypeptide <- polypeptidesBuilder) {
+        insertPolypeptide(targetId, polypeptide)
       }
-      return None
+      TargetBuilder += targetIdentifier -> targetId
     }
-
-    override def close() {
-      println("    " + id + ": " + source + " | " + uniprot + " | " + geneId)
-      polypeptideBuilder += this
-    }
-
   }
+
+  def insertPolypeptide(targetId: Int, polypeptide: PolypeptideBuilder) = {
+    val polypeptideId = DB.insertPolypeptide(targetId, polypeptide.nameBuilder.text, polypeptide.attr("id"), polypeptide.attr("source"))
+    insertProperty(polypeptideId, polypeptide.generalFunctionBuilder)
+    insertProperty(polypeptideId, polypeptide.specificFunctionBuilder)
+    insertProperty(polypeptideId, polypeptide.geneNameBuilder)
+    insertProperty(polypeptideId, polypeptide.locusBuilder)
+    insertProperty(polypeptideId, polypeptide.cellularLocationBuilder)
+    insertProperty(polypeptideId, polypeptide.transmembraneRegionsBuilder)
+    insertProperty(polypeptideId, polypeptide.signalRegionsBuilder)
+    insertProperty(polypeptideId, polypeptide.theoreticalPiBuilder)
+    insertProperty(polypeptideId, polypeptide.molecularWeightBuilder)
+    insertProperty(polypeptideId, polypeptide.chromosomeLocationBuilder)
+    insertProperty(polypeptideId, polypeptide.organismBuilder)
+    for (goBuilder <- polypeptide.goBuilder) {
+      insertProperty(polypeptideId, goBuilder)
+    }
+    for (synonym <- polypeptide.synonymsBuilder){
+      insertProperty(polypeptideId, synonym)
+    }
+    for (id <- polypeptide.idsBuilder)
+      for (resource <- id.resourceBuilder.textOption)
+        for (identifier <- id.identifierBuilder.textOption) {
+          DB.insertPolypeptideIdentifier(polypeptideId, id.tag, resource, identifier)
+        }
+    for (pfam <- polypeptide.pfamsBuilder){
+      insertPfam(polypeptideId, pfam)
+    }
+  }
+
+  def insertProperty(polypeptideId: Int, property: TextValueBuilder) {
+    for (value <- property.textOption) {
+      val propertyId = DB.getPropertyId(property.tag, value) match {
+        case Some(id) => id
+        case None => DB.insertProperty(property.tag, value)
+      }
+      DB.insertPolypeptideProperty(polypeptideId, propertyId)
+    }
+  }
+
+  def insertProperty(polypeptideId: Int, goBuilder: GOBuilder) {
+    for (description <- goBuilder("description").flatMap(_.textOption)) {
+      val category = goBuilder("category").flatMap(_.textOption)
+      val propertyId = DB.getPropertyId(goBuilder.tag, category, description, None) match {
+        case Some(id) => id
+        case None => DB.insertProperty(goBuilder.tag, category, description, None)
+      }
+      DB.insertPolypeptideProperty(polypeptideId, propertyId)
+    }
+  }
+
+  def insertPfam(polypeptideId: Int, pfamBuilder: PFamBuilder) {
+    for (identifier <- pfamBuilder("identifier").flatMap(_.textOption))
+      for (name <- pfamBuilder("name").flatMap(_.textOption)) {
+        val pfamId = DB.getPfam(identifier, name) match {
+          case Some(id) => id
+          case None => DB.insertPfam(identifier, name)
+        }
+        DB.insertPfamMapRow(polypeptideId, pfamId)
+      }
+  }
+
 }
