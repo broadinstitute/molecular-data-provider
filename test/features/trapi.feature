@@ -1,4 +1,4 @@
-Feature: Check Translator Reasoner API
+Feature: Check reasoner API
 
     Background: Specify Reasoner API
         Given a reasoner API at "https://translator.broadinstitute.org/molepro/trapi/v1.2"
@@ -28,10 +28,11 @@ Feature: Check Translator Reasoner API
                         }
                     }
                 }
-            }
+            },
+            "submitter": "behave test"
         }
         """
-        then the size of "message.results" should be 56
+        then the size of "message.results" should be 60
 
 
     Scenario: Check indications
@@ -58,7 +59,8 @@ Feature: Check Translator Reasoner API
                         }
                     }
                 }
-            }
+            },
+            "submitter": "behave test"
         }
         """
         then the size of "message.results" should be 0
@@ -88,10 +90,11 @@ Feature: Check Translator Reasoner API
                         }
                     }
                 }
-            }
+            },
+            "submitter": "behave test"
         }
         """
-        then the size of "message.results" should be 55
+        then the size of "message.results" should be 340
 
 
     Scenario: Check indications with a different predicate
@@ -118,10 +121,11 @@ Feature: Check Translator Reasoner API
                         }
                     }
                 }
-            }
+            },
+            "submitter": "behave test"
         }
         """
-        then the size of "message.results" should be 55
+        then the size of "message.results" should be 936
 
 
     Scenario: Check indications with a object id
@@ -148,9 +152,47 @@ Feature: Check Translator Reasoner API
                         }
                     }
                 }
-            }
+            },
+            "submitter": "behave test"
         }
         """
-        then the size of "message.results" should be 55
+        then the size of "message.results" should be 936
+
+
+    Scenario: Check indications with no predicate
+        Given the reasoner API
+        when we fire "/query" query with the following body:
+        """
+        {
+          "message": {
+            "query_graph": {
+              "edges": {
+                "e00": {
+                  "subject": "n01",
+                  "object": "n00"
+                }
+              },
+              "nodes": {
+                "n00": {
+                  "ids": [
+                    "DRUGBANK:DB00215",
+                    "DRUGBANK:DB01175",
+                    "DRUGBANK:DB00472",
+                    "DRUGBANK:DB00176",
+                    "DRUGBANK:DB00715",
+                    "DRUGBANK:DB01104"
+                  ],
+                  "categories": ["biolink:SmallMolecule"]
+                },
+                "n01": {
+                  "categories": ["biolink:Disease"]
+                }
+              }
+            }
+          },
+          "submitter": "behave test"
+        }
+        """
+        then the size of "message.results" should be 116
 
 
