@@ -1,0 +1,32 @@
+{
+    "name": "DrugBank compound-list producer",
+    "label": "DrugBank",
+    "description": "Compound-list producer based on DrugBank (https://www.drugbank.ca/).",
+    "version": "2.4.0",
+    "function": "producer",
+    "knowledge_map": {
+        "input_class": "none",
+        "output_class": "compound",
+        "nodes": {
+            "ChemicalSubstance" : {
+                "id_prefixes": ["CID","DrugBank"],
+                "count": 11834,
+                "attributes": []
+            }
+        },
+        "predicates": []
+    },
+    "properties": {
+        "source_url": "https://www.drugbank.ca/",
+        "source_version": "5.1.8 (2021-01-03)",
+        "terms_of_service": "https://www.drugbank.ca/legal/terms_of_use"
+    },
+    "parameters": [
+        {
+            "example": "aspirin",
+            "name": "compounds",
+            "type": "string",
+            "suggested_values": "semicolon-separated list of compounds names or DrugBank IDs"
+        }
+    ]
+}
