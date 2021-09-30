@@ -27,6 +27,8 @@ copy `MoleProAPI/java-play-framework-server/conf/BiolinkClassMap.txt` to `data` 
 
 copy `MoleProAPI/java-play-framework-server/conf/prefixMap.json` to `data` subfolder of the target folder
 
+copy `transformers/drugbank/python-flask-server/data/prefixMap.csv` to `data` subfolder of the target folder
+
 ### Install transformer on server
 
 ```
