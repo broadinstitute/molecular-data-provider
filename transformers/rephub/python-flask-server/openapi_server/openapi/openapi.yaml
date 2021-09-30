@@ -4,7 +4,7 @@ info:
     email: translator@broadinstitute.org
   termsOfService: https://clue.io/repurposing#about
   title: Transformer API for the Repurposing Hub
-  version: 2.2.0
+  version: 2.2.1
 servers:
 - url: https://translator.broadinstitute.org/repurposing
 tags:

@@ -7,9 +7,9 @@ from openapi_server.models.transformer_info import TransformerInfo  # noqa: E501
 from openapi_server.models.transformer_query import TransformerQuery  # noqa: E501
 from openapi_server import util
 
-from openapi_server.controllers.repurposing_hub import RepurposingHubProducer, RepurposingHubTargets
+from openapi_server.controllers.repurposing_hub import RepurposingHubProducer, FeaturesTransformer, TargetsTransformer, IndicationsTransformer
 
-transformer = {'compounds':RepurposingHubProducer(), 'targets':RepurposingHubTargets()}
+transformer = {'compounds':RepurposingHubProducer(), 'targets':TargetsTransformer(), 'indications':IndicationsTransformer()}
 
 def service_transform_post(service, body):  # noqa: E501
     """Transform a list of genes or compounds
