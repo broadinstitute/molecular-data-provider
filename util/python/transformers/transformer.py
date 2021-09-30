@@ -36,8 +36,10 @@ class Transformer:
         return ({ "status": 500, "title": "Internal Server Error",
             "detail": "Function '"+self.info.function+"' not implemented", "type": "about:blank" }, 500 )
 
-
+# Extract and return the correct type of collection from the request query's JSON 
     def getCollection(self, query):
+        if hasattr(query,'collection'):
+            return query.collection
         if self.info.knowledge_map.input_class == 'gene':
             return query.genes
         if self.info.knowledge_map.input_class == 'compound':
