@@ -1,4 +1,4 @@
-## How to deploy Drug Repurposing Hub transformer
+## How to deploy Drug Repurposing Hub
 
 ### Package transformer
 
@@ -15,7 +15,7 @@ python setup.py bdist_wheel
 
 ### Copy files to server
 
-copy `transformers/rephub/python-flask-server/dist/rephub_transformer-2.2.1-py3-none-any.whl` to the target folder
+copy `transformers/rephub/python-flask-server/dist/repurposing_hub-2.2.1-py3-none-any.whl` to the target folder
 
 copy `util/python/dist/base_transformer-1.0.0-py3-none-any.whl` to the target folder
 
@@ -29,7 +29,7 @@ download RepurposingHub.sqlite from `https://translator.broadinstitute.org/db/Re
 ```
 python3 -m venv venv
 source venv/bin/activate.csh
-pip install -I rephub_transformer-2.2.1-py3-none-any.whl
+pip install -I repurposing_hub-2.2.1-py3-none-any.whl
 pip install -I base_transformer-1.0.0-py3-none-any.whl
 pip install gunicorn
 pip install "connexion[swagger-ui]"
