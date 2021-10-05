@@ -1,12 +1,12 @@
 #{{- if .Values.ingress.enabled -}}
-{{- $fullName := include "molepro.fullname" . -}}
-{{- $svcPort := .Values.service.port -}}
+#{{- $fullName := include "molepro.fullname" . -}}
+#{{- $svcPort := .Values.service.port -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: {{ $fullName }}
-  labels:
-    {{- include "molepro.labels" . | nindent 4 }}
+  #name: {{ $fullName }}
+  #labels:
+  #  {{- include "molepro.labels" . | nindent 4 }}
   
   annotations:
     kubernetes.io/ingress.class: alb
