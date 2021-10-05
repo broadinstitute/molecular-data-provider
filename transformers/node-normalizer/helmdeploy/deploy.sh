@@ -4,17 +4,15 @@ set -e
 
 kubectl apply -f namespace.yaml
 
-if [ $PLATERS == "all" ]
+if [ $TRANSFORMERS == "all" ]
 then
-    platers_list=`ls -l translator-ops/config/sri/plater/ | awk '{print $NF}' | awk -F"." '{print $1}' | sed 's/^.......//' | awk NF | awk '(NR>1)'`
-    echo "The following platers will be deployed: $platers_list"
-    for plater in $platers_list
+    transformers_list=`ls -l translator-ops/config/molepro/transformers/ | awk '{print $NF}' | awk -F"." '{print $1}' | sed 's/^.......//' | awk NF | awk '(NR>1)'`
+    echo "The following transformers will be deployed: $transformers_list"
+    for transformer in $transformers_list
     do
-        echo "------ Install/Delete Plater $plater beginning ------"
-        values_file="plater-$plater.yaml"
-        cp translator-ops/config/sri/plater/$values_file ./
-        cp translator-ops/ops/sri/plater/deploy/image-value.yaml ./
-        
+        echo "------ Install/Delete Transformer $transformer beginning ------"
+        values_file="molepro-$transformer.yaml"
+        cp translator-ops/config/molepro/$values_file ./
         # update domain to translator ci domain
         sed -i.bak 's/automat.renci.org/automat.ci.transltr.io/g' $values_file
         rm $values_file.bak
@@ -28,21 +26,19 @@ then
         
         if [ $ACTION == "install" ]
         then
-            echo "helm install $plater"
-            helm upgrade --install -n sri -f $values_file -f image-value.yaml $plater .
-            echo "------ Install Plater $plater end ------"
+            echo "helm install $transformer"
+            helm upgrade --install -n molepro -f $values_file $transformer .
+            echo "------ Install Plater $transformer end ------"
         else
             echo "helm delete $plater"
-            helm delete -n sri $plater
-            echo "------ Delete Plater $plater end ------"
+            helm delete -n molepro $transformer
+            echo "------ Delete Plater $transformer end ------"
         fi
     done
 else
-    echo "------ Install/Delete Plater $PLATERS beginning ------"
-    values_file="plater-$PLATERS.yaml"
-    cp translator-ops/config/sri/plater/$values_file ./
-    cp translator-ops/ops/sri/plater/deploy/image-value.yaml ./
-    
+    echo "------ Install/Delete Transformer $TRANSFORMERS beginning ------"
+    values_file="molepro-$TRANSFORMERS.yaml"
+    cp translator-ops/config/molepro/$values_file ./
     # update domain to translator ci domain
     sed -i.bak 's/automat.renci.org/automat.ci.transltr.io/g' $values_file
     rm $values_file.bak
@@ -56,12 +52,12 @@ else
     
     if [ $ACTION == "install" ]
     then
-        echo "helm install $PLATERS"
-        helm upgrade --install -n sri -f $values_file -f image-value.yaml $PLATERS .
+        echo "helm install $TRANSFORMERS"
+        helm upgrade --install -n molepro -f $values_file $TRANSFORMERS .
         echo "------ Install Plater $PLATERS end ------"
     else
-        echo "helm delete $PLATERS"
-        helm delete -n sri $PLATERS
-        echo "------ Delete Plater $PLATERS end ------"
+        echo "helm delete $TRANSFORMERS"
+        helm delete -n molepro $TRANSFORMERS
+        echo "------ Delete Plater $TRANSFORMERS end ------"
     fi
 fi
