@@ -32,7 +32,7 @@ pipeline {
                         return !params.BUILD_VERSION
                     }
                     anyOf {
-                        changeset "helm/plater/*"
+                        changeset "helm/molepro/*"
                         triggeredBy 'UserIdCause'
                     }
                 }
@@ -51,18 +51,18 @@ pipeline {
         stage('Deploy') {
             when {
                 anyOf {
-                    changeset "helm/plater/*"
+                    changeset "helm/molepro/*"
                     triggeredBy 'UserIdCause'
                 }
             }
             steps {
                 sshagent (credentials: ['sai-devisetty-gh-cred']) {
                     dir("helm/molepro") {
-                        sh 'git clone -b eks-deploy git@github.com:devisettysaivikas/molecular-data-provider.git'
+                        sh 'git clone -b molepro git@github.com:Sphinx-Automation/translator-ops.git'
                         withAWS(credentials:'aws-ifx-deploy') {
                             sh '''
                             aws --region ${AWS_REGION} eks update-kubeconfig --name ${KUBERNETES_CLUSTER_NAME}
-                            cp -R transformers/node-normalizer/helmdeploy/* ./
+                            cp -R translator-ops/ops/molepro/deploy/* ./
                             /bin/bash deploy.sh
                             '''
                         }
