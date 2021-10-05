@@ -14,15 +14,8 @@ then
         values_file="molepro-$transformer.yaml"
         cp translator-ops/config/molepro/$values_file ./
         # update domain to translator ci domain
-        sed -i.bak 's/automat.renci.org/automat.ci.transltr.io/g' $values_file
-        rm $values_file.bak
-        
-        if [ $LOAD_DATA == "no" ]
-        then
-            echo "install in no data load mode"
-            sed -i.bak '/dataUrl/d' $values_file
-            rm $values_file.bak
-        fi
+        #sed -i.bak 's/automat.renci.org/automat.ci.transltr.io/g' $values_file
+        #rm $values_file.bak
         
         if [ $ACTION == "install" ]
         then
@@ -40,16 +33,9 @@ else
     values_file="molepro-$TRANSFORMERS.yaml"
     cp translator-ops/config/molepro/$values_file ./
     # update domain to translator ci domain
-    sed -i.bak 's/automat.renci.org/automat.ci.transltr.io/g' $values_file
-    rm $values_file.bak
-    
-    if [ $LOAD_DATA == "no" ]
-    then
-        echo "install in no data load mode"
-        sed -i.bak '/dataUrl/d' $values_file
-        rm $values_file.bak
-    fi
-    
+    #sed -i.bak 's/automat.renci.org/automat.ci.transltr.io/g' $values_file
+    #rm $values_file.bak
+        
     if [ $ACTION == "install" ]
     then
         echo "helm install $TRANSFORMERS"
