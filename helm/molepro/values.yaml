@@ -22,7 +22,7 @@ ingress:
   enabled: true
   className: alb
   scheme: internet-facing
-  healthcheck-path: '/node/ui'
+  healthcheck-path: /node/ui
   annotations: {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
