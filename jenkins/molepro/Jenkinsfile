@@ -1,0 +1,74 @@
+pipeline {
+    options {
+        timestamps()
+        skipDefaultCheckout()
+        disableConcurrentBuilds()
+    }
+    agent {
+        node { label 'translator && aws && build' }
+    }
+    parameters {
+        string(name: 'BUILD_VERSION', defaultValue: '', description: 'The build version to deploy (optional)')
+        choice(name: 'TRANSFORMERS', choices: 'all\nnode-normalizer\nchembank', description: 'Transformers to deploy')
+        choice(name: 'LOAD_DATA', choices: 'no\nyes', description: 'Load data or not, default no')
+        choice(name: 'ACTION', choices: 'install\ndelete', description: 'Install or delete, default install')
+        string(name: 'AWS_REGION', defaultValue: 'us-east-1', description: 'AWS Region to deploy')
+        string(name: 'KUBERNETES_CLUSTER_NAME', defaultValue: 'translator-eks-ci-blue-cluster', description: 'AWS EKS that will host this application')
+    }
+    triggers {
+        pollSCM('H/2 * * * *')
+    }
+    stages {
+        stage('Clean') {
+            steps {
+                cleanWs()
+                checkout scm
+            }
+        }
+        stage('Build Version') {
+            when {
+                allOf {
+                    expression {
+                        return !params.BUILD_VERSION
+                    }
+                    anyOf {
+                        changeset "helm/plater/*"
+                        triggeredBy 'UserIdCause'
+                    }
+                }
+            }
+            steps{
+               script {
+                    BUILD_VERSION_GENERATED = VersionNumber(
+                        versionNumberString: 'v${BUILD_YEAR, XX}.${BUILD_MONTH, XX}${BUILD_DAY, XX}.${BUILDS_TODAY}',
+                        projectStartDate:    '1970-01-01',
+                        skipFailedBuilds:    true)
+                    currentBuild.displayName = BUILD_VERSION_GENERATED
+                    env.BUILD_VERSION = BUILD_VERSION_GENERATED
+              }
+           }
+        }
+        stage('Deploy') {
+            when {
+                anyOf {
+                    changeset "helm/plater/*"
+                    triggeredBy 'UserIdCause'
+                }
+            }
+            steps {
+                sshagent (credentials: ['sai-devisetty-gh-cred']) {
+                    dir("helm/molepro") {
+                        sh 'git clone -b eks-deploy git@github.com:devisettysaivikas/molecular-data-provider.git'
+                        withAWS(credentials:'aws-ifx-deploy') {
+                            sh '''
+                            aws --region ${AWS_REGION} eks update-kubeconfig --name ${KUBERNETES_CLUSTER_NAME}
+                            cp -R transformers/node-normalizer/helmdeploy/* ./
+                            /bin/bash deploy.sh
+                            '''
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
