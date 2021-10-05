@@ -1,6 +1,7 @@
 #{{- if .Values.ingress.enabled -}}
 #{{- $fullName := include "molepro.fullname" . -}}
 #{{- $svcPort := .Values.service.port -}}
+---
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
