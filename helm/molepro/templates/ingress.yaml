@@ -1,4 +1,4 @@
-{{- if .Values.ingress.enabled -}}
+#{{- if .Values.ingress.enabled -}}
 {{- $fullName := include "molepro.fullname" . -}}
 {{- $svcPort := .Values.service.port -}}
 apiVersion: extensions/v1beta1
@@ -27,4 +27,4 @@ spec:
             backend:
               serviceName: {{ $fullName }}
               servicePort: {{ $svcPort }}
-{{- end }}
+#{{- end }}
