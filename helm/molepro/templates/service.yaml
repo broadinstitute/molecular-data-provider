@@ -1,15 +1,30 @@
+#apiVersion: v1
+#kind: Service
+#metadata:
+#  name: {{ include "molepro.fullname" . }}
+#  labels:
+#    {{- include "molepro.labels" . | nindent 4 }}
+#spec:
+#  type: {{ .Values.service.type }}
+#  ports:
+#    - port: {{ .Values.service.port }}
+#      targetPort: {{ .Values.service.targetPort }}
+#      protocol: TCP
+#      name: http
+#  selector:
+#    {{- include "molepro.selectorLabels" . | nindent 4 }}
+---
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "molepro.fullname" . }}
-  labels:
-    {{- include "molepro.labels" . | nindent 4 }}
+  name: node-normalizer
+  namespace: molepro
 spec:
-  type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: {{ .Values.service.targetPort }}
-      protocol: TCP
-      name: http
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 8080
   selector:
-    {{- include "molepro.selectorLabels" . | nindent 4 }}
+    app: node-normalizer
+  type: NodePort

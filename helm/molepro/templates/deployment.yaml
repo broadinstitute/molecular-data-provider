@@ -1,28 +1,51 @@
+#apiVersion: apps/v1
+#kind: Deployment
+#metadata:
+#  name: {{ include "molepro.fullname" . }}
+#  labels:
+#    {{- include "molepro.labels" . | nindent 4 }}
+#spec:
+#  replicas: {{ .Values.replicaCount }}
+#  selector:
+#    matchLabels:
+#      {{- include "molepro.selectorLabels" . | nindent 6 }}
+#  template:
+#    metadata:
+#      {{- with .Values.podAnnotations }}
+#      annotations:
+#        {{- toYaml . | nindent 8 }}
+#      {{- end }}
+#     labels:
+#        {{- include "molepro.selectorLabels" . | nindent 8 }}
+#    spec:
+#      containers:
+#        - name: {{ .Chart.Name }}
+#          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+#          imagePullPolicy: {{ .Values.image.pullPolicy }}
+#          ports:
+#            - name: http
+#              containerPort: 80
+#              protocol: TCP
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "molepro.fullname" . }}
-  labels:
-    {{- include "molepro.labels" . | nindent 4 }}
+  name: node-normalizer
+  namespace: molepro
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: 1
   selector:
     matchLabels:
-      {{- include "molepro.selectorLabels" . | nindent 6 }}
+      app: node-normalizer
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
-      annotations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
       labels:
-        {{- include "molepro.selectorLabels" . | nindent 8 }}
+        app: node-normalizer
     spec:
       containers:
-        - name: {{ .Chart.Name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+        - name: nodenormalizerserver
+          image: 853771734544.dkr.ecr.us-east-1.amazonaws.com/translator-molepro-node-normalizer:v2021.0921.1
+          imagePullPolicy: Always
           ports:
-            - name: http
-              containerPort: 80
-              protocol: TCP
+            - containerPort: 8080
+      restartPolicy: Always
