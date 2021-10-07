@@ -3,6 +3,7 @@
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
+appname: 'defaultapp'
 
 image:
   repository: nginx
@@ -11,12 +12,12 @@ image:
   tag: ""
 
 service:
-  type: ClusterIP
+  type: NodePort
   port: 80
   targetPort: 8080
 
 ingress:
   enabled: true
   host: 'default'
-  servicename: 'nodenormalizer'
+  servicename: 'defaultservicename'
   healthcheck: '/node/ui'

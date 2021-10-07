@@ -1,28 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "molepro.fullname" . }}
-  labels:
-    {{- include "molepro.labels" . | nindent 4 }}
+  name: {{ .Values.appname }}
+  namespace: molepro
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include "molepro.selectorLabels" . | nindent 6 }}
+      app: {{ .Values.appname }}
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
-      annotations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
      labels:
-        {{- include "molepro.selectorLabels" . | nindent 8 }}
+        app: {{ .Values.appname }}
     spec:
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - name: http
-              containerPort: 8080
-              protocol: TCP
+            - containerPort: 8080
+      restartPolicy: Always
