@@ -20,4 +20,4 @@ ingress:
   enabled: true
   host: 'default'
   servicename: 'defaultservicename'
-  healthcheck: '/node/ui'
+  healthcheck: 'default'
