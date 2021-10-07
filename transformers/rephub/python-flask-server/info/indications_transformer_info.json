@@ -1,24 +1,25 @@
 {
-    "name": "Repurposing Hub target transformer",
+    "name": "Repurposing Hub indication transformer",
     "label": "Repurposing",
     "description": "Compound-list transformer based on the Repurposing Hub (https://clue.io/repurposing).",
-    "version": "2.0.0",
+    "version": "2.2.1",
     "function": "transformer",
     "knowledge_map": {
         "input_class": "compound",
-        "output_class": "gene",
+        "output_class": "DiseaseOrPhenotypicFeature",
         "predicates": [
             {
-                "subject": "chemical substance",
+                "subject": "ChemicalSubstance",
                 "predicate": "affects",
-                "object": "gene"
+                "object": "DiseaseOrPhenotypicFeature",
+                "source": "Drug Repurposing Hub",
+                "relations": ["affects"]
             }
         ]
     },
    "properties": {
-        "list_predicate": "related_to",
-        "member_predicate": "related_to",
         "source_url": "https://clue.io/repurposing",
+        "source_version": "3/24/2020",
         "terms_of_service": "https://clue.io/repurposing#about"
     },
     "parameters": []

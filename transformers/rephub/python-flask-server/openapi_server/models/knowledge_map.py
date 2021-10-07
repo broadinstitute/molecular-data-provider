@@ -6,9 +6,11 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from openapi_server.models.base_model_ import Model
+from openapi_server.models.node import Node
 from openapi_server.models.predicate import Predicate
 from openapi_server import util
 
+from openapi_server.models.node import Node  # noqa: E501
 from openapi_server.models.predicate import Predicate  # noqa: E501
 
 class KnowledgeMap(Model):
@@ -17,30 +19,35 @@ class KnowledgeMap(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, input_class=None, output_class=None, predicates=None):  # noqa: E501
+    def __init__(self, input_class=None, output_class=None, nodes=None, predicates=None):  # noqa: E501
         """KnowledgeMap - a model defined in OpenAPI
 
         :param input_class: The input_class of this KnowledgeMap.  # noqa: E501
         :type input_class: str
         :param output_class: The output_class of this KnowledgeMap.  # noqa: E501
         :type output_class: str
+        :param nodes: The nodes of this KnowledgeMap.  # noqa: E501
+        :type nodes: Dict[str, Node]
         :param predicates: The predicates of this KnowledgeMap.  # noqa: E501
         :type predicates: List[Predicate]
         """
         self.openapi_types = {
             'input_class': str,
             'output_class': str,
+            'nodes': Dict[str, Node],
             'predicates': List[Predicate]
         }
 
         self.attribute_map = {
             'input_class': 'input_class',
             'output_class': 'output_class',
+            'nodes': 'nodes',
             'predicates': 'predicates'
         }
 
         self._input_class = input_class
         self._output_class = output_class
+        self._nodes = nodes
         self._predicates = predicates
 
     @classmethod
@@ -99,6 +106,29 @@ class KnowledgeMap(Model):
         """
 
         self._output_class = output_class
+
+    @property
+    def nodes(self):
+        """Gets the nodes of this KnowledgeMap.
+
+        List of semantic types in the KnowledgeMap.  # noqa: E501
+
+        :return: The nodes of this KnowledgeMap.
+        :rtype: Dict[str, Node]
+        """
+        return self._nodes
+
+    @nodes.setter
+    def nodes(self, nodes):
+        """Sets the nodes of this KnowledgeMap.
+
+        List of semantic types in the KnowledgeMap.  # noqa: E501
+
+        :param nodes: The nodes of this KnowledgeMap.
+        :type nodes: Dict[str, Node]
+        """
+
+        self._nodes = nodes
 
     @property
     def predicates(self):
