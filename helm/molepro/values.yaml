@@ -17,6 +17,6 @@ service:
 
 ingress:
   enabled: true
-  host:
+  host: 'default'
   servicename: 'nodenormalizer'
   healthcheck: '/node/ui'
