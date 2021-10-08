@@ -15,11 +15,11 @@ python setup.py bdist_wheel
 
 ### Copy files to server
 
-copy `transformers/pubchem/python-flask-server/dist/pubchem__producer-2.2.0-py3-none-any.whl` to the target folder
+copy `transformers/pubchem/python-flask-server/dist/pubchem_producer-2.2.0-py3-none-any.whl` to the target folder
 
 copy `util/python/dist/base_transformer-1.0.0-py3-none-any.whl` to the target folder
 
-copy `transformers/pubchem/python-flask-server/transformer_info.json` folder to the target folder
+copy `transformers/pubchem/python-flask-server/info` folder to the target folder
 
 download PubChem.sqlite from `https://translator.broadinstitute.org/db/PubChem.sqlite` and save to `data` subfolder of the target folder
 
@@ -29,7 +29,7 @@ download PubChem.sqlite from `https://translator.broadinstitute.org/db/PubChem.s
 ```
 python3 -m venv venv
 source venv/bin/activate.csh
-pip install -I pubchem__producer-2.2.0-py3-none-any.whl
+pip install -I pubchem_producer-2.2.0-py3-none-any.whl
 pip install -I base_transformer-1.0.0-py3-none-any.whl
 pip install gunicorn
 pip install "connexion[swagger-ui]"
