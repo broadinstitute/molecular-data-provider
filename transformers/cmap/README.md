@@ -19,11 +19,8 @@ copy `transformers/cmap/python-flask-server/dist/cmap_transformer-2.1.1-py3-none
 
 copy `util/python/dist/base_transformer-1.0.0-py3-none-any.whl` to the target folder
 
-copy `transformers/cmap/python-flask-server/info` folder to the target folder
+copy `transformers/cmap/python-flask-server/transformer_info.json` folder to the target folder
 
-copy `MoleProAPI/java-play-framework-server/conf/BiolinkClassMap.txt` to `data` subfolder of the target folder
-
-copy `MoleProAPI/java-play-framework-server/conf/prefixMap.json` to `data` subfolder of the target folder
 
 ### Install transformer on server
 
