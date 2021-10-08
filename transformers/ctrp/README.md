@@ -19,13 +19,10 @@ copy `transformers/ctrp/python-flask-server/dist/ctrp_transformer-2.2.0-py3-none
 
 copy `util/python/dist/base_transformer-1.0.0-py3-none-any.whl` to the target folder
 
-copy `transformers/ctrp/python-flask-server/info` folder to the target folder
+copy `transformers/ctrp/python-flask-server/ctrp_transformer_info.json` folder to the target folder
 
 download CTRP.sqlite from `https://translator.broadinstitute.org/db/CTRP.sqlite` and save to `data` subfolder of the target folder
 
-copy `MoleProAPI/java-play-framework-server/conf/BiolinkClassMap.txt` to `data` subfolder of the target folder
-
-copy `MoleProAPI/java-play-framework-server/conf/prefixMap.json` to `data` subfolder of the target folder
 
 ### Install transformer on server
 
