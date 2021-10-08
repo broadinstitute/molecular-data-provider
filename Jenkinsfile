@@ -72,15 +72,5 @@ pipeline {
                 }
             }
         }
-        stage('remove image') {
-            steps {
-                withEnv([
-                    "IMAGE_NAME=translator-molepro-drugbank",
-                    "BUILD_VERSION=" + (params.BUILD_VERSION ?: env.BUILD_VERSION)
-                ]){
-                    sh "docker rmi $IMAGE_NAME:$BUILD_VERSION"
-                }
-            }
-        }
     }
 }
