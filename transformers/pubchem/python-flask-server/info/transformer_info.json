@@ -1,0 +1,72 @@
+{
+    "name": "Pubchem compound-list producer",
+    "label": "PubChem",
+    "description": "Compound-list producer based on PubChem (https://pubchem.ncbi.nlm.nih.gov/).",
+    "version": "2.2.0",
+    "function": "producer",
+    "knowledge_map": {
+        "input_class": "none",
+        "output_class": "compound",
+        "nodes": {
+            "ChemicalSubstance": {
+                "id_prefixes": [
+                    "CID",
+                    "PUBCHEM.COMPOUND",
+                    "inchikey"
+                ],
+                "count": "-1",
+                "attributes": [
+                    {
+                        "type": "HBA_COUNT",
+                        "source": "PubChem",
+                        "names": ["HBA_COUNT"]
+                    },
+                    {
+                        "type": "HBD_COUNT",
+                        "source": "PubChem",
+                        "names": ["HBD_COUNT"]
+                    },
+                    {
+                        "type": "ROTATABLE_BOND_COUNT",
+                        "source": "PubChem",
+                        "names": ["ROTATABLE_BOND_COUNT"]
+                    },
+                    {
+                        "type": "PSA",
+                        "source": "PubChem",
+                        "names": ["PSA"]
+                    },
+                    {
+                        "type": "MONOISOTOPIC_WEIGHT",
+                        "source": "PubChem",
+                        "names": ["MONOISOTOPIC_WEIGHT"]
+                    },
+                    {
+                        "type": "MOLECULAR_WEIGHT",
+                        "source": "PubChem",
+                        "names": ["MOLECULAR_WEIGHT"]
+                    },
+                    {
+                        "type": "MOLECULAR_FORMULA",
+                        "source": "PubChem",
+                        "names": ["MOLECULAR_FORMULA"]
+                    }
+                ]
+            }
+        },
+        "predicates": []
+    },
+    "properties": {
+        "source_url": "https://pubchem.ncbi.nlm.nih.gov/",
+        "source_version": "2021/02/27",
+        "terms_of_service": "https://www.ncbi.nlm.nih.gov/home/about/policies/"
+    },
+    "parameters": [
+        {
+            "example": "aspirin",
+            "name": "compounds",
+            "type": "string",
+            "suggested_values": "semicolon-separated list of compounds names or PubChem CIDs"
+        }
+    ]
+}
