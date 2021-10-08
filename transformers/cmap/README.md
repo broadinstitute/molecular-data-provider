@@ -19,8 +19,9 @@ copy `transformers/cmap/python-flask-server/dist/cmap_transformer-2.1.1-py3-none
 
 copy `util/python/dist/base_transformer-1.0.0-py3-none-any.whl` to the target folder
 
-copy `transformers/cmap/python-flask-server/transformer_info.json` folder to the target folder
+copy `transformers/cmap/python-flask-server/transformer_info.json` file to the target folder
 
+download CMAP_pert_ids.txt from `https://translator.broadinstitute.org/db/CMAP_pert_ids.txt` and save to `data` subfolder of the target folder
 
 ### Install transformer on server
 
