@@ -193,6 +193,206 @@ Feature: Check reasoner API
           "submitter": "behave test"
         }
         """
-        then the size of "message.results" should be 116
+        then the size of "message.results" should be 126
+
+
+    Scenario: Check query with ChemicalEntity instead of SmallMolecule
+        Given the reasoner API
+        when we fire "/query" query with the following body:
+        """
+        {
+            "message": {
+                "query_graph": {
+                    "nodes": {
+                        "n0": {
+                            "ids": ["PUBCHEM.COMPOUND:5755"],
+                            "categories": [
+                                "biolink:ChemicalEntity"
+                            ],
+                            "name": "Prednisone"
+                        },
+                        "n1": {
+                            "categories": [
+                                "biolink:Disease"
+                            ]
+                        }
+                    },
+                    "edges": {
+                        "e0": {
+                            "subject": "n0",
+                            "object": "n1",
+                            "predicates": ["biolink:related_to"]
+                        }
+                    }
+                }
+            }
+        }
+        """
+        then the size of "message.results" should be 169
+
+
+    Scenario: Check query with unknown predicate
+        Given the reasoner API
+        when we fire "/query" query with the following body:
+        """
+        {
+            "message": {
+                "query_graph": {
+                    "nodes": {
+                        "n0": {
+                            "ids": ["CHEBI:41879"],
+                            "categories": [
+                                "biolink:ChemicalEntity"
+                            ],
+                            "name": "Dexamethasone"
+                        },
+                        "n1": {
+                            "categories": [
+                                "biolink:DiseaseOrPhenotypicFeature"
+                            ]
+                        }
+                    },
+                    "edges": {
+                        "e0": {
+                            "subject": "n0",
+                            "object": "n1",
+                            "predicates": ["biolink:has_real_world_evidence_of_association_with"]
+                        }
+                    }
+                }
+            }
+        }
+        """
+        then the size of "message.results" should be 0
+
+
+    Scenario: Check query with no constraints
+        Given the reasoner API
+        when we fire "/query" query with the following body:
+        """
+        {
+            "message": {
+                "query_graph": {
+                    "edges": {
+                        "e02": {
+                            "object": "n0",
+                            "subject": "n2",
+                            "predicates": [
+                                "biolink:related_to"
+                            ]
+                        }
+                    },
+                    "nodes": {
+                        "n0": {
+                            "ids": [
+                                "NCBIGene:2321"
+                            ],
+                            "categories": [
+                                "biolink:Gene"
+                            ]
+                        },
+                        "n2": {
+                            "categories": [
+                                "biolink:SmallMolecule"
+                            ]
+                        }
+                    }
+                }
+            }
+        }
+        """
+        then the size of "message.results" should be 272
+
+
+    Scenario: Check query with node constraints
+        Given the reasoner API
+        when we fire "/query" query with the following body:
+        """
+        {
+            "message": {
+                "query_graph": {
+                    "edges": {
+                        "e02": {
+                            "object": "n0",
+                            "subject": "n2",
+                            "predicates": [
+                                "biolink:related_to"
+                            ]
+                        }
+                    },
+                    "nodes": {
+                        "n0": {
+                            "ids": [
+                                "NCBIGene:2321"
+                            ],
+                            "categories": [
+                                "biolink:Gene"
+                            ]
+                        },
+                        "n2": {
+                            "categories": [
+                                "biolink:SmallMolecule"
+                            ],
+                            "constraints": [
+                                {
+                                    "id": "biolink:highest_FDA_approval_status",
+                                    "name": "highest FDA approval status",
+                                    "operator": "==",
+                                    "value": ["FDA Approval","FDA Clinical Research Phase 2"]
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        }
+        """
+        then the size of "message.results" should be 52
+
+
+    Scenario: Check query with edge constraints
+        Given the reasoner API
+        when we fire "/query" query with the following body:
+        """
+        {
+            "message": {
+                "query_graph": {
+                    "edges": {
+                        "e02": {
+                            "object": "n0",
+                            "subject": "n2",
+                            "predicates": [
+                                "biolink:related_to"
+                            ],
+                            "constraints": [
+                                {
+                                    "id": "biolink:primary_knowledge_source",
+                                    "name": "primary knowledge source",
+                                    "operator": "==",
+                                    "value": "infores:drugbank"
+                                }
+                            ]
+                        }
+                    },
+                    "nodes": {
+                        "n0": {
+                            "ids": [
+                                "NCBIGene:2321"
+                            ],
+                            "categories": [
+                                "biolink:Gene"
+                            ]
+                        },
+                        "n2": {
+                            "categories": [
+                                "biolink:SmallMolecule"
+                            ]
+                        }
+                    }
+                }
+            }
+        }
+        """
+        then the size of "message.results" should be 16
 
 
