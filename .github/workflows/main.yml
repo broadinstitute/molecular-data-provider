@@ -6,7 +6,7 @@
 #
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
 
-# https://github.com/broadinstitute/test_molepro_tests/edit/main/.github/workflows/bdd-test.yml
+# https://github.com/broadinstitute/molecular-data-provider/blob/master/.github/workflows/main.yml
 name: Daily testing
 
 on:

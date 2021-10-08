@@ -1,13 +1,13 @@
 Feature: Check DepMap transformer
 
     Background: Specify transformer API
-        Given a transformer at "https://translator.broadinstitute.org/depmap_expander"
+        Given a transformer at "https://translator.broadinstitute.org/depmap/correlation"
 
 
     Scenario: Check transformer info
         Given the transformer
         when we fire "/transformer_info" query
-        then the size of "parameters" should be 4
+        then the size of "parameters" should be 3
         and the value of "label" should be "DepMap"
 
 
@@ -26,21 +26,20 @@ Feature: Check DepMap transformer
                     "value": "correlation"
                 },
                 {
-                    "name": "correlated values",
-                    "value": "gene knockout"
-                },
-                {
                     "name": "maximum number",
                     "value": "0"
                 }
             ],
-            "genes": [
+            "collection": [
                 {
                     "attributes": [],
-                    "gene_id": "NCBIGene:1645",
+                    "id": "NCBIGene:1645",
                     "identifiers": {
                         "entrez": "NCBIGene:1645"
-                    }
+                    },
+                    "biolink_class": "Gene",
+                    "provided_by": "behave test framework",
+                    "source": "test"
                 }
             ]
         }
@@ -63,21 +62,20 @@ Feature: Check DepMap transformer
                     "value": "correlation"
                 },
                 {
-                    "name": "correlated values",
-                    "value": "gene knockout"
-                },
-                {
                     "name": "maximum number",
                     "value": "1"
                 }
             ],
-            "genes": [
+            "collection": [
                 {
                     "attributes": [],
-                    "gene_id": "NCBIGene:1645",
+                    "id": "NCBIGene:1645",
                     "identifiers": {
                         "entrez": "NCBIGene:1645"
-                    }
+                    },
+                    "biolink_class": "Gene",
+                    "provided_by": "behave test framework",
+                    "source": "test"
                 }
             ]
         }
@@ -100,21 +98,20 @@ Feature: Check DepMap transformer
                     "value": "correlation"
                 },
                 {
-                    "name": "correlated values",
-                    "value": "gene knockout"
-                },
-                {
                     "name": "maximum number",
                     "value": "2"
                 }
             ],
-            "genes": [
+            "collection": [
                 {
                     "attributes": [],
-                    "gene_id": "NCBIGene:1645",
+                    "id": "NCBIGene:1645",
                     "identifiers": {
                         "entrez": "NCBIGene:1645"
-                    }
+                    },
+                    "biolink_class": "Gene",
+                    "provided_by": "behave test framework",
+                    "source": "test"
                 }
             ]
         }
@@ -137,21 +134,20 @@ Feature: Check DepMap transformer
                     "value": "correlation"
                 },
                 {
-                    "name": "correlated values",
-                    "value": "gene knockout"
-                },
-                {
                     "name": "maximum number",
                     "value": "8"
                 }
             ],
-            "genes": [
+            "collection": [
                 {
                     "attributes": [],
-                    "gene_id": "NCBIGene:1645",
+                    "id": "NCBIGene:1645",
                     "identifiers": {
                         "entrez": "NCBIGene:1645"
-                    }
+                    },
+                    "biolink_class": "Gene",
+                    "provided_by": "behave test framework",
+                    "source": "test"
                 }
             ]
         }
@@ -174,21 +170,20 @@ Feature: Check DepMap transformer
                     "value": "correlation"
                 },
                 {
-                    "name": "correlated values",
-                    "value": "gene knockout"
-                },
-                {
                     "name": "maximum number",
                     "value": "9"
                 }
             ],
-            "genes": [
+            "collection": [
                 {
                     "attributes": [],
-                    "gene_id": "NCBIGene:1645",
+                    "id": "NCBIGene:1645",
                     "identifiers": {
                         "entrez": "NCBIGene:1645"
-                    }
+                    },
+                    "biolink_class": "Gene",
+                    "provided_by": "behave test framework",
+                    "source": "test"
                 }
             ]
         }

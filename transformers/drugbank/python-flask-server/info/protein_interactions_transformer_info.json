@@ -1,0 +1,50 @@
+{
+    "name": "DrugBank protein interactions transformer",
+    "label": "DrugBank",
+    "description": "interactions-list transformer based on DrugBank protein target information (https://www.drugbank.ca/).",
+    "version": "2.4.0",
+    "function": "transformer",
+    "knowledge_map": {
+        "input_class": "compound",
+        "output_class": "protein",
+        "nodes":{
+            "ChemicalSubstance" : {
+                "id_prefixes": ["CID","DrugBank"],
+                "count": 11834,
+                "attributes": []
+            },
+            "Protein" : {
+                "id_prefixes": ["UniProtKB"],
+                "count": 5610,
+                "attributes": []
+            }
+        },
+        "edges": [
+            {
+                "subject": "Compound",
+                "predicate": "affects",
+                "inverse_predicate": "affected_by",
+                "object": "Protein",
+                "source": "Drugbank",
+                "count": -1,
+                "attributes": []
+            }
+        ],
+        "predicates": [
+            {
+                "subject": "ChemicalSubstance",
+                "predicate": "affects",
+                "object": "Protein",
+                "relations": []
+            }
+        ]
+    },
+    "properties": {
+        "source_url": "https://www.drugbank.ca/",
+        "source_version": "5.1.8 (2021-01-03)",
+        "terms_of_service": "https://www.drugbank.ca/legal/terms_of_use"
+    },
+    "parameters": [],
+    "required_attributes": []
+
+}

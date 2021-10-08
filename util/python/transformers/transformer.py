@@ -332,21 +332,18 @@ class TransformerUtility:
     def convert_csvmap_2_json(filepath):
         with open(filepath+'/prefixMap.csv', 'r') as data:
                 prefixMap = {}
-                field  = {}
-                moleProClass = ''
                 for line in csv.DictReader(data):
                     if line['MolePro class'] != '':
-                        if line['MolePro class'] != moleProClass:
-                            moleProClass = line['MolePro class']
-                            field  = {}
+                        if line['Biolink class'] not in prefixMap:
+                            prefixMap[line['Biolink class']] = {}
                         prefix = {}
                         if line['MolePro CURIE prefix'] == "<none>":
                             prefix["molepro_prefix"] = ''
                         else:
                             prefix["molepro_prefix"] = line['MolePro CURIE prefix']
                         prefix["biolink_prefix"] = line['Biolink CURIE prefix']
-                        field[line['MolePro field name']]= prefix
-                        prefixMap[line['Biolink class']] = field
+                        prefixMap[line['Biolink class']][line['MolePro field name']]= prefix
+                        
 #       Save as a JSON file
         with open(filepath+'/prefixMap.json', 'w') as outfile:
             json.dump(prefixMap, outfile, indent=4, sort_keys=True)            
@@ -381,4 +378,3 @@ def main():
     TransformerUtility.convert_csvmap_2_json(str(sys.argv[1]))
 if __name__ == "__main__":
     main()
-
