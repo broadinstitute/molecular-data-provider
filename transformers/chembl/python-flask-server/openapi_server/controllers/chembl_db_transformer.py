@@ -218,7 +218,7 @@ class ChemblIndicationsExporter(Transformer):
                 for row in get_indications(id):
                     indication = self.get_or_create_indication(row, indications, indication_list)
                     self.add_identifiers_names(indication, row)
-                    self.add_connection(id, indication, row)
+                    self.add_connection(element.id, id, indication, row)
         return indication_list
 
 
@@ -256,14 +256,14 @@ class ChemblIndicationsExporter(Transformer):
             indication.names_synonyms[0].synonyms.append(efo_term)
 
 
-    def add_connection(self, chembl_id, indication, row):
+    def add_connection(self, source_element_id, chembl_id, indication, row):
         curie = CHEMBL+chembl_id
         connection = None
         for c in indication.connections:
             if c.source_element_id == curie:
                 connection = c
         if connection is None:
-            connection = Connection(source_element_id=curie, attributes=[])
+            connection = Connection(source_element_id=source_element_id, attributes=[])
             connection.type = self.info.knowledge_map.predicates[0].predicate
             indication.connections.append(connection)
         max_phase = row['max_phase_for_ind']
@@ -397,7 +397,7 @@ class ChemblMechanismExporter(Transformer):
             if id is not None:
                 for row in get_mechanisms(id):
                     mechanism = self.get_or_create_mechanism(row, mechanisms, mechanism_list)
-                    self.add_connection(id, mechanism, row)
+                    self.add_connection(element.id, id, mechanism, row)
         return mechanism_list
 
 
@@ -423,9 +423,9 @@ class ChemblMechanismExporter(Transformer):
         return mechanism
 
 
-    def add_connection(self, id, mechanism, row):
+    def add_connection(self, source_element_id, id, mechanism, row):
         connection = Connection(
-            source_element_id=CHEMBL+id,
+            source_element_id=source_element_id,
             attributes=[],
             type=self.info.knowledge_map.predicates[0].predicate
         )
@@ -482,7 +482,7 @@ class ChemblMetaboliteTransformer(Transformer):
             if id is not None:
                 for row in get_direct_metabolites(id):
                     metabolite = self.get_or_create_metabolite(row, metabolites, metabolite_list)
-                    self.add_connection(id, metabolite, row)
+                    self.add_connection(element.id, id, metabolite, row)
         return metabolite_list
 
 
@@ -513,9 +513,9 @@ class ChemblMetaboliteTransformer(Transformer):
         return metabolite
 
 
-    def add_connection(self, id, metabolite, row):
+    def add_connection(self, source_element_id, id, metabolite, row):
         connection = Connection(
-            source_element_id=CHEMBL+id,
+            source_element_id=source_element_id,
             attributes=[],
             type=self.info.knowledge_map.predicates[0].predicate
         )
