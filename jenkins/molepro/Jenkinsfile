@@ -9,7 +9,7 @@ pipeline {
     }
     parameters {
         string(name: 'BUILD_VERSION', defaultValue: '', description: 'The build version to deploy (optional)')
-        choice(name: 'TRANSFORMERS', choices: 'all\nnode-normalizer\nchembank\ndrugbank\nrephub', description: 'Transformers to deploy')
+        choice(name: 'TRANSFORMERS', choices: 'all\nnode-normalizer\nchembank\ndrugbank\nrephub\nctrp\ndepmap', description: 'Transformers to deploy')
         choice(name: 'ACTION', choices: 'install\ndelete', description: 'Install or delete, default install')
         string(name: 'AWS_REGION', defaultValue: 'us-east-1', description: 'AWS Region to deploy')
         string(name: 'KUBERNETES_CLUSTER_NAME', defaultValue: 'translator-eks-ci-blue-cluster', description: 'AWS EKS that will host this application')
