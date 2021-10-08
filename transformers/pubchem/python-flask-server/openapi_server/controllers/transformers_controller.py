@@ -1,7 +1,7 @@
 import connexion
 import six
 
-from openapi_server.models.compound_info import CompoundInfo  # noqa: E501
+from openapi_server.models.element import Element  # noqa: E501
 from openapi_server.models.error_msg import ErrorMsg  # noqa: E501
 from openapi_server.models.transformer_info import TransformerInfo  # noqa: E501
 from openapi_server.models.transformer_query import TransformerQuery  # noqa: E501
@@ -16,7 +16,7 @@ def transform_post(transformer_query):  # noqa: E501
     :param transformer_query: transformer query
     :type transformer_query: dict | bytes
 
-    :rtype: List[CompoundInfo]
+    :rtype: List[Element]
     """
     if connexion.request.is_json:
         transformer_query = TransformerQuery.from_dict(connexion.request.get_json())  # noqa: E501
