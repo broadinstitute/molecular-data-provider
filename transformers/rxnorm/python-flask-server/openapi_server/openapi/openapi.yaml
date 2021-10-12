@@ -8,7 +8,7 @@ info:
     the product and does not endorse or recommend this or any other product."
   termsOfService: https://www.nlm.nih.gov/research/umls/rxnorm/docs/termsofservice.html
   title: Transformer API for RxNorm
-  version: 2.1.0
+  version: 2.1.1
 servers:
 - url: https://translator.broadinstitute.org/rxnorm
 tags:
@@ -28,6 +28,7 @@ paths:
         schema:
           enum:
           - molecules
+          - relations
           - drugs
           type: string
         style: simple
@@ -82,6 +83,7 @@ paths:
         schema:
           enum:
           - molecules
+          - relations
           - drugs
           type: string
         style: simple

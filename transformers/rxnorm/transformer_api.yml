@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Transformer API for RxNorm
-  version: 2.1.0
+  version: 2.1.1
   termsOfService: https://www.nlm.nih.gov/research/umls/rxnorm/docs/termsofservice.html
   description: >-
     Transformer API for RxNorm. "This product uses publicly available data courtesy of the U.S. National 
@@ -31,7 +31,7 @@ paths:
         required: true
         schema:
           type: string
-          enum: [molecules, drugs]
+          enum: [molecules, relations, drugs, ingredients]
       responses:
         200:
           description: successful operation
@@ -54,7 +54,7 @@ paths:
         required: true
         schema:
           type: string
-          enum: [molecules, drugs]
+          enum: [molecules, relations, drugs, ingredients]
       requestBody:
         description: transformer query
         content:

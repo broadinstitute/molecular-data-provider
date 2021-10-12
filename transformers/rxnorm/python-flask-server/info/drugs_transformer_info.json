@@ -2,7 +2,7 @@
     "name": "RxNorm drug-list producer",
     "label": "RxNorm",
     "description": "drug-list producer based on RxNorm (https://www.nlm.nih.gov/research/umls/rxnorm/index.html).",
-    "version": "2.1.0",
+    "version": "2.1.1",
     "function": "producer",
     "knowledge_map": {
         "input_class": "none",

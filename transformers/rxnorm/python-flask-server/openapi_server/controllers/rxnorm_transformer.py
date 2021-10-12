@@ -49,7 +49,7 @@ class RxNormCompoundProducer(Transformer):
         super().__init__(self.variables, definition_file='info/molecules_transformer_info.json')
 
     def produce(self, controls):
-        print(controls)
+        #print(controls)
         compound_list = []
         names = controls['compounds'].split(';')
     #   find drug data for each compound name that were submitted
@@ -221,7 +221,7 @@ class RxNormDrugProducer(Transformer):
         super().__init__(self.variables, definition_file='info/drugs_transformer_info.json')
 
     def produce(self, controls):
-        print(controls)
+        #print(controls)
         drug_list = []
         names = controls['drugs'].split(';')
         # unii = con
@@ -248,10 +248,7 @@ class RxNormDrugProducer(Transformer):
         select
             distinct RXNCONSO.RXCUI
         from RXNCONSO
-        join UNII on RXNCONSO.CODE = UNII.UNII
         where (RXNCONSO.STR = ?)
-        and UNII.INCHIKEY is not null
-        and UNII.INCHIKEY != ''
 
         collate nocase;
         """
@@ -343,7 +340,7 @@ class RxNormDrugProducer(Transformer):
             Find drug synonyms
         """
         names_synonyms = []
-
+        names_by_type = {}
         query = """
         select
             RXNCONSO.TTY,
@@ -355,14 +352,21 @@ class RxNormDrugProducer(Transformer):
             query, (rxcui,))
 
         for row in cur.fetchall():
-            name_synonym = Attribute(
-                name=row['STR'],
-                value=row['TTY'],
-                source=SOURCE,
-                provided_by=self.info.name,
-                type=ttydict[row['TTY']]
-            )
-            names_synonyms.append(name_synonym)
+            
+            name=row['STR']
+            source=SOURCE
+            type=ttydict[row['TTY']]
+            if type not in names_by_type:
+                name_synonyms = Names(
+                    name = name,
+                    synonyms = [],
+                    source = type+'@'+source
+                )
+                names_by_type[type] = name_synonyms
+                names_synonyms.append(name_synonyms)
+            else:
+                name_synonyms = names_by_type[type]
+                name_synonyms.synonyms.append(name)
         return names_synonyms
 
 
@@ -402,11 +406,11 @@ class RxNormRelationTransformer(Transformer):
         """
             Find drug rxcui relations
         """
-        print(collection)
+        #print(collection)
         
         for element in collection:
             rxcui = element.identifiers['rxnorm']
-            print(rxcui)
+            #print(rxcui)
             if rxcui.startswith('RXCUI:'):
                 rxcui = rxcui[6:]
 
@@ -421,7 +425,7 @@ class RxNormRelationTransformer(Transformer):
         return substance_list
 
 
-    def find_drug(self, rxcui, source_element_id):
+    def find_drug(self, rxcui2, source_element_id):
 
         substance_list = []
 
@@ -431,20 +435,22 @@ class RxNormRelationTransformer(Transformer):
             RXNREL.RXCUI2
         from RXNREL
 
-        where RXNREL.RXCUI1 = ?
+        where RELA != 'has_tradename'
+        and RELA != 'tradename_of'
+        and RXNREL.RXCUI2 = ?
         """
         cur = connection.execute(
-            query, (rxcui, ))
+            query, (rxcui2, ))
 
         for row in cur.fetchall():
-            substance_rxcui2 = row['RXCUI2']
+            rxcui1 = row['RXCUI1']
 
-            if substance_rxcui2 is not None:
+            if rxcui1 is not None:
             
                 substance = Element(
-                    id='RXCUI:' + str(substance_rxcui2),
-                    biolink_class='related_to',
-                    identifiers={'rxnorm': 'RXCUI:' + str(substance_rxcui2)},
+                    id='RXCUI:' + str(rxcui1),
+                    biolink_class='Drug',
+                    identifiers={'rxnorm': 'RXCUI:' + str(rxcui1)},
                     connections=[],
                     source=self.info.name
                 )
@@ -453,7 +459,7 @@ class RxNormRelationTransformer(Transformer):
                 connect = Connection(
                     source_element_id=source_element_id,
                     type=self.info.knowledge_map.predicates[0].predicate,
-                    attributes=self.connection_attributes(rxcui, substance_rxcui2)
+                    attributes=self.connection_attributes(rxcui1, rxcui2)
                 )
                 substance.connections.append(connect)
 
@@ -461,7 +467,7 @@ class RxNormRelationTransformer(Transformer):
 
 
 
-    def connection_attributes(self, rxcui, substance_rxcui2):
+    def connection_attributes(self, rxcui1, rxcui2):
         """
             connection attributes
         """
@@ -479,7 +485,7 @@ class RxNormRelationTransformer(Transformer):
 
         """
         cur = connection.execute(
-            query, (rxcui, substance_rxcui2)) 
+            query, (rxcui1, rxcui2)) 
 
         for row in cur.fetchall():
        

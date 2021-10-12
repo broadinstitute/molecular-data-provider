@@ -3,7 +3,7 @@ import sqlite3
 import requests
 
 
-connection = sqlite3.connect("RXNORM+UNII.sqlite", check_same_thread=False)
+connection = sqlite3.connect("data/RXNORM+UNII.sqlite", check_same_thread=False)
 
 
 RXNCONSO_TABLE = """
@@ -159,7 +159,7 @@ def create_indexes():
     create_index(cur, 'UNII', 'UNII')
     create_index(cur, 'UNII', 'RN')
     create_index(cur, 'UNII', 'NCIT')
-
+    create_index(cur, 'UNII', 'INCHIKEY')
     create_index(cur, 'UNII', 'MF')
     create_index(cur, 'RXNCONSO', 'CODE')
     create_index(cur, 'RXNCONSO', 'STR')
@@ -295,14 +295,10 @@ def parse_unii(filename):
 
 def main():
     create_tables()
-    rxnconso = parse_rxnconso(
-        r'C:\Users\kang\Documents\GitHub\scb-kp-dev\transformers\rxnorm\generate_database\RXNCONSO.RRF')
-    rxnrel = parse_rxnrel(
-        r'C:\Users\kang\Documents\GitHub\scb-kp-dev\transformers\rxnorm\generate_database\RXNREL.RRF')
-    rxnsat = parse_rxnsat(
-        r'C:\Users\kang\Documents\GitHub\scb-kp-dev\transformers\rxnorm\generate_database\RXNSAT.RRF')
-    unii = parse_unii(
-        r'C:\Users\kang\Documents\GitHub\scb-kp-dev\transformers\rxnorm\generate_database\UNII_Records_18Aug2020.txt')
+    rxnconso = parse_rxnconso('data/RXNCONSO.RRF')
+    rxnrel = parse_rxnrel('data/RXNREL.RRF')
+    rxnsat = parse_rxnsat('data/RXNSAT.RRF')
+    unii = parse_unii('data/UNII_Records_18Aug2020.txt')
     create_indexes()
     connection.close()
 
