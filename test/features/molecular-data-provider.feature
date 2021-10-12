@@ -132,6 +132,41 @@ Feature: Check MolePro
         and the value of "source" should be "Gene-list network enrichment analysis"
 
 
+    Scenario: Check STITCH transformer
+        Given the Molecular Data Provider
+        when we call "STITCH compound-list producer" transformer with the following parameters:
+        | compounds          |
+        | bortezomib;aspirin |
+        and we call "STITCH link transformer" transformer with the following parameters:
+        | score_threshold | limit |
+        | 700             | 10    |
+        then the length of the collection should be 19
+        and the value of "element_class" should be "protein"
+        and the value of "source" should be "STITCH link transformer"
+
+
+    Scenario: Check Repurposing Hub targets transformer
+        Given the Molecular Data Provider
+        when we call "Repurposing Hub compound-list producer" transformer with the following parameters:
+        | compounds                                                             |
+        | aspirin; bortezomib;GXJABQQUPOEUTA-RDJZCZTQSA-N; allopurinol-riboside |
+        and we call "Repurposing Hub target transformer" transformer with no parameters
+        then the length of the collection should be 41
+        and the value of "element_class" should be "gene"
+        and the value of "source" should be "Repurposing Hub target transformer"
+
+
+    Scenario: Check Repurposing Hub indications transformer
+        Given the Molecular Data Provider
+        when we call "Repurposing Hub compound-list producer" transformer with the following parameters:
+        | compounds                                                             |
+        | aspirin; bortezomib;GXJABQQUPOEUTA-RDJZCZTQSA-N; allopurinol-riboside |
+        and we call "Repurposing Hub indication transformer" transformer with no parameters
+        then the length of the collection should be 6
+        and the value of "element_class" should be "DiseaseOrPhenotypicFeature"
+        and the value of "source" should be "Repurposing Hub indication transformer"
+
+
     Scenario: Check union
         Given the Molecular Data Provider
         and a compound list "aspirin;ibuprofen;acetaminophen"

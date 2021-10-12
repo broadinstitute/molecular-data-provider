@@ -91,9 +91,14 @@ def step_impl(context, transformer):
     url = context.base_url+'/transform'
     print(url)
     controls = []
-    values = context.table[0]
-    for name in context.table.headings:
-        controls.append({"name":name,"value":values[name]})
+    if len(context.table.headings) == 2 and context.table.headings[0] == 'name' and context.table.headings[1] == 'value':
+        print("two-column table")
+        for row in context.table:
+            controls.append({"name":row["name"],"value":row["value"]})
+    else:
+        values = context.table[0]
+        for name in context.table.headings:
+            controls.append({"name":name,"value":values[name]})
     data = {"name":transformer,"collection_id":context.collection_id, "controls":controls}
     print(data)
     with closing(requests.post(url, json=data, stream=False)) as response:
