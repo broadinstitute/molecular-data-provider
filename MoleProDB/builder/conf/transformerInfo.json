@@ -1,0 +1,280 @@
+[
+    {
+        "name": "HGNC#HGNC gene-list producer",
+        "label": "HGNC",
+        "url": "",
+        "version": "2.3.0",
+        "status": "online",
+        "function": "producer",
+        "description": "Gene-list specified by gene symbols.",
+        "knowledge_map": {
+            "input_class": "none",
+            "output_class": "gene",
+            "nodes": {
+                "Gene": {
+                    "id_prefixes": [
+                        "NCBIGene",
+                        "HGNC",
+                        "ENSEMBL"
+                    ],
+                    "count": -1,
+                    "attributes": []
+                }
+            },
+            "predicates": []
+        },
+        "properties": {
+            "source_url": null,
+            "method": null
+        },
+        "parameters": [
+            {
+                "name": "genes",
+                "type": "string",
+                "required": true,
+                "multivalued": false,
+                "example": "TP53",
+                "suggested_values": "semicolon-separated list of gene symbols"
+            }
+        ],
+        "required_attributes": []
+    },
+    {
+        "name": "union",
+        "label": "union",
+        "url": "",
+        "version": "2.3.0",
+        "status": "online",
+        "function": "aggregator",
+        "description": "The union consists of all genes present in any input gene list.",
+        "knowledge_map": {
+            "input_class": "any",
+            "output_class": "any",
+            "predicates": []
+        },
+        "properties": {
+            "source_url": null,
+            "method": null
+        },
+        "parameters": []
+    },
+    {
+        "name": "intersection",
+        "label": "intersection",
+        "url": "",
+        "version": "2.3.0",
+        "status": "online",
+        "function": "aggregator",
+        "description": "The intersection consists of all genes present in all input gene lists.",
+        "knowledge_map": {
+            "input_class": "any",
+            "output_class": "any",
+            "predicates": []
+        },
+        "properties": {
+            "source_url": null,
+            "method": null
+        },
+        "parameters": []
+    },
+    {
+        "name": "difference",
+        "label": "difference",
+        "url": "",
+        "version": "2.3.0",
+        "status": "online",
+        "function": "aggregator",
+        "description": "The difference consists of all genes present in the first input gene list, but not any other input gene list.",
+        "knowledge_map": {
+            "input_class": "any",
+            "output_class": "any",
+            "predicates": []
+        },
+        "properties": {
+            "source_url": null,
+            "method": null
+        },
+        "parameters": []
+    },
+    {
+        "name": "symmetric difference (XOR)",
+        "label": "symmetric difference",
+        "url": "",
+        "version": "2.3.0",
+        "status": "online",
+        "function": "aggregator",
+        "description": "The symmetric difference consists of all genes present in the union but not present in the intersection.",
+        "knowledge_map": {
+            "input_class": "any",
+            "output_class": "any",
+            "predicates": []
+        },
+        "properties": {
+            "source_url": null,
+            "method": null
+        },
+        "parameters": []
+    },
+    {
+        "name": "ElementFilter#Element attribute filter",
+        "label": "Element filter",
+        "description": "Filter input list elements according to a value of an attribute",
+        "url": "",
+        "version": "2.4.0",
+        "status": "online",
+        "function": "filter",
+        "knowledge_map": {
+            "input_class": "any",
+            "output_class": "any"
+        },
+        "properties": {
+            "source_url": null,
+            "method": null
+        },
+        "parameters": [
+            {
+                "name": "id",
+                "type": "string",
+                "required": true,
+                "multivalued": false,
+                "example": "biolink:FDA_approval_status",
+                "suggested_values": "CURIE of the concept being constrained."
+            },
+            {
+                "name": "name",
+                "type": "string",
+                "required": true,
+                "multivalued": false,
+                "example": "FDA approval status",
+                "suggested_values": "Human-readable name or label for the constraint concept."
+            },
+            {
+                "name": "not",
+                "type": "Boolean",
+                "required": false,
+                "multivalued": false,
+                "example": "biolink:FDA_approval_status",
+                "suggested_values": "Indicates negated constraint"
+            },
+            {
+                "name": "operator",
+                "type": "string",
+                "required": true,
+                "multivalued": false,
+                "example": "biolink:FDA_approval_status",
+                "suggested_values": "CURIE of the concept being constrained.",
+                "allowed_values": [
+                    "==",
+                    ">",
+                    "<",
+                    "matches"
+                ]
+            },
+            {
+                "name": "value",
+                "type": "string",
+                "required": true,
+                "multivalued": true,
+                "example": "regular approval",
+                "suggested_values": "Value of the attribute being constrained."
+            },
+            {
+                "name": "unit_id",
+                "type": "string",
+                "required": false,
+                "multivalued": false,
+                "example": "FDA approval status",
+                "suggested_values": "CURIE of the units of the value."
+            },
+            {
+                "name": "unit_name",
+                "type": "string",
+                "required": false,
+                "multivalued": false,
+                "example": "FDA approval status",
+                "suggested_values": "Term name that is associated with the CURIE of the units of the value"
+            }
+        ]
+    },
+    {
+        "name": "ConnectionFilter#Connection attribute filter",
+        "label": "Connection filter",
+        "description": "Filter input list connections according to a value of an attribute",
+        "url": "",
+        "version": "2.4.0",
+        "status": "online",
+        "function": "filter",
+        "knowledge_map": {
+            "input_class": "any",
+            "output_class": "any"
+        },
+        "properties": {
+            "source_url": null,
+            "method": null
+        },
+        "parameters": [
+            {
+                "name": "id",
+                "type": "string",
+                "required": true,
+                "multivalued": false,
+                "example": "biolink:FDA_approval_status",
+                "suggested_values": "CURIE of the concept being constrained."
+            },
+            {
+                "name": "name",
+                "type": "string",
+                "required": true,
+                "multivalued": false,
+                "example": "FDA approval status",
+                "suggested_values": "Human-readable name or label for the constraint concept."
+            },
+            {
+                "name": "not",
+                "type": "Boolean",
+                "required": false,
+                "multivalued": false,
+                "example": "biolink:FDA_approval_status",
+                "suggested_values": "Indicates negated constraint"
+            },
+            {
+                "name": "operator",
+                "type": "string",
+                "required": true,
+                "multivalued": false,
+                "example": "biolink:FDA_approval_status",
+                "suggested_values": "CURIE of the concept being constrained.",
+                "allowed_values": [
+                    "==",
+                    ">",
+                    "<",
+                    "matches"
+                ]
+            },
+            {
+                "name": "value",
+                "type": "string",
+                "required": true,
+                "multivalued": true,
+                "example": "regular approval",
+                "suggested_values": "Value of the attribute being constrained."
+            },
+            {
+                "name": "unit_id",
+                "type": "string",
+                "required": false,
+                "multivalued": false,
+                "example": "FDA approval status",
+                "suggested_values": "CURIE of the units of the value."
+            },
+            {
+                "name": "unit_name",
+                "type": "string",
+                "required": false,
+                "multivalued": false,
+                "example": "FDA approval status",
+                "suggested_values": "Term name that is associated with the CURIE of the units of the value"
+            }
+        ]
+    }
+]

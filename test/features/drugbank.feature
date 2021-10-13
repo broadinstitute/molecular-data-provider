@@ -1,4 +1,4 @@
-Feature: Check DrugBank transformer
+Feature: Check Drugbank transformer
 
     Background: Specify transformer API
         Given a transformer at "https://translator.broadinstitute.org/drugbank"
@@ -11,6 +11,16 @@ Feature: Check DrugBank transformer
         and the value of "function" should be "producer"
         and the value of "knowledge_map.input_class" should be "none"
         and the value of "knowledge_map.output_class" should be "compound"
+        and the size of "parameters" should be 1
+
+
+    Scenario: Check DrugBank molecules producer info
+        Given the transformer
+        when we fire "/molecules/transformer_info" query
+        then the value of "name" should be "DrugBank molecule-list producer"
+        and the value of "function" should be "producer"
+        and the value of "knowledge_map.input_class" should be "none"
+        and the value of "knowledge_map.output_class" should be "MolecularEntity"
         and the size of "parameters" should be 1
 
 
@@ -54,11 +64,11 @@ Feature: Check DrugBank transformer
         and the response only contains the following entries in "id"
             | id               |
             | DrugBank:DB00945 |
-        and the response contains the following entries in "source"
-            | source                          |
+        and the response contains the following entries in "provided_by"
+            | provided_by                     |
             | DrugBank compound-list producer |
-        and the response only contains the following entries in "source"
-            | source                          |
+        and the response only contains the following entries in "provided_by"
+            | provided_by                     |
             | DrugBank compound-list producer |
         and the response contains the following entries in "pubchem" of "identifiers"
             | pubchem  |
@@ -86,6 +96,59 @@ Feature: Check DrugBank transformer
             | BSYNRYMUTXBXSQ-UHFFFAOYSA-N |
 
 
+    Scenario: Check DrugBank molecule-list producer
+        Given the transformer
+        when we fire "/molecules/transform" query with the following body:
+        """
+        {
+            "controls": [
+                {
+                    "name": "compounds",
+                    "value": "DrugBank:DB00002;DrugBank:DB00006"
+                }
+            ]
+        }
+        """
+        then the size of the response is 2
+        and the response contains the following entries in "id"
+            | id               |
+            | DrugBank:DB00002 |
+            | DrugBank:DB00006 |
+        and the response only contains the following entries in "id"
+            | id               |
+            | DrugBank:DB00002 |
+            | DrugBank:DB00006 |
+        and the response contains the following entries in "provided_by"
+            | provided_by                          |
+            | DrugBank molecule-list producer |
+        and the response only contains the following entries in "provided_by"
+            | provided_by                          |
+            | DrugBank molecule-list producer |
+        and the response contains the following entries in "unii" of "identifiers"
+            | unii            |
+            | UNII:TN9BEX005G |
+            | UNII:PQX0D8J21J |
+        and the response only contains the following entries in "unii" of "identifiers"
+            | unii            |
+            | UNII:TN9BEX005G |
+            | UNII:PQX0D8J21J |
+        and the response contains the following entries in "drugbank" of "identifiers"
+            | drugbank         |
+            | DrugBank:DB00002 |
+            | DrugBank:DB00006 |
+        and the response only contains the following entries in "drugbank" of "identifiers"
+            | drugbank         |
+            | DrugBank:DB00002 |
+            | DrugBank:DB00006 |
+        and the response contains the following entries in "source" of "names_synonyms" array
+            | source   |
+            | DrugBank |
+        and the response contains the following entries in "name" of "names_synonyms" array
+            | name        |
+            | Cetuximab   |
+            | Bivalirudin |
+
+
     Scenario: Check DrugBank target-list producer using DrugBank ID
         Given the transformer
         when we fire "/gene_targets/transform" query with the following body:
@@ -94,7 +157,10 @@ Feature: Check DrugBank transformer
             "controls": [],
             "collection": [
                 {
+                    "biolink_class": "ChemicalSubstance",
                     "id": "CID:2244",
+                    "provided_by": "drugbank",
+                    "source": "drugbank",
                     "identifiers": {
                         "drugbank": "DrugBank:DB00945"
                     }
@@ -113,7 +179,10 @@ Feature: Check DrugBank transformer
             "controls": [],
             "collection": [
                 {
+                    "biolink_class": "ChemicalSubstance",
                     "id": "CID:2244",
+                    "provided_by": "drugbank",
+                    "source": "drugbank",
                     "identifiers": {
                         "pubchem": "CID:2244"
                     }
