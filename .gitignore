@@ -1,6 +1,11 @@
-ignore Mac system files
+#ignore Mac system files
 **/.DS_Store
 
-ignore IDE files
+#ignore IDE files
 .idea
+.vscode
+.env
+
+#ignore database files
+*.sqlite
 
