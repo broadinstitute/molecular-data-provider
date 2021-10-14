@@ -4,7 +4,7 @@ import sys
 from setuptools import setup, find_packages
 
 NAME = "stitch-transformer"
-VERSION = "2.2.0"
+VERSION = "2.2.1"
 
 # To install the library, run the following
 #

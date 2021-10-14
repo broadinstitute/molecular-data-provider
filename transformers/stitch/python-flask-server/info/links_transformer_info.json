@@ -1,8 +1,8 @@
 {
-    "name": "STITCH target transformer",
+    "name": "STITCH link transformer",
     "label": "STITCH",
     "description": "Transformer based on STITCH links information (https://www.ebi.ac.uk/chembl/).",
-    "version": "2.2.0",
+    "version": "2.2.1",
     "function": "transformer",
     "knowledge_map": {
         "input_class": "compound",

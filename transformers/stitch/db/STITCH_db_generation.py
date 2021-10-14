@@ -6,7 +6,7 @@ import numpy as np
 from memory_profiler import profile
 
 #Make sure no database already exists with this name
-connection = sqlite3.connect("data/STITCH_db_final.sqlite", check_same_thread=False)
+connection = sqlite3.connect("data/STITCH.sqlite", check_same_thread=False)
 cur = connection.cursor()
 CHUNK_SIZE = 25000
 DO_IF_EXISTS='append'
@@ -61,7 +61,7 @@ CREATE TABLE protein_chemical_links_transfer (
 
 create_indexes = """
 CREATE INDEX chemical_data_name_idx ON chemical_data (
-    name COLLATE NOCASE COLLATE NOCASE
+    name COLLATE NOCASE
 );
 
 CREATE INDEX chemical_data_chemical_idx ON chemical_data (
@@ -69,19 +69,24 @@ CREATE INDEX chemical_data_chemical_idx ON chemical_data (
 );
 
 CREATE INDEX chemicals_inchikeys_flat_chemical_id_idx ON chemicals_inchikeys (
-    flat_chemical_id COLLATE NOCASE COLLATE NOCASE
+    flat_chemical_id COLLATE NOCASE
 );
 
 CREATE INDEX chemicals_inchikeys_stereo_chemical_id_idx ON chemicals_inchikeys (
-    stereo_chemical_id COLLATE NOCASE COLLATE NOCASE
+    stereo_chemical_id COLLATE NOCASE
 );
 
 CREATE INDEX chemicals_inchikeys_inchikey_idx ON chemicals_inchikeys (
-    inchikey COLLATE NOCASE COLLATE NOCASE
+    inchikey COLLATE NOCASE
 );
 
 CREATE INDEX protein_chemical_links_transfer_chemical_idx ON protein_chemical_links_transfer (
     chemical
+);
+
+CREATE INDEX actions_item_ids_ab_idx ON actions (
+    item_id_a,
+    item_id_b
 );
 """
 
@@ -111,12 +116,3 @@ def build_database():
     connection.close()
 
 build_database()
-
-
-
-
-
-
-
-
-
