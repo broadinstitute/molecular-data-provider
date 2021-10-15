@@ -7,10 +7,12 @@ from typing import List, Dict  # noqa: F401
 
 from openapi_server.models.base_model_ import Model
 from openapi_server.models.attribute import Attribute
+from openapi_server.models.connection import Connection
 from openapi_server.models.names import Names
 from openapi_server import util
 
 from openapi_server.models.attribute import Attribute  # noqa: E501
+from openapi_server.models.connection import Connection  # noqa: E501
 from openapi_server.models.names import Names  # noqa: E501
 
 class Element(Model):
@@ -19,7 +21,7 @@ class Element(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, biolink_class=None, identifiers=None, names_synonyms=None, attributes=None, source=None):  # noqa: E501
+    def __init__(self, id=None, biolink_class=None, identifiers=None, alternative_identifiers=None, names_synonyms=None, attributes=None, connections=None, source=None, provided_by=None):  # noqa: E501
         """Element - a model defined in OpenAPI
 
         :param id: The id of this Element.  # noqa: E501
@@ -28,37 +30,52 @@ class Element(Model):
         :type biolink_class: str
         :param identifiers: The identifiers of this Element.  # noqa: E501
         :type identifiers: Dict[str, object]
+        :param alternative_identifiers: The alternative_identifiers of this Element.  # noqa: E501
+        :type alternative_identifiers: List[Dict[str, object]]
         :param names_synonyms: The names_synonyms of this Element.  # noqa: E501
         :type names_synonyms: List[Names]
         :param attributes: The attributes of this Element.  # noqa: E501
         :type attributes: List[Attribute]
+        :param connections: The connections of this Element.  # noqa: E501
+        :type connections: List[Connection]
         :param source: The source of this Element.  # noqa: E501
         :type source: str
+        :param provided_by: The provided_by of this Element.  # noqa: E501
+        :type provided_by: str
         """
         self.openapi_types = {
             'id': str,
             'biolink_class': str,
             'identifiers': Dict[str, object],
+            'alternative_identifiers': List[Dict[str, object]],
             'names_synonyms': List[Names],
             'attributes': List[Attribute],
-            'source': str
+            'connections': List[Connection],
+            'source': str,
+            'provided_by': str
         }
 
         self.attribute_map = {
             'id': 'id',
             'biolink_class': 'biolink_class',
             'identifiers': 'identifiers',
+            'alternative_identifiers': 'alternative_identifiers',
             'names_synonyms': 'names_synonyms',
             'attributes': 'attributes',
-            'source': 'source'
+            'connections': 'connections',
+            'source': 'source',
+            'provided_by': 'provided_by'
         }
 
         self._id = id
         self._biolink_class = biolink_class
         self._identifiers = identifiers
+        self._alternative_identifiers = alternative_identifiers
         self._names_synonyms = names_synonyms
         self._attributes = attributes
+        self._connections = connections
         self._source = source
+        self._provided_by = provided_by
 
     @classmethod
     def from_dict(cls, dikt) -> 'Element':
@@ -75,7 +92,7 @@ class Element(Model):
     def id(self):
         """Gets the id of this Element.
 
-        Id of the gene.  # noqa: E501
+        Primary identifier of the element.  # noqa: E501
 
         :return: The id of this Element.
         :rtype: str
@@ -86,7 +103,7 @@ class Element(Model):
     def id(self, id):
         """Sets the id of this Element.
 
-        Id of the gene.  # noqa: E501
+        Primary identifier of the element.  # noqa: E501
 
         :param id: The id of this Element.
         :type id: str
@@ -116,6 +133,8 @@ class Element(Model):
         :param biolink_class: The biolink_class of this Element.
         :type biolink_class: str
         """
+        if biolink_class is None:
+            raise ValueError("Invalid value for `biolink_class`, must not be `None`")  # noqa: E501
 
         self._biolink_class = biolink_class
 
@@ -123,6 +142,7 @@ class Element(Model):
     def identifiers(self):
         """Gets the identifiers of this Element.
 
+        identifiers of the element.  # noqa: E501
 
         :return: The identifiers of this Element.
         :rtype: Dict[str, object]
@@ -133,12 +153,38 @@ class Element(Model):
     def identifiers(self, identifiers):
         """Sets the identifiers of this Element.
 
+        identifiers of the element.  # noqa: E501
 
         :param identifiers: The identifiers of this Element.
         :type identifiers: Dict[str, object]
         """
+        if identifiers is None:
+            raise ValueError("Invalid value for `identifiers`, must not be `None`")  # noqa: E501
 
         self._identifiers = identifiers
+
+    @property
+    def alternative_identifiers(self):
+        """Gets the alternative_identifiers of this Element.
+
+        identifiers of additional chemical structures associated with chemical substance.  # noqa: E501
+
+        :return: The alternative_identifiers of this Element.
+        :rtype: List[Dict[str, object]]
+        """
+        return self._alternative_identifiers
+
+    @alternative_identifiers.setter
+    def alternative_identifiers(self, alternative_identifiers):
+        """Sets the alternative_identifiers of this Element.
+
+        identifiers of additional chemical structures associated with chemical substance.  # noqa: E501
+
+        :param alternative_identifiers: The alternative_identifiers of this Element.
+        :type alternative_identifiers: List[Dict[str, object]]
+        """
+
+        self._alternative_identifiers = alternative_identifiers
 
     @property
     def names_synonyms(self):
@@ -187,10 +233,33 @@ class Element(Model):
         self._attributes = attributes
 
     @property
+    def connections(self):
+        """Gets the connections of this Element.
+
+        connections to elements of the input collection.  # noqa: E501
+
+        :return: The connections of this Element.
+        :rtype: List[Connection]
+        """
+        return self._connections
+
+    @connections.setter
+    def connections(self, connections):
+        """Sets the connections of this Element.
+
+        connections to elements of the input collection.  # noqa: E501
+
+        :param connections: The connections of this Element.
+        :type connections: List[Connection]
+        """
+
+        self._connections = connections
+
+    @property
     def source(self):
         """Gets the source of this Element.
 
-        Name of a transformer that added the element to the collection.  # noqa: E501
+        Source of the element  # noqa: E501
 
         :return: The source of this Element.
         :rtype: str
@@ -201,10 +270,37 @@ class Element(Model):
     def source(self, source):
         """Sets the source of this Element.
 
-        Name of a transformer that added the element to the collection.  # noqa: E501
+        Source of the element  # noqa: E501
 
         :param source: The source of this Element.
         :type source: str
         """
+        if source is None:
+            raise ValueError("Invalid value for `source`, must not be `None`")  # noqa: E501
 
         self._source = source
+
+    @property
+    def provided_by(self):
+        """Gets the provided_by of this Element.
+
+        Name of a transformer that added the element to the collection.  # noqa: E501
+
+        :return: The provided_by of this Element.
+        :rtype: str
+        """
+        return self._provided_by
+
+    @provided_by.setter
+    def provided_by(self, provided_by):
+        """Sets the provided_by of this Element.
+
+        Name of a transformer that added the element to the collection.  # noqa: E501
+
+        :param provided_by: The provided_by of this Element.
+        :type provided_by: str
+        """
+        if provided_by is None:
+            raise ValueError("Invalid value for `provided_by`, must not be `None`")  # noqa: E501
+
+        self._provided_by = provided_by
