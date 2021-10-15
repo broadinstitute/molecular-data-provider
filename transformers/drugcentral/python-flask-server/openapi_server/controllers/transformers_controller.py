@@ -42,4 +42,4 @@ def service_transformer_info_get(service, cache=None):  # noqa: E501
 
     :rtype: TransformerInfo
     """
-    return transformer[service].info
+    return transformer[service].transformer_info(cache)
