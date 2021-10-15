@@ -21,13 +21,13 @@ python3 -m openapi_server
 and open your browser to here:
 
 ```
-http://localhost:8080/drugcantral/ui/
+http://localhost:8080/drugcentral/ui/
 ```
 
 Your OpenAPI definition lives here:
 
 ```
-http://localhost:8080/drugcantral/openapi.json
+http://localhost:8080/drugcentral/openapi.json
 ```
 
 To launch the integration tests, use tox:
