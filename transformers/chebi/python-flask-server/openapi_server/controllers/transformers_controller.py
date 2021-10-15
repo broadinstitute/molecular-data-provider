@@ -7,9 +7,9 @@ from openapi_server.models.transformer_info import TransformerInfo  # noqa: E501
 from openapi_server.models.transformer_query import TransformerQuery  # noqa: E501
 from openapi_server import util
 
-from openapi_server.controllers.chebi_transformer import ChebiByNameProducer
+from openapi_server.controllers.chebi_transformer import ChebiCompoundProducer
 
-transformer = {'compounds':ChebiByNameProducer()}
+transformer = {'compounds':ChebiCompoundProducer()}
 
 def service_transform_post(service, body, cache=None):  # noqa: E501
     """Transform a list of genes or compounds
@@ -42,4 +42,4 @@ def service_transformer_info_get(service, cache=None):  # noqa: E501
 
     :rtype: TransformerInfo
     """
-    return transformer[service].info
+    return transformer[service].transformer_info(cache)

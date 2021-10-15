@@ -1,138 +1,156 @@
 import sqlite3
 import re
 
-from transformers.transformer import Transformer
-from openapi_server.models.compound_info import CompoundInfo
-from openapi_server.models.compound_info_identifiers import CompoundInfoIdentifiers
 from openapi_server.models.names import Names
-from openapi_server.models.attribute import Attribute
-from openapi_server.models.compound_info_structure import CompoundInfoStructure
+from transformers.transformer import Producer # noqa: E501
 
 
-class ChebiByNameProducer(Transformer):
+db_connection = sqlite3.connect("data/ChEBI.sqlite", detect_types=sqlite3.PARSE_DECLTYPES, check_same_thread=False)
+db_connection.row_factory = sqlite3.Row
 
+class ChebiCompoundProducer(Producer):
     variables = ['compounds']
-
     inchikey_regex = re.compile('[A-Z]{14}-[A-Z]{10}-[A-Z]')
 
     def __init__(self):
-        super().__init__(self.variables, definition_file='compounds_transformer_info.json')
+        super().__init__(self.variables, definition_file='info/compounds_transformer_info.json')
 
 
-    def produce(self, controls):
-        compound_list = []
-        compounds = {}
-        names = controls['compounds'].split(';')
-        for name in names:
-            name = name.strip()
-            for compound in self.find_compound(name):
-                id = compound[0]
-                if id not in compounds.keys():
-                    compounds[id]= self.compound_info(id)
-                    compound_list.append(compounds[id])
-                compounds[id].attributes.append(Attribute(name='query name', value=name,source=self.info.name))
-        return compound_list
+
+    ###########################################################################
+    #
+    # Called by Producer Base Class' produce() method
+    # name
+    #
+    #
+    def find_names(self, name):
+        ids = []
+        self.find_compound(name, ids)
+
+        return ids
 
 
-    def find_compound(self, name):
+    ###########################################################################
+    #
+    # Called by Producer Base Class' produce() method
+    #
+    def create_element(self, compound_id):
+        compound_name = None
+        for row in get_compound(compound_id):
+            compound_name = row['name']
+        names = self.names(compound_id, compound_name)
+        structures = get_structure(compound_id)
+        id = self.add_prefix('chebi',str(compound_id))
+        identifiers = {
+            'chebi': id,
+            'smiles': structures.get('SMILES'),
+            'inchi':  structures.get('InChI'),
+            'inchikey': structures.get('InChIKey'),
+        }
+        biolink_class = self.biolink_class(self.OUTPUT_CLASS)
+
+        element = self.Element(id, biolink_class, identifiers, names)
+
+        return element
+
+
+    def find_compound(self, name, ids):
         if name.startswith('InChI='):
-            return find_compound_by_structure(name)
+            find_compound_by_structure(name, ids)
+            return
         if name.startswith('CHEBI:'):
-            return find_compound_by_id(name)
+            find_compound_by_id(name, ids)
+            return
         if self.inchikey_regex.match(name) is not None:
-            return find_compound_by_structure(name)
-
-        ids = find_compound_by_name(name)
-        if len(ids) != 0:
-            return ids
-        else:
-            return find_compound_by_synonym(name)
-
-    def compound_info(self, id):
-        compound = get_compound(id)[0]
-        structure = get_structure(id)
-        compound_info = CompoundInfo(
-            compound_id = compound[2],
-            identifiers = CompoundInfoIdentifiers(
-                chebi = compound[2]
-            ),
-            structure = CompoundInfoStructure(
-                smiles = structure.get('SMILES'),
-                inchi = structure.get('InChI'),
-                inchikey = structure.get('InChIKey'),
-                source = self.info.label
-            ),
-            names_synonyms = self.names(id, compound[1]),
-            attributes = [],
-            source = self.info.name
-        )
-        return compound_info
+            find_compound_by_structure(name, ids)
+            return
+        find_compound_by_name(name, ids)
+        if len(ids) == 0:
+            find_compound_by_synonym(name, ids)
 
 
-    def names(self, id, name):
+    def names(self, id, primary_name):
         name_map = {
-            'ChEBI': Names(
-                name=name,
+            'en@@ChEBI': Names(
+                name=primary_name,
                 synonyms=[],
-                source='ChEBI',
-                url='https://www.ebi.ac.uk/chebi/searchId.do?chebiId={}'.format(id)
+                name_type= None,
+                source=self.SOURCE,
+                provided_by= self.PROVIDED_BY,
+                language= 'en'
             )
         }
-        names_list = [name_map['ChEBI']]
+        names_list = [name_map['en@@ChEBI']]
         synonyms = get_synonyms(id)
-        for synonym, type, source, language in synonyms:
-            if source not in name_map.keys():
-                name_map[source] = Names(synonyms = [], source = source+'@ChEBI')
-                names_list.append(name_map[source])
-            names = name_map[source]
-            if (type=='INN' or type=='NAME') and language=='en' and names.name is None:
-                names.name = synonym
+        for row in synonyms:
+            name = row['name']
+            type = row['type']
+            source = row['source']
+            language = row['language']
+            name_type = '' if type=='NAME' or type=='SYNONYM' else type
+            key = language+'@'+name_type+'@'+source
+
+            if key not in name_map.keys():
+                name_map[key] = Names(
+                    name=None,
+                    synonyms=[],
+                    name_type= name_type if name_type != '' else None,
+                    source=source,
+                    provided_by= self.PROVIDED_BY,
+                    language= language  
+                )
+                names_list.append(name_map[key])
+            names = name_map[key]
+            if type=='SYNONYM' or names.name is not None:
+                names.synonyms.append(name)
             else:
-                names.synonyms.append(synonym)
+                names.name = name
+                
         return names_list
 
 
-connection = sqlite3.connect("ChEBI.sqlite", check_same_thread=False)
-
-
-def find_compound_by_name(name):
+def find_compound_by_name(name, ids):
     query = """
         SELECT DISTINCT id FROM compounds
         WHERE name = ?
     """
-    cur = connection.cursor()
+    cur = db_connection.cursor()
     cur.execute(query,(name,))
-    return cur.fetchall()
+    for row in cur.fetchall():
+        ids.append(row['id'])
 
 
-def find_compound_by_id(id):
+def find_compound_by_id(chebi_id, ids):
     query = """
         SELECT DISTINCT id FROM compounds
         WHERE chebi_accession = ?
     """
-    cur = connection.cursor()
-    cur.execute(query,(id,))
-    return cur.fetchall()
+    cur = db_connection.cursor()
+    cur.execute(query,(chebi_id,))
+    for row in cur.fetchall():
+        ids.append(row['id'])
 
 
-def find_compound_by_synonym(synonym):
+def find_compound_by_synonym(synonym, ids):
     query = """
         SELECT DISTINCT compound_id FROM names
         WHERE name = ?
     """
-    cur = connection.cursor()
+    cur = db_connection.cursor()
     cur.execute(query,(synonym,))
-    return cur.fetchall()
+    for row in cur.fetchall():
+        ids.append(row['compound_id'])
 
 
-def find_compound_by_structure(structure):
+def find_compound_by_structure(structure, ids):
     query = """
         SELECT DISTINCT compound_id FROM structures
         WHERE structure = ?
     """
-    cur = connection.cursor()
+    cur = db_connection.cursor()
     cur.execute(query,(structure,))
-    return cur.fetchall()
+    for row in cur.fetchall():
+        ids.append(row['compound_id'])
 
 
 def get_compound(id):
@@ -140,7 +158,7 @@ def get_compound(id):
         SELECT id, name, chebi_accession FROM compounds
         WHERE id = ?
     """
-    cur = connection.cursor()
+    cur = db_connection.cursor()
     cur.execute(query,(id,))
     return cur.fetchall()
 
@@ -150,7 +168,7 @@ def get_synonyms(id):
         SELECT name, type, source, language FROM names
         WHERE compound_id = ?
     """
-    cur = connection.cursor()
+    cur = db_connection.cursor()
     cur.execute(query,(id,))
     return cur.fetchall()
 
@@ -161,7 +179,7 @@ def get_structure(id):
         WHERE compound_id = ?
     """
     structures = {}
-    cur = connection.cursor()
+    cur = db_connection.cursor()
     cur.execute(query,(id,))
     for (structure, type) in cur.fetchall():
         if type != 'mol':
