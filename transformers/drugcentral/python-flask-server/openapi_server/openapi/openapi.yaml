@@ -4,7 +4,7 @@ info:
     email: translator@broadinstitute.org
   termsOfService: http://drugcentral.org/privacy
   title: Transformer API for DrugCentral
-  version: 2.3.0
+  version: 2.3.1
 servers:
 - url: https://translator.broadinstitute.org/drugcentral
 tags:
@@ -24,7 +24,7 @@ paths:
         schema:
           enum:
           - indications
-          - targets
+          - diseases
           type: string
         style: simple
       - description: Directive for handling caching, can be 'yes' (default), 'no',
@@ -87,7 +87,7 @@ paths:
         schema:
           enum:
           - indications
-          - targets
+          - diseases
           type: string
         style: simple
       - description: Directive for handling caching, can be 'yes' (default), 'no',

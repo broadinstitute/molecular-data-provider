@@ -8,8 +8,12 @@ from openapi_server.models.transformer_query import TransformerQuery  # noqa: E5
 from openapi_server import util
 
 from openapi_server.controllers.drugcentral_transformer import DrugCentralIndicationsTransformer
+from openapi_server.controllers.drugcentral_transformer import DrugCentralDiseaseProducer
 
-transformer = {'indications':DrugCentralIndicationsTransformer()}
+transformer = {
+    'indications':DrugCentralIndicationsTransformer(),
+    'diseases': DrugCentralDiseaseProducer()
+}
 
 def service_transform_post(service, body, cache=None):  # noqa: E501
     """Transform a list of genes or compounds

@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Transformer API for DrugCentral
-  version: 2.3.0
+  version: 2.3.1
   termsOfService: http://drugcentral.org/privacy
   
   contact:
@@ -27,7 +27,7 @@ paths:
         required: true
         schema:
           type: string
-          enum: [indications, targets]
+          enum: [indications, diseases]
       - name: cache
         in: query
         description: >-
@@ -58,7 +58,7 @@ paths:
         required: true
         schema:
           type: string
-          enum: [indications, targets]
+          enum: [indications, diseases]
       - name: cache
         in: query
         description: >-

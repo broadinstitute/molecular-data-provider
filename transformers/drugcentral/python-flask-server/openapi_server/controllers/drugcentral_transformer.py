@@ -1,7 +1,7 @@
 import sqlite3
 import json
 
-from transformers.transformer import Transformer
+from transformers.transformer import Transformer, Producer
 from openapi_server.models.element import Element
 from openapi_server.models.names import Names
 from openapi_server.models.attribute import Attribute
@@ -165,11 +165,71 @@ def find_disease(self, query):
         if len(results) > 0:
             return results
         if self.has_prefix('umls', query, 'disease'):
-            return find_disease_query('UMLS_CUI', self.de_prefix('umls', query) )
+            return find_disease_query('UMLS_CUI', self.de_prefix('umls', query, 'disease') )
         if self.has_prefix('snomed', query, 'disease'):
-            return find_disease_query('SNOMEDCT_CUI', self.de_prefix('snomed', query))
+            return find_disease_query('SNOMEDCT_CUI', self.de_prefix('snomed', query, 'disease'))
         if self.has_prefix('disease_ontology', query, 'disease'):
             return find_disease_query('DOID',query)
         return []
     else:
         return find_disease_query('DISEASE_NAME',query)
+
+
+def get_disease(disease_id):
+    query = """
+        SELECT DISEASE_ID, DISEASE_NAME, MONDO_ID, UMLS_CUI, SNOMEDCT_CUI, DOID FROM DISEASE
+        WHERE DISEASE_ID = ?
+    """
+    cur = connection.cursor()
+    cur.execute(query,(disease_id,))
+    return cur.fetchall()
+
+
+class DrugCentralDiseaseProducer(Producer):
+
+    variables = ['disease']
+
+    def __init__(self):
+        super().__init__(self.variables, definition_file='info/disease_transformer_info.json')
+
+
+    def update_transformer_info(self, transformer_info):   
+        get_disease_counts(transformer_info)
+
+
+    def find_names(self, name):
+        ids = []
+        for row in find_disease(self, name):
+            ids.append(row['DISEASE_ID'])
+        return ids
+
+
+    def create_element(self, disease_id):
+        element = None
+        for row in get_disease(disease_id):
+            disease_name = row['DISEASE_NAME']
+            id = 'DrugCentral:'+ disease_name
+            biolink_class = self.biolink_class(self.OUTPUT_CLASS)
+            identifiers = {}
+            if row['MONDO_ID'].startswith('HP'):
+                id = self.add_prefix('hpo',row['MONDO_ID'])
+                identifiers['hpo'] = id
+            if row['SNOMEDCT_CUI'] is not None:
+                id = self.add_prefix('snomed',row['SNOMEDCT_CUI'])
+                identifiers['snomed'] = id
+            if row['MONDO_ID'].startswith('NCIT'):
+                id = self.add_prefix('nci_thesaurus',row['MONDO_ID'])
+                identifiers['nci_thesaurus'] = id
+            if row['UMLS_CUI'] is not None:
+                id = self.add_prefix('umls',row['UMLS_CUI'])
+                identifiers['umls'] = id
+            if row['DOID'] is not None:
+                id = self.add_prefix('disease_ontology',row['DOID'])
+                identifiers['disease_ontology'] = id
+            if row['MONDO_ID'].startswith('MONDO'):
+                id = self.add_prefix('mondo',row['MONDO_ID'])
+                identifiers['mondo'] = id
+            
+            names = [self.Names(disease_name)]
+            element = self.Element(id, biolink_class, identifiers, names)
+        return element
