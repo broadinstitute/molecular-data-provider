@@ -15,7 +15,7 @@ python setup.py bdist_wheel
 
 ### Copy files to server
 
-copy `transformers/stitch/python-flask-server/dist/stitch_transformer-2.2.0-py3-none-any.whl` to the target folder
+copy `transformers/stitch/python-flask-server/dist/stitch_transformer-2.2.1-py3-none-any.whl` to the target folder
 
 copy `util/python/transformers-1.0/dist/base_transformer-1.0.0-py3-none-any.whl` to the target folder
 
@@ -31,7 +31,7 @@ download STITCH.sqlite from `https://translator.broadinstitute.org/db/STITCH.sql
 ```
 python3 -m venv venv
 source venv/bin/activate.csh
-pip install -I stitch_transformer-2.2.0-py3-none-any.whl
+pip install -I stitch_transformer-2.2.1-py3-none-any.whl
 pip install -I base_transformer-1.0.0-py3-none-any.whl
 pip install gunicorn
 pip install "connexion[swagger-ui]"
