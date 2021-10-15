@@ -15,61 +15,61 @@ class Parameter(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name=None, type=None, default=None, example=None, biolink_class=None, allowed_values=None, allowed_range=None, suggested_values=None, lookup_url=None):  # noqa: E501
+    def __init__(self, name=None, type=None, required=None, multivalued=None, default=None, example=None, allowed_values=None, allowed_range=None, suggested_values=None):  # noqa: E501
         """Parameter - a model defined in OpenAPI
 
         :param name: The name of this Parameter.  # noqa: E501
         :type name: str
         :param type: The type of this Parameter.  # noqa: E501
         :type type: str
+        :param required: The required of this Parameter.  # noqa: E501
+        :type required: bool
+        :param multivalued: The multivalued of this Parameter.  # noqa: E501
+        :type multivalued: bool
         :param default: The default of this Parameter.  # noqa: E501
         :type default: str
         :param example: The example of this Parameter.  # noqa: E501
         :type example: str
-        :param biolink_class: The biolink_class of this Parameter.  # noqa: E501
-        :type biolink_class: str
         :param allowed_values: The allowed_values of this Parameter.  # noqa: E501
         :type allowed_values: List[str]
         :param allowed_range: The allowed_range of this Parameter.  # noqa: E501
         :type allowed_range: List[float]
         :param suggested_values: The suggested_values of this Parameter.  # noqa: E501
         :type suggested_values: str
-        :param lookup_url: The lookup_url of this Parameter.  # noqa: E501
-        :type lookup_url: str
         """
         self.openapi_types = {
             'name': str,
             'type': str,
+            'required': bool,
+            'multivalued': bool,
             'default': str,
             'example': str,
-            'biolink_class': str,
             'allowed_values': List[str],
             'allowed_range': List[float],
-            'suggested_values': str,
-            'lookup_url': str
+            'suggested_values': str
         }
 
         self.attribute_map = {
             'name': 'name',
             'type': 'type',
+            'required': 'required',
+            'multivalued': 'multivalued',
             'default': 'default',
             'example': 'example',
-            'biolink_class': 'biolink_class',
             'allowed_values': 'allowed_values',
             'allowed_range': 'allowed_range',
-            'suggested_values': 'suggested_values',
-            'lookup_url': 'lookup_url'
+            'suggested_values': 'suggested_values'
         }
 
         self._name = name
         self._type = type
+        self._required = required
+        self._multivalued = multivalued
         self._default = default
         self._example = example
-        self._biolink_class = biolink_class
         self._allowed_values = allowed_values
         self._allowed_range = allowed_range
         self._suggested_values = suggested_values
-        self._lookup_url = lookup_url
 
     @classmethod
     def from_dict(cls, dikt) -> 'Parameter':
@@ -137,6 +137,52 @@ class Parameter(Model):
         self._type = type
 
     @property
+    def required(self):
+        """Gets the required of this Parameter.
+
+        Indicates whether the parameter is required(default true).  # noqa: E501
+
+        :return: The required of this Parameter.
+        :rtype: bool
+        """
+        return self._required
+
+    @required.setter
+    def required(self, required):
+        """Sets the required of this Parameter.
+
+        Indicates whether the parameter is required(default true).  # noqa: E501
+
+        :param required: The required of this Parameter.
+        :type required: bool
+        """
+
+        self._required = required
+
+    @property
+    def multivalued(self):
+        """Gets the multivalued of this Parameter.
+
+        Indicates whether multiple occurences of the parameter are allowed (default false).  # noqa: E501
+
+        :return: The multivalued of this Parameter.
+        :rtype: bool
+        """
+        return self._multivalued
+
+    @multivalued.setter
+    def multivalued(self, multivalued):
+        """Sets the multivalued of this Parameter.
+
+        Indicates whether multiple occurences of the parameter are allowed (default false).  # noqa: E501
+
+        :param multivalued: The multivalued of this Parameter.
+        :type multivalued: bool
+        """
+
+        self._multivalued = multivalued
+
+    @property
     def default(self):
         """Gets the default of this Parameter.
 
@@ -181,29 +227,6 @@ class Parameter(Model):
         """
 
         self._example = example
-
-    @property
-    def biolink_class(self):
-        """Gets the biolink_class of this Parameter.
-
-        BioLink class of the parameter. Applicable to producers only and only one parameter can have a BioLink class.  # noqa: E501
-
-        :return: The biolink_class of this Parameter.
-        :rtype: str
-        """
-        return self._biolink_class
-
-    @biolink_class.setter
-    def biolink_class(self, biolink_class):
-        """Sets the biolink_class of this Parameter.
-
-        BioLink class of the parameter. Applicable to producers only and only one parameter can have a BioLink class.  # noqa: E501
-
-        :param biolink_class: The biolink_class of this Parameter.
-        :type biolink_class: str
-        """
-
-        self._biolink_class = biolink_class
 
     @property
     def allowed_values(self):
@@ -273,26 +296,3 @@ class Parameter(Model):
         """
 
         self._suggested_values = suggested_values
-
-    @property
-    def lookup_url(self):
-        """Gets the lookup_url of this Parameter.
-
-        URL to search for suitable parameter values.  # noqa: E501
-
-        :return: The lookup_url of this Parameter.
-        :rtype: str
-        """
-        return self._lookup_url
-
-    @lookup_url.setter
-    def lookup_url(self, lookup_url):
-        """Sets the lookup_url of this Parameter.
-
-        URL to search for suitable parameter values.  # noqa: E501
-
-        :param lookup_url: The lookup_url of this Parameter.
-        :type lookup_url: str
-        """
-
-        self._lookup_url = lookup_url
