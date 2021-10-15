@@ -1,5 +1,5 @@
 import sqlite3
-import json
+import re
 
 from transformers.transformer import Transformer, Producer
 from openapi_server.models.element import Element
@@ -7,7 +7,7 @@ from openapi_server.models.names import Names
 from openapi_server.models.attribute import Attribute
 from openapi_server.models.connection import Connection
 
-
+inchikey_regex = re.compile('[A-Z]{14}-[A-Z]{10}-[A-Z]')
 
 class DrugCentralIndicationsTransformer(Transformer):
 
@@ -185,6 +185,17 @@ def get_disease(disease_id):
     return cur.fetchall()
 
 
+def find_drug_query(column, value):
+    query = """
+        SELECT DRUG_CENTRAL_ID, DRUG_NAME, CAS_RN, SMILES, INCHI, INCHI_KEY
+        FROM DRUG
+        WHERE {} = ?
+    """.format(column)
+    cur = connection.cursor()
+    cur.execute(query,(value,))
+    return cur.fetchall()
+
+
 class DrugCentralDiseaseProducer(Producer):
 
     variables = ['disease']
@@ -211,25 +222,84 @@ class DrugCentralDiseaseProducer(Producer):
             id = 'DrugCentral:'+ disease_name
             biolink_class = self.biolink_class(self.OUTPUT_CLASS)
             identifiers = {}
-            if row['MONDO_ID'].startswith('HP'):
+            if row['MONDO_ID'] is not None and row['MONDO_ID'].startswith('HP'):
                 id = self.add_prefix('hpo',row['MONDO_ID'])
                 identifiers['hpo'] = id
-            if row['SNOMEDCT_CUI'] is not None:
-                id = self.add_prefix('snomed',row['SNOMEDCT_CUI'])
-                identifiers['snomed'] = id
-            if row['MONDO_ID'].startswith('NCIT'):
+            if row['MONDO_ID'] is not None and row['MONDO_ID'].startswith('NCIT'):
                 id = self.add_prefix('nci_thesaurus',row['MONDO_ID'])
                 identifiers['nci_thesaurus'] = id
-            if row['UMLS_CUI'] is not None:
-                id = self.add_prefix('umls',row['UMLS_CUI'])
-                identifiers['umls'] = id
             if row['DOID'] is not None:
                 id = self.add_prefix('disease_ontology',row['DOID'])
                 identifiers['disease_ontology'] = id
-            if row['MONDO_ID'].startswith('MONDO'):
+            if row['MONDO_ID'] is not None and row['MONDO_ID'].startswith('MONDO'):
                 id = self.add_prefix('mondo',row['MONDO_ID'])
                 identifiers['mondo'] = id
+            if row['UMLS_CUI'] is not None:
+                id = self.add_prefix('umls',row['UMLS_CUI'])
+                identifiers['umls'] = id
+            if row['SNOMEDCT_CUI'] is not None:
+                id = self.add_prefix('snomed',row['SNOMEDCT_CUI'])
+                identifiers['snomed'] = id
             
             names = [self.Names(disease_name)]
+            element = self.Element(id, biolink_class, identifiers, names)
+        return element
+
+
+class DrugCentralCompoundProducer(Producer):
+
+    variables = ['compound']
+
+    def __init__(self):
+        super().__init__(self.variables, definition_file='info/compound_transformer_info.json')
+
+
+    def update_transformer_info(self, transformer_info):   
+        get_drug_counts(transformer_info)
+
+
+    def produce(self, controls):
+        self.map = {}
+        return super().produce(controls)
+
+
+    def find_names(self, name):
+        ids = []
+        for row in self.find_compound(name):
+            self.map[row['DRUG_CENTRAL_ID']] = row
+            ids.append(row['DRUG_CENTRAL_ID'])
+        return ids
+
+
+    def find_compound(self, name):
+        if self.has_prefix('drugcentral', name, 'compound'):
+            drug_central_id = self.de_prefix('drugcentral', name, 'compound')
+            return find_drug_query('DRUG_CENTRAL_ID', drug_central_id)
+        if inchikey_regex.match(name) is not None:
+            return find_drug_query('INCHI_KEY', name)
+        return find_drug_query('DRUG_NAME', name)
+
+
+    def create_element(self, drug_central_id):
+        element = None
+        if drug_central_id in self.map:
+            row = self.map[drug_central_id]
+            id = self.add_prefix('drugcentral', str(drug_central_id))
+            drug_name = row['DRUG_NAME']
+            cas = row['CAS_RN']
+            smiles = row['SMILES']
+            inchi = row['INCHI']
+            inchi_key = row['INCHI_KEY']
+            biolink_class = self.biolink_class(self.OUTPUT_CLASS)
+            identifiers = {'drugcentral' : id}
+            if cas is not None:
+                identifiers['cas'] = self.add_prefix('cas', cas)
+            if smiles is not None:
+                identifiers['smiles'] = self.add_prefix('smiles', smiles)
+            if smiles is not None:
+                identifiers['inchi'] = self.add_prefix('inchi', inchi)
+            if smiles is not None:
+                identifiers['inchikey'] = self.add_prefix('inchikey', inchi_key)                
+            names = [self.Names(drug_name)]
             element = self.Element(id, biolink_class, identifiers, names)
         return element

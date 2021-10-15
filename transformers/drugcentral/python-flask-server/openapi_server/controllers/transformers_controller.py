@@ -9,9 +9,11 @@ from openapi_server import util
 
 from openapi_server.controllers.drugcentral_transformer import DrugCentralIndicationsTransformer
 from openapi_server.controllers.drugcentral_transformer import DrugCentralDiseaseProducer
+from openapi_server.controllers.drugcentral_transformer import DrugCentralCompoundProducer
 
 transformer = {
     'indications':DrugCentralIndicationsTransformer(),
+    'compounds': DrugCentralCompoundProducer(),
     'diseases': DrugCentralDiseaseProducer()
 }
 

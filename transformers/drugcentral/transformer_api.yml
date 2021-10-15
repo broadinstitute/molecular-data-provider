@@ -1,8 +1,8 @@
 openapi: 3.0.0
 info:
   title: Transformer API for DrugCentral
-  version: 2.3.1
   termsOfService: http://drugcentral.org/privacy
+  version: 2.3.2
   
   contact:
     email: translator@broadinstitute.org
@@ -27,7 +27,7 @@ paths:
         required: true
         schema:
           type: string
-          enum: [indications, diseases]
+          enum: [indications, diseases, compounds]
       - name: cache
         in: query
         description: >-
@@ -58,7 +58,7 @@ paths:
         required: true
         schema:
           type: string
-          enum: [indications, diseases]
+          enum: [indications, diseases, compounds]
       - name: cache
         in: query
         description: >-
