@@ -22,7 +22,8 @@ copy `util/python/transformers-1.0/dist/base_transformer-1.0.0-py3-none-any.whl`
 copy `transformers/hmdb/python-flask-server/info` folder to the target folder
 
 download HMDB-KS.db from `https://translator.broadinstitute.org/db/HMDB-KS.db` and save to `data` subfolder of the target folder
-download UniProt2Entrez.txt from https://translator.broadinstitute.org/db/UniProt2Entrez.txt
+
+download UniProt2Entrez.txt from `https://translator.broadinstitute.org/db/UniProt2Entrez.txt` and save to `data` subfolder of the target folder
 
 
 ### Install transformer on server
