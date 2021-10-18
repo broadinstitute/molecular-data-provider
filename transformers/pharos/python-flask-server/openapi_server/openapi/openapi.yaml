@@ -4,7 +4,7 @@ info:
     email: translator@broadinstitute.org
   termsOfService: https://pharos.nih.gov/about
   title: Transformer API for Pharos transformer
-  version: 2.3.0
+  version: 2.3.1
 servers:
 - url: https://translator.broadinstitute.org/pharos
 tags:

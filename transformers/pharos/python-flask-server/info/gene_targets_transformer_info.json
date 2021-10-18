@@ -2,7 +2,7 @@
     "name": "Pharos target genes transformer",
     "label": "Pharos",
     "description": "Compound-to-target transformer based on Pharos (https://pharos.nih.gov).",
-    "version": "2.3.0",
+    "version": "2.3.1",
     "function": "transformer",
     "knowledge_map": {
         "input_class": "compound",
