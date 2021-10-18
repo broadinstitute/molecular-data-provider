@@ -1,0 +1,48 @@
+{
+    "name": "Pharos target genes transformer",
+    "label": "Pharos",
+    "description": "Compound-to-target transformer based on Pharos (https://pharos.nih.gov).",
+    "version": "2.3.0",
+    "function": "transformer",
+    "knowledge_map": {
+        "input_class": "compound",
+        "output_class": "gene",
+        "nodes":{
+            "ChemicalSubstance": {
+                "attribute":[],
+                "count": -1,
+                "id_prefixes": [
+                    "CHEMBL.COMPOUND",
+                    "CID"
+                ]
+            },                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+            "Gene":{
+                "attribute":[],
+                "count": -1,
+                "id_prefixes": [
+                    "NCBIGene"
+                ]
+            }
+        },
+        "edges": [
+            {
+                "subject": "ChemicalSubstance",
+                "predicate": "affects",
+                "inverse_predicate": "affected_by",
+                "object": "Gene",
+                "source": "Pharos",
+                "count": -1,
+                "attributes": []
+            }
+        ]
+    },
+    "properties": {
+        "list_predicate": "related_to",
+        "member_predicate": "related_to",
+        "source_url": "https://pharos.nih.gov",
+        "source_version":"version 6.11.0 of TCRD, downloaded May 3, 2021",
+        "terms_of_service": "https://pharos.nih.gov/about"
+    },
+    "parameters": [],
+    "required_attributes": []
+}

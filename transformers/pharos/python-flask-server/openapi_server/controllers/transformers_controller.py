@@ -7,9 +7,12 @@ from openapi_server.models.transformer_info import TransformerInfo  # noqa: E501
 from openapi_server.models.transformer_query import TransformerQuery  # noqa: E501
 from openapi_server import util
 
-from openapi_server.controllers.pharos_expander import PharosExpander
+from openapi_server.controllers.pharos_transformer import PharosGeneInteractionsTransformer
+from openapi_server.controllers.pharos_transformer import PharosCompoundProducer
 
-transformer = PharosExpander()
+transformer = { 'gene_targets': PharosGeneInteractionsTransformer(),
+                'producer': PharosCompoundProducer()
+}
 
 def service_transform_post(service, body, cache=None):  # noqa: E501
     """Transform a list of genes or compounds
@@ -27,7 +30,7 @@ def service_transform_post(service, body, cache=None):  # noqa: E501
     """
     if connexion.request.is_json:
         transformer_query = TransformerQuery.from_dict(connexion.request.get_json())  # noqa: E501
-    return transformer.transform(transformer_query)
+    return transformer[service].transform(transformer_query)
 
 
 def service_transformer_info_get(service, cache=None):  # noqa: E501
@@ -42,4 +45,4 @@ def service_transformer_info_get(service, cache=None):  # noqa: E501
 
     :rtype: TransformerInfo
     """
-    return transformer.info
+    return transformer[service].transformer_info(cache)
