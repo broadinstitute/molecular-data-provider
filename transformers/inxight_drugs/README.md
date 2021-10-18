@@ -21,8 +21,6 @@ copy `util/python/transformers-1.0/dist/base_transformer-1.0.0-py3-none-any.whl`
 
 copy `transformers/inxight_drugs/python-flask-server/info` folder to the target folder
 
-copy `transformers/inxight_drugs/python-flask-server/data` folder to the target folder
-
 download Inxightdb.db from `https://translator.broadinstitute.org/db/Inxightdb.db` and save to `data` subfolder of the target folder
 
 
