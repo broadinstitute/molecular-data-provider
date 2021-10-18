@@ -21,8 +21,6 @@ copy `util/python/transformers-1.0/dist/base_transformer-1.0.0-py3-none-any.whl`
 
 copy `transformers/stitch/python-flask-server/info` folder to the target folder
 
-copy `transformers/stitch/python-flask-server/data` folder to the target folder
-
 download STITCH.sqlite from `https://translator.broadinstitute.org/db/STITCH.sqlite` and save to `data` subfolder of the target folder
 
 
