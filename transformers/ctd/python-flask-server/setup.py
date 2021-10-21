@@ -3,8 +3,8 @@
 import sys
 from setuptools import setup, find_packages
 
-NAME = "openapi_server"
-VERSION = "1.0.0"
+NAME = "ctd-transformer"
+VERSION = "2.3.0"
 
 # To install the library, run the following
 #

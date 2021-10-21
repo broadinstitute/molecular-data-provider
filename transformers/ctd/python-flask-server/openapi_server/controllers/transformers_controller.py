@@ -7,8 +7,23 @@ from openapi_server.models.transformer_info import TransformerInfo  # noqa: E501
 from openapi_server.models.transformer_query import TransformerQuery  # noqa: E501
 from openapi_server import util
 
+from openapi_server.controllers.ctd_transformer import CtdCompoundProducer
+from openapi_server.controllers.ctd_transformer import CtdGeneInteractionsTransformer
+from openapi_server.controllers.ctd_transformer import CtdDiseaseAssociationsTransformer
+from openapi_server.controllers.ctd_transformer import CtdGoAssociationsTransformer
+from openapi_server.controllers.ctd_transformer import CtdPathwayAssociationsTransformer
+from openapi_server.controllers.ctd_transformer import CtdPhenotypeInteractionsTransformer
 
-def service_transform_post(service, transformer_query, cache=None):  # noqa: E501
+transformer = {
+    'chemicals': CtdCompoundProducer(),
+    'gene-interactions': CtdGeneInteractionsTransformer(),
+    'disease-associations': CtdDiseaseAssociationsTransformer(),
+    'go-associations': CtdGoAssociationsTransformer(),
+    'pathway-associations': CtdPathwayAssociationsTransformer(),
+    'phenotype-interactions': CtdPhenotypeInteractionsTransformer()
+}
+
+def service_transform_post(service, body, cache=None):  # noqa: E501
     """Transform a list of genes or compounds
 
     Depending on the function of a transformer, creates, expands, or filters a list. # noqa: E501
@@ -24,7 +39,7 @@ def service_transform_post(service, transformer_query, cache=None):  # noqa: E50
     """
     if connexion.request.is_json:
         transformer_query = TransformerQuery.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+    return transformer[service].transform(transformer_query)
 
 
 def service_transformer_info_get(service, cache=None):  # noqa: E501
@@ -39,4 +54,4 @@ def service_transformer_info_get(service, cache=None):  # noqa: E501
 
     :rtype: TransformerInfo
     """
-    return 'do some magic!'
+    return transformer[service].transformer_info(cache)
