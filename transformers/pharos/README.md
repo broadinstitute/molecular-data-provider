@@ -25,6 +25,8 @@ copy `util/python/transformers-2.0/config/BiolinkClassMap.txt` to `data` subfold
 
 copy `util/python/transformers-2.0/config/prefixMap.json` to `data` subfolder of the target folder
 
+copy `transformers/pharos/python-flask-server/data/TargetDevelopmentLevel.json` to `data` subfolder of the target folder
+
 download Pharos.sqlite from `https://translator.broadinstitute.org/db/Pharos.sqlite` and save to `data` subfolder of the target folder
 
 
