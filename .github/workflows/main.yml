@@ -1,4 +1,5 @@
 
+
 # This workflow will install Python dependencies, run tests and lint with a single version of Python
 # This workflow was programmed to:
 #   1. be triggered manually (on: workflow_dispatch:), see https://docs.github.com/en/actions/managing-workflow-runs/manually-running-a-workflow
@@ -70,6 +71,17 @@ jobs:
           
         - name: Start the BDD testing of the checked out feature file
           run: behave test/features/cmap.feature
+
+  ctd:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v2
+    
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/ctd.feature
 
   ctrp:
     runs-on: ubuntu-latest
@@ -171,6 +183,28 @@ jobs:
         - name: Start the BDD testing of the checked out feature file
           run: behave test/features/molecular-data-provider.feature
 
+  molecular-filters:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v2
+    
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/molecular-filters.feature
+
+  moleprodb:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v2
+    
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/ moleprodb.feature
+
   pharos:
     runs-on: ubuntu-latest
     steps:
@@ -215,6 +249,17 @@ jobs:
         - name: Start the BDD testing of the checked out feature file
           run: behave test/features/stitch.feature
 
+  string:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v2
+    
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/string.feature
+
   trapi:
     runs-on: ubuntu-latest
     steps:
@@ -225,3 +270,5 @@ jobs:
           
         - name: Start the BDD testing of the checked out feature file
           run: behave test/features/trapi.feature
+
+
