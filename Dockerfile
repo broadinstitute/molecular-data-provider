@@ -14,7 +14,6 @@ FROM python:3-alpine AS runtime-image
 RUN mkdir -p /usr/src/app
 RUN mkdir -p /usr/src/app/data
 RUN mkdir -p /usr/src/app/info
-ADD https://translator.broadinstitute.org/db/ChEMBL.sqlite /usr/src/app/data
 ADD https://translator.broadinstitute.org/db/ChEMBL.target.xref.sqlite /usr/src/app/data
 COPY transformers/chembl/python-flask-server/info /usr/src/app/info
 WORKDIR /usr/src/app
