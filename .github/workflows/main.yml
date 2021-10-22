@@ -72,7 +72,7 @@ jobs:
         - name: Start the BDD testing of the checked out feature file
           run: behave test/features/cmap.feature
 
-  cod:
+  ctd:
     runs-on: ubuntu-latest
     steps:
         - uses: actions/checkout@v2
