@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.appname }}
+  namespace: molepro
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.appname }}
+  template:
+    metadata:
+     labels:
+        app: {{ .Values.appname }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - name: {{ .Values.volname }}
+              mountPath: /usr/src/app/data
+      initContainers:
+        - name: {{ .Values.appinitname }}
+          image: busybox:latest
+          command:
+          - wget
+          - "-O"
+          - {{ .Values.dataurlis }}
+          volumeMounts:
+            - name: {{ .Values.volname }}
+              mountPath: /workdir
+      volumes:
+        - name: {{ .Values.appname }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.appname }}
+      restartPolicy: Always
