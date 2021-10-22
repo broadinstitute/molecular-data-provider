@@ -2,7 +2,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: {{ .Values.appname }}
-  namespace: molepro
+  namespace: moleprowithdb
 spec:
   accessModes:
   - ReadWriteOnce

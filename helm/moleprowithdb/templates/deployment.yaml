@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Values.appname }}
-  namespace: molepro
+  namespace: moleprowithdb
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
