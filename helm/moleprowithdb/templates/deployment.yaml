@@ -24,7 +24,7 @@ spec:
           ports:
             - containerPort: 8080
           volumeMounts:
-            - name: {{ .Values.volname }}
+            - name: {{ .Values.appname }}
               mountPath: /usr/src/app/data
       volumes:
         - name: {{ .Values.appname }}
