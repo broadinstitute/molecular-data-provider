@@ -5,7 +5,6 @@
 replicaCount: 1
 appname: 'defaultapp'
 volname: 'moleprovolume'
-appinitname: 'defaultappinit'
 dataurlis: ''
 
 image:

@@ -16,22 +16,16 @@ spec:
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          command:
+          - wget
+          - "-O"
+          - {{ .Values.dataurlis }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - containerPort: 8080
           volumeMounts:
             - name: {{ .Values.volname }}
               mountPath: /usr/src/app/data
-      initContainers:
-        - name: {{ .Values.appinitname }}
-          image: busybox:latest
-          command:
-          - wget
-          - "-O"
-          - {{ .Values.dataurlis }}
-          volumeMounts:
-            - name: {{ .Values.volname }}
-              mountPath: /workdir
       volumes:
         - name: {{ .Values.appname }}
           persistentVolumeClaim:
