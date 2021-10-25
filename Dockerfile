@@ -14,7 +14,6 @@ RUN mkdir -p /usr/src/app
 RUN mkdir -p /usr/src/app/data
 RUN mkdir -p /usr/src/app/info
 COPY transformers/stitch/python-flask-server/info /usr/src/app/info
-ADD https://translator.broadinstitute.org/db/STITCH.sqlite /usr/src/app/data
 WORKDIR /usr/src/app
 COPY --from=packaging-image /usr/src/base/dist .
 COPY --from=packaging-image /usr/src/stitch/dist .
