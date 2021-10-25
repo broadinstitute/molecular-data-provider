@@ -18,7 +18,6 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           command:
           - wget
-          - "-O"
           - {{ .Values.dataurlis }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
