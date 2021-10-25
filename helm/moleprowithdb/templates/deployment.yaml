@@ -18,6 +18,8 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           command:
           - wget
+          - "-O"
+          - "/usr/src/app/data/ChEMBL.sqlite"
           - {{ .Values.dataurlis }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
