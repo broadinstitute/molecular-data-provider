@@ -28,8 +28,6 @@ spec:
           image: busybox
           command:
           - wget
-          - "-O"
-          - "/usr/src/app/data/ChEMBL.sqlite"
           - {{ .Values.dataurlis }}
           volumeMounts:
             - name: {{ .Values.appname }}
