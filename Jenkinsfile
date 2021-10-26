@@ -5,7 +5,7 @@ pipeline {
         disableConcurrentBuilds()
     }
     agent {
-        node { label 'transltr-ci-build-node-01' }
+        node { label 'transltr-ci-build-node-02' }
     }
     parameters {
         string(name: 'BUILD_VERSION', defaultValue: '', description: 'The build version to deploy (optional)')
