@@ -31,7 +31,7 @@ spec:
           - {{ .Values.dataurlis }}
           volumeMounts:
             - name: {{ .Values.appname }}
-              mountPath: "/usr/src/app/data"
+              mountPath: "/data"
       volumes:
         - name: {{ .Values.appname }}
           persistentVolumeClaim:
