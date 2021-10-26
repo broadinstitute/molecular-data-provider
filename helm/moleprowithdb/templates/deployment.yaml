@@ -25,13 +25,13 @@ spec:
               mountPath: /usr/src/app/data
       initContainers:
         - name: install
-          image: busybox
+          image: alpine
           command:
           - wget
           - {{ .Values.dataurlis }}
           volumeMounts:
             - name: {{ .Values.appname }}
-              mountPath: "/data"
+              mountPath: "/usr/src/app/data"
       volumes:
         - name: {{ .Values.appname }}
           persistentVolumeClaim:
