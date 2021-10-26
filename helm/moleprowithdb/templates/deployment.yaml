@@ -16,17 +16,24 @@ spec:
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          command:
-          - wget
-          - "-O"
-          - "/usr/src/app/data/ChEMBL.sqlite"
-          - {{ .Values.dataurlis }}
+          command: ["nohup","gunicorn", "-w","2","-b","0.0.0.0:8080","openapi_server.__main__:app","--timeout","1800"]
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - containerPort: 8080
           volumeMounts:
             - name: {{ .Values.appname }}
               mountPath: /usr/src/app/data
+      initContainers:
+        - name: install
+          image: busybox
+          command:
+          - wget
+          - "-O"
+          - "/usr/src/app/data/ChEMBL.sqlite"
+          - {{ .Values.dataurlis }}
+          volumeMounts:
+            - name: {{ .Values.appname }}
+              mountPath: "/usr/src/app/data"
       volumes:
         - name: {{ .Values.appname }}
           persistentVolumeClaim:
