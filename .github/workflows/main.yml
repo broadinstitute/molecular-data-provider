@@ -183,7 +183,7 @@ jobs:
         - name: Start the BDD testing of the checked out feature file
           run: behave test/features/molecular-data-provider.feature
 
-  molecular-filters:
+  molepro-filters:
     runs-on: ubuntu-latest
     steps:
         - uses: actions/checkout@v2
@@ -192,7 +192,7 @@ jobs:
           run: pip install -r test/requirements.txt
           
         - name: Start the BDD testing of the checked out feature file
-          run: behave test/features/molecular-filters.feature
+          run: behave test/features/molepro-filters.feature
 
   moleprodb:
     runs-on: ubuntu-latest
@@ -203,7 +203,7 @@ jobs:
           run: pip install -r test/requirements.txt
           
         - name: Start the BDD testing of the checked out feature file
-          run: behave test/features/ moleprodb.feature
+          run: behave test/features/moleprodb.feature
 
   pharos:
     runs-on: ubuntu-latest
