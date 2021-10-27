@@ -25,7 +25,9 @@ spec:
               mountPath: /usr/src/app/data
         - name: install
           image: alpine
-          command: ["wget","{{ .Values.dataurlis }}"]
+          command: 
+          - wget
+          - {{ .Values.dataurlis }}
           volumeMounts:
             - name: {{ .Values.appname }}
               mountPath: /usr/lib
