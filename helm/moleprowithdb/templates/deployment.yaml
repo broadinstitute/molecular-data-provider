@@ -23,7 +23,6 @@ spec:
           volumeMounts:
             - name: {{ .Values.appname }}
               mountPath: /usr/src/app/data
-      initContainers:
         - name: install
           image: alpine
           command:
@@ -31,7 +30,7 @@ spec:
           - {{ .Values.dataurlis }}
           volumeMounts:
             - name: {{ .Values.appname }}
-              mountPath: "/usr/src/app/data"
+              mountPath: /usr/src/app/data
       volumes:
         - name: {{ .Values.appname }}
           persistentVolumeClaim:
