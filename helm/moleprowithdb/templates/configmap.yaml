@@ -1,8 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: {{ .Values.appname }}
-  namespace: moleprowithdb
-data:
-  download_data.sh: |-
-    wget -O /usr/src/app/data/STITCH.sqlite ${DB_DATA_URL}

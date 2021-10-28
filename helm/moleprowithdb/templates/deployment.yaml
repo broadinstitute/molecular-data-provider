@@ -17,11 +17,10 @@ spec:
         - name: initcontainer
           image: alpine
           command:
-            - sh
-            - /scripts/download_data.sh
-          env:
-            - name: DB_DATA_URL
-              value: {{ .Values.dataurlis }}
+            - wget
+            - "-O"
+            - /usr/src/app/data/STITCH.sqlite
+            - {{ .Values.dataurlis }}
           volumeMounts:
             - name: {{ .Values.appname }}
               mountPath: /usr/src/app/data
