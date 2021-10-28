@@ -18,6 +18,9 @@ spec:
           image: alpine
           command:
             - wget
+            - "-nv"
+            - "-P"
+            - /usr/src/app/data
             - {{ .Values.dataurlis }}
           volumeMounts:
             - name: {{ .Values.appname }}
