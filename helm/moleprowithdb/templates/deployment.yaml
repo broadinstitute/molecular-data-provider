@@ -15,11 +15,9 @@ spec:
     spec:
       initContainers:
         - name: initcontainer
-          image: curlimages/curl
+          image: alpine
           command:
-            - curl
-            - "-o"
-            - /usr/src/app/data/STITCH.sqlite
+            - wget
             - {{ .Values.dataurlis }}
           volumeMounts:
             - name: {{ .Values.appname }}
