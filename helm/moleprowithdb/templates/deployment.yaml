@@ -41,9 +41,8 @@ spec:
           - {{ .Values.dataurlis }}
           volumeMounts:
             - name: {{ .Values.appname }}
-              mountPath: "/usr/src/app/data"
+              mountPath: /usr/local
       volumes:
         - name: {{ .Values.appname }}
-          persistentVolumeClaim:
-            claimName: {{ .Values.appname }}
+          emptyDir: {}
       restartPolicy: Always
