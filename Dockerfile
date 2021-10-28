@@ -14,7 +14,7 @@ FROM python:3-alpine AS runtime-image
 RUN mkdir -p /usr/src/app
 RUN mkdir -p /usr/src/app/data
 RUN mkdir -p /usr/src/app/info
-COPY transformers/chebi/python-flask-server/info /usr/src/app/
+COPY transformers/chebi/python-flask-server/info /usr/src/app/info
 WORKDIR /usr/src/app/data
 COPY util/python/transformers-2.0/config/BiolinkClassMap.txt /usr/src/app/data
 COPY util/python/transformers-2.0/config/prefixMap.json /usr/src/app/data
