@@ -15,11 +15,10 @@ spec:
     spec:
       initContainers:
         - name: initcontainer
-          image: mwendler/wget
+          image: curlimages/curl
           command:
-            - wget
-            - "--no-check-certificate"
-            - "-O"
+            - curl
+            - "-o"
             - /usr/src/app/data/STITCH.sqlite
             - {{ .Values.dataurlis }}
           volumeMounts:
