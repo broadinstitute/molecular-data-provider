@@ -15,9 +15,10 @@ spec:
     spec:
       initContainers:
         - name: initcontainer
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          image: alpine
           command:
-            - '/download_data.sh'
+            - sh
+            - /scripts/download_data.sh
           env:
             - name: DB_DATA_URL
               value: {{ .Values.dataurlis }}
