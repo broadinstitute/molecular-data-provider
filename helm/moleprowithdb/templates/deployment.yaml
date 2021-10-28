@@ -15,7 +15,7 @@ spec:
     spec:
       initContainers:
         - name: initcontainer
-          image: alpine
+          image: mwendler/wget
           command:
             - wget
             - "-O"
