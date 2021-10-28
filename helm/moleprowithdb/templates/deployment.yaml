@@ -17,10 +17,10 @@ spec:
         - name: initcontainer
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           command:
-          - wget
-          - O
-          - /usr/src/app/data/STITCH.sqlite
-          - {{ .Values.dataurlis }}
+            - '/download_data.sh'
+          env:
+            - name: DB_DATA_URL
+              value: {{ .Values.dataurlis }}
           volumeMounts:
             - name: {{ .Values.appname }}
               mountPath: /usr/src/app/data
