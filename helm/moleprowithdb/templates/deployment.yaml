@@ -18,6 +18,7 @@ spec:
           image: mwendler/wget
           command:
             - wget
+            - "--no-check-certificate"
             - "-O"
             - /usr/src/app/data/STITCH.sqlite
             - {{ .Values.dataurlis }}
