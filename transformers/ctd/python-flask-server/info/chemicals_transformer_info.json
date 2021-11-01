@@ -1,0 +1,32 @@
+{
+    "name": "CTD compound-list producer",
+    "label": "CTD",
+    "description": "Compound-list producer based on Comparative Toxicogenomics Database (http://ctdbase.org/).",
+    "version": "2.3.0",
+    "function": "producer",
+    "knowledge_map": {
+        "input_class": "none",
+        "output_class": "compound",
+        "nodes": {
+            "SmallMolecule": {
+                "id_prefixes": ["CID","MeSH"]
+            }
+        },
+        "edges": []
+    },
+    "properties": {
+        "source_url": "http://ctdbase.org/",
+        "source_version": "March 2021",
+        "terms_of_service": "http://ctdbase.org/about/legal.jsp"
+    },
+    "parameters": [
+        {
+            "example": "aspirin",
+            "multivalued": true,
+            "required": true,
+            "name": "compound",
+            "type": "string",
+            "suggested_values": "compound names, PubChem CIDs, or MeSH ids"
+        }
+    ]
+}
