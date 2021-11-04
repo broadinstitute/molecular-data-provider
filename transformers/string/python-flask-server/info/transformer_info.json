@@ -1,0 +1,156 @@
+{
+    "name": "STRING protein-protein interaction",
+    "label": "STRING",
+    "description": "Gene-list expander based on STRING protein-protein functional interactions (https://string-db.org/).",
+    "version": "2.3.0",
+    "function": "expander",
+    "knowledge_map": {
+        "input_class": "gene",
+        "output_class": "gene",
+        "nodes": {
+            "Gene": {
+                "id_prefixes": ["NCBIGene"]
+            }
+        },
+        "edges": [{
+            "subject": "Gene",
+            "predicate": "related_to",
+            "inverse_predicate": "related_to",
+            "object": "Gene"
+        }]
+    },
+    "properties": {
+        "source_url": "https://string-db.org/",
+        "terms_of_service": "https://string-db.org/cgi/access?footer_active_subpage=licensing",
+        "method": "interaction_partners"
+    },
+    "parameters": [
+        {
+            "default": "0.4",
+            "name": "minimum combined score",
+            "type": "double",
+            "biolink_class": null,
+            "allowed_values": null,
+            "allowed_range": [
+                0,
+                1
+            ],
+            "suggested_values": "from 0.4 to 1.0",
+            "lookup_url": null
+        },
+        {
+            "default": "0",
+            "name": "minimum neighborhood score",
+            "type": "double",
+            "biolink_class": null,
+            "allowed_values": null,
+            "allowed_range": [
+                0,
+                1
+            ],
+            "suggested_values": null,
+            "lookup_url": null
+        },
+        {
+            "default": "0",
+            "name": "minimum gene fusion score",
+            "type": "double",
+            "biolink_class": null,
+            "allowed_values": null,
+            "allowed_range": [
+                0,
+                1
+            ],
+            "suggested_values": null,
+            "lookup_url": null
+        },
+        {
+            "default": "0",
+            "name": "minimum cooccurence score",
+            "type": "double",
+            "biolink_class": null,
+            "allowed_values": null,
+            "allowed_range": [
+                0,
+                1
+            ],
+            "suggested_values": null,
+            "lookup_url": null
+        },
+        {
+            "default": "0",
+            "name": "minimum coexpression score",
+            "type": "double",
+            "biolink_class": null,
+            "allowed_values": null,
+            "allowed_range": [
+                0,
+                1
+            ],
+            "suggested_values": null,
+            "lookup_url": null
+        },
+        {
+            "default": "0",
+            "name": "minimum experimental score",
+            "type": "double",
+            "biolink_class": null,
+            "allowed_values": null,
+            "allowed_range": [
+                0,
+                1
+            ],
+            "suggested_values": null,
+            "lookup_url": null
+        },
+        {
+            "default": "0",
+            "name": "minimum database score",
+            "type": "double",
+            "biolink_class": null,
+            "allowed_values": null,
+            "allowed_range": [
+                0,
+                1
+            ],
+            "suggested_values": null,
+            "lookup_url": null
+        },
+        {
+            "default": "0",
+            "name": "minimum textmining score",
+            "type": "double",
+            "biolink_class": null,
+            "allowed_values": null,
+            "allowed_range": [
+                0,
+                1
+            ],
+            "suggested_values": null,
+            "lookup_url": null
+        },
+        {
+            "default": "0",
+            "name": "minimum best non-textmining component score",
+            "type": "double",
+            "biolink_class": null,
+            "allowed_values": null,
+            "allowed_range": [
+                0,
+                1
+            ],
+            "suggested_values": null,
+            "lookup_url": null
+        },
+        {
+            "default": "8",
+            "name": "maximum number of genes",
+            "type": "int",
+            "biolink_class": null,
+            "allowed_values": null,
+            "allowed_range": null,
+            "suggested_values": null,
+            "lookup_url": null
+        }
+    ]
+}
