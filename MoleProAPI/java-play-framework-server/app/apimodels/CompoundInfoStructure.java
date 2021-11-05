@@ -8,19 +8,23 @@ import javax.validation.constraints.*;
 /**
  * CompoundInfoStructure
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class CompoundInfoStructure   {
   @JsonProperty("smiles")
+  
   private String smiles;
 
   @JsonProperty("inchi")
+  
   private String inchi;
 
   @JsonProperty("inchikey")
+  
   private String inchikey;
 
   @JsonProperty("source")
+  
   private String source;
 
   public CompoundInfoStructure smiles(String smiles) {
@@ -32,7 +36,7 @@ public class CompoundInfoStructure   {
    * SMILES representation of the compound's structure.
    * @return smiles
   **/
-    public String getSmiles() {
+  public String getSmiles() {
     return smiles;
   }
 
@@ -49,7 +53,7 @@ public class CompoundInfoStructure   {
    * InChI representation of the compound's structure.
    * @return inchi
   **/
-    public String getInchi() {
+  public String getInchi() {
     return inchi;
   }
 
@@ -66,7 +70,7 @@ public class CompoundInfoStructure   {
    * InChI key representation of the compound's structure.
    * @return inchikey
   **/
-    public String getInchikey() {
+  public String getInchikey() {
     return inchikey;
   }
 
@@ -83,7 +87,7 @@ public class CompoundInfoStructure   {
    * Source of the compound's structure.
    * @return source
   **/
-    public String getSource() {
+  public String getSource() {
     return source;
   }
 
@@ -93,7 +97,7 @@ public class CompoundInfoStructure   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -130,7 +134,7 @@ public class CompoundInfoStructure   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

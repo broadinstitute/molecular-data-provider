@@ -8,22 +8,27 @@ import javax.validation.constraints.*;
 /**
  * Additional metadata for the transformer.
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class TransformerInfoProperties   {
   @JsonProperty("source_url")
+  
   private String sourceUrl;
 
   @JsonProperty("source_version")
+  
   private String sourceVersion;
 
   @JsonProperty("terms_of_service")
+  
   private String termsOfService;
 
   @JsonProperty("method")
+  
   private String method;
 
   @JsonProperty("method_url")
+  
   private String methodUrl;
 
   public TransformerInfoProperties sourceUrl(String sourceUrl) {
@@ -35,7 +40,7 @@ public class TransformerInfoProperties   {
    * URL for underlying data or a wrapped service.
    * @return sourceUrl
   **/
-    public String getSourceUrl() {
+  public String getSourceUrl() {
     return sourceUrl;
   }
 
@@ -52,7 +57,7 @@ public class TransformerInfoProperties   {
    * Version of the underlying source or data.
    * @return sourceVersion
   **/
-    public String getSourceVersion() {
+  public String getSourceVersion() {
     return sourceVersion;
   }
 
@@ -69,7 +74,7 @@ public class TransformerInfoProperties   {
    * Link to the page that describes the terms of service for the transformer.
    * @return termsOfService
   **/
-    public String getTermsOfService() {
+  public String getTermsOfService() {
     return termsOfService;
   }
 
@@ -86,7 +91,7 @@ public class TransformerInfoProperties   {
    * A method used to generate output lists.
    * @return method
   **/
-    public String getMethod() {
+  public String getMethod() {
     return method;
   }
 
@@ -103,7 +108,7 @@ public class TransformerInfoProperties   {
    * Link to a description of a method used to generate output lists.
    * @return methodUrl
   **/
-    public String getMethodUrl() {
+  public String getMethodUrl() {
     return methodUrl;
   }
 
@@ -113,7 +118,7 @@ public class TransformerInfoProperties   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -152,7 +157,7 @@ public class TransformerInfoProperties   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

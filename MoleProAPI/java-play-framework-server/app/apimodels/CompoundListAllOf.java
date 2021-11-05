@@ -11,10 +11,12 @@ import javax.validation.constraints.*;
 /**
  * CompoundListAllOf
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class CompoundListAllOf   {
   @JsonProperty("elements")
+  @Valid
+
   private List<CompoundInfo> elements = null;
 
   public CompoundListAllOf elements(List<CompoundInfo> elements) {
@@ -34,7 +36,6 @@ public class CompoundListAllOf   {
    * Members of the compound list.
    * @return elements
   **/
-  @Valid
   public List<CompoundInfo> getElements() {
     return elements;
   }
@@ -45,7 +46,7 @@ public class CompoundListAllOf   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -76,7 +77,7 @@ public class CompoundListAllOf   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

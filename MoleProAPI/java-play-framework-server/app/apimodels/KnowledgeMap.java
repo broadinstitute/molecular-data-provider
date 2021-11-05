@@ -14,22 +14,32 @@ import javax.validation.constraints.*;
 /**
  * Knowledge-graph representation of the transformer.
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class KnowledgeMap   {
   @JsonProperty("input_class")
+  @NotNull
+
   private String inputClass;
 
   @JsonProperty("output_class")
+  @NotNull
+
   private String outputClass;
 
   @JsonProperty("nodes")
+  @Valid
+
   private Map<String, Node> nodes = null;
 
   @JsonProperty("edges")
+  @Valid
+
   private List<Predicate> edges = null;
 
   @JsonProperty("predicates")
+  @Valid
+
   private List<Predicate> predicates = null;
 
   public KnowledgeMap inputClass(String inputClass) {
@@ -41,7 +51,6 @@ public class KnowledgeMap   {
    * BioLink class for the members of the input list.
    * @return inputClass
   **/
-  @NotNull
   public String getInputClass() {
     return inputClass;
   }
@@ -59,7 +68,6 @@ public class KnowledgeMap   {
    * BioLink class for the members of the output list.
    * @return outputClass
   **/
-  @NotNull
   public String getOutputClass() {
     return outputClass;
   }
@@ -85,7 +93,6 @@ public class KnowledgeMap   {
    * List of semantic types in the KnowledgeMap.
    * @return nodes
   **/
-  @Valid
   public Map<String, Node> getNodes() {
     return nodes;
   }
@@ -111,7 +118,6 @@ public class KnowledgeMap   {
    * Predicates describing relationships between subjects and objects.
    * @return edges
   **/
-  @Valid
   public List<Predicate> getEdges() {
     return edges;
   }
@@ -137,7 +143,6 @@ public class KnowledgeMap   {
    * Predicates describing relationships between subjects and objects.
    * @return predicates
   **/
-  @Valid
   public List<Predicate> getPredicates() {
     return predicates;
   }
@@ -148,7 +153,7 @@ public class KnowledgeMap   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -187,7 +192,7 @@ public class KnowledgeMap   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

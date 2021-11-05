@@ -13,22 +13,31 @@ import javax.validation.constraints.*;
 /**
  * Definition of the transformer.
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class TransformerInfo   {
   @JsonProperty("name")
+  @NotNull
+
   private String name;
 
   @JsonProperty("label")
+  @NotNull
+
   private String label;
 
   @JsonProperty("description")
+  
   private String description;
 
   @JsonProperty("url")
+  @NotNull
+
   private String url;
 
   @JsonProperty("version")
+  @NotNull
+
   private String version;
 
   /**
@@ -63,6 +72,8 @@ public class TransformerInfo   {
   }
 
   @JsonProperty("status")
+  @NotNull
+
   private StatusEnum status;
 
   /**
@@ -105,15 +116,24 @@ public class TransformerInfo   {
   }
 
   @JsonProperty("function")
+  @NotNull
+
   private FunctionEnum function;
 
   @JsonProperty("knowledge_map")
+  @NotNull
+@Valid
+
   private KnowledgeMap knowledgeMap;
 
   @JsonProperty("properties")
+  @Valid
+
   private TransformerInfoProperties properties;
 
   @JsonProperty("parameters")
+  @Valid
+
   private List<Parameter> parameters = null;
 
   public TransformerInfo name(String name) {
@@ -125,7 +145,6 @@ public class TransformerInfo   {
    * Name of the transformer.
    * @return name
   **/
-  @NotNull
   public String getName() {
     return name;
   }
@@ -143,7 +162,6 @@ public class TransformerInfo   {
    * Short label for GUI display.
    * @return label
   **/
-  @NotNull
   public String getLabel() {
     return label;
   }
@@ -161,7 +179,7 @@ public class TransformerInfo   {
    * Description of the transformer.
    * @return description
   **/
-    public String getDescription() {
+  public String getDescription() {
     return description;
   }
 
@@ -178,7 +196,6 @@ public class TransformerInfo   {
    * Transformer's URL.
    * @return url
   **/
-  @NotNull
   public String getUrl() {
     return url;
   }
@@ -196,7 +213,6 @@ public class TransformerInfo   {
    * Transformer's version.
    * @return version
   **/
-  @NotNull
   public String getVersion() {
     return version;
   }
@@ -214,7 +230,6 @@ public class TransformerInfo   {
    * Status of the transformer, one of 'online', 'offline'.
    * @return status
   **/
-  @NotNull
   public StatusEnum getStatus() {
     return status;
   }
@@ -232,7 +247,6 @@ public class TransformerInfo   {
    * Function of the transformer, one of 'producer', 'expander', 'filter', 'transformer', 'exporter', or 'aggregator'.
    * @return function
   **/
-  @NotNull
   public FunctionEnum getFunction() {
     return function;
   }
@@ -250,8 +264,6 @@ public class TransformerInfo   {
    * Get knowledgeMap
    * @return knowledgeMap
   **/
-  @NotNull
-@Valid
   public KnowledgeMap getKnowledgeMap() {
     return knowledgeMap;
   }
@@ -269,7 +281,6 @@ public class TransformerInfo   {
    * Get properties
    * @return properties
   **/
-  @Valid
   public TransformerInfoProperties getProperties() {
     return properties;
   }
@@ -295,7 +306,6 @@ public class TransformerInfo   {
    * Parameters used to control the transformer.
    * @return parameters
   **/
-  @Valid
   public List<Parameter> getParameters() {
     return parameters;
   }
@@ -306,7 +316,7 @@ public class TransformerInfo   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -355,7 +365,7 @@ public class TransformerInfo   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

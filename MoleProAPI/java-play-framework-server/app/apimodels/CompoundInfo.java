@@ -14,25 +14,36 @@ import javax.validation.constraints.*;
 /**
  * CompoundInfo
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class CompoundInfo   {
   @JsonProperty("compound_id")
+  @NotNull
+
   private String compoundId;
 
   @JsonProperty("identifiers")
+  @Valid
+
   private CompoundInfoIdentifiers identifiers;
 
   @JsonProperty("names_synonyms")
+  @Valid
+
   private List<Names> namesSynonyms = null;
 
   @JsonProperty("structure")
+  @Valid
+
   private CompoundInfoStructure structure;
 
   @JsonProperty("attributes")
+  @Valid
+
   private List<Attribute> attributes = null;
 
   @JsonProperty("source")
+  
   private String source;
 
   public CompoundInfo compoundId(String compoundId) {
@@ -44,7 +55,6 @@ public class CompoundInfo   {
    * Ids of the compound.
    * @return compoundId
   **/
-  @NotNull
   public String getCompoundId() {
     return compoundId;
   }
@@ -62,7 +72,6 @@ public class CompoundInfo   {
    * Get identifiers
    * @return identifiers
   **/
-  @Valid
   public CompoundInfoIdentifiers getIdentifiers() {
     return identifiers;
   }
@@ -88,7 +97,6 @@ public class CompoundInfo   {
    * Compound names and synonyms.
    * @return namesSynonyms
   **/
-  @Valid
   public List<Names> getNamesSynonyms() {
     return namesSynonyms;
   }
@@ -106,7 +114,6 @@ public class CompoundInfo   {
    * Get structure
    * @return structure
   **/
-  @Valid
   public CompoundInfoStructure getStructure() {
     return structure;
   }
@@ -132,7 +139,6 @@ public class CompoundInfo   {
    * Additional information about the compound and provenance about compound-list membership.
    * @return attributes
   **/
-  @Valid
   public List<Attribute> getAttributes() {
     return attributes;
   }
@@ -150,7 +156,7 @@ public class CompoundInfo   {
    * Name of a transformer that added compound to the compound list.
    * @return source
   **/
-    public String getSource() {
+  public String getSource() {
     return source;
   }
 
@@ -160,7 +166,7 @@ public class CompoundInfo   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -201,7 +207,7 @@ public class CompoundInfo   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }
