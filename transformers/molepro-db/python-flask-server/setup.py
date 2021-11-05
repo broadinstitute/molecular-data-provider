@@ -3,8 +3,8 @@
 import sys
 from setuptools import setup, find_packages
 
-NAME = "openapi_server"
-VERSION = "1.0.0"
+NAME = "moleprodb_transformer"
+VERSION = "2.4.2"
 
 # To install the library, run the following
 #

@@ -27,7 +27,7 @@ paths:
         required: true
         schema:
           type: string
-          enum: [elements,connections]
+          enum: [elements,connections,names]
       - name: cache
         in: query
         description: >-
@@ -58,7 +58,7 @@ paths:
         required: true
         schema:
           type: string
-          enum: [elements,connections]
+          enum: [elements,connections,names]
       - name: cache
         in: query
         description: >-
