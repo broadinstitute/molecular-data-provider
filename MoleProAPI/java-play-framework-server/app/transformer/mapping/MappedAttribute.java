@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import apimodels.Attribute;
 import apimodels.Connection;
 import apimodels.Element;
+import transformer.Config;
 
 public class MappedAttribute extends Attribute {
 
@@ -19,18 +20,27 @@ public class MappedAttribute extends Attribute {
 
 	private static HashMap<String,MappedType> attributeMap = new HashMap<>();
 
+	private static HashMap<String,String> attributeValueMap = new HashMap<>();
+
 
 	public MappedAttribute(final Attribute src) {
 		super();
 		MappedType mappedType = mappedType(src.getAttributeSource(), src.getOriginalAttributeName(), src.getAttributeTypeId(), src.getValueTypeId());
 		this.setAttributeTypeId(mappedType.attributeType);
 		this.setOriginalAttributeName(src.getOriginalAttributeName());
-		this.setValue(src.getValue());
+		this.setValue(mappedValue(src));
 		this.setValueTypeId(mappedType.valueType);
-		this.setAttributeSource(src.getAttributeSource());
+		this.setAttributeSource(MappedInfoRes.map(src.getAttributeSource()));
 		this.setValueUrl(src.getValueUrl());
 		this.setDescription(src.getDescription());
 		this.setProvidedBy(src.getProvidedBy());
+		this.setAttributes(map(src.getAttributes()));
+		//no sub-sub-attributes
+		if (this.getAttributes() != null && this.getAttributes().size() > 0) {
+			for (Attribute attr : this.getAttributes()) {
+				attr.setAttributes(null);
+			}
+		}
 	}
 
 
@@ -42,6 +52,15 @@ public class MappedAttribute extends Attribute {
 			}
 		}
 		return new MappedType(type, valueType);
+	}
+
+
+	private Object mappedValue(final Attribute src) {
+		final String key = key(src.getAttributeSource(), src.getOriginalAttributeName(), src.getValue().toString());
+		if (attributeValueMap.containsKey(key)) {
+			return attributeValueMap.get(key);
+		}
+		return src.getValue();
 	}
 
 
@@ -71,12 +90,29 @@ public class MappedAttribute extends Attribute {
 		if (element.getConnections() != null) {
 			for (Connection connection : element.getConnections()) {
 				connection.setAttributes(map(connection.getAttributes()));
+				if (!sourceProvenance(connection.getAttributes())) {
+					final Attribute ksAttribute = MappedInfoRes.knowledgeSourceAttribute(connection.getProvidedBy());
+					if (ksAttribute != null) {
+						connection.addAttributesItem(ksAttribute);
+					}
+				}
+				connection.addAttributesItem(MappedInfoRes.knowledgeSourceAttribute("MolePro"));
 			}
 		}
 	}
 
 
-	public static void loadMapping() {
+	private static boolean sourceProvenance(List<Attribute> attributes) {
+		for (Attribute attribute : attributes) {
+			if (Config.config.isSourceProvenanceSlot(attribute.getAttributeTypeId())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+
+	private static void loadTypeMapping() {
 		final HashMap<String,MappedType> map = new HashMap<>();
 		try {
 			final BufferedReader mapFile = new BufferedReader(new FileReader("conf/attributeMap.txt"));
@@ -90,6 +126,29 @@ public class MappedAttribute extends Attribute {
 		catch (Exception e) {
 			log.warn("Failed to load attribute mapping", e);
 		}
+	}
+
+
+	private static void loadValueMapping() {
+		final HashMap<String,String> map = new HashMap<>();
+		try {
+			final BufferedReader mapFile = new BufferedReader(new FileReader("conf/attributeValueMap.txt"));
+			for (String line = mapFile.readLine(); line != null; line = mapFile.readLine()) {
+				final String[] row = line.split("\t", 5);
+				map.put(key(row[0], row[1], row[2]), row[3]);
+			}
+			mapFile.close();
+			attributeValueMap = map;
+		}
+		catch (Exception e) {
+			log.warn("Failed to load attribute value mapping", e);
+		}
+	}
+
+
+	public static void loadMapping() {
+		loadTypeMapping();
+		loadValueMapping();
 	}
 
 	static {

@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 
 import apimodels.Attribute;
 import apimodels.CollectionInfo;
+import apimodels.Element;
 import apimodels.GeneInfo;
 import apimodels.GeneList;
 import apimodels.Property;
@@ -15,6 +16,7 @@ import apimodels.TransformerInfo;
 import apimodels.MoleProQuery;
 import transformer.Transformer;
 import transformer.Transformer.Query;
+import transformer.collection.CollectionElement;
 import transformer.collection.Collections;
 import transformer.collection.CollectionsEntry;
 import transformer.collection.CollectionsEntry.GeneCollection;
@@ -37,7 +39,7 @@ public class Gene extends TransformerClass {
 	@Override
 	public Query getQuery(final List<Property> controls, CollectionsEntry collection) throws BadRequestException {
 		if (collection instanceof GeneCollection) {
-			return new GeneListQuery(controls, ((GeneCollection) collection).getGenes());
+			return new GeneListQuery(controls, ((GeneCollection)collection).getGenes());
 		}
 		if (CLASS.equals(collection.getInfo().getElementClass())) {
 			final GeneCollection geneCollection = new GeneCollection(collection.getInfo(), collection.getElements());
@@ -49,8 +51,9 @@ public class Gene extends TransformerClass {
 
 	@Override
 	public CollectionsEntry getCollection(final CollectionInfo collectionInfo, final String response) throws Exception {
-		//final GeneInfo[] genes = JSON.mapper.readValue(response, GeneInfo[].class);
-		List<GeneInfo> src = JSON.mapper.readValue(response, new TypeReference<List<GeneInfo>>() { });
+		// final GeneInfo[] genes = JSON.mapper.readValue(response, GeneInfo[].class);
+		List<GeneInfo> src = JSON.mapper.readValue(response, new TypeReference<List<GeneInfo>>() {
+		});
 		List<GeneInfo> geneList = new ArrayList<>();
 		for (GeneInfo gene : src) {
 			if (gene.getSource() == null) {
@@ -87,7 +90,7 @@ public class Gene extends TransformerClass {
 			return genes;
 		}
 
-		
+
 		private GeneInfo[] geneInfo(GeneInfo[] srcGenes) {
 			GeneInfo[] genes = new GeneInfo[srcGenes.length];
 			for (int i = 0; i < genes.length; i++) {
@@ -97,6 +100,7 @@ public class Gene extends TransformerClass {
 			}
 			return genes;
 		}
+
 
 		@Override
 		public Query query(final List<Property> controls) {
@@ -108,7 +112,7 @@ public class Gene extends TransformerClass {
 	private static GeneCollection getCollection(final String id, String cache) throws NotFoundException, BadRequestException {
 		final CollectionsEntry collection = Collections.getCollection(id, cache);
 		if (collection instanceof GeneCollection) {
-			return (GeneCollection) collection;
+			return (GeneCollection)collection;
 		}
 		if (CLASS.equals(collection.getInfo().getElementClass())) {
 			return new GeneCollection(collection.getInfo(), collection.getElements());
@@ -151,12 +155,21 @@ public class Gene extends TransformerClass {
 				final String geneId = geneIds[i].trim();
 				if (geneId.contains(":")) {
 					genes[i] = MyGene.Info.findGeneById(geneId, info.getName());
-				} else {
+				}
+				else {
 					genes[i] = MyGene.Info.findGeneBySymbol(geneId, info.getName());
 				}
 			}
 			collectionInfo.setElementClass(CLASS);
-			return new GeneCollection(collectionInfo, genes);
+			GeneCollection geneCollection = new GeneCollection(collectionInfo, genes);
+			CollectionElement[] geneElements = geneCollection.getElements();
+			Element[] elements = new Element[geneElements.length];
+			for (int i = 0; i < elements.length; i++) {
+				elements[i] = geneElements[i].getElement();
+				elements[i].setSource(info.getLabel());
+				elements[i].setProvidedBy(info.getName());
+			}
+			return new CollectionsEntry(collectionInfo, elements);
 		}
 	}
 }

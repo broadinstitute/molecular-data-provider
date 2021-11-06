@@ -12,20 +12,27 @@ https://translator.broadinstitute.org/drugcentral/compounds
 https://translator.broadinstitute.org/inxight_drugs/substances
 https://translator.broadinstitute.org/stitch/chemicals
 https://translator.broadinstitute.org/rxnorm/molecules
+https://translator.broadinstitute.org/bigg/metabolites
+https://translator.broadinstitute.org/ctdbase/chemicals
 # drugs
 https://translator.broadinstitute.org/inxight_drugs/drugs
 https://translator.broadinstitute.org/inxight_drugs/relationships
 https://translator.broadinstitute.org/inxight_drugs/active_ingredients
 https://translator.broadinstitute.org/rxnorm/drugs
 https://translator.broadinstitute.org/rxnorm/relations
+https://translator.broadinstitute.org/drugbank/molecules
 # gene-list producers
 =HGNC gene-list producer
 # protein-list producers
 https://translator.broadinstitute.org/uniprot/proteins
 # disease producers
 https://translator.broadinstitute.org/drugcentral/diseases
+# indications
 https://translator.broadinstitute.org/drugcentral/indications
 https://translator.broadinstitute.org/hmdb/disorders
+https://translator.broadinstitute.org/ctdbase/disease-associations
+https://translator.broadinstitute.org/chembl/indications
+https://translator.broadinstitute.org/repurposing/indications
 # gene targets
 https://translator.broadinstitute.org/drugbank/gene_targets
 https://translator.broadinstitute.org/drugbank/gene_enzymes
@@ -37,6 +44,7 @@ https://translator.broadinstitute.org/hmdb/targets
 https://translator.broadinstitute.org/repurposing/targets
 https://translator.broadinstitute.org/dgidb/targets
 https://translator.broadinstitute.org/gtopdb/targets
+https://translator.broadinstitute.org/ctdbase/gene-interactions
 # inhibitors
 https://translator.broadinstitute.org/drugbank/inhibitors
 https://translator.broadinstitute.org/drugbank/substrates
@@ -58,11 +66,17 @@ https://translator.broadinstitute.org/ctrp
 https://translator.broadinstitute.org/cmap/compound/gene
 https://translator.broadinstitute.org/cmap/gene/compound
 https://translator.broadinstitute.org/cmap/gene/gene
-https://translator.broadinstitute.org/depmap_expander
+https://translator.broadinstitute.org/depmap/correlation
 #https://translator.broadinstitute.org/expression_correlation
+# reactions
+https://translator.broadinstitute.org/bigg/reactions
+https://translator.broadinstitute.org/bigg/genes
+https://translator.broadinstitute.org/bigg/gene-reactions
+# pathways
+https://translator.broadinstitute.org/ctdbase/go-associations
+https://translator.broadinstitute.org/ctdbase/pathway-associations
+https://translator.broadinstitute.org/ctdbase/phenotype-interactions
 # exporters
-https://translator.broadinstitute.org/chembl/indications
-https://translator.broadinstitute.org/repurposing/indications
 https://translator.broadinstitute.org/chembl/assays
 https://translator.broadinstitute.org/chembl/mechanisms
 https://translator.broadinstitute.org/msigdb
@@ -74,8 +88,14 @@ https://translator.broadinstitute.org/gelinea
 =difference
 =symmetric difference (XOR)
 #
-# gene-list sharpener transformers used by MolePro
-https://translator.broadinstitute.org/string_expander
+# protein-protein interactions
+https://translator.broadinstitute.org/string/links
 # node normalizer
 https://translator.broadinstitute.org/node/normalizer
-
+# MolePro DB
+https://translator.broadinstitute.org/moleprodb/elements
+https://translator.broadinstitute.org/moleprodb/names
+https://translator.broadinstitute.org/moleprodb/connections
+# filters
+=Element attribute filter
+=Connection attribute filter

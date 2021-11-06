@@ -66,7 +66,10 @@
         }
     },
     "curie prefix map":{
-    	"PUBCHEM:":"CID:"
+        "PUBCHEM:":"CID:"
+    },
+    "timeouts":{
+        "transformer_info": 1000
     },
     "expirationTimes": {
         "collections": "2h",
@@ -80,11 +83,51 @@
         "ChEMBL compound-list producer"
     ],
     "compound-name priority":[
-    	"ChEBI",
-    	"INN@ChEMBL",
-    	"DrugBank",
-    	"PubChem",
-    	"ChEMBL",
-    	"*@ChEMBL"
+        "MolePro",
+        "ChEBI",
+        "INN@ChEMBL",
+        "DrugBank",
+        "PubChem",
+        "ChEMBL",
+        "*@ChEMBL"
+    ],
+    "source provenance slots": [
+        "biolink:primary_knowledge_source",
+        "biolink:original_knowledge_source",
+        "biolink:aggregator_knowledge_source",
+        "biolink:supporting_data_source"
+    ],
+    "identifier priority": [
+        "pubchem",
+        "chembl",
+        "unii",
+        "chebi",
+        "drugbank",
+        "mondo",
+        "disease_ontology",
+        "hpo",
+        "go",
+        "react",
+        "msigdb",
+        "rxnorm",
+        "cas",
+        "drugcentral",
+        "gtopdb",
+        "hmdb",
+        "kegg",
+        "chembank",
+        "inchi",
+        "inchikey",
+        "uniprot",
+        "entrez",
+        "ensembl",
+        "hgnc",
+        "bigg",
+        "mim",
+        "nci_thesaurus",
+        "omim",
+        "umls",
+        "mesh",
+        "snomed"
     ]
 }

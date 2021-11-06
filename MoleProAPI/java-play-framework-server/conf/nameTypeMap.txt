@@ -68,6 +68,6 @@ depositor	PubChem	submitted name	PubChem
 id	PubChem	identifier	PubChem
 tradeName	PubChem	brand name	PubChem
 	PubChem		PubChem
-	Repurposing		Repurposing
+	Drug Repurposing Hub	primary name	Drug Repurposing Hub
 	RxNorm		RxNorm
 	STITCH		STITCH

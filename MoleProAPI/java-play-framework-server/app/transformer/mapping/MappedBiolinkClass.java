@@ -19,7 +19,12 @@ public class MappedBiolinkClass {
 
 
 	public static void map(Element element) {
-		element.setBiolinkClass(biolinkClassMap.getOrDefault(element.getBiolinkClass(), element.getBiolinkClass()));
+		element.setBiolinkClass(map(element.getBiolinkClass()));
+	}
+
+
+	public static String map(String biolinkClass) {
+		return biolinkClassMap.getOrDefault(biolinkClass, biolinkClass);
 	}
 
 
@@ -27,8 +32,8 @@ public class MappedBiolinkClass {
 		if (predicates == null)
 			return;
 		for (Predicate predicate : predicates) {
-			predicate.setSubject(biolinkClassMap.getOrDefault(predicate.getSubject(), predicate.getSubject()));
-			predicate.setObject(biolinkClassMap.getOrDefault(predicate.getObject(), predicate.getObject()));
+			predicate.setSubject(map(predicate.getSubject()));
+			predicate.setObject(map(predicate.getObject()));
 		}
 	}
 
@@ -43,7 +48,8 @@ public class MappedBiolinkClass {
 			}
 			mapFile.close();
 			biolinkClassMap = map;
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			log.warn("Failed to load Biolink class mapping", e);
 		}
 	}

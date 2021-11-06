@@ -117,7 +117,7 @@ public abstract class Transformer {
 	public abstract CollectionsEntry transform(Query query, CollectionInfo collectionInfo) throws Exception;
 
 
-	private CollectionInfo createCollection(final MoleProQuery query) {
+	protected CollectionInfo createCollection(final MoleProQuery query) {
 		final CollectionInfo collectionInfo = new CollectionInfo();
 		collectionInfo.setSource(info.getName());
 		collectionInfo.setAttributes(new ArrayList<Attribute>());

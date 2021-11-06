@@ -75,11 +75,13 @@ public class CollectionsEntry {
 
 
 	private static CollectionElement[] elements(Element[] sourceElements) {
-		CollectionElement[] elements = new CollectionElement[sourceElements.length];
-		for (int i = 0; i < sourceElements.length; i++) {
-			elements[i] = new CollectionElement.ElementElement(sourceElements[i]);
+		ArrayList<CollectionElement> elements = new ArrayList<>(sourceElements.length);
+		for (Element sourceElement : sourceElements) {
+			if (sourceElement != null && sourceElement.getId() != null) {
+				elements.add(new CollectionElement.ElementElement(sourceElement));
+			}
 		}
-		return elements;
+		return elements.toArray(new CollectionElement[0]);
 	}
 
 

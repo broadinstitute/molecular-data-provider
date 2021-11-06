@@ -19,6 +19,14 @@ public class InternalTransformer extends Transformer {
 			info.setName(info.getName().substring(5));
 			return new Gene.GeneListProducer(info);
 		}
+		if (info.getName().startsWith("ElementFilter#")) {
+			info.setName(info.getName().substring(14));
+			return new FilterTransformer.ElementFilterTransformer(info);
+		}
+		if (info.getName().startsWith("ConnectionFilter#")) {
+			info.setName(info.getName().substring(17));
+			return new FilterTransformer.ConnectionFilterTransformer(info);
+		}
 		if (info.chain != null && info.chain.length > 0) {
 			return new ChainTransformer(info);
 		}

@@ -5,7 +5,7 @@
       "email" : "translator@broadinstitute.org"
     },
     "title" : "Molecular Data Provider",
-    "version" : "2.4.0"
+    "version" : "2.4.1"
   },
   "servers" : [ {
     "url" : "https://translator.broadinstitute.org/molecular_data_provider"
