@@ -11,16 +11,21 @@ import javax.validation.constraints.*;
 /**
  * Description of semantic types provided by this knowledge source.
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Node   {
   @JsonProperty("id_prefixes")
+  @NotNull
+
   private List<String> idPrefixes = new ArrayList<>();
 
   @JsonProperty("count")
+  
   private Integer count;
 
   @JsonProperty("attributes")
+  @Valid
+
   private List<KmAttribute> attributes = null;
 
   public Node idPrefixes(List<String> idPrefixes) {
@@ -37,7 +42,6 @@ public class Node   {
    * List of CURIE prefixes that this knowledge source understands and accepts on the input.
    * @return idPrefixes
   **/
-  @NotNull
   public List<String> getIdPrefixes() {
     return idPrefixes;
   }
@@ -55,7 +59,7 @@ public class Node   {
    * Number of node instances known to this knowledge source
    * @return count
   **/
-    public Integer getCount() {
+  public Integer getCount() {
     return count;
   }
 
@@ -80,7 +84,6 @@ public class Node   {
    * Get attributes
    * @return attributes
   **/
-  @Valid
   public List<KmAttribute> getAttributes() {
     return attributes;
   }
@@ -91,7 +94,7 @@ public class Node   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -126,7 +129,7 @@ public class Node   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

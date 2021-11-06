@@ -11,16 +11,22 @@ import javax.validation.constraints.*;
 /**
  * MoleProQuery
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class MoleProQuery   {
   @JsonProperty("name")
+  @NotNull
+
   private String name;
 
   @JsonProperty("collection_id")
+  
   private String collectionId;
 
   @JsonProperty("controls")
+  @NotNull
+@Valid
+
   private List<Property> controls = new ArrayList<>();
 
   public MoleProQuery name(String name) {
@@ -32,7 +38,6 @@ public class MoleProQuery   {
    * Name of the transformer that will be executed.
    * @return name
   **/
-  @NotNull
   public String getName() {
     return name;
   }
@@ -50,7 +55,7 @@ public class MoleProQuery   {
    * Id of the gene list that will be transformed. Required for all transformers except producers.
    * @return collectionId
   **/
-    public String getCollectionId() {
+  public String getCollectionId() {
     return collectionId;
   }
 
@@ -72,8 +77,6 @@ public class MoleProQuery   {
    * Values that control the behavior of the transformer. Names of the controls must match the names specified in the transformer's definition and values must match types (and possibly  allowed_values) specified in the transformer's definition.
    * @return controls
   **/
-  @NotNull
-@Valid
   public List<Property> getControls() {
     return controls;
   }
@@ -84,7 +87,7 @@ public class MoleProQuery   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -119,7 +122,7 @@ public class MoleProQuery   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }
