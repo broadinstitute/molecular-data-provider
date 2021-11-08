@@ -19,7 +19,7 @@ class Response(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, message=None, status=None, description=None, logs=None):  # noqa: E501
+    def __init__(self, message=None, status=None, description=None, logs=None, workflow=None):  # noqa: E501
         """Response - a model defined in OpenAPI
 
         :param message: The message of this Response.  # noqa: E501
@@ -30,25 +30,30 @@ class Response(Model):
         :type description: str
         :param logs: The logs of this Response.  # noqa: E501
         :type logs: List[LogEntry]
+        :param workflow: The workflow of this Response.  # noqa: E501
+        :type workflow: List
         """
         self.openapi_types = {
             'message': Message,
             'status': str,
             'description': str,
-            'logs': List[LogEntry]
+            'logs': List[LogEntry],
+            'workflow': List
         }
 
         self.attribute_map = {
             'message': 'message',
             'status': 'status',
             'description': 'description',
-            'logs': 'logs'
+            'logs': 'logs',
+            'workflow': 'workflow'
         }
 
         self._message = message
         self._status = status
         self._description = description
         self._logs = logs
+        self._workflow = workflow
 
     @classmethod
     def from_dict(cls, dikt) -> 'Response':
@@ -152,3 +157,26 @@ class Response(Model):
         """
 
         self._logs = logs
+
+    @property
+    def workflow(self):
+        """Gets the workflow of this Response.
+
+        List of workflow steps that were executed.  # noqa: E501
+
+        :return: The workflow of this Response.
+        :rtype: List
+        """
+        return self._workflow
+
+    @workflow.setter
+    def workflow(self, workflow):
+        """Sets the workflow of this Response.
+
+        List of workflow steps that were executed.  # noqa: E501
+
+        :param workflow: The workflow of this Response.
+        :type workflow: List
+        """
+
+        self._workflow = workflow

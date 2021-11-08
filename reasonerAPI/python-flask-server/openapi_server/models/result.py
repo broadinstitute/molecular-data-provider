@@ -19,26 +19,31 @@ class Result(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, node_bindings=None, edge_bindings=None):  # noqa: E501
+    def __init__(self, node_bindings=None, edge_bindings=None, score=None):  # noqa: E501
         """Result - a model defined in OpenAPI
 
         :param node_bindings: The node_bindings of this Result.  # noqa: E501
         :type node_bindings: Dict[str, List[NodeBinding]]
         :param edge_bindings: The edge_bindings of this Result.  # noqa: E501
         :type edge_bindings: Dict[str, List[EdgeBinding]]
+        :param score: The score of this Result.  # noqa: E501
+        :type score: float
         """
         self.openapi_types = {
             'node_bindings': Dict[str, List[NodeBinding]],
-            'edge_bindings': Dict[str, List[EdgeBinding]]
+            'edge_bindings': Dict[str, List[EdgeBinding]],
+            'score': float
         }
 
         self.attribute_map = {
             'node_bindings': 'node_bindings',
-            'edge_bindings': 'edge_bindings'
+            'edge_bindings': 'edge_bindings',
+            'score': 'score'
         }
 
         self._node_bindings = node_bindings
         self._edge_bindings = edge_bindings
+        self._score = score
 
     @classmethod
     def from_dict(cls, dikt) -> 'Result':
@@ -100,3 +105,26 @@ class Result(Model):
             raise ValueError("Invalid value for `edge_bindings`, must not be `None`")  # noqa: E501
 
         self._edge_bindings = edge_bindings
+
+    @property
+    def score(self):
+        """Gets the score of this Result.
+
+        A numerical score associated with this result indicating the relevance or confidence of this result relative to others in the returned set. Higher MUST be better.  # noqa: E501
+
+        :return: The score of this Result.
+        :rtype: float
+        """
+        return self._score
+
+    @score.setter
+    def score(self, score):
+        """Sets the score of this Result.
+
+        A numerical score associated with this result indicating the relevance or confidence of this result relative to others in the returned set. Higher MUST be better.  # noqa: E501
+
+        :param score: The score of this Result.
+        :type score: float
+        """
+
+        self._score = score
