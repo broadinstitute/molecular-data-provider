@@ -6,9 +6,11 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from openapi_server.models.base_model_ import Model
+from openapi_server.models.log_level import LogLevel
 from openapi_server.models.message import Message
 from openapi_server import util
 
+from openapi_server.models.log_level import LogLevel  # noqa: E501
 from openapi_server.models.message import Message  # noqa: E501
 
 class Query(Model):
@@ -17,21 +19,36 @@ class Query(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, message=None):  # noqa: E501
+    def __init__(self, message=None, log_level=None, workflow=None, submitter=None):  # noqa: E501
         """Query - a model defined in OpenAPI
 
         :param message: The message of this Query.  # noqa: E501
         :type message: Message
+        :param log_level: The log_level of this Query.  # noqa: E501
+        :type log_level: LogLevel
+        :param workflow: The workflow of this Query.  # noqa: E501
+        :type workflow: List
+        :param submitter: The submitter of this Query.  # noqa: E501
+        :type submitter: str
         """
         self.openapi_types = {
-            'message': Message
+            'message': Message,
+            'log_level': LogLevel,
+            'workflow': List,
+            'submitter': str
         }
 
         self.attribute_map = {
-            'message': 'message'
+            'message': 'message',
+            'log_level': 'log_level',
+            'workflow': 'workflow',
+            'submitter': 'submitter'
         }
 
         self._message = message
+        self._log_level = log_level
+        self._workflow = workflow
+        self._submitter = submitter
 
     @classmethod
     def from_dict(cls, dikt) -> 'Query':
@@ -66,3 +83,72 @@ class Query(Model):
             raise ValueError("Invalid value for `message`, must not be `None`")  # noqa: E501
 
         self._message = message
+
+    @property
+    def log_level(self):
+        """Gets the log_level of this Query.
+
+        The least critical level of logs to return  # noqa: E501
+
+        :return: The log_level of this Query.
+        :rtype: LogLevel
+        """
+        return self._log_level
+
+    @log_level.setter
+    def log_level(self, log_level):
+        """Sets the log_level of this Query.
+
+        The least critical level of logs to return  # noqa: E501
+
+        :param log_level: The log_level of this Query.
+        :type log_level: LogLevel
+        """
+
+        self._log_level = log_level
+
+    @property
+    def workflow(self):
+        """Gets the workflow of this Query.
+
+        List of workflow steps to be executed.  # noqa: E501
+
+        :return: The workflow of this Query.
+        :rtype: List
+        """
+        return self._workflow
+
+    @workflow.setter
+    def workflow(self, workflow):
+        """Sets the workflow of this Query.
+
+        List of workflow steps to be executed.  # noqa: E501
+
+        :param workflow: The workflow of this Query.
+        :type workflow: List
+        """
+
+        self._workflow = workflow
+
+    @property
+    def submitter(self):
+        """Gets the submitter of this Query.
+
+        Any string for self-identifying the submitter of a query. The purpose of this optional field is to aid in the tracking of the source of queries for development and issue resolution.  # noqa: E501
+
+        :return: The submitter of this Query.
+        :rtype: str
+        """
+        return self._submitter
+
+    @submitter.setter
+    def submitter(self, submitter):
+        """Sets the submitter of this Query.
+
+        Any string for self-identifying the submitter of a query. The purpose of this optional field is to aid in the tracking of the source of queries for development and issue resolution.  # noqa: E501
+
+        :param submitter: The submitter of this Query.
+        :type submitter: str
+        """
+
+        self._submitter = submitter
