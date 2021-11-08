@@ -30,6 +30,13 @@ copy 'transformers/moleprodb/python-flask-server/transformerConfig.json' to `dat
 download MoleProDB.sqlite from `https://translator.broadinstitute.org/db/MoleProDB.sqlite` and save to `data` subfolder of the target folder
 
 
+download MoleProDB.sqlite from `https://translator.broadinstitute.org/db/moleprodb_name_producer_info.json` and save to `data` subfolder of the target folder
+
+download MoleProDB.sqlite from `https://translator.broadinstitute.org/db/moleprodb_producer_info.json` and save to `data` subfolder of the target folder
+
+download MoleProDB.sqlite from `https://translator.broadinstitute.org/db/moleprodb_transformer_info.json` and save to `data` subfolder of the target folder
+
+
 ### Install transformer on server
 
 ```
