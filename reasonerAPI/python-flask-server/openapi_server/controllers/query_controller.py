@@ -19,5 +19,8 @@ def query_post(request_body):  # noqa: E501
     """
     #query = Query.from_dict(request_body)
     if connexion.request.is_json:
-        query = Query.from_dict(connexion.request.get_json())
+        query_json = connexion.request.get_json()
+        workflow = query_json.pop('workflow') if 'workflow' in query_json else None
+        query = Query.from_dict(query_json)
+        query.workflow = workflow
     return execute_query(query)

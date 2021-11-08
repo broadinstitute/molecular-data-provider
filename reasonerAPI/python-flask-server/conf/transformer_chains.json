@@ -1,46 +1,9 @@
 [
     {
-        "subject": "biolink:Disease",
-        "predicate": "biolink:treated_by",
-        "object": "biolink:ChemicalSubstance",
-        "transformer_chain": [
-            {
-                "name": "DrugCentral indications transformer",
-                "controls": [
-                    {
-                        "name": "disease",
-                        "value": "#subject"
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        "subject": "biolink:ChemicalSubstance",
-        "predicate": "biolink:treats",
-        "object": "biolink:Disease",
-        "transformer_chain": [
-            {
-                "name": "ChEMBL indication transformer",
-                "controls": []
-            }
-        ]
-    },
-    {
-        "subject": "biolink:ChemicalSubstance",
-        "predicate": "biolink:related_to",
-        "object": "biolink:Disease",
-        "transformer_chain": [
-            {
-                "name": "HMDB disorders transformer",
-                "controls": []
-            }
-        ]
-    },
-    {
-        "subject": "biolink:ChemicalSubstance",
+        "subject": "biolink:SmallMolecule",
         "predicate": "biolink:correlated_with",
-        "object": "biolink:ChemicalSubstance",
+        "inverse_predicate": "biolink:correlated_with",
+        "object": "biolink:SmallMolecule",
         "transformer_chain": [
             {
                 "controls": [
@@ -62,15 +25,16 @@
         ]
     },
     {
-        "subject": "biolink:ChemicalSubstance",
+        "subject": "biolink:SmallMolecule",
         "predicate": "biolink:correlated_with",
-        "object": "biolink:ChemicalSubstance",
+        "inverse_predicate": "biolink:correlated_with",
+        "object": "biolink:SmallMolecule",
         "transformer_chain": [
             {
                 "controls": [
                     {
                         "name": "score threshold",
-                        "value": "95"
+                        "value": "99"
                     },
                     {
                         "name": "maximum number",
@@ -82,15 +46,16 @@
         ]
     },
     {
-        "subject": "biolink:ChemicalSubstance",
+        "subject": "biolink:SmallMolecule",
         "predicate": "biolink:correlated_with",
+        "inverse_predicate": "biolink:correlated_with",
         "object": "biolink:Gene",
         "transformer_chain": [
             {
                 "controls": [
                     {
                         "name": "score threshold",
-                        "value": "95"
+                        "value": "99"
                     },
                     {
                         "name": "maximum number",
@@ -104,7 +69,8 @@
     {
         "subject": "biolink:Gene",
         "predicate": "biolink:correlated_with",
-        "object": "biolink:ChemicalSubstance",
+        "inverse_predicate": "biolink:correlated_with",
+        "object": "biolink:SmallMolecule",
         "transformer_chain": [
             {
                 "name": "HGNC gene-list producer",
@@ -119,7 +85,7 @@
                 "controls": [
                     {
                         "name": "score threshold",
-                        "value": "95"
+                        "value": "99"
                     },
                     {
                         "name": "maximum number",
@@ -133,6 +99,7 @@
     {
         "subject": "biolink:Gene",
         "predicate": "biolink:correlated_with",
+        "inverse_predicate": "biolink:correlated_with",
         "object": "biolink:Gene",
         "transformer_chain": [
             {
@@ -148,7 +115,7 @@
                 "controls": [
                     {
                         "name": "score threshold",
-                        "value": "95"
+                        "value": "99"
                     },
                     {
                         "name": "maximum number",
@@ -160,9 +127,10 @@
         ]
     },
     {
-        "subject": "biolink:ChemicalSubstance",
+        "subject": "biolink:SmallMolecule",
         "predicate": "biolink:affects",
-        "object": "biolink:MolecularEntity",
+        "inverse_predicate": "biolink:affected_by",
+        "object": "biolink:BiologicalEntity",
         "transformer_chain": [
             {
                 "controls": [],
@@ -171,113 +139,31 @@
         ]
     },
     {
-        "subject": "biolink:ChemicalSubstance",
-        "predicate": "biolink:affects",
-        "object": "biolink:Gene",
-        "transformer_chain": [
-            {
-                "controls": [],
-                "name": "DrugBank target transformer"
-            }
-        ]
-    },
-    {
-        "subject": "biolink:ChemicalSubstance",
-        "predicate": "biolink:affects",
-        "object": "biolink:Gene",
-        "transformer_chain": [
-            {
-                "controls": [],
-                "name": "GtoPdb target transformer"
-            }
-        ]
-    },
-    {
-        "subject": "biolink:ChemicalSubstance",
-        "predicate": "biolink:affects",
-        "object": "biolink:Gene",
-        "transformer_chain": [
-            {
-                "controls": [],
-                "name": "DGIdb target transformer"
-            }
-        ]
-    },
-    {
-        "subject": "biolink:Gene",
-        "predicate": "biolink:affected_by",
-        "object": "biolink:ChemicalSubstance",
-        "transformer_chain": [
-            {
-                "name": "HGNC gene-list producer",
-                "controls": [
-                    {
-                        "name": "genes",
-                        "value": "#subject"
-                    }
-                ]
-            },
-            {
-                "controls": [],
-                "name": "DrugBank inhibitors transformer"
-            }
-        ]
-    },
-    {
-        "subject": "biolink:Gene",
-        "predicate": "biolink:affected_by",
-        "object": "biolink:ChemicalSubstance",
-        "transformer_chain": [
-            {
-                "name": "HGNC gene-list producer",
-                "controls": [
-                    {
-                        "name": "genes",
-                        "value": "#subject"
-                    }
-                ]
-            },
-            {
-                "controls": [],
-                "name": "GtoPdb inhibitors transformer"
-            }
-        ]
-    },
-    {
-        "subject": "biolink:Gene",
-        "predicate": "biolink:affected_by",
-        "object": "biolink:ChemicalSubstance",
-        "transformer_chain": [
-            {
-                "name": "HGNC gene-list producer",
-                "controls": [
-                    {
-                        "name": "genes",
-                        "value": "#subject"
-                    }
-                ]
-            },
-            {
-                "controls": [],
-                "name": "DGIdb inhibitor transformer"
-            }
-        ]
-    },
-    {
-        "subject": "biolink:ChemicalSubstance",
+        "subject": "biolink:SmallMolecule",
         "predicate": "biolink:interacts_with",
-        "object": "biolink:Gene",
+        "inverse_predicate": "biolink:interacts_with",
+        "object": "biolink:Protein",
         "transformer_chain": [
             {
-                "controls": [],
-                "name": "HMDB target transformer"
+                "controls": [
+                    {
+                        "name": "score_threshold",
+                        "value": "500"
+                    },
+                    {
+                        "name": "limit",
+                        "value": "0"
+                    }
+                ],
+                "name": "STITCH link transformer"
             }
         ]
     },
     {
-        "subject": "biolink:ChemicalSubstance",
+        "subject": "biolink:SmallMolecule",
         "predicate": "biolink:has_metabolite",
-        "object": "biolink:ChemicalSubstance",
+        "inverse_predicate": "biolink:is_metabolite_of",
+        "object": "biolink:SmallMolecule",
         "transformer_chain": [
             {
                 "controls": [],
@@ -286,8 +172,9 @@
         ]
     },
     {
-        "subject": "biolink:ChemicalSubstance",
+        "subject": "biolink:SmallMolecule",
         "predicate": "biolink:has_evidence",
+        "inverse_predicate": "biolink:is_evidence_for",
         "object": "biolink:Assay",
         "transformer_chain": [
             {
@@ -297,8 +184,51 @@
         ]
     },
     {
+        "subject": "biolink:Drug",
+        "predicate": "biolink:has_active_ingredient",
+        "inverse_predicate": "biolink:is_active_ingredient_of",
+        "object": "biolink:SmallMolecule",
+        "transformer_chain": [
+            {
+                "name": "RxNorm drug-list producer",
+                "controls": [
+                    {
+                        "name": "drugs",
+                        "value": "#subject"
+                    }
+                ]
+            },
+            {
+                "name": "Inxight:Drugs active ingredients transformer",
+                "controls": []
+            }
+        ]
+    },
+    {
+        "subject": "biolink:Drug",
+        "predicate": "biolink:related_to",
+        "inverse_predicate": "biolink:related_to",
+        "object": "biolink:Drug",
+        "transformer_chain": [
+            {
+                "name": "RxNorm drug-list producer",
+                "controls": [
+                    {
+                        "name": "drugs",
+                        "value": "#subject"
+                    }
+                ]
+            },
+            {
+                "name": "RxNorm drug relation info",
+                "controls": []
+            }
+        ]
+    },
+    {
         "subject": "biolink:Gene",
         "predicate": "biolink:related_to",
+        "inverse_predicate": "biolink:related_to",
         "object": "biolink:Gene",
         "transformer_chain": [
             {

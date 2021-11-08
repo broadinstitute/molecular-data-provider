@@ -10,12 +10,12 @@ info:
     url: https://github.com/broadinstitute/molecular-data-provider/blob/master/LICENSE
   termsOfService: https://github.com/broadinstitute/molecular-data-provider/blob/master/terms_of_service.md
   title: Molecular Data Provider for NCATS Biomedical Translator
-  version: 1.2.0.0
+  version: 1.2.1.1
   x-translator:
     component: KP
     team:
     - Molecular Data Provider
-    biolink-version: 2.2.1
+    biolink-version: 2.2.7
     externalDocs:
       description: The values for component and team are restricted according to this
         external JSON schema. See schema and examples at url

@@ -1,0 +1,29 @@
+{
+    "node_attributes": [
+        "ATC",
+        "biolink:highest_FDA_approval_status",
+        "biolink:OrganismTaxon",
+        "biolink:Publication",
+        "biolink:symbol",
+        "data:1249"
+    ],
+    "edge_attributes": [
+        "biolink:aggregator_knowledge_source",
+        "biolink:FDA_approval_status",
+        "biolink:OrganismAttribute",
+        "biolink:OrganismTaxon",
+        "biolink:primary_knowledge_source",
+        "biolink:publication",
+        "biolink:Publication",
+        "biolink:relation",
+        "ChEMBL:action_type",
+        "ChEMBL:mechanism_of_action",
+        "CMAP:similarity score",
+        "NCIT:C68741",
+        "NCIT:C53190",
+        "OBI:0200163",
+        "SIO:000811",
+        "SIO:000653",
+        "SIO:000923"
+    ]
+}
