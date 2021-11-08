@@ -9,23 +9,19 @@ sbt universal:packageZipTarball
 
 ### Copy files to server
 
-copy molecular-data-provider-2.4.0.tgz to target folder
+copy molecular-data-provider-2.4.1.tgz to target folder
 
 ### unpack MolePro
 
 ```
-gunzip molecular-data-provider-2.4.0.tgz
-tar xf molecular-data-provider-2.4.0.tar
+gunzip molecular-data-provider-2.4.1.tgz
+tar xf molecular-data-provider-2.4.1.tar
 ```
-
-update base url in conf/transformerConfig.json to reflect deployed url
 
 ### start MolePro
 
-generate {random string}:
-  
-```
-sbt playGenerateSecret
-```
+set environment variable MOLEPRO_HOST = https://molepro.ci.transltr.io/molecular_data_provider
 
-./bin/molecular-data-provider -J-Xmx4096m -Dplay.http.secret.key='{random string}' -Dhttp.port=9200
+set environment variable MOLEPRO_TRANSFORMERS = conf/dockerTransformers.txt
+
+./bin/molecular-data-provider -J-Xmx4096m -Dplay.http.secret.key='{passrowd}' -Dhttp.port=9200
