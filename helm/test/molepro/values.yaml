@@ -1,0 +1,23 @@
+# Default values for molepro.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+appname: 'defaultapp'
+
+image:
+  repository: nginx
+  pullPolicy: Always
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+service:
+  type: NodePort
+  port: 80
+  targetPort: 8080
+
+ingress:
+  enabled: true
+  host: 'default'
+  servicename: 'defaultservicename'
+  healthcheck: 'default'
