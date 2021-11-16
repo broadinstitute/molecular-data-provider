@@ -61,7 +61,7 @@ pipeline {
                         withAWS(credentials:'aws-ifx-deploy') {
                             sh '''
                             aws --region ${AWS_REGION} eks update-kubeconfig --name ${KUBERNETES_CLUSTER_NAME}
-                            cp -R translator-ops/test/ops/molepro/deploy/* ./
+                            cp -R translator-ops/ops/test/molepro/deploy/* ./
                             /bin/bash deploy.sh
                             '''
                         }
