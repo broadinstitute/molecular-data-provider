@@ -24,4 +24,6 @@ set environment variable MOLEPRO_HOST = https://molepro.ci.transltr.io/molecular
 
 set environment variable MOLEPRO_TRANSFORMERS = conf/dockerTransformers.txt
 
+cd molecular-data-provider-2.4.1
+
 ./bin/molecular-data-provider -J-Xmx4096m -Dplay.http.secret.key='{passrowd}' -Dhttp.port=9200
