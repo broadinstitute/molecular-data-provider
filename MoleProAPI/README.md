@@ -33,12 +33,10 @@ cd molecular-data-provider-2.4.1
 
 
 ## In Case of java.lang.UnsupportedClassVersionError
-_
-"Exception in thread "main" java.lang.UnsupportedClassVersionError: Module has been compiled by a more recent version of the Java Runtime (class file version 61.0), this version of the Java Runtime only recognizes class file versions up to 52.0"_
 
 The error is caused by the incompatibility between the MolePro API compiled with Java 17 and Java Runtime Engine 1.8, (A reference about "class file version",  https://www.baeldung.com/java-lang-unsupportedclassversion):
 
-Exception in thread "main" java.lang.UnsupportedClassVersionError: Module has been compiled by a more recent version of the Java Runtime (class file version 61.0), this version of the Java Runtime only recognizes class file versions up to 52.0
+_Exception in thread "main" java.lang.UnsupportedClassVersionError: Module has been compiled by a more recent version of the Java Runtime (class file version 61.0), this version of the Java Runtime only recognizes class file versions up to 52.0_
 
 
 
