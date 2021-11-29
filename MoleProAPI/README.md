@@ -79,4 +79,4 @@ and end with a successful completion of the compile indicated by a message simil
 
 4.  Hit "control-C" to terminate the sbt session started in step #3.
 
-5.  Proceed to do the ### How to deploy MolePro steps 
+5.  Proceed to do the **How to deploy MolePro** steps 
