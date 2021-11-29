@@ -64,8 +64,8 @@ if not, then refer to the guidance given here https://mkyong.com/java/how-to-ins
 
 
 
-3.  Run this following command.
-sbt clean compile shell
+3.  Run this following command:
+**sbt clean compile shell**
 
 which will start a Java 1.8 compile of MolePro API as indicated by this message: 
 
