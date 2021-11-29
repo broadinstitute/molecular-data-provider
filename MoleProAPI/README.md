@@ -29,6 +29,9 @@ cd molecular-data-provider-2.4.1
 ./bin/molecular-data-provider -J-Xmx4096m -Dplay.http.secret.key='{passrowd}' -Dhttp.port=9200
 
 
+
+
+
 ## In Case of java.lang.UnsupportedClassVersionError
 The error is caused by the incompatibility between the MolePro API compiled with Java 17 and Java Runtime Engine 1.8, (A reference about "class file version",  https://www.baeldung.com/java-lang-unsupportedclassversion):
 
