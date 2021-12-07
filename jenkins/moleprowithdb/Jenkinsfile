@@ -55,7 +55,7 @@ pipeline {
                 }
             }
             steps {
-                sshagent (credentials: ['sai-devisetty-gh-cred']) {
+                sshagent (credentials: ['labshare-svc']) {
                     dir("helm/moleprowithdb") {
                         sh 'git clone -b molepro git@github.com:Sphinx-Automation/translator-ops.git'
                         withAWS(credentials:'aws-ifx-deploy') {
