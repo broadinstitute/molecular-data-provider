@@ -72,5 +72,28 @@ pipeline {
                 }
             }
         }
+        stage('Deploy') {
+            when {
+                anyOf {
+                    changeset "*"
+                    triggeredBy 'UserIdCause'
+                }
+            }
+            steps {
+                sshagent (credentials: ['labshare-svc']) {
+                    dir(".") {
+                        sh 'git clone git@github.com:Sphinx-Automation/translator-ops.git'
+                            withAWS(credentials:'aws-ifx-deploy') {
+                                sh '''
+                                aws --region ${AWS_REGION} eks update-kubeconfig --name ${KUBERNETES_CLUSTER_NAME}
+                                cp -R translator-ops/ops/molepro/deploy/* ./
+                                /bin/bash deploy.sh
+                                '''
+                        }
+                        
+                    }
+                }
+            }
+        }
     }
 }
