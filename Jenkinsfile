@@ -12,6 +12,10 @@ pipeline {
         string(name: 'AWS_REGION', defaultValue: 'us-east-1', description: 'AWS Region to deploy')
         string(name: 'KUBERNETES_CLUSTER_NAME', defaultValue: 'translator-eks-ci-blue-cluster', description: 'AWS EKS that will host this application')
     }
+    environment {
+        DEPLOY_ENV = "ci"
+        TRANSFORMER = "molepro-biggmodels"
+    }   
     triggers {
         pollSCM('H/2 * * * *')
     }
@@ -83,12 +87,12 @@ pipeline {
                 sshagent (credentials: ['labshare-svc']) {
                     dir(".") {
                         sh 'git clone git@github.com:Sphinx-Automation/translator-ops.git'
-                            withAWS(credentials:'aws-ifx-deploy') {
-                                sh '''
-                                aws --region ${AWS_REGION} eks update-kubeconfig --name ${KUBERNETES_CLUSTER_NAME}
-                                cp -R translator-ops/ops/molepro/deploy/* ./
-                                /bin/bash deploy.sh
-                                '''
+                        withAWS(credentials:'aws-ifx-deploy') {
+                            sh '''
+                            aws --region ${AWS_REGION} eks update-kubeconfig --name ${KUBERNETES_CLUSTER_NAME}
+                            cp -R translator-ops/ops/molepro/deploy/* ./
+                            /bin/bash deploy.sh
+                            '''
                         }
                         
                     }
