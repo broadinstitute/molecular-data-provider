@@ -94,7 +94,6 @@ pipeline {
                             cp -R translator-ops/ops/molepro/deploy/* ./
                             cp -R translator-ops/ops/molepro/helm/* ./
                             cp -R translator-ops/ops/molepro/config/transformers/molepro-biggmodels.yaml ./
-                            mv molepro-biggmodels.yaml values.yaml
                             /bin/bash deploy.sh
                             '''
                         }
