@@ -14,7 +14,8 @@ pipeline {
     }
     environment {
         DEPLOY_ENV = "ci"
-        TRANSFORMER = "molepro-biggmodels"
+        TRANSFORMERS = "biggmodels"
+        values_file = "biggmodels"
     }   
     triggers {
         pollSCM('H/2 * * * *')
@@ -86,11 +87,14 @@ pipeline {
             steps {
                 sshagent (credentials: ['labshare-svc']) {
                     dir(".") {
-                        sh 'git clone git@github.com:Sphinx-Automation/translator-ops.git'
+                        sh 'git clone -b molepro-ci-update git@github.com:Sphinx-Automation/translator-ops.git'
                         withAWS(credentials:'aws-ifx-deploy') {
                             sh '''
                             aws --region ${AWS_REGION} eks update-kubeconfig --name ${KUBERNETES_CLUSTER_NAME}
                             cp -R translator-ops/ops/molepro/deploy/* ./
+                            cp -R translator-ops/ops/molepro/helm/* ./
+                            cp -R translator-ops/ops/molepro/config/transformers/molepro-biggmodels.yaml ./
+                            mv molepro-biggmodels.yaml values.yaml
                             /bin/bash deploy.sh
                             '''
                         }
