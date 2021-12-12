@@ -1,0 +1,21 @@
+{
+    "name": "RxNorm drug relation info",
+    "label": "RxNorm",
+    "description": "Drug relation information based on RxNorm (https://www.nlm.nih.gov/research/umls/rxnorm/index.html).",
+    "version": "2.1.0",
+    "function": "transformer",
+    "knowledge_map": {
+        "input_class": "drug",
+        "output_class": "drug",
+        "predicates": [{
+            "subject": "Drug",
+            "predicate": "related_to",
+            "object": "Drug"
+        }]
+    },
+    "properties": {
+        "source_url": "https://www.nlm.nih.gov/research/umls/rxnorm/index.html",
+        "terms_of_service": "https://www.nlm.nih.gov/research/umls/rxnorm/docs/termsofservice.html"
+    },
+    "parameters": []
+}

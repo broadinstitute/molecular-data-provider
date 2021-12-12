@@ -1,0 +1,57 @@
+{
+    "description": "Drugs-list transformer based on Inxight:Drugs substances information (https://drugs.ncats.io/).",
+    "function": "transformer",
+    "knowledge_map": {
+        "input_class": "drug",
+        "nodes": {
+            "ChemicalSubstance": {
+                "attributes": [],
+                "count": 107352,
+                "id_prefixes": [
+                    "UNII",
+                    "RXCUI",
+                    "INCHIKEY",
+                    "CID"
+                ]
+            },
+            "Drug": {
+                "attributes": [],
+                "count": 12334,
+                "id_prefixes": [
+                    "RXCUI"
+                ]
+            }
+        },
+        "output_class": "substance",
+        "predicates": [
+            {
+                "object": "ChemicalSubstance",
+                "predicate": "has_active_ingredient",
+                "relations": [
+                    "ACTIVE ENANTIOMER->RACEMATE",
+                    "ACTIVE ISOMER->PARENT",
+                    "ACTIVE MOIETY",
+                    "LESS ACTIVE ISOMER->PARENT"
+                ],
+                "subject": "Drug"
+            }
+        ]
+    },
+    "label": "Inxight:Drugs",
+    "name": "Inxight:Drugs active ingredients transformer",
+    "parameters": [
+        {
+            "example": "aspirin",
+            "name": "substances",
+            "suggested_values": "semicolon-separated list of substances",
+            "type": "string"
+        }
+    ],
+    "properties": {
+        "list_predicate": "related_to",
+        "member_predicate": "related_to",
+        "source_url": "https://drugs.ncats.io/",
+        "terms_of_service": "https://ncats.nih.gov/disclaimer"
+    },
+    "version": "2.2.0"
+}

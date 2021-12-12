@@ -1,0 +1,15 @@
+source
+Repurposing
+DrugBank
+GtoPdb
+Inxight:Drugs
+DrugCentral
+ChEMBL
+RxNorm
+DGIdb
+STITCH
+PubChem
+ChEBI
+HMDB
+ChemBank
+BiGG

@@ -1,0 +1,360 @@
+[
+    {
+        "subject": "biolink:Disease",
+        "predicate": "biolink:treated_by",
+        "object": "biolink:ChemicalSubstance",
+        "transformer_chain": [
+            {
+                "name": "DrugCentral indications transformer",
+                "controls": [
+                    {
+                        "name": "disease",
+                        "value": "#subject"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "subject": "biolink:ChemicalSubstance",
+        "predicate": "biolink:treats",
+        "object": "biolink:Disease",
+        "transformer_chain": [
+            {
+                "name": "ChEMBL indication transformer",
+                "controls": []
+            }
+        ]
+    },
+    {
+        "subject": "biolink:ChemicalSubstance",
+        "predicate": "biolink:related_to",
+        "object": "biolink:Disease",
+        "transformer_chain": [
+            {
+                "name": "HMDB disorders transformer",
+                "controls": []
+            }
+        ]
+    },
+    {
+        "subject": "biolink:ChemicalSubstance",
+        "predicate": "biolink:correlated_with",
+        "object": "biolink:ChemicalSubstance",
+        "transformer_chain": [
+            {
+                "controls": [
+                    {
+                        "name": "maximum FDR",
+                        "value": "0.005"
+                    },
+                    {
+                        "name": "disease context",
+                        "value": "pan-cancer (all lines)"
+                    },
+                    {
+                        "name": "maximum number",
+                        "value": "0"
+                    }
+                ],
+                "name": "CTRP compound-list expander"
+            }
+        ]
+    },
+    {
+        "subject": "biolink:ChemicalSubstance",
+        "predicate": "biolink:correlated_with",
+        "object": "biolink:ChemicalSubstance",
+        "transformer_chain": [
+            {
+                "controls": [
+                    {
+                        "name": "score threshold",
+                        "value": "95"
+                    },
+                    {
+                        "name": "maximum number",
+                        "value": "0"
+                    }
+                ],
+                "name": "CMAP compound-to-compound expander"
+            }
+        ]
+    },
+    {
+        "subject": "biolink:ChemicalSubstance",
+        "predicate": "biolink:correlated_with",
+        "object": "biolink:Gene",
+        "transformer_chain": [
+            {
+                "controls": [
+                    {
+                        "name": "score threshold",
+                        "value": "95"
+                    },
+                    {
+                        "name": "maximum number",
+                        "value": "0"
+                    }
+                ],
+                "name": "CMAP compound-to-gene transformer"
+            }
+        ]
+    },
+    {
+        "subject": "biolink:Gene",
+        "predicate": "biolink:correlated_with",
+        "object": "biolink:ChemicalSubstance",
+        "transformer_chain": [
+            {
+                "name": "HGNC gene-list producer",
+                "controls": [
+                    {
+                        "name": "genes",
+                        "value": "#subject"
+                    }
+                ]
+            },
+            {
+                "controls": [
+                    {
+                        "name": "score threshold",
+                        "value": "95"
+                    },
+                    {
+                        "name": "maximum number",
+                        "value": "0"
+                    }
+                ],
+                "name": "CMAP gene-to-compound transformer"
+            }
+        ]
+    },
+    {
+        "subject": "biolink:Gene",
+        "predicate": "biolink:correlated_with",
+        "object": "biolink:Gene",
+        "transformer_chain": [
+            {
+                "name": "HGNC gene-list producer",
+                "controls": [
+                    {
+                        "name": "genes",
+                        "value": "#subject"
+                    }
+                ]
+            },
+            {
+                "controls": [
+                    {
+                        "name": "score threshold",
+                        "value": "95"
+                    },
+                    {
+                        "name": "maximum number",
+                        "value": "0"
+                    }
+                ],
+                "name": "CMAP gene-to-gene expander"
+            }
+        ]
+    },
+    {
+        "subject": "biolink:ChemicalSubstance",
+        "predicate": "biolink:affects",
+        "object": "biolink:MolecularEntity",
+        "transformer_chain": [
+            {
+                "controls": [],
+                "name": "ChEMBL mechanism transformer"
+            }
+        ]
+    },
+    {
+        "subject": "biolink:ChemicalSubstance",
+        "predicate": "biolink:affects",
+        "object": "biolink:Gene",
+        "transformer_chain": [
+            {
+                "controls": [],
+                "name": "DrugBank target transformer"
+            }
+        ]
+    },
+    {
+        "subject": "biolink:ChemicalSubstance",
+        "predicate": "biolink:affects",
+        "object": "biolink:Gene",
+        "transformer_chain": [
+            {
+                "controls": [],
+                "name": "GtoPdb target transformer"
+            }
+        ]
+    },
+    {
+        "subject": "biolink:ChemicalSubstance",
+        "predicate": "biolink:affects",
+        "object": "biolink:Gene",
+        "transformer_chain": [
+            {
+                "controls": [],
+                "name": "DGIdb target transformer"
+            }
+        ]
+    },
+    {
+        "subject": "biolink:Gene",
+        "predicate": "biolink:affected_by",
+        "object": "biolink:ChemicalSubstance",
+        "transformer_chain": [
+            {
+                "name": "HGNC gene-list producer",
+                "controls": [
+                    {
+                        "name": "genes",
+                        "value": "#subject"
+                    }
+                ]
+            },
+            {
+                "controls": [],
+                "name": "DrugBank inhibitors transformer"
+            }
+        ]
+    },
+    {
+        "subject": "biolink:Gene",
+        "predicate": "biolink:affected_by",
+        "object": "biolink:ChemicalSubstance",
+        "transformer_chain": [
+            {
+                "name": "HGNC gene-list producer",
+                "controls": [
+                    {
+                        "name": "genes",
+                        "value": "#subject"
+                    }
+                ]
+            },
+            {
+                "controls": [],
+                "name": "GtoPdb inhibitors transformer"
+            }
+        ]
+    },
+    {
+        "subject": "biolink:Gene",
+        "predicate": "biolink:affected_by",
+        "object": "biolink:ChemicalSubstance",
+        "transformer_chain": [
+            {
+                "name": "HGNC gene-list producer",
+                "controls": [
+                    {
+                        "name": "genes",
+                        "value": "#subject"
+                    }
+                ]
+            },
+            {
+                "controls": [],
+                "name": "DGIdb inhibitor transformer"
+            }
+        ]
+    },
+    {
+        "subject": "biolink:ChemicalSubstance",
+        "predicate": "biolink:interacts_with",
+        "object": "biolink:Gene",
+        "transformer_chain": [
+            {
+                "controls": [],
+                "name": "HMDB target transformer"
+            }
+        ]
+    },
+    {
+        "subject": "biolink:ChemicalSubstance",
+        "predicate": "biolink:has_metabolite",
+        "object": "biolink:ChemicalSubstance",
+        "transformer_chain": [
+            {
+                "controls": [],
+                "name": "ChEMBL metabolite transformer"
+            }
+        ]
+    },
+    {
+        "subject": "biolink:ChemicalSubstance",
+        "predicate": "biolink:has_evidence",
+        "object": "biolink:Assay",
+        "transformer_chain": [
+            {
+                "name": "ChEMBL assay transformer",
+                "controls": []
+            }
+        ]
+    },
+    {
+        "subject": "biolink:Gene",
+        "predicate": "biolink:related_to",
+        "object": "biolink:Gene",
+        "transformer_chain": [
+            {
+                "name": "HGNC gene-list producer",
+                "controls": [
+                    {
+                        "name": "genes",
+                        "value": "#subject"
+                    }
+                ]
+            },
+            {
+                "controls": [
+                    {
+                        "value": "0.7",
+                        "name": "minimum combined score"
+                    },
+                    {
+                        "value": "0",
+                        "name": "minimum neighborhood score"
+                    },
+                    {
+                        "value": "0",
+                        "name": "minimum gene fusion score"
+                    },
+                    {
+                        "value": "0",
+                        "name": "minimum cooccurence score"
+                    },
+                    {
+                        "value": "0",
+                        "name": "minimum coexpression score"
+                    },
+                    {
+                        "value": "0",
+                        "name": "minimum experimental score"
+                    },
+                    {
+                        "value": "0",
+                        "name": "minimum database score"
+                    },
+                    {
+                        "value": "0",
+                        "name": "minimum textmining score"
+                    },
+                    {
+                        "value": "0",
+                        "name": "minimum best non-textmining component score"
+                    },
+                    {
+                        "value": "100",
+                        "name": "maximum number of genes"
+                    }
+                ],
+                "name": "STRING protein-protein interaction"
+            }
+        ]
+    }
+]

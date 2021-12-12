@@ -1,0 +1,44 @@
+{
+    "name": "CMAP ",
+    "label": "CMAP",
+    "description": "Transformer based on CMAP (https://clue.io/).",
+    "version": "2.1.0",
+    "function": "expander",
+    "input_class": "none",
+    "output_class": "gene",
+    "knowledge_map": {
+        "input_class": "none",
+        "output_class": "compound",
+        "predicates": [
+            {
+                "subject": "Gene",
+                "predicate": "correlated_with",
+                "object": "Gene"
+            }
+        ]
+    },
+    "properties": {
+        "list_predicate": "related_to",
+        "member_predicate": "related_to",
+        "source_url": "https://clue.io/",
+        "terms_of_service": "https://clue.io/terms"
+    },
+    "parameters": [
+        {
+            "default": "95",
+            "name": "score threshold",
+            "type": "double",
+            "suggested_values": "above 90 and below 100",
+            "allowed_range": [
+                0,
+                100
+            ]
+        },
+        {
+            "default": "0",
+            "name": "maximum number",
+            "type": "int"
+        }
+    ],
+    "required_attributes": []
+}

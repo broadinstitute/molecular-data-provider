@@ -1,0 +1,44 @@
+{
+    "name": "STITCH target transformer",
+    "label": "STITCH",
+    "description": "Transformer based on STITCH links information (https://www.ebi.ac.uk/chembl/).",
+    "version": "2.2.0",
+    "function": "transformer",
+    "knowledge_map": {
+        "input_class": "compound",
+        "output_class": "protein",
+        "nodes": {
+            "ChemicalSubstance": {
+                "id_prefixes": ["CID:"]
+            },
+            "Protein" : {
+                "id_prefixes": ["ENSEMBL:"]
+            }
+        },
+        "predicates": [{
+            "subject": "ChemicalSubstance",
+            "predicate": "related_to",
+            "object": "Protein"
+        }]
+    },
+    "properties": {
+        "source_url": "http://stitch.embl.de",
+        "source_version": "5.0",
+        "terms_of_service": "http://stitch.embl.de/cgi/access.pl?footer_active_subpage=licensing"
+    },
+    "parameters": [
+        {
+            "example":"160",
+            "name":"score_threshold",
+            "type":"string",
+            "suggested_values":"minimum value for combined_score"
+
+        },
+        {
+            "example":"5",
+            "name":"limit",
+            "type":"string",
+            "suggested_values":"maximum number of proteins to display"
+        }
+    ]
+}

@@ -1,0 +1,900 @@
+openapi: 3.0.0
+info:
+  contact:
+    email: translator@broadinstitute.org
+  termsOfService: http://www.hmdb.ca/about
+  title: Transformer API for the Human Metabolome Database
+  version: 2.2.0
+servers:
+- url: https://translator.broadinstitute.org/hmdb
+tags:
+- name: transformers
+paths:
+  /{service}/transform:
+    post:
+      description: Depending on the function of a transformer, creates, expands, or
+        filters a list.
+      operationId: service_transform_post
+      parameters:
+      - description: HMDB service
+        explode: false
+        in: path
+        name: service
+        required: true
+        schema:
+          enum:
+          - metabolites
+          - disorders
+          - targets
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/transformer_query'
+        description: transformer query
+        required: true
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/element'
+                type: array
+          description: successful operation
+        400:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_msg'
+          description: bad request
+        404:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_msg'
+          description: not found
+        500:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_msg'
+          description: internal server error
+      summary: Transform a list of genes or compounds
+      tags:
+      - transformers
+      x-openapi-router-controller: openapi_server.controllers.transformers_controller
+  /{service}/transformer_info:
+    get:
+      description: Provides information about the transformer.
+      operationId: service_transformer_info_get
+      parameters:
+      - description: HMDB service
+        explode: false
+        in: path
+        name: service
+        required: true
+        schema:
+          enum:
+          - metabolites
+          - disorders
+          - targets
+          type: string
+        style: simple
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/transformer_info'
+          description: successful operation
+      summary: Retrieve transformer info
+      tags:
+      - transformers
+      x-openapi-router-controller: openapi_server.controllers.transformers_controller
+components:
+  schemas:
+    transformer_info:
+      description: Definition of the transformer.
+      example:
+        knowledge_map:
+          predicates:
+          - predicate: predicate
+            subject: subject
+            count: 6
+            attributes:
+            - names:
+              - PubMed Identifier
+              source: UniProtKB
+              type: EDAM:data_1187
+            - names:
+              - PubMed Identifier
+              source: UniProtKB
+              type: EDAM:data_1187
+            source: ChEMBL
+            relations:
+            - binds_to
+            object: object
+          - predicate: predicate
+            subject: subject
+            count: 6
+            attributes:
+            - names:
+              - PubMed Identifier
+              source: UniProtKB
+              type: EDAM:data_1187
+            - names:
+              - PubMed Identifier
+              source: UniProtKB
+              type: EDAM:data_1187
+            source: ChEMBL
+            relations:
+            - binds_to
+            object: object
+          nodes:
+            key:
+              id_prefixes:
+              - 'ChEMBL:'
+              - 'inchikey:'
+              count: 0
+              attributes:
+              - names:
+                - PubMed Identifier
+                source: UniProtKB
+                type: EDAM:data_1187
+              - names:
+                - PubMed Identifier
+                source: UniProtKB
+                type: EDAM:data_1187
+          output_class: output_class
+          input_class: input_class
+        function: producer
+        name: name
+        description: description
+        label: label
+        version: version
+        parameters:
+        - allowed_values:
+          - allowed_values
+          - allowed_values
+          biolink_class: biolink_class
+          default: default
+          allowed_range:
+          - 1.4658129805029452
+          - 1.4658129805029452
+          name: name
+          suggested_values: suggested_values
+          lookup_url: lookup_url
+          type: Boolean
+          example: example
+        - allowed_values:
+          - allowed_values
+          - allowed_values
+          biolink_class: biolink_class
+          default: default
+          allowed_range:
+          - 1.4658129805029452
+          - 1.4658129805029452
+          name: name
+          suggested_values: suggested_values
+          lookup_url: lookup_url
+          type: Boolean
+          example: example
+        properties:
+          source_version: source_version
+          method: method
+          terms_of_service: terms_of_service
+          method_url: method_url
+          source_url: source_url
+      properties:
+        name:
+          description: Name of the transformer.
+          type: string
+        label:
+          description: Short label for GUI display.
+          type: string
+        description:
+          description: Description of the transformer.
+          type: string
+        version:
+          description: Transformer's version.
+          type: string
+        function:
+          description: Function of the transformer, one of 'producer', 'expander',
+            'filter', 'transformer', 'exporter', or 'aggregator'.
+          enum:
+          - producer
+          - expander
+          - filter
+          - transformer
+          - exporter
+          - aggregator
+          type: string
+        knowledge_map:
+          $ref: '#/components/schemas/knowledge_map'
+        properties:
+          $ref: '#/components/schemas/transformer_info_properties'
+        parameters:
+          description: Parameters used to control the transformer.
+          items:
+            $ref: '#/components/schemas/parameter'
+          type: array
+      required:
+      - function
+      - name
+      type: object
+    parameter:
+      example:
+        allowed_values:
+        - allowed_values
+        - allowed_values
+        biolink_class: biolink_class
+        default: default
+        allowed_range:
+        - 1.4658129805029452
+        - 1.4658129805029452
+        name: name
+        suggested_values: suggested_values
+        lookup_url: lookup_url
+        type: Boolean
+        example: example
+      properties:
+        name:
+          description: Name of the parameter.
+          type: string
+        type:
+          description: Type of the parameter, one of 'Boolean', 'int', 'double', 'string'.
+          enum:
+          - Boolean
+          - int
+          - double
+          - string
+          type: string
+        default:
+          description: Default value of the parameter.
+          type: string
+        example:
+          description: Example value of the parameter.
+          type: string
+        biolink_class:
+          description: BioLink class of the parameter. Applicable to producers only
+            and only one parameter can have a BioLink class.
+          type: string
+        allowed_values:
+          description: Allowed values for the parameter.
+          items:
+            type: string
+          type: array
+        allowed_range:
+          description: Allowed range for values of the parameter.
+          items:
+            type: number
+          maxItems: 2
+          minItems: 2
+          type: array
+        suggested_values:
+          description: Suggested value range for the parameter.
+          type: string
+        lookup_url:
+          description: URL to search for suitable parameter values.
+          type: string
+      required:
+      - name
+      - type
+      type: object
+    knowledge_map:
+      description: Knowledge-graph representation of the transformer.
+      example:
+        predicates:
+        - predicate: predicate
+          subject: subject
+          count: 6
+          attributes:
+          - names:
+            - PubMed Identifier
+            source: UniProtKB
+            type: EDAM:data_1187
+          - names:
+            - PubMed Identifier
+            source: UniProtKB
+            type: EDAM:data_1187
+          source: ChEMBL
+          relations:
+          - binds_to
+          object: object
+        - predicate: predicate
+          subject: subject
+          count: 6
+          attributes:
+          - names:
+            - PubMed Identifier
+            source: UniProtKB
+            type: EDAM:data_1187
+          - names:
+            - PubMed Identifier
+            source: UniProtKB
+            type: EDAM:data_1187
+          source: ChEMBL
+          relations:
+          - binds_to
+          object: object
+        nodes:
+          key:
+            id_prefixes:
+            - 'ChEMBL:'
+            - 'inchikey:'
+            count: 0
+            attributes:
+            - names:
+              - PubMed Identifier
+              source: UniProtKB
+              type: EDAM:data_1187
+            - names:
+              - PubMed Identifier
+              source: UniProtKB
+              type: EDAM:data_1187
+        output_class: output_class
+        input_class: input_class
+      properties:
+        input_class:
+          description: BioLink class for the members of the input list.
+          type: string
+        output_class:
+          description: BioLink class for the members of the output list.
+          type: string
+        nodes:
+          additionalProperties:
+            $ref: '#/components/schemas/node'
+          description: List of semantic types in the KnowledgeMap.
+          type: object
+        predicates:
+          description: Predicates describing relationships between subjects and objects.
+          items:
+            $ref: '#/components/schemas/predicate'
+          type: array
+      type: object
+    node:
+      additionalProperties: false
+      description: Description of semantic types provided by this knowledge source.
+      example:
+        id_prefixes:
+        - 'ChEMBL:'
+        - 'inchikey:'
+        count: 0
+        attributes:
+        - names:
+          - PubMed Identifier
+          source: UniProtKB
+          type: EDAM:data_1187
+        - names:
+          - PubMed Identifier
+          source: UniProtKB
+          type: EDAM:data_1187
+      properties:
+        id_prefixes:
+          description: List of CURIE prefixes that this knowledge source understands
+            and accepts on the input.
+          example:
+          - 'ChEMBL:'
+          - 'inchikey:'
+          items:
+            type: string
+          type: array
+        count:
+          description: Number of node instances known to this knowledge source
+          type: integer
+        attributes:
+          items:
+            $ref: '#/components/schemas/km_attribute'
+          type: array
+      required:
+      - id_prefixes
+      type: object
+    predicate:
+      additionalProperties: false
+      description: Predicate describing relationship between a subject and an object.
+      example:
+        predicate: predicate
+        subject: subject
+        count: 6
+        attributes:
+        - names:
+          - PubMed Identifier
+          source: UniProtKB
+          type: EDAM:data_1187
+        - names:
+          - PubMed Identifier
+          source: UniProtKB
+          type: EDAM:data_1187
+        source: ChEMBL
+        relations:
+        - binds_to
+        object: object
+      properties:
+        subject:
+          type: string
+        predicate:
+          type: string
+        object:
+          type: string
+        source:
+          description: Source of the relationship.
+          example: ChEMBL
+          type: string
+        relations:
+          description: Low-level relations from the underlying source.
+          example:
+          - binds_to
+          items:
+            type: string
+          type: array
+        count:
+          description: Number of edge instances known to this knowledge source
+          type: integer
+        attributes:
+          items:
+            $ref: '#/components/schemas/km_attribute'
+          type: array
+      required:
+      - object
+      - predicate
+      - subject
+      type: object
+    km_attribute:
+      additionalProperties: false
+      description: Description of attribute types provided by this knowledge source.
+      example:
+        names:
+        - PubMed Identifier
+        source: UniProtKB
+        type: EDAM:data_1187
+      properties:
+        type:
+          description: CURIE of the semantic type of the attribute, from the EDAM
+            ontology if possible. If a suitable identifier does not exist, enter a
+            descriptive phrase here and submit the new type for consideration by the
+            appropriate authority.
+          example: EDAM:data_1187
+          type: string
+        source:
+          description: Source of the attribute, as a CURIE prefix.
+          example: UniProtKB
+          type: string
+        names:
+          description: Human-readable names or labels for the attribute for attributes
+            of  given type.
+          example:
+          - PubMed Identifier
+          items:
+            type: string
+          type: array
+      required:
+      - type
+      type: object
+    transformer_query:
+      properties:
+        collection:
+          description: List of elements that will be transformed. Required for all
+            transformers except producers.
+          items:
+            $ref: '#/components/schemas/element'
+          type: array
+        controls:
+          description: Values that control the behavior of the transformer. Names
+            of the controls must match the names specified in the transformer's definition
+            and values must match types (and possibly  allowed_values) specified in
+            the transformer's definition.
+          items:
+            $ref: '#/components/schemas/property'
+          type: array
+      required:
+      - controls
+      type: object
+    property:
+      properties:
+        name:
+          type: string
+        value:
+          type: string
+      required:
+      - name
+      - value
+      type: object
+    gene_info:
+      properties:
+        gene_id:
+          description: Id of the gene. Preferably HGNC id; can be Entrez or ENSEMBL
+            id if HGNC id is not available.
+          type: string
+        identifiers:
+          $ref: '#/components/schemas/gene_info_identifiers'
+        attributes:
+          description: Additional information about the gene and provenance about
+            gene-list membership.
+          items:
+            $ref: '#/components/schemas/attribute'
+          type: array
+        source:
+          description: Name of a transformer that added gene to the gene list.
+          type: string
+      required:
+      - gene_id
+      type: object
+    compound_info:
+      properties:
+        compound_id:
+          description: Id of the compound. Preferably PubChem CID
+          type: string
+        identifiers:
+          $ref: '#/components/schemas/compound_info_identifiers'
+        names_synonyms:
+          description: Compound names and synonyms.
+          items:
+            $ref: '#/components/schemas/names'
+          type: array
+        structure:
+          $ref: '#/components/schemas/compound_info_structure'
+        attributes:
+          description: Additional information about the compound and provenance about
+            compound-list membership.
+          items:
+            $ref: '#/components/schemas/attribute'
+          type: array
+        source:
+          description: Name of a transformer that added compound to the compound list.
+          type: string
+      required:
+      - compound_id
+      type: object
+    element:
+      example:
+        biolink_class: biolink_class
+        identifiers:
+          key: '{}'
+        attributes:
+        - name: name
+          provided_by: provided_by
+          source: source
+          type: type
+          value: value
+          url: url
+        - name: name
+          provided_by: provided_by
+          source: source
+          type: type
+          value: value
+          url: url
+        id: id
+        source: source
+        names_synonyms:
+        - synonyms:
+          - synonyms
+          - synonyms
+          name: name
+          source: source
+          url: url
+        - synonyms:
+          - synonyms
+          - synonyms
+          name: name
+          source: source
+          url: url
+        connections:
+        - evidence_type: evidence_type
+          provided_by: provided_by
+          attributes:
+          - name: name
+            provided_by: provided_by
+            source: source
+            type: type
+            value: value
+            url: url
+          - name: name
+            provided_by: provided_by
+            source: source
+            type: type
+            value: value
+            url: url
+          source: source
+          type: type
+          source_element_id: source_element_id
+          relation: relation
+        - evidence_type: evidence_type
+          provided_by: provided_by
+          attributes:
+          - name: name
+            provided_by: provided_by
+            source: source
+            type: type
+            value: value
+            url: url
+          - name: name
+            provided_by: provided_by
+            source: source
+            type: type
+            value: value
+            url: url
+          source: source
+          type: type
+          source_element_id: source_element_id
+          relation: relation
+        alternative_identifiers:
+        - key: '{}'
+        - key: '{}'
+      properties:
+        id:
+          description: Primary identifier of the element.
+          type: string
+        biolink_class:
+          description: BioLink class of the element.
+          type: string
+        identifiers:
+          additionalProperties: true
+          description: identifiers of the element.
+          type: object
+        alternative_identifiers:
+          description: identifiers of additional chemical structures associated with
+            chemical substance.
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+        names_synonyms:
+          description: Names and synonyms of the element.
+          items:
+            $ref: '#/components/schemas/names'
+          type: array
+        attributes:
+          description: Additional information about the element and provenance about
+            collection membership.
+          items:
+            $ref: '#/components/schemas/attribute'
+          type: array
+        connections:
+          description: connections to elements of the input collection.
+          items:
+            $ref: '#/components/schemas/connection'
+          type: array
+        source:
+          description: Name of a transformer that added the element to the collection.
+          type: string
+      required:
+      - id
+      type: object
+    attribute:
+      example:
+        name: name
+        provided_by: provided_by
+        source: source
+        type: type
+        value: value
+        url: url
+      properties:
+        name:
+          description: Name of the attribute.
+          type: string
+        value:
+          description: Value of the attribute.
+          type: string
+        type:
+          description: CURIE of the semantic type of the attribute, from the EDAM
+            ontology if possible.
+          type: string
+        source:
+          description: Source of the attribute, as a CURIE prefix.
+          type: string
+        url:
+          description: URL for additional information.
+          type: string
+        provided_by:
+          description: Transformer that produced the attribute's value.
+          type: string
+      required:
+      - name
+      - source
+      - value
+      type: object
+    names:
+      example:
+        synonyms:
+        - synonyms
+        - synonyms
+        name: name
+        source: source
+        url: url
+      properties:
+        name:
+          description: Name of the compound.
+          type: string
+        synonyms:
+          description: Name of the compound.
+          items:
+            type: string
+          type: array
+        source:
+          description: Source of names and synonyms.
+          type: string
+        url:
+          description: URL for additional information.
+          type: string
+      required:
+      - source
+      type: object
+    connection:
+      example:
+        evidence_type: evidence_type
+        provided_by: provided_by
+        attributes:
+        - name: name
+          provided_by: provided_by
+          source: source
+          type: type
+          value: value
+          url: url
+        - name: name
+          provided_by: provided_by
+          source: source
+          type: type
+          value: value
+          url: url
+        source: source
+        type: type
+        source_element_id: source_element_id
+        relation: relation
+      properties:
+        source_element_id:
+          description: id (CURIE) of the connected query node
+          type: string
+        type:
+          description: Biolink predicate
+          type: string
+        relation:
+          description: Lower-level relationship type of this connection
+          type: string
+        evidence_type:
+          description: evidence supporting the statement from the ECO ontology
+          type: string
+        source:
+          description: Source of the attribute, as a CURIE prefix.
+          type: string
+        provided_by:
+          description: Transformer that produced the connection.
+          type: string
+        attributes:
+          description: Additional information and provenance about the connection.
+          items:
+            $ref: '#/components/schemas/attribute'
+          type: array
+      required:
+      - source_element_id
+      - type
+      type: object
+    error_msg:
+      properties:
+        status:
+          type: integer
+        title:
+          type: string
+        detail:
+          type: string
+        type:
+          type: string
+      type: object
+    transformer_info_properties:
+      description: Additional metadata for the transformer.
+      example:
+        source_version: source_version
+        method: method
+        terms_of_service: terms_of_service
+        method_url: method_url
+        source_url: source_url
+      properties:
+        source_url:
+          description: URL for underlying data or a wrapped service.
+          type: string
+        source_version:
+          description: Version of the underlying source or data.
+          type: string
+        terms_of_service:
+          description: Link to the page that describes the terms of service for the
+            transformer.
+          type: string
+        method:
+          description: A method used to generate output lists.
+          type: string
+        method_url:
+          description: Link to a description of a method used to generate output lists.
+          type: string
+    gene_info_identifiers:
+      properties:
+        entrez:
+          description: Entrez gene id (CURIE).
+          example: NCBIGene:100
+          type: string
+        hgnc:
+          description: HGNC gene id (CURIE).
+          example: HGNC:186
+          type: string
+        mim:
+          description: OMIM gene id (CURIE).
+          example: MIM:608958
+          type: string
+        ensembl:
+          description: ENSEMBL gene id (CURIE).
+          items:
+            example: ENSEMBL:ENSG00000196839
+            type: string
+          type: array
+        mygene_info:
+          description: myGene.info primary id.
+          example: "100"
+          type: string
+    compound_info_identifiers:
+      properties:
+        chebi:
+          description: ChEBI id of the compound (CURIE).
+          example: CHEBI:15365
+          type: string
+        chembl:
+          description: ChEMBL id of the compound (CURIE).
+          example: ChEMBL:CHEMBL25
+          type: string
+        drugbank:
+          description: DrugBank id of the compound (CURIE).
+          example: DrugBank:DB00945
+          type: string
+        pubchem:
+          description: PubChem CID of the compound (CURIE).
+          example: CID:2244
+          type: string
+        mesh:
+          description: MeSH id of the compound (CURIE).
+          example: MESH:D001241
+          type: string
+        hmdb:
+          description: HMDB id of the compound (CURIE).
+          example: HMDB:HMDB0001879
+          type: string
+        unii:
+          description: UNII id of the compound (CURIE).
+          example: UNII:R16CO5Y76E
+          type: string
+        kegg:
+          description: KEGG id of the compound (CURIE).
+          example: KEGG.COMPOUND:C01405
+          type: string
+        gtopdb:
+          description: Guide to PHARMACOLOGY id of the compound (CURIE).
+          example: GTOPDB:4139
+          type: string
+        chembank:
+          description: ChemBank id of the compound (CURIE).
+          example: ChemBank:1171
+          type: string
+        drugcentral:
+          description: DrugCentral id of the compound (CURIE).
+          example: DrugCentral:74
+          type: string
+        cas:
+          description: CAS id of the compound (CURIE).
+          example: CAS:50-78-2
+          type: string
+        mychem_info:
+          description: myChem.info id of the compound.
+          type: string
+    compound_info_structure:
+      properties:
+        smiles:
+          description: SMILES representation of the compound's structure.
+          type: string
+        inchi:
+          description: InChI representation of the compound's structure.
+          type: string
+        inchikey:
+          description: InChI key representation of the compound's structure.
+          type: string
+        source:
+          description: Source of the compound's structure.
+          type: string

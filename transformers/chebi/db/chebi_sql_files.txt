@@ -1,0 +1,11 @@
+sqlite_create_tables.sql
+chebi/compounds.sql
+chebi/chemical_data.sql
+chebi/comments.sql
+chebi/database_accession.sql
+chebi/names.sql
+chebi/references.sql
+chebi/relation.sql
+chebi/structures.sql
+chebi/compound_origins.sql
+create_indexes.sql
