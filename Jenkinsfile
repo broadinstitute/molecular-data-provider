@@ -87,13 +87,13 @@ pipeline {
             steps {
                 sshagent (credentials: ['labshare-svc']) {
                     dir(".") {
-                        sh 'git clone -b molepro-ci-update git@github.com:Sphinx-Automation/translator-ops.git'
+                        sh 'git clone -b molepro-chebi git@github.com:Sphinx-Automation/translator-ops.git'
                         withAWS(credentials:'aws-ifx-deploy') {
                             sh '''
                             aws --region ${AWS_REGION} eks update-kubeconfig --name ${KUBERNETES_CLUSTER_NAME}
-                            cp -R translator-ops/ops/molepro/deploy/* ./
-                            cp -R translator-ops/ops/molepro/helm/* ./
-                            cp -R translator-ops/ops/molepro/config/transformers/molepro-chebi.yaml ./
+                            cp -R translator-ops/ops/molepro/deploy/* translator-ops/ops/molepro/helm/                           
+                            cp -R translator-ops/ops/molepro/config/transformers/molepro-chebi.yaml translator-ops/ops/molepro/helm/
+                            cd translator-ops/ops/molepro/helm/
                             /bin/bash deploy.sh
                             '''
                         }
