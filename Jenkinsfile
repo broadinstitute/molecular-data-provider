@@ -5,7 +5,7 @@ pipeline {
         disableConcurrentBuilds()
     }
     agent {
-        node { label 'transltr-ci-build-node-02' }
+        node { label 'translator && aws && build' }
     }
     parameters {
         string(name: 'BUILD_VERSION', defaultValue: '', description: 'The build version to deploy (optional)')
@@ -15,7 +15,6 @@ pipeline {
     environment {
         DEPLOY_ENV = "ci"
         TRANSFORMERS = "biggmodels"
-        values_file = "biggmodels"
     }   
     triggers {
         pollSCM('H/2 * * * *')
