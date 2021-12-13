@@ -12,6 +12,10 @@ pipeline {
         string(name: 'AWS_REGION', defaultValue: 'us-east-1', description: 'AWS Region to deploy')
         string(name: 'KUBERNETES_CLUSTER_NAME', defaultValue: 'translator-eks-ci-blue-cluster', description: 'AWS EKS that will host this application')
     }
+    environment {
+        DEPLOY_ENV = "ci"
+        TRANSFORMERS = "chebi"
+    }    
     triggers {
         pollSCM('H/2 * * * *')
     }
@@ -68,6 +72,32 @@ pipeline {
                                      docker.image("${env.IMAGE_NAME}").push("${BUILD_VERSION}")
                             }
                         }
+                    }
+                }
+            }
+        }
+        
+        stage('Deploy') {
+            when {
+                anyOf {
+                    changeset "*"
+                    triggeredBy 'UserIdCause'
+                }
+            }
+            steps {
+                sshagent (credentials: ['labshare-svc']) {
+                    dir(".") {
+                        sh 'git clone -b molepro-ci-update git@github.com:Sphinx-Automation/translator-ops.git'
+                        withAWS(credentials:'aws-ifx-deploy') {
+                            sh '''
+                            aws --region ${AWS_REGION} eks update-kubeconfig --name ${KUBERNETES_CLUSTER_NAME}
+                            cp -R translator-ops/ops/molepro/deploy/* ./
+                            cp -R translator-ops/ops/molepro/helm/* ./
+                            cp -R translator-ops/ops/molepro/config/transformers/molepro-chebi.yaml ./
+                            /bin/bash deploy.sh
+                            '''
+                        }
+                        
                     }
                 }
             }
