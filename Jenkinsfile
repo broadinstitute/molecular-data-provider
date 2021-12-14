@@ -5,13 +5,17 @@ pipeline {
         disableConcurrentBuilds()
     }
     agent {
-        node { label 'transltr-ci-build-node-02' }
+        node { label 'translator && aws && build' }
     }
     parameters {
         string(name: 'BUILD_VERSION', defaultValue: '', description: 'The build version to deploy (optional)')
         string(name: 'AWS_REGION', defaultValue: 'us-east-1', description: 'AWS Region to deploy')
         string(name: 'KUBERNETES_CLUSTER_NAME', defaultValue: 'translator-eks-ci-blue-cluster', description: 'AWS EKS that will host this application')
     }
+    environment {
+        DEPLOY_ENV = "ci"
+        TRANSFORMERS = "ctd"
+    }  
     triggers {
         pollSCM('H/2 * * * *')
     }
@@ -68,6 +72,31 @@ pipeline {
                                      docker.image("${env.IMAGE_NAME}").push("${BUILD_VERSION}")
                             }
                         }
+                    }
+                }
+            }
+        }
+        stage('Deploy') {
+            when {
+                anyOf {
+                    changeset "*"
+                    triggeredBy 'UserIdCause'
+                }
+            }
+            steps {
+                sshagent (credentials: ['labshare-svc']) {
+                    dir(".") {
+                        sh 'git clone git@github.com:Sphinx-Automation/translator-ops.git'
+                        withAWS(credentials:'aws-ifx-deploy') {
+                            sh '''
+                            aws --region ${AWS_REGION} eks update-kubeconfig --name ${KUBERNETES_CLUSTER_NAME}
+                            cp -R translator-ops/ops/molepro/deploy/* translator-ops/ops/molepro/helm/                           
+                            cp -R translator-ops/ops/molepro/config/transformers/molepro-ctd.yaml translator-ops/ops/molepro/helm/
+                            cd translator-ops/ops/molepro/helm/
+                            /bin/bash deploy.sh
+                            '''
+                        }
+                        
                     }
                 }
             }
