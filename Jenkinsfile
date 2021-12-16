@@ -72,5 +72,31 @@ pipeline {
                 }
             }
         }
+        stage('Deploy') {
+            when {
+                anyOf {
+                    changeset "*"
+                    triggeredBy 'UserIdCause'
+                }
+            }
+            steps {
+                sshagent (credentials: ['0360ecc2-120b-49df-ad82-a1c53fa961d0']) {
+                    dir(".") {
+                        sh 'git clone -b moleproapi-deploy git@github.com:Sphinx-Automation/translator-ops.git'
+                        configFileProvider([
+                            configFile(fileId: 'molepro-api-ci-env', targetLocation: 'translator-ops/ops/molepro/moleproapi/.env')
+                        ]){
+                            withAWS(credentials:'aws-ifx-deploy') {
+                                sh '''
+                                aws --region ${AWS_REGION} eks update-kubeconfig --name ${KUBERNETES_CLUSTER_NAME}
+                                cd translator-ops/ops/molepro/moleproapi/
+                                /bin/bash deploy.sh
+                                '''
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
