@@ -62,7 +62,7 @@ pipeline {
             }
             steps {
                 withEnv([
-                    "IMAGE_NAME=translator-molepro-inxightdrugs",
+                    "IMAGE_NAME=translator-molepro-inxight",
                     "BUILD_VERSION=" + (params.BUILD_VERSION ?: env.BUILD_VERSION)
                 ]) {
                     dir(".") {
