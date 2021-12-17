@@ -28,4 +28,4 @@ reaction	MolecularActivity
 Reaction	MolecularActivity
 MolecularActivity	MolecularActivity
 BiologicalProcess	BiologicalProcess
-CellularComponent	CellularComponent
+CellularComponent	CellularComponentS
