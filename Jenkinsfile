@@ -5,7 +5,7 @@ pipeline {
         disableConcurrentBuilds()
     }
     agent {
-        node { label 'transltr-ci-build-node-01' }
+        node { label 'translator && aws && build' }
     }
     parameters {
         string(name: 'BUILD_VERSION', defaultValue: '', description: 'The build version to deploy (optional)')
@@ -82,7 +82,7 @@ pipeline {
             steps {
                 sshagent (credentials: ['0360ecc2-120b-49df-ad82-a1c53fa961d0']) {
                     dir(".") {
-                        sh 'git clone -b moleproapi-deploy git@github.com:Sphinx-Automation/translator-ops.git'
+                        sh 'git clone git@github.com:Sphinx-Automation/translator-ops.git'
                         configFileProvider([
                             configFile(fileId: 'molepro-api-ci-env', targetLocation: 'translator-ops/ops/molepro/moleproapi/.env')
                         ]){
