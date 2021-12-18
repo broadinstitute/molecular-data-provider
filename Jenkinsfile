@@ -5,7 +5,7 @@ pipeline {
         disableConcurrentBuilds()
     }
     agent {
-        node { label 'transltr-ci-build-node-01' }
+        node { label 'translator && aws && build' }
     }
     parameters {
         string(name: 'BUILD_VERSION', defaultValue: '', description: 'The build version to deploy (optional)')
@@ -66,6 +66,32 @@ pipeline {
                              docker.build("${env.IMAGE_NAME}", "--build-arg SOURCE_FOLDER=./${BUILD_VERSION} --no-cache .")
                                  docker.withRegistry('https://853771734544.dkr.ecr.us-east-1.amazonaws.com', 'ecr:us-east-1:ifx-jenkins-ci') {
                                      docker.image("${env.IMAGE_NAME}").push("${BUILD_VERSION}")
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        stage('Deploy') {
+            when {
+                anyOf {
+                    changeset "*"
+                    triggeredBy 'UserIdCause'
+                }
+            }
+            steps {
+                sshagent (credentials: ['0360ecc2-120b-49df-ad82-a1c53fa961d0']) {
+                    dir(".") {
+                        sh 'git clone git@github.com:Sphinx-Automation/translator-ops.git'
+                        configFileProvider([
+                            configFile(fileId: 'molepro-api-ci-env', targetLocation: 'translator-ops/ops/molepro/moleproapi/.env')
+                        ]){
+                            withAWS(credentials:'aws-ifx-deploy') {
+                                sh '''
+                                aws --region ${AWS_REGION} eks update-kubeconfig --name ${KUBERNETES_CLUSTER_NAME}
+                                cd translator-ops/ops/molepro/moleproapi/
+                                /bin/bash deploy.sh
+                                '''
                             }
                         }
                     }
