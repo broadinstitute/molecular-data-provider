@@ -10,6 +10,7 @@ RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 COPY --from=packaging-image /usr/src/reasonerAPI/dist .
 RUN pip3 install -I molepro_trapi-1.2.1.1-py3-none-any.whl
+COPY reasonerAPI/python-flask-server .
 COPY reasonerAPI/python-flask-server/requirements.txt .
 RUN pip3 install --no-cache-dir -r requirements.txt
 EXPOSE 8080
