@@ -93,7 +93,7 @@ pipeline {
                             aws --region ${AWS_REGION} eks update-kubeconfig --name ${KUBERNETES_CLUSTER_NAME}
                             cp -R translator-ops/ops/moleprowith2dbs/deploy/* translator-ops/ops/moleprowith2dbs/helm/                           
                             cp -R translator-ops/ops/moleprowith2dbs/config/transformers/molepro-chembl.yaml translator-ops/ops/moleprowith2dbs/helm/
-                            cd translator-ops/ops/molepro/helm/
+                            cd translator-ops/ops/moleprowith2dbs/helm/
                             /bin/bash deploy.sh
                             '''
                         }
