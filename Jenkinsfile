@@ -86,7 +86,7 @@ pipeline {
             }
             steps {
                 configFileProvider([
-                    configFile(fileId: 'values-transformers.yaml', targetLocation: 'values-transformers.yaml')
+                    configFile(fileId: 'values-transformers.yaml', targetLocation: 'ops/molepro/helm/values-transformers.yaml')
                 ]){
                 sshagent (credentials: ['labshare-svc']) {
                     dir(".") {
