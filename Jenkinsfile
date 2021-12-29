@@ -85,12 +85,12 @@ pipeline {
                 }
             }
             steps {
-                configFileProvider([
-                    configFile(fileId: 'values-transformers.yaml', targetLocation: 'translator-ops/ops/molepro/helm/values-transformers.yaml')
-                ]){
                 sshagent (credentials: ['labshare-svc']) {
                     dir(".") {
                         sh 'git clone -b nn-test-update git@github.com:Sphinx-Automation/translator-ops.git'
+                        configFileProvider([
+                        configFile(fileId: 'values-transformers.yaml', targetLocation: 'translator-ops/ops/molepro/helm/values-transformers.yaml')
+                       ]){
                         withAWS(credentials:'aws-ifx-deploy') {
                             sh '''
                             aws --region ${AWS_REGION} eks update-kubeconfig --name ${KUBERNETES_CLUSTER_NAME}
