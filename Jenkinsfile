@@ -13,7 +13,6 @@ pipeline {
         string(name: 'KUBERNETES_CLUSTER_NAME', defaultValue: 'translator-eks-ci-blue-cluster', description: 'AWS EKS that will host this application')
     }
     environment {
-        DEPLOY_ENV = "ci"
         TRANSFORMERS = "node-normalizer"
     }    
     triggers {
