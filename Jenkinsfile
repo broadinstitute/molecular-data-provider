@@ -13,7 +13,7 @@ pipeline {
         string(name: 'KUBERNETES_CLUSTER_NAME', defaultValue: 'translator-eks-ci-blue-cluster', description: 'AWS EKS that will host this application')
     }
     environment {
-        TRANSFORMERS = "node-normalizer"
+        TRANSFORMERS = "hmdb"
     }    
     triggers {
         pollSCM('H/2 * * * *')
@@ -61,7 +61,7 @@ pipeline {
             }
             steps {
                 withEnv([
-                    "IMAGE_NAME=translator-molepro-node-normalizer",
+                    "IMAGE_NAME=translator-molepro-hmdb",
                     "BUILD_VERSION=" + (params.BUILD_VERSION ?: env.BUILD_VERSION)
                 ]) {
                     dir(".") {
@@ -94,11 +94,11 @@ pipeline {
                             sh '''
                             aws --region ${AWS_REGION} eks update-kubeconfig --name ${KUBERNETES_CLUSTER_NAME}
                             cp -R translator-ops/ops/molepro/deploy/* translator-ops/ops/molepro/helm/                           
-                            cp -R translator-ops/ops/molepro/config/transformers/molepro-node-normalizer.yaml translator-ops/ops/molepro/helm/
+                            cp -R translator-ops/ops/molepro/config/transformers/molepro-hmdb.yaml translator-ops/ops/molepro/helm/
                             cd translator-ops/ops/molepro/helm/
                             /bin/bash deploy.sh
                             '''
-                         }
+                           }
                        } 
                     }
                 }
