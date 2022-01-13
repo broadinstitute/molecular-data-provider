@@ -97,8 +97,8 @@ pipeline {
                             cd translator-ops/ops/molepro/helm/
                             /bin/bash deploy.sh
                             '''
-                        }
-                      } 
+                            }
+                        } 
                     }
                 }
             }
