@@ -87,6 +87,9 @@ pipeline {
                 sshagent (credentials: ['labshare-svc']) {
                     dir(".") {
                         sh 'git clone git@github.com:Sphinx-Automation/translator-ops.git'
+                        configFileProvider([
+                        configFile(fileId: 'values-transformers.yaml', targetLocation: 'translator-ops/ops/molepro/helm/values-transformers.yaml')
+                       ]){
                         withAWS(credentials:'aws-ifx-deploy') {
                             sh '''
                             aws --region ${AWS_REGION} eks update-kubeconfig --name ${KUBERNETES_CLUSTER_NAME}
@@ -95,8 +98,8 @@ pipeline {
                             cd translator-ops/ops/molepro/helm/
                             /bin/bash deploy.sh
                             '''
-                        }
-                        
+                           }
+                       } 
                     }
                 }
             }
