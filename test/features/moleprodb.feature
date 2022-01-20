@@ -3,14 +3,15 @@ Feature: Check MoleProDB transformer
     Background: Specify transformer API
         Given a transformer at "https://translator.broadinstitute.org/moleprodb"
 
+
     Scenario: Check producer transformer info
         Given the transformer
         when we fire "/elements/transformer_info" query
         then the value of "name" should be "MoleProDB node producer"
         and the value of "knowledge_map.input_class" should be "none"
         and the value of "knowledge_map.output_class" should be "any"
-        and the value of "version" should be "2.4.1"
-        and the value of "properties.source_version" should be "2.4.0 (2021-09-27)"
+        and the value of "version" should be "2.4.3"
+        and the value of "properties.source_version" should be "2.4.2 (2021-11-20)"
         and the size of "parameters" should be 1
 
 
@@ -20,8 +21,8 @@ Feature: Check MoleProDB transformer
         then the value of "name" should be "MoleProDB name producer"
         and the value of "knowledge_map.input_class" should be "none"
         and the value of "knowledge_map.output_class" should be "any"
-        and the value of "version" should be "2.4.1"
-        and the value of "properties.source_version" should be "2.4.0 (2021-09-27)"
+        and the value of "version" should be "2.4.3"
+        and the value of "properties.source_version" should be "2.4.2 (2021-11-20)"
         and the size of "parameters" should be 1
 
 
@@ -31,9 +32,20 @@ Feature: Check MoleProDB transformer
         then the value of "name" should be "MoleProDB connections transformer"
         and the value of "knowledge_map.input_class" should be "any"
         and the value of "knowledge_map.output_class" should be "any"
-        and the value of "version" should be "2.4.1"
-        and the value of "properties.source_version" should be "2.4.0 (2021-09-27)"
+        and the value of "version" should be "2.4.3"
+        and the value of "properties.source_version" should be "2.4.2 (2021-11-20)"
         and the size of "parameters" should be 6
+
+
+    Scenario: Check transformer info for hierarchy transformer
+        Given the transformer
+        when we fire "/hierarchy/transformer_info" query
+        then the value of "name" should be "MoleProDB hierarchy transformer"
+        and the value of "knowledge_map.input_class" should be "any"
+        and the value of "knowledge_map.output_class" should be "any"
+        and the value of "version" should be "2.4.3"
+        and the value of "properties.source_version" should be "2.4.2 (2021-11-20)"
+        and the size of "parameters" should be 2
 
 
     Scenario: Check node producer
@@ -372,3 +384,86 @@ Feature: Check MoleProDB transformer
             | source_element_id |
             | CHEBI:52717       |
             | CHEBI:15365       |
+
+
+    Scenario: Check hierarchy transformer
+        Given the transformer
+        when we fire "/hierarchy/transform" query with the following body:
+        """
+        {
+            "controls": [
+                {
+                    "name": "name_source",
+                    "value": "MolePro"
+                },
+                {
+                    "name": "element_attribute",
+                    "value": "biolink:publication"
+                }
+            ],
+            "collection": [
+                {
+                    "biolink_class": "Disease",
+                    "id": "MESH:D003924",
+                    "provided_by": "SRI node normalizer",
+                    "source": "SRI node normalizer",
+                    "identifiers": {
+                        "mondo": "MONDO:0005148"
+                    }
+                }
+            ]
+        }
+        """
+        then the size of the response is 15
+        and the response contains the following entries in "id"
+            | id            |
+            | MONDO:0005148 |
+            | MONDO:0001076 |
+            | MONDO:0005015 |
+            | MONDO:0004335 |
+            | MONDO:0000001 |
+            | MONDO:0005066 |
+            | MONDO:0006022 |
+            | MONDO:0005151 |
+            | MONDO:0005020 |
+            | MONDO:0003847 |
+            | MONDO:0019052 |
+            | MONDO:0002356 |
+            | MONDO:0012819 |
+            | MONDO:0002908 |
+            | MONDO:0014488 |
+        and the response only contains the following entries in "id"
+            | id            |
+            | MONDO:0005148 |
+            | MONDO:0001076 |
+            | MONDO:0005015 |
+            | MONDO:0004335 |
+            | MONDO:0000001 |
+            | MONDO:0005066 |
+            | MONDO:0006022 |
+            | MONDO:0005151 |
+            | MONDO:0005020 |
+            | MONDO:0003847 |
+            | MONDO:0019052 |
+            | MONDO:0002356 |
+            | MONDO:0012819 |
+            | MONDO:0002908 |
+            | MONDO:0014488 |
+        and the response contains the following entries in "source"
+            | source  |
+            | MolePro |
+        and the response only contains the following entries in "source"
+            | source  |
+            | MolePro |
+        and the response contains the following entries in "biolink_class"
+            | biolink_class |
+            | Disease       |
+        and the response only contains the following entries in "biolink_class"
+            | biolink_class |
+            | Disease       |
+        and the response contains the following entries in "source_element_id" of "connections" array
+            | source_element_id |
+            | MESH:D003924      |
+        and the response only contains the following entries in "source_element_id" of "connections" array
+            | source_element_id |
+            | MESH:D003924      |
