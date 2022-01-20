@@ -152,23 +152,3 @@ Feature: Check ChEMBL transformer
             | ChEMBL indication transformer |
 
 
-    Scenario: Check ChEMBL mechanisms transformer
-        Given the transformer
-        when we fire "/mechanisms/transform" query with the following body:
-        """
-        {
-            "controls": [],
-            "collection": [
-                {
-                    "id": "CID:2244",
-                    "identifiers": {
-                        "chembl": "ChEMBL:CHEMBL25"
-                    },
-                    "structure": {
-                        "inchikey": "BSYNRYMUTXBXSQ-UHFFFAOYSA-N"
-                    }
-                }
-            ]
-        }
-        """
-        then the size of the response is 108
