@@ -86,7 +86,7 @@ pipeline {
             steps {
                 sshagent (credentials: ['labshare-svc']) {
                     dir(".") {
-                        sh 'git clone -b ctrp-update git@github.com:Sphinx-Automation/translator-ops.git'
+                        sh 'git clone git@github.com:Sphinx-Automation/translator-ops.git'
                         configFileProvider([
                         configFile(fileId: 'values-transformers.yaml', targetLocation: 'translator-ops/ops/molepro/helm/values-transformers.yaml')
                        ]){
