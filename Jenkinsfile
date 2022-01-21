@@ -87,7 +87,7 @@ pipeline {
                 sshagent (credentials: ['labshare-svc']) {
                     dir(".") {
                         sh 'git clone git@github.com:Sphinx-Automation/translator-ops.git'
-configFileProvider([
+                        configFileProvider([
                         configFile(fileId: 'values-transformers.yaml', targetLocation: 'translator-ops/ops/molepro/helm/values-transformers.yaml')
                        ]){
                         withAWS(credentials:'aws-ifx-deploy') {
@@ -98,9 +98,9 @@ configFileProvider([
                             cd translator-ops/ops/molepro/helm/
                             /bin/bash deploy.sh
                             '''
-                        }
-                      }
-                    }
+                            }
+                         }
+                     }
                 }
             }
         }
