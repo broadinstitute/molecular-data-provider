@@ -13,9 +13,8 @@ pipeline {
         string(name: 'KUBERNETES_CLUSTER_NAME', defaultValue: 'translator-eks-ci-blue-cluster', description: 'AWS EKS that will host this application')
     }
     environment {
-        DEPLOY_ENV = "ci"
         TRANSFORMERS = "biggmodels"
-    }   
+    }    
     triggers {
         pollSCM('H/2 * * * *')
     }
@@ -62,7 +61,7 @@ pipeline {
             }
             steps {
                 withEnv([
-                    "IMAGE_NAME=translator-molepro-bigg-models",
+                    "IMAGE_NAME=translator-molepro-biggmodels",
                     "BUILD_VERSION=" + (params.BUILD_VERSION ?: env.BUILD_VERSION)
                 ]) {
                     dir(".") {
@@ -76,6 +75,7 @@ pipeline {
                 }
             }
         }
+        
         stage('Deploy') {
             when {
                 anyOf {
@@ -87,6 +87,9 @@ pipeline {
                 sshagent (credentials: ['labshare-svc']) {
                     dir(".") {
                         sh 'git clone git@github.com:Sphinx-Automation/translator-ops.git'
+                        configFileProvider([
+                        configFile(fileId: 'values-transformers.yaml', targetLocation: 'translator-ops/ops/molepro/helm/values-transformers.yaml')
+                       ]){
                         withAWS(credentials:'aws-ifx-deploy') {
                             sh '''
                             aws --region ${AWS_REGION} eks update-kubeconfig --name ${KUBERNETES_CLUSTER_NAME}
@@ -95,8 +98,8 @@ pipeline {
                             cd translator-ops/ops/molepro/helm/
                             /bin/bash deploy.sh
                             '''
-                        }
-                        
+                           }
+                       } 
                     }
                 }
             }
