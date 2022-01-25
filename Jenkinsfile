@@ -61,7 +61,7 @@ pipeline {
             }
             steps {
                 withEnv([
-                    "IMAGE_NAME=translator-molepro-biggmodels",
+                    "IMAGE_NAME=translator-molepro-bigg-models",
                     "BUILD_VERSION=" + (params.BUILD_VERSION ?: env.BUILD_VERSION)
                 ]) {
                     dir(".") {
