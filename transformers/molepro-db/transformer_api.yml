@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: Transformer API for MolePro database
   termsOfService: https://github.com/broadinstitute/molecular-data-provider/blob/master/terms_of_service.md
-  version: 2.4.0
+  version: 2.4.3
   
   contact:
     email: translator@broadinstitute.org
@@ -27,7 +27,7 @@ paths:
         required: true
         schema:
           type: string
-          enum: [elements,connections]
+          enum: [elements,connections,names,hierarchy]
       - name: cache
         in: query
         description: >-
@@ -58,7 +58,7 @@ paths:
         required: true
         schema:
           type: string
-          enum: [elements,connections]
+          enum: [elements,connections,names,hierarchy]
       - name: cache
         in: query
         description: >-

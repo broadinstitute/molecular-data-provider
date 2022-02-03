@@ -4,7 +4,7 @@ info:
     email: translator@broadinstitute.org
   termsOfService: https://github.com/broadinstitute/molecular-data-provider/blob/master/terms_of_service.md
   title: Transformer API for MolePro database
-  version: 2.4.0
+  version: 2.4.3
 servers:
 - url: https://translator.broadinstitute.org/moleprodb
 tags:
@@ -25,6 +25,8 @@ paths:
           enum:
           - elements
           - connections
+          - names
+          - hierarchy
           type: string
         style: simple
       - description: Directive for handling caching, can be 'yes' (default), 'no',
@@ -88,6 +90,8 @@ paths:
           enum:
           - elements
           - connections
+          - names
+          - hierarchy
           type: string
         style: simple
       - description: Directive for handling caching, can be 'yes' (default), 'no',
