@@ -29,6 +29,18 @@ class MoleProDB(Transformer):
         load_identifier_priority()
 
 
+    def find_element(self, element_identifiers):
+        for field in identifier_priority:
+            if field in element_identifiers:
+                identifiers = element_identifiers[field]
+                if isinstance(identifiers, str):
+                    identifiers = [identifiers]
+                for identifier in identifiers:
+                    for list_element_id in find_element(identifier):
+                        return list_element_id
+        return None
+
+
     def create_element(self, list_element_id, name_sources=None, element_attributes=None):
         element = None
         for row in get_element(list_element_id):
@@ -162,6 +174,10 @@ class MoleProDBNameProducer(Producer, MoleProDB):
 
 
 
+##############################################
+#  MoleProDB connections transformer
+#
+#
 class MoleProDBTransformer(MoleProDB):
 
     variables = ['predicate', 'biolink_class', 'id', 'name_source', 'element_attribute', 'connection_attribute']
@@ -169,7 +185,6 @@ class MoleProDBTransformer(MoleProDB):
 
     def __init__(self):
         super().__init__(self.variables, definition_file='data/moleprodb_transformer_info.json')
-
 
     def update_transformer_info(self, transformer_info):
         load_identifier_priority()
@@ -194,18 +209,6 @@ class MoleProDBTransformer(MoleProDB):
         return element_list
 
 
-    def find_element(self, element_identifiers):
-        for field in identifier_priority:
-            if field in element_identifiers:
-                identifiers = element_identifiers[field]
-                if isinstance(identifiers, str):
-                    identifiers = [identifiers]
-                for identifier in identifiers:
-                    for list_element_id in find_element(identifier):
-                        return list_element_id
-        return None
-
-
     def create_connection(self, source_element_id, row, connection_attributes):
         connection_id = row['connection_id']
         biolink_predicate = row['biolink_predicate']
@@ -228,6 +231,64 @@ class MoleProDBTransformer(MoleProDB):
         )
         return connection
 
+
+
+##############################################################
+#  MoleProDB hierarchy transformer
+#
+# Support for entity subclass operations issue #189
+#  https://github.com/broadinstitute/scb-kp-dev/issues/189
+#  
+# self.find_element(query_element.identifiers) obtains parent element 
+# ids before the query
+#
+# self.create_element(object_id, name_sources, element_attributes) 
+# query the elements after the query. 
+#
+#
+class MoleProDBhierarchyTransformer(MoleProDB):
+
+    variables = ['name_source', 'element_attribute']
+
+    def __init__(self):
+        super().__init__(self.variables, definition_file='data/moleprodb_hierarchy_transformer_info.json')
+
+    def update_transformer_info(self, transformer_info):
+        load_identifier_priority()
+
+    def map(self, input_list, controls):
+        ### Use name_source (e.g., BiGG, BiGG Model, CBN, COMe, CTD, ChEBI, ChEMBL, ChemBank)
+        name_sources = set(controls.get('name_source')) if controls.get('name_source') is not None else None
+        ### Use element_attribute
+        element_attributes = set(controls.get('element_attribute')) if controls.get('element_attribute') is not None else None
+        element_list = []
+        elements = {}
+        
+        for query_element in input_list:
+            query_element_id = self.find_element(query_element.identifiers)
+            #### query to get hierarchy information
+            for element_id in find_hierarchy(query_element_id, controls):
+                if element_id not in elements:
+                    #query elements after the query. 
+                    element = self.create_element(element_id, name_sources, element_attributes)
+                    element_list.append(element)
+                    elements[element_id] = element
+                connection = self.create_connection(query_element.id)
+                elements[element_id].connections.append(connection)
+        return element_list
+
+
+    def create_connection(self, source_element_id):
+        return Connection(
+            source_element_id = source_element_id,
+            biolink_predicate = 'biolink:subclass_of',
+            inverse_predicate = 'biolink:superclass_of',
+            relation = 'biolink:subclass_of',
+            inverse_relation = 'biolink:superclass_of',
+            source = self.SOURCE,
+            provided_by = self.PROVIDED_BY,
+            attributes = []
+        )
 
 
 def find_elements_by_id1(prefix, xref):
@@ -408,6 +469,31 @@ def find_connections(query_element_id, controls):
     cur = connection.cursor()
     cur.execute(query,(query_element_id,query_element_id))
     return cur.fetchall()
+
+
+####################################################################################################
+#
+# Given the Parent class, find child classes (e.g., For "Type II Diabetes" the child classes include
+# diabetic ketoacidosis, glucose metabolism disease, diabetes mellitus, noninsulin-dependent, 5)
+# 
+#
+#
+def find_hierarchy(query_element_id, controls):
+    if query_element_id is None:
+        return []
+    query = """
+        SELECT list_element_id
+        FROM Element_Hierarchy
+        WHERE parent_element_id = ?;
+        """
+    cur = connection.cursor()
+    cur.execute(query, (query_element_id,))
+
+    ### accumulate child element ids
+    element_ids = []
+    for row in cur.fetchall():
+        element_ids.append(row['list_element_id'])
+    return element_ids
 
 
 def find_element(query_id):

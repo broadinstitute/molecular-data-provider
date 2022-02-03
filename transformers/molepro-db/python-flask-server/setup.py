@@ -4,7 +4,7 @@ import sys
 from setuptools import setup, find_packages
 
 NAME = "moleprodb_transformer"
-VERSION = "2.4.2"
+VERSION = "2.4.3"
 
 # To install the library, run the following
 #
