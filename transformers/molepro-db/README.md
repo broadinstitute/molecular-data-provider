@@ -43,7 +43,7 @@ download moleprodb_transformer_info.json from `https://translator.broadinstitute
 ```
 python3 -m venv venv
 source venv/bin/activate.csh
-pip install -I moleprodb_transformer-2.3.0-py3-none-any.whl
+pip install -I moleprodb_transformer-2.4.3-py3-none-any.whl
 pip install -I base_transformer-2.0.0-py3-none-any.whl
 pip install gunicorn
 pip install "connexion[swagger-ui]"
