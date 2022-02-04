@@ -36,7 +36,7 @@ download moleprodb_producer_info.json from `https://translator.broadinstitute.or
 
 download moleprodb_transformer_info.json from `https://translator.broadinstitute.org/db/moleprodb_transformer_info.json` and save to `data` subfolder of the target folder
 
-download moleprodb_hierarchy_transformer_info.json from 'https://translator.broadinstitute.org/db/moleprodb_hierarchy_transformer_info.json' and save to ‘data’ subfolder of the target folder
+### download moleprodb_hierarchy_transformer_info.json from 'https://translator.broadinstitute.org/db/moleprodb_hierarchy_transformer_info.json' and save to ‘data’ subfolder of the target folder
 
 ### Install transformer on server
 
