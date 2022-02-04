@@ -15,7 +15,7 @@ python setup.py bdist_wheel
 
 ### Copy files to server
 
-copy `transformers/moleprodb/python-flask-server/dist/moleprodb_transformer-2.3.0-py3-none-any.whl` to the target folder
+**copy `transformers/moleprodb/python-flask-server/dist/moleprodb_transformer-2.4.3-py3-none-any.whl` to the target folder**
 
 copy `util/python/transformers-2.0/dist/base_transformer-2.0.0-py3-none-any.whl` to the target folder
 
