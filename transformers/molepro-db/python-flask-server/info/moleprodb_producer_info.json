@@ -2,7 +2,7 @@
     "name": "MoleProDB node producer",
     "label": "MolePro",
     "description": "MoleProDB node producer",
-    "version": "2.4.1",
+    "version": "2.4.3",
     "function": "producer",
     "knowledge_map": {
         "input_class": "none",
@@ -13,7 +13,7 @@
     },
     "properties": {
         "source_url": "https://translator.broadinstitute.org/molecular_data_provider/",
-        "source_version": "2.4.0 (2021-09-27)",
+        "source_version": "2.4.2 (2021-11-20)",
         "terms_of_service": "https://github.com/broadinstitute/molecular-data-provider/blob/master/terms_of_service.md"
     },
     "parameters": [

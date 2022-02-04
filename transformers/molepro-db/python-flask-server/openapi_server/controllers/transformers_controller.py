@@ -10,10 +10,12 @@ from openapi_server import util
 from openapi_server.controllers.moleprodb_controller import MoleProDBProducer
 from openapi_server.controllers.moleprodb_controller import MoleProDBNameProducer
 from openapi_server.controllers.moleprodb_controller import MoleProDBTransformer
+from openapi_server.controllers.moleprodb_controller import MoleProDBhierarchyTransformer
 
 transformer = {
     'elements': MoleProDBProducer(),
     'connections': MoleProDBTransformer(),
+    'hierarchy': MoleProDBhierarchyTransformer(),
     'names': MoleProDBNameProducer()
 }
 
