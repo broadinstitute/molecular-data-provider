@@ -23,6 +23,7 @@ ADD https://translator.broadinstitute.org/db/MoleProDB.sqlite /usr/src/app/data
 ADD https://translator.broadinstitute.org/db/moleprodb_name_producer_info.json /usr/src/app/data
 ADD https://translator.broadinstitute.org/db/moleprodb_producer_info.json /usr/src/app/data
 ADD https://translator.broadinstitute.org/db/moleprodb_transformer_info.json /usr/src/app/data
+ADD https://translator.broadinstitute.org/db/moleprodb_hierarchy_transformer_info.json /usr/src/app/data
 WORKDIR /usr/src/app
 COPY --from=packaging-image /usr/src/base/dist .
 COPY --from=packaging-image /usr/src/moleprodb/dist .
