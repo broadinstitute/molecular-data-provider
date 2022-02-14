@@ -71,7 +71,6 @@ pipeline {
                                  docker.withRegistry('https://853771734544.dkr.ecr.us-east-1.amazonaws.com', 'ecr:us-east-1:ifx-jenkins-ci') {
                                      docker.image("${env.IMAGE_NAME}").push("${BUILD_VERSION}")
 
-
                              sh '''
                              docker pull alpine:latest
                              docker tag alpine:latest 853771734544.dkr.ecr.us-east-1.amazonaws.com/$IMAGE_NAME:alpine-latest
