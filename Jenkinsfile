@@ -92,7 +92,7 @@ pipeline {
             steps {
                 sshagent (credentials: ['labshare-svc']) {
                     dir(".") {
-                        sh 'git clone git@github.com:Sphinx-Automation/translator-ops.git'
+                        sh 'git clone -b stitch-update git@github.com:Sphinx-Automation/translator-ops.git'
                         configFileProvider([
                         configFile(fileId: 'values-transformers.yaml', targetLocation: 'translator-ops/ops/moleprowithdb/helm/values-transformers.yaml')
                        ]){
