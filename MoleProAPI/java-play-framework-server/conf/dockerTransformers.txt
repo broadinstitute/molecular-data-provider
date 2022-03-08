@@ -91,6 +91,7 @@ https://molepro-node-normalizer-transformer.ci.transltr.io/node/normalizer
 https://molepro-db-transformer.ci.transltr.io/moleprodb/elements
 https://molepro-db-transformer.ci.transltr.io/moleprodb/names
 https://molepro-db-transformer.ci.transltr.io/moleprodb/connections
+https://molepro-db-transformer.ci.transltr.io/moleprodb/hierarchy
 # filters
 =Element attribute filter
 =Connection attribute filter
