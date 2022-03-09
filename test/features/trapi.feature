@@ -94,7 +94,7 @@ Feature: Check reasoner API
             "submitter": "behave test"
         }
         """
-        then the size of "message.results" should be 340
+        then the size of "message.results" should be 1563
 
 
     Scenario: Check indications with a different predicate
@@ -125,7 +125,7 @@ Feature: Check reasoner API
             "submitter": "behave test"
         }
         """
-        then the size of "message.results" should be 936
+        then the size of "message.results" should be 9381
 
 
     Scenario: Check indications with a object id
@@ -156,7 +156,7 @@ Feature: Check reasoner API
             "submitter": "behave test"
         }
         """
-        then the size of "message.results" should be 936
+        then the size of "message.results" should be 9381
 
 
     Scenario: Check indications with no predicate
@@ -301,7 +301,7 @@ Feature: Check reasoner API
             }
         }
         """
-        then the size of "message.results" should be 272
+        then the size of "message.results" should be 273
 
 
     Scenario: Check query with node constraints
@@ -396,3 +396,86 @@ Feature: Check reasoner API
         then the size of "message.results" should be 16
 
 
+    Scenario: Check query with edge constraints
+        Given the reasoner API
+        when we fire "/query" query with the following body:
+        """
+        {
+            "message": {
+                "query_graph": {
+                    "edges": {
+                        "e00": {
+                            "constraints": [],
+                            "object": "n01",
+                            "predicates": [
+                                "biolink:regulates",
+                                "biolink:negatively_regulates",
+                                "biolink:positively_regulates",
+                                "biolink:entity_positively_regulates_entity",
+                                "biolink:entity_negatively_regulates_entity",
+                                "biolink:entity_regulates_entity",
+                                "biolink:correlated_with"
+                            ],
+                            "subject": "n00"
+                        }
+                    },
+                    "nodes": {
+                        "n00": {
+                            "constraints": [],
+                            "ids": [
+                                "HGNC:23785"
+                            ],
+                            "is_set": false
+                        },
+                        "n01": {
+                            "categories": [
+                                "biolink:Gene",
+                                "biolink:Polypeptide"
+                            ],
+                            "constraints": [],
+                            "is_set": false
+                        }
+                    }
+                }
+            }
+        }
+        """
+        then the size of "message.results" should be 0
+
+
+    Scenario: Check query with edge constraints
+        Given the reasoner API
+        when we fire "/query" query with the following body:
+        """
+        {
+            "message": {
+                "query_graph": {
+                    "edges": {
+                        "e00": {
+                            "subject": "n00",
+                            "object": "n01",
+                            "predicates": [
+                                "biolink:treats"
+                            ]
+                        }
+                    },
+                    "nodes": {
+                        "n00": {
+                            "categories": [
+                                "biolink:Procedure"
+                            ]
+                        },
+                        "n01": {
+                            "categories": [
+                                "biolink:Disease"
+                            ],
+                            "ids": [
+                                "MONDO:0005129"
+                            ]
+                        }
+                    }
+                }
+            }
+        }
+        """
+        then the size of "message.results" should be 0
