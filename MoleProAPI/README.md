@@ -22,14 +22,25 @@ tar xf molecular-data-provider-2.4.1.tar
 
 ### start MolePro
 
-#### for CI (Continuous Integration) environment:
-set environment variable MOLEPRO_HOST = https://molepro.ci.transltr.io/molecular_data_provider
+#### for CI (Continuous Integration) environment only:
+* set environment variable MOLEPRO_HOST = https://molepro.ci.transltr.io/molecular_data_provider
 
-set environment variable MOLEPRO_TRANSFORMERS = conf/dockerTransformers.txt
+* set environment variable MOLEPRO_TRANSFORMERS = conf/dockerTransformers.txt
 
-cd molecular-data-provider-2.4.1
+#### for TEST environment only:
+* set environment variable MOLEPRO_HOST = https://molepro.test.transltr.io/molecular_data_provider
 
-./bin/molecular-data-provider -J-Xmx4096m -Dplay.http.secret.key='{passrowd}' -Dhttp.port=9200
+* set environment variable MOLEPRO_TRANSFORMERS = conf/dockerTransformers-test.txt
+
+#### for Production environment only:
+* set environment variable MOLEPRO_HOST = https://molepro.transltr.io/molecular_data_provider
+
+* set environment variable MOLEPRO_TRANSFORMERS = conf/dockerTransformers-prod.txt
+
+#### for all environments:
+* cd molecular-data-provider-2.4.1
+
+* ./bin/molecular-data-provider -J-Xmx4096m -Dplay.http.secret.key='{passrowd}' -Dhttp.port=9200
 
 
 
