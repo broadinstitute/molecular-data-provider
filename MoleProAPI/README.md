@@ -27,7 +27,7 @@ tar xf molecular-data-provider-2.4.1.tar
 
 * set environment variable MOLEPRO_TRANSFORMERS = conf/dockerTransformers.txt
 
-#### for TEST environment only:
+#### for Test environment only:
 * set environment variable MOLEPRO_HOST = https://molepro.test.transltr.io/molecular_data_provider
 
 * set environment variable MOLEPRO_TRANSFORMERS = conf/dockerTransformers-test.txt
@@ -37,12 +37,12 @@ tar xf molecular-data-provider-2.4.1.tar
 
 * set environment variable MOLEPRO_TRANSFORMERS = conf/dockerTransformers-prod.txt
 
-#### for all environments:
+#### for all environments (CI, Test and Production):
 * cd molecular-data-provider-2.4.1
 
 * ./bin/molecular-data-provider -J-Xmx4096m -Dplay.http.secret.key='_{passrowd}_' -Dhttp.port=9200
  
-   #### (replace _{passrowd}_ with an actual secret key that was provided)
+   #### (be sure to replace _{passrowd}_ with an actual secret key, any random string generated but not to be saved in GitHub)
 
 
 
