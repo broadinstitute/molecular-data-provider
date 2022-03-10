@@ -40,7 +40,10 @@ tar xf molecular-data-provider-2.4.1.tar
 #### for all environments:
 * cd molecular-data-provider-2.4.1
 
-* ./bin/molecular-data-provider -J-Xmx4096m -Dplay.http.secret.key='{passrowd}' -Dhttp.port=9200
+* ./bin/molecular-data-provider -J-Xmx4096m -Dplay.http.secret.key='_{passrowd}_' -Dhttp.port=9200
+ 
+   #### (replace _{passrowd}_ with an actual secret key that was provided)
+
 
 
 
