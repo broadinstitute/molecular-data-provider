@@ -22,6 +22,7 @@ tar xf molecular-data-provider-2.4.1.tar
 
 ### start MolePro
 
+## for CI (Continuous Integration) environment:
 set environment variable MOLEPRO_HOST = https://molepro.ci.transltr.io/molecular_data_provider
 
 set environment variable MOLEPRO_TRANSFORMERS = conf/dockerTransformers.txt
