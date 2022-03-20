@@ -9,3 +9,17 @@ on:
     types: [requested]
     branches:
       - 'test-dev'
+
+
+jobs:
+
+  trapi:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v2
+    
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/trapi-itrb-test.feature
