@@ -8,7 +8,7 @@
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
 
 # https://github.com/broadinstitute/molecular-data-provider/blob/master/.github/workflows/main.yml
-name: Daily testing
+name: Daily Broad Institute Translator testing
 
 on:
   workflow_dispatch:
