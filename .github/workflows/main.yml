@@ -19,6 +19,8 @@ jobs:
 # This workflow contains a multiple jobs to test each transformer
   bigg_models:
     runs-on: ubuntu-latest
+    branches: 
+      - test-dev
     steps:    
         - uses: actions/checkout@v2
     
