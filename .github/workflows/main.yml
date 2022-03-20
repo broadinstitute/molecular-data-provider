@@ -15,11 +15,6 @@ on:
   schedule:
   - cron: '00 00 * * *'   # midnight UTC
 
-  workflow_run:
-    workflows: ["Daily Broad Institute Translator testing"]
-    branches:
-      - 'test-dev'
-
 jobs:
 # This workflow contains a multiple jobs to test each transformer
   bigg_models:
