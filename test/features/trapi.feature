@@ -156,7 +156,7 @@ Feature: Check reasoner API
             "submitter": "behave test"
         }
         """
-        then the size of "message.results" should be 936
+        then the size of "message.results" should be 9381
 
 
     Scenario: Check indications with no predicate
@@ -301,7 +301,7 @@ Feature: Check reasoner API
             }
         }
         """
-        then the size of "message.results" should be 272
+        then the size of "message.results" should be 273
 
 
     Scenario: Check query with node constraints
