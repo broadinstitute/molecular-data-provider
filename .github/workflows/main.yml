@@ -32,7 +32,6 @@ jobs:
           
         - name: Start the BDD testing of the checked out feature file
           run: behave test/features/bigg_models.feature  
- 	   branches:[test-dev]
  
   chebi:
     runs-on: ubuntu-latest
