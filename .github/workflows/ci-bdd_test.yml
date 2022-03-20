@@ -1,0 +1,298 @@
+# This workflow will install Python dependencies, run tests and lint with a single version of Python
+# This workflow was programmed to:
+#   1. be triggered manually (on: workflow_dispatch:), see https://docs.github.com/en/actions/managing-workflow-runs/manually-running-a-workflow
+#   2. be triggered by cron scheduling (on: schedule:) to run at midnight UTC
+#
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
+
+name: Daily ITRB CI Translator testing
+
+# Controls when the workflow will run
+on:
+# Triggers the workflow on cron event but only for the CI branch
+  workflow_dispatch:
+  schedule:
+   - cron: '00 00 * * *'   # midnight UTC
+
+jobs:
+# This workflow contains a multiple jobs to test each transformer
+
+  bigg_models:
+    runs-on: ubuntu-latest
+    branches: 
+      - develop
+    steps:    
+        - uses: actions/checkout@v2
+    
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/bigg_models-itrb-test.feature
+          
+  chebi:
+    runs-on: ubuntu-latest
+    steps:    
+        - uses: actions/checkout@v2
+    
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/chebi-itrb-test.feature
+
+  chembank:
+    runs-on: ubuntu-latest
+    steps:    
+        - uses: actions/checkout@v2
+    
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/chembank-itrb-test.feature
+
+  chembl:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v2
+    
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/chembl-itrb-test.feature
+
+  cmap:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v2
+    
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/cmap-itrb-test.feature
+
+  ctd:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v2
+    
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/ctd-itrb-test.feature
+          
+          
+  ctrp:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v2
+    
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/ctrp-itrb-test.feature
+          
+  depmap:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v2
+    
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/depmap-itrb-test.feature
+
+  dgidb:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v2
+    
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/dgidb-itrb-test.feature
+
+  drugbank:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v2
+    
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/drugbank-itrb-test.feature
+
+  drugcentral:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v2
+    
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/drugcentral-itrb-test.feature
+          
+#  gelinea:
+#    runs-on: ubuntu-latest
+#    steps:
+#        - uses: actions/checkout@v2
+    
+#        - name: download all the required python modules
+#          run: pip install -r test/requirements.txt
+          
+#        - name: Start the BDD testing of the checked out feature file
+#          run: behave test/features/gelinea.feature
+          
+  gtopdb:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v2
+    
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/gtopdb-itrb-test.feature
+          
+  hmdb:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v2
+    
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/hmdb-itrb-test.feature
+
+  inxight_drugs:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v2
+    
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/inxight_drugs-itrb-test.feature
+
+  molecular_data_provider:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v2
+    
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/molecular-data-provider-itrb-test.feature
+
+  moleprodb:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v2
+    
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/moleprodb-itrb-test.feature
+    
+  node-normalizer:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v2
+    
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/node-normalizer-itrb-test.feature
+
+  pharos:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v2
+    
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/pharos-itrb-test.feature
+
+  pubchem:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v2
+    
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/pubchem-itrb-test.feature
+
+  repurpose_hub:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v2
+    
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/repurposing-itrb-test.feature
+
+  rxnorm:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v2
+    
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/rxnorm-itrb-test.feature
+          
+          
+  stitch:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v2
+    
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/stitch-itrb-test.feature
+
+  string:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v2
+    
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/string-itrb-test.feature
+          
+  trapi:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v2
+    
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/trapi-itrb-test.feature
+
