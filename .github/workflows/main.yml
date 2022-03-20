@@ -262,6 +262,8 @@ jobs:
 
   trapi:
     runs-on: ubuntu-latest
+    branches:
+	- test-dev
     steps:
         - uses: actions/checkout@v2
     
