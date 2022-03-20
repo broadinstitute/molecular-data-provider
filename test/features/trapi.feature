@@ -94,7 +94,7 @@ Feature: Check reasoner API
             "submitter": "behave test"
         }
         """
-        then the size of "message.results" should be 340
+        then the size of "message.results" should be 1563
 
 
     Scenario: Check indications with a different predicate
