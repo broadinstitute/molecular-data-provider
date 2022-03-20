@@ -125,7 +125,7 @@ Feature: Check reasoner API
             "submitter": "behave test"
         }
         """
-        then the size of "message.results" should be 936
+        then the size of "message.results" should be 9381
 
 
     Scenario: Check indications with a object id
