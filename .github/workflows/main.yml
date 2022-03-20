@@ -265,7 +265,7 @@ jobs:
     steps:
         - uses: actions/checkout@v2
           with:
-           repository: 'broadinstitute/molecular-data-provider/test-dev'
+           repository: 'molecular-data-provider/test-dev'
         - name: download all the required python modules
           run: pip install -r test/requirements.txt
           
