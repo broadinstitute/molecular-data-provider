@@ -263,7 +263,7 @@ jobs:
   trapi:
     runs-on: ubuntu-latest
     steps:
-        - Git checkout
+        - name: Git checkout
           uses: actions/checkout@v2
           with:{ref: test-dev}
         
