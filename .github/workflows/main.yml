@@ -20,8 +20,10 @@ jobs:
   bigg_models:
     runs-on: ubuntu-latest
     steps:    
-        - uses: actions/checkout@v2
-    
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-dev }   
+ 
         - name: download all the required python modules
           run: pip install -r test/requirements.txt
           
@@ -31,7 +33,9 @@ jobs:
   chebi:
     runs-on: ubuntu-latest
     steps:    
-        - uses: actions/checkout@v2
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-dev }
     
         - name: download all the required python modules
           run: pip install -r test/requirements.txt
@@ -42,7 +46,9 @@ jobs:
   chembank:
     runs-on: ubuntu-latest
     steps:    
-        - uses: actions/checkout@v2
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-dev }
     
         - name: download all the required python modules
           run: pip install -r test/requirements.txt
@@ -53,7 +59,9 @@ jobs:
   chembl:
     runs-on: ubuntu-latest
     steps:
-        - uses: actions/checkout@v2
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-dev }
     
         - name: download all the required python modules
           run: pip install -r test/requirements.txt
@@ -64,8 +72,10 @@ jobs:
   cmap:
     runs-on: ubuntu-latest
     steps:
-        - uses: actions/checkout@v2
-    
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-dev }   
+ 
         - name: download all the required python modules
           run: pip install -r test/requirements.txt
           
@@ -75,8 +85,10 @@ jobs:
   ctd:
     runs-on: ubuntu-latest
     steps:
-        - uses: actions/checkout@v2
-    
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-dev }   
+ 
         - name: download all the required python modules
           run: pip install -r test/requirements.txt
           
@@ -86,8 +98,10 @@ jobs:
   ctrp:
     runs-on: ubuntu-latest
     steps:
-        - uses: actions/checkout@v2
-    
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-dev }   
+ 
         - name: download all the required python modules
           run: pip install -r test/requirements.txt
           
@@ -98,8 +112,10 @@ jobs:
   depmap:
     runs-on: ubuntu-latest
     steps:
-        - uses: actions/checkout@v2
-    
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-dev }   
+ 
         - name: download all the required python modules
           run: pip install -r test/requirements.txt
           
@@ -109,8 +125,10 @@ jobs:
   dgidb:
     runs-on: ubuntu-latest
     steps:
-        - uses: actions/checkout@v2
-    
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-dev }   
+ 
         - name: download all the required python modules
           run: pip install -r test/requirements.txt
           
@@ -120,7 +138,9 @@ jobs:
   drugbank:
     runs-on: ubuntu-latest
     steps:
-        - uses: actions/checkout@v2
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-dev }
     
         - name: download all the required python modules
           run: pip install -r test/requirements.txt
@@ -131,7 +151,9 @@ jobs:
   drugcentral:
     runs-on: ubuntu-latest
     steps:
-        - uses: actions/checkout@v2
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-dev }
     
         - name: download all the required python modules
           run: pip install -r test/requirements.txt
@@ -142,7 +164,9 @@ jobs:
   gelinea:
     runs-on: ubuntu-latest
     steps:
-        - uses: actions/checkout@v2
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-dev }
     
         - name: download all the required python modules
           run: pip install -r test/requirements.txt
@@ -153,8 +177,10 @@ jobs:
   gtopdb:
     runs-on: ubuntu-latest
     steps:
-        - uses: actions/checkout@v2
-    
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-dev }   
+ 
         - name: download all the required python modules
           run: pip install -r test/requirements.txt
           
@@ -164,7 +190,9 @@ jobs:
   hmdb:
     runs-on: ubuntu-latest
     steps:
-        - uses: actions/checkout@v2
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-dev }
     
         - name: download all the required python modules
           run: pip install -r test/requirements.txt
@@ -175,7 +203,9 @@ jobs:
   molecular-data-provider:
     runs-on: ubuntu-latest
     steps:
-        - uses: actions/checkout@v2
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-dev }
     
         - name: download all the required python modules
           run: pip install -r test/requirements.txt
@@ -186,8 +216,10 @@ jobs:
   molepro-filters:
     runs-on: ubuntu-latest
     steps:
-        - uses: actions/checkout@v2
-    
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-dev } 
+   
         - name: download all the required python modules
           run: pip install -r test/requirements.txt
           
@@ -197,7 +229,9 @@ jobs:
   moleprodb:
     runs-on: ubuntu-latest
     steps:
-        - uses: actions/checkout@v2
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-dev }
     
         - name: download all the required python modules
           run: pip install -r test/requirements.txt
@@ -208,8 +242,10 @@ jobs:
   pharos:
     runs-on: ubuntu-latest
     steps:
-        - uses: actions/checkout@v2
-    
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-dev }    
+        
         - name: download all the required python modules
           run: pip install -r test/requirements.txt
           
@@ -219,8 +255,10 @@ jobs:
   pubchem:
     runs-on: ubuntu-latest
     steps:
-        - uses: actions/checkout@v2
-    
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-dev } 
+
         - name: download all the required python modules
           run: pip install -r test/requirements.txt
           
@@ -230,8 +268,10 @@ jobs:
   repurposing:
     runs-on: ubuntu-latest
     steps:
-        - uses: actions/checkout@v2
-    
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-dev } 
+
         - name: download all the required python modules
           run: pip install -r test/requirements.txt
           
@@ -241,8 +281,11 @@ jobs:
   stitch:
     runs-on: ubuntu-latest
     steps:
-        - uses: actions/checkout@v2
-    
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-dev } 
+
+ 
         - name: download all the required python modules
           run: pip install -r test/requirements.txt
           
@@ -252,8 +295,10 @@ jobs:
   string:
     runs-on: ubuntu-latest
     steps:
-        - uses: actions/checkout@v2
-    
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-dev } 
+
         - name: download all the required python modules
           run: pip install -r test/requirements.txt
           
