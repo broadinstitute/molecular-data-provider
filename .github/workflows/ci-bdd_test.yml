@@ -19,8 +19,6 @@ jobs:
 
   bigg_models:
     runs-on: ubuntu-latest
-    branches: 
-      - develop
     steps:    
         - name: Git checkout
           uses: actions/checkout@v2
