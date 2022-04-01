@@ -28,7 +28,7 @@ jobs:
           run: pip install -r test/requirements.txt
           
         - name: Start the BDD testing of the checked out feature file
-          run: behave test/features/bigg_models-itrb-test.feature
+          run: behave test/features/bigg_model.feature
           
   chebi:
     runs-on: ubuntu-latest
@@ -41,7 +41,7 @@ jobs:
           run: pip install -r test/requirements.txt
           
         - name: Start the BDD testing of the checked out feature file
-          run: behave test/features/chebi-itrb-test.feature
+          run: behave test/features/chebi.feature
 
   chembank:
     runs-on: ubuntu-latest
@@ -54,7 +54,7 @@ jobs:
           run: pip install -r test/requirements.txt
           
         - name: Start the BDD testing of the checked out feature file
-          run: behave test/features/chembank-itrb-test.feature
+          run: behave test/features/chembank.feature
 
   chembl:
     runs-on: ubuntu-latest
@@ -67,7 +67,7 @@ jobs:
           run: pip install -r test/requirements.txt
           
         - name: Start the BDD testing of the checked out feature file
-          run: behave test/features/chembl-itrb-test.feature
+          run: behave test/features/chembl.feature
 
   cmap:
     runs-on: ubuntu-latest
@@ -80,7 +80,7 @@ jobs:
           run: pip install -r test/requirements.txt
           
         - name: Start the BDD testing of the checked out feature file
-          run: behave test/features/cmap-itrb-test.feature
+          run: behave test/features/cmap.feature
 
   ctd:
     runs-on: ubuntu-latest
@@ -93,7 +93,7 @@ jobs:
           run: pip install -r test/requirements.txt
           
         - name: Start the BDD testing of the checked out feature file
-          run: behave test/features/ctd-itrb-test.feature
+          run: behave test/features/ctd.feature
           
           
   ctrp:
@@ -107,7 +107,7 @@ jobs:
           run: pip install -r test/requirements.txt
           
         - name: Start the BDD testing of the checked out feature file
-          run: behave test/features/ctrp-itrb-test.feature
+          run: behave test/features/ctrp.feature
           
   depmap:
     runs-on: ubuntu-latest
@@ -120,7 +120,7 @@ jobs:
           run: pip install -r test/requirements.txt
           
         - name: Start the BDD testing of the checked out feature file
-          run: behave test/features/depmap-itrb-test.feature
+          run: behave test/features/depmap.feature
 
   dgidb:
     runs-on: ubuntu-latest
@@ -133,7 +133,7 @@ jobs:
           run: pip install -r test/requirements.txt
           
         - name: Start the BDD testing of the checked out feature file
-          run: behave test/features/dgidb-itrb-test.feature
+          run: behave test/features/dgidb.feature
 
   drugbank:
     runs-on: ubuntu-latest
@@ -146,7 +146,7 @@ jobs:
           run: pip install -r test/requirements.txt
           
         - name: Start the BDD testing of the checked out feature file
-          run: behave test/features/drugbank-itrb-test.feature
+          run: behave test/features/drugbank.feature
 
   drugcentral:
     runs-on: ubuntu-latest
@@ -159,7 +159,7 @@ jobs:
           run: pip install -r test/requirements.txt
           
         - name: Start the BDD testing of the checked out feature file
-          run: behave test/features/drugcentral-itrb-test.feature
+          run: behave test/features/drugcentral.feature
           
 #  gelinea:
 #    runs-on: ubuntu-latest
@@ -183,7 +183,7 @@ jobs:
           run: pip install -r test/requirements.txt
           
         - name: Start the BDD testing of the checked out feature file
-          run: behave test/features/gtopdb-itrb-test.feature
+          run: behave test/features/gtopdb.feature
           
   hmdb:
     runs-on: ubuntu-latest
@@ -196,7 +196,7 @@ jobs:
           run: pip install -r test/requirements.txt
           
         - name: Start the BDD testing of the checked out feature file
-          run: behave test/features/hmdb-itrb-test.feature
+          run: behave test/features/hmdb.feature
 
   inxight_drugs:
     runs-on: ubuntu-latest
@@ -209,7 +209,7 @@ jobs:
           run: pip install -r test/requirements.txt
           
         - name: Start the BDD testing of the checked out feature file
-          run: behave test/features/inxight_drugs-itrb-test.feature
+          run: behave test/features/inxight_drugs.feature
 
   molecular_data_provider:
     runs-on: ubuntu-latest
@@ -222,7 +222,7 @@ jobs:
           run: pip install -r test/requirements.txt
           
         - name: Start the BDD testing of the checked out feature file
-          run: behave test/features/molecular-data-provider-itrb-test.feature
+          run: behave test/features/molecular-data-provider.feature
 
   moleprodb:
     runs-on: ubuntu-latest
@@ -235,7 +235,7 @@ jobs:
           run: pip install -r test/requirements.txt
           
         - name: Start the BDD testing of the checked out feature file
-          run: behave test/features/moleprodb-itrb-test.feature
+          run: behave test/features/moleprodb.feature
     
   node-normalizer:
     runs-on: ubuntu-latest
@@ -248,7 +248,7 @@ jobs:
           run: pip install -r test/requirements.txt
           
         - name: Start the BDD testing of the checked out feature file
-          run: behave test/features/node-normalizer-itrb-test.feature
+          run: behave test/features/node-normalizer.feature
 
   pharos:
     runs-on: ubuntu-latest
@@ -261,7 +261,7 @@ jobs:
           run: pip install -r test/requirements.txt
           
         - name: Start the BDD testing of the checked out feature file
-          run: behave test/features/pharos-itrb-test.feature
+          run: behave test/features/pharos.feature
 
   pubchem:
     runs-on: ubuntu-latest
@@ -274,7 +274,7 @@ jobs:
           run: pip install -r test/requirements.txt
           
         - name: Start the BDD testing of the checked out feature file
-          run: behave test/features/pubchem-itrb-test.feature
+          run: behave test/features/pubchem.feature
 
   repurpose_hub:
     runs-on: ubuntu-latest
@@ -287,7 +287,7 @@ jobs:
           run: pip install -r test/requirements.txt
           
         - name: Start the BDD testing of the checked out feature file
-          run: behave test/features/repurposing-itrb-test.feature
+          run: behave test/features/repurposing.feature
 
   rxnorm:
     runs-on: ubuntu-latest
@@ -300,7 +300,7 @@ jobs:
           run: pip install -r test/requirements.txt
           
         - name: Start the BDD testing of the checked out feature file
-          run: behave test/features/rxnorm-itrb-test.feature
+          run: behave test/features/rxnorm.feature
           
           
   stitch:
@@ -314,7 +314,7 @@ jobs:
           run: pip install -r test/requirements.txt
           
         - name: Start the BDD testing of the checked out feature file
-          run: behave test/features/stitch-itrb-test.feature
+          run: behave test/features/stitch.feature
 
   string:
     runs-on: ubuntu-latest
@@ -327,7 +327,7 @@ jobs:
           run: pip install -r test/requirements.txt
           
         - name: Start the BDD testing of the checked out feature file
-          run: behave test/features/string-itrb-test.feature
+          run: behave test/features/string.feature
           
   trapi:
     runs-on: ubuntu-latest
@@ -340,5 +340,5 @@ jobs:
           run: pip install -r test/requirements.txt
           
         - name: Start the BDD testing of the checked out feature file
-          run: behave test/features/trapi-itrb-test.feature
+          run: behave test/features/trapi.feature
 
