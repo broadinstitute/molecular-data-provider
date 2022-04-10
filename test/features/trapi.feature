@@ -1,7 +1,9 @@
+#https://molepro-trapi.ci.transltr.io/molepro/trapi/v1.2/ui/
+
 Feature: Check reasoner API
 
     Background: Specify Reasoner API
-        Given a reasoner API at "https://translator.broadinstitute.org/molepro/trapi/v1.2"
+        Given a reasoner API at "https://molepro-trapi.test.transltr.io/molepro/trapi/v1.2"
 
 
     Scenario: Check targets
@@ -94,7 +96,7 @@ Feature: Check reasoner API
             "submitter": "behave test"
         }
         """
-        then the size of "message.results" should be 1563
+        then the size of "message.results" should be 340
 
 
     Scenario: Check indications with a different predicate
@@ -125,7 +127,7 @@ Feature: Check reasoner API
             "submitter": "behave test"
         }
         """
-        then the size of "message.results" should be 9381
+        then the size of "message.results" should be 936
 
 
     Scenario: Check indications with a object id
@@ -156,7 +158,7 @@ Feature: Check reasoner API
             "submitter": "behave test"
         }
         """
-        then the size of "message.results" should be 9381
+        then the size of "message.results" should be 936
 
 
     Scenario: Check indications with no predicate
@@ -301,7 +303,7 @@ Feature: Check reasoner API
             }
         }
         """
-        then the size of "message.results" should be 273
+        then the size of "message.results" should be 272
 
 
     Scenario: Check query with node constraints
@@ -394,5 +396,6 @@ Feature: Check reasoner API
         }
         """
         then the size of "message.results" should be 16
+
 
 
