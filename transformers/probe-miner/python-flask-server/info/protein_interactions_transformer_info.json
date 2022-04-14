@@ -1,0 +1,38 @@
+{
+    "name": "ProbeMiner protein interactions transformer",
+    "label": "ProbeMiner",
+    "description": "Transformer based on ProbeMiner (https://probeminer.icr.ac.uk/#/).",
+    "version": "2.4.0",
+    "function": "transformer",
+    "knowledge_map": {
+        "input_class": "protein",
+        "output_class": "compound",
+        "nodes": {
+            "Protein": {
+                "id_prefixes": ["uniprot"]
+            },
+            "SmallMolecule": {
+                "id_prefixes": ["canSAR","inchikey"]
+            }
+        },
+        "edges": [{
+            "subject": "Protein",
+            "predicate": "related_to",
+            "inverse_predicate": "related_to",
+            "object": "SmallMolecule"
+        }]
+    },
+    "properties": {
+        "source_url": "https://probeminer.icr.ac.uk/#/",
+        "source_version": "02_26_2021",
+        "terms_of_service": "https://probeminer.icr.ac.uk/#/download"
+    },
+    "parameters": [
+        {
+            "default":"100",
+            "name":"limit",
+            "type":"string",
+            "suggested_values":"maximum number of connections to display per protein"
+        }
+    ]
+}

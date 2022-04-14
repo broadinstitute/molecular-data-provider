@@ -1,0 +1,33 @@
+{
+    "name": "ProbeMiner chemical interactions transformer",
+    "label": "ProbeMiner",
+    "description": "Transformer based on ProbeMiner (https://probeminer.icr.ac.uk/#/).",
+    "version": "2.4.0",
+    "function": "transformer",
+        "knowledge_map": {
+        "input_class": "compound",
+        "output_class": "protein",
+        "nodes": {
+            "SmallMolecule": {
+                "id_prefixes": ["canSAR","inchikey"]
+            },
+            "Protein": {
+                "id_prefixes": ["uniprot"]
+            }
+        },
+        "edges": [{
+            "subject": "SmallMolecule",
+            "predicate": "related_to",
+            "inverse_predicate": "related_to",
+            "object": "Protein"
+        }]
+    },
+    "properties": {
+        "source_url": "https://probeminer.icr.ac.uk/#/",
+        "source_version": "02_26_2021",
+        "terms_of_service": "https://probeminer.icr.ac.uk/#/download"
+    },
+    "parameters": [
+    ]
+}
+
