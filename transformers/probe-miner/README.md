@@ -15,7 +15,7 @@ python setup.py bdist_wheel
 
 ### Copy files to server
 
-copy `transformers/probe-miner/python-flask-server/dist/probe-miner_transformer-2.4.0-py2-none-any.whl` to the target folder
+copy `transformers/probe-miner/python-flask-server/dist/probe_miner_transformer-2.4.0-py2-none-any.whl` to the target folder
 
 copy `util/python/transformers-2.0/dist/base_transformer-2.0.1-py2-none-any.whl` to the target folder
 
@@ -28,7 +28,7 @@ download probeminer.sqlite from https://translator.broadinstitute.org/db/probem
 ```
 python3 -m venv venv
 source venv/bin/activate.csh
-pip install -I probe-miner_transformer-2.4.0-py2-none-any.whl
+pip install -I probe_miner_transformer-2.4.0-py2-none-any.whl
 pip install -I base_transformer-2.0.1-py2-none-any.whl
 pip install gunicorn
 pip install "connexion[swagger-ui]"
