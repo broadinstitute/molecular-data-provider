@@ -21,7 +21,7 @@ copy `util/python/transformers-2.0/dist/base_transformer-2.0.1-py2-none-any.whl`
 
 copy `transformers/probe-miner/python-flask-server/info` folder to the target folder
 
-download probeminer.sqlite from https://translator.broadinstitute.org/db/probeminer.sqlite and save to data subfolder of the target folder
+download probeminer.sqlite from https://translator.broadinstitute.org/db/probeminer.sqlite  and save to data subfolder of the target folder
 
 ### Install transformer on server
 
