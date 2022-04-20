@@ -101,7 +101,7 @@ pipeline {
                             sh '''
                             aws --region ${AWS_REGION} eks update-kubeconfig --name ${KUBERNETES_CLUSTER_NAME}
                             cp -R translator-ops/ops/molepro/deploy/* translator-ops/ops/molepro/helm/                           
-                            cp -R translator-ops/ops/molepro/config/transformers/molepro-probe-miner.yaml translator-ops/ops/molepro/helm/
+                            cp -R translator-ops/ops/molepro/config/transformers/molepro-probeminer.yaml translator-ops/ops/molepro/helm/
                             cd translator-ops/ops/molepro/helm/
                             /bin/bash deploy.sh
                             '''
