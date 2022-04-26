@@ -15,6 +15,12 @@ CMAP	CMAP compound-to-compound expander	infores:cmap	biolink:supporting_data_sou
 CMAP	CMAP compound-to-gene transformer	infores:cmap	biolink:supporting_data_source
 CMAP	CMAP gene-to-compound transformer	infores:cmap	biolink:supporting_data_source
 CMAP	CMAP gene-to-gene expander	infores:cmap	biolink:supporting_data_source
+CTD	CTD compound-list producer	infores:ctd	biolink:primary_knowledge_source
+CTD	CTD disease associations transformer	infores:ctd	biolink:primary_knowledge_source
+CTD	CTD gene interactions transformer	infores:ctd	biolink:primary_knowledge_source
+CTD	CTD go associations transformer	infores:ctd	biolink:primary_knowledge_source
+CTD	CTD pathway associations transformer	infores:ctd	biolink:primary_knowledge_source
+CTD	CTD phenotype interactions transformer	infores:ctd	biolink:primary_knowledge_source
 CTRP	CTRP compound-list expander	infores:ctrp	biolink:supporting_data_source
 DepMap	DepMap co-fitness correlation	infores:depmap	biolink:supporting_data_source
 DGIdb	DGIdb compound-list producer	infores:dgidb	biolink:primary_knowledge_source
@@ -22,6 +28,7 @@ DGIdb	DGIdb target transformer	infores:dgidb	biolink:primary_knowledge_source
 DGIdb	DGIdb inhibitor transformer	infores:dgidb	biolink:primary_knowledge_source
 difference	difference	infores:molepro	biolink:aggregator_knowledge_source
 DrugBank	DrugBank compound-list producer	infores:drugbank	biolink:primary_knowledge_source
+DrugBank	DrugBank molecule-list producer	infores:drugbank	biolink:primary_knowledge_source
 DrugBank	DrugBank target genes transformer	infores:drugbank	biolink:primary_knowledge_source
 DrugBank	DrugBank enzyme genes transformer	infores:drugbank	biolink:primary_knowledge_source
 DrugBank	DrugBank transporter genes transformer	infores:drugbank	biolink:primary_knowledge_source
@@ -52,6 +59,9 @@ Inxight:Drugs	Inxight:Drugs relationship transformer	infores:inxight-drugs	bioli
 Inxight:Drugs	Inxight:Drugs active ingredients transformer	infores:inxight-drugs	biolink:primary_knowledge_source
 MSigDB exporter	MSigDB hypergeometric enrichment exporter	infores:msigdb	biolink:primary_knowledge_source
 Pharos	Pharos target genes transformer	infores:pharos	biolink:primary_knowledge_source
+ProbeMiner	ProbeMiner compound-list producer	infores:probe-miner	biolink:primary_knowledge_source
+ProbeMiner	ProbeMiner chemical interactions transformer	infores:probe-miner	biolink:primary_knowledge_source
+ProbeMiner	ProbeMiner protein interactions transformer	infores:probe-miner	biolink:primary_knowledge_source
 PubChem	Pubchem compound-list producer	infores:pubchem	biolink:primary_knowledge_source
 Repurposing	Repurposing Hub compound-list producer	infores:drug-repurposing-hub	biolink:primary_knowledge_source
 Repurposing	Repurposing Hub indication transformer	infores:drug-repurposing-hub	biolink:primary_knowledge_source
