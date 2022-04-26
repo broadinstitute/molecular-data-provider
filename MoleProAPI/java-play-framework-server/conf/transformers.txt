@@ -14,6 +14,7 @@ https://translator.broadinstitute.org/stitch/chemicals
 https://translator.broadinstitute.org/rxnorm/molecules
 https://translator.broadinstitute.org/bigg/metabolites
 https://translator.broadinstitute.org/ctdbase/chemicals
+https://translator.broadinstitute.org/probeminer/chemicals
 # drugs
 https://translator.broadinstitute.org/inxight_drugs/drugs
 https://translator.broadinstitute.org/inxight_drugs/relationships
@@ -45,6 +46,7 @@ https://translator.broadinstitute.org/repurposing/targets
 https://translator.broadinstitute.org/dgidb/targets
 https://translator.broadinstitute.org/gtopdb/targets
 https://translator.broadinstitute.org/ctdbase/gene-interactions
+https://translator.broadinstitute.org/probeminer/chemical_interactions
 # inhibitors
 https://translator.broadinstitute.org/drugbank/inhibitors
 https://translator.broadinstitute.org/drugbank/substrates
@@ -58,8 +60,12 @@ https://translator.broadinstitute.org/drugbank/protein_targets
 https://translator.broadinstitute.org/drugbank/protein_enzymes
 https://translator.broadinstitute.org/drugbank/protein_transporters
 https://translator.broadinstitute.org/drugbank/protein_carriers
+https://translator.broadinstitute.org/probeminer/protein_interactions
 # compound relations
 https://translator.broadinstitute.org/chembl/metabolites
+# gene-disease associations
+https://translator.broadinstitute.org/gwas/genes
+https://translator.broadinstitute.org/gwas/diseases
 # profile similarity
 https://translator.broadinstitute.org/cmap/compound/compound
 https://translator.broadinstitute.org/ctrp
@@ -96,6 +102,7 @@ https://translator.broadinstitute.org/node/normalizer
 https://translator.broadinstitute.org/moleprodb/elements
 https://translator.broadinstitute.org/moleprodb/names
 https://translator.broadinstitute.org/moleprodb/connections
+https://translator.broadinstitute.org/moleprodb/hierarchy
 # filters
 =Element attribute filter
 =Connection attribute filter

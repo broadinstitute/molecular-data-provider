@@ -14,6 +14,7 @@ https://molepro-stitch-transformer.transltr.io/stitch/chemicals
 https://molepro-rxnorm-transformer.transltr.io/rxnorm/molecules
 https://molepro-biggmodels-transformer.transltr.io/bigg/metabolites
 https://molepro-ctd-transformer.transltr.io/ctdbase/chemicals
+https://molepro-probeminer-transformer.transltr.io/probeminer/chemicals
 # drugs
 https://molepro-inxightdrugs-transformer.transltr.io/inxight_drugs/drugs
 https://molepro-inxightdrugs-transformer.transltr.io/inxight_drugs/relationships
@@ -43,6 +44,7 @@ https://molepro-rephub-transformer.transltr.io/repurposing/targets
 https://molepro-dgidb-transformer.transltr.io/dgidb/targets
 https://molepro-gtopdb-transformer.transltr.io/gtopdb/targets
 https://molepro-ctd-transformer.transltr.io/ctdbase/gene-interactions
+https://molepro-probeminer-transformer.transltr.io/probeminer/chemical_interactions
 # inhibitors
 https://molepro-drugbank-transformer.transltr.io/drugbank/inhibitors
 https://molepro-drugbank-transformer.transltr.io/drugbank/substrates
@@ -56,8 +58,12 @@ https://molepro-drugbank-transformer.transltr.io/drugbank/protein_targets
 https://molepro-drugbank-transformer.transltr.io/drugbank/protein_enzymes
 https://molepro-drugbank-transformer.transltr.io/drugbank/protein_transporters
 https://molepro-drugbank-transformer.transltr.io/drugbank/protein_carriers
+https://molepro-probeminer-transformer.transltr.io/probeminer/protein_interactions
 # compound relations
 https://molepro-chembl-transformer.transltr.io/chembl/metabolites
+# gene-disease associations
+https://molepro-gwas-transformer.transltr.io/gwas/genes
+https://molepro-gwas-transformer.transltr.io/gwas/diseases
 # profile similarity
 https://molepro-cmap-transformer.transltr.io/cmap/compound/compound
 https://molepro-ctrp-transformer.transltr.io/ctrp
