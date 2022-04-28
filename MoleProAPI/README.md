@@ -3,7 +3,7 @@
 ### Package MolePro
 
 ```
-d MoleProAPI/java-play-framework-server
+cd MoleProAPI/java-play-framework-server
 sbt universal:packageZipTarball
 ```
 
