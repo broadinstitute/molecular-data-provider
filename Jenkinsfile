@@ -29,7 +29,7 @@ pipeline {
                         return !params.BUILD_VERSION
                     }
                     anyOf {
-                        changeset "*"
+                        changeset "**"
                         triggeredBy 'UserIdCause'
                     }
                 }
