@@ -225,7 +225,8 @@ Feature: Check reasoner API
                         }
                     }
                 }
-            }
+            },
+            "submitter": "behave test"
         }
         """
         then the size of "message.results" should be 169
@@ -260,7 +261,8 @@ Feature: Check reasoner API
                         }
                     }
                 }
-            }
+            },
+            "submitter": "behave test"
         }
         """
         then the size of "message.results" should be 0
@@ -298,7 +300,8 @@ Feature: Check reasoner API
                         }
                     }
                 }
-            }
+            },
+            "submitter": "behave test"
         }
         """
         then the size of "message.results" should be 273
@@ -344,7 +347,8 @@ Feature: Check reasoner API
                         }
                     }
                 }
-            }
+            },
+            "submitter": "behave test"
         }
         """
         then the size of "message.results" should be 52
@@ -390,7 +394,8 @@ Feature: Check reasoner API
                         }
                     }
                 }
-            }
+            },
+            "submitter": "behave test"
         }
         """
         then the size of "message.results" should be 16
@@ -437,7 +442,8 @@ Feature: Check reasoner API
                         }
                     }
                 }
-            }
+            },
+            "submitter": "behave test"
         }
         """
         then the size of "message.results" should be 0
@@ -475,7 +481,63 @@ Feature: Check reasoner API
                         }
                     }
                 }
-            }
+            },
+            "submitter": "behave test"
         }
         """
         then the size of "message.results" should be 0
+
+
+    Scenario: Check query with workflow
+        Given the reasoner API
+        when we fire "/query" query with the following body:
+        """
+        {
+            "message": {
+                "query_graph": {
+                    "nodes": {
+                        "n2": {
+                            "ids": [
+                                "NCBIGene:819"
+                            ],
+                            "categories": [
+                                "biolink:Gene"
+                            ]
+                        },
+                        "n3": {
+                            "categories": [
+                                "biolink:SmallMolecule"
+                            ]
+                        }
+                    },
+                    "edges": {
+                        "e03": {
+                            "subject": "n2",
+                            "object": "n3",
+                            "predicates": [
+                                "biolink:directly_interacts_with"
+                            ]
+                        }
+                    }
+                }
+            },
+            "workflow": [
+                {
+                    "id": "lookup"
+                },
+                {
+                    "id": "annotate_nodes",
+                    "parameters": {
+                        "attributes": [
+                            "biolink:highest_FDA_approval_status",
+                            "oral",
+                            "topical"
+                        ]
+                    }
+                }
+            ],
+            "submitter": "behave test"
+        }
+        """
+        then the size of "message.results" should be 1
+
