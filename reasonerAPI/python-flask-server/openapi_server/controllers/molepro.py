@@ -31,6 +31,8 @@ logger.info("using molepro base URL: {}".format(BASE_URL))
 
 class MolePro:
 
+    debug = False
+
     def __init__(self, query_graph):
         self.query_graph = query_graph
         self.results = []
@@ -134,7 +136,8 @@ class MolePro:
             'controls': controls
         }
 
-        #print("querying transformer {} with id {}".format(transformer['name'], collection_id))
+        if self.debug:
+            print("querying transformer {} with id {}".format(transformer['name'], collection_id))
         with closing(requests.post(url, json=query)) as response_obj:
             response_json = response_obj.json()
             if response_obj.status_code != 200:
@@ -172,20 +175,20 @@ class MolePro:
                 if connection_list is not None and len(connection_list) > 0:
                     connections = connection_list[0]
 
-            # add the edge
-            edge = self.add_edge(source_node.id, target_node.id, mole_edge.edge_type, collection_id, connections)
+                    # add the edge
+                    edge = self.add_edge(source_node.id, target_node.id, mole_edge.edge_type, collection_id, connections)
 
-            # updated for trapi v1.0.0
-            source_binding = NodeBinding(id=source_node.id)
-            edge_binding = EdgeBinding(id=edge.id)
-            target_binding = NodeBinding(id=target_node.id)
+                    # updated for trapi v1.0.0
+                    source_binding = NodeBinding(id=source_node.id)
+                    edge_binding = EdgeBinding(id=edge.id)
+                    target_binding = NodeBinding(id=target_node.id)
 
-            edge_map = {mole_edge.edge_key: [edge_binding]}
-            nodes_map = {mole_edge.source_key: [source_binding], mole_edge.target_key: [target_binding]}
+                    edge_map = {mole_edge.edge_key: [edge_binding]}
+                    nodes_map = {mole_edge.source_key: [source_binding], mole_edge.target_key: [target_binding]}
 
-            # trapi 1.0 changes for the result formating (from list of nodes/edges to map of nodes/edges)
-            result = Result(node_bindings=nodes_map, edge_bindings=edge_map)
-            self.results.append(result)
+                    # trapi 1.0 changes for the result formating (from list of nodes/edges to map of nodes/edges)
+                    result = Result(node_bindings=nodes_map, edge_bindings=edge_map)
+                    self.results.append(result)
 
     def add_element(self, element, source_id=None):
         """ pulls out the target node from the element data """
@@ -229,6 +232,9 @@ class MolePro:
 
         # translate the curie from molepro to biolink
         translated_curie = translate_curie(id, category, False)
+
+        if self.debug:
+            print("adding {} node {}".format(category, id))
 
         if translated_curie not in self.nodes:
             node = Node(name=name, categories=[category], attributes=attributes)

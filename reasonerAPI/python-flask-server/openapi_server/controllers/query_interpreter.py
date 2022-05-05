@@ -18,6 +18,7 @@ from openapi_server.controllers.utils import translate_type
 from openapi_server.controllers.utils import translate_curie
 from openapi_server.controllers.utils import node_attributes, edge_attributes
 from openapi_server.controllers.utils import get_logger
+from openapi_server.utils.node_ancestry_utils import get_ancestry_map
 
 
 # environment variables
@@ -74,7 +75,7 @@ def execute_query(query: Query, debug = False):
 
 
 
-def execute_lookup(message: Message, submitter):
+def execute_lookup(message: Message, submitter, debug=False):
     start = time.time()
     query_graph = message.query_graph
 
@@ -101,6 +102,11 @@ def execute_lookup(message: Message, submitter):
     is_flipped, flipped_query_graph = reverse_query(query_graph)
     if is_flipped:
         query_graph = flipped_query_graph
+        if debug:
+            print("Flipped query graph")
+
+    # expand the ancestry for the nodes
+    query_graph = expand_ancestry_node_ids(query_graph, debug=debug)
 
     # call molepro
     molepro = MolePro(query_graph)
@@ -134,6 +140,44 @@ def execute_lookup(message: Message, submitter):
         len(query_results.message.knowledge_graph.edges), submitter,  int(time.time() - start)))
     return query_results
 
+
+def expand_ancestry_node_ids(query_graph, debug=False):
+    ''' 
+    expands the IDs given based on ancestry and return the modified query graph
+    '''
+    # log
+    if debug:
+        logger.info("translating query graph: {}".format(query_graph))
+
+    # modify the queries
+    query_nodes = query_graph.nodes
+    if query_nodes:
+        for key, node in query_nodes.items():
+            if node.ids:
+                # get the ancestry map
+                map_ancestry = get_ancestry_map(node.ids, debug=debug)
+
+                # concatenate all the raults
+                list_updated_ids = node.ids
+                for item in map_ancestry.values():
+                    list_updated_ids = list_updated_ids + item
+                
+                # make sure list is unique
+                list_updated_ids = list(set(list_updated_ids))
+
+                # log
+                if debug:
+                    logger.info("translated IDs: {} to ancestry IDs: {}".format(node.ids, list_updated_ids))
+
+                # update query graph
+                node.ids = list_updated_ids
+
+    # log
+    if debug:
+        logger.info("returning query graph: {}".format(query_graph))
+
+    # return
+    return query_graph
 
 def query_molepro_db(molepro, query_graph, debug = False):
 
@@ -189,6 +233,8 @@ def query_molepro_db(molepro, query_graph, debug = False):
         for object_class in moleprodb_classes:
             if translate_type(object_class, False) in children:
                 transformer_controls.append({'name':'biolink_class', 'value': object_class})
+        for object_class in target.categories:
+            transformer_controls.append({'name':'biolink_class', 'value': object_class})
 
     object_ids = target.ids
     if debug:
@@ -240,8 +286,9 @@ def execute_annotate_nodes(operation, message: Message, submitter, debug = False
     knowledge_graph = message.knowledge_graph
     if knowledge_graph is None:
         ({"status": 400, "title": "Bad Request", "detail": "No knowledge graph to annotate", "type": "about:blank" }, 400)
-    molepro = MolePro(None)
+    molepro = MolePro(message.query_graph)
     molepro.knowledge_graph = knowledge_graph
+    molepro.results = message.results
     transformer_controls = []
     if knowledge_graph is None or knowledge_graph.nodes is None:
         if debug:
@@ -277,12 +324,14 @@ def execute_annotate_nodes(operation, message: Message, submitter, debug = False
 def add_attributes(query_element_id, node, element, attribute_types):
     if node is None:
         logger.warn('WARNING: No node matches query id from MoleProDB node producer: '+query_element_id)
-    node_attributes = {attr_key(attribute):attribute for attribute in node.attributes}
+    node_attributes = {attr_key(attribute):attribute for attribute in node.attributes} if node.attributes else {}
     for attribute in element['attributes']:
         if attr_key(Attribute.from_dict(attribute)) not in node_attributes:
             if 'attribute_type_id' in attribute and attribute.get('attribute_type_id') is not None and attribute.get('attribute_type_id') != '':
                 if attribute_types is None or attribute.get('attribute_type_id') in attribute_types:
                     if attribute.get('value') is not None and attribute.get('value') != '':
+                        if node.attributes is None:
+                            node.attributes = []
                         node.attributes.append(Attribute.from_dict(attribute))
 
 
