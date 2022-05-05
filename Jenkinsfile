@@ -32,7 +32,7 @@ pipeline {
                         return !params.BUILD_VERSION
                     }
                     anyOf {
-                        changeset "*"
+                        changeset "**"
                         triggeredBy 'UserIdCause'
                     }
                 }
@@ -54,7 +54,7 @@ pipeline {
                         return !params.BUILD_VERSION
                     }
                     anyOf {
-                        changeset "*"
+                        changeset "**"
                         triggeredBy 'UserIdCause'
                     }
                 }
@@ -79,7 +79,7 @@ pipeline {
         stage('Deploy') {
             when {
                 anyOf {
-                    changeset "*"
+                    changeset "**"
                     triggeredBy 'UserIdCause'
                 }
             }
