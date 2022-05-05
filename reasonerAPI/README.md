@@ -10,7 +10,7 @@ python setup.py bdist_wheel
 
 ### Copy files to server
 
-copy `reasonerAPI/python-flask-server/dist/molepro_trapi-1.2.1.1-py3-none-any.whl` to the target folder
+copy `reasonerAPI/python-flask-server/dist/molepro_trapi-1.2.1.3-py3-none-any.whl` to the target folder
 
 
 ### Install transformer on server
@@ -18,7 +18,7 @@ copy `reasonerAPI/python-flask-server/dist/molepro_trapi-1.2.1.1-py3-none-any.wh
 ```
 python3 -m venv venv
 source venv/bin/activate.csh
-pip install -I molepro_trapi-1.2.1.1-py3-none-any.whl
+pip install -I molepro_trapi-1.2.1.3-py3-none-any.whl
 pip install gunicorn
 pip install "connexion[swagger-ui]"
 deactivate

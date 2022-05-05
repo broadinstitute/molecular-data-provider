@@ -130,7 +130,8 @@ def filter_by_object_id(response: Response, query_graph: QueryGraph, debug=False
     # initialize
     result_response = response
     edge_id = None
-    list_node_id_to_keep = []
+    subject_nodes_id_to_keep = set()
+    object_nodes_id_to_keep = set()
 
     # get the data
     if len(query_graph.edges) == 1:
@@ -155,8 +156,8 @@ def filter_by_object_id(response: Response, query_graph: QueryGraph, debug=False
                     print("filtering response for object ids: {}".format(nodes.get(edge.object).ids))
 
                 # collect node ids to keep
-                list_node_id_to_keep += nodes.get(edge.subject).ids
-                list_node_id_to_keep += nodes.get(edge.object).ids
+                subject_nodes_id_to_keep = set(nodes.get(edge.subject).ids)
+                object_nodes_id_to_keep = set(nodes.get(edge.object).ids)
 
                 # copy response
                 result_response = copy.deepcopy(response)
@@ -164,14 +165,14 @@ def filter_by_object_id(response: Response, query_graph: QueryGraph, debug=False
                 # loop through edges, keep only specified ones
                 new_edges = {}
                 for key, value in response.message.knowledge_graph.edges.items():
-                    if value.subject in list_node_id_to_keep and value.object in list_node_id_to_keep:
+                    if value.subject in subject_nodes_id_to_keep and value.object in object_nodes_id_to_keep:
                         new_edges[key] = value
                 result_response.message.knowledge_graph.edges = new_edges
 
                 # loop through the nodes, keep only specified ones
                 new_nodes = {}
                 for key, value in response.message.knowledge_graph.nodes.items():
-                    if key in list_node_id_to_keep:
+                    if key in subject_nodes_id_to_keep or key in object_nodes_id_to_keep:
                         new_nodes[key] = value
                 result_response.message.knowledge_graph.nodes = new_nodes
 
@@ -179,9 +180,9 @@ def filter_by_object_id(response: Response, query_graph: QueryGraph, debug=False
                 new_results = []
                 for res in response.message.results:
                     include_bindings = True
-                    for key, value in res.node_bindings.items():
+                    for key, value in res.edge_bindings.items():
                         for list_item in value:
-                            if list_item.id not in list_node_id_to_keep:
+                            if list_item.id not in new_edges:
                                 include_bindings = False
                     
                     # only include result bindings if all nodes were in the result

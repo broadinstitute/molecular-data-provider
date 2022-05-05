@@ -30,10 +30,14 @@ logger.info("using transformer URL: {}".format(url_transformers))
 
 
 class KnowledgeMap:
+
+    debug = False
+
     def __init__(self):
         self.kmap, self.list_chain_names = self.read_knowledge_map()
         self.nodes, self.edges, self.map_edge_attributes = self.build_nodes_edges_data()
-        # print("got chain names: {}".format(self.list_chain_names))
+        if self.debug:
+            print("got chain names: {}".format(self.list_chain_names))
 
     def read_knowledge_map(self):
         kmap = {}
@@ -204,9 +208,10 @@ class KnowledgeMap:
         source = nodes[edge.subject]
         target = nodes[edge.object]
 
-        #print("edge: {}".format(edge))
-        #print("source: {}".format(source))
-        #print("target: {}".format(target))
+        if self.debug:
+            print("edge: {}".format(edge))
+            print("source: {}".format(source))
+            print("target: {}".format(target))
 
         # add in the ancestry type conversion here
         source_type_list = source.categories if source.categories else ["all"]

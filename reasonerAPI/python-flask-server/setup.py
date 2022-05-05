@@ -4,7 +4,7 @@ import sys
 from setuptools import setup, find_packages
 
 NAME = "molepro-trapi"
-VERSION = "1.2.1.1"
+VERSION = "1.2.1.3"
 
 # To install the library, run the following
 #

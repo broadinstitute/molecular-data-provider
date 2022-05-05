@@ -7,6 +7,7 @@
         "biolink:Disease",
         "biolink:Drug",
         "biolink:Gene",
+        "biolink:MolecularActivity",
         "biolink:MolecularEntity",
         "biolink:PhenotypicFeature",
         "biolink:Protein",
@@ -66,8 +67,10 @@
         "biolink:has_active_ingredient",
         "biolink:has_catalyst",
         "biolink:has_evidence",
+        "biolink:has_input",
         "biolink:has_metabolite",
         "biolink:has_output",
+        "biolink:has_participant",
         "biolink:has_substrate",
         "biolink:increases_abundance_of",
         "biolink:increases_activity_of",
@@ -86,6 +89,8 @@
         "biolink:increases_transport_of",
         "biolink:increases_uptake_of",
         "biolink:interacts_with",
+        "biolink:is_input_of",
+        "biolink:is_output_of",
         "biolink:is_substrate_of",
         "biolink:localization_affected_by",
         "biolink:localization_decreased_by",
@@ -102,6 +107,7 @@
         "biolink:negatively_regulated_by",
         "biolink:negatively_regulates",
         "biolink:output_of",
+        "biolink:participates_in",
         "biolink:physically_interacts_with",
         "biolink:positively_regulated_by",
         "biolink:positively_regulates",
@@ -145,8 +151,12 @@
         "biolink:CellularComponent",
         "biolink:Disease",
         "biolink:Gene",
+        "biolink:MolecularActivity",
         "biolink:PhenotypicFeature",
         "biolink:Protein"
+    ],
+    "biolink:BiologicalProcessOrActivity": [
+        "biolink:MolecularActivity"
     ],
     "biolink:Cell": [
         "biolink:Cell"
@@ -197,6 +207,7 @@
         "biolink:Disease",
         "biolink:Drug",
         "biolink:Gene",
+        "biolink:MolecularActivity",
         "biolink:MolecularEntity",
         "biolink:PhenotypicFeature",
         "biolink:Protein",
@@ -219,6 +230,9 @@
         "biolink:Gene",
         "biolink:Protein"
     ],
+    "biolink:MolecularActivity": [
+        "biolink:MolecularActivity"
+    ],
     "biolink:MolecularEntity": [
         "biolink:MolecularEntity",
         "biolink:SmallMolecule"
@@ -233,14 +247,19 @@
         "biolink:Disease",
         "biolink:Drug",
         "biolink:Gene",
+        "biolink:MolecularActivity",
         "biolink:MolecularEntity",
         "biolink:PhenotypicFeature",
         "biolink:Protein",
         "biolink:SmallMolecule"
     ],
+    "biolink:Occurrent": [
+        "biolink:MolecularActivity"
+    ],
     "biolink:OntologyClass": [
         "biolink:Drug",
-        "biolink:Gene"
+        "biolink:Gene",
+        "biolink:MolecularActivity"
     ],
     "biolink:OrganismalEntity": [
         "biolink:Cell",
@@ -262,6 +281,7 @@
         "biolink:CellularComponent",
         "biolink:Drug",
         "biolink:Gene",
+        "biolink:MolecularActivity",
         "biolink:MolecularEntity",
         "biolink:SmallMolecule"
     ],
@@ -283,7 +303,9 @@
         "biolink:Protein"
     ],
     "biolink:abundance_affected_by": [
-        "biolink:abundance_affected_by"
+        "biolink:abundance_affected_by",
+        "biolink:abundance_decreased_by",
+        "biolink:abundance_increased_by"
     ],
     "biolink:abundance_decreased_by": [
         "biolink:abundance_decreased_by"
@@ -292,7 +314,9 @@
         "biolink:abundance_increased_by"
     ],
     "biolink:activity_affected_by": [
-        "biolink:activity_affected_by"
+        "biolink:activity_affected_by",
+        "biolink:activity_decreased_by",
+        "biolink:activity_increased_by"
     ],
     "biolink:activity_decreased_by": [
         "biolink:activity_decreased_by"
@@ -301,15 +325,57 @@
         "biolink:activity_increased_by"
     ],
     "biolink:affected_by": [
-        "biolink:affected_by"
-    ],
-    "biolink:affects": [
         "biolink:abundance_affected_by",
         "biolink:abundance_decreased_by",
         "biolink:abundance_increased_by",
         "biolink:activity_affected_by",
         "biolink:activity_decreased_by",
         "biolink:activity_increased_by",
+        "biolink:affected_by",
+        "biolink:degradation_affected_by",
+        "biolink:degradation_decreased_by",
+        "biolink:degradation_increased_by",
+        "biolink:expression_affected_by",
+        "biolink:expression_decreased_by",
+        "biolink:expression_increased_by",
+        "biolink:folding_affected_by",
+        "biolink:folding_decreased_by",
+        "biolink:folding_increased_by",
+        "biolink:localization_affected_by",
+        "biolink:localization_decreased_by",
+        "biolink:localization_increased_by",
+        "biolink:metabolic_processing_affected_by",
+        "biolink:metabolic_processing_decreased_by",
+        "biolink:metabolic_processing_increased_by",
+        "biolink:molecular_modification_affected_by",
+        "biolink:molecular_modification_decreased_by",
+        "biolink:molecular_modification_increased_by",
+        "biolink:mutation_rate_affected_by",
+        "biolink:mutation_rate_decreased_by",
+        "biolink:mutation_rate_increased_by",
+        "biolink:response_affected_by",
+        "biolink:response_decreased_by",
+        "biolink:response_increased_by",
+        "biolink:secretion_affected_by",
+        "biolink:secretion_decreased_by",
+        "biolink:secretion_increased_by",
+        "biolink:splicing_affected_by",
+        "biolink:splicing_decreased_by",
+        "biolink:splicing_increased_by",
+        "biolink:stability_affected_by",
+        "biolink:stability_decreased_by",
+        "biolink:stability_increased_by",
+        "biolink:synthesis_affected_by",
+        "biolink:synthesis_decreased_by",
+        "biolink:synthesis_increased_by",
+        "biolink:transport_affected_by",
+        "biolink:transport_decreased_by",
+        "biolink:transport_increased_by",
+        "biolink:uptake_affected_by",
+        "biolink:uptake_decreased_by",
+        "biolink:uptake_increased_by"
+    ],
+    "biolink:affects": [
         "biolink:affects",
         "biolink:affects_abundance_of",
         "biolink:affects_activity_of",
@@ -343,15 +409,6 @@
         "biolink:decreases_synthesis_of",
         "biolink:decreases_transport_of",
         "biolink:decreases_uptake_of",
-        "biolink:degradation_affected_by",
-        "biolink:degradation_decreased_by",
-        "biolink:degradation_increased_by",
-        "biolink:expression_affected_by",
-        "biolink:expression_decreased_by",
-        "biolink:expression_increased_by",
-        "biolink:folding_affected_by",
-        "biolink:folding_decreased_by",
-        "biolink:folding_increased_by",
         "biolink:increases_abundance_of",
         "biolink:increases_activity_of",
         "biolink:increases_degradation_of",
@@ -368,49 +425,14 @@
         "biolink:increases_synthesis_of",
         "biolink:increases_transport_of",
         "biolink:increases_uptake_of",
-        "biolink:localization_affected_by",
-        "biolink:localization_decreased_by",
-        "biolink:localization_increased_by",
-        "biolink:metabolic_processing_affected_by",
-        "biolink:metabolic_processing_decreased_by",
-        "biolink:metabolic_processing_increased_by",
-        "biolink:molecular_modification_affected_by",
-        "biolink:molecular_modification_decreased_by",
-        "biolink:molecular_modification_increased_by",
-        "biolink:mutation_rate_affected_by",
-        "biolink:mutation_rate_decreased_by",
-        "biolink:response_affected_by",
-        "biolink:response_decreased_by",
-        "biolink:response_increased_by",
-        "biolink:secretion_affected_by",
-        "biolink:secretion_decreased_by",
-        "biolink:secretion_increased_by",
-        "biolink:splicing_affected_by",
-        "biolink:splicing_decreased_by",
-        "biolink:splicing_increased_by",
-        "biolink:stability_affected_by",
-        "biolink:stability_decreased_by",
-        "biolink:stability_increased_by",
-        "biolink:synthesis_decreased_by",
-        "biolink:synthesis_increased_by",
-        "biolink:transport_affected_by",
-        "biolink:transport_decreased_by",
-        "biolink:transport_increased_by",
-        "biolink:treats",
-        "biolink:uptake_affected_by",
-        "biolink:uptake_decreased_by",
-        "biolink:uptake_increased_by"
+        "biolink:treats"
     ],
     "biolink:affects_abundance_of": [
-        "biolink:abundance_decreased_by",
-        "biolink:abundance_increased_by",
         "biolink:affects_abundance_of",
         "biolink:decreases_abundance_of",
         "biolink:increases_abundance_of"
     ],
     "biolink:affects_activity_of": [
-        "biolink:activity_decreased_by",
-        "biolink:activity_increased_by",
         "biolink:affects_activity_of",
         "biolink:decreases_activity_of",
         "biolink:increases_activity_of"
@@ -418,8 +440,6 @@
     "biolink:affects_degradation_of": [
         "biolink:affects_degradation_of",
         "biolink:decreases_degradation_of",
-        "biolink:degradation_decreased_by",
-        "biolink:degradation_increased_by",
         "biolink:increases_degradation_of"
     ],
     "biolink:affects_expression_of": [
@@ -430,88 +450,68 @@
     "biolink:affects_folding_of": [
         "biolink:affects_folding_of",
         "biolink:decreases_folding_of",
-        "biolink:folding_decreased_by",
-        "biolink:folding_increased_by",
         "biolink:increases_folding_of"
     ],
     "biolink:affects_localization_of": [
         "biolink:affects_localization_of",
         "biolink:decreases_localization_of",
-        "biolink:increases_localization_of",
-        "biolink:localization_decreased_by",
-        "biolink:localization_increased_by"
+        "biolink:increases_localization_of"
     ],
     "biolink:affects_metabolic_processing_of": [
         "biolink:affects_metabolic_processing_of",
         "biolink:decreases_metabolic_processing_of",
-        "biolink:increases_metabolic_processing_of",
-        "biolink:metabolic_processing_decreased_by",
-        "biolink:metabolic_processing_increased_by"
+        "biolink:increases_metabolic_processing_of"
     ],
     "biolink:affects_molecular_modification_of": [
         "biolink:affects_molecular_modification_of",
         "biolink:decreases_molecular_modification_of",
-        "biolink:increases_molecular_modification_of",
-        "biolink:molecular_modification_decreased_by",
-        "biolink:molecular_modification_increased_by"
+        "biolink:increases_molecular_modification_of"
     ],
     "biolink:affects_mutation_rate_of": [
         "biolink:affects_mutation_rate_of",
         "biolink:decreases_mutation_rate_of",
-        "biolink:increases_mutation_rate_of",
-        "biolink:mutation_rate_decreased_by"
+        "biolink:increases_mutation_rate_of"
     ],
     "biolink:affects_response_to": [
         "biolink:affects_response_to",
         "biolink:decreases_response_to",
-        "biolink:increases_response_to",
-        "biolink:response_decreased_by",
-        "biolink:response_increased_by"
+        "biolink:increases_response_to"
     ],
     "biolink:affects_secretion_of": [
         "biolink:affects_secretion_of",
         "biolink:decreases_secretion_of",
-        "biolink:increases_secretion_of",
-        "biolink:secretion_decreased_by",
-        "biolink:secretion_increased_by"
+        "biolink:increases_secretion_of"
     ],
     "biolink:affects_splicing_of": [
         "biolink:affects_splicing_of",
         "biolink:decreases_splicing_of",
-        "biolink:increases_splicing_of",
-        "biolink:splicing_decreased_by",
-        "biolink:splicing_increased_by"
+        "biolink:increases_splicing_of"
     ],
     "biolink:affects_stability_of": [
         "biolink:affects_stability_of",
         "biolink:decreases_stability_of",
-        "biolink:increases_stability_of",
-        "biolink:stability_decreased_by",
-        "biolink:stability_increased_by"
+        "biolink:increases_stability_of"
     ],
     "biolink:affects_synthesis_of": [
         "biolink:affects_synthesis_of",
         "biolink:decreases_synthesis_of",
-        "biolink:increases_synthesis_of",
-        "biolink:synthesis_decreased_by",
-        "biolink:synthesis_increased_by"
+        "biolink:increases_synthesis_of"
     ],
     "biolink:affects_transport_of": [
         "biolink:affects_transport_of",
         "biolink:decreases_transport_of",
-        "biolink:increases_transport_of",
-        "biolink:transport_decreased_by",
-        "biolink:transport_increased_by"
+        "biolink:increases_transport_of"
     ],
     "biolink:affects_uptake_of": [
         "biolink:affects_uptake_of",
         "biolink:decreases_uptake_of",
-        "biolink:increases_uptake_of",
-        "biolink:uptake_decreased_by",
-        "biolink:uptake_increased_by"
+        "biolink:increases_uptake_of"
     ],
     "biolink:ameliorates": [
         "biolink:treats"
+    ],
+    "biolink:associated_with": [
+        "biolink:correlated_with"
     ],
     "biolink:catalyzes": [
         "biolink:catalyzes"
@@ -524,6 +524,24 @@
     ],
     "biolink:decreases_activity_of": [
         "biolink:decreases_activity_of"
+    ],
+    "biolink:decreases_amount_or_activity_of": [
+        "biolink:decreases_abundance_of",
+        "biolink:decreases_activity_of",
+        "biolink:decreases_expression_of",
+        "biolink:decreases_folding_of",
+        "biolink:decreases_localization_of",
+        "biolink:decreases_metabolic_processing_of",
+        "biolink:decreases_molecular_modification_of",
+        "biolink:decreases_mutation_rate_of",
+        "biolink:decreases_response_to",
+        "biolink:decreases_secretion_of",
+        "biolink:decreases_splicing_of",
+        "biolink:decreases_stability_of",
+        "biolink:decreases_synthesis_of",
+        "biolink:decreases_transport_of",
+        "biolink:decreases_uptake_of",
+        "biolink:increases_degradation_of"
     ],
     "biolink:decreases_degradation_of": [
         "biolink:decreases_degradation_of"
@@ -568,7 +586,9 @@
         "biolink:decreases_uptake_of"
     ],
     "biolink:degradation_affected_by": [
-        "biolink:degradation_affected_by"
+        "biolink:degradation_affected_by",
+        "biolink:degradation_decreased_by",
+        "biolink:degradation_increased_by"
     ],
     "biolink:degradation_decreased_by": [
         "biolink:degradation_decreased_by"
@@ -594,7 +614,9 @@
         "biolink:expression_increased_by"
     ],
     "biolink:folding_affected_by": [
-        "biolink:folding_affected_by"
+        "biolink:folding_affected_by",
+        "biolink:folding_decreased_by",
+        "biolink:folding_increased_by"
     ],
     "biolink:folding_decreased_by": [
         "biolink:folding_decreased_by"
@@ -611,6 +633,9 @@
     "biolink:has_evidence": [
         "biolink:has_evidence"
     ],
+    "biolink:has_input": [
+        "biolink:has_input"
+    ],
     "biolink:has_metabolite": [
         "biolink:has_metabolite"
     ],
@@ -621,8 +646,10 @@
         "biolink:has_active_ingredient"
     ],
     "biolink:has_participant": [
-        "biolink:catalyzes",
+        "biolink:has_catalyst",
+        "biolink:has_input",
         "biolink:has_output",
+        "biolink:has_participant",
         "biolink:has_substrate"
     ],
     "biolink:has_substrate": [
@@ -633,6 +660,24 @@
     ],
     "biolink:increases_activity_of": [
         "biolink:increases_activity_of"
+    ],
+    "biolink:increases_amount_or_activity_of": [
+        "biolink:decreases_degradation_of",
+        "biolink:increases_abundance_of",
+        "biolink:increases_activity_of",
+        "biolink:increases_expression_of",
+        "biolink:increases_folding_of",
+        "biolink:increases_localization_of",
+        "biolink:increases_metabolic_processing_of",
+        "biolink:increases_molecular_modification_of",
+        "biolink:increases_mutation_rate_of",
+        "biolink:increases_response_to",
+        "biolink:increases_secretion_of",
+        "biolink:increases_splicing_of",
+        "biolink:increases_stability_of",
+        "biolink:increases_synthesis_of",
+        "biolink:increases_transport_of",
+        "biolink:increases_uptake_of"
     ],
     "biolink:increases_degradation_of": [
         "biolink:increases_degradation_of"
@@ -681,11 +726,19 @@
         "biolink:interacts_with",
         "biolink:physically_interacts_with"
     ],
+    "biolink:is_input_of": [
+        "biolink:is_input_of"
+    ],
+    "biolink:is_output_of": [
+        "biolink:is_output_of"
+    ],
     "biolink:is_substrate_of": [
         "biolink:is_substrate_of"
     ],
     "biolink:localization_affected_by": [
-        "biolink:localization_affected_by"
+        "biolink:localization_affected_by",
+        "biolink:localization_decreased_by",
+        "biolink:localization_increased_by"
     ],
     "biolink:localization_decreased_by": [
         "biolink:localization_decreased_by"
@@ -694,7 +747,9 @@
         "biolink:localization_increased_by"
     ],
     "biolink:metabolic_processing_affected_by": [
-        "biolink:metabolic_processing_affected_by"
+        "biolink:metabolic_processing_affected_by",
+        "biolink:metabolic_processing_decreased_by",
+        "biolink:metabolic_processing_increased_by"
     ],
     "biolink:metabolic_processing_decreased_by": [
         "biolink:metabolic_processing_decreased_by"
@@ -703,7 +758,9 @@
         "biolink:metabolic_processing_increased_by"
     ],
     "biolink:molecular_modification_affected_by": [
-        "biolink:molecular_modification_affected_by"
+        "biolink:molecular_modification_affected_by",
+        "biolink:molecular_modification_decreased_by",
+        "biolink:molecular_modification_increased_by"
     ],
     "biolink:molecular_modification_decreased_by": [
         "biolink:molecular_modification_decreased_by"
@@ -712,7 +769,9 @@
         "biolink:molecular_modification_increased_by"
     ],
     "biolink:mutation_rate_affected_by": [
-        "biolink:mutation_rate_affected_by"
+        "biolink:mutation_rate_affected_by",
+        "biolink:mutation_rate_decreased_by",
+        "biolink:mutation_rate_increased_by"
     ],
     "biolink:mutation_rate_decreased_by": [
         "biolink:mutation_rate_decreased_by"
@@ -733,7 +792,11 @@
         "biolink:has_active_ingredient"
     ],
     "biolink:participates_in": [
-        "biolink:is_substrate_of"
+        "biolink:catalyzes",
+        "biolink:is_input_of",
+        "biolink:is_output_of",
+        "biolink:is_substrate_of",
+        "biolink:participates_in"
     ],
     "biolink:physically_interacts_with": [
         "biolink:physically_interacts_with"
@@ -808,8 +871,11 @@
         "biolink:folding_decreased_by",
         "biolink:folding_increased_by",
         "biolink:has_active_ingredient",
+        "biolink:has_catalyst",
+        "biolink:has_input",
         "biolink:has_metabolite",
         "biolink:has_output",
+        "biolink:has_participant",
         "biolink:has_substrate",
         "biolink:increases_abundance_of",
         "biolink:increases_activity_of",
@@ -828,6 +894,8 @@
         "biolink:increases_transport_of",
         "biolink:increases_uptake_of",
         "biolink:interacts_with",
+        "biolink:is_input_of",
+        "biolink:is_output_of",
         "biolink:is_substrate_of",
         "biolink:localization_affected_by",
         "biolink:localization_decreased_by",
@@ -840,6 +908,8 @@
         "biolink:molecular_modification_increased_by",
         "biolink:mutation_rate_affected_by",
         "biolink:mutation_rate_decreased_by",
+        "biolink:mutation_rate_increased_by",
+        "biolink:participates_in",
         "biolink:physically_interacts_with",
         "biolink:related_to",
         "biolink:response_affected_by",
@@ -854,6 +924,125 @@
         "biolink:stability_affected_by",
         "biolink:stability_decreased_by",
         "biolink:stability_increased_by",
+        "biolink:synthesis_affected_by",
+        "biolink:synthesis_decreased_by",
+        "biolink:synthesis_increased_by",
+        "biolink:transport_affected_by",
+        "biolink:transport_decreased_by",
+        "biolink:transport_increased_by",
+        "biolink:treated_by",
+        "biolink:treats",
+        "biolink:uptake_affected_by",
+        "biolink:uptake_decreased_by",
+        "biolink:uptake_increased_by"
+    ],
+    "biolink:related_to_at_instance_level": [
+        "biolink:abundance_affected_by",
+        "biolink:abundance_decreased_by",
+        "biolink:abundance_increased_by",
+        "biolink:activity_affected_by",
+        "biolink:activity_decreased_by",
+        "biolink:activity_increased_by",
+        "biolink:affected_by",
+        "biolink:affects",
+        "biolink:affects_abundance_of",
+        "biolink:affects_activity_of",
+        "biolink:affects_degradation_of",
+        "biolink:affects_expression_of",
+        "biolink:affects_folding_of",
+        "biolink:affects_localization_of",
+        "biolink:affects_metabolic_processing_of",
+        "biolink:affects_molecular_modification_of",
+        "biolink:affects_mutation_rate_of",
+        "biolink:affects_response_to",
+        "biolink:affects_secretion_of",
+        "biolink:affects_splicing_of",
+        "biolink:affects_stability_of",
+        "biolink:affects_synthesis_of",
+        "biolink:affects_transport_of",
+        "biolink:affects_uptake_of",
+        "biolink:catalyzes",
+        "biolink:correlated_with",
+        "biolink:decreases_abundance_of",
+        "biolink:decreases_activity_of",
+        "biolink:decreases_degradation_of",
+        "biolink:decreases_expression_of",
+        "biolink:decreases_folding_of",
+        "biolink:decreases_localization_of",
+        "biolink:decreases_metabolic_processing_of",
+        "biolink:decreases_molecular_modification_of",
+        "biolink:decreases_mutation_rate_of",
+        "biolink:decreases_response_to",
+        "biolink:decreases_secretion_of",
+        "biolink:decreases_splicing_of",
+        "biolink:decreases_stability_of",
+        "biolink:decreases_synthesis_of",
+        "biolink:decreases_transport_of",
+        "biolink:decreases_uptake_of",
+        "biolink:degradation_affected_by",
+        "biolink:degradation_decreased_by",
+        "biolink:degradation_increased_by",
+        "biolink:directly_interacts_with",
+        "biolink:expression_affected_by",
+        "biolink:expression_decreased_by",
+        "biolink:expression_increased_by",
+        "biolink:folding_affected_by",
+        "biolink:folding_decreased_by",
+        "biolink:folding_increased_by",
+        "biolink:has_active_ingredient",
+        "biolink:has_catalyst",
+        "biolink:has_input",
+        "biolink:has_metabolite",
+        "biolink:has_output",
+        "biolink:has_participant",
+        "biolink:has_substrate",
+        "biolink:increases_abundance_of",
+        "biolink:increases_activity_of",
+        "biolink:increases_degradation_of",
+        "biolink:increases_expression_of",
+        "biolink:increases_folding_of",
+        "biolink:increases_localization_of",
+        "biolink:increases_metabolic_processing_of",
+        "biolink:increases_molecular_modification_of",
+        "biolink:increases_mutation_rate_of",
+        "biolink:increases_response_to",
+        "biolink:increases_secretion_of",
+        "biolink:increases_splicing_of",
+        "biolink:increases_stability_of",
+        "biolink:increases_synthesis_of",
+        "biolink:increases_transport_of",
+        "biolink:increases_uptake_of",
+        "biolink:interacts_with",
+        "biolink:is_input_of",
+        "biolink:is_output_of",
+        "biolink:is_substrate_of",
+        "biolink:localization_affected_by",
+        "biolink:localization_decreased_by",
+        "biolink:localization_increased_by",
+        "biolink:metabolic_processing_affected_by",
+        "biolink:metabolic_processing_decreased_by",
+        "biolink:metabolic_processing_increased_by",
+        "biolink:molecular_modification_affected_by",
+        "biolink:molecular_modification_decreased_by",
+        "biolink:molecular_modification_increased_by",
+        "biolink:mutation_rate_affected_by",
+        "biolink:mutation_rate_decreased_by",
+        "biolink:mutation_rate_increased_by",
+        "biolink:participates_in",
+        "biolink:physically_interacts_with",
+        "biolink:response_affected_by",
+        "biolink:response_decreased_by",
+        "biolink:response_increased_by",
+        "biolink:secretion_affected_by",
+        "biolink:secretion_decreased_by",
+        "biolink:secretion_increased_by",
+        "biolink:splicing_affected_by",
+        "biolink:splicing_decreased_by",
+        "biolink:splicing_increased_by",
+        "biolink:stability_affected_by",
+        "biolink:stability_decreased_by",
+        "biolink:stability_increased_by",
+        "biolink:synthesis_affected_by",
         "biolink:synthesis_decreased_by",
         "biolink:synthesis_increased_by",
         "biolink:transport_affected_by",
@@ -866,7 +1055,9 @@
         "biolink:uptake_increased_by"
     ],
     "biolink:response_affected_by": [
-        "biolink:response_affected_by"
+        "biolink:response_affected_by",
+        "biolink:response_decreased_by",
+        "biolink:response_increased_by"
     ],
     "biolink:response_decreased_by": [
         "biolink:response_decreased_by"
@@ -875,7 +1066,9 @@
         "biolink:response_increased_by"
     ],
     "biolink:secretion_affected_by": [
-        "biolink:secretion_affected_by"
+        "biolink:secretion_affected_by",
+        "biolink:secretion_decreased_by",
+        "biolink:secretion_increased_by"
     ],
     "biolink:secretion_decreased_by": [
         "biolink:secretion_decreased_by"
@@ -884,7 +1077,9 @@
         "biolink:secretion_increased_by"
     ],
     "biolink:splicing_affected_by": [
-        "biolink:splicing_affected_by"
+        "biolink:splicing_affected_by",
+        "biolink:splicing_decreased_by",
+        "biolink:splicing_increased_by"
     ],
     "biolink:splicing_decreased_by": [
         "biolink:splicing_decreased_by"
@@ -893,7 +1088,9 @@
         "biolink:splicing_increased_by"
     ],
     "biolink:stability_affected_by": [
-        "biolink:stability_affected_by"
+        "biolink:stability_affected_by",
+        "biolink:stability_decreased_by",
+        "biolink:stability_increased_by"
     ],
     "biolink:stability_decreased_by": [
         "biolink:stability_decreased_by"
@@ -902,7 +1099,9 @@
         "biolink:stability_increased_by"
     ],
     "biolink:synthesis_affected_by": [
-        "biolink:synthesis_affected_by"
+        "biolink:synthesis_affected_by",
+        "biolink:synthesis_decreased_by",
+        "biolink:synthesis_increased_by"
     ],
     "biolink:synthesis_decreased_by": [
         "biolink:synthesis_decreased_by"
@@ -911,7 +1110,9 @@
         "biolink:synthesis_increased_by"
     ],
     "biolink:transport_affected_by": [
-        "biolink:transport_affected_by"
+        "biolink:transport_affected_by",
+        "biolink:transport_decreased_by",
+        "biolink:transport_increased_by"
     ],
     "biolink:transport_decreased_by": [
         "biolink:transport_decreased_by"
@@ -926,7 +1127,9 @@
         "biolink:treats"
     ],
     "biolink:uptake_affected_by": [
-        "biolink:uptake_affected_by"
+        "biolink:uptake_affected_by",
+        "biolink:uptake_decreased_by",
+        "biolink:uptake_increased_by"
     ],
     "biolink:uptake_decreased_by": [
         "biolink:uptake_decreased_by"
