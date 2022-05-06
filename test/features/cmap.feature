@@ -1,7 +1,7 @@
 Feature: Check CMAP transformer
 
     Background: Specify transformer API
-        Given a transformer at "https://translator.broadinstitute.org/cmap"
+        Given a transformer at "https://molepro-cmap-transformer.test.transltr.io/cmap"
         
     Scenario: Check transformer info
         Given the transformer
