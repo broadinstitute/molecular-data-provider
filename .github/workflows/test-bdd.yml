@@ -185,6 +185,21 @@ jobs:
         - name: Start the BDD testing of the checked out feature file
           run: behave test/features/gtopdb.feature
           
+
+  gwas:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-test }
+
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/gwas.feature
+
+
   hmdb:
     runs-on: ubuntu-latest
     steps:
@@ -262,6 +277,23 @@ jobs:
           
         - name: Start the BDD testing of the checked out feature file
           run: behave test/features/pharos.feature
+
+
+
+  probeminer:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-test }
+
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/probeminer.feature
+
+
 
   pubchem:
     runs-on: ubuntu-latest
