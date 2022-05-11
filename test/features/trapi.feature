@@ -1,9 +1,7 @@
-#https://molepro-trapi.ci.transltr.io/molepro/trapi/v1.2/ui/
-
 Feature: Check reasoner API
 
     Background: Specify Reasoner API
-        Given a reasoner API at "https://molepro-trapi.test.transltr.io/molepro/trapi/v1.2"
+        Given a reasoner API at "https://translator.broadinstitute.org/molepro/trapi/v1.2"
 
 
     Scenario: Check targets
