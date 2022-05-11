@@ -1,7 +1,7 @@
 Feature: Check Node_Normalizer transformer
 
     Background: Specify transformer API
-        Given a transformer at "https://molepro-node-normalizer-transformer.test.transltr.io/node"
+        Given a transformer at "https://translator.broadinstitute.org/node"
 
 
     Scenario: Node_Normalizer producer info
