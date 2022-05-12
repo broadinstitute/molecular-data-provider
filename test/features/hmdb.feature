@@ -1,7 +1,7 @@
 Feature: Check HMDB transformer
 
     Background: Specify transformer API
-        Given a transformer at ""https://molepro-hmdb-transformer.ci.transltr.io/hmdb"
+        Given a transformer at "https://molepro-hmdb-transformer.ci.transltr.io/hmdb"
 
 
     Scenario: Check HMDB producer info
