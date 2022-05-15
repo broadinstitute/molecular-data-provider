@@ -1,7 +1,7 @@
 Feature: Check Drugbank transformer
 
     Background: Specify transformer API
-        Given a transformer at "https://translator.broadinstitute.org/drugbank"
+        Given a transformer at "https://molepro-drugbank-transformer.transltr.io/drugbank"
 
 
     Scenario: Check DrugBank producer info
