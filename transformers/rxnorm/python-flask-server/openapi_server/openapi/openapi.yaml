@@ -28,9 +28,12 @@ paths:
         schema:
           enum:
           - molecules
-          - relations
-          - drugs
           - ingredients
+          - unii
+          - rxcui
+          - relations
+          - components
+          - drugs
           type: string
         style: simple
       - description: Directive for handling caching, can be 'yes' (default), 'no',
@@ -93,9 +96,12 @@ paths:
         schema:
           enum:
           - molecules
-          - relations
-          - drugs
           - ingredients
+          - unii
+          - rxcui
+          - relations
+          - components
+          - drugs
           type: string
         style: simple
       - description: Directive for handling caching, can be 'yes' (default), 'no',

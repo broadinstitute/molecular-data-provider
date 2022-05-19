@@ -10,12 +10,18 @@ from openapi_server import util
 from openapi_server.controllers.rxnorm_transformer import RxNormCompoundProducer
 from openapi_server.controllers.rxnorm_transformer import RxNormDrugProducer
 from openapi_server.controllers.rxnorm_transformer import RxNormRelationTransformer
+from openapi_server.controllers.rxnorm_transformer import UniiProducer
+from openapi_server.controllers.rxnorm_transformer import RxNormIngredientTransformer
+from openapi_server.controllers.rxnorm_transformer import RxNormComponentTransformer
 
 
 transformer = {
+    'unii' : UniiProducer(),
     'molecules' : RxNormCompoundProducer(),
     'drugs' : RxNormDrugProducer(),
-    'relations' : RxNormRelationTransformer()
+    'relations' : RxNormRelationTransformer(),
+    'components': RxNormComponentTransformer(),
+    'ingredients': RxNormIngredientTransformer()
 }
 
 def service_transform_post(service, body, cache=None):  # noqa: E501
@@ -49,4 +55,4 @@ def service_transformer_info_get(service, cache=None):  # noqa: E501
 
     :rtype: TransformerInfo
     """
-    return transformer[service].info
+    return transformer[service].transformer_info(cache)
