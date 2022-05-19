@@ -128,6 +128,8 @@ class TransformerInfo(Model):
         :param label: The label of this TransformerInfo.
         :type label: str
         """
+        if label is None:
+            raise ValueError("Invalid value for `label`, must not be `None`")  # noqa: E501
 
         self._label = label
 
@@ -174,6 +176,8 @@ class TransformerInfo(Model):
         :param version: The version of this TransformerInfo.
         :type version: str
         """
+        if version is None:
+            raise ValueError("Invalid value for `version`, must not be `None`")  # noqa: E501
 
         self._version = version
 
@@ -224,6 +228,8 @@ class TransformerInfo(Model):
         :param knowledge_map: The knowledge_map of this TransformerInfo.
         :type knowledge_map: KnowledgeMap
         """
+        if knowledge_map is None:
+            raise ValueError("Invalid value for `knowledge_map`, must not be `None`")  # noqa: E501
 
         self._knowledge_map = knowledge_map
 
