@@ -17,9 +17,13 @@ python setup.py bdist_wheel
 
 copy `transformers/rxnorm/python-flask-server/dist/rxnorm_transformer-2.4.0-py3-none-any.whl` to the target folder
 
-copy `util/python/transformers-1.0/dist/base_transformer-2.0.1-py3-none-any.whl` to the target folder
+copy `util/python/transformers-2.0/dist/base_transformer-2.0.1-py3-none-any.whl` to the target folder
 
 copy `transformers/rxnorm/python-flask-server/info` folder to the target folder
+
+copy `util/python/transformers-2.0/config/BiolinkClassMap.txt` to `data` subfolder of the target folder
+
+copy `util/python/transformers-2.0/config/prefixMap.json` to `data` subfolder of the target folder
 
 download rxnorm.sqlite from `https://translator.broadinstitute.org/db/rxnorm.sqlite` and save to `data` subfolder of the target folder
 
