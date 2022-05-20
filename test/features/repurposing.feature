@@ -1,7 +1,7 @@
 Feature: Check Drug Repurposing Hub transformer
 
     Background: Specify transformer API
-        Given a transformer at "https://translator.broadinstitute.org/repurposing"
+        Given a transformer at "https://molepro-rephub-transformer.transltr.io/repurposing"
 
 
     Scenario: Check compounds transformer info
