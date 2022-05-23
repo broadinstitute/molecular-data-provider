@@ -7,14 +7,20 @@ from openapi_server.models.transformer_info import TransformerInfo  # noqa: E501
 from openapi_server.models.transformer_query import TransformerQuery  # noqa: E501
 from openapi_server import util
 
-from openapi_server.controllers.hmdb_controller import HmdbTargets
+from openapi_server.controllers.hmdb_controller import HmdbProteinTargets
+from openapi_server.controllers.hmdb_controller import HmdbGeneTargets
 from openapi_server.controllers.hmdb_controller import HmdbMetabolites
 from openapi_server.controllers.hmdb_controller import HmdbDisorders
+from openapi_server.controllers.hmdb_controller import HmdbLocations
+from openapi_server.controllers.hmdb_controller import HmdbPathways
 
 transformer = {
-    'targets': HmdbTargets(),
+    'protein_targets': HmdbProteinTargets(),
+    'gene_targets': HmdbGeneTargets(),
     'metabolites': HmdbMetabolites(),
-    'disorders': HmdbDisorders()
+    'disorders': HmdbDisorders(),
+    'locations': HmdbLocations(),
+    'pathways': HmdbPathways()
 }
 
 def service_transform_post(service, body, cache=None):  # noqa: E501
@@ -48,4 +54,4 @@ def service_transformer_info_get(service, cache=None):  # noqa: E501
 
     :rtype: TransformerInfo
     """
-    return transformer[service].info
+    return transformer[service].transformer_info(cache)

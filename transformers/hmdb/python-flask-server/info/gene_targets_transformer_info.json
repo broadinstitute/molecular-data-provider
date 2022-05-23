@@ -1,19 +1,17 @@
 {
-    "name": "HMDB target transformer",
+    "name": "HMDB target genes transformer",
     "label": "HMDB",
     "description": "Gene-list transformer based on the Human Metabolome Database target information (https://www.hmdb.ca/).",
-    "version": "2.2.0",
+    "version": "2.4.0",
     "function": "transformer",
     "knowledge_map": {
         "input_class": "compound",
         "output_class": "gene",
         "nodes": {
-            "ChemicalSubstance": {
+            "SmallMolecule": {
                 "id_prefixes": [
                     "HMDB",
-                    "ChEBI",
-                    "DrugBank",
-                    "CAS"
+                    "inchikey"
                 ],
                 "count": -1,
                 "attributes": []
@@ -26,10 +24,11 @@
                 "attributes": []
             }
         },
-        "predicates": [
+        "edges": [
             {
-                "subject": "ChemicalSubstance",
+                "subject": "SmallMolecule",
                 "predicate": "interacts_with",
+                "inverse_predicate": "interacts_with",
                 "object": "Gene",
                 "source": "HMDB",
                 "relations": ["interacts_with"],
@@ -40,6 +39,7 @@
     },
     "properties": {
         "source_url": "https://www.hmdb.ca/",
+        "source_version": "5.0 (2021-11-17)",
         "terms_of_service": "http://www.hmdb.ca/about"
     },
     "parameters": []

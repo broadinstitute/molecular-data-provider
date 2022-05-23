@@ -25,7 +25,10 @@ paths:
           enum:
           - metabolites
           - disorders
-          - targets
+          - protein_targets
+          - gene_targets
+          - locations
+          - pathways
           type: string
         style: simple
       - description: Directive for handling caching, can be 'yes' (default), 'no',
@@ -89,7 +92,10 @@ paths:
           enum:
           - metabolites
           - disorders
-          - targets
+          - protein_targets
+          - gene_targets
+          - locations
+          - pathways
           type: string
         style: simple
       - description: Directive for handling caching, can be 'yes' (default), 'no',
