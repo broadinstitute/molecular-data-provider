@@ -1,7 +1,7 @@
 Feature: Check DrugCentral transformer
 
     Background: Specify transformer API
-        Given a transformer at "https://translator.broadinstitute.org/drugcentral"
+        Given a transformer at "https://molepro-drugcentral-transformer.ci.transltr.io/drugcentral"
 
 
     Scenario: Check transformer info

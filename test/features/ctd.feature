@@ -1,7 +1,7 @@
 Feature: Check CTD transformer
 
     Background: Specify transformer API
-        Given a transformer at "https://translator.broadinstitute.org/ctdbase"
+        Given a transformer at "https://molepro-ctd-transformer.ci.transltr.io/ctdbase"
 
 
     Scenario: Check CTD producer info

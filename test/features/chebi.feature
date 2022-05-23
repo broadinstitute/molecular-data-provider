@@ -1,7 +1,7 @@
 Feature: Check ChEBI transformer
 
     Background: Specify transformer API
-        Given a transformer at "https://translator.broadinstitute.org/chebi"
+        Given a transformer at "https://molepro-chebi-transformer.ci.transltr.io/chebi"
 
 
     Scenario: Check compounds producer info

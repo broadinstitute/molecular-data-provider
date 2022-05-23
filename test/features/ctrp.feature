@@ -1,7 +1,7 @@
 Feature: Check CTRP transformer
 
     Background: Specify transformer API
-        Given a transformer at "https://translator.broadinstitute.org/ctrp"
+        Given a transformer at "https://molepro-ctrp-transformer.ci.transltr.io/ctrp"
 
 
     Scenario: Check transformer info

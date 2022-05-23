@@ -1,7 +1,7 @@
 Feature: Check ChemBank transformer
 
     Background: Specify transformer API
-        Given a transformer at "https://translator.broadinstitute.org/chembank"
+        Given a transformer at "https://molepro-chembank-transformer.ci.transltr.io/chembank"
 
 
     Scenario: Check transformer info

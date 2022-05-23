@@ -1,7 +1,7 @@
 Feature: Check DepMap transformer
 
     Background: Specify transformer API
-        Given a transformer at "https://translator.broadinstitute.org/depmap/correlation"
+        Given a transformer at "https://molepro-depmap-transformer.ci.transltr.io/depmap/correlation"
 
 
     Scenario: Check transformer info
