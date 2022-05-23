@@ -1,12 +1,12 @@
 {
-    "name": "HMDB disorders transformer",
+    "name": "HMDB locations transformer",
     "label": "HMDB",
-    "description": "Disease/phenotype transformer based on the Human Metabolome Database target information (https://www.hmdb.ca/).",
+    "description": "Anatomical locations transformer based on the Human Metabolome Database information (https://www.hmdb.ca/).",
     "version": "2.4.0",
     "function": "transformer",
     "knowledge_map": {
         "input_class": "compound",
-        "output_class": "disease",
+        "output_class": "AnatomicalEntity",
         "nodes": {
             "SmallMolecule": {
                 "id_prefixes": [
@@ -16,14 +16,11 @@
                 "count": -1,
                 "attributes": []
             },
-            "DiseaseOrPhenotypicFeature": {
+            "AnatomicalEntity": {
                 "id_prefixes": [
-                    "EFO",
-                    "OMIM",
-                    "UMLS",
-                    "NCIT",
-                    "HP",
-                    "OMIM"
+                    "UBERON",
+                    "CL",
+                    "GO"
                 ],
                 "count": -1,
                 "attributes": []
@@ -32,16 +29,23 @@
         "edges": [
             {
                 "subject": "SmallMolecule",
-                "predicate": "related_to",
-                "inverse_predicate": "related_to",
-                "object": "DiseaseOrPhenotypicFeature",
+                "predicate": "located_in",
+                "inverse_predicate": "location of",
+                "object": "AnatomicalEntity",
                 "source": "HMDB",
-                "count": -1,
-                "attributes": [{
+                "count": 138100,
+                "attributes": [
+                  {
                     "type": "reference",
                     "source": "HMDB",
                     "names": ["reference"]
-                }]
+                  },
+                  {
+                    "type": "concentration",
+                    "source": "HMDB",
+                    "names": ["normal concentration","abnormal concentration"]
+                  }
+                ]
             }
         ]
     },

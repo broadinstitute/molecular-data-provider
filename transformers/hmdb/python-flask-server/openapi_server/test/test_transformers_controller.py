@@ -22,6 +22,7 @@ class TestTransformersController(BaseTestCase):
         Transform a list of genes or compounds
         """
         transformer_query = {}
+        query_string = [('cache', 'cache_example')]
         headers = { 
             'Accept': 'application/json',
             'Content-Type': 'application/json',
@@ -31,7 +32,8 @@ class TestTransformersController(BaseTestCase):
             method='POST',
             headers=headers,
             data=json.dumps(transformer_query),
-            content_type='application/json')
+            content_type='application/json',
+            query_string=query_string)
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
@@ -40,13 +42,15 @@ class TestTransformersController(BaseTestCase):
 
         Retrieve transformer info
         """
+        query_string = [('cache', 'cache_example')]
         headers = { 
             'Accept': 'application/json',
         }
         response = self.client.open(
             '/hmdb/{service}/transformer_info'.format(service='service_example'),
             method='GET',
-            headers=headers)
+            headers=headers,
+            query_string=query_string)
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
