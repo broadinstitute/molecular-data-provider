@@ -2,6 +2,7 @@ Feature: Check Inxight:Drugs  transformer
     Background: Specify transformer API
         Given a transformer at "https://molepro-inxightdrugs-transformer.ci.transltr.io/inxight_drugs"
 
+
     Scenario: Check Inxight:Drugs substance producer info
         Given the transformer
         when we fire "/substances/transformer_info" query

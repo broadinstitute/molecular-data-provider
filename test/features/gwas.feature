@@ -166,4 +166,3 @@ Feature: Check GWAS transformer
         }
         """
         then the size of the response is 0
-
