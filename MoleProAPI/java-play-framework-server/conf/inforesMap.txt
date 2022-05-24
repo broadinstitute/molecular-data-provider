@@ -49,9 +49,14 @@ GtoPdb	GtoPdb compound-list producer	infores:gtopdb	biolink:primary_knowledge_so
 GtoPdb	GtoPdb target transformer	infores:gtopdb	biolink:primary_knowledge_source
 GtoPdb	GtoPdb inhibitors transformer	infores:gtopdb	biolink:primary_knowledge_source
 HGNC	HGNC gene-list producer	infores:hgnc	biolink:primary_knowledge_source
+GWAS	GWAS disease to gene transformer	infores:genetics-data-provider	biolink:primary_knowledge_source
+GWAS	GWAS gene to disease transformer	infores:genetics-data-provider	biolink:primary_knowledge_source
 HMDB	HMDB metabolite producer	infores:hmdb	biolink:primary_knowledge_source
 HMDB	HMDB disorders transformer	infores:hmdb	biolink:primary_knowledge_source
-HMDB	HMDB target transformer	infores:hmdb	biolink:primary_knowledge_source
+HMDB	HMDB target genes transformer	infores:hmdb	biolink:primary_knowledge_source
+HMDB	HMDB target proteins transformer	infores:hmdb	biolink:primary_knowledge_source
+HMDB	HMDB pathways transformer	infores:hmdb	biolink:primary_knowledge_source
+HMDB	HMDB locations transformer	infores:hmdb	biolink:primary_knowledge_source
 intersection	intersection	infores:molepro	biolink:aggregator_knowledge_source
 Inxight:Drugs	Inxight:Drugs substance-list producer	infores:inxight-drugs	biolink:primary_knowledge_source
 Inxight:Drugs	Inxight:Drugs drug producer	infores:inxight-drugs	biolink:primary_knowledge_source
@@ -69,6 +74,9 @@ Repurposing	Repurposing Hub target transformer	infores:drug-repurposing-hub	biol
 RxNorm	RxNorm compound-list producer	infores:rxnorm	biolink:primary_knowledge_source
 RxNorm	RxNorm drug-list producer	infores:rxnorm	biolink:primary_knowledge_source
 RxNorm	RxNorm drug relation info	infores:rxnorm	biolink:primary_knowledge_source
+RxNorm	UNII ingredient-list producer	infores:rxnorm	biolink:primary_knowledge_source
+RxNorm	RxNorm active ingredient transformer	infores:rxnorm	biolink:primary_knowledge_source
+RxNorm	RxNorm components transformer	infores:rxnorm	biolink:primary_knowledge_source
 STITCH	STITCH compound-list producer	infores:stitch	biolink:primary_knowledge_source
 STITCH	STITCH link transformer	infores:stitch	biolink:primary_knowledge_source
 STRING	STRING protein-protein interaction	infores:string	biolink:primary_knowledge_source
