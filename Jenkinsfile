@@ -82,7 +82,7 @@ pipeline {
             steps {
                 sshagent (credentials: ['0360ecc2-120b-49df-ad82-a1c53fa961d0']) {
                     dir(".") {
-                        sh 'git clone -b reasoner-deploy git@github.com:Sphinx-Automation/translator-ops.git'
+                        sh 'git clone git@github.com:Sphinx-Automation/translator-ops.git'
                         configFileProvider([
                             configFile(fileId: 'reasoner-api-ci-env', targetLocation: 'translator-ops/ops/molepro/reasonerapi/.env')
                         ]){
