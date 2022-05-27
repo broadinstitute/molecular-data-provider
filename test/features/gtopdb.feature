@@ -1,7 +1,7 @@
 Feature: Check GtoPdb transformer
 
     Background: Specify transformer API
-        Given a transformer at "https://translator.broadinstitute.org/gtopdb"
+        Given a transformer at "https://molepro-gtopdb-transformer.ci.transltr.io/gtopdb"
         
     Scenario: Check transformer info
         Given the transformer

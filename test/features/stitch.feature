@@ -1,7 +1,7 @@
 Feature: Check STITCH transformer
 
     Background: Specify transformer API
-        Given a transformer at "https://translator.broadinstitute.org/stitch"
+        Given a transformer at "https://molepro-stitch-transformer.ci.transltr.io/stitch"
 
 
     Scenario: Check chemicals transformer info

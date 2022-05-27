@@ -1,7 +1,7 @@
 Feature: Check STRING transformer
 
     Background: Specify transformer API
-        Given a transformer at "https://translator.broadinstitute.org/string"
+        Given a transformer at "https://molepro-string-transformer.ci.transltr.io/string"
 
 
     Scenario: Check links transformer info
