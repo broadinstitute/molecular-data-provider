@@ -1,7 +1,7 @@
 Feature: Check MolePro filters
 
     Background: Specify Molecular Data Provider API
-        Given a Molecular Data Provider at "https://translator.broadinstitute.org/molecular_data_provider"
+        Given a Molecular Data Provider at "https://molepro.ci.transltr.io/molecular_data_provider"
 
 
     Scenario: Check MoleProDB node producer
