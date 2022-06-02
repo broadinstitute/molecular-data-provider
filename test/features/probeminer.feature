@@ -1,7 +1,7 @@
 Feature: Check ProbeMiner transformer
 
     Background: Specify transformer API
-        Given a transformer at "https://translator.broadinstitute.org/probeminer"
+        Given a transformer at "https://molepro-probeminer-transformer.transltr.io/probeminer"
 
 
     Scenario: Check ProbeMiner producer info

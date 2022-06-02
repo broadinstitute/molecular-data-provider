@@ -1,7 +1,7 @@
 Feature: Check GWAS transformer
 
     Background: Specify transformer API
-        Given a transformer at "https://translator.broadinstitute.org/gwas"
+        Given a transformer at "https://molepro-gwas-transformer.transltr.io/gwas"
 
 
     Scenario: Check links transformer info
