@@ -2,14 +2,13 @@ openapi: 3.0.0
 info:
   title: Transformer API for MSigDB exporter
   termsOfService: https://www.gsea-msigdb.org/gsea/msigdb_license_terms.jsp
-
   version: 2.3.0
   
   contact:
     email: translator@broadinstitute.org
   
 servers:
-- url: https://translator.broadinstitute.org/msigdb_exporter
+- url: https://translator.broadinstitute.org/msigdb
 
 tags:
   - name: transformers
@@ -28,7 +27,7 @@ paths:
         required: true
         schema:
           type: string
-          enum: [SERVICE-LIST]
+          enum: [enrichment,pathways,genes]
       - name: cache
         in: query
         description: >-
@@ -59,7 +58,7 @@ paths:
         required: true
         schema:
           type: string
-          enum: [SERVICE-LIST]
+          enum: [enrichment,pathways,genes]
       - name: cache
         in: query
         description: >-
