@@ -21,13 +21,13 @@ python3 -m openapi_server
 and open your browser to here:
 
 ```
-http://localhost:8080/msigdb_exporter/ui/
+http://localhost:8080/msigdb/ui/
 ```
 
 Your OpenAPI definition lives here:
 
 ```
-http://localhost:8080/msigdb_exporter/openapi.json
+http://localhost:8080/msigdb/openapi.json
 ```
 
 To launch the integration tests, use tox:

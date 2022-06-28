@@ -16,37 +16,41 @@ from openapi_server.test import BaseTestCase
 class TestTransformersController(BaseTestCase):
     """TransformersController integration test stubs"""
 
-    def test_transform_post(self):
-        """Test case for transform_post
+    def test_service_transform_post(self):
+        """Test case for service_transform_post
 
         Transform a list of genes or compounds
         """
         transformer_query = {}
+        query_string = [('cache', 'cache_example')]
         headers = { 
             'Accept': 'application/json',
             'Content-Type': 'application/json',
         }
         response = self.client.open(
-            '/msigdb_exporter/transform',
+            '/msigdb/{service}/transform'.format(service='service_example'),
             method='POST',
             headers=headers,
             data=json.dumps(transformer_query),
-            content_type='application/json')
+            content_type='application/json',
+            query_string=query_string)
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
-    def test_transformer_info_get(self):
-        """Test case for transformer_info_get
+    def test_service_transformer_info_get(self):
+        """Test case for service_transformer_info_get
 
         Retrieve transformer info
         """
+        query_string = [('cache', 'cache_example')]
         headers = { 
             'Accept': 'application/json',
         }
         response = self.client.open(
-            '/msigdb_exporter/transformer_info',
+            '/msigdb/{service}/transformer_info'.format(service='service_example'),
             method='GET',
-            headers=headers)
+            headers=headers,
+            query_string=query_string)
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
