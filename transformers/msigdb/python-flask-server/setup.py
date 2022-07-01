@@ -3,8 +3,8 @@
 import sys
 from setuptools import setup, find_packages
 
-NAME = "msigdb-exporter"
-VERSION = "2.0.0"
+NAME = "msigdb-transfromer"
+VERSION = "2.3.0"
 
 # To install the library, run the following
 #
