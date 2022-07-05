@@ -1,11 +1,11 @@
 {
-    "name": "Pubchem compound-list producer",
+    "name": "PubChem chemical similarity transformer",
     "label": "PubChem",
-    "description": "Compound-list producer based on PubChem (https://pubchem.ncbi.nlm.nih.gov/).",
+    "description": "Compound chemical-similarity transformer based on PubChem (https://pubchem.ncbi.nlm.nih.gov/).",
     "version": "2.4.0",
-    "function": "producer",
+    "function": "transformer",
     "knowledge_map": {
-        "input_class": "none",
+        "input_class": "compound",
         "output_class": "compound",
         "nodes": {
             "SmallMolecule": {
@@ -54,21 +54,22 @@
                 ]
             }
         },
-        "edges": []
+        "edges": [
+            {
+                "subject": "SmallMolecule",
+                "predicate": "biolink:chemically_similar_to",
+                "inverse_predicate": "biolink:chemically_similar_to",
+                "object": "SmallMolecule",
+                "source": "PubChem",
+                "count": -1,
+                "attributes": []
+            }
+        ]
     },
     "properties": {
         "source_url": "https://pubchem.ncbi.nlm.nih.gov/",
         "source_version": "2022-05-11",
         "terms_of_service": "https://www.ncbi.nlm.nih.gov/home/about/policies/"
     },
-    "parameters": [
-        {
-            "example": "aspirin",
-            "name": "compound",
-            "type": "string",
-            "required": true,
-            "multivalued": true,
-            "suggested_values": "compound name or PubChem CID"
-        }
-    ]
+    "parameters": []
 }
