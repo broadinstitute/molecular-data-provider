@@ -3,7 +3,7 @@ package org.broadinstitute.translator.parser.pubchem.rdf
 import java.io.File
 import scala.io.Source
 
-class TTLparser(file: File) {
+class TTLparser(file: File, val sep: String) {
 
   private var prefixes = Map[String, String]()
 
@@ -38,7 +38,7 @@ class TTLparser(file: File) {
   }
 
   private def parsePrefix(line: String) {
-    val row = line.split("\t")
+    val row = line.split(sep)
     val prefix = row(0)
     val uri = row(1)
     //println("'" + prefix + "'='" + uri + "'")
@@ -46,22 +46,24 @@ class TTLparser(file: File) {
   }
 
   private def parseTripple(rowNo: Int, line: String): Triple = {
-    val row = line.split("\t")
+    val row = line.split(sep)
     if (row.length != 3) {
       Console.err.println("WARNING(line " + rowNo + "): unexpected line end: " + line)
     }
     return Triple(row(0), row(1), row(2))
   }
 
+  // check data line
   private def checkLine(rowNo: Int, line: String, cont: Boolean) {
     if (cont && !line.startsWith("\t\t")) {
       Console.err.println("WARNING(line " + rowNo + "): unexpected line start: " + line)
     }
-    if (!(line.endsWith(" .") || line.endsWith(" ,"))) {
+    if (!(line.endsWith(" .") || line.endsWith(" ,") || line.length == 0)) {
       Console.err.println("WARNING(line " + rowNo + "): unexpected line end: " + line)
     }
   }
 
+  // check prefix line
   private def checkLine(rowNo: Int, line: String) {
     if (!line.endsWith(" .")) {
       Console.err.println("WARNING(line " + rowNo + "): unexpected line end: " + line)
@@ -71,7 +73,7 @@ class TTLparser(file: File) {
 
 object TTLparser {
 
-  def apply(filename: String) = new TTLparser(new File(filename))
+  def apply(filename: String, sep: String = "\t") = new TTLparser(new File(filename), sep)
 
   def process(triples: List[Triple]) {
     println(triples)
