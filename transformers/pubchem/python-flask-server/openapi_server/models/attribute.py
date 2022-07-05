@@ -15,45 +15,60 @@ class Attribute(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name=None, value=None, type=None, source=None, url=None, provided_by=None):  # noqa: E501
+    def __init__(self, attribute_type_id=None, original_attribute_name=None, value=None, value_type_id=None, attribute_source=None, value_url=None, description=None, attributes=None, provided_by=None):  # noqa: E501
         """Attribute - a model defined in OpenAPI
 
-        :param name: The name of this Attribute.  # noqa: E501
-        :type name: str
+        :param attribute_type_id: The attribute_type_id of this Attribute.  # noqa: E501
+        :type attribute_type_id: str
+        :param original_attribute_name: The original_attribute_name of this Attribute.  # noqa: E501
+        :type original_attribute_name: str
         :param value: The value of this Attribute.  # noqa: E501
-        :type value: str
-        :param type: The type of this Attribute.  # noqa: E501
-        :type type: str
-        :param source: The source of this Attribute.  # noqa: E501
-        :type source: str
-        :param url: The url of this Attribute.  # noqa: E501
-        :type url: str
+        :type value: object
+        :param value_type_id: The value_type_id of this Attribute.  # noqa: E501
+        :type value_type_id: str
+        :param attribute_source: The attribute_source of this Attribute.  # noqa: E501
+        :type attribute_source: str
+        :param value_url: The value_url of this Attribute.  # noqa: E501
+        :type value_url: str
+        :param description: The description of this Attribute.  # noqa: E501
+        :type description: str
+        :param attributes: The attributes of this Attribute.  # noqa: E501
+        :type attributes: List[Attribute]
         :param provided_by: The provided_by of this Attribute.  # noqa: E501
         :type provided_by: str
         """
         self.openapi_types = {
-            'name': str,
-            'value': str,
-            'type': str,
-            'source': str,
-            'url': str,
+            'attribute_type_id': str,
+            'original_attribute_name': str,
+            'value': object,
+            'value_type_id': str,
+            'attribute_source': str,
+            'value_url': str,
+            'description': str,
+            'attributes': List[Attribute],
             'provided_by': str
         }
 
         self.attribute_map = {
-            'name': 'name',
+            'attribute_type_id': 'attribute_type_id',
+            'original_attribute_name': 'original_attribute_name',
             'value': 'value',
-            'type': 'type',
-            'source': 'source',
-            'url': 'url',
+            'value_type_id': 'value_type_id',
+            'attribute_source': 'attribute_source',
+            'value_url': 'value_url',
+            'description': 'description',
+            'attributes': 'attributes',
             'provided_by': 'provided_by'
         }
 
-        self._name = name
+        self._attribute_type_id = attribute_type_id
+        self._original_attribute_name = original_attribute_name
         self._value = value
-        self._type = type
-        self._source = source
-        self._url = url
+        self._value_type_id = value_type_id
+        self._attribute_source = attribute_source
+        self._value_url = value_url
+        self._description = description
+        self._attributes = attributes
         self._provided_by = provided_by
 
     @classmethod
@@ -68,38 +83,63 @@ class Attribute(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def name(self):
-        """Gets the name of this Attribute.
+    def attribute_type_id(self):
+        """Gets the attribute_type_id of this Attribute.
 
-        Name of the attribute.  # noqa: E501
+        The 'key' of the attribute object, holding a CURIE of an ontology property defining the attribute (preferably the CURIE of a Biolink association slot). This property captures the relationship asserted to hold between the value of the attribute, and the node or edge from  which it hangs. For example, that a value of '0.000153' represents a p-value supporting an edge, or that a value of 'ChEMBL' represents the original source of the knowledge expressed in the edge.  # noqa: E501
 
-        :return: The name of this Attribute.
+        :return: The attribute_type_id of this Attribute.
         :rtype: str
         """
-        return self._name
+        return self._attribute_type_id
 
-    @name.setter
-    def name(self, name):
-        """Sets the name of this Attribute.
+    @attribute_type_id.setter
+    def attribute_type_id(self, attribute_type_id):
+        """Sets the attribute_type_id of this Attribute.
 
-        Name of the attribute.  # noqa: E501
+        The 'key' of the attribute object, holding a CURIE of an ontology property defining the attribute (preferably the CURIE of a Biolink association slot). This property captures the relationship asserted to hold between the value of the attribute, and the node or edge from  which it hangs. For example, that a value of '0.000153' represents a p-value supporting an edge, or that a value of 'ChEMBL' represents the original source of the knowledge expressed in the edge.  # noqa: E501
 
-        :param name: The name of this Attribute.
-        :type name: str
+        :param attribute_type_id: The attribute_type_id of this Attribute.
+        :type attribute_type_id: str
         """
-        if name is None:
-            raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
+        if attribute_type_id is None:
+            raise ValueError("Invalid value for `attribute_type_id`, must not be `None`")  # noqa: E501
 
-        self._name = name
+        self._attribute_type_id = attribute_type_id
+
+    @property
+    def original_attribute_name(self):
+        """Gets the original_attribute_name of this Attribute.
+
+        The term used by the original source of an attribute to describe the meaning or significance of the value it captures. This may be a column name in a source tsv file, or a key in a source json document for the field in the data that held the attribute's value. Capturing this information  where possible lets us preserve what the original source said. Note that the data type is string' but the contents of the field could also be a CURIE of a third party ontology term.  # noqa: E501
+
+        :return: The original_attribute_name of this Attribute.
+        :rtype: str
+        """
+        return self._original_attribute_name
+
+    @original_attribute_name.setter
+    def original_attribute_name(self, original_attribute_name):
+        """Sets the original_attribute_name of this Attribute.
+
+        The term used by the original source of an attribute to describe the meaning or significance of the value it captures. This may be a column name in a source tsv file, or a key in a source json document for the field in the data that held the attribute's value. Capturing this information  where possible lets us preserve what the original source said. Note that the data type is string' but the contents of the field could also be a CURIE of a third party ontology term.  # noqa: E501
+
+        :param original_attribute_name: The original_attribute_name of this Attribute.
+        :type original_attribute_name: str
+        """
+        if original_attribute_name is None:
+            raise ValueError("Invalid value for `original_attribute_name`, must not be `None`")  # noqa: E501
+
+        self._original_attribute_name = original_attribute_name
 
     @property
     def value(self):
         """Gets the value of this Attribute.
 
-        Value of the attribute.  # noqa: E501
+        Value of the attribute. May be any data type, including a list.  # noqa: E501
 
         :return: The value of this Attribute.
-        :rtype: str
+        :rtype: object
         """
         return self._value
 
@@ -107,10 +147,10 @@ class Attribute(Model):
     def value(self, value):
         """Sets the value of this Attribute.
 
-        Value of the attribute.  # noqa: E501
+        Value of the attribute. May be any data type, including a list.  # noqa: E501
 
         :param value: The value of this Attribute.
-        :type value: str
+        :type value: object
         """
         if value is None:
             raise ValueError("Invalid value for `value`, must not be `None`")  # noqa: E501
@@ -118,75 +158,121 @@ class Attribute(Model):
         self._value = value
 
     @property
-    def type(self):
-        """Gets the type of this Attribute.
+    def value_type_id(self):
+        """Gets the value_type_id of this Attribute.
 
-        CURIE of the semantic type of the attribute, from the EDAM ontology if possible.  # noqa: E501
+        CURIE describing the semantic type of an  attribute's value. Use a Biolink class if possible, otherwise a term from an external ontology. If a suitable CURIE/identifier does not exist, enter a descriptive phrase here and submit the new type for consideration by the appropriate authority.  # noqa: E501
 
-        :return: The type of this Attribute.
+        :return: The value_type_id of this Attribute.
         :rtype: str
         """
-        return self._type
+        return self._value_type_id
 
-    @type.setter
-    def type(self, type):
-        """Sets the type of this Attribute.
+    @value_type_id.setter
+    def value_type_id(self, value_type_id):
+        """Sets the value_type_id of this Attribute.
 
-        CURIE of the semantic type of the attribute, from the EDAM ontology if possible.  # noqa: E501
+        CURIE describing the semantic type of an  attribute's value. Use a Biolink class if possible, otherwise a term from an external ontology. If a suitable CURIE/identifier does not exist, enter a descriptive phrase here and submit the new type for consideration by the appropriate authority.  # noqa: E501
 
-        :param type: The type of this Attribute.
-        :type type: str
+        :param value_type_id: The value_type_id of this Attribute.
+        :type value_type_id: str
         """
 
-        self._type = type
+        self._value_type_id = value_type_id
 
     @property
-    def source(self):
-        """Gets the source of this Attribute.
+    def attribute_source(self):
+        """Gets the attribute_source of this Attribute.
 
-        Source of the attribute, as a CURIE prefix.  # noqa: E501
+        The source of the core assertion made by the key-value pair of an attribute object. Use a CURIE or namespace designator for this resource where possible.  # noqa: E501
 
-        :return: The source of this Attribute.
+        :return: The attribute_source of this Attribute.
         :rtype: str
         """
-        return self._source
+        return self._attribute_source
 
-    @source.setter
-    def source(self, source):
-        """Sets the source of this Attribute.
+    @attribute_source.setter
+    def attribute_source(self, attribute_source):
+        """Sets the attribute_source of this Attribute.
 
-        Source of the attribute, as a CURIE prefix.  # noqa: E501
+        The source of the core assertion made by the key-value pair of an attribute object. Use a CURIE or namespace designator for this resource where possible.  # noqa: E501
 
-        :param source: The source of this Attribute.
-        :type source: str
+        :param attribute_source: The attribute_source of this Attribute.
+        :type attribute_source: str
         """
-        if source is None:
-            raise ValueError("Invalid value for `source`, must not be `None`")  # noqa: E501
+        if attribute_source is None:
+            raise ValueError("Invalid value for `attribute_source`, must not be `None`")  # noqa: E501
 
-        self._source = source
+        self._attribute_source = attribute_source
 
     @property
-    def url(self):
-        """Gets the url of this Attribute.
+    def value_url(self):
+        """Gets the value_url of this Attribute.
 
-        URL for additional information.  # noqa: E501
+        Human-consumable URL linking to a web document that provides additional information about an  attribute's value (not the node or the edge fom which it hangs).  # noqa: E501
 
-        :return: The url of this Attribute.
+        :return: The value_url of this Attribute.
         :rtype: str
         """
-        return self._url
+        return self._value_url
 
-    @url.setter
-    def url(self, url):
-        """Sets the url of this Attribute.
+    @value_url.setter
+    def value_url(self, value_url):
+        """Sets the value_url of this Attribute.
 
-        URL for additional information.  # noqa: E501
+        Human-consumable URL linking to a web document that provides additional information about an  attribute's value (not the node or the edge fom which it hangs).  # noqa: E501
 
-        :param url: The url of this Attribute.
-        :type url: str
+        :param value_url: The value_url of this Attribute.
+        :type value_url: str
         """
 
-        self._url = url
+        self._value_url = value_url
+
+    @property
+    def description(self):
+        """Gets the description of this Attribute.
+
+        Human-readable description for the attribute and its value.  # noqa: E501
+
+        :return: The description of this Attribute.
+        :rtype: str
+        """
+        return self._description
+
+    @description.setter
+    def description(self, description):
+        """Sets the description of this Attribute.
+
+        Human-readable description for the attribute and its value.  # noqa: E501
+
+        :param description: The description of this Attribute.
+        :type description: str
+        """
+
+        self._description = description
+
+    @property
+    def attributes(self):
+        """Gets the attributes of this Attribute.
+
+        A list of attributes providing further information about the parent attribute.   # noqa: E501
+
+        :return: The attributes of this Attribute.
+        :rtype: List[Attribute]
+        """
+        return self._attributes
+
+    @attributes.setter
+    def attributes(self, attributes):
+        """Sets the attributes of this Attribute.
+
+        A list of attributes providing further information about the parent attribute.   # noqa: E501
+
+        :param attributes: The attributes of this Attribute.
+        :type attributes: List[Attribute]
+        """
+
+        self._attributes = attributes
 
     @property
     def provided_by(self):

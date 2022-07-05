@@ -9,7 +9,7 @@ info:
     email: translator@broadinstitute.org
   
 servers:
-- url: https://translator.broadinstitute.org/pubchem_producer
+- url: https://translator.broadinstitute.org/pubchem
 
 tags:
   - name: transformers
@@ -28,7 +28,7 @@ paths:
         required: true
         schema:
           type: string
-          enum: [SERVICE-LIST]
+          enum: [compounds, neighbors]
       - name: cache
         in: query
         description: >-
@@ -59,7 +59,7 @@ paths:
         required: true
         schema:
           type: string
-          enum: [SERVICE-LIST]
+          enum: [compounds, neighbors]
       - name: cache
         in: query
         description: >-

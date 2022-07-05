@@ -19,7 +19,7 @@ class KnowledgeMap(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, input_class=None, output_class=None, nodes=None, predicates=None):  # noqa: E501
+    def __init__(self, input_class=None, output_class=None, nodes=None, edges=None, predicates=None):  # noqa: E501
         """KnowledgeMap - a model defined in OpenAPI
 
         :param input_class: The input_class of this KnowledgeMap.  # noqa: E501
@@ -28,6 +28,8 @@ class KnowledgeMap(Model):
         :type output_class: str
         :param nodes: The nodes of this KnowledgeMap.  # noqa: E501
         :type nodes: Dict[str, Node]
+        :param edges: The edges of this KnowledgeMap.  # noqa: E501
+        :type edges: List[Predicate]
         :param predicates: The predicates of this KnowledgeMap.  # noqa: E501
         :type predicates: List[Predicate]
         """
@@ -35,6 +37,7 @@ class KnowledgeMap(Model):
             'input_class': str,
             'output_class': str,
             'nodes': Dict[str, Node],
+            'edges': List[Predicate],
             'predicates': List[Predicate]
         }
 
@@ -42,12 +45,14 @@ class KnowledgeMap(Model):
             'input_class': 'input_class',
             'output_class': 'output_class',
             'nodes': 'nodes',
+            'edges': 'edges',
             'predicates': 'predicates'
         }
 
         self._input_class = input_class
         self._output_class = output_class
         self._nodes = nodes
+        self._edges = edges
         self._predicates = predicates
 
     @classmethod
@@ -81,6 +86,8 @@ class KnowledgeMap(Model):
         :param input_class: The input_class of this KnowledgeMap.
         :type input_class: str
         """
+        if input_class is None:
+            raise ValueError("Invalid value for `input_class`, must not be `None`")  # noqa: E501
 
         self._input_class = input_class
 
@@ -104,6 +111,8 @@ class KnowledgeMap(Model):
         :param output_class: The output_class of this KnowledgeMap.
         :type output_class: str
         """
+        if output_class is None:
+            raise ValueError("Invalid value for `output_class`, must not be `None`")  # noqa: E501
 
         self._output_class = output_class
 
@@ -129,6 +138,29 @@ class KnowledgeMap(Model):
         """
 
         self._nodes = nodes
+
+    @property
+    def edges(self):
+        """Gets the edges of this KnowledgeMap.
+
+        Predicates describing relationships between subjects and objects.  # noqa: E501
+
+        :return: The edges of this KnowledgeMap.
+        :rtype: List[Predicate]
+        """
+        return self._edges
+
+    @edges.setter
+    def edges(self, edges):
+        """Sets the edges of this KnowledgeMap.
+
+        Predicates describing relationships between subjects and objects.  # noqa: E501
+
+        :param edges: The edges of this KnowledgeMap.
+        :type edges: List[Predicate]
+        """
+
+        self._edges = edges
 
     @property
     def predicates(self):
