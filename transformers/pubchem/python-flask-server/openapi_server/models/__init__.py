@@ -4,14 +4,9 @@
 from __future__ import absolute_import
 # import models into model package
 from openapi_server.models.attribute import Attribute
-from openapi_server.models.compound_info import CompoundInfo
-from openapi_server.models.compound_info_identifiers import CompoundInfoIdentifiers
-from openapi_server.models.compound_info_structure import CompoundInfoStructure
 from openapi_server.models.connection import Connection
 from openapi_server.models.element import Element
 from openapi_server.models.error_msg import ErrorMsg
-from openapi_server.models.gene_info import GeneInfo
-from openapi_server.models.gene_info_identifiers import GeneInfoIdentifiers
 from openapi_server.models.km_attribute import KmAttribute
 from openapi_server.models.knowledge_map import KnowledgeMap
 from openapi_server.models.model_property import ModelProperty

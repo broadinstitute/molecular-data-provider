@@ -17,19 +17,23 @@ class Predicate(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, subject=None, predicate=None, object=None, source=None, relations=None, count=None, attributes=None):  # noqa: E501
+    def __init__(self, subject=None, predicate=None, inverse_predicate=None, object=None, source=None, relations=None, inverse_relations=None, count=None, attributes=None):  # noqa: E501
         """Predicate - a model defined in OpenAPI
 
         :param subject: The subject of this Predicate.  # noqa: E501
         :type subject: str
         :param predicate: The predicate of this Predicate.  # noqa: E501
         :type predicate: str
+        :param inverse_predicate: The inverse_predicate of this Predicate.  # noqa: E501
+        :type inverse_predicate: str
         :param object: The object of this Predicate.  # noqa: E501
         :type object: str
         :param source: The source of this Predicate.  # noqa: E501
         :type source: str
         :param relations: The relations of this Predicate.  # noqa: E501
         :type relations: List[str]
+        :param inverse_relations: The inverse_relations of this Predicate.  # noqa: E501
+        :type inverse_relations: List[str]
         :param count: The count of this Predicate.  # noqa: E501
         :type count: int
         :param attributes: The attributes of this Predicate.  # noqa: E501
@@ -38,9 +42,11 @@ class Predicate(Model):
         self.openapi_types = {
             'subject': str,
             'predicate': str,
+            'inverse_predicate': str,
             'object': str,
             'source': str,
             'relations': List[str],
+            'inverse_relations': List[str],
             'count': int,
             'attributes': List[KmAttribute]
         }
@@ -48,18 +54,22 @@ class Predicate(Model):
         self.attribute_map = {
             'subject': 'subject',
             'predicate': 'predicate',
+            'inverse_predicate': 'inverse_predicate',
             'object': 'object',
             'source': 'source',
             'relations': 'relations',
+            'inverse_relations': 'inverse_relations',
             'count': 'count',
             'attributes': 'attributes'
         }
 
         self._subject = subject
         self._predicate = predicate
+        self._inverse_predicate = inverse_predicate
         self._object = object
         self._source = source
         self._relations = relations
+        self._inverse_relations = inverse_relations
         self._count = count
         self._attributes = attributes
 
@@ -119,6 +129,29 @@ class Predicate(Model):
             raise ValueError("Invalid value for `predicate`, must not be `None`")  # noqa: E501
 
         self._predicate = predicate
+
+    @property
+    def inverse_predicate(self):
+        """Gets the inverse_predicate of this Predicate.
+
+
+        :return: The inverse_predicate of this Predicate.
+        :rtype: str
+        """
+        return self._inverse_predicate
+
+    @inverse_predicate.setter
+    def inverse_predicate(self, inverse_predicate):
+        """Sets the inverse_predicate of this Predicate.
+
+
+        :param inverse_predicate: The inverse_predicate of this Predicate.
+        :type inverse_predicate: str
+        """
+        if inverse_predicate is None:
+            raise ValueError("Invalid value for `inverse_predicate`, must not be `None`")  # noqa: E501
+
+        self._inverse_predicate = inverse_predicate
 
     @property
     def object(self):
@@ -188,6 +221,29 @@ class Predicate(Model):
         """
 
         self._relations = relations
+
+    @property
+    def inverse_relations(self):
+        """Gets the inverse_relations of this Predicate.
+
+        Inverse low-level relations from the underlying source.  # noqa: E501
+
+        :return: The inverse_relations of this Predicate.
+        :rtype: List[str]
+        """
+        return self._inverse_relations
+
+    @inverse_relations.setter
+    def inverse_relations(self, inverse_relations):
+        """Sets the inverse_relations of this Predicate.
+
+        Inverse low-level relations from the underlying source.  # noqa: E501
+
+        :param inverse_relations: The inverse_relations of this Predicate.
+        :type inverse_relations: List[str]
+        """
+
+        self._inverse_relations = inverse_relations
 
     @property
     def count(self):
