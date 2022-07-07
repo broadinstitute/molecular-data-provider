@@ -2,13 +2,13 @@
     "name": "Pubchem compound-list producer",
     "label": "PubChem",
     "description": "Compound-list producer based on PubChem (https://pubchem.ncbi.nlm.nih.gov/).",
-    "version": "2.2.0",
+    "version": "2.4.0",
     "function": "producer",
     "knowledge_map": {
         "input_class": "none",
         "output_class": "compound",
         "nodes": {
-            "ChemicalSubstance": {
+            "SmallMolecule": {
                 "id_prefixes": [
                     "CID",
                     "PUBCHEM.COMPOUND",
@@ -54,19 +54,21 @@
                 ]
             }
         },
-        "predicates": []
+        "edges": []
     },
     "properties": {
         "source_url": "https://pubchem.ncbi.nlm.nih.gov/",
-        "source_version": "2021/02/27",
+        "source_version": "2022-05-11",
         "terms_of_service": "https://www.ncbi.nlm.nih.gov/home/about/policies/"
     },
     "parameters": [
         {
             "example": "aspirin",
-            "name": "compounds",
+            "name": "compound",
             "type": "string",
-            "suggested_values": "semicolon-separated list of compounds names or PubChem CIDs"
+            "required": true,
+            "multivalued": true,
+            "suggested_values": "compound name or PubChem CID"
         }
     ]
 }

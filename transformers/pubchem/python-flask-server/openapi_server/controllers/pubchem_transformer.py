@@ -7,12 +7,6 @@ from time import sleep
 import xml.etree.ElementTree as ET
 
 from transformers.transformer import Transformer
-from openapi_server.models.element import Element
-from openapi_server.models.names import Names
-from openapi_server.models.compound_info import CompoundInfo
-from openapi_server.models.compound_info_identifiers import CompoundInfoIdentifiers
-from openapi_server.models.attribute import Attribute
-from openapi_server.models.compound_info_structure import CompoundInfoStructure
 
 X_Throttling_Control = 0
 
@@ -41,8 +35,6 @@ def percent(status):
 
 inchikey_regex = re.compile('[A-Z]{14}-[A-Z]{10}-[A-Z]')
 
-SOURCE = 'PubChem'
-PREFIX = 'CID:'
 
 connection = sqlite3.connect("data/PubChem.sqlite", check_same_thread=False)
 connection.row_factory = sqlite3.Row
@@ -50,40 +42,39 @@ connection.row_factory = sqlite3.Row
 
 class PubChemProducer(Transformer):
 
-    variables = ['compounds']
+    variables = ['compound']
 
 
-    def __init__(self):
-        super().__init__(self.variables, definition_file='info/transformer_info.json')
+    def __init__(self, definition_file='info/transformer_info.json'):
+        super().__init__(self.variables, definition_file=definition_file)
         self.synonym_types = self.get_synonym_types()
 
 
     def produce(self, controls):
         compound_list = []
         compounds = {}
-        names = controls['compounds'].split(';')
-        for name in names:
-            name = name.strip()
-            cids = self.find_compound(name)
-            for cid in cids:
-                #structure = self.get_structure(cid)
+        for name in controls['compound']:
+            for cid in self.find_compound(name):
                 if cid not in compounds:
                     compound = self.get_compound(cid)
                     if compound is not None:
-                        compound_list.append(compound)
+                        id = self.de_prefix('pubchem', compound.id, 'compound')
+                        if id not in compounds:
+                            compounds[id]=compound
+                            compound_list.append(compound)
                         compounds[cid]=compound
                 if cid in compounds:
                     compound = compounds[cid]
                     compound.attributes.append(
-                        Attribute(name='query name', value=name,source=self.info.name)
+                        self.Attribute(name='query name', value=name, type='')
                     )
-            
         return compound_list
+
 
     def find_compound(self, name):
         # by CID
-        if (name.startswith('CID:')):
-            return [name[4:]]
+        if self.has_prefix('pubchem', name, 'compound'):
+            return [self.de_prefix('pubchem', name, 'compound')]
         if (name.startswith('PUBCHEM.COMPOUND:')):
             return [name[17:]]
         # by InChIKey
@@ -106,7 +97,12 @@ class PubChemProducer(Transformer):
     def get_compound(self, cid):
         element = self.get_compound_db(cid)
         if element is None:
-            return self.get_compound_api(cid)
+            preferred_cid = self.find_preferred_cid(cid)
+            if preferred_cid is not None:
+                element = self.get_compound_db(preferred_cid)
+                cid = preferred_cid
+            else:
+                return self.get_compound_api(cid)
         if element is not None:
             self.add_synonyms_db(cid, element)
         return element
@@ -134,13 +130,12 @@ class PubChemProducer(Transformer):
                 print("INFO: API " + str(cid))
                 title = self.get_title_api(cid)
                 synonyms = self.get_synonyms_api(cid)
-                element = Element(
-                    id = PREFIX + str(cid),
+                element = self.Element(
+                    id = self.add_prefix('pubchem', str(cid)),
                     biolink_class = 'ChemicalSubstance',
                     identifiers = identifiers,
-                    names_synonyms=[Names(name=title,synonyms=synonyms,source=SOURCE)],
-                    attributes=[],
-                    connections=[],
+                    names_synonyms=[self.Names(name=title,synonyms=synonyms)],
+                    attributes=[]
                 )
                 return element
             print("WARN: not found via API " + str(cid))
@@ -161,7 +156,7 @@ class PubChemProducer(Transformer):
                     for property in response['PropertyTable']['Properties']:
                         if str(cid) == str(property.get('CID')):
                             identifiers = {
-                                'pubchem': PREFIX + str(cid),
+                                'pubchem': self.add_prefix('pubchem', str(cid)),
                                 'inchi': property['InChI'],
                                 'inchikey': property['InChIKey'],
                                 'smiles': property['IsomericSMILES']
@@ -182,7 +177,7 @@ class PubChemProducer(Transformer):
                     for description in response['InformationList']['Information']:
                         if 'Title' in description:
                             return description['Title']
-        title = PREFIX + str(cid)
+        title = self.add_prefix('pubchem', str(cid))
         return title
 
 
@@ -226,6 +221,20 @@ class PubChemProducer(Transformer):
         return cids
 
 
+    def find_preferred_cid(self, retired_cid):
+        query = """
+        SELECT PREFERRED_CID 
+        FROM PREFERRED 
+        WHERE RETIRED_CID = ?
+        """
+        cur = connection.cursor()
+        preferred_cid = None
+        cur.execute(query,(retired_cid,))
+        for row in cur.fetchall():
+            preferred_cid = row['PREFERRED_CID']
+        return preferred_cid
+
+
     attribute_names = ['HBA_COUNT', 'HBD_COUNT', 'ROTATABLE_BOND_COUNT', 'PSA',
                 'MONOISOTOPIC_WEIGHT', 'MOLECULAR_WEIGHT', 'MOLECULAR_FORMULA']
 
@@ -251,7 +260,7 @@ class PubChemProducer(Transformer):
         cur = connection.cursor()
         cur.execute(query,(cid,))
         for row in cur.fetchall():
-            id = PREFIX + str(cid)
+            id = self.add_prefix('pubchem', str(cid))
             title = row['TITLE']
             iupac_name = row['PREFERRED_IUPAC_NAME']
             if title is None:
@@ -266,38 +275,30 @@ class PubChemProducer(Transformer):
             for attr_name in self.attribute_names:
                 attr_value = row[attr_name]
                 if attr_value is not None:
-                    attributes.append(Attribute(
-                        name=attr_name,
-                        value=attr_value,
-                        type=attr_name,
-                        source=SOURCE,
-                        provided_by=self.info.name)
-                    )
-            element = Element(
+                    attributes.append(self.Attribute(attr_name, str(attr_value)))
+            element = self.Element(
                 id = id,
                 biolink_class = 'ChemicalSubstance',
                 identifiers = identifiers,
                 names_synonyms = [
-                    Names(name=title, synonyms=[], source=SOURCE),
-                    Names(name=iupac_name, synonyms=[], source='IUPAC@'+SOURCE),
+                    self.Names(name=title, synonyms=[], type = ''),
+                    self.Names(name=iupac_name, synonyms=[], type='IUPAC'),
                 ],
-                attributes = attributes,
-                connections = [],
-                source=self.info.name
+                attributes = attributes
             )
         return element
 
 
     synonym_type_map = { #len == 1 => name/synonym; len == 2 => identifier
-        'sio:CHEMINF_000339': ['depositor@'],	
-        'sio:CHEMINF_000382': ['IUPAC@'],
-        'sio:CHEMINF_000447': ['IENECS@'],
-        'sio:CHEMINF_000467': ['id@'],
-        'sio:CHEMINF_000562': ['INN@'],
-        'sio:CHEMINF_000565': ['NCS@'],
+        'sio:CHEMINF_000339': ['depositor'],	
+        'sio:CHEMINF_000382': ['IUPAC'],
+        'sio:CHEMINF_000447': ['IENECS'],
+        'sio:CHEMINF_000467': ['identifier'],
+        'sio:CHEMINF_000562': ['INN'],
+        'sio:CHEMINF_000565': ['NCS'],
         'sio:CHEMINF_000109': [''],
-        'sio:CHEMINF_000566': ['RTECS@'],
-        'sio:CHEMINF_000561': ['tradeName@'],
+        'sio:CHEMINF_000566': ['RTECS'],
+        'sio:CHEMINF_000561': ['tradeName'],
         'sio:CHEMINF_000446': ['cas','CAS:'],
         'sio:CHEMINF_000409': ['kegg','KEGG.COMPOUND:'],
         'sio:CHEMINF_000563': ['unii','UNII:'],
@@ -305,6 +306,7 @@ class PubChemProducer(Transformer):
         'sio:CHEMINF_000412': ['chembl','ChEMBL:'],
         'sio:CHEMINF_000406': ['drugbank','DrugBank:'],
         'sio:CHEMINF_000564': ['lipidmaps','LIPIDMAPS:'],
+        'pubchem-retired':    ['pubchem-retired','CID:']
     }
 
 
@@ -318,6 +320,7 @@ class PubChemProducer(Transformer):
             if len(synonym_types) <= index:
                 synonym_types.extend([None]*(index-len(synonym_types)+1))
             synonym_types[index] = self.synonym_type_map.get(row['SYNONYM_TYPE'])
+        print('Loaded ' + str(len(synonym_types)) + ' synonym types')
         return synonym_types
 
 
@@ -329,19 +332,19 @@ class PubChemProducer(Transformer):
         """
         cur = connection.cursor()
         cur.execute(query,(cid,))
-        synonyms_by_type = {names.source: names for names in element.names_synonyms}
+        synonyms_by_type = {names.name_type: names for names in element.names_synonyms}
         for row in cur.fetchall():
             synonym_type_id = row['SYNONYM_TYPE_ID']
             if len(self.synonym_types[synonym_type_id]) == 1: # name
-                name_type = self.synonym_types[synonym_type_id][0] + SOURCE
+                name_type = self.synonym_types[synonym_type_id][0]
                 synonym = row['SYNONYM']
                 if name_type not in synonyms_by_type:
-                    names = Names(name=synonym,synonyms=[],source=name_type)
+                    names = self.Names(name=synonym, synonyms=[], type=name_type)
                     element.names_synonyms.append(names)
                     synonyms_by_type[name_type] = names
                 else:
                     synonyms = synonyms_by_type[name_type].synonyms
-                    if name_type != SOURCE and len(synonyms) == 0:
+                    if name_type != '' and len(synonyms) == 0:
                         synonyms.append(synonyms_by_type[name_type].name)
                         synonyms_by_type[name_type].name = None
                     synonyms.append(synonym)
@@ -353,7 +356,10 @@ class PubChemProducer(Transformer):
                     id = id[len(prefix):]
                 if key == 'cas' and id.lower().startswith('cas-'):
                     id = id[4:]
-                id = prefix + id.upper()
+                if id == self.add_prefix(key, id):
+                    id = prefix + id.upper()
+                else:
+                    id = self.add_prefix(key, id)
                 if key not in element.identifiers:
                     element.identifiers[key] = id
                 else:
@@ -362,3 +368,52 @@ class PubChemProducer(Transformer):
                         prev_ids.append(id)
                     else:
                         prev_ids = [prev_ids, id]
+
+class PubChemSimilarityTransformer(PubChemProducer):
+
+    variables = []
+
+
+    def __init__(self):
+        super().__init__(definition_file='info/neighbors_transformer_info.json')
+
+
+    def map(self, collection, controls):
+        compound_list = []
+        compounds = {}
+        for compound in collection:
+            for neighbor_cid in self.get_neighbors(compound):
+                if neighbor_cid not in compounds:
+                    neighbor = self.get_compound(neighbor_cid)
+                    if neighbor is not None:
+                        compound_list.append(neighbor)
+                        compounds[neighbor_cid] = neighbor
+                neighbor = compounds[neighbor_cid]
+                if neighbor is not None:
+                    neighbor.connections.append(self.get_connection(compound.id))
+                # print(neighbor)
+        return compound_list
+        
+
+    def get_neighbors(self, compound):
+        neighbors = []
+        if compound.identifiers.get('pubchem') is not None:
+            for cid1 in self.find_compound(compound.identifiers.get('pubchem')):
+                neighbors.extend(self.find_neighbors(cid1))
+        return neighbors
+
+
+    def find_neighbors(self, cid1):
+        query = """
+        SELECT CID2
+        FROM NEIGHBOR 
+        WHERE CID1 = ?
+        """
+        cur = connection.cursor()
+        cur.execute(query, (int(cid1),))
+        return [row['CID2'] for row in cur.fetchall()]
+
+
+    def get_connection(self, source_element_id):
+        attributes = [self.Attribute('biolink:original_knowledge_source','infores:pubchem', value_type='biolink:InformationResource')]
+        return self.Connection(source_element_id, self.PREDICATE, self.INVERSE_PREDICATE, attributes = attributes)

@@ -3,8 +3,8 @@
 import sys
 from setuptools import setup, find_packages
 
-NAME = "pubchem-producer"
-VERSION = "2.2.0"
+NAME = "pubchem-transformer"
+VERSION = "2.4.0"
 
 # To install the library, run the following
 #
