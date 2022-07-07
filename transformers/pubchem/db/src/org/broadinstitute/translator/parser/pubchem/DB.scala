@@ -21,17 +21,14 @@ object DB {
 
 class DB(dbFile: String) extends SQLite(dbFile) {
 
-  def createDB() {
-    try {
-      createCompoundTable()
-      createSynonymTypeTable()
-      createSynonymTable()
-      //createDescriptionTable()
-      commit()
-    }
-    finally {
-      close()
-    }
+  def createDB(): DB = {
+    createCompoundTable()
+    createSynonymTypeTable()
+    createSynonymTable()
+    createNeighborTable()
+    createPreferredTable()
+    commit()
+    return this
   }
 
   //COMPOUND TABLE
@@ -135,7 +132,22 @@ class DB(dbFile: String) extends SQLite(dbFile) {
     return results
   }
 
-  // SYNONYM TABLE
+  def getAllCompounds(index: Int): Array[Long] = {
+    val cids = ArrayBuffer[Long]()
+    val startCID: Long = 1000000 * index
+    val endCID: Long = 1000000 * (index + 1)
+    val query = s"""
+      SELECT CID FROM COMPOUND
+      WHERE $startCID < CID AND CID <= $endCID
+    """
+    for (result <- queryResults(query)) {
+      val cid = result.getLong("CID")
+      cids.append(cid)
+    }
+    return cids.toArray
+  }
+
+  // SYNONYM TYPE TABLE
 
   private def createSynonymTypeTable() {
     val createTableSQL = """
@@ -158,6 +170,20 @@ class DB(dbFile: String) extends SQLite(dbFile) {
   }
 
   def getSynonymTypes() = queryResults("SELECT SYNONYM_TYPE_ID, SYNONYM_TYPE FROM SYNONYM_TYPE")
+
+  def getSynonymTypeId(synonymType: String): Int = {
+    val query = s"SELECT SYNONYM_TYPE_ID FROM SYNONYM_TYPE WHERE SYNONYM_TYPE = '$synonymType'"
+    var synonymTypeId = -1
+    for (result <- queryResults(query)) {
+      synonymTypeId = result.getInt("SYNONYM_TYPE_ID")
+    }
+    if (synonymTypeId < 0) {
+      throw new RuntimeException("Not found $synonymType = '" + synonymType + "'")
+    }
+    return synonymTypeId
+  }
+
+  // SYNONYM TABLE
 
   private def createSynonymTable() {
     val createTableSQL = """
@@ -209,6 +235,60 @@ class DB(dbFile: String) extends SQLite(dbFile) {
 
   def getSynonyms(cid: Long) = queryResults("SELECT SYNONYM_TYPE_ID, SYNONYM FROM SYNONYM WHERE CID = " + cid)
 
+  // NEIGHBOR TABLE
+
+  def createNeighborTable() {
+    val createTableSQL = """
+      CREATE TABLE NEIGHBOR (
+        CID1  INT  NULL,
+        CID2  INT  NULL
+      );
+    """
+    executeUpdate(createTableSQL)
+    println("NEIGHBOR table created")
+  }
+
+  def insertNeighbor(cid1: Long, cid2: Long) = {
+    val insertSQL = s"""
+        INSERT INTO NEIGHBOR (CID1, CID2)
+        VALUES (${cid1}, ${cid2})
+      """
+    executeUpdate(insertSQL)
+  }
+
+  // PREFERRED TABLE
+
+  def createPreferredTable() {
+    val createTableSQL = """
+      CREATE TABLE PREFERRED (
+        RETIRED_CID  INTEGER   PRIMARY KEY NOT NULL,
+        PREFERRED_CID  INT
+      );
+    """
+    executeUpdate(createTableSQL)
+    println("PREFERRED table created")
+  }
+
+  def insertPreferredCid(retiredCid: Long, preferredCid: Option[Long]) {
+    val insertSQL = s"""
+        INSERT INTO PREFERRED (RETIRED_CID, PREFERRED_CID)
+        VALUES (${retiredCid}, ${fl(preferredCid)})
+      """
+    executeUpdate(insertSQL)
+  }
+
+  def hasPreferredCid(retiredCid: Long): Boolean = {
+    val query = s"""
+      SELECT PREFERRED_CID FROM PREFERRED
+      WHERE  RETIRED_CID = $retiredCid
+    """
+    var hasPreferredCid = false
+    for (result <- queryResults(query)) {
+      hasPreferredCid = true
+    }
+    return hasPreferredCid
+  }
+
   // DESCRIPTION TABLE
 
   private def createDescriptionTable() {
@@ -237,7 +317,7 @@ class DB(dbFile: String) extends SQLite(dbFile) {
 
   def buildIndexes() = {
     try {
-      createIndex("COMPOUND", "TITLE", nocase=true)
+      createIndex("COMPOUND", "TITLE", nocase = true)
       commit()
       println("Created index COMPOUND[TITLE]")
 
@@ -249,10 +329,17 @@ class DB(dbFile: String) extends SQLite(dbFile) {
       commit()
       println("Created index SYNONYM[CID]")
 
-      createIndex("SYNONYM", "SYNONYM", nocase=true)
+      createIndex("SYNONYM", "SYNONYM", nocase = true)
       commit()
       println("Created index SYNONYM[SYNONYM]")
 
+      createIndex("NEIGHBOR", "CID1")
+      commit()
+      println("Created index NEIGHBOR[CID1]")
+
+      createIndex("PREFERRED", "PREFERRED_CID")
+      commit()
+      println("Created index PREFERRED[PREFERRED_CID]")
     }
     finally {
       close()

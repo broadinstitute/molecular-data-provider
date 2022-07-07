@@ -4,10 +4,10 @@ import java.sql.DriverManager
 import java.sql.Statement
 import java.sql.ResultSet
 
-abstract class SQLite(filename: String) {
+abstract class SQLite(val filename: String) {
 
   Class.forName("org.sqlite.JDBC")
-  private val connection = DriverManager.getConnection("jdbc:sqlite:" + filename)
+  private var connection = DriverManager.getConnection("jdbc:sqlite:" + filename)
   connection.setAutoCommit(false)
 
   def createIndex(table: String, column: String, nocase: Boolean = false) {
@@ -33,7 +33,7 @@ abstract class SQLite(filename: String) {
     override def iterator = new Iterator[ResultSet] {
       override def hasNext: Boolean = {
         val next = resultSet.next()
-        if (! next){
+        if (!next) {
           stm.close()
         }
         return next
@@ -52,11 +52,27 @@ abstract class SQLite(filename: String) {
     case Some(str) => "'" + str.replace("'", "''") + "'"
   }
 
+  def fl(long: Option[Long]) = long match {
+    case None => "NULL"
+    case Some(long) => long.toString
+  }
+
   def commit() {
     connection.commit()
   }
 
   def close() = {
     connection.close()
+  }
+
+  def reconnect() = {
+    connection.close()
+    connection = null
+    connection = DriverManager.getConnection("jdbc:sqlite:" + filename)
+    connection.setAutoCommit(false)
+    val status = new StringBuilder()
+    status.append("free memory:" + Runtime.getRuntime().freeMemory() / 1000000)
+    status.append("/" + Runtime.getRuntime().totalMemory() / 1000000)
+    println(status.toString())
   }
 }

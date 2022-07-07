@@ -31,7 +31,7 @@ object PubChemSynonyms {
     finally {
       SynonymDB.close()
     }
-    println("Loaded " + count + " synonym types")
+    println("Loaded " + count + " synonym ids")
   }
 
   def loadTypes(filename: String) {

@@ -2,7 +2,7 @@ package org.broadinstitute.translator.parser.pubchem.synonym
 
 import org.broadinstitute.translator.parser.pubchem.db.SQLite
 
-object SynonymDB extends SQLite("data/PubChemSynonyms.sqlite") {
+object SynonymDB extends SQLite("data/db/PubChemSynonyms.sqlite") {
 
   def createDB() {
     try {

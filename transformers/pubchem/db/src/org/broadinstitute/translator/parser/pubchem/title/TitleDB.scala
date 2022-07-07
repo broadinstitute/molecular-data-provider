@@ -22,6 +22,7 @@ object TitleDB {
     }
     db.commit()
     db.createIndex("TITLE", "TITLE")
+    db.commit()
     db.close()
   }
 }

@@ -1,25 +1,25 @@
 package org.broadinstitute.translator.parser.pubchem
 
+import scala.collection.mutable.ArrayBuffer
 import scala.io.Source
+
+import org.broadinstitute.translator.parser.pubchem.retired.PreferredCidDB
+import org.broadinstitute.translator.parser.pubchem.similar.PubChemSimilarityDB
+import org.broadinstitute.translator.parser.pubchem.synonym.PubChemSynonyms
+import org.broadinstitute.translator.parser.pubchem.synonym.SynonymDB
+import org.broadinstitute.translator.parser.pubchem.title.TitleDB
 import org.broadinstitute.translator.xml.Builder
 import org.broadinstitute.translator.xml.Parser
-import java.io.File
-import java.io.FileReader
-
-import scala.util.parsing.combinator.RegexParsers
-import org.broadinstitute.translator.parser.pubchem.rdf.TTLparser
-import org.broadinstitute.translator.parser.pubchem.synonym.SynonymDB
-import org.broadinstitute.translator.parser.pubchem.synonym.PubChemSynonyms
-import scala.collection.mutable.ArrayBuffer
-import org.broadinstitute.translator.parser.pubchem.title.TitleDB
 
 object PubChem {
 
+  val SYN_DB = "data/db/PubChem.syn.sqlite"
+
   def createDB(dbFile: String) {
-    DB(dbFile).createDB()
-    val db = DB(dbFile)
+    val db = DB(dbFile).createDB()
     uploadSynonymTypes(db)
     db.createIndex("COMPOUND", "STANDARD_INCHIKEY")
+    db.createIndex("SYNONYM_TYPE", "SYNONYM_TYPE")
     DB().commit()
     DB().close()
   }
@@ -41,111 +41,6 @@ object PubChem {
     }
   }
 
-  def loadCompoundsByInchikey(dbFile: String, src: String) {
-    val synDB = DB("data/PubChem.syn.sqlite")
-    val titleDB = new TitleDB("data/PubChem.title.sqlite")
-    val db = DB(dbFile)
-    val source = Source.fromFile(src)(io.Codec("UTF-8"))
-    val inchikeys = new ArrayBuffer[String]()
-    for (line <- source.getLines().drop(1)) {
-      if (db.getCompoundByInchikey(line).isEmpty) {
-        inchikeys += line
-      }
-    }
-    println(inchikeys.size + " compounds to load")
-    val structuresDir = "data/structures"
-    for (file <- new File(structuresDir).list; if file.startsWith("PubChem_") && file.endsWith(".sqlite")) {
-      loadCompounds(db, inchikeys, structuresDir + "/" + file, synDB, titleDB)
-    }
-    db.commit()
-    db.close()
-
-  }
-
-  def loadCompounds(db: DB, compounds: ArrayBuffer[String], srcDBname: String, synDB: DB, titleDB: TitleDB) {
-    println(srcDBname)
-    val srcDB = new DB(srcDBname)
-    for (inchikey <- compounds) {
-      for ((cid, properties) <- srcDB.getCompoundByInchikey(inchikey)) {
-        insertCompound(db: DB, cid, properties, synDB, titleDB)
-      }
-    }
-    srcDB.close()
-    db.commit()
-  }
-
-  def insertCompound(db: DB, cid: Long, properties: Map[String, String], synDB: DB, titleDB: TitleDB) {
-    val title = titleDB.getTitle(cid)
-    db.insertCompound(cid, title, properties)
-    for (result <- synDB.getSynonyms(cid)) {
-      val synonymTypeId = result.getInt("SYNONYM_TYPE_ID")
-      val synonym = result.getString("SYNONYM")
-      db.insertSynonym(cid, synonymTypeId, synonym)
-    }
-  }
-
-  def insertCompound(db: DB, cid: Long, synDB: DB, titleDB: TitleDB) {
-    if (db.getCompoundByCid(cid).isEmpty) {
-      val srcDB = getStructureDB(cid)
-      for ((cid, properties) <- srcDB.getCompoundByCid(cid)) {
-        insertCompound(db: DB, cid, properties, synDB, titleDB)
-      }
-      srcDB.close()
-    }
-  }
-
-  def loadCompoundsByCid(dbFile: String, src: String) {
-    val synDB = new DB("data/PubChem.syn.sqlite")
-    val titleDB = new TitleDB("data/PubChem.title.sqlite")
-    val db = DB(dbFile)
-    val source = Source.fromFile(src)(io.Codec("UTF-8"))
-    var count = 0
-    for (line <- source.getLines().drop(1)) {
-      val cid = line.toLong
-      insertCompound(db: DB, cid, synDB, titleDB)
-      count += 1
-      if (count % 1000 == 0) {
-        println(count)
-        db.commit()
-      }
-    }
-    db.commit()
-    db.close()
-    synDB.close()
-  }
-
-  def loadCompoundsByName(dbFile: String, src: String) {
-    val synDB = new DB("data/PubChem.syn.sqlite")
-    val titleDB = new TitleDB("data/PubChem.title.sqlite")
-    val db = DB(dbFile)
-    val source = Source.fromFile(src)(io.Codec.ISO8859)
-    var count = 0
-    for (line <- source.getLines().drop(1)) {
-      val name = line.stripPrefix("\"").stripSuffix("\"")
-      for (cid <- titleDB.findCID(name)) {
-        insertCompound(db: DB, cid, synDB, titleDB)
-      }
-      for (cid <- synDB.findCID(name)) {
-        insertCompound(db: DB, cid, synDB, titleDB)
-      }
-      count += 1
-      if (count % 1000 == 0) {
-        println(count)
-        db.commit()
-      }
-    }
-    db.commit()
-    db.close()
-    titleDB.close()
-    synDB.close()
-  }
-
-  private def getStructureDB(cid: Long): DB = {
-    val index = (cid - 1) / 1000000
-    val dbName = "data/structures/PubChem_" + f"${index}%03d" + ".sqlite"
-    return new DB(dbName)
-  }
-
   def getCidsFromName(src: String) {
     val source = Source.fromFile(src)(io.Codec("UTF-8"))
     val inchikeys = new ArrayBuffer[String]()
@@ -159,7 +54,7 @@ object PubChem {
   }
 
   def synGetCidsFromName(src: String) {
-    val synDB = DB("data/PubChem.syn.sqlite")
+    val synDB = DB(SYN_DB)
     val source = Source.fromFile(src)(io.Codec("UTF-8"))
     val inchikeys = new ArrayBuffer[String]()
     println("CID\tname")
@@ -170,6 +65,8 @@ object PubChem {
       }
     }
   }
+
+  // LOAD SYNONYMS
 
   def loadSynonymTypes(db: DB): Map[String, Int] = {
     var map = Map[String, Int]()
@@ -182,7 +79,7 @@ object PubChem {
   }
 
   def loadSynonyms(dbFile: String) {
-    val db = DB(dbFile)
+    val db = DB(dbFile).createDB()
     try {
       val types = uploadSynonymTypes(db)
       var n = 0
@@ -208,12 +105,24 @@ object PubChem {
 
   def uploadSynonymTypes(db: DB): Map[String, Int] = {
     val descriptions = loadSynonymTypeDescriptions("data/synonym_types.txt")
+    var maxSynonymTypeId = -1
     var map = Map[String, Int]()
     for (result <- SynonymDB.getSynonymTypes()) {
       val synonymTypeId = result.getInt("SYNONYM_TYPE_ID")
       val synonymType = result.getString("SYNONYM_TYPE")
       map += synonymType -> synonymTypeId
+      println(synonymTypeId, synonymType, descriptions.get(synonymType))
       db.insertSynonymType(synonymTypeId, synonymType, descriptions.get(synonymType))
+      maxSynonymTypeId = scala.math.max(maxSynonymTypeId, synonymTypeId)
+    }
+    for ((synonymType, description) <- descriptions) {
+      if (!(map contains synonymType)) {
+        maxSynonymTypeId = maxSynonymTypeId + 1
+        val synonymTypeId = maxSynonymTypeId
+        map += synonymType -> synonymTypeId
+        println(synonymTypeId, synonymType, description)
+        db.insertSynonymType(synonymTypeId, synonymType, Some(description))
+      }
     }
     return map
   }
@@ -238,23 +147,56 @@ object PubChem {
     }
   }
 
-  def main(args: Array[String]): Unit = args(0) match {
-    case "create-db" => createDB(args(1))
-    case "load-compounds-inchikey" => loadCompoundsByInchikey(args(1), args(2))
-    case "load-compounds-cid" => loadCompoundsByCid(args(1), args(2))
-    case "load-compounds-name" => loadCompoundsByName(args(1), args(2))
-    case "get-cid-from-name" => getCidsFromName(args(1))
-    case "syn-get-cid-from-name" => synGetCidsFromName(args(1))
-    case "load-structures" => loadStructures(args(1), args(2))
-    case "load-compounds" => loadStructures(args(1), args(2))
-    case "syn-create-db" => SynonymDB.createDB()
-    case "syn-load-ids" => PubChemSynonyms.loadIds(args(1))
-    case "syn-load-types" => PubChemSynonyms.loadTypes(args(1))
-    case "syn-load-values" => PubChemSynonyms.loadValues(args(1))
-    case "syn-build-indexes" => SynonymDB.buildIndexes()
-    case "load-synonyms" => loadSynonyms(args(1))
-    case "build-indexes" => DB(args(1)).buildIndexes()
-    case "load-titles" => TitleDB.loadTitles(args(1), args(2))
+  // GET RETIRED CIDs
+
+  def getPreferredCIDs(dbFile: String, preferredDBFile: String) {
+    val db = DB(dbFile)
+    println(loadSynonymTypes(db))
+    val retiredPubChemTypeId = loadSynonymTypes(db)("pubchem-retired")
+    val preferredDB = new PreferredCidDB(preferredDBFile)
+    for (i <- 0 to 163) {
+      val cids = db.getAllCompounds(i)
+      println(i + ":\t" + cids.length)
+      for (preferredCID <- cids) {
+        for (retiredCIDresults <- preferredDB.retiredCids(preferredCID)) {
+          val retiredCID = retiredCIDresults.getLong("RETIRED_CID")
+          if (!db.hasPreferredCid(retiredCID)) {
+            db.insertPreferredCid(retiredCID, Some(preferredCID))
+            db.insertSynonym(preferredCID, retiredPubChemTypeId, retiredCID.toString)
+          }
+        }
+      }
+      db.commit()
+      db.reconnect()
+    }
   }
 
+  def main(args: Array[String]): Unit = {
+    System.setProperty("java.io.tmpdir", "tmp");
+    args(0) match {
+      case "create-db" => createDB(args(1))
+      case "load-compounds-inchikey" => PubChemLoader.loadCompoundsByInchikey(args(1), args(2))
+      case "load-compounds-cid" => PubChemLoader.loadCompoundsByCid(args(1), args(2))
+      case "load-compounds-name" => PubChemLoader.loadCompoundsByName(args(1), args(2))
+      case "get-cid-from-name" => getCidsFromName(args(1))
+      case "syn-get-cid-from-name" => synGetCidsFromName(args(1))
+      case "load-structures" => loadStructures(args(1), args(2))
+      case "syn-create-db" => SynonymDB.createDB()
+      case "syn-load-ids" => PubChemSynonyms.loadIds(args(1))
+      case "syn-load-types" => PubChemSynonyms.loadTypes(args(1))
+      case "syn-load-values" => PubChemSynonyms.loadValues(args(1))
+      case "syn-build-indexes" => SynonymDB.buildIndexes()
+      case "load-synonyms" => loadSynonyms(args(1))
+      case "build-indexes" => DB(args(1)).buildIndexes()
+      case "load-titles" => TitleDB.loadTitles(args(1), args(2))
+      case "sim-create-db" => PubChemSimilarityDB.createDB(args(1))
+      case "sim-load-neighbors" => PubChemSimilarityDB.loadNeighbors(args(1), args(2))
+      case "sim-build-indexes" => PubChemSimilarityDB.buildIndex(args(1))
+      case "load-neighbors" => PubChemLoader.loadNeighbors(args(1))
+      case "add-neighbors" => PubChemLoader.addNeighbors(args(1))
+      case "load-preferred-cids" => PreferredCidDB.loadPreferredCIDs(args(1), args(2))
+      case "get-preferred-cids" => getPreferredCIDs(args(1), args(2))
+    }
+    println("\nDone")
+  }
 }

@@ -34,6 +34,10 @@ bin
 target/
 project/target/
 project/project/target/
+.bsp/
 
 # data files
-data
+data/
+
+# temporary files
+tmp/
