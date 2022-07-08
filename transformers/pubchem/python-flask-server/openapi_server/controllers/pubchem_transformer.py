@@ -36,7 +36,7 @@ def percent(status):
 inchikey_regex = re.compile('[A-Z]{14}-[A-Z]{10}-[A-Z]')
 
 
-connection = sqlite3.connect("data/PubChem.sqlite", check_same_thread=False)
+connection = sqlite3.connect("database/PubChem.sqlite", check_same_thread=False)
 connection.row_factory = sqlite3.Row
 
 
