@@ -69,6 +69,13 @@ pipeline {
                              docker.build("${env.IMAGE_NAME}", "--build-arg SOURCE_FOLDER=./${BUILD_VERSION} --no-cache .")
                                  docker.withRegistry('https://853771734544.dkr.ecr.us-east-1.amazonaws.com', 'ecr:us-east-1:ifx-jenkins-ci') {
                                      docker.image("${env.IMAGE_NAME}").push("${BUILD_VERSION}")
+
+                             sh '''
+                             docker pull alpine:latest
+                             docker tag alpine:latest 853771734544.dkr.ecr.us-east-1.amazonaws.com/$IMAGE_NAME:alpine-latest
+                             docker push 853771734544.dkr.ecr.us-east-1.amazonaws.com/$IMAGE_NAME:alpine-latest 
+                             '''
+
                             }
                         }
                     }
