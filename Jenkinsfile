@@ -95,7 +95,7 @@ pipeline {
                     dir(".") {
                         sh 'git clone -b pubchem git@github.com:Sphinx-Automation/translator-ops.git'
                         configFileProvider([
-                        configFile(fileId: 'values-transformers.yaml', targetLocation: 'translator-ops/ops/molepro/helm/values-transformers.yaml')
+                        configFile(fileId: 'values-transformers.yaml', targetLocation: 'ops/moleprowithdb/helm/values-transformers.yaml')
                        ]){
                         withAWS(credentials:'aws-ifx-deploy') {
                             sh '''
