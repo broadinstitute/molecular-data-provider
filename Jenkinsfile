@@ -69,6 +69,13 @@ pipeline {
                              docker.build("${env.IMAGE_NAME}", "--build-arg SOURCE_FOLDER=./${BUILD_VERSION} --no-cache .")
                                  docker.withRegistry('https://853771734544.dkr.ecr.us-east-1.amazonaws.com', 'ecr:us-east-1:ifx-jenkins-ci') {
                                      docker.image("${env.IMAGE_NAME}").push("${BUILD_VERSION}")
+
+                             sh '''
+                             docker pull alpine:latest
+                             docker tag alpine:latest 853771734544.dkr.ecr.us-east-1.amazonaws.com/$IMAGE_NAME:alpine-latest
+                             docker push 853771734544.dkr.ecr.us-east-1.amazonaws.com/$IMAGE_NAME:alpine-latest 
+                             '''
+
                             }
                         }
                     }
@@ -88,14 +95,14 @@ pipeline {
                     dir(".") {
                         sh 'git clone git@github.com:Sphinx-Automation/translator-ops.git'
                         configFileProvider([
-                        configFile(fileId: 'values-transformers.yaml', targetLocation: 'translator-ops/ops/molepro/helm/values-transformers.yaml')
+                        configFile(fileId: 'values-transformers.yaml', targetLocation: 'translator-ops/ops/moleprowithdb/helm/values-transformers.yaml')
                        ]){
                         withAWS(credentials:'aws-ifx-deploy') {
                             sh '''
                             aws --region ${AWS_REGION} eks update-kubeconfig --name ${KUBERNETES_CLUSTER_NAME}
-                            cp -R translator-ops/ops/molepro/deploy/* translator-ops/ops/molepro/helm/                           
-                            cp -R translator-ops/ops/molepro/config/transformers/molepro-pubchem.yaml translator-ops/ops/molepro/helm/
-                            cd translator-ops/ops/molepro/helm/
+                            cp -R translator-ops/ops/moleprowithdb/deploy/* translator-ops/ops/moleprowithdb/helm/                           
+                            cp -R translator-ops/ops/moleprowithdb/config/transformers/molepro-pubchem.yaml translator-ops/ops/moleprowithdb/helm/
+                            cd translator-ops/ops/moleprowithdb/helm/
                             /bin/bash deploy.sh
                             '''
                             }
