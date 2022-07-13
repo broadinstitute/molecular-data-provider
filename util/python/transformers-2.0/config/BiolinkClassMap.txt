@@ -13,6 +13,11 @@ Pathway	Pathway
 pathway	Pathway
 Protein	Protein
 protein	Protein
+Publication	Publication
+publication	Publication
+document	Publication
+target	Target
+Target	Target
 Drug	Drug
 drug	Drug
 Assay	Assay
