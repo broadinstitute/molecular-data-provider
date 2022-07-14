@@ -1,0 +1,40 @@
+{
+    "name": "SIDER indication transformer",
+    "label": "SIDER",
+    "description": "contains information on SIDER drug indications (http://sideeffects.embl.de/).",
+    "version": "SIDER 4.1",
+    "function": "transformer",
+    "knowledge_map": {
+        "input_class": "compound",
+        "output_class": "DiseaseOrPhenotypicFeature",
+        "nodes": {
+            "SmallMolecule": {
+                "id_prefixes": [
+                    "CID"
+                ],
+                "count": -1,
+                "attributes": []
+            },
+            "DiseaseOrPhenotypicFeature" : {
+                "id_prefixes": ["UMLS"],
+                "count": -1,
+                "attributes": []
+            }
+        },
+        "edges": [{
+            "subject": "Compound",
+            "predicate": "treats",
+            "inverse_predicate": "treated_by",
+            "object": "DiseaseOrPhenotypicFeature",
+            "source": "SIDER",
+            "count": -1,
+            "attributes": []
+        }]
+    },
+    "properties": {
+        "source_url": "http://sideeffects.embl.de/",
+        "source_version": "SIDER 4.1",
+        "terms_of_service": "http://sideeffects.embl.de/about/"
+    },
+    "parameters": []
+}
