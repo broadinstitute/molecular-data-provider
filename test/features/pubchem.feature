@@ -13,7 +13,7 @@ Feature: Check CMAP transformer
         and the value of "knowledge_map.output_class" should be "compound"
         and the size of "knowledge_map" should be 4
         and the size of "parameters" should be 1
-        and the value of "version" should be "2.4.0"
+        and the value of "version" should be "2.4.1"
         and the value of "properties.source_version" should be "2022-05-11"
         and the value of "label" should be "PubChem"
 
