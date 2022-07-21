@@ -11,6 +11,28 @@
             "molepro_prefix": "GO:"
         }
     },
+    "Cell": {
+        "cell_ontology": {
+            "biolink_prefix": "CL",
+            "molepro_prefix": "CL:"
+        },
+        "cellosaurus": {
+            "biolink_prefix": "CELLOSAURUS",
+            "molepro_prefix": "CELLOSAURUS:"
+        },
+        "clo": {
+            "biolink_prefix": "CLO",
+            "molepro_prefix": "CLO:"
+        },
+        "efo": {
+            "biolink_prefix": "EFO",
+            "molepro_prefix": "EFO:"
+        },
+        "lincs": {
+            "biolink_prefix": "LINCS.CELL",
+            "molepro_prefix": "LINCS.CELL:"
+        }
+    },
     "CellularComponent": {
         "go": {
             "biolink_prefix": "GO",
