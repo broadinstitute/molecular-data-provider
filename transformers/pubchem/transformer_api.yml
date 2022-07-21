@@ -3,7 +3,7 @@ info:
   title: PubChem compound-list producer
   termsOfService: https://www.ncbi.nlm.nih.gov/home/about/policies/
 
-  version: 2.4.0
+  version: 2.4.1
   
   contact:
     email: translator@broadinstitute.org
