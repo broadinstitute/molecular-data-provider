@@ -1,7 +1,7 @@
 {
-    "name": "ChEMBL mechanism transformer",
+    "name": "ChEMBL activities transformer",
     "label": "ChEMBL",
-    "description": "Mechanism transformer based on ChEMBL mechanism information (https://www.ebi.ac.uk/chembl/).",
+    "description": "Activities transformer based on ChEMBL activities information (https://www.ebi.ac.uk/chembl/).",
     "version": "2.4.0",
     "function": "transformer",
     "knowledge_map": {
@@ -14,16 +14,6 @@
                 "attributes": []
             },
             "Protein" : {
-                "id_prefixes": ["CHEMBL"],
-                "count": -1,
-                "attributes": []
-            },
-            "Cell" : {
-                "id_prefixes": ["CHEMBL"],
-                "count": -1,
-                "attributes": []
-            },
-            "CellLine" : {
                 "id_prefixes": ["CHEMBL"],
                 "count": -1,
                 "attributes": []
@@ -42,11 +32,6 @@
                 "id_prefixes": ["CHEMBL"],
                 "count": -1,
                 "attributes": []
-            },            
-            "Organism" : {
-                "id_prefixes": ["CHEMBL"],
-                "count": -1,
-                "attributes": []
             },
             "PhenotypicFeature" : {
                 "id_prefixes": ["CHEMBL"],
@@ -62,34 +47,14 @@
                 "id_prefixes": ["CHEMBL"],
                 "count": -1,
                 "attributes": []
-            },
-            "PairwiseGeneToGeneInteraction" : {
-                "id_prefixes": ["CHEMBL"],
-                "count": -1,
-                "attributes": []
-            },
-            "CellularComponent" : {
-                "id_prefixes": ["CHEMBL"],
-                "count": -1,
-                "attributes": []
-            },
-            "AnatomicalEntity" : {
-                "id_prefixes": ["CHEMBL"],
-                "count": -1,
-                "attributes": []
-            },          
-            "ChemicalEntity" : {
-                "id_prefixes": ["CHEMBL"],
-                "count": -1,
-                "attributes": []
-            } 
-        },
+            }
+        },        
         "edges": [
             {
-                "subject": "Compound",
-                "predicate": "affects",
-                "inverse_predicate": "affected_by",
-                "object": "Protein",
+                "subject": "SmallMolecule",
+                "predicate": "assesses",
+                "inverse_predicate": "is_assessed_by",
+                "object": "Target",
                 "source": "CHEMBL",
                 "count": -1,
                 "attributes": []
@@ -97,9 +62,12 @@
         ]
     },
     "properties": {
+        "list_predicate": "related_to",
+        "member_predicate": "has_experimental_evidence",
         "source_url": "https://www.ebi.ac.uk/chembl/",
-        "source_version": "30 (2022-03-09)",
-        "terms_of_service": "https://www.ebi.ac.uk/about/terms-of-use/"
+        "terms_of_service": "https://www.ebi.ac.uk/about/terms-of-use/",
+        "source_version": "30 (2022-03-09)"
     },
     "parameters": []
 }
+

@@ -8,18 +8,18 @@ from openapi_server.models.transformer_query import TransformerQuery  # noqa: E5
 from openapi_server import util
 
 from openapi_server.controllers.chembl_db_transformer import ChemblProducer
-from openapi_server.controllers.chembl_db_transformer import ChemblTargetTransformer
-from openapi_server.controllers.chembl_db_transformer import ChemblIndicationsExporter
-from openapi_server.controllers.chembl_db_transformer import ChemblAssayExporter
-from openapi_server.controllers.chembl_db_transformer import ChemblMechanismExporter
+from openapi_server.controllers.chembl_db_transformer import ChemblIndicationsTransformer
+from openapi_server.controllers.chembl_db_transformer import ChemblActivitiesTransformer
+from openapi_server.controllers.chembl_db_transformer import ChemblMechanismTransformer
 from openapi_server.controllers.chembl_db_transformer import ChemblMetaboliteTransformer
+from openapi_server.controllers.chembl_db_transformer import ChemblGeneTargetTransformer
 
 transformer = {
     'molecules':ChemblProducer(),
-    'targets': ChemblTargetTransformer(),
-    'indications': ChemblIndicationsExporter(),
-    'assays': ChemblAssayExporter(),
-    'mechanisms': ChemblMechanismExporter(),
+    'targets': ChemblGeneTargetTransformer(),
+    'indications': ChemblIndicationsTransformer(),
+    'activities': ChemblActivitiesTransformer(),
+    'mechanisms': ChemblMechanismTransformer(),
     'metabolites': ChemblMetaboliteTransformer()
 }
 
@@ -54,4 +54,4 @@ def service_transformer_info_get(service, cache=None):  # noqa: E501
 
     :rtype: TransformerInfo
     """
-    return transformer[service].info
+    return transformer[service].transformer_info(cache)

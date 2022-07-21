@@ -1,12 +1,12 @@
 {
-    "name": "ChEMBL mechanism transformer",
+    "name": "ChEMBL gene target transformer",
     "label": "ChEMBL",
-    "description": "Mechanism transformer based on ChEMBL mechanism information (https://www.ebi.ac.uk/chembl/).",
+    "description": "Gene target transformer based on ChEMBL mechanism information (https://www.ebi.ac.uk/chembl/).",
     "version": "2.4.0",
     "function": "transformer",
     "knowledge_map": {
         "input_class": "compound",
-        "output_class": "target",
+        "output_class": "gene",
         "nodes": {
             "SmallMolecule" : {
                 "id_prefixes": ["CHEMBL"],

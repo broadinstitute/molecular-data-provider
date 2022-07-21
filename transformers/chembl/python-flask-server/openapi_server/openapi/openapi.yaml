@@ -24,11 +24,12 @@ paths:
         schema:
           enum:
           - molecules
+          - activities
           - targets
           - indications
           - treatments
           - mechanisms
-          - assays
+          - activities
           - metabolites
           type: string
         style: simple
@@ -92,11 +93,12 @@ paths:
         schema:
           enum:
           - molecules
+          - activities
           - targets
           - indications
           - treatments
           - mechanisms
-          - assays
+          - activities
           - metabolites
           type: string
         style: simple

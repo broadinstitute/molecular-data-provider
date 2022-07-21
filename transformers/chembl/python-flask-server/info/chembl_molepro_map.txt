@@ -1,0 +1,22 @@
+target_type	molepro_semantic_type
+ADMET	Cell
+CELL-LINE	CellLine
+CHIMERIC PROTEIN	ProteinComplex
+LIPID	MolecularEntity
+MACROMOLECULE	MolecularEntity
+METAL	MolecularEntity
+NUCLEIC-ACID	NucleicAcidEntity
+OLIGOSACCHARIDE	MolecularEntity
+ORGANISM	Organism
+PHENOTYPE	PhenotypicFeature
+PROTEIN COMPLEX	ProteinComplex
+PROTEIN COMPLEX GROUP	ProteinComplex
+PROTEIN FAMILY	ProteinFamily
+PROTEIN NUCLEIC-ACID COMPLEX	MacromolecularComplexMixin
+PROTEIN-PROTEIN INTERACTION	PairwiseGeneToGeneInteraction
+SELECTIVITY GROUP	ProteinFamily
+SINGLE PROTEIN	Protein
+SMALL MOLECULE	SmallMolecule
+SUBCELLULAR	CellularComponent
+TISSUE	AnatomicalEntity
+UNKNOWN	ChemicalEntity

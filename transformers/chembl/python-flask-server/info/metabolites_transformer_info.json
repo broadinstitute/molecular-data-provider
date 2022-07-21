@@ -2,20 +2,36 @@
     "name": "ChEMBL metabolite transformer",
     "label": "ChEMBL",
     "description": "Metabolites transformer based on ChEMBL metabolites information (https://www.ebi.ac.uk/chembl/).",
-    "version": "2.1.0",
+    "version": "2.4.0",
     "function": "transformer",
     "knowledge_map": {
         "input_class": "compound",
         "output_class": "compound",
-        "predicates": [{
-            "subject": "ChemicalSubstance",
-            "predicate": "metabolizes_into",
-            "object": "ChemicalSubstance"
-        }]
+        "nodes": {
+            "SmallMolecule" : {
+                "id_prefixes": ["CHEMBL"],
+                "count": -1,
+                "attributes": []
+            }
+        },
+        "edges": [
+            {
+                "subject": "SmallMolecule",
+                "predicate": "has_metabolite",
+                "inverse_predicate": "is_metabolite_of",
+                "object": "SmallMolecule",
+                "source": "CHEMBL",
+                "count": -1,
+                "attributes": []
+            }
+        ]
     },
     "properties": {
+        "list_predicate": "related_to",
+        "member_predicate": "has_metabolite",
         "source_url": "https://www.ebi.ac.uk/chembl/",
-        "terms_of_service": "https://www.ebi.ac.uk/about/terms-of-use/"
+        "terms_of_service": "https://www.ebi.ac.uk/about/terms-of-use/",
+        "source_version": "30 (2022-03-09)"
     },
     "parameters": []
 }
