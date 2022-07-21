@@ -33,7 +33,7 @@ copy `util/python/transformers-2.0/config/prefixMap.json` to `data` subfolder of
 ```
 python3 -m venv venv
 source venv/bin/activate.csh
-pip install -I pubchem_transformer-2.4.0-py3-none-any.whl
+pip install -I pubchem_transformer-2.4.1-py3-none-any.whl
 pip install -I base_transformer-2.0.1-py3-none-any.whl
 pip install gunicorn
 pip install "connexion[swagger-ui]"

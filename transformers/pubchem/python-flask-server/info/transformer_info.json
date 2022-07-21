@@ -2,7 +2,7 @@
     "name": "Pubchem compound-list producer",
     "label": "PubChem",
     "description": "Compound-list producer based on PubChem (https://pubchem.ncbi.nlm.nih.gov/).",
-    "version": "2.4.0",
+    "version": "2.4.1",
     "function": "producer",
     "knowledge_map": {
         "input_class": "none",

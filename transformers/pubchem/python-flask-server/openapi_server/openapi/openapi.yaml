@@ -4,7 +4,7 @@ info:
     email: translator@broadinstitute.org
   termsOfService: https://www.ncbi.nlm.nih.gov/home/about/policies/
   title: PubChem compound-list producer
-  version: 2.4.0
+  version: 2.4.1
 servers:
 - url: https://translator.broadinstitute.org/pubchem
 tags:

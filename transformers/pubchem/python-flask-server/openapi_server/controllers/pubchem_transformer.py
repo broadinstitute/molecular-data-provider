@@ -368,6 +368,7 @@ class PubChemProducer(Transformer):
                         prev_ids.append(id)
                     else:
                         prev_ids = [prev_ids, id]
+                    element.identifiers[key] = prev_ids
 
 class PubChemSimilarityTransformer(PubChemProducer):
 
