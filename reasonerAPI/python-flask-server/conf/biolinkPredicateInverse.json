@@ -22,6 +22,7 @@
     "biolink:affects_stability_of": "biolink:stability_affected_by",
     "biolink:affects_transport_of": "biolink:transport_affected_by",
     "biolink:catalyzes": "biolink:has_catalyst",
+    "biolink:chemically_similar_to": "biolink:chemically_similar_to",
     "biolink:decreases_activity_of": "biolink:activity_decreased_by",
     "biolink:decreases_degradation_of": "biolink:degradation_decreased_by",
     "biolink:decreases_expression_of": "biolink:expression_decreased_by",

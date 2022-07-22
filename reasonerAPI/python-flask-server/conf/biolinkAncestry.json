@@ -37,6 +37,7 @@
         "biolink:affects_transport_of",
         "biolink:affects_uptake_of",
         "biolink:catalyzes",
+        "biolink:chemically_similar_to",
         "biolink:correlated_with",
         "biolink:decreases_abundance_of",
         "biolink:decreases_activity_of",
@@ -516,6 +517,9 @@
     "biolink:catalyzes": [
         "biolink:catalyzes"
     ],
+    "biolink:chemically_similar_to": [
+        "biolink:chemically_similar_to"
+    ],
     "biolink:correlated_with": [
         "biolink:correlated_with"
     ],
@@ -843,6 +847,7 @@
         "biolink:affects_transport_of",
         "biolink:affects_uptake_of",
         "biolink:catalyzes",
+        "biolink:chemically_similar_to",
         "biolink:correlated_with",
         "biolink:decreases_abundance_of",
         "biolink:decreases_activity_of",
@@ -962,6 +967,7 @@
         "biolink:affects_transport_of",
         "biolink:affects_uptake_of",
         "biolink:catalyzes",
+        "biolink:chemically_similar_to",
         "biolink:correlated_with",
         "biolink:decreases_abundance_of",
         "biolink:decreases_activity_of",
@@ -1075,6 +1081,9 @@
     ],
     "biolink:secretion_increased_by": [
         "biolink:secretion_increased_by"
+    ],
+    "biolink:similar_to": [
+        "biolink:chemically_similar_to"
     ],
     "biolink:splicing_affected_by": [
         "biolink:splicing_affected_by",
