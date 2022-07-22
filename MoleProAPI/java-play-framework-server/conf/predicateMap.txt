@@ -1334,3 +1334,11 @@ CTD	related_to		Relation	uptake increased by;susceptibility decreased by	biolink
 CTD	related_to		Relation	uptake increased by;susceptibility increased by	biolink:affected_by	biolink:affects		
 CTD	related_to		DirectEvidence	therapeutic	biolink:treats	biolink:treated_by		
 CTD	related_to				biolink:related_to	biolink:related_to		
+STITCH	related_to		mode	expression	biolink:affects_expression_of	biolink:expression_affected_by		
+STITCH	related_to		mode	binding	biolink:physically_interacts_with	biolink:physically_interacts_with		
+STITCH	related_to		mode	pred_bind	biolink:interacts_with	biolink:interacts_with		
+STITCH	related_to		mode	reaction	biolink:affects	biolink:affected_by		
+STITCH	related_to		mode	catalysis	biolink:affects	biolink:affected_by		
+STITCH	related_to		mode	inhibition	biolink:decreases_activity_of	biolink:activity_decreased_by		
+STITCH	related_to		mode	activation	biolink:increases_activity_of	biolink:activity_increased_by		
+STITCH	related_to				biolink:related_to	biolink:related_to		
