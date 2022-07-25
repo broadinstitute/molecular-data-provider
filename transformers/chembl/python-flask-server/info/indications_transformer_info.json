@@ -2,22 +2,41 @@
     "name": "ChEMBL indication transformer",
     "label": "ChEMBL",
     "description": "Disease exporter based on ChEMBL indications information (https://www.ebi.ac.uk/chembl/).",
-    "version": "2.1.0",
-    "function": "exporter",
+    "version": "2.4.0",
+    "function": "transformer",
     "knowledge_map": {
         "input_class": "compound",
         "output_class": "disease",
-        "predicates": [{
-            "subject": "ChemicalSubstance",
-            "predicate": "treats",
-            "object": "Disease"
-        }]
+        "nodes": {
+            "SmallMolecule" : {
+                "id_prefixes": ["CHEMBL"],
+                "count": -1,
+                "attributes": []
+            },
+            "DiseaseOrPhenotypicFeature" : {
+                "id_prefixes": ["CHEMBL"],
+                "count": -1,
+                "attributes": []
+            }
+        },
+        "edges": [
+            {
+                "subject": "Compound",
+                "predicate": "treats",
+                "inverse_predicate": "treated_by",
+                "object": "DiseaseOrPhenotypicFeature",
+                "source": "CHEMBL",
+                "count": -1,
+                "attributes": []
+            }
+        ]
     },
     "properties": {
         "list_predicate": "related_to",
         "member_predicate": "treats",
         "source_url": "https://www.ebi.ac.uk/chembl/",
-        "terms_of_service": "https://www.ebi.ac.uk/about/terms-of-use/"
+        "terms_of_service": "https://www.ebi.ac.uk/about/terms-of-use/",
+        "source_version": "30 (2022-03-09)"
     },
     "parameters": []
 }
