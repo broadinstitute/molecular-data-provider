@@ -1037,7 +1037,7 @@ def add_ref_prefix(ref_type, ref_id):
     return ref_id
 
 
-connection = sqlite3.connect("data/ChEMBL.sqlite", check_same_thread=False)
+connection = sqlite3.connect("database/ChEMBL.sqlite", check_same_thread=False)
 connection.row_factory = sqlite3.Row
 
 
