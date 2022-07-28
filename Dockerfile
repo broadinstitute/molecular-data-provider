@@ -15,8 +15,8 @@ RUN mkdir -p /usr/src/app
 RUN mkdir -p /usr/src/app/data
 RUN mkdir -p /usr/src/app/database
 RUN mkdir -p /usr/src/app/info
-ADD https://translator.broadinstitute.org/db/ChEMBL.target.xref.sqlite /usr/src/app/data
-ADD https://translator.broadinstitute.org/db/ChEMBL.sqlite /usr/src/app/database
+#ADD https://translator.broadinstitute.org/db/ChEMBL.target.xref.sqlite /usr/src/app/data
+#ADD https://translator.broadinstitute.org/db/ChEMBL.sqlite /usr/src/app/database
 COPY util/python/transformers-2.0/config/BiolinkClassMap.txt /usr/src/app/data
 COPY util/python/transformers-2.0/config/prefixMap.json /usr/src/app/data
 COPY transformers/chembl/python-flask-server/info /usr/src/app/info
