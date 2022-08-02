@@ -1,5 +1,5 @@
 # compound-list producers
-https://molepro-pubchem-transformer.ci.transltr.io/pubchem_producer
+https://molepro-pubchem-transformer.ci.transltr.io/pubchem/compounds
 https://molepro-chembl-transformer.ci.transltr.io/chembl/molecules
 https://molepro-drugbank-transformer.ci.transltr.io/drugbank/compounds
 https://molepro-chembank-transformer.ci.transltr.io/chembank/compounds
@@ -20,18 +20,25 @@ https://molepro-inxightdrugs-transformer.ci.transltr.io/inxight_drugs/drugs
 https://molepro-inxightdrugs-transformer.ci.transltr.io/inxight_drugs/relationships
 https://molepro-inxightdrugs-transformer.ci.transltr.io/inxight_drugs/active_ingredients
 https://molepro-rxnorm-transformer.ci.transltr.io/rxnorm/drugs
-https://molepro-rxnorm-transformer.ci.transltr.io/rxnorm/relations
+https://molepro-rxnorm-transformer.ci.transltr.io/rxnorm/unii
 https://molepro-drugbank-transformer.ci.transltr.io/drugbank/molecules
+https://molepro-sider-transformer.ci.transltr.io/sider/drugs
 # gene-list producers
 =HGNC gene-list producer
 # disease producers
 https://molepro-drugcentral-transformer.ci.transltr.io/drugcentral/diseases
+# drug relations
+https://molepro-rxnorm-transformer.ci.transltr.io/rxnorm/relations
+https://molepro-rxnorm-transformer.ci.transltr.io/rxnorm/ingredients
+https://molepro-rxnorm-transformer.ci.transltr.io/rxnorm/components
 # indications
 https://molepro-drugcentral-transformer.ci.transltr.io/drugcentral/indications
 https://molepro-hmdb-transformer.ci.transltr.io/hmdb/disorders
 https://molepro-ctd-transformer.ci.transltr.io/ctdbase/disease-associations
 https://molepro-chembl-transformer.ci.transltr.io/chembl/indications
 https://molepro-rephub-transformer.ci.transltr.io/repurposing/indications
+https://molepro-sider-transformer.ci.transltr.io/sider/indications
+https://molepro-sider-transformer.ci.transltr.io/sider/sideeffects
 # gene targets
 https://molepro-drugbank-transformer.ci.transltr.io/drugbank/gene_targets
 https://molepro-drugbank-transformer.ci.transltr.io/drugbank/gene_enzymes
@@ -58,9 +65,11 @@ https://molepro-drugbank-transformer.ci.transltr.io/drugbank/protein_targets
 https://molepro-drugbank-transformer.ci.transltr.io/drugbank/protein_enzymes
 https://molepro-drugbank-transformer.ci.transltr.io/drugbank/protein_transporters
 https://molepro-drugbank-transformer.ci.transltr.io/drugbank/protein_carriers
+https://molepro-hmdb-transformer.ci.transltr.io/hmdb/protein_targets
 https://molepro-probeminer-transformer.ci.transltr.io/probeminer/protein_interactions
 # compound relations
 https://molepro-chembl-transformer.ci.transltr.io/chembl/metabolites
+https://molepro-pubchem-transformer.ci.transltr.io/pubchem/neighbors
 # gene-disease associations
 https://molepro-gwas-transformer.ci.transltr.io/gwas/genes
 https://molepro-gwas-transformer.ci.transltr.io/gwas/diseases
@@ -79,8 +88,13 @@ https://molepro-biggmodels-transformer.ci.transltr.io/bigg/gene-reactions
 https://molepro-ctd-transformer.ci.transltr.io/ctdbase/go-associations
 https://molepro-ctd-transformer.ci.transltr.io/ctdbase/pathway-associations
 https://molepro-ctd-transformer.ci.transltr.io/ctdbase/phenotype-interactions
+https://molepro-hmdb-transformer.ci.transltr.io/hmdb/pathways
+https://molepro-msigdb-transformer.ci.transltr.io/msigdb/genes
+https://molepro-msigdb-transformer.ci.transltr.io/msigdb/pathways
+# locations
+https://molepro-hmdb-transformer.ci.transltr.io/hmdb/locations
 # exporters
-https://molepro-chembl-transformer.ci.transltr.io/chembl/assays
+https://molepro-chembl-transformer.ci.transltr.io/chembl/activities
 https://molepro-chembl-transformer.ci.transltr.io/chembl/mechanisms
 #
 # aggregators
