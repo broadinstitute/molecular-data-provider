@@ -12,6 +12,7 @@
         "biolink:FDA_approval_status",
         "biolink:OrganismAttribute",
         "biolink:OrganismTaxon",
+        "biolink:original_knowledge_source",
         "biolink:primary_knowledge_source",
         "biolink:publication",
         "biolink:Publication",

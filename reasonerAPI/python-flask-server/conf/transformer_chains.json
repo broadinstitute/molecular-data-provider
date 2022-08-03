@@ -286,5 +286,17 @@
                 "name": "STRING protein-protein interaction"
             }
         ]
+    },
+    {
+        "subject": "biolink:SmallMolecule",
+        "predicate": "biolink:chemically_similar_to",
+        "inverse_predicate": "biolink:chemically_similar_to",
+        "object": "biolink:SmallMolecule",
+        "transformer_chain": [
+            {
+                "controls": [],
+                "name": "PubChem chemical similarity transformer"
+            }
+        ]
     }
 ]

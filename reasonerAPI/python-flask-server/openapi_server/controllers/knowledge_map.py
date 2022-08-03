@@ -34,6 +34,7 @@ class KnowledgeMap:
     debug = False
 
     def __init__(self):
+        self.moleprodb_knowledge_map = {}
         self.kmap, self.list_chain_names = self.read_knowledge_map()
         self.nodes, self.edges, self.map_edge_attributes = self.build_nodes_edges_data()
         if self.debug:

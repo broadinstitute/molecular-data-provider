@@ -115,7 +115,8 @@ def execute_lookup(message: Message, submitter, debug=False):
     # edge, transformer_chain_list = knowledge_map.match_query_graph(query_graph)
     mole_edge_list = knowledge_map.match_query_graph(query_graph)
 
-    # print("egde: {}".format(edge))
+    if debug:
+        print("egde: {}".format(mole_edge_list))
 
     # get results from MolePro DB
     query_molepro_db(molepro, query_graph)
@@ -205,7 +206,7 @@ def query_molepro_db(molepro, query_graph, debug = False):
     if debug:
         print('predicates = ', predicates)
     if predicates is not None:
-        moleprodb_predicates = [edge['predicate'] for edge in knowledge_map.moleprodb_knowledge_map.get('edges')]
+        moleprodb_predicates = [edge['predicate'] for edge in knowledge_map.moleprodb_knowledge_map.get('edges',[])]
         if debug:
             print(str(len(moleprodb_predicates)) + ' moleprodb_predicates' )
         children = set(predicates)
@@ -223,7 +224,7 @@ def query_molepro_db(molepro, query_graph, debug = False):
     if debug:
         print('object_classes = ', object_classes)
     if object_classes is not None:
-        moleprodb_classes = [node_id for node_id, node in knowledge_map.moleprodb_knowledge_map.get('nodes').items()]
+        moleprodb_classes = [node_id for node_id, node in knowledge_map.moleprodb_knowledge_map.get('nodes',{}).items()]
         if debug:
             print('moleprodb_classes = ', moleprodb_classes)
         children = set()
