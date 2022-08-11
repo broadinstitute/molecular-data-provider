@@ -1439,7 +1439,7 @@ def get_refs(ref_table, id_column, ref_id):
     return cur.fetchall()
 
 
-target_xref_con = sqlite3.connect("data/ChEMBL.target.xref.sqlite", check_same_thread=False)
+target_xref_con = sqlite3.connect("database/ChEMBL.target.xref.sqlite", check_same_thread=False)
 target_xref_con.row_factory = sqlite3.Row
 
 target_xrefs = {}
