@@ -1,5 +1,5 @@
 # compound-list producers
-https://molepro-pubchem-transformer.test.transltr.io/pubchem_producer
+https://molepro-pubchem-transformer.test.transltr.io/pubchem/compounds
 https://molepro-chembl-transformer.test.transltr.io/chembl/molecules
 https://molepro-drugbank-transformer.test.transltr.io/drugbank/compounds
 https://molepro-chembank-transformer.test.transltr.io/chembank/compounds
