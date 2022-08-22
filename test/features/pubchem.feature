@@ -1,7 +1,7 @@
 Feature: Check CMAP transformer
 
     Background: Specify transformer API
-        Given a transformer at "https://molepro-pubchem-transformer.ci.transltr.io/pubchem"
+        Given a transformer at "https://molepro-pubchem-transformer.test.transltr.io/pubchem"
 
 
     Scenario: Check transformer info
