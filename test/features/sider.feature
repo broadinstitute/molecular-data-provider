@@ -1,7 +1,7 @@
 Feature: Check SIDER transformer
 
     Background: Specify transformer API
-        Given a transformer at "https://molepro-sider-transformer.transltr.io/sider"
+        Given a transformer at "https://molepro-sider-transformer.ci.transltr.io/sider"
 
 
     Scenario: Check SIDER producer info
