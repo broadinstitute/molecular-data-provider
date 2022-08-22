@@ -58,8 +58,8 @@ Feature: Check MolePro
     Scenario: Check ChEMBL indications transformer
         Given the Molecular Data Provider
         when we call "Pubchem compound-list producer" transformer with the following parameters:
-        | name     | value   |
-        | compound | aspirin |
+        | compound |
+        | aspirin  |
         and we call "ChEMBL indication transformer" transformer with no parameters
         then the length of the collection should be 142
         and the value of "element_class" should be "disease"
@@ -69,8 +69,8 @@ Feature: Check MolePro
     Scenario: Check ChEMBL compound-list producer
         Given the Molecular Data Provider
         when we call "ChEMBL compound-list producer" transformer with the following parameters:
-        | name      | value   |
-        | compound  | aspirin |
+        | compound |
+        | aspirin  |
         and we call "CMAP compound-to-gene transformer" transformer with the following parameters:
         | score threshold | maximum number |
         | 99.5            | 0              |
@@ -82,8 +82,8 @@ Feature: Check MolePro
     Scenario: Check ChEMBL targets transformer
         Given the Molecular Data Provider
         when we call "ChEMBL compound-list producer" transformer with the following parameters:
-        | name      | value   |
-        | compound  | aspirin |
+        | compound |
+        | aspirin  |
         and we call "ChEMBL gene target transformer" transformer with no parameters
         and we call "CMAP gene-to-gene expander" transformer with the following parameters:
         | score threshold | maximum number |
@@ -120,7 +120,6 @@ Feature: Check MolePro
         then the length of the collection should be 60
         and the value of "element_class" should be "compound"
         and the value of "source" should be "CMAP compound-to-compound expander"
-
 
 
     Scenario: Check STITCH transformer
