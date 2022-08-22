@@ -1,5 +1,3 @@
-#https://molepro-trapi.ci.transltr.io/molepro/trapi/v1.2/ui/
-
 Feature: Check reasoner API
 
     Background: Specify Reasoner API
