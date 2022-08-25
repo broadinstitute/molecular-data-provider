@@ -1,8 +1,8 @@
 openapi: 3.0.1
 info:
   description: Molecular Data Provider for NCATS Biomedical Translator
-  version: 1.2.1.0
-  title: Molecular Data Provider for NCATS Biomedical Translator
+  version: 1.3.0.0
+  title: MolePro
   contact:
     email: translator@broadinstitute.org
     name: Molecular Data Provider
@@ -15,8 +15,8 @@ info:
     component: KP
     team:
       - Molecular Data Provider
-    biolink-version: 2.2.1
-    infores: INSERT-INFORES-CURIE-OF-THIS-RESOURCE-HERE
+    biolink-version: 2.4.7
+    infores: "infores:molepro"
     externalDocs:
       description: >-
         The values for component and team are restricted according to this
@@ -29,9 +29,8 @@ info:
     operations:
       - lookup
       - annotate_nodes
-    batch_size_limit: ADD-BATCH-SIZE-LIMIT-OR-REMOVE-IF-NO-LIMIT
-    rate_limit: ADD-REQUEST-RATE-LIMIT-OR-REMOVE-IF-NO-LIMIT
-    test_data_location: ADD-URL-THAT-RESOLVES-TO-SRI-TESTING-HARNESS-DATA
+    batch_size_limit: 1000
+    test_data_location: https://github.com/broadinstitute/molecular-data-provider/blob/master/test/data/MolePro-test-data.json
     externalDocs:
       description: >-
         The values for version are restricted according to the regex in
@@ -39,8 +38,9 @@ info:
       url: https://github.com/NCATSTranslator/translator_extensions/blob/\
         production/x-trapi/
 servers:
-  - url: https://translator.broadinstitute.org/molepro/trapi/v1.2
+  - url: https://translator.broadinstitute.org/molepro/trapi/v1.3
     description: TRAPI production service for MolePro
+    x-maturity: development
 externalDocs:
   description: >-
     Documentation for the NCATS Biomedical Translator Reasoners web services
