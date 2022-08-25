@@ -334,9 +334,7 @@ jobs:
         - name: Start the BDD testing of the checked out feature file
           run: behave test/features/rxnorm.feature
           
-          
-  
-sider:
+  sider:
     runs-on: ubuntu-latest
     steps:
         - name: Git checkout
@@ -350,7 +348,7 @@ sider:
           run: behave test/features/sider.feature
 
 
-stitch:
+  stitch:
     runs-on: ubuntu-latest
     steps:
         - name: Git checkout
