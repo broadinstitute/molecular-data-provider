@@ -372,6 +372,7 @@
         "biolink:transport_affected_by",
         "biolink:transport_decreased_by",
         "biolink:transport_increased_by",
+        "biolink:treated_by",
         "biolink:uptake_affected_by",
         "biolink:uptake_decreased_by",
         "biolink:uptake_increased_by"
@@ -729,6 +730,9 @@
         "biolink:directly_interacts_with",
         "biolink:interacts_with",
         "biolink:physically_interacts_with"
+    ],
+    "biolink:is_ameliorated_by": [
+        "biolink:treated_by"
     ],
     "biolink:is_input_of": [
         "biolink:is_input_of"

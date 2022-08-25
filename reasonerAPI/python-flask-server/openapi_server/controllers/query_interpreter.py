@@ -106,7 +106,8 @@ def execute_lookup(message: Message, submitter, debug=False):
             print("Flipped query graph")
 
     # expand the ancestry for the nodes
-    query_graph = expand_ancestry_node_ids(query_graph, debug=debug)
+    query_graph, map_original_query_id = expand_ancestry_node_ids(query_graph, debug=debug)
+    # print("got original query id map: {}".format(map_original_query_id))
 
     # call molepro
     molepro = MolePro(query_graph)
@@ -119,12 +120,12 @@ def execute_lookup(message: Message, submitter, debug=False):
         print("egde: {}".format(mole_edge_list))
 
     # get results from MolePro DB
-    query_molepro_db(molepro, query_graph)
+    query_molepro_db(molepro, query_graph, map_original_query_id)
 
     # for each predicate, run a query
     for mole_edge in mole_edge_list:
         for item in mole_edge.transformer_chain_list:
-            molepro.execute_transformer_chain(mole_edge, item['transformer_chain'])
+            molepro.execute_transformer_chain(mole_edge, item['transformer_chain'], map_original_query_id)
 
     # get the results
     query_results = molepro.get_results()
@@ -144,24 +145,30 @@ def execute_lookup(message: Message, submitter, debug=False):
 
 def expand_ancestry_node_ids(query_graph, debug=False):
     ''' 
-    expands the IDs given based on ancestry and return the modified query graph
+    expands the IDs given based on ancestry and return the modified query graph along with the ancestry origin
     '''
     # log
     if debug:
         logger.info("translating query graph: {}".format(query_graph))
+
+    # keep track of reverse translation of ids
+    map_query_id = {}
 
     # modify the queries
     query_nodes = query_graph.nodes
     if query_nodes:
         for key, node in query_nodes.items():
             if node.ids:
+
                 # get the ancestry map
                 map_ancestry = get_ancestry_map(node.ids, debug=debug)
 
-                # concatenate all the raults
+                # concatenate all the results
                 list_updated_ids = node.ids
-                for item in map_ancestry.values():
-                    list_updated_ids = list_updated_ids + item
+                for key, list_item in map_ancestry.items():
+                    list_updated_ids = list_updated_ids + list_item
+                    for row in list_item:
+                        map_query_id[row] = key
                 
                 # make sure list is unique
                 list_updated_ids = list(set(list_updated_ids))
@@ -176,11 +183,12 @@ def expand_ancestry_node_ids(query_graph, debug=False):
     # log
     if debug:
         logger.info("returning query graph: {}".format(query_graph))
+        logger.info("returning map query id: {}".format(map_query_id))
 
     # return
-    return query_graph
+    return query_graph, map_query_id
 
-def query_molepro_db(molepro, query_graph, debug = False):
+def query_molepro_db(molepro, query_graph, map_original_query_id, debug = False):
 
     biolink_object = BiolinkAncestrySingleton.getInstance({})
     ancestor_map = biolink_object.ancestry_map
@@ -268,11 +276,11 @@ def query_molepro_db(molepro, query_graph, debug = False):
             source_type= source_type, 
             target_type= None, # target type specified in transformer_controls
             target_constraints= target.constraints, 
-            edge_constraints= edge.constraints, 
+            edge_constraints= edge.attribute_constraints, 
             transformer_chain_list= transformer_list)
         if debug:
             print(molepro_edge)
-        molepro.execute_transformer_chain(molepro_edge, transformer_list)
+        molepro.execute_transformer_chain(molepro_edge, transformer_list, map_original_query_id)
 
 
 MoleProDB_node_producer = 'MoleProDB node producer'

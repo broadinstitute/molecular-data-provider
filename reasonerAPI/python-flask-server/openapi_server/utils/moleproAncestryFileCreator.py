@@ -13,8 +13,8 @@ logger = logging.getLogger(__name__)
 
 # constants
 url_node_normalizer = "https://bl-lookup-sri.renci.org/bl/{}/ancestors?version={}"
-url_molepro_meta_knowledge_graph = "https://translator.broadinstitute.org/molepro/trapi/v1.2/meta_knowledge_graph"
-url_molepro_meta_knowledge_graph = "http://localhost:9220/molepro/trapi/v1.2/meta_knowledge_graph"
+url_molepro_meta_knowledge_graph = "https://translator.broadinstitute.org/molepro/trapi/v1.3/meta_knowledge_graph"
+url_molepro_meta_knowledge_graph = "http://localhost:9220/molepro/trapi/v1.3/meta_knowledge_graph"
 file_molepro = 'biolinkAncestry.json'
 VERSION = "2.2.13"
 

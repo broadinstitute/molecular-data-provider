@@ -234,7 +234,7 @@ class KnowledgeMap:
                     transformer_list = self.get_transformers(stype, etype, ttype)
                     #print("got mole edge {} - {} - {} - {} -> with transformer length {}".format(sid, stype, etype, ttype, len(transformer_list)))
                     if transformer_list is not None and len(transformer_list) > 0:
-                        mole_edge_list.append(MoleproEdgeModel(edge_id, source.node_id, target.node_id, sid, None, etype, stype, ttype, target.constraints, edge.constraints, transformer_list))
+                        mole_edge_list.append(MoleproEdgeModel(edge_id, source.node_id, target.node_id, sid, None, etype, stype, ttype, target.constraints, edge.attribute_constraints, transformer_list))
 
 
         # return
