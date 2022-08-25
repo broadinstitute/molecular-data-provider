@@ -5,6 +5,7 @@ from __future__ import absolute_import
 # import models into model package
 from openapi_server.models.async_query import AsyncQuery
 from openapi_server.models.attribute import Attribute
+from openapi_server.models.attribute_constraint import AttributeConstraint
 from openapi_server.models.edge import Edge
 from openapi_server.models.edge_binding import EdgeBinding
 from openapi_server.models.knowledge_graph import KnowledgeGraph
@@ -64,10 +65,10 @@ from openapi_server.models.operation_sort_results_score import OperationSortResu
 from openapi_server.models.operation_sort_results_score_parameters import OperationSortResultsScoreParameters
 from openapi_server.models.q_edge import QEdge
 from openapi_server.models.q_node import QNode
+from openapi_server.models.qualifier import Qualifier
+from openapi_server.models.qualifier_constraint import QualifierConstraint
 from openapi_server.models.query import Query
-from openapi_server.models.query_constraint import QueryConstraint
 from openapi_server.models.query_graph import QueryGraph
 from openapi_server.models.response import Response
 from openapi_server.models.result import Result
 from openapi_server.models.schema1 import Schema1
-from openapi_server.models.sub_attribute import SubAttribute

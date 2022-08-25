@@ -24,7 +24,7 @@ class TestQueryController(BaseTestCase):
             'Content-Type': 'application/json',
         }
         response = self.client.open(
-            '/molepro/trapi/v1.2/query',
+            '/molepro/trapi/v1.3/query',
             method='POST',
             headers=headers,
             data=json.dumps(request_body),

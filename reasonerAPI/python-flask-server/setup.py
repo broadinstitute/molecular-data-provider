@@ -22,10 +22,10 @@ REQUIRES = [
 setup(
     name=NAME,
     version=VERSION,
-    description="Molecular Data Provider for NCATS Biomedical Translator",
+    description="MolePro",
     author_email="translator@broadinstitute.org",
     url="",
-    keywords=["OpenAPI", "Molecular Data Provider for NCATS Biomedical Translator"],
+    keywords=["OpenAPI", "MolePro"],
     install_requires=REQUIRES,
     packages=find_packages(),
     package_data={'': ['openapi/openapi.yaml']},

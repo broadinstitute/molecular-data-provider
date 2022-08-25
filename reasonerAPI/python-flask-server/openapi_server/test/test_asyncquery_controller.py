@@ -23,7 +23,7 @@ class TestAsyncqueryController(BaseTestCase):
             'Content-Type': 'application/json',
         }
         response = self.client.open(
-            '/molepro/trapi/v1.2/asyncquery',
+            '/molepro/trapi/v1.3/asyncquery',
             method='POST',
             headers=headers,
             data=json.dumps(request_body),
