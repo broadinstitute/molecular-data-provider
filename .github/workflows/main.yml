@@ -187,6 +187,19 @@ jobs:
         - name: Start the BDD testing of the checked out feature file
           run: behave test/features/gtopdb.feature
 
+  gwas:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-dev }
+
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/gwas.feature
+
   hmdb:
     runs-on: ubuntu-latest
     steps:
@@ -239,6 +252,32 @@ jobs:
         - name: Start the BDD testing of the checked out feature file
           run: behave test/features/moleprodb.feature
 
+  node-normalizer:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-dev }
+
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/node-normalizer.feature 
+
+  probeminer:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-dev }
+  
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/probeminer.feature
+
   pharos:
     runs-on: ubuntu-latest
     steps:
@@ -277,6 +316,19 @@ jobs:
           
         - name: Start the BDD testing of the checked out feature file
           run: behave test/features/repurposing.feature
+
+  rxnorm:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-dev }
+
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/rxnorm.feature
 
   sider:
     runs-on: ubuntu-latest
