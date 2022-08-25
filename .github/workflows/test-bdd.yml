@@ -335,7 +335,22 @@ jobs:
           run: behave test/features/rxnorm.feature
           
           
-  stitch:
+  
+sider:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-test }
+
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/sider.feature
+
+
+stitch:
     runs-on: ubuntu-latest
     steps:
         - name: Git checkout
