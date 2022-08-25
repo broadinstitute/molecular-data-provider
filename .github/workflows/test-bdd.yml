@@ -9,7 +9,7 @@ name: Daily ITRB Test Translator testing
 
 # Controls when the workflow will run
 on:
-# Triggers the workflow on cron event but only for the CI branch
+# Triggers the workflow on cron event but only for the Test branch
   workflow_dispatch:
   schedule:
    - cron: '00 00 * * *'   # midnight UTC
