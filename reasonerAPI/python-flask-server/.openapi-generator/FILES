@@ -15,6 +15,7 @@ openapi_server/encoder.py
 openapi_server/models/__init__.py
 openapi_server/models/async_query.py
 openapi_server/models/attribute.py
+openapi_server/models/attribute_constraint.py
 openapi_server/models/base_model_.py
 openapi_server/models/edge.py
 openapi_server/models/edge_binding.py
@@ -75,13 +76,13 @@ openapi_server/models/operation_sort_results_score.py
 openapi_server/models/operation_sort_results_score_parameters.py
 openapi_server/models/q_edge.py
 openapi_server/models/q_node.py
+openapi_server/models/qualifier.py
+openapi_server/models/qualifier_constraint.py
 openapi_server/models/query.py
-openapi_server/models/query_constraint.py
 openapi_server/models/query_graph.py
 openapi_server/models/response.py
 openapi_server/models/result.py
 openapi_server/models/schema1.py
-openapi_server/models/sub_attribute.py
 openapi_server/openapi/openapi.yaml
 openapi_server/test/__init__.py
 openapi_server/typing_utils.py
