@@ -4,7 +4,7 @@ import sys
 from setuptools import setup, find_packages
 
 NAME = "molepro-trapi"
-VERSION = "1.2.1.4"
+VERSION = "1.3.0.0"
 
 # To install the library, run the following
 #
@@ -22,10 +22,10 @@ REQUIRES = [
 setup(
     name=NAME,
     version=VERSION,
-    description="Molecular Data Provider for NCATS Biomedical Translator",
+    description="MolePro",
     author_email="translator@broadinstitute.org",
     url="",
-    keywords=["OpenAPI", "Molecular Data Provider for NCATS Biomedical Translator"],
+    keywords=["OpenAPI", "MolePro"],
     install_requires=REQUIRES,
     packages=find_packages(),
     package_data={'': ['openapi/openapi.yaml']},

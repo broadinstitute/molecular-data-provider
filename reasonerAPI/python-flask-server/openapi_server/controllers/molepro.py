@@ -47,7 +47,7 @@ class MolePro:
         return results_response
 
 
-    def execute_transformer_chain(self, mole_edge, transformer_list):
+    def execute_transformer_chain(self, mole_edge, transformer_list, map_original_query_id):
         ''' passes the query through the transformers (one transformer per service/data) '''
         collection_info = None
 
@@ -80,7 +80,7 @@ class MolePro:
         collection_id = collection.get('id')
         if collection.get('elements') is not None:
             for element in collection['elements']:
-                self.add_result(source_node, mole_edge, element, collection_id)
+                self.add_result(source_node, mole_edge, element, collection_id, map_original_query_id)
 
 
     def compound_collection(self, curie):
@@ -159,8 +159,10 @@ class MolePro:
             return response_obj.json()
 
 
-    def add_result(self, source_node, mole_edge, element, collection_id):
-        """ for each given element in a collection result, add the edge and corresponding nodes to the result list """
+    def add_result(self, source_node, mole_edge, element, collection_id, map_original_query_id):
+        """ 
+        for each given element in a collection result, add the edge and corresponding nodes to the result list 
+        """
 
         target_node = self.add_element(element)
         if source_node is None:
@@ -179,9 +181,11 @@ class MolePro:
                     edge = self.add_edge(source_node.id, target_node.id, mole_edge.edge_type, collection_id, connections)
 
                     # updated for trapi v1.0.0
-                    source_binding = NodeBinding(id=source_node.id)
+                    source_original_id = map_original_query_id.get(source_node.id) if source_node.id else None
+                    source_binding = NodeBinding(id=source_node.id, query_id=source_original_id)
                     edge_binding = EdgeBinding(id=edge.id)
-                    target_binding = NodeBinding(id=target_node.id)
+                    target_original_id = map_original_query_id.get(target_node.id) if target_node.id else None
+                    target_binding = NodeBinding(id=target_node.id, query_id=target_original_id)
 
                     edge_map = {mole_edge.edge_key: [edge_binding]}
                     nodes_map = {mole_edge.source_key: [source_binding], mole_edge.target_key: [target_binding]}

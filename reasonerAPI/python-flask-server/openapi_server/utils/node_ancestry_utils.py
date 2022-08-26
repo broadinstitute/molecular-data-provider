@@ -29,6 +29,10 @@ def get_ancestry_map(list_ids, debug=False):
     # get the ancestry map
     ancestry_map = get_ancestry_map_with_url(MOLEPRO_URL_NODE_ANCESTRY ,list_ids, debug)
 
+    # log
+    if debug:
+        print("ancestry map: {}".format(ancestry_map))
+
     # return
     return ancestry_map
 

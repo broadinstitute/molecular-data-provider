@@ -52,6 +52,11 @@ def reverse_response(response: Response, query_graph: QueryGraph, debug=False):
     # return
     return flipped_response
 
+def add_original_node_id(query_graph: QueryGraph, debug=False):
+    '''
+    will add an extra field to the node ids to keep track of the original query
+    '''
+    return None
 
 def reverse_query(query_graph: QueryGraph, debug=False):
     ''' will check to see if query has id on object id only, then flips it if applicable; do nothing if not '''
