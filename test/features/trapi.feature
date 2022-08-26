@@ -3,7 +3,7 @@
 Feature: Check reasoner API
 
     Background: Specify Reasoner API
-        Given a reasoner API at "https://molepro-trapi.ci.transltr.io/molepro/trapi/v1.2"
+        Given a reasoner API at "https://molepro-trapi.ci.transltr.io/molepro/trapi/v1.3"
 
 
     Scenario: Check targets
@@ -84,7 +84,7 @@ Feature: Check reasoner API
                     },
                     "nodes": {
                         "n00": {
-                            "ids": ["MONDO:0021668"],
+                            "ids": ["MONDO:0004833"],
                             "categories": ["biolink:Disease"]
                         },
                         "n01": {
@@ -96,7 +96,7 @@ Feature: Check reasoner API
             "submitter": "behave test"
         }
         """
-        then the size of "message.results" should be 1563
+        then the size of "message.results" should be 28
 
 
     Scenario: Check indications with a different predicate
@@ -115,7 +115,7 @@ Feature: Check reasoner API
                     },
                     "nodes": {
                         "n00": {
-                            "ids": ["MONDO:0021668"],
+                            "ids": ["MONDO:0004833"],
                             "categories": ["biolink:Disease"]
                         },
                         "n01": {
@@ -127,7 +127,7 @@ Feature: Check reasoner API
             "submitter": "behave test"
         }
         """
-        then the size of "message.results" should be 9381
+        then the size of "message.results" should be 29
 
 
     Scenario: Check indications with a object id
@@ -146,7 +146,7 @@ Feature: Check reasoner API
                     },
                     "nodes": {
                         "n00": {
-                            "ids": ["MONDO:0021668"],
+                            "ids": ["MONDO:0004833"],
                             "categories": ["biolink:Disease"]
                         },
                         "n01": {
@@ -158,7 +158,7 @@ Feature: Check reasoner API
             "submitter": "behave test"
         }
         """
-        then the size of "message.results" should be 9381
+        then the size of "message.results" should be 29
 
 
     Scenario: Check indications with no predicate
@@ -370,7 +370,7 @@ Feature: Check reasoner API
                             "predicates": [
                                 "biolink:related_to"
                             ],
-                            "constraints": [
+                            "attribute_constraints": [
                                 {
                                     "id": "biolink:primary_knowledge_source",
                                     "name": "primary knowledge source",
@@ -478,7 +478,7 @@ Feature: Check reasoner API
                                 "biolink:Disease"
                             ],
                             "ids": [
-                                "MONDO:0005129"
+                                "MONDO:0004833"
                             ]
                         }
                     }
@@ -542,3 +542,42 @@ Feature: Check reasoner API
         }
         """
         then the size of "message.results" should be 1
+
+
+    Scenario: Check query with workflow
+        Given the reasoner API
+        when we fire "/query" query with the following body:
+        """
+        {
+            "message": {
+                "query_graph": {
+                    "nodes": {
+                        "n0": {
+                            "ids": [
+                                "CID:2244"
+                            ],
+                            "categories": [
+                                "biolink:SmallMolecule"
+                            ]
+                        },
+                        "n1": {
+                            "categories": [
+                                "biolink:SmallMolecule"
+                            ]
+                        }
+                    },
+                    "edges": {
+                        "e00": {
+                            "subject": "n0",
+                            "object": "n1",
+                            "predicates": [
+                                "biolink:chemically_similar_to"
+                            ]
+                        }
+                    }
+                }
+            },
+            "submitter": "behave test"
+        }
+        """
+        then the size of "message.results" should be 110
