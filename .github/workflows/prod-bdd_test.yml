@@ -12,7 +12,7 @@ on:
 # Triggers the workflow on cron event but only for the Production (PROD) branch
   workflow_dispatch:
   schedule:
-   - cron: '00 12,13,14,15,16,17,18,19,00 * * *'   # from 12PM to midnight UTC
+   - cron: '00 12,13,14,15,16,17,18,19,20,21,22,23,00 * * *'   # from 12PM to midnight UTC
 
 jobs:
 # This workflow contains a multiple jobs to test each transformer
