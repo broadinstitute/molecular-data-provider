@@ -2,6 +2,7 @@
 def get_controls(**kwargs):
     controls = []
     for key, value in kwargs.items():
+        name = key.replace('___','-')
         name = key.replace('__',' ')
         if type(value) == list:
             for val in value:
