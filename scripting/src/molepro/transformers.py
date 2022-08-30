@@ -10,10 +10,10 @@ def pubchem_compound_list_producer(compound):
     return transform(transformer, collection_id, controls)
 
 
-def chembl_compound_list_producer(compounds):
+def chembl_compound_list_producer(compound):
     transformer = 'ChEMBL compound-list producer'
     collection_id = None
-    controls = get_controls(compounds=compounds)
+    controls = get_controls(compound=compound)
     return transform(transformer, collection_id, controls)
 
 
@@ -157,6 +157,13 @@ def drugbank_molecule_list_producer(compounds):
     return transform(transformer, collection_id, controls)
 
 
+def sider_drug_producer(drug):
+    transformer = 'SIDER drug producer'
+    collection_id = None
+    controls = get_controls(drug=drug)
+    return transform(transformer, collection_id, controls)
+
+
 def hgnc_gene_list_producer(genes):
     transformer = 'HGNC gene-list producer'
     collection_id = None
@@ -234,6 +241,20 @@ def repurposing_hub_indication_transformer(collection):
     return transform(transformer, collection_id, controls)
 
 
+def sider_indication_transformer(collection):
+    transformer = 'SIDER indication transformer'
+    collection_id = collection.id
+    controls = []
+    return transform(transformer, collection_id, controls)
+
+
+def sider_side_effect_transformer(collection):
+    transformer = 'SIDER side effect transformer'
+    collection_id = collection.id
+    controls = []
+    return transform(transformer, collection_id, controls)
+
+
 def drugbank_target_genes_transformer(collection):
     transformer = 'DrugBank target genes transformer'
     collection_id = collection.id
@@ -269,8 +290,8 @@ def pharos_target_genes_transformer(collection):
     return transform(transformer, collection_id, controls)
 
 
-def chembl_target_transformer(collection):
-    transformer = 'ChEMBL target transformer'
+def chembl_gene_target_transformer(collection):
+    transformer = 'ChEMBL gene target transformer'
     collection_id = collection.id
     controls = []
     return transform(transformer, collection_id, controls)
@@ -528,6 +549,20 @@ def hmdb_pathways_transformer(collection):
     return transform(transformer, collection_id, controls)
 
 
+def msigdb_genes_transformer(collection):
+    transformer = 'MSigDB genes transformer'
+    collection_id = collection.id
+    controls = []
+    return transform(transformer, collection_id, controls)
+
+
+def msigdb_pathways_transformer(collection):
+    transformer = 'MSigDB pathways transformer'
+    collection_id = collection.id
+    controls = []
+    return transform(transformer, collection_id, controls)
+
+
 def hmdb_locations_transformer(collection):
     transformer = 'HMDB locations transformer'
     collection_id = collection.id
@@ -535,8 +570,8 @@ def hmdb_locations_transformer(collection):
     return transform(transformer, collection_id, controls)
 
 
-def chembl_assay_transformer(collection):
-    transformer = 'ChEMBL assay transformer'
+def chembl_activities_transformer(collection):
+    transformer = 'ChEMBL activities transformer'
     collection_id = collection.id
     controls = []
     return transform(transformer, collection_id, controls)
@@ -546,13 +581,6 @@ def chembl_mechanism_transformer(collection):
     transformer = 'ChEMBL mechanism transformer'
     collection_id = collection.id
     controls = []
-    return transform(transformer, collection_id, controls)
-
-
-def msigdb_hypergeometric_enrichment_exporter(collection, maximum_p_value, maximum_q_value):
-    transformer = 'MSigDB hypergeometric enrichment exporter'
-    collection_id = collection.id
-    controls = get_controls(maximum__p___value=maximum_p_value, maximum__q___value=maximum_q_value)
     return transform(transformer, collection_id, controls)
 
 
@@ -663,7 +691,8 @@ def compound_producer(elements):
     x12 = bigg_compound_list_producer(elements)
     x13 = ctd_compound_list_producer(elements)
     x14 = probeminer_compound_list_producer(elements)
-    return union(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12,x13,x14)
+    x15 = sider_drug_producer(elements)
+    return union(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12,x13,x14,x15)
 
 
 def transform_compound_to_disease(collection):
@@ -673,13 +702,20 @@ def transform_compound_to_disease(collection):
     return union(x0,x1,x2)
 
 
+def transform_compound_to_DiseaseOrPhenotypicFeature(collection):
+    x0 = repurposing_hub_indication_transformer(collection)
+    x1 = sider_indication_transformer(collection)
+    x2 = sider_side_effect_transformer(collection)
+    return union(x0,x1,x2)
+
+
 def transform_compound_to_gene(collection, score_threshold, maximum_number):
     x0 = drugbank_target_genes_transformer(collection)
     x1 = drugbank_enzyme_genes_transformer(collection)
     x2 = drugbank_transporter_genes_transformer(collection)
     x3 = drugbank_carrier_genes_transformer(collection)
     x4 = pharos_target_genes_transformer(collection)
-    x5 = chembl_target_transformer(collection)
+    x5 = chembl_gene_target_transformer(collection)
     x6 = hmdb_target_genes_transformer(collection)
     x7 = repurposing_hub_target_transformer(collection)
     x8 = dgidb_target_transformer(collection)
