@@ -31,8 +31,10 @@ Feature: Check MolePro
     Scenario: Check PubChem producer
         Given the Molecular Data Provider
         when we call "Pubchem compound-list producer" transformer with the following parameters:
-        | compounds                 |
-        | aspirin; ibuprofen; ML210 |
+        | name     | value     |
+        | compound | aspirin   |
+        | compound | ibuprofen |
+        | compound | ML210     |
         then the length of the collection should be 3
         and the value of "element_class" should be "compound"
         and the value of "source" should be "Pubchem compound-list producer"
@@ -41,8 +43,10 @@ Feature: Check MolePro
     Scenario: Check CMAP compound-to-gene transformer
         Given the Molecular Data Provider
         when we call "Pubchem compound-list producer" transformer with the following parameters:
-        | compounds                 |
-        | aspirin; ibuprofen; ML210 |
+        | name     | value     |
+        | compound | aspirin   |
+        | compound | ibuprofen |
+        | compound | ML210     |
         and we call "CMAP compound-to-gene transformer" transformer with the following parameters:
         | score threshold | maximum number |
         | 99.5            | 0              |
@@ -54,10 +58,10 @@ Feature: Check MolePro
     Scenario: Check ChEMBL indications transformer
         Given the Molecular Data Provider
         when we call "Pubchem compound-list producer" transformer with the following parameters:
-        | compounds |
-        | aspirin   |
+        | compound |
+        | aspirin  |
         and we call "ChEMBL indication transformer" transformer with no parameters
-        then the length of the collection should be 108
+        then the length of the collection should be 142
         and the value of "element_class" should be "disease"
         and the value of "source" should be "ChEMBL indication transformer"
 
@@ -65,8 +69,8 @@ Feature: Check MolePro
     Scenario: Check ChEMBL compound-list producer
         Given the Molecular Data Provider
         when we call "ChEMBL compound-list producer" transformer with the following parameters:
-        | compounds |
-        | aspirin   |
+        | compound |
+        | aspirin  |
         and we call "CMAP compound-to-gene transformer" transformer with the following parameters:
         | score threshold | maximum number |
         | 99.5            | 0              |
@@ -78,9 +82,9 @@ Feature: Check MolePro
     Scenario: Check ChEMBL targets transformer
         Given the Molecular Data Provider
         when we call "ChEMBL compound-list producer" transformer with the following parameters:
-        | compounds |
-        | aspirin   |
-        and we call "ChEMBL target transformer" transformer with no parameters
+        | compound |
+        | aspirin  |
+        and we call "ChEMBL gene target transformer" transformer with no parameters
         and we call "CMAP gene-to-gene expander" transformer with the following parameters:
         | score threshold | maximum number |
         | 99.0            | 2              |
@@ -106,30 +110,16 @@ Feature: Check MolePro
     Scenario: Check CMAP compound-to-compound transformer
         Given the Molecular Data Provider
         when we call "Pubchem compound-list producer" transformer with the following parameters:
-        | compounds                 |
-        | aspirin; ibuprofen; ML210 |
+        | name     | value     |
+        | compound | aspirin   |
+        | compound | ibuprofen |
+        | compound | ML210     |
         and we call "CMAP compound-to-compound expander" transformer with the following parameters:
         | score threshold | maximum number |
         | 99.5            | 0              |
         then the length of the collection should be 60
         and the value of "element_class" should be "compound"
         and the value of "source" should be "CMAP compound-to-compound expander"
-
-
-#    Scenario: Check GeLiNEA
-#        Given the Molecular Data Provider
-#        when we call "DrugCentral indications transformer" transformer with the following parameters:
-#        | disease                 |
-#        | acute lymphoid leukemia |
-#        and we call "CMAP compound-to-gene transformer" transformer with the following parameters:
-#        | score threshold | maximum number |
-#        | 99              | 0              |
-#        and we call "Gene-list network enrichment analysis" transformer with the following parameters:
-#        | network          | gene-set collection    | maximum p-value |
-#        | STRING-human-700 | H - hallmark gene sets | 0.01            |
-#        then the length of the collection should be 3
-#        and the value of "element_class" should be "pathway"
-#        and the value of "source" should be "Gene-list network enrichment analysis"
 
 
     Scenario: Check STITCH transformer
