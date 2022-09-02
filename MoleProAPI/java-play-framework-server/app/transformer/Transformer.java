@@ -203,13 +203,14 @@ public abstract class Transformer {
 		}
 
 
-		public String getPropertyValue(String name) {
+		public List<String> getPropertyValue(String name) {
+			List<String> values = new ArrayList<String>();
 			for (Property property : controls) {
 				if (name.equals(property.getName())) {
-					return property.getValue();
+					values.add(property.getValue());
 				}
 			}
-			return null;
+			return values;
 		}
 
 

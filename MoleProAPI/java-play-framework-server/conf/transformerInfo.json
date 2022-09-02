@@ -32,9 +32,9 @@
                 "name": "genes",
                 "type": "string",
                 "required": true,
-                "multivalued": false,
+                "multivalued": true,
                 "example": "TP53",
-                "suggested_values": "semicolon-separated list of gene symbols"
+                "suggested_values": "list of gene symbols"
             }
         ],
         "required_attributes": []

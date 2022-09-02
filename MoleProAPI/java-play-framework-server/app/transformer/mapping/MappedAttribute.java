@@ -35,12 +35,6 @@ public class MappedAttribute extends Attribute {
 		this.setDescription(src.getDescription());
 		this.setProvidedBy(src.getProvidedBy());
 		this.setAttributes(map(src.getAttributes()));
-		//no sub-sub-attributes
-		if (this.getAttributes() != null && this.getAttributes().size() > 0) {
-			for (Attribute attr : this.getAttributes()) {
-				attr.setAttributes(null);
-			}
-		}
 	}
 
 
@@ -65,7 +59,12 @@ public class MappedAttribute extends Attribute {
 
 
 	private static String key(final String source, final String name, final String type) {
-		return "(" + source.toLowerCase() + ";" + name.toLowerCase() + ";" + type.toLowerCase() + ")";
+		return "(" + toLowerCase(source) + ";" + toLowerCase(name) + ";" + toLowerCase(type) + ")";
+	}
+
+
+	private static String toLowerCase(final String str) {
+		return (str == null) ? "" : str.toLowerCase();
 	}
 
 

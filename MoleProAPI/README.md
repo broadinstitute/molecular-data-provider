@@ -9,15 +9,15 @@ sbt universal:packageZipTarball
 
 ### Copy files to server
 ```
-copy molecular-data-provider-2.4.1.tgz to target folder
+copy molecular-data-provider-2.4.2.tgz to target folder
 cd target
 ```
 
 ### unpack MolePro
 
 ```
-gunzip molecular-data-provider-2.4.1.tgz
-tar xf molecular-data-provider-2.4.1.tar
+gunzip molecular-data-provider-2.4.2.tgz
+tar xf molecular-data-provider-2.4.2.tar
 ```
 
 ### start MolePro

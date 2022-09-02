@@ -145,11 +145,11 @@ public class Gene extends TransformerClass {
 
 
 		public CollectionsEntry transform(final Query query, final CollectionInfo collectionInfo) throws IOException, Exception {
-			String propertyValue = query.getPropertyValue("genes");
-			if (propertyValue == null) {
+			final List<String> propertyValues = query.getPropertyValue("genes");
+			if (propertyValues.size() == 0) {
 				throw new BadRequestException("required parameter 'genes' not specified");
 			}
-			final String[] geneIds = propertyValue.split(";");
+			final String[] geneIds = (propertyValues.size() == 1) ? propertyValues.get(0).split(";") : propertyValues.toArray(new String[0]);
 			GeneInfo[] genes = new GeneInfo[geneIds.length];
 			for (int i = 0; i < genes.length; i++) {
 				final String geneId = geneIds[i].trim();
