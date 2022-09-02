@@ -46,7 +46,7 @@ https://molepro-drugbank-transformer.test.transltr.io/drugbank/gene_transporters
 https://molepro-drugbank-transformer.test.transltr.io/drugbank/gene_carriers
 https://molepro-pharos-transformer.test.transltr.io/pharos/gene_targets
 https://molepro-chembl-transformer.test.transltr.io/chembl/targets
-https://molepro-hmdb-transformer.test.transltr.io/hmdb/targets
+https://molepro-hmdb-transformer.test.transltr.io/hmdb/gene_targets
 https://molepro-rephub-transformer.test.transltr.io/repurposing/targets
 https://molepro-dgidb-transformer.test.transltr.io/dgidb/targets
 https://molepro-gtopdb-transformer.test.transltr.io/gtopdb/targets
