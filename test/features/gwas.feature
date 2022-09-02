@@ -47,7 +47,7 @@ Feature: Check GWAS transformer
             ]
         }
         """
-        then the size of the response is 29
+        then the size of the response is 33
         and the response contains the following entries in "source"
             | source |
             | GWAS   |
