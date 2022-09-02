@@ -18,8 +18,11 @@ Feature: Check MolePro
     Scenario: Check HGNC producer
         Given the Molecular Data Provider
         when we call "HGNC gene-list producer" transformer with the following parameters:
-        | genes                 |
-        | GPX4;NCBIgene:6790;HGNC:2243;ENSEMBL:ENSG00000183044 |
+        | name  | value                   |
+        | genes | GPX4                    |
+        | genes | NCBIgene:6790           |
+        | genes | HGNC:2243               |
+        | genes | ENSEMBL:ENSG00000183044 |
         then the length of the collection should be 4
         and the value of "element_class" should be "gene"
         and the value of "source" should be "HGNC gene-list producer"
@@ -27,6 +30,7 @@ Feature: Check MolePro
         and the value of "elements[1].id" should be "HGNC:11393"
         and the value of "elements[2].identifiers.entrez" should be "NCBIGene:22818"
         and the value of "elements[3].id" should be "HGNC:23"
+
 
     Scenario: Check PubChem producer
         Given the Molecular Data Provider
