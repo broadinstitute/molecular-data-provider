@@ -44,6 +44,18 @@ Feature: Check Drugbank transformer
         and the size of "parameters" should be 0
 
 
+    Scenario: Check DrugBank inhibitors transformer info
+        Given the transformer
+        when we fire "/inhibitors/transformer_info" query
+        then the value of "name" should be "DrugBank inhibitors transformer"
+        and the value of "function" should be "transformer"
+        and the value of "knowledge_map.input_class" should be "gene"
+        and the value of "knowledge_map.output_class" should be "compound"
+        and the value of "version" should be "2.4.1"
+        and the value of "properties.source_version" should be "5.1.8 (2021-01-03)"
+        and the size of "parameters" should be 0
+
+
     Scenario: Check DrugBank compound-list producer
         Given the transformer
         when we fire "/compounds/transform" query with the following body:
@@ -192,3 +204,50 @@ Feature: Check Drugbank transformer
         """
         then the size of the response is 28
 
+
+    Scenario: Check DrugBank inhibitors transformer
+        Given the transformer
+        when we fire "/inhibitors/transform" query with the following body:
+        """
+        {
+            "controls": [],
+            "collection": [
+                {
+                    "id": "HGNC:384",
+                    "biolink_class":"Gene",
+                    "provided_by":"test",
+                    "source":"test",
+                    "identifiers": {
+                        "hgnc": "HGNC:384"
+                    }
+                }
+            ]
+        }
+        """
+        then the size of the response is 8
+        and the response contains the following entries in "id"
+            | id               |
+            | DrugBank:DB00157 |
+            | DrugBank:DB00936 |
+            | DrugBank:DB00945 |
+            | DrugBank:DB03461 |
+            | DrugBank:DB03467 |
+            | DrugBank:DB04674 |
+            | DrugBank:DB07768 |
+            | DrugBank:DB07931 |
+        and the response only contains the following entries in "id"
+            | id               |
+            | DrugBank:DB00157 |
+            | DrugBank:DB00936 |
+            | DrugBank:DB00945 |
+            | DrugBank:DB03461 |
+            | DrugBank:DB03467 |
+            | DrugBank:DB04674 |
+            | DrugBank:DB07768 |
+            | DrugBank:DB07931 |
+        and the response contains the following entries in "source_element_id" of "connections" array
+            | source_element_id |
+            | HGNC:384          |
+        and the response only contains the following entries in "source_element_id" of "connections" array
+            | source_element_id |
+            | HGNC:384          |
