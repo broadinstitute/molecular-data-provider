@@ -4,7 +4,7 @@ Feature: Check GWAS transformer
         Given a transformer at "https://molepro-gwas-transformer.test.transltr.io/gwas"
 
 
-    Scenario: Check links transformer info
+    Scenario: Check GWAS diseases transformer info
         Given the transformer
         when we fire "/diseases/transformer_info" query
         then the value of "name" should be "GWAS gene to disease transformer"
@@ -16,7 +16,7 @@ Feature: Check GWAS transformer
         and the size of "parameters" should be 0
 
 
-    Scenario: Check RxNorm molecules producer info
+    Scenario: Check GWAS genes transformer info
         Given the transformer
         when we fire "/genes/transformer_info" query
         then the value of "name" should be "GWAS disease to gene transformer"
@@ -28,7 +28,7 @@ Feature: Check GWAS transformer
         and the size of "parameters" should be 0
 
 
-    Scenario: Check STRING links transformer
+    Scenario: Check GWAS diseases transformer
         Given the transformer
         when we fire "/diseases/transform" query with the following body:
         """
@@ -86,7 +86,7 @@ Feature: Check GWAS transformer
             | GWAS gene to disease transformer |
 
 
-    Scenario: Check STRING links transformer with empty input list
+    Scenario: Check GWAS diseases transformer with empty input list
         Given the transformer
         when we fire "/diseases/transform" query with the following body:
         """
@@ -98,7 +98,7 @@ Feature: Check GWAS transformer
         then the size of the response is 0
 
 
-    Scenario: Check STRING links transformer
+    Scenario: Check GWAS genes transformer
         Given the transformer
         when we fire "/genes/transform" query with the following body:
         """
@@ -156,7 +156,7 @@ Feature: Check GWAS transformer
             | GWAS disease to gene transformer |
 
 
-    Scenario: Check STRING links transformer with empty input list
+    Scenario: Check GWAS genes transformer with empty input list
         Given the transformer
         when we fire "/genes/transform" query with the following body:
         """

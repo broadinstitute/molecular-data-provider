@@ -191,4 +191,3 @@ Feature: Check Drugbank transformer
         }
         """
         then the size of the response is 28
-
