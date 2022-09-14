@@ -1,37 +1,37 @@
 {
-    "url": "https://translator.broadinstitute.org/molepro/trapi/v1.2",
+    "url": "https://translator.broadinstitute.org/molepro/trapi/v1.3",
     "TRAPI": true,
     "edges": [
         {
-            "subject_category": "biolink:ChemicalSubstance",
+            "subject_category": "biolink:SmallMolecule",
             "object_category": "biolink:Disease",
             "predicate": "biolink:treats",
             "subject": "CHEBI:3002",
             "object": "MESH:D001249"
         },
         {
-            "subject_category": "biolink:ChemicalSubstance",
-            "object_category": "biolink:ChemicalSubstance",
+            "subject_category": "biolink:SmallMolecule",
+            "object_category": "biolink:SmallMolecule",
             "predicate": "biolink:has_metabolite",
             "subject": "CHEBI:16914",
             "object": "CHEMBL.COMPOUND:CHEMBL3544526"
         },
         {
-            "subject_category": "biolink:ChemicalSubstance",
+            "subject_category": "biolink:SmallMolecule",
             "object_category": "biolink:Assay",
             "predicate": "biolink:has_evidence",
             "subject": "CHEBI:52717",
             "object": "CHEMBL.ASSAY:CHEMBL768300"
         },
         {
-            "subject_category": "biolink:ChemicalSubstance",
-            "object_category": "biolink:ChemicalSubstance",
+            "subject_category": "biolink:SmallMolecule",
+            "object_category": "biolink:SmallMolecule",
             "predicate": "biolink:correlated_with",
             "subject": "CHEBI:52717",
             "object": "CHEBI:90942"
         },
         {
-            "subject_category": "biolink:ChemicalSubstance",
+            "subject_category": "biolink:SmallMolecule",
             "object_category": "biolink:Disease",
             "predicate": "biolink:related_to",
             "subject": "CHEBI:4167",
@@ -39,7 +39,7 @@
         },
         {
             "subject_category": "biolink:Disease",
-            "object_category": "biolink:ChemicalSubstance",
+            "object_category": "biolink:SmallMolecule",
             "predicate": "biolink:treated_by",
             "subject": "MONDO:0004981",
             "object": "CHEBI:4551"
