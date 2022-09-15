@@ -1,0 +1,32 @@
+# This workflow will install Python dependencies, run tests and lint with a single version of Python
+# This workflow was programmed to:
+#   1. be triggered manually (on: workflow_dispatch:), see https://docs.github.com/en/actions/managing-workflow-runs/manually-running-a-workflow
+#   2. be triggered by cron scheduling (on: schedule:) to run at midnight UTC
+#
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
+
+name: Daily ITRB Production Translator testing
+
+# Controls when the workflow will run
+on:
+# Triggers the workflow on cron event but only for the Production (PROD) branch
+  workflow_dispatch:
+  schedule:
+   - cron: '30 11,12,13,14,15,16,17,18,19,20,21,22,23,00,01,02,03,04,05,06,07,08,09,10 * * *'   # hourly test (from 11AM to 10AM UTC)
+
+jobs:
+# This workflow contains one job to test MolePro TRAPI
+          
+  trapi:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-prod } 
+    
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/trapi.feature
+
