@@ -12,8 +12,8 @@ on:
 # Triggers the workflow on cron event but only for the CI branch
   workflow_dispatch:
   schedule:
-   - cron: '00 00 * * *'   # midnight UTC
-
+#   - cron: '00 00 * * *'   # midnight UTC
+    - cron: '20 08 * * *'   # 8:20AM UTC
 jobs:
 # This workflow contains a multiple jobs to test each transformer
 
