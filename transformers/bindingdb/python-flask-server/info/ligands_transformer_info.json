@@ -1,0 +1,38 @@
+{
+    "name": "BindingBD ligand producer",
+    "label": "BindingBD",
+    "description": "compound-list producer based on BindingBD data",
+    "version": "2.4.0",
+    "function": "producer",
+    "knowledge_map": {
+        "input_class": "none",
+        "output_class": "compound",
+        "nodes": {
+            "SmallMolecule": {
+                "id_prefixes": [
+                    "bindingdb",
+                    "inchikey",
+                    "CID"
+                ],
+                "count": -1,
+                "attributes": []
+            }
+        },
+        "edges": []
+    },
+    "properties": {
+        "source_url": "https://www.bindingdb.org",
+        "source_version": "2022m8 (2022-09-01)",
+        "terms_of_service": "https://www.bindingdb.org/rwd/bind/aboutus.jsp"
+    },
+    "parameters": [
+        {
+            "example": "aspirin",
+            "name": "ligand",
+            "type": "string",
+            "required": true,
+            "multivalued": true,
+            "suggested_values": "ligand name, identifier, or InChIKey"
+        }
+    ]
+}

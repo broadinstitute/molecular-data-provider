@@ -1,0 +1,52 @@
+{
+    "name": "BindingBD binding transformer",
+    "label": "BindingBD",
+    "description": "binding transformer based on BindingBD data",
+    "version": "2.4.0",
+    "function": "transformer",
+    "knowledge_map": {
+        "input_class": "compound",
+        "output_class": "target",
+        "nodes": {
+            "SmallMolecule": {
+                "id_prefixes": [
+                    "BINDINGDB",
+                    "inchikey",
+                    "CID"
+                ],
+                "count": -1,
+                "attributes": []
+            },
+            "Protein": {
+                "id_prefixes": [
+                    "UniProtKB"
+                ],
+                "count": -1,
+                "attributes": []
+            },
+            "MacromolecularComplex": {
+                "id_prefixes": [
+                    "UniProtKB"
+                ],
+                "count": -1,
+                "attributes": []
+            }
+        },
+        "edges": []
+    },
+    "properties": {
+        "source_url": "https://www.bindingdb.org",
+        "source_version": "2022m8 (2022-09-01)",
+        "terms_of_service": "https://www.bindingdb.org/rwd/bind/aboutus.jsp"
+    },
+    "parameters": [
+        {
+            "default": "10000",
+            "name": "threshold_nm",
+            "type": "double",
+            "required": false,
+            "multivalued": false,
+            "suggested_values": "activity threshold in nm"
+        }
+    ]
+}
