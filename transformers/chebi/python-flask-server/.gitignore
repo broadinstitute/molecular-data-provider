@@ -64,4 +64,4 @@ target/
 .ipynb_checkpoints
 
 # data files
-ChEBI.sqlite
+data/
