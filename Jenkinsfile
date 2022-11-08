@@ -13,7 +13,7 @@ pipeline {
         string(name: 'KUBERNETES_CLUSTER_NAME', defaultValue: 'translator-eks-ci-blue-cluster', description: 'AWS EKS that will host this application')
     }
     environment {
-        TRANSFORMERS = "bindingbd"
+        TRANSFORMERS = "bindingdb"
     }    
     triggers {
         pollSCM('H/2 * * * *')
@@ -94,7 +94,7 @@ pipeline {
                             sh '''
                             aws --region ${AWS_REGION} eks update-kubeconfig --name ${KUBERNETES_CLUSTER_NAME}
                             cp -R translator-ops/ops/molepro/deploy/* translator-ops/ops/molepro/helm/                           
-                            cp -R translator-ops/ops/molepro/config/transformers/molepro-bindingbd.yaml translator-ops/ops/molepro/helm/
+                            cp -R translator-ops/ops/molepro/config/transformers/molepro-bindingdb.yaml translator-ops/ops/molepro/helm/
                             cd translator-ops/ops/molepro/helm/
                             /bin/bash deploy.sh
                             '''
