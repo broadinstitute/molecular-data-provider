@@ -1,17 +1,13 @@
 import sqlite3
 import re
+import csv
 from collections import defaultdict
 
 from transformers.transformer import Transformer
-from openapi_server.models.element import Element
-from openapi_server.models.names import Names
-from openapi_server.models.connection import Connection
-from openapi_server.models.attribute import Attribute
 
 SOURCE = 'ChEMBL'
 
 # CURIE prefix
-ENSEMBL = 'ENSEMBL:'
 CHEMBL = 'ChEMBL:'
 MESH = 'MESH:'
 
@@ -20,15 +16,15 @@ DOC_URL = 'https://www.ebi.ac.uk/chembl/document_report_card/'
 #Biolink class
 ASSAY = 'Assay'
 CHEMICAL_SUBSTANCE = 'ChemicalSubstance'
-DISEASE = 'Disease'
-GENE = 'Gene'
-MOLECULAR_ENTITY = 'MolecularEntity'
+# DISEASE = 'Disease'
+# GENE = 'Gene'
+# MOLECULAR_ENTITY = 'MolecularEntity'
 
 inchikey_regex = re.compile('[A-Z]{14}-[A-Z]{10}-[A-Z]')
 
 class ChemblProducer(Transformer):
 
-    variables = ['compounds']
+    variables = ['compound']
 
     def __init__(self):
         super().__init__(self.variables, definition_file='info/molecules_transformer_info.json')
@@ -36,11 +32,15 @@ class ChemblProducer(Transformer):
 
     def produce(self, controls):
         compound_list = []
-        names = controls['compounds'].split(';')
+        names = controls['compound']
+   #    disable the following because the compounds will be submitted as a list
+   #    and because there can be ';' in compound names
+   #     if len(names) == 1 and ';' in names[0]:
+   #         names  = names[0].split(';')
         for name in names:
             name = name.strip()
             for compound in self.find_compound(name):
-                compound.attributes.append(Attribute(name='query name', value=name,source=SOURCE,provided_by=self.info.name))
+                compound.attributes.append(self.Attribute(name='query name', value=name, type=None, value_type = None))
                 compound_list.append(compound)
         return compound_list
 
@@ -70,24 +70,27 @@ class ChemblProducer(Transformer):
 
 
     def row_to_element(self, row):
-        id = CHEMBL + row['chembl_id']
+        id = self.add_prefix('chembl', row['chembl_id'])
         identifiers = {
             'chembl': id,
             'smiles':  row['canonical_smiles'],
             'inchi': row['standard_inchi'],
             'inchikey': row['standard_inchi_key'],
         }
-        element = Element(
+
+        biolink = None
+        if row['molecule_type'] is not None:
+            biolink = row['molecule_type']
+        else:
+            biolink = 'SmallMolecule' if row['standard_inchi_key'] is not None else 'ChemicalEntity'
+
+        element = self.Element(
             id=id,
-            biolink_class=CHEMICAL_SUBSTANCE,
+            biolink_class=self.biolink_class(biolink),
             identifiers=identifiers,
-            names_synonyms=self.get_names_synonyms(row['chembl_id'],row['pref_name'],row['molregno']),
-            attributes = [],
-            connections=[],
-            source=self.info.name
+            names_synonyms=self.get_names_synonyms(row[ 'chembl_id'],row['pref_name'],row['molregno']),
+            attributes = []
         )
-        if row['standard_inchi_key'] is not None:
-            element.attributes.append(Attribute(name='structure source', value=SOURCE,source=SOURCE,provided_by=self.info.name))
         self.add_attributes(element, row)
         return element
 
@@ -104,20 +107,18 @@ class ChemblProducer(Transformer):
                 synonyms[molecule_synonym['syn_type']].append(molecule_synonym['synonyms'])
         names_synonyms = []
         names_synonyms.append(
-            Names(
+            self.Names(
                 name =pref_name,
-                source = SOURCE,
-                synonyms = synonyms['ChEMBL'],
-                url = 'https://www.ebi.ac.uk/chembl/compound_report_card/'+id
-            )
+                synonyms = synonyms['ChEMBL']
+            ) 
         ),
         for syn_type, syn_list in synonyms.items():
             if syn_type != 'ChEMBL':
                 names_synonyms.append(
-                    Names(
+                    self.Names(
                         name = syn_list[0] if len(syn_list) == 1 else  None,
                         synonyms = syn_list if len(syn_list) > 1 else  None,
-                        source = syn_type+'@ChEMBL',
+                        type = syn_type
                     )
                 )
         return names_synonyms
@@ -126,115 +127,179 @@ class ChemblProducer(Transformer):
     def add_attributes(self, element, row):
         str_attr = [
             'max_phase','molecule_type','first_approval','usan_year',
-            'usan_stem','usan_substem','usan_stem_definition','indication_class',
-            'withdrawn_year','withdrawn_country','withdrawn_reason','withdrawn_class']
+            'usan_stem','usan_substem','usan_stem_definition','indication_class']
         flag_attr = [
             'therapeutic_flag','dosed_ingredient','oral','parenteral','topical','black_box_warning',
             'natural_product','first_in_class','prodrug','inorganic_flag','polymer_flag','withdrawn_flag']
         chirality = {0:'racemic mixture',1:'single stereoisomer',2:'achiral molecule'}
         availability_type = {0: 'discontinued', 1: 'prescription only', 2: 'over the counter'}
         for attr_name in str_attr:
-            add_attribute(self, element, row, attr_name)
+            # (self, transformer, element, row, name)
+            add_attribute(self, None, element, row, attr_name)
         for attr_name in flag_attr:
             if row[attr_name] is not None and row[attr_name] > 0:
-                attr = add_attribute(self, element, row, attr_name)
+                attr = add_attribute(self, None, element, row, attr_name)
                 attr.value = 'yes'
         if row['chirality'] in chirality:
-            attr = add_attribute(self, element, row, 'chirality')
+            attr = add_attribute(self, None, element, row, 'chirality')
             attr.value = chirality[row['chirality']]
         if row['availability_type'] is not None and row['availability_type'] in availability_type:
-            attr = add_attribute(self, element, row, 'availability_type')
+            attr = add_attribute(self, None, element, row, 'availability_type')
             attr.value = availability_type[row['availability_type']]
+        self.add_atc_classification(element, row["molregno"])
+        self.add_drug_warning(element, row["molregno"])
 
 
-class ChemblTargetTransformer(Transformer):
+    def add_atc_classification(self, element, molregno):
+        for atc in get_atc_classification(molregno):
+            value  = atc['level1']+'-'+atc['level1_description']+'|'
+            value += atc['level2']+'-'+atc['level2_description']+'|'
+            value += atc['level3']+'-'+atc['level3_description']+'|'
+            value += atc['level4']+'-'+atc['level4_description']+'|'
+            value += atc['level5']+'-'+atc['level5_description']
+            element.attributes.append(
+                self.Attribute(
+                    name='atc_classification',
+                    value=value,
+                    type='atc_classification',
+                    url=None
+                )
+            )
 
-    variables = []
+    def add_drug_warning(self, element, molregno):
+        for warning in get_drug_warning(molregno):
+            sub_attributes = []
+       
+            if warning['withdrawn_year'] is not None:
+                sub_attributes.append(self.Attribute(
+                    name='withdrawn_year', 
+                    value=warning["withdrawn_year"],
+                    type='withdrawn_year', url=None)
+                )
+            if warning['withdrawn_country'] is not None:
+                sub_attributes.append(self.Attribute(
+                    name='warning_country', 
+                    value=warning["warning_country"],
+                    type='warning_country', url=None)
+                )
+            if warning['withdrawn_reason'] is not None:
+                sub_attributes.append(self.Attribute(
+                    name='withdrawn_reason',
+                    value=warning["withdrawn_reason"],
+                    type='withdrawn_reason', url=None)
+                )
+            if warning['withdrawn_class'] is not None:
+                sub_attributes.append(self.Attribute(
+                    name='withdrawn_class',
+                    value=warning["withdrawn_class"],
+                    type='withdrawn_class', url=None)
+                )
+            if warning["warning_type"] is not None:
+                sub_attributes.append(self.Attribute(
+                    name='warning_type',
+                    value=warning["warning_type"],
+                    type='warning_type', url=None)
+                )
+            if warning['warning_class'] is not None:
+                sub_attributes.append(self.Attribute(
+                    name='warning_class',
+                    value=warning["warning_class"],
+                    type='warning_class', url=None)
+                )
+            if warning['warning_description'] is not None:
+                sub_attributes.append(self.Attribute(
+                    name='drug_warning_description',
+                    value=warning["warning_description"],
+                    type='drug_warning_description', url=None)
+                )
+            if warning['warning_country'] is not None:
+                sub_attributes.append(self.Attribute(
+                    name='warning_country',
+                    value=warning["warning_country"],
+                    type='warning_country', url=None)
+                )
+            if warning['warning_year'] is not None:
+                sub_attributes.append(self.Attribute(
+                    name='warning_year',
+                    value=warning["warning_year"],
+                    type='warning_year', url=None)
+                )
+            if warning['warning_type'] is not None:
+                drug_warning_attribute = self.Attribute(
+                    name='drug_warning',
+                    value=warning["warning_type"],
+                    type='drug_warning', url=None,
+                    attributes=sub_attributes
+                )
 
-    def __init__(self):
-        super().__init__(self.variables, definition_file='info/targets_transformer_info.json')
+            self.add_warning_references(sub_attributes, warning["warning_id"])
 
+            element.attributes.append(
+                    drug_warning_attribute
+            )
 
-    def map(self, collection, controls):
-        gene_list = []
-        genes = {}
-        for compound in collection:
-            targets = self.get_targets(compound)
-            for target in targets:
-                gene_id = ENSEMBL+target['gene_id']
-                gene = genes.get(gene_id)
-                if gene is None:
-                    gene = Element(
-                        id=gene_id,
-                        biolink_class=GENE,
-                        identifiers = {'ensembl':[gene_id]},
-                        connections=[],
-                        attributes = [],
-                        source = self.info.name
+    def add_warning_references(self, sub_attributes, warning_id):
+                for reference in get_warning_references(warning_id):
+                    sub_attributes.append(self.Attribute(
+                        name='warning_reference',
+                        value=reference["ref_id"],
+                        type=reference["ref_type"], url=reference["ref_url"])
                     )
-                    gene_list.append(gene)
-                    genes[gene_id] = gene
-                gene.connections.append(target['connection'])
-        return gene_list
 
 
-    def get_targets(self, compound):
-        target_list = []
-        id = chembl_id(compound.identifiers)
-        if id is not None:
-            for target in get_targets(id):
-                connection = self.create_connection(compound, target)
-                for gene_id in target_xref(target['component_id']):
-                    target_list.append({'gene_id':gene_id, 'connection': connection})
-        return target_list
 
-
-    def create_connection(self, compound, target):
-        connection = Connection(
-            source_element_id=compound.id,
-            type = self.info.knowledge_map.predicates[0].predicate,
-            attributes=[]
-        )
-        add_attribute(self, connection, target, 'action_type')
-        add_attribute(self, connection, target,'mechanism_of_action')
-        add_references(self, connection, 'mechanism_refs', 'mec_id', target['mec_id'])
-        return connection
-
-
-class ChemblIndicationsExporter(Transformer):
+class ChemblIndicationsTransformer(Transformer):
 
     variables = []
 
     def __init__(self):
         super().__init__(self.variables, definition_file='info/indications_transformer_info.json')
 
-
-    def export(self, collection, controls):
+    def map(self, collection, controls):
         indication_list = []
         indications = {}
         for element in collection:
-            id = chembl_id(element.identifiers)
+            identifiers = element.identifiers
+            if 'chembl' in identifiers and identifiers['chembl'] is not None:
+                curie = identifiers['chembl']
+                if curie is not None:
+                    id = self.de_prefix('chembl', identifiers['chembl'])
+            elif 'inchikey' in identifiers and identifiers['inchikey'] is not None:
+                for compound in get_compound_by_inchikey(identifiers['inchikey']):
+                    id = compound['chembl_id']
             if id is not None:
                 for row in get_indications(id):
                     indication = self.get_or_create_indication(row, indications, indication_list)
                     self.add_identifiers_names(indication, row)
-                    self.add_connection(id, indication, row)
+                    self.add_connection(element.id, id, indication, row)
         return indication_list
 
-
-    def get_or_create_indication(self, row, indications, indication_list):
+    #########################################################
+    #
+    # This method either retrieves an existing indication or
+    # produces a whole new indication
+    #
+    #########################################################
+    def get_or_create_indication(self, row, indications, indication_list):  
         mesh_id = MESH+row['mesh_id']
         efo_id = row['efo_id']
         if mesh_id is not None and mesh_id in indications:
-            return indications[mesh_id]
+           return indications[mesh_id]        # retrieved an existing indication
         if efo_id is not None and efo_id in indications:
-            return indications[efo_id]
+           return indications[efo_id]         # retrieved an existing indication
         id = mesh_id if mesh_id is not None else efo_id
-        names = Names(name = row['mesh_heading'],synonyms=[],source=SOURCE)
-        indication = Element(id=id, biolink_class=DISEASE,connections=[])
+        names = self.Names(name = row['mesh_heading'],synonyms=[])
+    
+        indication = self.Element(            # create a whole new indication
+                id=id,
+                biolink_class= 'DiseaseOrPhenotypicFeature',
+                identifiers={'efo':[]},
+                attributes=[]
+            )
+
         indication.identifiers={'efo':[]}
         indication.names_synonyms=[names]
-        indication.source = self.info.name
+        indication.source = self.info.label
         if mesh_id is not None:
             indications[mesh_id] = indication
             indication.identifiers['mesh'] = mesh_id
@@ -242,7 +307,6 @@ class ChemblIndicationsExporter(Transformer):
             indications[efo_id] = indication
         indication_list.append(indication)
         return indication
-
 
     def add_identifiers_names(self, indication, row):
         mesh_id = MESH+row['mesh_id']
@@ -255,215 +319,611 @@ class ChemblIndicationsExporter(Transformer):
         if efo_term not in indication.names_synonyms[0].synonyms:
             indication.names_synonyms[0].synonyms.append(efo_term)
 
-
-    def add_connection(self, chembl_id, indication, row):
-        curie = CHEMBL+chembl_id
+    def add_connection(self, source_element_id, chembl_id, indication, row):
         connection = None
         for c in indication.connections:
-            if c.source_element_id == curie:
+            if c.source_element_id == source_element_id:
                 connection = c
         if connection is None:
-            connection = Connection(source_element_id=curie, attributes=[])
-            connection.type = self.info.knowledge_map.predicates[0].predicate
+            infores = self.Attribute('biolink:primary_knowledge_source','infores:chembl')
+            infores.attribute_source = 'infores:molepro'
+            connection = self.Connection(
+                source_element_id=source_element_id, 
+                predicate=self.PREDICATE,
+                inv_predicate=self.INVERSE_PREDICATE,
+                attributes=[infores]
+            )
             indication.connections.append(connection)
         max_phase = row['max_phase_for_ind']
         max_phase_attr = None
         for attr in connection.attributes:
-            if attr.name == 'max phase for indication':
+            if attr.original_attribute_name	 == 'max phase for indication':
                 max_phase_attr = attr
                 break
         if max_phase_attr is None:
-            max_phase_attr = Attribute(
+            max_phase_attr = self.Attribute(
                 name='max phase for indication',
                 value=max_phase,
-                type='OPMI:0000367',# clinical trial phase
-                source=SOURCE,
-                url=None,
-                provided_by=self.info.name
+                type='biolink:FDA_APPROVAL_STATUS',  # clinical trial phase
+                url=None
             )
             connection.attributes.append(max_phase_attr)
         elif max_phase > max_phase_attr.value:
             max_phase_attr.value = max_phase
-        connection.attributes.append(Attribute(
+        connection.attributes.append(self.Attribute(
             name=row['ref_type'],
-            value=row['ref_id'],
-            type='reference',
-            source=SOURCE,
-            url=row['ref_url'],
-            provided_by=self.info.name
+            value='ATC:' + row['ref_id'] if row['ref_type'] == 'ATC' else row['ref_id'],
+            type='biolink:publication',
+            url=row['ref_url']
         ))
 
 
-
-class ChemblAssayExporter(Transformer):
-
+##############################################################################
+## This was formerly class ChemblAssayExporter 
+##
+## The query provides to transformer a compound that is used in an assay to 
+## assess the activity on a target
+##
+##
+class ChemblActivitiesTransformer(Transformer):
+    target_class_dict = None   # Dictionary of ChEMBL target type to MolePro class
     variables = []
 
     def __init__(self):
-        super().__init__(self.variables, definition_file='info/assays_transformer_info.json')
+        super().__init__(self.variables, definition_file='info/activities_transformer_info.json')
+        self.target_class_dict = self.get_target_class_dict()
 
+    ##########################################################################
+    # This function reads & converts into a dictionary where the columns are:
+    # target_type	|	molepro_semantic_type
+    def get_target_class_dict(self):
+            classDict = {}
+            tsv_file = open("info/chembl_molepro_map.txt")
+            for line in csv.DictReader(tsv_file, delimiter="\t"):
+                classDict[line['target_type']] = line['molepro_semantic_type']
+            return classDict
 
-    def export(self, collection, controls):
-        assay_list = []
-        assays = {}
+    def map(self, collection, controls):
+        target_list = []
+        targets = {}
         for element in collection:
-            id = chembl_id(element.identifiers)
+            identifiers = element.identifiers
+            if 'chembl' in identifiers and identifiers['chembl'] is not None:
+                curie = identifiers['chembl']
+                if curie is not None:
+                    id = self.de_prefix('chembl', identifiers['chembl'])
+            elif 'inchikey' in identifiers and identifiers['inchikey'] is not None:
+                for compound in get_compound_by_inchikey(identifiers['inchikey']):
+                    id = compound['chembl_id']
             if id is not None:
                 for row in get_activities(id):
-                    assay = self.get_or_create_assay(row, assays, assay_list)
-                    self.add_connection(id, assay, row)
-        return assay_list
+                    if row['target_type'] not in ('UNCHECKED', 'NON-MOLECULAR','NO TARGET'):
+                        target = self.get_or_create_target(row, targets, target_list)
+                        self.add_connection(element.id, self.add_prefix('chembl', id), target, row)
+                       
+        return target_list
 
-
-    def get_or_create_assay(self, row, assays, assay_list):
-        assay_id = CHEMBL + row['assay_chembl_id']
-        if assay_id in assays:
-            return assays[assay_id]
-        names = Names(
-            name = row['assay_description'] if row['assay_description'] is not None else assay_id,
-            synonyms = [],
-            source = SOURCE
+    def get_or_create_target(self, row, targets, assay_list):
+        target_id = self.add_prefix('chembl', row['target_chembl_id'])
+        if target_id in targets:
+            return targets[target_id]
+        biolink_class = self.target_class_dict.get(row['target_type'], row['target_type'])
+        names = self.Names(
+            name = row['cell_name'] if biolink_class == 'CellLine' else row['target_name'],
+            synonyms = []
         )
+        identifier_dict = {'chembl':target_id}
+        if row['clo_id'] is not None and biolink_class in ['Cell','CellLine']:
+            identifier_dict["clo"] = self.add_prefix('clo', row['clo_id'], 'Cell')
+        if row['efo_id'] is not None and biolink_class in ['Cell','CellLine']:
+            identifier_dict["efo"] = self.add_prefix('efo', row['efo_id'], 'Cell')
+        if row['cellosaurus_id'] is not None and biolink_class in ['Cell','CellLine']:
+            identifier_dict["cellosaurus"] = self.add_prefix('cellosaurus', row['cellosaurus_id'], 'Cell')
+        if row['cl_lincs_id'] is not None and biolink_class in ['Cell','CellLine']: 
+            identifier_dict["lincs"] = self.add_prefix('lincs', row['cl_lincs_id'], 'Cell')
+        if row['cell_ontology_id'] is not None and biolink_class in ['Cell','CellLine']: 
+            identifier_dict["cell_ontology"] = self.add_prefix('cell_ontology', row['cell_ontology_id'], 'Cell')
+        if row['assay_tax_id'] is not None and biolink_class in ['Organism']:
+            identifier_dict["ncbi_taxon"] = self.add_prefix('ncbi_taxon', row['assay_tax_id'],'OrganismEntity')
+        target = self.Element(            # create a whole new target
+                id=target_id,
+                biolink_class=self.target_class_dict.get(row['target_type'], row['target_type']),
+                identifiers= identifier_dict,
+                attributes=[]
+            )
+        if biolink_class in ['Protein'] and row['component_type'] == 'PROTEIN' and row['accession'] is not None:
+            target.identifiers['uniprot'] = self.add_prefix('uniprot', row['accession'], 'protein')       # add uniprot id
+        
+        target.names_synonyms=[names]
+        target_organism_attribute = add_attribute(self,None,target,row,'target_organism')
+        if target_organism_attribute is not None:
+            target_organism_attribute.description = row['cell_source_organism']            
+        add_attribute(self,None,target,row,'cell_description')
+        add_attribute(self,None,target,row,'cell_source_tissue')
+        cell_source_attribute = add_attribute(self,None,target,row,'cell_source_tax_id')
+        add_attribute(self,None,target,row,'target_mapping')
+        add_attribute(self,None,target,row,'assay_tissue_name')
+        add_attribute(self,None,target,row,'assay_subcellular_fraction')
+        targets[target_id] = target
+        assay_list.append(target)
+        return target
 
-        assay = Element(
-            id=assay_id,
-            biolink_class=ASSAY,
-            identifiers = {'chembl':assay_id},
-            names_synonyms=[names],
-            connections=[],
-            attributes=[]
-        )
-        add_attribute(self,assay,row,'BAO_label')
-        add_attribute(self,assay,row,'assay_organism')
-        add_attribute(self,assay,row,'target_chembl_id')
-        add_attribute(self,assay,row,'target_name')
-        add_attribute(self,assay,row,'target_organism')
-        add_attribute(self,assay,row,'target_type')
-        add_attribute(self,assay,row,'cell_chembl_id')
-        add_attribute(self,assay,row,'assay_type')
-        add_attribute(self,assay,row,'bao_format')
-        add_attribute(self,assay,row,'assay_tissue_chembl_id')
-        add_attribute(self,assay,row,'assay_tissue_name')
-        add_attribute(self,assay,row,'assay_cell_type')
-        add_attribute(self,assay,row,'assay_subcellular_fraction')
-        assays[assay_id] = assay
-        assay_list.append(assay)
-        return assay
+    def add_connection(self,source_element_id, id, target, row):
+        connection = None
+        source_element_id = source_element_id
+        #source_element_id = CHEMBL+id
+        for c in target.connections:
+            if c.source_element_id == source_element_id:
 
+            #   connection = c
+                return  # do not add to connections the same source_element_id
+        if connection is None:
+            infores = self.Attribute('biolink:primary_knowledge_source','infores:chembl')
+            infores.attribute_source = 'infores:molepro'
+            connection = self.Connection(
+                source_element_id = source_element_id,
+                predicate = self.PREDICATE,
+                inv_predicate = self.INVERSE_PREDICATE,
+                attributes=[infores]
+            )
 
-    def add_connection(self, id, assay, row):
-        connection = Connection(
-            source_element_id=CHEMBL+id,
-            attributes=[],
-            type=self.info.knowledge_map.predicates[0].predicate
-        )
-        add_attribute(self,connection,row,'standard_type')
-        add_attribute(self,connection,row,'standard_relation')
-        add_attribute(self,connection,row,'standard_value')
-        add_attribute(self,connection,row,'standard_units')
-        add_attribute(self,connection,row,'pchembl_value')
-        add_attribute(self,connection,row,'activity_comment')
-        reference=add_attribute(self,connection,row,'document_chembl_id')
+        add_attribute(self,None,connection,row,'data_validity_comment')
+        potential_duplicate_attribute = add_attribute(self,None,connection,row,'potential_duplicate')
+        assay_attribute = add_attribute(self,None,connection,row,'assay_chembl_id')
+        if assay_attribute is not None and row['assay_chembl_id'] is not None:
+            subattributes=[]
+            assay_attribute.description = row['assay_description']
+            assay_attribute.attributes = subattributes
+            if row["assay_category"] is not None:
+                subattributes.append(self.Attribute(
+                    name='assay_category',
+                    value=row["assay_category"],
+                    type='assay_category', url=None) 
+                )
+            subattributes.append(self.Attribute(
+                name='BAO_label',
+                value=row["BAO_label"],
+                type='BAO_label', url=None) ) 
+            subattributes.append(self.Attribute(
+                name='bao_format',
+                value=row["bao_format"],
+                type='bao_format', url=None) ) 
+            subattributes.append(self.Attribute(
+                name='assay_type',
+                value=row["assay_type"],
+                type='assay_type', url=None) ) 
+            if row["assay_cell_type"] is not None:
+                subattributes.append(self.Attribute(
+                    name='assay_cell_type',
+                    value=row["assay_cell_type"],
+                    type='assay_cell_type', url=None) 
+                )
+            subattributes.append(self.Attribute(
+                name='assay_source_id',
+                value=row["assay_source_id"],
+                type='assay_source_id', url=None) )     
+            if row["assay_tissue"] is not None:
+                subattributes.append(self.Attribute(
+                    name='assay_tissue',
+                    value=row["assay_tissue"],
+                    type='assay_tissue', url=None) 
+                )
+            subattributes.append(self.Attribute(
+                name='relationship_type',
+                value=row["relationship_type"],
+                type='relationship_type', url=None) )
+            subattributes.append(self.Attribute(
+                name='confidence_score',
+                value=row["confidence_score"],
+                type='confidence_score', url=None) )   
+            subattributes.append(self.Attribute(
+                name='curated_by',
+                value=row["curated_by"],
+                type='curated_by', url=None) )                      
+        tissue_attribute = add_attribute(self,None,connection,row,'assay_tissue_chembl_id')
+        if tissue_attribute is not None:
+            subattributes=[]
+            subattributes.append(self.Attribute(
+                name='assay_tissue_name',
+                value=row["assay_tissue_name"],
+                type='assay_tissue_name', url=None) 
+            )
+        assay_organism_attribute = add_attribute(self,None,connection,row,'assay_tax_id')
+        if assay_organism_attribute is not None:
+            assay_organism_attribute.description = row["assay_organism"] 
+
+        activity_attribute = add_attribute(self,None,connection,row,'standard_value')
+        
+        if activity_attribute is not None:
+            subattributes=[]
+            activity_attribute.attributes = subattributes     
+            if row["standard_type"] is not None:
+                subattributes.append(self.Attribute(
+                    name='standard_type',
+                    value=row["standard_type"],
+                    type='standard_type', url=None) 
+                )
+            if row["standard_relation"] is not None:
+                subattributes.append(self.Attribute(
+                    name='standard_relation',
+                    value=row["standard_relation"],
+                    type='standard_relation', url=None) 
+                )
+            if row["standard_units"] is not None:        
+                subattributes.append(self.Attribute(
+                    name='standard_units',
+                    value=row["standard_units"],
+                    type='standard_units', url=None) 
+                )
+            if row["activity_comment"] is not None: 
+                subattributes.append(self.Attribute(
+                    name='activity_comment',
+                    value=row["activity_comment"],
+                    type='activity_comment', url=None) 
+                )
+            if row["standard_text_value"] is not None: 
+                subattributes.append(self.Attribute(
+                    name='standard_text_value',
+                    value=row["standard_text_value"],
+                    type='standard_text_value', url=None) 
+                )
+            if row["standard_upper_value"] is not None: 
+                if row["standard_upper_value"] is not None:
+                    subattributes.append(self.Attribute(
+                        name='standard_upper_value',
+                        value=row["standard_upper_value"],
+                        type='standard_upper_value', url=None) 
+                    ) 
+            if row["uo_units"] is not None: 
+                if row["uo_units"] is not None:
+                    subattributes.append(self.Attribute(
+                        name='uo_units',
+                        value=row["uo_units"],
+                        type='uo_units', url=None) 
+                    ) 
+
+        ligand_efficiency_attribute = add_attribute(self,None,connection,row,'ligand_efficiency_BEI')
+        if ligand_efficiency_attribute is not None:
+            subattributes = []
+            ligand_efficiency_attribute.attributes = subattributes
+            ligand_efficiency_attribute.attribute_type_id = 'Binding_Efficiency_Index'
+            if row["ligand_efficiency_LE"] is not None:
+                subattributes.append(self.Attribute(
+                    name='ligand_efficiency',
+                    value=row["ligand_efficiency_LE"],
+                    type='ligand_efficiency_LE', url=None) 
+                ) 
+            if row["ligand_efficiency_LLE"] is not None:
+                subattributes.append(self.Attribute(
+                    name='ligand_efficiency',
+                    value=row["ligand_efficiency_LLE"],
+                    type='ligand_efficiency_LLE', url=None) 
+                ) 
+            if row["ligand_efficiency_SEI"] is not None:
+                subattributes.append(self.Attribute(
+                    name='ligand_efficiency',
+                    value=row["ligand_efficiency_SEI"],
+                    type='ligand_efficiency_SEI', url=None) 
+                ) 
+        reference = None
+        if row["document_chembl_id"] is not None:
+            reference = add_attribute(self,None,connection,row,'document_chembl_id')
+            reference.type = 'biolink:publication' 
+            reference.value = self.add_prefix('chembl', reference.value, reference.type)
+        elif row["pubmed_id"] is not None:
+            reference = add_attribute(self,None,connection,row,'pubmed_id')
+            reference.value = add_ref_prefix('PubMed', reference.value)
         if reference is not None:
-            reference.name = 'publication'
-            reference.url = DOC_URL + reference.value
-            reference.value = CHEMBL + reference.value
-            reference.type = 'publication'
-        add_attribute(self,connection,row,'source_description')
-        add_attribute(self,connection,row,'data_validity_comment')
-        add_attribute(self,connection,row,'uo_units')
-        add_attribute(self,connection,row,'ligand_efficiency_BEI')
-        add_attribute(self,connection,row,'ligand_efficiency_LE')
-        add_attribute(self,connection,row,'ligand_efficiency_LLE')
-        add_attribute(self,connection,row,'ligand_efficiency_SEI')
-        add_attribute(self,connection,row,'journal')
-        add_attribute(self,connection,row,'year')
-        assay.connections.append(connection)
+            subattributes=[]
+            reference.type = 'biolink:publication'
+            reference.value_url = DOC_URL + reference.value
+            reference.attribute_type_id = 'biolink:publication'
+            if row["source_description"] is not None:
+                subattributes.append(self.Attribute(
+                    name='publication',
+                    value=row["source_description"],
+                    type='source_description', url=None) 
+                )             
+            if row["journal"] is not None:
+                subattributes.append(self.Attribute(
+                    name='publication',
+                    value=row["journal"],
+                    type='journal', url=None) 
+                )
+            if row["title"] is not None:
+                subattributes.append(self.Attribute(
+                    name='publication',
+                    value=row["title"],
+                    type='title', url=None) 
+                )      
+            if row["year"] is not None:
+                subattributes.append(self.Attribute(
+                    name='publication',
+                    value=row["year"],
+                    type='year', url=None) 
+                )  
+            if row["authors"] is not None:
+                subattributes.append(self.Attribute(
+                    name='publication',
+                    value=row["authors"],
+                    type='authors', url=None) 
+                )  
+        target.connections.append(connection)
 
 
 
-class ChemblMechanismExporter(Transformer):
-
+###############################################################
+# This is the parent class of ChemblGeneTargetTransformer
+# 
+###############################################################
+class ChemblMechanismTransformer(Transformer):
     variables = []
+    target_class_dict = None   # Dictionary of ChEMBL target type to MolePro class
 
-    def __init__(self):
-        super().__init__(self.variables, definition_file='info/mechanisms_transformer_info.json')
+    def __init__(self, definition_file=None):
+        if definition_file is not None:
+            super().__init__(self.variables, definition_file=definition_file)
+        else:
+            definition_file='info/mechanisms_transformer_info.json'
+            super().__init__(self.variables, definition_file)
 
-    def export(self, collection, controls):
-        mechanism_list = []
-        mechanisms = {}
+        self.target_class_dict = self.get_target_class_dict()
+
+    ##########################################################################
+    # This function reads & converts into a dictionary where the columns are:
+    # target_type	|	molepro_semantic_type
+    def get_target_class_dict(self):
+            classDict = {}
+            tsv_file = open("info/chembl_molepro_map.txt")
+            for line in csv.DictReader(tsv_file, delimiter="\t"):
+                classDict[line['target_type']] = line['molepro_semantic_type']
+            return classDict
+
+    def map(self, collection, controls):
+        mechanism_list = []     # List of all the elements to be returned
+        mechanisms = {}         # Dictionary of all the elements
         for element in collection:
-            id = chembl_id(element.identifiers)
+            identifiers = element.identifiers
+            if 'chembl' in identifiers and identifiers['chembl'] is not None:
+                curie = identifiers['chembl']
+                if curie is not None:
+                   id = self.de_prefix('chembl', identifiers['chembl'])
+            elif 'inchikey' in identifiers and identifiers['inchikey'] is not None:
+                for compound in get_compound_by_inchikey(identifiers['inchikey']):
+                    id = compound['chembl_id']
+
             if id is not None:
                 for row in get_mechanisms(id):
                     mechanism = self.get_or_create_mechanism(row, mechanisms, mechanism_list)
-                    self.add_connection(id, mechanism, row)
+                    if mechanism is not None:
+                        self.add_connection(element.id, id, mechanism, row)
         return mechanism_list
 
 
+    ###############################################################
+    # This function creates a new element if it does not exist
+    #
     def get_or_create_mechanism(self, row, mechanisms, mechanism_list):
         name = row['target_chembl_id']
-        id = CHEMBL+name
+        id = self.add_prefix('chembl', name, 'target')
         if id in mechanisms:
             return mechanisms[id]
-        names = Names(name=name, synonyms=[],source=SOURCE)
-        mechanism = Element(
-            id=id,
-            biolink_class=MOLECULAR_ENTITY,
-            identifiers = {'chembl':id},
-            names_synonyms=[names],
-            connections=[],
-            attributes=[]
-        )
-        add_attribute(self,mechanism,row,'target_name')
-        add_attribute(self,mechanism,row,'target_type')
-        add_attribute(self,mechanism,row,'target_organism')
+        mechanism = self.Element(
+                        id=id,
+                        biolink_class=self.target_class_dict.get(row['target_type'], row['target_type']),
+                        identifiers = {'chembl':id},
+                        names_synonyms=self.get_names_synonyms(row['target_chembl_id'],row['target_name'],row['molregno']),
+                        attributes=[]
+                    )
+        #name = get_uniprot_xrefs(row['target_chembl_id'])        # add uniprot id
+        if mechanism.biolink_class == 'Protein' and row['component_type'] == 'PROTEIN' and row['accession'] is not None:
+            uniprot_id = self.add_prefix('uniprot', row['accession'], 'protein')
+            mechanism.identifiers['uniprot'] = uniprot_id
+
+    #   add_attribute(self, None, mechanism,row,'target_name') # is an identifier, not an attribute
+        add_attribute(self, None, mechanism,row,'target_type')
+        add_attribute(self, None, mechanism,row,'target_organism')
+        add_attribute(self, None, mechanism,row,'component_type')
+        add_attribute(self, None, mechanism,row,'description')
+        tax_id = add_attribute(self, None, mechanism,row,'tax_id')
+        if tax_id is not None:
+            tax_id.value = self.add_prefix('ncbi_taxon', tax_id.value, 'OrganismEntity')
+        add_attribute(self, None, mechanism,row,'organism')        
+        add_attribute(self, None, mechanism,row,'mutation')
+        if row['mutation_accession'] != row['accession']:  # mutation accession is not same as protein accession
+            add_attribute(self, None, mechanism,row,'mutation_accession')
+
         mechanisms[id] = mechanism
         mechanism_list.append(mechanism)
         return mechanism
 
 
-    def add_connection(self, id, mechanism, row):
-        connection = Connection(
-            source_element_id=CHEMBL+id,
-            attributes=[],
-            type=self.info.knowledge_map.predicates[0].predicate
+    def get_names_synonyms(self, id, pref_name, molregno):
+        """
+            Build names and synonyms list
+        """
+        synonyms = defaultdict(list)
+        for target_synonym in get_target_synonyms(id):
+            if target_synonym['syn_type'] is None:
+                synonyms['ChEMBL'].append(target_synonym['component_synonym'])
+            else:
+                synonyms[target_synonym['syn_type']].append(target_synonym['component_synonym'])
+        names_synonyms = []
+        names_synonyms.append(
+            self.Names(
+                name =pref_name,
+                synonyms = synonyms['ChEMBL']
+            ) 
+        ),
+        for syn_type, syn_list in synonyms.items():
+            if syn_type != 'ChEMBL':
+                names_synonyms.append(
+                    self.Names(
+                        name = syn_list[0] if len(syn_list) == 1 else  None,
+                        synonyms = syn_list if len(syn_list) > 1 else  None,
+                        type = syn_type
+                    )
+                )
+        return names_synonyms
+
+    def add_connection(self, source_element_id, id, mechanism, row):
+        infores = self.Attribute('biolink:primary_knowledge_source','infores:chembl')
+        infores.attribute_source = 'infores:molepro'
+        connection = self.Connection(
+            source_element_id=source_element_id,
+            predicate=self.PREDICATE,
+            inv_predicate=self.INVERSE_PREDICATE,
+            attributes=[infores]
         )
-        add_attribute(self,connection,row,'action_type')
-        add_attribute(self,connection,row,'mechanism_of_action')
-        add_attribute(self,connection,row,'mechanism_comment')
-        add_attribute(self,connection,row,'selectivity_comment')
-        add_attribute(self,connection,row,'target_chembl_id')
-        add_attribute(self,connection,row,'site_name')
-        add_attribute(self,connection,row,'binding_site_comment')
-        add_attribute(self,connection,row,'source_description')
-        reference=add_attribute(self,connection,row,'document_chembl_id')
-        if reference is not None:
-            reference.name = 'publication'
-            reference.url = DOC_URL + reference.value
-            reference.value = CHEMBL + reference.value
-            reference.type = 'publication'
+        add_attribute(self,None,connection,row,'action_type')
+        add_attribute(self,None,connection,row,'direct_interaction')
+        add_attribute(self,None,connection,row,'selectivity_comment')
+
+        mechanism_of_action = add_attribute(self,None,connection,row,'mechanism_of_action')
+        if mechanism_of_action is not None and row["mechanism_comment"] is not None:
+        #   sub-attribute mechanism_comment
+            subattributes = []
+            mechanism_of_action.attributes = subattributes
+            subattributes.append(self.Attribute(
+                        name='mechanism_comment',
+                        value=row["mechanism_comment"],
+                        type='mechanism_comment', url=None) )
+
+        site_name = add_attribute(self,None,connection,row,'site_name')
+        if site_name is not None and row["binding_site_comment"] is not None:
+        #   sub-attribute binding_site_comment
+            subattributes = []
+            site_name.attributes = subattributes
+            subattributes.append(self.Attribute(
+                        name='binding_site_comment',
+                        value=row["binding_site_comment"],
+                        type='binding_site_comment', url=None))            
+        if row['document_chembl_id'] is not None:
+            reference=add_attribute(self, None, connection,row,'document_chembl_id')
+            if reference is not None and reference.value is not None:
+                reference.name = 'publication'
+                reference.url = DOC_URL + reference.value
+                reference.type = 'biolink:publication'
+                reference.value = self.add_prefix('chembl', reference.value, reference.type)
+            #   sub-attribute source_description
+                subattributes = []
+                reference.attributes = subattributes
+                subattributes.append(self.Attribute(
+                            name='source_description',
+                            value=row["source_description"],
+                            type='source_description', url=None))
         add_references(self, connection, 'mechanism_refs', 'mec_id', row['mec_id'])
-        self.add_atc_classification(connection,row['molregno'])
         mechanism.connections.append(connection)
 
 
-    def add_atc_classification(self, connection, molregno):
-        for atc in get_atc_classification(molregno):
-            value  = atc['level1']+'-'+atc['level1_description']+'|'
-            value += atc['level2']+'-'+atc['level2_description']+'|'
-            value += atc['level3']+'-'+atc['level3_description']+'|'
-            value += atc['level4']+'-'+atc['level4_description']+'|'
-            value += atc['level5']+'-'+atc['level5_description']
-            connection.attributes.append(
-                Attribute(
-                    name='atc_classification',
-                    value=value,
-                    type='atc_classification',
-                    source=SOURCE,
-                    provided_by=self.info.name
+###############################################################
+# This child class of ChemblMechanismTransformer is for reporting
+# any targets of the following types:
+# SINGLE PROTEIN
+# PROTEIN FAMILY
+# PROTEIN COMPLEX GROUP
+# PROTEIN COMPLEX
+# CHIMERIC PROTEIN
+# SELECTIVITY GROUP
+# PROTEIN NUCLEIC-ACID COMPLEX
+# NUCLEIC-ACID
+# PROTEIN-PROTEIN INTERACTION
+#
+###############################################################
+class ChemblGeneTargetTransformer(ChemblMechanismTransformer):
+
+    variables = []
+
+    def __init__(self):
+        super().__init__(definition_file='info/gene_targets_transformer_info.json')
+        self.target_class_dict = self.get_target_class_dict()
+
+    ###############################################################
+    #  As a child class of ChemblMechanismTransformer, this method is 
+    #  called by default but returns gene targets.
+    ###############################################################
+    def map(self, collection, controls):
+        gene_list = []     # List of all the elements to be returned
+        genes = {}         # Dictionary of all the elements
+        for element in collection:
+            identifiers = element.identifiers
+            if 'chembl' in identifiers and identifiers['chembl'] is not None:
+                curie = identifiers['chembl']
+                if curie is not None:
+                   id = self.de_prefix('chembl', identifiers['chembl'])
+            elif 'inchikey' in identifiers and identifiers['inchikey'] is not None:
+                for compound in get_compound_by_inchikey(identifiers['inchikey']):
+                    id = compound['chembl_id']
+            if id is not None:
+                for target in get_mechanisms(id):
+                    for gene_id in target_xref(target['component_id']):
+                        gene_target = self.get_or_create_gene_target(target, gene_id, genes, gene_list)
+                        if gene_target is not None:
+                            self.add_connection(element.id, id, gene_target, target)
+        return gene_list
+
+
+    def get_or_create_gene_target(self, row, gene_id, gene_targets, gene_target_list):
+        gene_target_array = ["SINGLE PROTEIN",
+                                "PROTEIN FAMILY",
+                                "PROTEIN COMPLEX GROUP",
+                                "PROTEIN COMPLEX",
+                                "CHIMERIC PROTEIN",
+                                "SELECTIVITY GROUP",
+                                "PROTEIN NUCLEIC-ACID COMPLEX",
+                                "NUCLEIC-ACID",
+                                "PROTEIN-PROTEIN INTERACTION"]
+        if row['target_type'] in gene_target_array:
+            id = self.add_prefix('ensembl', gene_id, 'Gene')
+            if id in gene_targets:
+                return gene_targets[id]
+            gene_target = self.Element(
+                            id=id,
+                            biolink_class='Gene',
+                            identifiers = {'ensembl':id},
+                            names_synonyms =self.get_names_synonyms(row['component_id'], row['description'],row['molregno']),
+                            attributes=[]
+                        )
+            add_attribute(self, None, gene_target,row,'target_organism')
+            add_attribute(self, None, gene_target,row,'description')
+            tax_id = add_attribute(self, None, gene_target,row,'tax_id')
+            if tax_id is not None:
+                tax_id.value = self.add_prefix('ncbi_taxon', tax_id.value, 'OrganismEntity')
+            add_attribute(self, None, gene_target,row,'organism')
+            add_attribute(self, None, gene_target,row,'mutation')
+            if row['mutation_accession'] != row['accession']:  # mutation accession is not same as protein accession
+                add_attribute(self, None, gene_target,row,'mutation_accession')
+            gene_targets[id] = gene_target
+            gene_target_list.append(gene_target)
+            return gene_target
+
+    def get_names_synonyms(self, id, pref_name, molregno):
+        """
+            Build names and synonyms list
+        """
+        synonyms = defaultdict(list)
+        for target_synonym in get_gene_target_synonyms(id):
+            if target_synonym['syn_type'] is None:
+                synonyms['ChEMBL'].append(target_synonym['component_synonym'])
+            else:
+                synonyms[target_synonym['syn_type']].append(target_synonym['component_synonym'])
+        names_synonyms = []
+        names_synonyms.append(
+            self.Names(
+                name =pref_name,
+                synonyms = synonyms['ChEMBL']
+            ) 
+        ),
+        for syn_type, syn_list in synonyms.items():
+            if syn_type != 'ChEMBL':
+                names_synonyms.append(
+                    self.Names(
+                        name = syn_list[0] if len(syn_list) == 1 else  None,
+                        synonyms = syn_list if len(syn_list) > 1 else  None,
+                        type = syn_type
+                    )
                 )
-            )
+        return names_synonyms
 
 
 class ChemblMetaboliteTransformer(Transformer):
@@ -478,98 +938,96 @@ class ChemblMetaboliteTransformer(Transformer):
         metabolite_list = []
         metabolites = {}
         for element in collection:
-            id = chembl_id(element.identifiers)
+            identifiers = element.identifiers
+            if 'chembl' in identifiers and identifiers['chembl'] is not None:
+                curie = identifiers['chembl']
+                if curie is not None:
+                   id = self.de_prefix('chembl', identifiers['chembl'])
+            elif 'inchikey' in identifiers and identifiers['inchikey'] is not None:
+                for compound in get_compound_by_inchikey(identifiers['inchikey']):
+                    id = compound['chembl_id']            
             if id is not None:
                 for row in get_direct_metabolites(id):
                     metabolite = self.get_or_create_metabolite(row, metabolites, metabolite_list)
-                    self.add_connection(id, metabolite, row)
+                    self.add_connection(element.id, id, metabolite, row)
         return metabolite_list
-
 
     def get_or_create_metabolite(self, row, metabolites, metabolite_list):
         chembl_id = row['metabolite_chembl_id']
         if chembl_id in metabolites:
             return metabolites[chembl_id]
-        names = Names(name=row['metabolite_name'], synonyms=[],source=SOURCE)
+        names = self.Names(name = row['metabolite_name'], synonyms=[])    
         if row['metabolite_pref_name'] is not None and row['metabolite_pref_name'] != row['metabolite_name']:
             names.synonyms.append(row['metabolite_pref_name'])
-        metabolite = Element(
+
+        metabolite = self.Element(
             id=CHEMBL+chembl_id,
-            biolink_class=CHEMICAL_SUBSTANCE,
+            biolink_class= 'SmallMolecule',
             identifiers = {'chembl':CHEMBL+chembl_id},
             names_synonyms=[names],
-            connections=[],
             attributes=[]
         )
-        structure_source=None
+                                  
         for struct in ['inchi', 'inchikey', 'smiles']:
             if row[struct] is not None:
                 metabolite.identifiers[struct] = row[struct]
-                structure_source=Attribute(name='structure source', value=SOURCE,source=self.info.name)
-        if structure_source is not None:
-            metabolite.attributes.append(structure_source)
         metabolites[chembl_id]=metabolite
         metabolite_list.append(metabolite)
         return metabolite
 
 
-    def add_connection(self, id, metabolite, row):
-        connection = Connection(
-            source_element_id=CHEMBL+id,
-            attributes=[],
-            type=self.info.knowledge_map.predicates[0].predicate
+    def add_connection(self, source_element_id, id, metabolite, row):
+        infores = self.Attribute('biolink:primary_knowledge_source','infores:chembl')
+        infores.attribute_source = 'infores:molepro'
+        connection = self.Connection(
+            source_element_id=source_element_id,
+            predicate=self.PREDICATE,
+            inv_predicate=self.INVERSE_PREDICATE,
+            attributes=[infores]
         )
-        add_attribute(self,connection,row,'enzyme_name')
-        add_attribute(self,connection,row,'met_conversion')
-        add_attribute(self,connection,row,'met_comment')
-        add_attribute(self,connection,row,'organism')
-        add_attribute(self,connection,row,'tax_id')
-        add_attribute(self,connection,row,'enzyme_type')
-        enzyme_chembl_id = add_attribute(self,connection,row,'enzyme_chembl_id')
+
+        add_attribute(self,None,connection,row,'enzyme_name')
+        add_attribute(self,None,connection,row,'met_conversion')
+        add_attribute(self,None,connection,row,'met_comment')
+        add_attribute(self,None,connection,row,'organism')
+        add_attribute(self,None,connection,row,'tax_id')
+        add_attribute(self,None,connection,row,'enzyme_type')
+        enzyme_chembl_id = add_attribute(self,None,connection,row,'enzyme_chembl_id')
         if enzyme_chembl_id is not None:
             enzyme_chembl_id.value = CHEMBL+row['enzyme_chembl_id']
         add_references(self, connection, 'metabolism_refs','met_id', row['met_id'])
         metabolite.connections.append(connection)
 
 
-def chembl_id(identifiers):
-    if 'chembl' in identifiers and identifiers['chembl'] is not None:
-        curie = identifiers['chembl']
-        if curie is not None:
-            return curie[len(CHEMBL):] if curie.startswith(CHEMBL) else curie
-    if 'inchikey' in identifiers and identifiers['inchikey'] is not None:
-        for compound in get_compound_by_inchikey(identifiers['inchikey']):
-            return compound['chembl_id']
-    return None
 
+################################ Common functions ###################################################
 
-def add_attribute(transformer, element, row, name):
+def add_attribute(self, transformer, element, row, name):
     if row[name] is not None:
-        attribute = Attribute(
+        attribute = self.Attribute(
                 name=name,
                 value=str(row[name]),
                 type=name,
-                source=SOURCE,
-                url=None,
-                provided_by=transformer.info.name
+                url=None
             )
         element.attributes.append(attribute)
         return attribute
     return None
 
-
-def add_references(transformer, connection, ref_table, id_column, ref_id):
+###########################################################
+#  obtain ref_type, ref_id, ref_url from a reference table
+#
+def add_references(self, connection, ref_table, id_column, ref_id):
     for reference in get_refs(ref_table, id_column, ref_id):
-        connection.attributes.append(
-            Attribute(
-                name=reference['ref_type'],
-                value=add_ref_prefix(reference['ref_type'], reference['ref_id']),
-                type='publication',
-                source=SOURCE,
-                url=reference['ref_url'],
-                provided_by=transformer.info.name
+        if reference['ref_id'] is not None:
+            connection.attributes.append(
+                self.Attribute(
+                    name=reference['ref_type'],
+                    value=add_ref_prefix(reference['ref_type'], reference['ref_id']),
+                    type='biolink:publication',
+                    url=reference['ref_url']
+                )
             )
-        )
 
 
 def add_ref_prefix(ref_type, ref_id):
@@ -579,23 +1037,26 @@ def add_ref_prefix(ref_type, ref_id):
     return ref_id
 
 
-connection = sqlite3.connect("data/ChEMBL.sqlite", check_same_thread=False)
+connection = sqlite3.connect("database/ChEMBL.sqlite", check_same_thread=False)
 connection.row_factory = sqlite3.Row
 
 
 def get_compound_by_pref_name(name):
     where = 'WHERE molecule_dictionary.pref_name = ?'
-    return get_compound('', where, name)
+    join = 'LEFT JOIN compound_structures ON (compound_structures.molregno = molecule_dictionary.molregno)'
+    return get_compound(join, where, name)
 
 
 def get_compound_by_id(chembl_id):
-    where = 'WHERE molecule_dictionary.chembl_id = ?'
-    return get_compound('', where, chembl_id)
+    where = 'WHERE molecule_dictionary.chembl_id = ? '
+    join = 'LEFT JOIN compound_structures ON (compound_structures.molregno = molecule_dictionary.molregno)'
+    return get_compound(join, where, chembl_id)
 
 
 def get_compound_by_inchikey(inchikey):
     where = 'WHERE compound_structures.standard_inchi_key = ?'
-    return get_compound('', where, inchikey)
+    join = 'JOIN compound_structures ON (compound_structures.molregno = molecule_dictionary.molregno)'
+    return get_compound(join, where, inchikey)
 
 
 def get_compound_by_synonym(synonym):
@@ -606,7 +1067,7 @@ def get_compound_by_synonym(synonym):
         WHERE synonyms = ? COLLATE NOCASE
     ) AS syn
     ON (syn.molregno=molecule_dictionary.molregno)
-
+    LEFT JOIN compound_structures ON (compound_structures.molregno = molecule_dictionary.molregno)
     """
     return get_compound(join, '', synonym)
 
@@ -621,7 +1082,7 @@ def get_compound(join, where, name):
             molecule_dictionary.therapeutic_flag,
             molecule_dictionary.dosed_ingredient,
             molecule_dictionary.chebi_par_id,
-            molecule_dictionary.molecule_type,
+            lower(molecule_dictionary.molecule_type) AS molecule_type,
             molecule_dictionary.first_approval,
             molecule_dictionary.oral,
             molecule_dictionary.parenteral,
@@ -644,12 +1105,10 @@ def get_compound(join, where, name):
             molecule_dictionary.withdrawn_country,
             molecule_dictionary.withdrawn_reason,
             molecule_dictionary.withdrawn_class,
-
             compound_structures.standard_inchi,
             compound_structures.standard_inchi_key,
             compound_structures.canonical_smiles
         FROM molecule_dictionary
-        JOIN compound_structures ON (compound_structures.molregno = molecule_dictionary.molregno)
         {}
         {}
     """.format(join, where)
@@ -668,6 +1127,29 @@ def get_molecule_synonyms(molregno):
     cur.execute(query,(molregno,))
     return cur.fetchall()
 
+
+def get_target_synonyms(target_chembl_id):
+    query = """
+        SELECT target_components.tid, syn_type, target_type, component_synonym
+        FROM target_dictionary
+        JOIN target_components ON target_dictionary.tid = target_components.tid
+        JOIN component_synonyms ON target_components.component_id = component_synonyms.component_id
+        WHERE chembl_id = ?;
+    """
+    cur = connection.cursor()
+    cur.execute(query, (target_chembl_id,))
+    return cur.fetchall()
+
+def get_gene_target_synonyms(component_id):
+    query = """
+        SELECT DISTINCT component_synonym, syn_type
+        FROM component_synonyms
+        JOIN target_components ON target_components.component_id = component_synonyms.component_id
+        WHERE target_components.component_id =  ?;
+    """
+    cur = connection.cursor()
+    cur.execute(query, (component_id,))
+    return cur.fetchall()
 
 def get_indications(chembl_id):
     query = """
@@ -700,49 +1182,91 @@ def get_activities(chembl_id):
             activities.standard_units,
             activities.pchembl_value,
             activities.activity_comment,
+            activities.data_validity_comment,
+            activities.standard_text_value,
+            activities.standard_upper_value,
+            activities.uo_units,
+            activities.potential_duplicate,
             assays.chembl_id AS assay_chembl_id,
             assays.description AS assay_description,
-            bioassay_ontology.label AS BAO_label,
             assays.assay_organism,
+            assays.assay_cell_type,
+            assays.assay_subcellular_fraction,
+            assays.bao_format,
+            assays.assay_category,
+            assays.assay_tax_id,
+            assays.assay_tissue,
+            assays.assay_cell_type,
+            assays.relationship_type,
+            assays.confidence_score,
+            assays.curated_by,
+            assays.src_id AS assay_source_id,
+            assay_type.assay_desc AS assay_type,
+            bioassay_ontology.label AS BAO_label,
             target_dictionary.chembl_id AS target_chembl_id,
             target_dictionary.pref_name AS target_name,
             target_dictionary.organism AS target_organism,
             target_dictionary.target_type,
-            docs.chembl_id AS document_chembl_id,
+            component_sequences.component_type,
+            component_sequences.accession,
             source.src_description AS source_description,
             cell_dictionary.chembl_id as cell_chembl_id,
-            activities.data_validity_comment,
-            activities.uo_units,
+            cell_dictionary.cell_name,
+            cell_dictionary.cell_description,
+            cell_dictionary.cell_source_tissue,
+            cell_dictionary.cell_source_organism,
+            cell_dictionary.cell_source_tax_id,
+            cell_dictionary.clo_id,
+            cell_dictionary.efo_id,
+            cell_dictionary.cellosaurus_id,
+            cell_dictionary.cl_lincs_id,
+            cell_dictionary.cell_ontology_id,
             ligand_eff.bei AS ligand_efficiency_BEI,
             ligand_eff.le AS ligand_efficiency_LE,
             ligand_eff.lle AS ligand_efficiency_LLE,
             ligand_eff.sei AS ligand_efficiency_SEI,
-            assay_type.assay_desc AS assay_type,
-            assays.bao_format,
             tissue_dictionary.chembl_id AS assay_tissue_chembl_id,
             tissue_dictionary.pref_name AS assay_tissue_name,
-            assays.assay_cell_type,
-            assays.assay_subcellular_fraction,
+            docs.chembl_id AS document_chembl_id,
             docs.journal,
-            docs.year
+            docs.title,
+            docs.year,
+            docs.authors,
+            docs.pubmed_id,
+            relationship_type.relationship_desc AS relationship_description,
+            confidence_score_lookup.description AS confidence_score_description,
+            confidence_score_lookup.target_mapping,
+            curation_lookup.description AS curation_description
         FROM activities
         JOIN molecule_dictionary ON activities.molregno=molecule_dictionary.molregno
         JOIN assays ON activities.assay_id=assays.assay_id
         LEFT JOIN bioassay_ontology on bioassay_ontology.bao_id = assays.bao_format
         LEFT JOIN target_dictionary ON target_dictionary.tid=assays.tid
+        LEFT JOIN target_components ON (
+            target_components.tid = target_dictionary.tid AND target_dictionary.target_type IN ('SINGLE PROTEIN'))
+        LEFT JOIN component_sequences ON component_sequences.component_id = target_components.component_id
         LEFT JOIN cell_dictionary ON cell_dictionary.cell_id=assays.cell_id
         LEFT JOIN assay_type ON assay_type.assay_type=assays.assay_type
         LEFT JOIN tissue_dictionary ON tissue_dictionary.tissue_id=assays.tissue_id
         LEFT JOIN docs ON activities.doc_id=docs.doc_id
         LEFT JOIN source ON source.src_id = activities.src_id
         LEFT JOIN ligand_eff ON ligand_eff.activity_id=activities.activity_id
-        WHERE molecule_dictionary.chembl_id = ?
+        LEFT JOIN relationship_type ON relationship_type.relationship_type = assays.relationship_type
+        LEFT JOIN confidence_score_lookup ON confidence_score_lookup.confidence_score = assays.confidence_score
+        LEFT JOIN curation_lookup ON curation_lookup.curated_by = assays.curated_by
+        WHERE molecule_dictionary.chembl_id =  ?
     """
     cur = connection.cursor()
     cur.execute(query,(chembl_id,))
     return cur.fetchall()
 
-
+#####################################################################################
+# This query revision allows us to add mutation information to mechanisms transformer 
+# (even though this means only 29 rows with mutations).
+# We should add mutation attribute if it is not null 
+# and mutation_accession attribute if it is different from 
+# protein accession. 
+#
 def get_mechanisms(chembl_id):
     query = """
         SELECT
@@ -750,6 +1274,7 @@ def get_mechanisms(chembl_id):
             drug_mechanism.molregno,
             drug_mechanism.mechanism_of_action,
             drug_mechanism.action_type,
+            drug_mechanism.direct_interaction,
             drug_mechanism.mechanism_comment,
             drug_mechanism.selectivity_comment,
             target_dictionary.chembl_id AS target_chembl_id,
@@ -757,16 +1282,28 @@ def get_mechanisms(chembl_id):
             target_dictionary.target_type,
             target_dictionary.organism AS target_organism,
             binding_sites.site_name,
+            target_components.component_id,
             drug_mechanism.binding_site_comment,
             source.src_description AS source_description,
-            docs.chembl_id AS document_chembl_id
+            docs.chembl_id AS document_chembl_id,
+            component_sequences.component_type,
+            component_sequences.accession,
+            component_sequences.description,
+            component_sequences.tax_id,
+            component_sequences.organism,
+            variant_sequences.mutation,
+            variant_sequences.accession AS mutation_accession
         FROM drug_mechanism
         JOIN molecule_dictionary ON molecule_dictionary.molregno=drug_mechanism.molregno
-        LEFT JOIN target_dictionary ON target_dictionary.tid=drug_mechanism.tid
+        JOIN target_dictionary ON target_dictionary.tid=drug_mechanism.tid
         LEFT JOIN binding_sites ON binding_sites.site_id=drug_mechanism.site_id
         LEFT JOIN compound_records ON compound_records.record_id=drug_mechanism.record_id
         LEFT JOIN docs ON (docs.doc_id=compound_records.doc_id AND compound_records.doc_id!=-1)
         LEFT JOIN source ON source.src_id=compound_records.src_id
+        LEFT JOIN target_components ON (
+            target_components.tid = target_dictionary.tid)
+        LEFT JOIN component_sequences ON component_sequences.component_id = target_components.component_id
+        LEFT JOIN variant_sequences ON variant_sequences.variant_id = drug_mechanism.variant_id and drug_mechanism.variant_id != -1
         WHERE molecule_dictionary.chembl_id = ?;
     """
     cur = connection.cursor()
@@ -816,34 +1353,78 @@ def get_atc_classification(molregno):
     return cur.fetchall()
 
 
+def get_drug_warning(molregno):
+    query = """
+        SELECT DISTINCT
+            molecule_dictionary.molregno, 
+            warning_id, 
+            pref_name, 
+            withdrawn_year, 
+            withdrawn_country, 
+            withdrawn_reason,
+            withdrawn_class, 
+            warning_type, 
+            warning_class, 
+            warning_description, 
+            warning_country, 
+            warning_year
+        FROM molecule_dictionary
+        JOIN drug_warning ON molecule_dictionary.molregno = drug_warning.molregno
+        WHERE molecule_dictionary.molregno = ?
+    """
+    cur = connection.cursor()
+    cur.execute(query,(molregno,))
+    return cur.fetchall()
+
+
+def get_warning_references(warning_id):
+    query = """
+        SELECT DISTINCT ref_type, ref_id, ref_url
+        FROM warning_refs 
+        WHERE warning_id = ?
+    """
+    cur = connection.cursor()
+    cur.execute(query,(warning_id,))
+    return cur.fetchall()
+
+
 def get_direct_metabolites(chembl_id):
     query = """
         SELECT
-          metabolism.met_id,
-          metabolism.enzyme_name,
-          metabolism.met_conversion,
-          metabolism.met_comment,
-          metabolism.organism,
-          metabolism.tax_id,
-          metabolite_record.compound_name AS metabolite_name,
-          metabolite.pref_name AS metabolite_pref_name,
-          metabolite.chembl_id AS metabolite_chembl_id,
-          target_dictionary.target_type AS enzyme_type,
-          target_dictionary.chembl_id AS enzyme_chembl_id,
-          compound_structures.standard_inchi AS inchi,
-          compound_structures.standard_inchi_key AS inchikey,
-          compound_structures.canonical_smiles AS smiles
-        FROM molecule_dictionary
-        JOIN compound_records ON compound_records.molregno = molecule_dictionary.molregno
-        JOIN metabolism ON metabolism.substrate_record_id = compound_records.record_id
-        JOIN compound_records AS metabolite_record ON metabolite_record.record_id = metabolism.metabolite_record_id
+            met_id,
+            enzyme_name,
+            met_conversion,
+            met_comment,
+            metabolism_organism as organism,
+            metabolism_tax_id as tax_id,
+            metabolite_record.compound_name AS metabolite_name,
+            metabolite.pref_name AS metabolite_pref_name,
+            metabolite.chembl_id AS metabolite_chembl_id,
+            target_dictionary.target_type AS enzyme_type,
+            target_dictionary.chembl_id AS enzyme_chembl_id,
+            compound_structures.standard_inchi AS inchi,
+            compound_structures.standard_inchi_key AS inchikey,
+            compound_structures.canonical_smiles AS smiles
+        FROM(
+            SELECT met_id, enzyme_name, met_conversion, met_comment, organism as metabolism_organism, tax_id as metabolism_tax_id, metabolite_record_id, enzyme_tid
+            FROM molecule_dictionary
+            JOIN compound_records ON compound_records.molregno = molecule_dictionary.molregno
+            JOIN metabolism ON (metabolism.drug_record_id = compound_records.record_id)
+            WHERE molecule_dictionary.chembl_id = ?
+            UNION
+            SELECT met_id, enzyme_name, met_conversion, met_comment, organism as metabolism_organism, tax_id as metabolism_tax_id, metabolite_record_id, enzyme_tid
+            FROM molecule_dictionary
+            JOIN compound_records ON compound_records.molregno = molecule_dictionary.molregno
+            JOIN metabolism ON (metabolism.substrate_record_id = compound_records.record_id)
+            WHERE molecule_dictionary.chembl_id = ?
+        )
+        JOIN compound_records AS metabolite_record ON metabolite_record.record_id = metabolite_record_id
         JOIN molecule_dictionary AS metabolite on metabolite.molregno = metabolite_record.molregno
-        LEFT JOIN target_dictionary ON (target_dictionary.tid = metabolism.enzyme_tid and target_type != 'UNCHECKED')
-        LEFT JOIN compound_structures ON compound_structures.molregno = molecule_dictionary.molregno
-        WHERE molecule_dictionary.chembl_id = ?
+        LEFT JOIN target_dictionary ON (target_dictionary.tid = enzyme_tid and target_type != 'UNCHECKED')
+        LEFT JOIN compound_structures ON compound_structures.molregno = metabolite.molregno
     """
     cur = connection.cursor()
-    cur.execute(query,(chembl_id,))
+    cur.execute(query,(chembl_id,chembl_id))
     return cur.fetchall()
 
 
@@ -858,7 +1439,7 @@ def get_refs(ref_table, id_column, ref_id):
     return cur.fetchall()
 
 
-target_xref_con = sqlite3.connect("data/ChEMBL.target.xref.sqlite", check_same_thread=False)
+target_xref_con = sqlite3.connect("database/ChEMBL.target.xref.sqlite", check_same_thread=False)
 target_xref_con.row_factory = sqlite3.Row
 
 target_xrefs = {}

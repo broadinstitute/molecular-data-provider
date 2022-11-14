@@ -75,9 +75,19 @@ def load_cross_references(cur, target_chembl_id, xrefs):
     for xref in xrefs:
         insert_target_xref(cur, target_chembl_id, xref['xref_id'], xref['xref_name'], xref['xref_src'])
 
-
+# Add more target types
+# SINGLE PROTEIN
+# PROTEIN FAMILY
+# PROTEIN COMPLEX GROUP
+# PROTEIN COMPLEX
+# CHIMERIC PROTEIN
+# SELECTIVITY GROUP
+# PROTEIN NUCLEIC-ACID COMPLEX
+# NUCLEIC-ACID
+# PROTEIN-PROTEIN INTERACTION
 def load_component_xrefs(cur, target):
-    if target['target_type'] == 'SINGLE PROTEIN' or target['target_type'] == 'PROTEIN FAMILY':
+    gene_target_tuple=('SINGLE PROTEIN','PROTEIN FAMILY','PROTEIN COMPLEX GROUP','PROTEIN COMPLEX','CHIMERIC PROTEIN','SELECTIVITY GROUP','PROTEIN NUCLEIC-ACID COMPLEX','NUCLEIC-ACID','PROTEIN-PROTEIN INTERACTION')
+    if target['target_type'] in gene_target_tuple :
         target_chembl_id = target['target_chembl_id']
         for component in target['target_components']:
             component_id = component['component_id']

@@ -4,7 +4,7 @@ import sys
 from setuptools import setup, find_packages
 
 NAME = "chembl-transformer"
-VERSION = "2.1.2"
+VERSION = "2.4.0"
 
 # To install the library, run the following
 #
