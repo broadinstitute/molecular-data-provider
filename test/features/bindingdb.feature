@@ -1,7 +1,7 @@
 Feature: Check BindingBD  transformer
 
     Background: Specify transformer API
-        Given a transformer at "https://translator.broadinstitute.org/bindingdb"
+        Given a transformer at "https://molepro-bindingdb-transformer.test.transltr.io/bindingdb"
 
 
     Scenario: Check ligands transformer info
