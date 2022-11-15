@@ -56,7 +56,7 @@ class CmapExpander(Transformer):
                 hits = self.cmap_connections(self.input_id_map[query_id], controls)
                 for (score, hit_id) in hits:
                     element = self.get_element(hit_id, elements, list)
-                    self.add_connection(element, score, query_id)
+                    self.add_connection(element, score, query.id)
         return list
 
 
@@ -94,9 +94,9 @@ class CmapExpander(Transformer):
         return query.identifiers.get(ID_KEY[self.input_class])
 
 
-    def add_connection(self, element, score, query_id):
+    def add_connection(self, element, score, source_element_id):
         connection = Connection(
-            source_element_id = query_id,
+            source_element_id = source_element_id,
             type = self.info.knowledge_map.predicates[0].predicate,
             attributes = [
                 Attribute(

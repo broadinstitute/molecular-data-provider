@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: API for CMAP gene-list and compound-list expander
-  version: 2.1.0
+  version: 2.1.1
   termsOfService: https://clue.io/terms
   
   contact:
