@@ -2,7 +2,7 @@
     "name": "DGIdb target transformer",
     "label": "DGIdb",
     "description": "Gene-list transformer based on DGIdb target information (http://dgidb.org/).",
-    "version": "2.1.0",
+    "version": "2.1.1",
     "function": "transformer",
     "knowledge_map": {
         "input_class": "compound",
