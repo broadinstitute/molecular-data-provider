@@ -1,0 +1,36 @@
+{
+    "name": "DrugCentral compounds producer",
+    "label": "DrugCentral",
+    "description": "Compound-list producer based on DrugCentral drug information (http://drugcentral.org/).",
+    "version": "2.3.2",
+    "function": "producer",
+    "knowledge_map": {
+        "input_class": "none",
+        "output_class": "compound",
+        "nodes": {
+            "ChemicalSubstance": {
+                "attribute": [],
+                "count": -1,
+                "id_prefixes": [
+                    "DrugCentral",
+                    "CAS"
+                ]
+            }
+        }
+    },
+    "properties": {
+        "source_url": "http://drugcentral.org/",
+        "source_version": "2020",
+        "terms_of_service": "http://drugcentral.org/privacy"
+    },
+    "parameters": [
+        {
+            "name": "compound",
+            "type": "string",
+            "required": "true",
+            "multivalued": "true",
+            "example": "aspirin",
+            "suggested_values": "compound names, DrugCentral ids, CAS ids, or InChIKeys"
+        }
+    ]
+}

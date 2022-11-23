@@ -1,0 +1,57 @@
+{
+    "name": "DrugCentral indications transformer",
+    "label": "DrugCentral",
+    "description": "Gene-list transformer based on DrugCentral indications information (http://drugcentral.org/).",
+    "version": "2.3.0",
+    "function": "producer",
+    "knowledge_map": {
+        "input_class": "disease",
+        "output_class": "compound",
+        "nodes": {
+            "ChemicalSubstance": {
+                "attribute": [],
+                "count": -1,
+                "id_prefixes": [
+                    "DrugCentral",
+                    "CAS"
+                ]
+            },
+            "Disease": {
+                "attribute": [],
+                "count": -1,
+                "id_prefixes": [
+                    "MONDO",
+                    "DOID",
+                    "UMLS",
+                    "SNOMEDCT"
+                ]
+            }
+        },
+        "edges": [
+            {
+                "subject": "ChemicalSubstance",
+                "predicate": "treated_by",
+                "inverse_predicate": "treats",
+                "object": "Disease",
+                "source": "DrugCentral",
+                "count": -1,
+                "attributes": []
+            }
+        ]
+    },
+    "properties": {
+        "source_url": "http://drugcentral.org/",
+        "source_version": "2020",
+        "terms_of_service": "http://drugcentral.org/privacy"
+    },
+    "parameters": [
+        {
+            "name": "disease",
+            "type": "string",
+            "required": "true",
+            "multivalued": "true",
+            "example": "MONDO:0005148",
+            "suggested_values": " disease names, MONDO ids, DOID ids, UMLS ids, SNOMEDCT ids"
+        }
+    ]
+}

@@ -1,0 +1,39 @@
+{
+    "name": "DrugCentral disease producer",
+    "label": "DrugCentral",
+    "description": "Disease-list producer based on DrugCentral information (http://drugcentral.org/).",
+    "version": "2.3.2",
+    "function": "producer",
+    "knowledge_map": {
+        "input_class": "none",
+        "output_class": "disease",
+        "nodes": {
+            "Disease": {
+                "attribute": [],
+                "count": -1,
+                "id_prefixes": [
+                    "MONDO",
+                    "DOID",
+                    "UMLS",
+                    "SNOMEDCT"
+                ]
+            }
+        },
+        "edges": []
+    },
+    "properties": {
+        "source_url": "http://drugcentral.org/",
+        "source_version": "2020",
+        "terms_of_service": "http://drugcentral.org/privacy"
+    },
+    "parameters": [
+        {
+            "name": "disease",
+            "type": "string",
+            "required": "true",
+            "multivalued": "true",
+            "example": "MONDO:0005148",
+            "suggested_values": " disease names, MONDO ids, DOID ids, UMLS ids, SNOMEDCT ids"
+        }
+    ]
+}

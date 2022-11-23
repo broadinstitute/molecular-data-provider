@@ -4,7 +4,7 @@ import sys
 from setuptools import setup, find_packages
 
 NAME = "drug-central-transformer"
-VERSION = "2.0.0"
+VERSION = "2.3.2"
 
 # To install the library, run the following
 #
