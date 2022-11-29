@@ -18,7 +18,7 @@ class DGIdbProducer(Transformer):
     variables = ['compounds']
 
     def __init__(self):
-        super().__init__(self.variables, definition_file='molecules_transformer_info.json')
+        super().__init__(self.variables, definition_file='info/molecules_transformer_info.json')
 
 #   Invoked by Transformer.transform(query) method because "function":"producer" is specified in the openapi.yaml file
     def produce(self, controls):
@@ -48,7 +48,7 @@ class DGIdbTargetTransformer(Transformer):
     variables = []
 
     def __init__(self):
-        super().__init__(self.variables, definition_file='targets_transformer_info.json')
+        super().__init__(self.variables, definition_file='info/targets_transformer_info.json')
 
     def map(self, collection, controls):
         gene_list = []
@@ -56,10 +56,11 @@ class DGIdbTargetTransformer(Transformer):
     #   find connection data for each compound that were submitted
         for compound in collection:
             try:
+                bio_class = compound.biolink_class
                 compound.identifiers['chembl']  # the compound must be identified with a chembl id 
                 DGIdbDataSupply.find_genes_by_drug(self.info.name, gene_list, compound)
             except KeyError as e:
-                print ('I got a KeyError - reason "%s"' % str(e))
+                print ('FYI - a ', bio_class,' is missing "%s"' % str(e))
                 
 
     #   send back to the REST client the entire list of targets (genes that interact with the drugs)
@@ -80,7 +81,7 @@ class DGIdbInhibitorTransformer(Transformer):
     variables = []
 
     def __init__(self):
-        super().__init__(self.variables, definition_file='inhibitors_transformer_info.json')
+        super().__init__(self.variables, definition_file='info/inhibitors_transformer_info.json')
 
     def map(self, collection, controls):
         drug_list = []
@@ -217,9 +218,9 @@ class DGIdbDataSupply(Transformer):
             """
             Collect all the genes that the drug interact with
             """
-        #   drugs_chembl_id = compound.id.split(":",1)[1].strip()
+            if compound.identifiers['chembl'] is None:
+                return []
             drugs_chembl_id = compound.identifiers['chembl'].split(":",1)[1].strip()
-
     #       Targets SQL query.
             query2 = """ 
             SELECT
@@ -300,6 +301,8 @@ class DGIdbDataSupply(Transformer):
             """
             Collect all the drugs that inhibit the gene
             """
+            if gene.identifiers['entrez'] is None:
+                return []
             entrez_id = gene.identifiers['entrez'].split(":",1)[1].strip()
             print(entrez_id)
     #       Inhibitors SQL query.
