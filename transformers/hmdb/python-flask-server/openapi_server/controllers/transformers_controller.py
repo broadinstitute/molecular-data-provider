@@ -7,25 +7,33 @@ from openapi_server.models.transformer_info import TransformerInfo  # noqa: E501
 from openapi_server.models.transformer_query import TransformerQuery  # noqa: E501
 from openapi_server import util
 
-from openapi_server.controllers.hmdb_controller import HmdbTargets
+from openapi_server.controllers.hmdb_controller import HmdbProteinTargets
+from openapi_server.controllers.hmdb_controller import HmdbGeneTargets
 from openapi_server.controllers.hmdb_controller import HmdbMetabolites
 from openapi_server.controllers.hmdb_controller import HmdbDisorders
+from openapi_server.controllers.hmdb_controller import HmdbLocations
+from openapi_server.controllers.hmdb_controller import HmdbPathways
 
 transformer = {
-    'targets': HmdbTargets(),
+    'protein_targets': HmdbProteinTargets(),
+    'gene_targets': HmdbGeneTargets(),
     'metabolites': HmdbMetabolites(),
-    'disorders': HmdbDisorders()
+    'disorders': HmdbDisorders(),
+    'locations': HmdbLocations(),
+    'pathways': HmdbPathways()
 }
 
-def service_transform_post(service, body):  # noqa: E501
+def service_transform_post(service, body, cache=None):  # noqa: E501
     """Transform a list of genes or compounds
 
     Depending on the function of a transformer, creates, expands, or filters a list. # noqa: E501
 
-    :param service: HMDB service
+    :param service: Service provided by this transformer.
     :type service: str
     :param transformer_query: transformer query
     :type transformer_query: dict | bytes
+    :param cache: Directive for handling caching, can be &#39;yes&#39; (default), &#39;no&#39;, &#39;bypass&#39; or &#39;remove&#39;
+    :type cache: str
 
     :rtype: List[Element]
     """
@@ -34,14 +42,16 @@ def service_transform_post(service, body):  # noqa: E501
     return transformer[service].transform(transformer_query)
 
 
-def service_transformer_info_get(service):  # noqa: E501
+def service_transformer_info_get(service, cache=None):  # noqa: E501
     """Retrieve transformer info
 
     Provides information about the transformer. # noqa: E501
 
-    :param service: HMDB service
+    :param service: Service provided by this transformer.
     :type service: str
+    :param cache: Directive for handling caching, can be &#39;yes&#39; (default), &#39;no&#39;, &#39;bypass&#39; or &#39;remove&#39;
+    :type cache: str
 
     :rtype: TransformerInfo
     """
-    return transformer[service].info
+    return transformer[service].transformer_info(cache)
