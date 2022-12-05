@@ -1,0 +1,25 @@
+{
+    "name": "MSigDB pathways transformer",
+    "label": "MSigDB",
+    "version": "",
+    "function": "exporter",
+    "description": "Gene-list transformer to query MSigDB gene sets (http://software.broadinstitute.org/gsea/index.jsp).",
+    "knowledge_map": {
+        "input_class": "gene",
+        "output_class": "pathway",
+        "edges": [
+            {
+                "object": "Pathway",
+                "subject": "Gene",
+                "predicate": "participates_in",
+                "inverse_predicate":"has_participant"
+            }
+        ]
+    },
+    "properties": {
+        "source_url": "http://www.gsea-msigdb.org/gsea/msigdb/index.jsp",
+        "source_version": "7.4 (2021-03)",
+        "terms_of_service": "http://www.gsea-msigdb.org/gsea/msigdb_license_terms.jsp"
+    },
+    "parameters": []
+}
