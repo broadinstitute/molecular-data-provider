@@ -8,8 +8,10 @@ from openapi_server.models.transformer_query import TransformerQuery  # noqa: E5
 from openapi_server import util
 
 from openapi_server.controllers.chebi_transformer import ChebiCompoundProducer
+from openapi_server.controllers.chebi_transformer import ChebiRelationsTransformer
 
-transformer = {'compounds':ChebiCompoundProducer()}
+transformer = {'compounds':ChebiCompoundProducer(),
+               'relations': ChebiRelationsTransformer()}
 
 def service_transform_post(service, body, cache=None):  # noqa: E501
     """Transform a list of genes or compounds

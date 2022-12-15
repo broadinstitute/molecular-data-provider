@@ -18,12 +18,12 @@ COPY transformers/chebi/python-flask-server/info /usr/src/app/info
 WORKDIR /usr/src/app/data
 COPY util/python/transformers-2.0/config/BiolinkClassMap.txt /usr/src/app/data
 COPY util/python/transformers-2.0/config/prefixMap.json /usr/src/app/data
-ADD https://translator.broadinstitute.org/db/ChEBI.sqlite /usr/src/app/data
+ADD https://translator.broadinstitute.org/db/chebi.sqlite /usr/src/app/data
 WORKDIR /usr/src/app
 COPY --from=packaging-image /usr/src/base/dist .
 COPY --from=packaging-image /usr/src/chebi/dist .
-RUN pip3 install -I chebi_transformer-2.3.0-py3-none-any.whl
-RUN pip3 install -I base_transformer-2.0.0-py3-none-any.whl
+RUN pip3 install -I chebi_transformer-2.4.0-py3-none-any.whl
+RUN pip3 install -I base_transformer-2.0.1-py3-none-any.whl
 COPY transformers/chebi/python-flask-server/requirements.txt .
 RUN pip3 install --no-cache-dir -r requirements.txt
 EXPOSE 8080
