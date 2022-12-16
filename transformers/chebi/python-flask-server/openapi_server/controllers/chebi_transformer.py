@@ -1,6 +1,6 @@
 import sqlite3
 import re
-import pandas as pd
+import json
 
 from openapi_server.models.names import Names
 from transformers.transformer import Producer # noqa: E501
@@ -10,8 +10,11 @@ from collections import defaultdict
 db_connection = sqlite3.connect("data/chebi.sqlite", detect_types=sqlite3.PARSE_DECLTYPES, check_same_thread=False)
 db_connection.row_factory = sqlite3.Row
 
-df_source = pd.read_csv('info/chebi_source.csv')
-df_source = df_source.set_index('Source')         # set the 'Source' column as the index
+with open('info/chebi_source.json') as json_file:
+    df_source = json.load(json_file)
+with open('info/chebi_relations.json') as json_file:
+    df_relations = json.load(json_file)
+
 
 class ChebiCompoundProducer(Producer):
     variables = ['compounds']
@@ -98,8 +101,6 @@ class ChebiCompoundProducer(Producer):
 ###################################################################
 class ChebiRelationsTransformer(Transformer):
     variables = ['direction']
-    df_relations = pd.read_csv('info/chebi_relations.csv')
-    df_relations = df_relations.set_index('relation') # set the 'relation' column as the index
 
     def __init__(self):
         super().__init__(self.variables, definition_file='info/relations_transformer_info.json')
@@ -188,8 +189,8 @@ class ChebiRelationsTransformer(Transformer):
 
         connection = self.Connection(
             source_element_id=source_element_id,
-            predicate=self.df_relations.loc[row['type'], 'biolink_predicate'],
-            inv_predicate=self.df_relations.loc[row['type'], 'inverse_predicate'],
+            predicate=df_relations[row['type']]['biolink_predicate'],
+            inv_predicate=df_relations[row['type']]['inverse_predicate'],
             relation=row['type'],
             attributes=[infores]
         )
@@ -272,7 +273,7 @@ def get_names(id, primary_name, source, transformer_name):
                 name = None,
                 synonyms =[],
                 name_type = name_type if name_type != '' else None,
-                source = df_source.loc[source,'infores'],
+                source = df_source.get(source,'infores:chebi'),
                 provided_by = transformer_name,
                 language = language  
             )
@@ -473,7 +474,7 @@ def get_chemical_data(this, chebi_id, element):
             name = row['type'],
             value = row['chemical_data'],
             type = row['type']   )
-        chemical_attribute.attribute_source = df_source.loc[row['source'],'infores']
+        chemical_attribute.attribute_source = df_source.get(row['source'],'infores:chebi')
         element.attributes.append(chemical_attribute)
 
 

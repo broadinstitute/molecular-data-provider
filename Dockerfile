@@ -27,4 +27,4 @@ RUN pip3 install -I base_transformer-2.0.1-py3-none-any.whl
 COPY transformers/chebi/python-flask-server/requirements.txt .
 RUN pip3 install --no-cache-dir -r requirements.txt
 EXPOSE 8080
-CMD ["nohup","gunicorn", "-w","2","-b","0.0.0.0:8080","openapi_server.__main__:app","--timeout","1800"]
+CMD ["nohup","gunicorn", "-w","16","-b","0.0.0.0:8080","openapi_server.__main__:app","--timeout","1800"]
