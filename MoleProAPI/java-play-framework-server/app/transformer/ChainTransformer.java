@@ -51,11 +51,13 @@ public class ChainTransformer extends InternalTransformer {
 		final List<Property> controls = new ArrayList<>();
 		for (Parameter parameter : transformer.info.getParameters()) {
 			String name = parameter.getName();
-			String value = srcQuery.getPropertyValue(name);
-			if (value == null) {
+			List<String> values = srcQuery.getPropertyValue(name);
+			if (parameter.getRequired() && values.size() == 0) {
 				throw new BadRequestException("required parameter '" + name + "' not specified");
 			}
-			controls.add(new Property().name(name).value(value));
+			for (String value : values) {
+				controls.add(new Property().name(name).value(value));
+			}
 		}
 		return controls;
 	}

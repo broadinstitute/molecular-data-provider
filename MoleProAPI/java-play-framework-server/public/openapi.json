@@ -5,7 +5,7 @@
       "email" : "translator@broadinstitute.org"
     },
     "title" : "Molecular Data Provider",
-    "version" : "2.3.0"
+    "version" : "2.4.2"
   },
   "servers" : [ {
     "url" : "https://translator.broadinstitute.org/molecular_data_provider"
@@ -1252,6 +1252,7 @@
             "description" : "Assertion Authored By Dr. Trans L. Ator",
             "provided_by" : "provided_by",
             "attribute_type_id" : "Biolink:has_p-value_evidence, Biolink:has_original_source",
+            "attributes" : [ null, null ],
             "original_attribute_name" : "p-value",
             "value" : 0.000153
           }, {
@@ -1261,6 +1262,7 @@
             "description" : "Assertion Authored By Dr. Trans L. Ator",
             "provided_by" : "provided_by",
             "attribute_type_id" : "Biolink:has_p-value_evidence, Biolink:has_original_source",
+            "attributes" : [ null, null ],
             "original_attribute_name" : "p-value",
             "value" : 0.000153
           } ],
@@ -1338,6 +1340,7 @@
             "description" : "Assertion Authored By Dr. Trans L. Ator",
             "provided_by" : "provided_by",
             "attribute_type_id" : "Biolink:has_p-value_evidence, Biolink:has_original_source",
+            "attributes" : [ null, null ],
             "original_attribute_name" : "p-value",
             "value" : 0.000153
           }, {
@@ -1347,6 +1350,7 @@
             "description" : "Assertion Authored By Dr. Trans L. Ator",
             "provided_by" : "provided_by",
             "attribute_type_id" : "Biolink:has_p-value_evidence, Biolink:has_original_source",
+            "attributes" : [ null, null ],
             "original_attribute_name" : "p-value",
             "value" : 0.000153
           } ],
@@ -1378,6 +1382,7 @@
               "description" : "Assertion Authored By Dr. Trans L. Ator",
               "provided_by" : "provided_by",
               "attribute_type_id" : "Biolink:has_p-value_evidence, Biolink:has_original_source",
+              "attributes" : [ null, null ],
               "original_attribute_name" : "p-value",
               "value" : 0.000153
             }, {
@@ -1387,6 +1392,7 @@
               "description" : "Assertion Authored By Dr. Trans L. Ator",
               "provided_by" : "provided_by",
               "attribute_type_id" : "Biolink:has_p-value_evidence, Biolink:has_original_source",
+              "attributes" : [ null, null ],
               "original_attribute_name" : "p-value",
               "value" : 0.000153
             } ],
@@ -1405,6 +1411,7 @@
               "description" : "Assertion Authored By Dr. Trans L. Ator",
               "provided_by" : "provided_by",
               "attribute_type_id" : "Biolink:has_p-value_evidence, Biolink:has_original_source",
+              "attributes" : [ null, null ],
               "original_attribute_name" : "p-value",
               "value" : 0.000153
             }, {
@@ -1414,6 +1421,7 @@
               "description" : "Assertion Authored By Dr. Trans L. Ator",
               "provided_by" : "provided_by",
               "attribute_type_id" : "Biolink:has_p-value_evidence, Biolink:has_original_source",
+              "attributes" : [ null, null ],
               "original_attribute_name" : "p-value",
               "value" : 0.000153
             } ],
@@ -1552,6 +1560,7 @@
           "description" : "Assertion Authored By Dr. Trans L. Ator",
           "provided_by" : "provided_by",
           "attribute_type_id" : "Biolink:has_p-value_evidence, Biolink:has_original_source",
+          "attributes" : [ null, null ],
           "original_attribute_name" : "p-value",
           "value" : 0.000153
         },
@@ -1593,6 +1602,13 @@
             "example" : "Assertion Authored By Dr. Trans L. Ator",
             "nullable" : true,
             "type" : "string"
+          },
+          "attributes" : {
+            "description" : "A list of attributes providing further information about the parent attribute. ",
+            "items" : {
+              "$ref" : "#/components/schemas/attribute"
+            },
+            "type" : "array"
           },
           "provided_by" : {
             "description" : "Transformer that produced the attribute's value.",
@@ -1680,6 +1696,7 @@
             "description" : "Assertion Authored By Dr. Trans L. Ator",
             "provided_by" : "provided_by",
             "attribute_type_id" : "Biolink:has_p-value_evidence, Biolink:has_original_source",
+            "attributes" : [ null, null ],
             "original_attribute_name" : "p-value",
             "value" : 0.000153
           }, {
@@ -1689,6 +1706,7 @@
             "description" : "Assertion Authored By Dr. Trans L. Ator",
             "provided_by" : "provided_by",
             "attribute_type_id" : "Biolink:has_p-value_evidence, Biolink:has_original_source",
+            "attributes" : [ null, null ],
             "original_attribute_name" : "p-value",
             "value" : 0.000153
           } ],
@@ -1784,7 +1802,8 @@
             "description" : "Link to a description of a method used to generate output lists.",
             "type" : "string"
           }
-        }
+        },
+        "type" : "object"
       },
       "collection_allOf" : {
         "properties" : {
@@ -1795,7 +1814,8 @@
             },
             "type" : "array"
           }
-        }
+        },
+        "type" : "object"
       },
       "gene_list_allOf" : {
         "properties" : {
@@ -1806,7 +1826,8 @@
             },
             "type" : "array"
           }
-        }
+        },
+        "type" : "object"
       },
       "compound_list_allOf" : {
         "properties" : {
@@ -1817,7 +1838,8 @@
             },
             "type" : "array"
           }
-        }
+        },
+        "type" : "object"
       },
       "gene_info_identifiers" : {
         "properties" : {
@@ -1849,7 +1871,8 @@
             "example" : "100",
             "type" : "string"
           }
-        }
+        },
+        "type" : "object"
       },
       "compound_info_identifiers" : {
         "properties" : {
@@ -1917,7 +1940,8 @@
             "description" : "myChem.info id of the compound.",
             "type" : "string"
           }
-        }
+        },
+        "type" : "object"
       },
       "compound_info_structure" : {
         "properties" : {
@@ -1937,7 +1961,8 @@
             "description" : "Source of the compound's structure.",
             "type" : "string"
           }
-        }
+        },
+        "type" : "object"
       }
     }
   }

@@ -117,7 +117,7 @@ public abstract class Transformer {
 	public abstract CollectionsEntry transform(Query query, CollectionInfo collectionInfo) throws Exception;
 
 
-	private CollectionInfo createCollection(final MoleProQuery query) {
+	protected CollectionInfo createCollection(final MoleProQuery query) {
 		final CollectionInfo collectionInfo = new CollectionInfo();
 		collectionInfo.setSource(info.getName());
 		collectionInfo.setAttributes(new ArrayList<Attribute>());
@@ -203,13 +203,14 @@ public abstract class Transformer {
 		}
 
 
-		public String getPropertyValue(String name) {
+		public List<String> getPropertyValue(String name) {
+			List<String> values = new ArrayList<String>();
 			for (Property property : controls) {
 				if (name.equals(property.getName())) {
-					return property.getValue();
+					values.add(property.getValue());
 				}
 			}
-			return null;
+			return values;
 		}
 
 

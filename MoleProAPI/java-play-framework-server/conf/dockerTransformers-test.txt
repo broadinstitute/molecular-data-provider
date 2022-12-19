@@ -1,0 +1,117 @@
+# compound-list producers
+https://molepro-pubchem-transformer.test.transltr.io/pubchem/compounds
+https://molepro-chembl-transformer.test.transltr.io/chembl/molecules
+https://molepro-drugbank-transformer.test.transltr.io/drugbank/compounds
+https://molepro-chembank-transformer.test.transltr.io/chembank/compounds
+https://molepro-chebi-transformer.test.transltr.io/chebi/compounds
+https://molepro-rephub-transformer.test.transltr.io/repurposing/compounds
+https://molepro-dgidb-transformer.test.transltr.io/dgidb/molecules
+https://molepro-gtopdb-transformer.test.transltr.io/gtopdb/molecules
+https://molepro-hmdb-transformer.test.transltr.io/hmdb/metabolites
+https://molepro-drugcentral-transformer.test.transltr.io/drugcentral/compounds
+https://molepro-inxightdrugs-transformer.test.transltr.io/inxight_drugs/substances
+https://molepro-stitch-transformer.test.transltr.io/stitch/chemicals
+https://molepro-rxnorm-transformer.test.transltr.io/rxnorm/molecules
+https://molepro-biggmodels-transformer.test.transltr.io/bigg/metabolites
+https://molepro-ctd-transformer.test.transltr.io/ctdbase/chemicals
+https://molepro-probeminer-transformer.test.transltr.io/probeminer/chemicals
+# drugs
+https://molepro-inxightdrugs-transformer.test.transltr.io/inxight_drugs/drugs
+https://molepro-inxightdrugs-transformer.test.transltr.io/inxight_drugs/relationships
+https://molepro-inxightdrugs-transformer.test.transltr.io/inxight_drugs/active_ingredients
+https://molepro-rxnorm-transformer.test.transltr.io/rxnorm/drugs
+https://molepro-rxnorm-transformer.test.transltr.io/rxnorm/unii
+https://molepro-drugbank-transformer.test.transltr.io/drugbank/molecules
+https://molepro-sider-transformer.test.transltr.io/sider/drugs
+# gene-list producers
+=HGNC gene-list producer
+# disease producers
+https://molepro-drugcentral-transformer.test.transltr.io/drugcentral/diseases
+# drug relations
+https://molepro-rxnorm-transformer.test.transltr.io/rxnorm/relations
+https://molepro-rxnorm-transformer.test.transltr.io/rxnorm/ingredients
+https://molepro-rxnorm-transformer.test.transltr.io/rxnorm/components
+# indications
+https://molepro-drugcentral-transformer.test.transltr.io/drugcentral/indications
+https://molepro-hmdb-transformer.test.transltr.io/hmdb/disorders
+https://molepro-ctd-transformer.test.transltr.io/ctdbase/disease-associations
+https://molepro-chembl-transformer.test.transltr.io/chembl/indications
+https://molepro-rephub-transformer.test.transltr.io/repurposing/indications
+https://molepro-sider-transformer.test.transltr.io/sider/indications
+https://molepro-sider-transformer.test.transltr.io/sider/sideeffects
+# gene targets
+https://molepro-drugbank-transformer.test.transltr.io/drugbank/gene_targets
+https://molepro-drugbank-transformer.test.transltr.io/drugbank/gene_enzymes
+https://molepro-drugbank-transformer.test.transltr.io/drugbank/gene_transporters
+https://molepro-drugbank-transformer.test.transltr.io/drugbank/gene_carriers
+https://molepro-pharos-transformer.test.transltr.io/pharos/gene_targets
+https://molepro-chembl-transformer.test.transltr.io/chembl/targets
+https://molepro-hmdb-transformer.test.transltr.io/hmdb/gene_targets
+https://molepro-rephub-transformer.test.transltr.io/repurposing/targets
+https://molepro-dgidb-transformer.test.transltr.io/dgidb/targets
+https://molepro-gtopdb-transformer.test.transltr.io/gtopdb/targets
+https://molepro-ctd-transformer.test.transltr.io/ctdbase/gene-interactions
+https://molepro-probeminer-transformer.test.transltr.io/probeminer/chemical_interactions
+# inhibitors
+https://molepro-drugbank-transformer.test.transltr.io/drugbank/inhibitors
+https://molepro-drugbank-transformer.test.transltr.io/drugbank/substrates
+https://molepro-drugbank-transformer.test.transltr.io/drugbank/transporter_substrates
+https://molepro-drugbank-transformer.test.transltr.io/drugbank/carrier_substrates
+https://molepro-dgidb-transformer.test.transltr.io/dgidb/inhibitors
+https://molepro-gtopdb-transformer.test.transltr.io/gtopdb/inhibitors
+# protein targets
+https://molepro-stitch-transformer.test.transltr.io/stitch/links
+https://molepro-drugbank-transformer.test.transltr.io/drugbank/protein_targets
+https://molepro-drugbank-transformer.test.transltr.io/drugbank/protein_enzymes
+https://molepro-drugbank-transformer.test.transltr.io/drugbank/protein_transporters
+https://molepro-drugbank-transformer.test.transltr.io/drugbank/protein_carriers
+https://molepro-hmdb-transformer.test.transltr.io/hmdb/protein_targets
+https://molepro-probeminer-transformer.test.transltr.io/probeminer/protein_interactions
+# compound relations
+https://molepro-chembl-transformer.test.transltr.io/chembl/metabolites
+https://molepro-pubchem-transformer.test.transltr.io/pubchem/neighbors
+# gene-disease associations
+https://molepro-gwas-transformer.test.transltr.io/gwas/genes
+https://molepro-gwas-transformer.test.transltr.io/gwas/diseases
+# profile similarity
+https://molepro-cmap-transformer.test.transltr.io/cmap/compound/compound
+https://molepro-ctrp-transformer.test.transltr.io/ctrp
+https://molepro-cmap-transformer.test.transltr.io/cmap/compound/gene
+https://molepro-cmap-transformer.test.transltr.io/cmap/gene/compound
+https://molepro-cmap-transformer.test.transltr.io/cmap/gene/gene
+https://molepro-depmap-transformer.test.transltr.io/depmap/correlation
+# reactions
+https://molepro-biggmodels-transformer.test.transltr.io/bigg/reactions
+https://molepro-biggmodels-transformer.test.transltr.io/bigg/genes
+https://molepro-biggmodels-transformer.test.transltr.io/bigg/gene-reactions
+# pathways
+https://molepro-ctd-transformer.test.transltr.io/ctdbase/go-associations
+https://molepro-ctd-transformer.test.transltr.io/ctdbase/pathway-associations
+https://molepro-ctd-transformer.test.transltr.io/ctdbase/phenotype-interactions
+https://molepro-hmdb-transformer.test.transltr.io/hmdb/pathways
+https://molepro-msigdb-transformer.test.transltr.io/msigdb/genes
+https://molepro-msigdb-transformer.test.transltr.io/msigdb/pathways
+# locations
+https://molepro-hmdb-transformer.test.transltr.io/hmdb/locations
+# exporters
+https://molepro-chembl-transformer.test.transltr.io/chembl/activities
+https://molepro-chembl-transformer.test.transltr.io/chembl/mechanisms
+#
+# aggregators
+=union
+=intersection
+=difference
+=symmetric difference (XOR)
+#
+# protein-protein interactions
+https://molepro-string-transformer.test.transltr.io/string/links
+# node normalizer
+https://molepro-node-normalizer-transformer.test.transltr.io/node/normalizer
+# MolePro DB
+https://molepro-db-transformer.test.transltr.io/moleprodb/elements
+https://molepro-db-transformer.test.transltr.io/moleprodb/names
+https://molepro-db-transformer.test.transltr.io/moleprodb/connections
+https://molepro-db-transformer.test.transltr.io/moleprodb/hierarchy
+# filters
+=Element attribute filter
+=Connection attribute filter

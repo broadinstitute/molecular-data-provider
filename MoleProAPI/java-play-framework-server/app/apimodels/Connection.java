@@ -11,31 +11,45 @@ import javax.validation.constraints.*;
 /**
  * Connection
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Connection   {
   @JsonProperty("source_element_id")
+  @NotNull
+
   private String sourceElementId;
 
   @JsonProperty("biolink_predicate")
+  @NotNull
+
   private String biolinkPredicate;
 
   @JsonProperty("inverse_predicate")
+  @NotNull
+
   private String inversePredicate;
 
   @JsonProperty("relation")
+  
   private String relation;
 
   @JsonProperty("inverse_relation")
+  
   private String inverseRelation;
 
   @JsonProperty("source")
+  @NotNull
+
   private String source;
 
   @JsonProperty("provided_by")
+  @NotNull
+
   private String providedBy;
 
   @JsonProperty("attributes")
+  @Valid
+
   private List<Attribute> attributes = null;
 
   public Connection sourceElementId(String sourceElementId) {
@@ -47,7 +61,6 @@ public class Connection   {
    * Id (CURIE) of the connected query node.
    * @return sourceElementId
   **/
-  @NotNull
   public String getSourceElementId() {
     return sourceElementId;
   }
@@ -65,7 +78,6 @@ public class Connection   {
    * Biolink predicate.
    * @return biolinkPredicate
   **/
-  @NotNull
   public String getBiolinkPredicate() {
     return biolinkPredicate;
   }
@@ -87,7 +99,6 @@ public class Connection   {
    * Inverse Biolink predicate.
    * @return inversePredicate
   **/
-  @NotNull
   public String getInversePredicate() {
     return inversePredicate;
   }
@@ -105,7 +116,7 @@ public class Connection   {
    * Lower-level relationship type of this connection.
    * @return relation
   **/
-    public String getRelation() {
+  public String getRelation() {
     return relation;
   }
 
@@ -122,7 +133,7 @@ public class Connection   {
    * Inverse lower-level relationship type of this connection.
    * @return inverseRelation
   **/
-    public String getInverseRelation() {
+  public String getInverseRelation() {
     return inverseRelation;
   }
 
@@ -139,7 +150,6 @@ public class Connection   {
    * Source of the connection, as a CURIE prefix.
    * @return source
   **/
-  @NotNull
   public String getSource() {
     return source;
   }
@@ -157,7 +167,6 @@ public class Connection   {
    * Transformer that produced the connection.
    * @return providedBy
   **/
-  @NotNull
   public String getProvidedBy() {
     return providedBy;
   }
@@ -183,7 +192,6 @@ public class Connection   {
    * Additional information and provenance about the connection.
    * @return attributes
   **/
-  @Valid
   public List<Attribute> getAttributes() {
     return attributes;
   }
@@ -194,7 +202,7 @@ public class Connection   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -239,7 +247,7 @@ public class Connection   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

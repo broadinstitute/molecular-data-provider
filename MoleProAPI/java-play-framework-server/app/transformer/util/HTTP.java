@@ -13,15 +13,21 @@ import apimodels.ErrorMsg;
 public class HTTP {
 
 	public static String get(final URL url) throws IOException {
-		final HttpURLConnection con = (HttpURLConnection) url.openConnection();
+		return get(url, 0);
+	}
+
+
+	public static String get(final URL url, final int timeout) throws IOException {
+		final HttpURLConnection con = (HttpURLConnection)url.openConnection();
 		con.setRequestMethod("GET");
+		con.setReadTimeout(timeout);
 		con.connect();
 		return response(url, con);
 	}
 
 
 	public static String post(URL url, String json) throws IOException {
-		final HttpURLConnection con = (HttpURLConnection) url.openConnection();
+		final HttpURLConnection con = (HttpURLConnection)url.openConnection();
 		con.setRequestMethod("POST");
 		con.setRequestProperty("Content-Type", "application/json");
 		con.setDoOutput(true);
@@ -33,7 +39,7 @@ public class HTTP {
 
 
 	public static String post(final URL url, final String key, final String value) throws IOException {
-		final HttpURLConnection con = (HttpURLConnection) url.openConnection();
+		final HttpURLConnection con = (HttpURLConnection)url.openConnection();
 		con.setRequestMethod("POST");
 		con.setDoOutput(true);
 		final OutputStream os = con.getOutputStream();
@@ -52,7 +58,8 @@ public class HTTP {
 		try {
 			final ErrorMsg errorMsg = JSON.mapper.readValue(readResponse(con.getErrorStream()), ErrorMsg.class);
 			msg = msg + " " + errorMsg.getTitle() + ": " + errorMsg.getDetail();
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			// no extra message on parse error
 		}
 		throw new IOException(msg);

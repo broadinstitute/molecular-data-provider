@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Molecular Data Provider
-  version: 2.3.0
+  version: 2.4.0
   contact:
     email: translator@broadinstitute.org
   
@@ -1067,6 +1067,13 @@ components:
             Human-readable description for the attribute and its value.
           example: Assertion Authored By Dr. Trans L. Ator
           nullable: true
+        attributes:
+          type: array
+          description: >-
+            A list of attributes providing further information about the
+            parent attribute. 
+          items:
+            $ref: '#/components/schemas/attribute'
         provided_by:
           type: string
           description: Transformer that produced the attribute's value.

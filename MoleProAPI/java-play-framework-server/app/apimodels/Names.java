@@ -10,25 +10,34 @@ import javax.validation.constraints.*;
 /**
  * Names
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Names   {
   @JsonProperty("name")
+  
   private String name;
 
   @JsonProperty("synonyms")
+  
   private List<String> synonyms = null;
 
   @JsonProperty("name_type")
+  @NotNull
+
   private String nameType;
 
   @JsonProperty("source")
+  @NotNull
+
   private String source;
 
   @JsonProperty("provided_by")
+  @NotNull
+
   private String providedBy;
 
   @JsonProperty("language")
+  
   private String language;
 
   public Names name(String name) {
@@ -40,7 +49,7 @@ public class Names   {
    * Name of the compound.
    * @return name
   **/
-    public String getName() {
+  public String getName() {
     return name;
   }
 
@@ -65,7 +74,7 @@ public class Names   {
    * Name of the compound.
    * @return synonyms
   **/
-    public List<String> getSynonyms() {
+  public List<String> getSynonyms() {
     return synonyms;
   }
 
@@ -82,7 +91,6 @@ public class Names   {
    * Type of names and synonyms, e.g. inn, trademarked name.
    * @return nameType
   **/
-  @NotNull
   public String getNameType() {
     return nameType;
   }
@@ -100,7 +108,6 @@ public class Names   {
    * Primary source of names and synonyms.
    * @return source
   **/
-  @NotNull
   public String getSource() {
     return source;
   }
@@ -118,7 +125,6 @@ public class Names   {
    * Transformer that produced the names and synonyms.
    * @return providedBy
   **/
-  @NotNull
   public String getProvidedBy() {
     return providedBy;
   }
@@ -136,7 +142,7 @@ public class Names   {
    * Language of names and synonyms.
    * @return language
   **/
-    public String getLanguage() {
+  public String getLanguage() {
     return language;
   }
 
@@ -146,7 +152,7 @@ public class Names   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -187,7 +193,7 @@ public class Names   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

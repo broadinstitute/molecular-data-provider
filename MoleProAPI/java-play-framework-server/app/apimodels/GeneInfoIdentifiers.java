@@ -10,22 +10,27 @@ import javax.validation.constraints.*;
 /**
  * GeneInfoIdentifiers
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class GeneInfoIdentifiers   {
   @JsonProperty("entrez")
+  
   private String entrez;
 
   @JsonProperty("hgnc")
+  
   private String hgnc;
 
   @JsonProperty("mim")
+  
   private String mim;
 
   @JsonProperty("ensembl")
+  
   private List<String> ensembl = null;
 
   @JsonProperty("mygene_info")
+  
   private String mygeneInfo;
 
   public GeneInfoIdentifiers entrez(String entrez) {
@@ -37,7 +42,7 @@ public class GeneInfoIdentifiers   {
    * Entrez gene id (CURIE).
    * @return entrez
   **/
-    public String getEntrez() {
+  public String getEntrez() {
     return entrez;
   }
 
@@ -54,7 +59,7 @@ public class GeneInfoIdentifiers   {
    * HGNC gene id (CURIE).
    * @return hgnc
   **/
-    public String getHgnc() {
+  public String getHgnc() {
     return hgnc;
   }
 
@@ -71,7 +76,7 @@ public class GeneInfoIdentifiers   {
    * OMIM gene id (CURIE).
    * @return mim
   **/
-    public String getMim() {
+  public String getMim() {
     return mim;
   }
 
@@ -96,7 +101,7 @@ public class GeneInfoIdentifiers   {
    * ENSEMBL gene id (CURIE).
    * @return ensembl
   **/
-    public List<String> getEnsembl() {
+  public List<String> getEnsembl() {
     return ensembl;
   }
 
@@ -113,7 +118,7 @@ public class GeneInfoIdentifiers   {
    * myGene.info primary id.
    * @return mygeneInfo
   **/
-    public String getMygeneInfo() {
+  public String getMygeneInfo() {
     return mygeneInfo;
   }
 
@@ -123,7 +128,7 @@ public class GeneInfoIdentifiers   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -162,7 +167,7 @@ public class GeneInfoIdentifiers   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

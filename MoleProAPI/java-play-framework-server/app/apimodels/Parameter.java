@@ -11,10 +11,12 @@ import javax.validation.constraints.*;
 /**
  * Parameter
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Parameter   {
   @JsonProperty("name")
+  @NotNull
+
   private String name;
 
   /**
@@ -53,27 +55,38 @@ public class Parameter   {
   }
 
   @JsonProperty("type")
+  @NotNull
+
   private TypeEnum type;
 
   @JsonProperty("required")
+  
   private Boolean required;
 
   @JsonProperty("multivalued")
+  
   private Boolean multivalued;
 
   @JsonProperty("default")
+  
   private String _default;
 
   @JsonProperty("example")
+  
   private String example;
 
   @JsonProperty("allowed_values")
+  
   private List<String> allowedValues = null;
 
   @JsonProperty("allowed_range")
+  @Size(min=2,max=2)
+@Valid
+
   private List<BigDecimal> allowedRange = null;
 
   @JsonProperty("suggested_values")
+  
   private String suggestedValues;
 
   public Parameter name(String name) {
@@ -85,7 +98,6 @@ public class Parameter   {
    * Name of the parameter.
    * @return name
   **/
-  @NotNull
   public String getName() {
     return name;
   }
@@ -103,7 +115,6 @@ public class Parameter   {
    * Type of the parameter, one of 'Boolean', 'int', 'double', 'string'.
    * @return type
   **/
-  @NotNull
   public TypeEnum getType() {
     return type;
   }
@@ -121,7 +132,7 @@ public class Parameter   {
    * Indicates whether the parameter is required(default true).
    * @return required
   **/
-    public Boolean getRequired() {
+  public Boolean getRequired() {
     return required;
   }
 
@@ -138,7 +149,7 @@ public class Parameter   {
    * Indicates whether multiple occurences of the parameter are allowed (default false).
    * @return multivalued
   **/
-    public Boolean getMultivalued() {
+  public Boolean getMultivalued() {
     return multivalued;
   }
 
@@ -155,7 +166,7 @@ public class Parameter   {
    * Default value of the parameter.
    * @return _default
   **/
-    public String getDefault() {
+  public String getDefault() {
     return _default;
   }
 
@@ -172,7 +183,7 @@ public class Parameter   {
    * Example value of the parameter.
    * @return example
   **/
-    public String getExample() {
+  public String getExample() {
     return example;
   }
 
@@ -197,7 +208,7 @@ public class Parameter   {
    * Allowed values for the parameter.
    * @return allowedValues
   **/
-    public List<String> getAllowedValues() {
+  public List<String> getAllowedValues() {
     return allowedValues;
   }
 
@@ -222,8 +233,6 @@ public class Parameter   {
    * Allowed range for values of the parameter.
    * @return allowedRange
   **/
-  @Size(min=2,max=2)
-@Valid
   public List<BigDecimal> getAllowedRange() {
     return allowedRange;
   }
@@ -241,7 +250,7 @@ public class Parameter   {
    * Suggested value range for the parameter.
    * @return suggestedValues
   **/
-    public String getSuggestedValues() {
+  public String getSuggestedValues() {
     return suggestedValues;
   }
 
@@ -251,7 +260,7 @@ public class Parameter   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -298,7 +307,7 @@ public class Parameter   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

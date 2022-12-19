@@ -35,6 +35,16 @@ public class TransformerQuery extends Query {
 	}
 
 
+	public TransformerQuery(final List<Property> controls, ArrayList<Element> collection) {
+		super(controls);
+		if (collection != null) {
+			for (Element element : collection) {
+				this.collection.add(element);
+			}
+		}
+	}
+
+
 	public TransformerQuery(final List<Property> controls) {
 		super(controls);
 	}

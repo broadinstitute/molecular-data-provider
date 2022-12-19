@@ -11,34 +11,48 @@ import javax.validation.constraints.*;
 /**
  * Predicate describing relationship between a subject and an object.
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Predicate   {
   @JsonProperty("subject")
+  @NotNull
+
   private String subject;
 
   @JsonProperty("predicate")
+  @NotNull
+
   private String predicate;
 
   @JsonProperty("inverse_predicate")
+  @NotNull
+
   private String inversePredicate;
 
   @JsonProperty("object")
+  @NotNull
+
   private String _object;
 
   @JsonProperty("source")
+  
   private String source;
 
   @JsonProperty("relations")
+  
   private List<String> relations = null;
 
   @JsonProperty("inverse_relations")
+  
   private List<String> inverseRelations = null;
 
   @JsonProperty("count")
+  
   private Integer count;
 
   @JsonProperty("attributes")
+  @Valid
+
   private List<KmAttribute> attributes = null;
 
   public Predicate subject(String subject) {
@@ -50,7 +64,6 @@ public class Predicate   {
    * Get subject
    * @return subject
   **/
-  @NotNull
   public String getSubject() {
     return subject;
   }
@@ -68,7 +81,6 @@ public class Predicate   {
    * Get predicate
    * @return predicate
   **/
-  @NotNull
   public String getPredicate() {
     return predicate;
   }
@@ -86,7 +98,6 @@ public class Predicate   {
    * Get inversePredicate
    * @return inversePredicate
   **/
-  @NotNull
   public String getInversePredicate() {
     return inversePredicate;
   }
@@ -104,7 +115,6 @@ public class Predicate   {
    * Get _object
    * @return _object
   **/
-  @NotNull
   public String getObject() {
     return _object;
   }
@@ -122,7 +132,7 @@ public class Predicate   {
    * Source of the relationship.
    * @return source
   **/
-    public String getSource() {
+  public String getSource() {
     return source;
   }
 
@@ -147,7 +157,7 @@ public class Predicate   {
    * Low-level relations from the underlying source.
    * @return relations
   **/
-    public List<String> getRelations() {
+  public List<String> getRelations() {
     return relations;
   }
 
@@ -172,7 +182,7 @@ public class Predicate   {
    * Inverse low-level relations from the underlying source.
    * @return inverseRelations
   **/
-    public List<String> getInverseRelations() {
+  public List<String> getInverseRelations() {
     return inverseRelations;
   }
 
@@ -189,7 +199,7 @@ public class Predicate   {
    * Number of edge instances known to this knowledge source
    * @return count
   **/
-    public Integer getCount() {
+  public Integer getCount() {
     return count;
   }
 
@@ -214,7 +224,6 @@ public class Predicate   {
    * Get attributes
    * @return attributes
   **/
-  @Valid
   public List<KmAttribute> getAttributes() {
     return attributes;
   }
@@ -225,7 +234,7 @@ public class Predicate   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -272,7 +281,7 @@ public class Predicate   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

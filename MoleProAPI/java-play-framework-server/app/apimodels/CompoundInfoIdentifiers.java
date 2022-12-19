@@ -8,46 +8,59 @@ import javax.validation.constraints.*;
 /**
  * CompoundInfoIdentifiers
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class CompoundInfoIdentifiers   {
   @JsonProperty("chebi")
+  
   private String chebi;
 
   @JsonProperty("chembl")
+  
   private String chembl;
 
   @JsonProperty("drugbank")
+  
   private String drugbank;
 
   @JsonProperty("pubchem")
+  
   private String pubchem;
 
   @JsonProperty("mesh")
+  
   private String mesh;
 
   @JsonProperty("hmdb")
+  
   private String hmdb;
 
   @JsonProperty("unii")
+  
   private String unii;
 
   @JsonProperty("kegg")
+  
   private String kegg;
 
   @JsonProperty("gtopdb")
+  
   private String gtopdb;
 
   @JsonProperty("chembank")
+  
   private String chembank;
 
   @JsonProperty("drugcentral")
+  
   private String drugcentral;
 
   @JsonProperty("cas")
+  
   private String cas;
 
   @JsonProperty("mychem_info")
+  
   private String mychemInfo;
 
   public CompoundInfoIdentifiers chebi(String chebi) {
@@ -59,7 +72,7 @@ public class CompoundInfoIdentifiers   {
    * ChEBI id of the compound (CURIE).
    * @return chebi
   **/
-    public String getChebi() {
+  public String getChebi() {
     return chebi;
   }
 
@@ -76,7 +89,7 @@ public class CompoundInfoIdentifiers   {
    * ChEMBL id of the compound (CURIE).
    * @return chembl
   **/
-    public String getChembl() {
+  public String getChembl() {
     return chembl;
   }
 
@@ -93,7 +106,7 @@ public class CompoundInfoIdentifiers   {
    * DrugBank id of the compound (CURIE).
    * @return drugbank
   **/
-    public String getDrugbank() {
+  public String getDrugbank() {
     return drugbank;
   }
 
@@ -110,7 +123,7 @@ public class CompoundInfoIdentifiers   {
    * PubChem CID of the compound (CURIE).
    * @return pubchem
   **/
-    public String getPubchem() {
+  public String getPubchem() {
     return pubchem;
   }
 
@@ -127,7 +140,7 @@ public class CompoundInfoIdentifiers   {
    * MeSH id of the compound (CURIE).
    * @return mesh
   **/
-    public String getMesh() {
+  public String getMesh() {
     return mesh;
   }
 
@@ -144,7 +157,7 @@ public class CompoundInfoIdentifiers   {
    * HMDB id of the compound (CURIE).
    * @return hmdb
   **/
-    public String getHmdb() {
+  public String getHmdb() {
     return hmdb;
   }
 
@@ -161,7 +174,7 @@ public class CompoundInfoIdentifiers   {
    * UNII id of the compound (CURIE).
    * @return unii
   **/
-    public String getUnii() {
+  public String getUnii() {
     return unii;
   }
 
@@ -178,7 +191,7 @@ public class CompoundInfoIdentifiers   {
    * KEGG id of the compound (CURIE).
    * @return kegg
   **/
-    public String getKegg() {
+  public String getKegg() {
     return kegg;
   }
 
@@ -195,7 +208,7 @@ public class CompoundInfoIdentifiers   {
    * Guide to PHARMACOLOGY id of the compound (CURIE).
    * @return gtopdb
   **/
-    public String getGtopdb() {
+  public String getGtopdb() {
     return gtopdb;
   }
 
@@ -212,7 +225,7 @@ public class CompoundInfoIdentifiers   {
    * ChemBank id of the compound (CURIE).
    * @return chembank
   **/
-    public String getChembank() {
+  public String getChembank() {
     return chembank;
   }
 
@@ -229,7 +242,7 @@ public class CompoundInfoIdentifiers   {
    * DrugCentral id of the compound (CURIE).
    * @return drugcentral
   **/
-    public String getDrugcentral() {
+  public String getDrugcentral() {
     return drugcentral;
   }
 
@@ -246,7 +259,7 @@ public class CompoundInfoIdentifiers   {
    * CAS id of the compound (CURIE).
    * @return cas
   **/
-    public String getCas() {
+  public String getCas() {
     return cas;
   }
 
@@ -263,7 +276,7 @@ public class CompoundInfoIdentifiers   {
    * myChem.info id of the compound.
    * @return mychemInfo
   **/
-    public String getMychemInfo() {
+  public String getMychemInfo() {
     return mychemInfo;
   }
 
@@ -273,7 +286,7 @@ public class CompoundInfoIdentifiers   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -328,7 +341,7 @@ public class CompoundInfoIdentifiers   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

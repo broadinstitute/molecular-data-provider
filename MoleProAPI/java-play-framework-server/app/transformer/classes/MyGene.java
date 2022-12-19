@@ -19,6 +19,7 @@ import apimodels.GeneInfo;
 import apimodels.GeneInfoIdentifiers;
 import apimodels.Names;
 import transformer.Config;
+import transformer.mapping.MappedInfoRes;
 import transformer.util.Cache;
 import transformer.util.HTTP;
 import transformer.util.JSON;
@@ -581,14 +582,15 @@ public class MyGene {
 			else {
 				src.setGeneId(getSymbol());
 			}
+			final String source = MappedInfoRes.map("myGene.info");
 			if (getSymbol() != null) {
-				src.addAttributesItem(new Attribute().attributeTypeId("biolink:symbol").originalAttributeName("gene_symbol").value(getSymbol()).attributeSource("myGene.info"));
+				src.addAttributesItem(new Attribute().attributeTypeId("biolink:symbol").originalAttributeName("gene_symbol").value(getSymbol()).attributeSource(source));
 			}
 			if (getAlias() != null && getAlias().length > 0) {
-				src.addAttributesItem(new Attribute().originalAttributeName("synonyms").value(String.join(";", getAlias())).attributeSource("myGene.info"));
+				src.addAttributesItem(new Attribute().originalAttributeName("synonyms").value(String.join(";", getAlias())).attributeSource(source));
 			}
 			if (getName() != null) {
-				src.addAttributesItem(new Attribute().originalAttributeName("gene_name").value(getName()).attributeSource("myGene.info"));
+				src.addAttributesItem(new Attribute().originalAttributeName("gene_name").value(getName()).attributeSource(source));
 			}
 			if (src.getIdentifiers() == null) {
 				src.setIdentifiers(new GeneInfoIdentifiers());
