@@ -13,13 +13,14 @@ RUN python setup.py bdist_wheel
 FROM python:3-alpine AS runtime-image
 RUN mkdir -p /usr/src/app
 RUN mkdir -p /usr/src/app/data
+RUN mkdir -p /usr/src/app/database
 RUN mkdir -p /usr/src/app/info
 COPY transformers/molepro-db/python-flask-server/info /usr/src/app/info
 WORKDIR /usr/src/app/data
 COPY util/python/transformers-2.0/config/BiolinkClassMap.txt /usr/src/app/data
 COPY util/python/transformers-2.0/config/prefixMap.json /usr/src/app/data
 COPY transformers/molepro-db/python-flask-server/transformerConfig.json /usr/src/app/data
-ADD https://translator.broadinstitute.org/db/MoleProDB.sqlite /usr/src/app/data
+ADD https://translator.broadinstitute.org/db/MoleProDB.sqlite /usr/src/app/database
 ADD https://translator.broadinstitute.org/db/moleprodb_name_producer_info.json /usr/src/app/data
 ADD https://translator.broadinstitute.org/db/moleprodb_producer_info.json /usr/src/app/data
 ADD https://translator.broadinstitute.org/db/moleprodb_transformer_info.json /usr/src/app/data
@@ -27,8 +28,8 @@ ADD https://translator.broadinstitute.org/db/moleprodb_hierarchy_transformer_inf
 WORKDIR /usr/src/app
 COPY --from=packaging-image /usr/src/base/dist .
 COPY --from=packaging-image /usr/src/moleprodb/dist .
-RUN pip3 install -I moleprodb_transformer-2.4.3-py3-none-any.whl
-RUN pip3 install -I base_transformer-2.0.0-py3-none-any.whl
+RUN pip3 install -I moleprodb_transformer-2.4.4-py3-none-any.whl
+RUN pip3 install -I base_transformer-2.0.1-py3-none-any.whl
 COPY transformers/molepro-db/python-flask-server/requirements.txt .
 RUN pip3 install --no-cache-dir -r requirements.txt
 EXPOSE 8080

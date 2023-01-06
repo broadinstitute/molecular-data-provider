@@ -15,7 +15,7 @@ from openapi_server.encoder import JSONEncoder
 from transformers.transformer import Transformer, Producer
 
 
-connection = sqlite3.connect("data/MoleProDB.sqlite", check_same_thread=False)
+connection = sqlite3.connect("database/MoleProDB.sqlite", check_same_thread=False)
 connection.row_factory = sqlite3.Row
 
 identifier_priority = []
