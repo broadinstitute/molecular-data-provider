@@ -1,6 +1,7 @@
 import sqlite3
 import json
 from copy import copy
+from collections import defaultdict
 
 from openapi_server.models.names import Names
 from openapi_server.models.attribute import Attribute
@@ -29,27 +30,41 @@ class MoleProDB(Transformer):
         load_identifier_priority()
 
 
+    def find_element(self, element_identifiers):
+        for field in identifier_priority:
+            if field in element_identifiers:
+                identifiers = element_identifiers[field]
+                if isinstance(identifiers, str):
+                    identifiers = [identifiers]
+                for identifier in identifiers:
+                    for list_element_id in find_element(identifier):
+                        return list_element_id
+        return None
+
+
     def create_element(self, list_element_id, name_sources=None, element_attributes=None):
         element = None
         for row in get_element(list_element_id):
-            identifiers = self.get_identifiers(list_element_id)
+            identifiers = self.get_identifiers([list_element_id])[list_element_id]
             id = self.primary_id(identifiers)
             if id is None:
                 return None
-            names = self.get_names(row['primary_name'], list_element_id, copy(name_sources))
-            attributes = self.get_attributes(list_element_id, 'List_Element_Attribute', 'list_element_id', element_attributes)
-            element = self.Element(id, row['biolink_class'],identifiers,names,attributes)
+            names = self.get_names([list_element_id], copy(name_sources))
+            names = self.create_names(row['primary_name'], names[list_element_id], copy(name_sources))
+            attributes = self.get_attributes([list_element_id], 'List_Element_Attribute', 'list_element_id', element_attributes)
+            element = self.Element(id, row['biolink_class'], identifiers, names, attributes[list_element_id])
         return element
 
 
-    def get_identifiers(self, list_element_id):
-        identifiers = {}
-        for row in get_ids(list_element_id):
+    def get_identifiers(self, list_element_ids):
+        identifiers = defaultdict(dict)
+        for row in get_identifiers(list_element_ids):
+            list_element_id = row['list_element_id']
             field_name = row['field_name']
-            if field_name not in identifiers:
+            if field_name not in identifiers[list_element_id]:
                 prefix = row['mole_pro_prefix']
                 curie = prefix + ':' + row['xref'] if len(prefix) > 0 else row['xref']
-                identifiers[field_name] = curie
+                identifiers[list_element_id][field_name] = curie
         return identifiers
 
 
@@ -62,7 +77,16 @@ class MoleProDB(Transformer):
         return None
 
 
-    def get_names(self, primary_name, list_element_id, name_sources):
+    def get_names(self, list_element_ids, name_sources):
+        names = defaultdict(list)
+        if name_sources is None or len(name_sources) > 0:
+            for row in get_names(list_element_ids, name_sources):
+                list_element_id = row['list_element_id']
+                names[list_element_id].append(row_to_dict(row, NAME_COLUMNS))
+        return names
+
+
+    def create_names(self, primary_name, rows, name_sources):
         name_list = []
         names = {}
         if name_sources is None or 'MolePro' in name_sources:
@@ -73,7 +97,7 @@ class MoleProDB(Transformer):
                 name_sources.discard('MolePro')
        
         if name_sources is None or len(name_sources) > 0:
-            for row in get_names(list_element_id, name_sources):
+            for row in rows:
                 name_source = row['name_source']
                 if name_sources is None or name_source in name_sources:
                     name = row['name']
@@ -100,10 +124,12 @@ class MoleProDB(Transformer):
         return name_list
 
 
-    def get_attributes(self, list_element_id, attr_table, parent_id_name, types):
-        attributes = []
-        for row in get_attributes(list_element_id, attr_table, parent_id_name, types):
-            attribute_id = row['attribute_id']
+    def get_attributes(self, parent_ids, attr_table, parent_id_name, types):
+        if len(parent_ids) == 0:
+            return {}
+        attributes = defaultdict(list)
+        attribute_ids = []
+        for row in get_attributes(parent_ids, attr_table, parent_id_name, types):
             attribute_type = row['attribute_type']
             attribute_name = row['attribute_name']
             attribute_value = row['attribute_value']
@@ -112,7 +138,6 @@ class MoleProDB(Transformer):
             description = row['description']
             source_name = row['source_name']
             transformer = row['transformer']
-            sub_attributes = self.get_attributes(attribute_id, 'Parent_Attribute', 'parent_attribute_id', None)
             attribute = Attribute(
                 attribute_type_id = attribute_type,
                 original_attribute_name = attribute_name,
@@ -121,9 +146,17 @@ class MoleProDB(Transformer):
                 attribute_source = source_name,
                 value_url = url,
                 description = description,
-                attributes = sub_attributes, 
+                attributes = [], 
                 provided_by = transformer)
-            attributes.append(attribute)
+            parent_id = row[parent_id_name]
+            attributes[parent_id].append(attribute)
+            attribute_id = row['attribute_id']
+            attribute.attribute_id = attribute_id
+            attribute_ids.append(str(attribute_id))
+        sub_attributes = self.get_attributes(attribute_ids, 'Parent_Attribute', 'parent_attribute_id', None)
+        for attr_list in attributes.values():
+            for attr in attr_list:
+                attr.attributes = sub_attributes.get(attr.attribute_id)
         return attributes
 
 
@@ -162,14 +195,17 @@ class MoleProDBNameProducer(Producer, MoleProDB):
 
 
 
+##############################################
+#  MoleProDB connections transformer
+#
+#
 class MoleProDBTransformer(MoleProDB):
 
-    variables = ['predicate', 'biolink_class', 'id', 'name_source', 'element_attribute', 'connection_attribute']
+    variables = ['predicate', 'biolink_class', 'id', 'name_source', 'element_attribute', 'connection_attribute', 'limit']
 
 
     def __init__(self):
         super().__init__(self.variables, definition_file='data/moleprodb_transformer_info.json')
-
 
     def update_transformer_info(self, transformer_info):
         load_identifier_priority()
@@ -177,45 +213,79 @@ class MoleProDBTransformer(MoleProDB):
 
     def map(self, input_list, controls):
         name_sources = set(controls.get('name_source')) if controls.get('name_source') is not None else None
-        element_attributes = set(controls.get('element_attribute')) if controls.get('element_attribute') is not None else None
-        connection_attributes = set(controls.get('connection_attribute')) if controls.get('connection_attribute') is not None else None
+        control_element_attributes = set(controls.get('element_attribute')) if controls.get('element_attribute') is not None else None
+        control_connection_attributes = set(controls.get('connection_attribute')) if controls.get('connection_attribute') is not None else None
+        limit = int(controls.get('limit', 0))
+
+        connections = self.get_connections(input_list, controls, limit)
+        element_ids = self.get_element_ids(connections)
+        identifiers = self.get_identifiers(element_ids)
+        names = self.get_names(element_ids, name_sources)
+        element_attributes = self.get_attributes(element_ids, 'List_Element_Attribute', 'list_element_id', control_element_attributes)
         element_list = []
         elements = {}
-        for query_element in input_list:
-            query_element_id = self.find_element(query_element.identifiers)
-            for row in find_connections(query_element_id, controls):
-                object_id = row['object_id']
-                if object_id not in elements:
-                    element = self.create_element(object_id, name_sources, element_attributes)
-                    element_list.append(element)
-                    elements[object_id] = element
-                connection = self.create_connection(query_element.id, row, connection_attributes)
-                elements[object_id].connections.append(connection)
+        for row in get_elements(element_ids):
+            element_id = row['list_element_id']
+            element = self.create_element(row, identifiers.get(element_id), names.get(element_id,[]), element_attributes.get(element_id,[]), name_sources) 
+            if element is not None:
+                element_list.append(element)
+                elements[element_id] = element
+        connection_ids = [connection['connection_id'] for connection in connections]
+        connection_attributes = self.get_attributes(connection_ids, 'Connection_Attribute', 'connection_id', control_connection_attributes)
+        for connection_row in connections:
+            connection_id = connection_row['connection_id']
+            element_id = connection_row['object_id']
+            connection = self.create_connection(connection_row, connection_attributes.get(connection_id,[]))
+            if element_id in elements:
+                elements[element_id].connections.append(connection)
         return element_list
 
 
-    def find_element(self, element_identifiers):
-        for field in identifier_priority:
-            if field in element_identifiers:
-                identifiers = element_identifiers[field]
-                if isinstance(identifiers, str):
-                    identifiers = [identifiers]
-                for identifier in identifiers:
-                    for list_element_id in find_element(identifier):
-                        return list_element_id
-        return None
+    def get_connections(self, input_list, controls, limit):
+        connections = []
+        for query_element in input_list:
+            counts = {}
+            query_element_id = self.find_element(query_element.identifiers)
+            for row in find_connections(query_element_id, controls):
+                connection = row_to_dict(row, CONNECTION_COLUMNS)
+                connection['source_element_id'] = query_element.id
+                transformer = connection['transformer']
+                counts[transformer] = counts.get(transformer, 0) + 1
+                if limit <= 0 or counts[transformer] <= limit:
+                    connections.append(connection)
+        return connections
 
 
-    def create_connection(self, source_element_id, row, connection_attributes):
-        connection_id = row['connection_id']
+    def get_element_ids(self, connections):
+        element_ids = []
+        elements = set()
+        for connection in connections:
+            object_id = connection['object_id']
+            if object_id not in elements:
+                element_ids.append(object_id)
+                elements.add(object_id)
+        return element_ids
+            
+
+    def create_element(self, row, identifiers, names, element_attributes, name_sources):
+        id = self.primary_id(identifiers)
+        if id is None:
+            return None
+        names = self.create_names(row['primary_name'], names, name_sources)
+        return self.Element(id, row['biolink_class'], identifiers, names, element_attributes)
+
+
+    def create_connection(self, row, connection_attributes):
+        source_element_id = row['source_element_id']
+        uuid = row['uuid']
         biolink_predicate = row['biolink_predicate']
         inverse_predicate = row['inverse_predicate']
         relation = row['relation']
         inverse_relation = row['inverse_relation']
         source_name = row['source_name']
         transformer = row['transformer']
-        attributes = self.get_attributes(connection_id, 'Connection_Attribute', 'connection_id', connection_attributes)
-        attributes.append(self.Attribute('connection_id', str(connection_id), type=''))
+        attributes = connection_attributes
+        attributes.append(self.Attribute('connection_id', str(uuid), type=''))
         connection = Connection(
             source_element_id = source_element_id,
             biolink_predicate = biolink_predicate,
@@ -228,6 +298,74 @@ class MoleProDBTransformer(MoleProDB):
         )
         return connection
 
+
+
+##############################################################
+#  MoleProDB hierarchy transformer
+#
+# Support for entity subclass operations issue #189
+#  https://github.com/broadinstitute/scb-kp-dev/issues/189
+#  
+# self.find_element(query_element.identifiers) obtains parent element 
+# ids before the query
+#
+# self.create_element(object_id, name_sources, element_attributes) 
+# query the elements after the query. 
+#
+#
+class MoleProDBhierarchyTransformer(MoleProDB):
+
+    variables = ['name_source', 'element_attribute', 'hierarchy_type']
+
+    inverse = {
+        'biolink:subclass_of': 'biolink:superclass_of',
+        'biolink:superclass_of': 'biolink:subclass_of'
+    }
+
+    def __init__(self):
+        super().__init__(self.variables, definition_file='data/moleprodb_hierarchy_transformer_info.json')
+
+    def update_transformer_info(self, transformer_info):
+        load_identifier_priority()
+
+    def map(self, input_list, controls):
+        ### Use name_source (e.g., BiGG, BiGG Model, CBN, COMe, CTD, ChEBI, ChEMBL, ChemBank)
+        name_sources = set(controls.get('name_source')) if controls.get('name_source') is not None else None
+        ### Use element_attribute
+        element_attributes = set(controls.get('element_attribute')) if controls.get('element_attribute') is not None else None
+        element_list = []
+        elements = {}
+        
+        for query_element in input_list:
+            query_element_id = self.find_element(query_element.identifiers)
+            #### query to get hierarchy information
+            for row in find_hierarchy(query_element_id, controls.get('hierarchy_type')):
+                element_id = row['list_element_id']
+                if element_id not in elements:
+                    #query elements after the query. 
+                    element = self.create_element(element_id, name_sources, element_attributes)
+                    element_list.append(element)
+                    elements[element_id] = element
+                connection = self.create_connection(query_element.id, row['hierarchy_type'])
+                elements[element_id].connections.append(connection)
+        return element_list
+
+
+    def create_connection(self, source_element_id, hierarchy_type):
+        return Connection(
+            source_element_id = source_element_id,
+            biolink_predicate = hierarchy_type,
+            inverse_predicate = self.inverse.get(hierarchy_type),
+            relation = hierarchy_type,
+            inverse_relation = self.inverse.get(hierarchy_type),
+            source = self.SOURCE,
+            provided_by = self.PROVIDED_BY,
+            attributes = []
+        )
+
+
+def row_to_dict(row, columns):
+    return {key: row[key] for key in columns}
 
 
 def find_elements_by_id1(prefix, xref):
@@ -282,6 +420,18 @@ def get_element(list_element_id):
     return cur.fetchall()
 
 
+def get_elements(list_element_ids):
+    query = """
+        SELECT list_element_id, primary_name, biolink_class
+        FROM List_Element
+        JOIN Biolink_Class ON Biolink_Class.biolink_class_id = List_Element.biolink_class_id
+        WHERE list_element_id in ({})
+    """.format(','.join([str(id) for id in list_element_ids]))
+    cur = connection.cursor()
+    cur.execute(query)
+    return cur.fetchall()
+
+
 def get_ids(list_element_id):
     query = """
         SELECT DISTINCT field_name, mole_pro_prefix, xref
@@ -294,7 +444,19 @@ def get_ids(list_element_id):
     return cur.fetchall()
 
 
-def get_names(list_element_id, name_sources):
+def get_identifiers(list_element_ids):
+    query = """
+        SELECT DISTINCT list_element_id, field_name, mole_pro_prefix, xref
+        FROM List_Element_Identifier
+        JOIN Curie_Prefix ON Curie_Prefix.prefix_id = List_Element_Identifier.prefix_id
+        WHERE list_element_id in ({})
+    """.format(','.join([str(id) for id in list_element_ids]))
+    cur = connection.cursor()
+    cur.execute(query)
+    return cur.fetchall()
+
+
+def get_single_names(list_element_id, name_sources):
     query = """
         SELECT name, name_type, name_source, transformer, language
         FROM List_Element_Name
@@ -311,7 +473,26 @@ def get_names(list_element_id, name_sources):
     return cur.fetchall()
 
 
-def get_attributes(parent_id, attr_table, parent_id_name, types):
+NAME_COLUMNS = ['name', 'name_type', 'name_source', 'transformer', 'language']
+
+def get_names(list_element_ids, name_sources):
+    query = """
+        SELECT list_element_id, name, name_type, name_source, transformer, language
+        FROM List_Element_Name
+        JOIN Name ON Name.name_id = List_Element_Name.name_id
+        JOIN Name_Type ON Name_Type.name_type_id = List_Element_Name.name_type_id
+        JOIN Name_Source ON Name_Source.name_source_id = List_Element_Name.name_source_id
+        JOIN Source ON Source.source_id = List_Element_Name.source_id
+        WHERE list_element_id in ({})
+    """.format(','.join([str(id) for id in list_element_ids]))
+    if name_sources is not None:
+        query = query + "AND name_source IN ('" + "','".join(name_sources) + "')"
+    cur = connection.cursor()
+    cur.execute(query)
+    return cur.fetchall()
+
+
+def get_attributes_single(parent_id, attr_table, parent_id_name, types):
     query = """
         SELECT Attribute.attribute_id, attribute_type, attribute_name, attribute_value, value_type, url, description, source_name, transformer
         FROM {}
@@ -325,6 +506,36 @@ def get_attributes(parent_id, attr_table, parent_id_name, types):
     cur = connection.cursor()
     cur.execute(query,(parent_id,))
     return cur.fetchall()
+
+
+def get_attributes(parent_ids, attr_table, parent_id_name, types):
+    query = """
+        SELECT {}, Attribute.attribute_id, attribute_type, attribute_name, attribute_value, value_type, url, description, source_name, transformer
+        FROM {}
+        JOIN Attribute ON Attribute.attribute_id = {}.attribute_id
+        JOIN Attribute_Type ON Attribute_Type.attribute_type_id = Attribute.attribute_type_id
+        JOIN Source ON Source.source_id = {}.source_id
+        WHERE {} in ({})
+    """.format(parent_id_name, attr_table, attr_table, attr_table, parent_id_name, ','.join([str(id) for id in parent_ids]))
+    if types is not None:
+        query = query + "AND attribute_type IN ('" + "','".join(types) + "')"
+    cur = connection.cursor()
+    cur.execute(query)
+    return cur.fetchall()
+
+
+CONNECTION_COLUMNS = [
+    'subject_id',
+    'connection_id',
+    'uuid',
+    'object_id',
+    'biolink_predicate',
+    'inverse_predicate',
+    'relation',
+    'inverse_relation',
+    'source_name',
+    'transformer'
+]
 
 
 def find_connections(query_element_id, controls):
@@ -372,6 +583,7 @@ def find_connections(query_element_id, controls):
         SELECT DISTINCT
             subject_id,
             connection_id,
+            uuid,
             object_id,
             biolink_predicate,
             inverse_predicate,
@@ -390,6 +602,7 @@ def find_connections(query_element_id, controls):
         SELECT DISTINCT
             object_id AS subject_id,
             connection_id,
+            uuid,
             subject_id AS object_id,
             inverse_predicate AS biolink_predicate,
             biolink_predicate AS inverse_predicate,
@@ -407,6 +620,27 @@ def find_connections(query_element_id, controls):
     )
     cur = connection.cursor()
     cur.execute(query,(query_element_id,query_element_id))
+    return cur.fetchall()
+
+
+####################################################################################################
+#
+# Given the Parent class, find child classes (e.g., For "Type II Diabetes" the child classes include
+# diabetic ketoacidosis, glucose metabolism disease, diabetes mellitus, noninsulin-dependent, 5)
+# 
+#
+#
+def find_hierarchy(query_element_id, hierarchy_types):
+    in_hierarchy_types = ' AND hierarchy_type IN (' + ','.join(["'"+hierarchy_type+"'" for hierarchy_type in hierarchy_types]) + ')' if hierarchy_types is not None else ''
+    if query_element_id is None:
+        return []
+    query = """
+        SELECT list_element_id, hierarchy_type
+        FROM Element_Hierarchy
+        WHERE parent_element_id = ? {};
+        """.format(in_hierarchy_types)
+    cur = connection.cursor()
+    cur.execute(query, (query_element_id,))
     return cur.fetchall()
 
 

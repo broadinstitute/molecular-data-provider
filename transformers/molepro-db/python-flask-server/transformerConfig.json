@@ -68,9 +68,6 @@
     "curie prefix map":{
         "PUBCHEM:":"CID:"
     },
-    "timeouts":{
-        "transformer_info": 1000
-    },
     "expirationTimes": {
         "collections": "2h",
         "myGene.info cache": "2w",
