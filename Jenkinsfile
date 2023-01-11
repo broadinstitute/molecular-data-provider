@@ -87,7 +87,7 @@ pipeline {
             }
             steps {
                 configFileProvider([
-                    configFile(fileId: 'values-transformers.yaml', targetLocation: 'values-transformers.yaml'),
+                    configFile(fileId: 'values-transformers.yaml', targetLocation: 'translator-ops/ops/molepro/helm/values-transformers.yaml'),
                     configFile(fileId: 'prepare.sh', targetLocation: 'prepare.sh')
                 ]){
                     script {
