@@ -94,6 +94,8 @@ pipeline {
                         sh '''
                         aws --region ${AWS_REGION} eks update-kubeconfig --name ${KUBERNETES_CLUSTER_NAME}
                         /bin/bash prepare.sh
+                        cd translator-ops/ops/molepro/helm/
+                        /bin/bash deploy.sh
                         '''
                     } 
                 }    
