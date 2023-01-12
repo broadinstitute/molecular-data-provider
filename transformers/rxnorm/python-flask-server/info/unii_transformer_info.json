@@ -1,15 +1,15 @@
 {
-    "name": "RxNorm drug-list producer",
+    "name": "UNII ingredient-list producer",
     "label": "RxNorm",
-    "description": "Drug-list producer based on RxNorm (https://www.nlm.nih.gov/research/umls/rxnorm/index.html).",
+    "description": "Ingredient producer based on RxNorm (https://www.nlm.nih.gov/research/umls/rxnorm/index.html).",
     "version": "2.4.0",
     "function": "producer",
     "knowledge_map": {
         "input_class": "none",
-        "output_class": "drug",
+        "output_class": "ChemicalEntity",
         "nodes": {
-            "Drug": {
-                "id_prefixes": ["RXCUI"],
+            "ChemicalEntity": {
+                "id_prefixes": ["UNII"],
                 "count": -1
             }
         },
@@ -23,11 +23,11 @@
     "parameters": [
         {
             "example": "aspirin",
-            "name": "drug",
+            "name": "ingredient",
             "type": "string",
             "required": true,
             "multivalued": true,
-            "suggested_values": "drugs name or RXCUI drug ids"
+            "suggested_values": "ingredient name or UNII ingredient ids"
         }
     ]
 }
