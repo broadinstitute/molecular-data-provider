@@ -1,7 +1,7 @@
 import sys
 import sqlite3
 
-connection = sqlite3.connect("ChEBI.sqlite", check_same_thread=False)
+connection = sqlite3.connect("chebi.sqlite", check_same_thread=False)
 
 def exec(sql_file):
     cur = connection.cursor()

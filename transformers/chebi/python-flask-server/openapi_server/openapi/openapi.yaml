@@ -4,7 +4,7 @@ info:
     email: translator@broadinstitute.org
   termsOfService: https://www.ebi.ac.uk/about/terms-of-use/
   title: Transformer API for ChEBI
-  version: 2.3.0
+  version: 2.4.0
 servers:
 - url: https://translator.broadinstitute.org/chebi
 tags:
@@ -686,6 +686,9 @@ components:
           description: Assertion Authored By Dr. Trans L. Ator
           provided_by: provided_by
           attribute_type_id: Biolink:has_p-value_evidence, Biolink:has_original_source
+          attributes:
+          - null
+          - null
           original_attribute_name: p-value
           value: 0.000153
         - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
@@ -694,6 +697,9 @@ components:
           description: Assertion Authored By Dr. Trans L. Ator
           provided_by: provided_by
           attribute_type_id: Biolink:has_p-value_evidence, Biolink:has_original_source
+          attributes:
+          - null
+          - null
           original_attribute_name: p-value
           value: 0.000153
         id: id
@@ -726,6 +732,9 @@ components:
             description: Assertion Authored By Dr. Trans L. Ator
             provided_by: provided_by
             attribute_type_id: Biolink:has_p-value_evidence, Biolink:has_original_source
+            attributes:
+            - null
+            - null
             original_attribute_name: p-value
             value: 0.000153
           - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
@@ -734,6 +743,9 @@ components:
             description: Assertion Authored By Dr. Trans L. Ator
             provided_by: provided_by
             attribute_type_id: Biolink:has_p-value_evidence, Biolink:has_original_source
+            attributes:
+            - null
+            - null
             original_attribute_name: p-value
             value: 0.000153
           source: source
@@ -750,6 +762,9 @@ components:
             description: Assertion Authored By Dr. Trans L. Ator
             provided_by: provided_by
             attribute_type_id: Biolink:has_p-value_evidence, Biolink:has_original_source
+            attributes:
+            - null
+            - null
             original_attribute_name: p-value
             value: 0.000153
           - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
@@ -758,6 +773,9 @@ components:
             description: Assertion Authored By Dr. Trans L. Ator
             provided_by: provided_by
             attribute_type_id: Biolink:has_p-value_evidence, Biolink:has_original_source
+            attributes:
+            - null
+            - null
             original_attribute_name: p-value
             value: 0.000153
           source: source
@@ -827,6 +845,9 @@ components:
         description: Assertion Authored By Dr. Trans L. Ator
         provided_by: provided_by
         attribute_type_id: Biolink:has_p-value_evidence, Biolink:has_original_source
+        attributes:
+        - null
+        - null
         original_attribute_name: p-value
         value: 0.000153
       properties:
@@ -880,6 +901,12 @@ components:
           example: Assertion Authored By Dr. Trans L. Ator
           nullable: true
           type: string
+        attributes:
+          description: 'A list of attributes providing further information about the
+            parent attribute. '
+          items:
+            $ref: '#/components/schemas/attribute'
+          type: array
         provided_by:
           description: Transformer that produced the attribute's value.
           type: string
@@ -937,6 +964,9 @@ components:
           description: Assertion Authored By Dr. Trans L. Ator
           provided_by: provided_by
           attribute_type_id: Biolink:has_p-value_evidence, Biolink:has_original_source
+          attributes:
+          - null
+          - null
           original_attribute_name: p-value
           value: 0.000153
         - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
@@ -945,6 +975,9 @@ components:
           description: Assertion Authored By Dr. Trans L. Ator
           provided_by: provided_by
           attribute_type_id: Biolink:has_p-value_evidence, Biolink:has_original_source
+          attributes:
+          - null
+          - null
           original_attribute_name: p-value
           value: 0.000153
         source: source
