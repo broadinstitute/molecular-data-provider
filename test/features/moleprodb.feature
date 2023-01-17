@@ -1,7 +1,7 @@
 Feature: Check MoleProDB transformer
 
     Background: Specify transformer API
-        Given a transformer at "https://molepro-db-transformer.ci.transltr.io/moleprodb"
+        Given a transformer at "https://molepro-db-transformer.test.transltr.io/moleprodb"
 
 
     Scenario: Check producer transformer info
