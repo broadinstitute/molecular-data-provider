@@ -2,7 +2,7 @@ Feature: Check RxNorm transformer
 
     Background: Specify transformer API
     
-        Given a transformer at "https://molepro-rxnorm-transformer.ci.transltr.io/rxnorm"
+        Given a transformer at "https://molepro-rxnorm-transformer.transltr.io/rxnorm"
 
     Scenario: Check RxNorm molecules producer info
         Given the transformer
