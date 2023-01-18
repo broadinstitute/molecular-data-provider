@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Transformer API for STITCH
-  version: 2.2.0
+  version: 2.2.1
   termsOfService: http://stitch.embl.de/cgi/access.pl?footer_active_subpage=licensing
   
   contact:
