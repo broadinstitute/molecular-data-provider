@@ -1,0 +1,130 @@
+{
+    "url": {
+        "base": "http://localhost:9200/molecular_data_provider",
+        "myGene.info": {
+            "search": "https://mygene.info/v3/query?q=%s&species=9606",
+            "query": "https://mygene.info/v3/gene/%s?fields=symbol,name,entrezgene,ensembl.gene,HGNC,MIM,alias"
+        },
+        "myChem.info": {
+            "query": "https://mychem.info/v1/chem/%s?fields=pubchem.cid,pubchem.inchi,pubchem.inchi_key,pubchem.smiles.isomeric,chebi.id,chebi.name,chebi.synonyms,chebi.xrefs.hmdb,chebi.xrefs.kegg_compound,chebi.xrefs.cas,chebi.xrefs.drug_central,drugbank.id,drugbank.name,drugbank.synonyms,chembl.molecule_chembl_id,chembl.pref_name,chembl.molecule_synonyms,chembl.inchi,chembl.inchi_key,chembl.smiles"
+        },
+        "PubChem": {
+            "description": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/%s/description/JSON",
+            "synonyms": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/%s/synonyms/JSON",
+            "smiles": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/smiles/cids/JSON",
+            "inchi": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/inchi/cids/JSON"
+        }
+    },
+    "curies": {
+        "nbcigene": {
+            "prefix": "NCBIGene:",
+            "uri": "https://www.ncbi.nlm.nih.gov/gene/%s"
+        },
+        "hgnc": {
+            "prefix": "HGNC:",
+            "uri": "https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/%s"
+        },
+        "ensembl": {
+            "prefix": "ENSEMBL:",
+            "uri": "https://useast.ensembl.org/Homo_sapiens/Gene/Summary?g=%s"
+        },
+        "pubchem": {
+            "prefix": "CID:",
+            "uri": "https://pubchem.ncbi.nlm.nih.gov/compound/%s",
+            "producer": "Pubchem compound-list producer"
+        },
+        "drugbank": {
+            "prefix": "DrugBank:",
+            "uri": "https://www.drugbank.ca/drugs/%s",
+            "producer": "DrugBank compound-list producer"
+        },
+        "chembl": {
+            "prefix": "ChEMBL:",
+            "uri": "https://www.ebi.ac.uk/chembl/compound_report_card/%s/",
+            "producer": "ChEMBL compound-list producer"
+        },
+        "hmdb": {
+            "prefix": "HMDB:",
+            "uri": "http://www.hmdb.ca/metabolites/%s",
+            "producer": "HMDB metabolite producer"
+        },
+        "kegg": {
+            "prefix": "KEGG.COMPOUND:",
+            "uri": "https://www.genome.jp/dbget-bin/www_bget?cpd:%s"
+        },
+        "drugcentral": {
+            "prefix": "DrugCentral:",
+            "uri": "http://drugcentral.org/drugcard/%s"
+        },
+        "cas": {
+            "prefix": "CAS:"
+        },
+        "chebi": {
+            "prefix": "CHEBI:",
+            "uri": "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=%s",
+            "producer":"ChEBI compound-list producer"
+        }
+    },
+    "curie prefix map":{
+        "PUBCHEM:":"CID:"
+    },
+    "expirationTimes": {
+        "collections": "2h",
+        "myGene.info cache": "2w",
+        "myChem.info cache": "2w",
+        "PubChem cache": "2w"
+    },
+    "compound-search producers": [
+        "DrugBank compound-list producer",
+        "Pubchem compound-list producer",
+        "ChEMBL compound-list producer"
+    ],
+    "compound-name priority":[
+        "MolePro",
+        "ChEBI",
+        "INN@ChEMBL",
+        "DrugBank",
+        "PubChem",
+        "ChEMBL",
+        "*@ChEMBL"
+    ],
+    "source provenance slots": [
+        "biolink:primary_knowledge_source",
+        "biolink:original_knowledge_source",
+        "biolink:aggregator_knowledge_source",
+        "biolink:supporting_data_source"
+    ],
+    "identifier priority": [
+        "pubchem",
+        "chembl",
+        "unii",
+        "chebi",
+        "drugbank",
+        "mondo",
+        "disease_ontology",
+        "hpo",
+        "go",
+        "react",
+        "msigdb",
+        "rxnorm",
+        "cas",
+        "drugcentral",
+        "gtopdb",
+        "hmdb",
+        "kegg",
+        "chembank",
+        "inchi",
+        "inchikey",
+        "uniprot",
+        "entrez",
+        "ensembl",
+        "hgnc",
+        "bigg",
+        "mim",
+        "nci_thesaurus",
+        "omim",
+        "umls",
+        "mesh",
+        "snomed"
+    ]
+}

@@ -1,0 +1,41 @@
+{
+    "name": "MoleProDB hierarchy transformer",
+    "label": "MolePro",
+    "description": "MoleProDB element hierarchy transformer",
+    "version": "2.4.4",
+    "function": "transformer",
+    "knowledge_map": {
+        "input_class": "any",
+        "output_class": "any",
+        "nodes": {},
+        "edges": []
+    },
+    "properties": {
+        "source_url": "https://translator.broadinstitute.org/molecular_data_provider/",
+        "source_version": "2.4.4 (2022-09-20)",
+        "terms_of_service": "https://github.com/broadinstitute/molecular-data-provider/blob/master/terms_of_service.md"
+    },
+    "parameters": [
+        {
+            "name": "name_source",
+            "type": "string",
+            "required": false,
+            "multivalued": true,
+            "suggested_values": "restrict names to a given source"
+        },
+        {
+            "name": "element_attribute",
+            "type": "string",
+            "required": false,
+            "multivalued": true,
+            "suggested_values": "restrict element attributes to a given type"
+        },
+        {
+            "name": "hierarchy_type",
+            "type": "string",
+            "required": false,
+            "multivalued": true,
+            "suggested_values": "restrict hierarchy type"
+        }
+    ]
+}
