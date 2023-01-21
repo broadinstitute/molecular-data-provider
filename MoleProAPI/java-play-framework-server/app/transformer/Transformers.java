@@ -11,6 +11,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import apimodels.Parameter;
 import apimodels.TransformerInfo;
 import transformer.collection.Collections;
 import transformer.InternalTransformer.InternalTransformerInfo;
@@ -133,6 +134,14 @@ public class Transformers {
 				info.setUrl(baseURL);
 			}
 			info.setStatus(ONLINE);
+			for (Parameter parameter : info.getParameters()) {
+				if (parameter.getRequired() == null) {
+					parameter.setRequired(true);
+				}
+				if (parameter.getMultivalued() == null) {
+					parameter.setMultivalued(false);
+				}
+			}
 		}
 		catch (Exception e) {
 			log.warn("Transformer offline: " + baseURL);

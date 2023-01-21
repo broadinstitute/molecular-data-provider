@@ -15,6 +15,7 @@ https://translator.broadinstitute.org/rxnorm/molecules
 https://translator.broadinstitute.org/bigg/metabolites
 https://translator.broadinstitute.org/ctdbase/chemicals
 https://translator.broadinstitute.org/probeminer/chemicals
+https://translator.broadinstitute.org/bindingdb/ligands
 # drugs
 https://translator.broadinstitute.org/inxight_drugs/drugs
 https://translator.broadinstitute.org/inxight_drugs/relationships
@@ -69,6 +70,7 @@ https://translator.broadinstitute.org/drugbank/protein_transporters
 https://translator.broadinstitute.org/drugbank/protein_carriers
 https://translator.broadinstitute.org/hmdb/protein_targets
 https://translator.broadinstitute.org/probeminer/protein_interactions
+https://translator.broadinstitute.org/bindingdb/bindings
 # compound relations
 https://translator.broadinstitute.org/chembl/metabolites
 https://translator.broadinstitute.org/pubchem/neighbors

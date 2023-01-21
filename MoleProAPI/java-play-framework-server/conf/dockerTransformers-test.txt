@@ -15,6 +15,7 @@ https://molepro-rxnorm-transformer.test.transltr.io/rxnorm/molecules
 https://molepro-biggmodels-transformer.test.transltr.io/bigg/metabolites
 https://molepro-ctd-transformer.test.transltr.io/ctdbase/chemicals
 https://molepro-probeminer-transformer.test.transltr.io/probeminer/chemicals
+https://molepro-bindingdb-transformer.test.transltr.io/bindingdb/ligands
 # drugs
 https://molepro-inxightdrugs-transformer.test.transltr.io/inxight_drugs/drugs
 https://molepro-inxightdrugs-transformer.test.transltr.io/inxight_drugs/relationships
@@ -67,6 +68,7 @@ https://molepro-drugbank-transformer.test.transltr.io/drugbank/protein_transport
 https://molepro-drugbank-transformer.test.transltr.io/drugbank/protein_carriers
 https://molepro-hmdb-transformer.test.transltr.io/hmdb/protein_targets
 https://molepro-probeminer-transformer.test.transltr.io/probeminer/protein_interactions
+https://molepro-bindingdb-transformer.test.transltr.io/bindingdb/bindings
 # compound relations
 https://molepro-chembl-transformer.test.transltr.io/chembl/metabolites
 https://molepro-pubchem-transformer.test.transltr.io/pubchem/neighbors

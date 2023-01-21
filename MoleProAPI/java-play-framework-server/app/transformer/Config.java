@@ -189,6 +189,7 @@ public class Config {
 		private MyGeneInfo myGeneInfo;
 		private MyChemInfo myChemInfo;
 		private PubChem pubchem;
+		private String automatHierarchyURL;
 
 
 		public String getBaseURL() {
@@ -238,6 +239,17 @@ public class Config {
 		@JsonProperty("PubChem")
 		public void setPubchem(PubChem pubchem) {
 			this.pubchem = pubchem;
+		}
+
+
+		public String getAutomatHierarchyURL() {
+			return automatHierarchyURL;
+		}
+
+
+		@JsonProperty("automat.hierarchy")
+		public void setAutomatHierarchyURL(String automatHierarchyURL) {
+			this.automatHierarchyURL = automatHierarchyURL;
 		}
 
 
