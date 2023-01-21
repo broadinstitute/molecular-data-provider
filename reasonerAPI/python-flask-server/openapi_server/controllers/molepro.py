@@ -11,6 +11,7 @@ from openapi_server.models.edge_binding import EdgeBinding
 from openapi_server.models.node_binding import NodeBinding
 from openapi_server.models.response import Response
 from openapi_server.models.attribute import Attribute
+from openapi_server.models.qualifier import Qualifier
 
 from openapi_server.controllers.utils import translate_type
 from openapi_server.controllers.utils import translate_curie
@@ -48,7 +49,9 @@ class MolePro:
 
 
     def execute_transformer_chain(self, mole_edge, transformer_list, map_original_query_id):
-        ''' passes the query through the transformers (one transformer per service/data) '''
+        ''' 
+        passes the query through the transformers (one transformer per service/data) 
+        '''
         collection_info = None
 
         # handle special case of chemical substance as source
@@ -122,6 +125,10 @@ class MolePro:
 
 
     def execute_transformer(self, src_subject, transformer, collection_info):
+        '''
+        query a transformer
+        return: will get a collection_id
+        '''
         url = BASE_URL+'/transform?cache=no'
         controls = []
         collection_id = collection_info.get('id') if collection_info is not None else None
@@ -138,6 +145,9 @@ class MolePro:
 
         if self.debug:
             print("querying transformer {} with id {}".format(transformer['name'], collection_id))
+            print("url: {}".format(url))
+            print("payload: {}\n".format(query))
+
         with closing(requests.post(url, json=query)) as response_obj:
             response_json = response_obj.json()
             if response_obj.status_code != 200:
@@ -146,11 +156,16 @@ class MolePro:
 
 
     def getCollection(self, collection_info, cache):
-        """ queries REST endpoint for collection data """ 
+        """ 
+        queries REST endpoint for collection data 
+        """ 
         if collection_info is None or collection_info.get('id') is None:
             return {'elements':[]}
         collection_id = collection_info.get('id')
         url = BASE_URL+'/collection/'+collection_id+'?cache='+cache
+
+        if self.debug:
+            print("query collection: {}\n".format(url))
 
         # call and close the request
         with closing(requests.get(url)) as response_obj:
@@ -175,10 +190,17 @@ class MolePro:
             if 'connections' in element and element.get('connections') is not Node:
                 connection_list = element.get('connections')
                 if connection_list is not None and len(connection_list) > 0:
+                    # log
+                    if self.debug and False:
+                        print("\nfor collection id: {} - have non empty connections: {}".format(collection_id, connection_list))
+                    # TODO - change to add all connections/edges
                     connections = connection_list[0]
 
                     # add the edge
                     edge = self.add_edge(source_node.id, target_node.id, mole_edge.edge_type, collection_id, connections)
+
+                    # 20221130 - trapi 1.3 - adding qualifiers for each edge 
+
 
                     # updated for trapi v1.0.0
                     source_original_id = map_original_query_id.get(source_node.id) if source_node.id else None
@@ -197,7 +219,8 @@ class MolePro:
     def add_element(self, element, source_id=None):
         """ pulls out the target node from the element data """
         # look for the connections
-        node_attribute_list = []
+        list_node_attributes = []
+        list_node_qualifiers = []
         if 'compound_id' in element:
             id = element['compound_id']
             element_type = 'SmallMolecule'
@@ -209,22 +232,38 @@ class MolePro:
             id = source_id
         # get the attributes
         if 'attributes' in element:
-            node_attribute_list = self.pull_attributes(element, node_attributes())
+            list_node_attribute, list_node_qualifiers = self.pull_attributes_qualifiers(element, node_attributes())
+
+        # debug
+        if self.debug:
+            for qualifier in list_node_qualifiers:
+                print("NODE: got qualifier: {}".format(qualifier))
 
         # return
-        return self.add_node(id, name, element_type, attributes=node_attribute_list)
+        return self.add_node(id, name, element_type, attributes=list_node_attributes)
 
-    def pull_attributes(self, node, biolink_attributes):
-        """ build a list of attributes from the values in the object """
-        attribute_list = []
+    def pull_attributes_qualifiers(self, node, biolink_attributes):
+        """ 
+        build a list of attributes and qualifiers from the values in the object 
+        """
+        # initialize
+        list_attributes = []
+        list_qualifiers = []
         if node is not None and 'attributes' in node and node.get('attributes') is not None:
             for attribute in node.get('attributes'):
                 # print("got attribute: {}".format(attribute))
-                if attribute.get('attribute_type_id') is not None and attribute.get('attribute_type_id') in biolink_attributes:
+                # collect the attributes
+                if attribute.get('attribute_type_id') is not None and attribute.get('attribute_type_id') in biolink_attributes and 'qualifier:' not in attribute.get('attribute_type_id'):
                     if attribute.get('value') is not None and attribute.get('value') != '':
-                        attribute_list.append(Attribute.from_dict(attribute))
+                        list_attributes.append(Attribute.from_dict(attribute))
 
-        return attribute_list
+                # collect the qualifiers
+                if attribute.get('attribute_type_id') is not None and 'qualifier:' in attribute.get('attribute_type_id'):
+                    if attribute.get('value') is not None and attribute.get('value') != '':
+                        qualifier_type = attribute.get('attribute_type_id').replace('qualifier:', '')
+                        list_qualifiers.append(Qualifier(qualifier_type_id=qualifier_type, qualifier_value=attribute.get('value')))
+
+        return list_attributes, list_qualifiers
 
 
     def add_node(self, id, name, type, attributes=None):
@@ -250,15 +289,22 @@ class MolePro:
 
 
     def add_edge(self, source_id, target_id, type, batch_id, connections=None):
-        """adds a new edge to the knowledge graph of the response
-            updated for trapi v1.0.0"""
+        """
+        adds a new edge to the knowledge graph of the response
+            updated for trapi v1.0.0
+        """
         # print("edge connection: {}".format(connections))
         # 20210301 - add all edges; source/target uniqueness not enough
         # set the id of the edge; this will be the key in the knowledge graph
         edge_id = 'e' + str(len(self.knowledge_graph.edges)) + '-' + batch_id
 
         # add in the attributes
-        attribute_list = self.pull_attributes(connections, edge_attributes())
+        list_attributes, list_qualifiers = self.pull_attributes_qualifiers(connections, edge_attributes())
+
+        # debug
+        if self.debug:
+            for qualifier in list_qualifiers:
+                print("EDGE: got qualifier: {}".format(qualifier))
 
         # add the relation
         predicate = type
@@ -266,7 +312,8 @@ class MolePro:
             predicate = connections.get('biolink_predicate')
 
         # create the edge object
-        edge = Edge(predicate=translate_type(predicate, False), subject=source_id, object=target_id, attributes=attribute_list)
+        # edge = Edge(predicate=translate_type(predicate, False), subject=source_id, object=target_id, attributes=list_attributes)
+        edge = Edge(predicate=translate_type(predicate, False), subject=source_id, object=target_id, attributes=list_attributes, qualifiers=list_qualifiers)
         edge.id = edge_id                # added for trapi v1.0.0
 
         # add the edge to the graph and results collections

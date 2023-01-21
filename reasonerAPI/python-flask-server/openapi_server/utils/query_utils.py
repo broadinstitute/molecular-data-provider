@@ -4,6 +4,7 @@ import json
 from openapi_server.models.query_graph import QueryGraph
 from openapi_server.models.knowledge_graph import KnowledgeGraph
 from openapi_server.models.response import Response
+from openapi_server.models.qualifier import Qualifier
 
 # constants
 MESSAGE = "message"
@@ -29,8 +30,10 @@ with open('conf/biolinkPredicateInverse.json') as json_file:
 
 # methods
 def reverse_response(response: Response, query_graph: QueryGraph, debug=False):
-    ''' will reverse the response data, flipping the subject/object and the predicates '''
-    ''' also replace the query graph with the one provided '''
+    ''' 
+    will reverse the response data, flipping the subject/object and the predicates 
+    also replace the query graph with the one provided 
+    '''
     # initialize
     flipped_response = copy.deepcopy(response)
 
@@ -45,6 +48,19 @@ def reverse_response(response: Response, query_graph: QueryGraph, debug=False):
         # flip the predicate
         if map_predicate.get(response.message.knowledge_graph.edges.get(r_edge_id).predicate):
             flipped_response.message.knowledge_graph.edges.get(r_edge_id).predicate = map_predicate.get(response.message.knowledge_graph.edges.get(r_edge_id).predicate)
+
+        # qualifiers: for each qualifier, flip object/subject
+        list_qualifiers: list[Qualifier] = r_edge_value.qualifiers
+        for qualifier in list_qualifiers:
+            # make sure you only flip once
+            if 'object_' in qualifier.qualifier_type_id:
+                qualifier.qualifier_type_id = qualifier.qualifier_type_id.replace('object_', 'subject_')
+                if debug:
+                    print("flipped object qualifier to: {}".format(qualifier))
+            elif 'subject_' in qualifier.qualifier_type_id:
+                qualifier.qualifier_type_id = qualifier.qualifier_type_id.replace('subject_', 'object_')
+                if debug:
+                    print("flipped subject qualifier to: {}".format(qualifier))
 
     # replace the query graph
     flipped_response.message.query_graph = query_graph
