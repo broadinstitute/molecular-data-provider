@@ -12,6 +12,9 @@ pipeline {
         string(name: 'AWS_REGION', defaultValue: 'us-east-1', description: 'AWS Region to deploy')
         string(name: 'KUBERNETES_CLUSTER_NAME', defaultValue: 'translator-eks-ci-blue-cluster', description: 'AWS EKS that will host this application')
     }
+    environment {
+        TRANSFORMERS = "moleproapi"
+    }    
     triggers {
         pollSCM('H/2 * * * *')
     }
@@ -58,20 +61,20 @@ pipeline {
             }
             steps {
                 withEnv([
-                    "IMAGE_NAME=translator-molepro-molepro",
+                    "IMAGE_NAME=853771734544.dkr.ecr.us-east-1.amazonaws.com/translator-molepro-molepro",
                     "BUILD_VERSION=" + (params.BUILD_VERSION ?: env.BUILD_VERSION)
                 ]) {
-                    dir(".") {
-                        script {
-                             docker.build("${env.IMAGE_NAME}", "--build-arg SOURCE_FOLDER=./${BUILD_VERSION} --no-cache .")
-                                 docker.withRegistry('https://853771734544.dkr.ecr.us-east-1.amazonaws.com', 'ecr:us-east-1:ifx-jenkins-ci') {
-                                     docker.image("${env.IMAGE_NAME}").push("${BUILD_VERSION}")
-                            }
-                        }
+                    script {
+                        docker.build("${env.IMAGE_NAME}", "--build-arg SOURCE_FOLDER=./${BUILD_VERSION} --no-cache .")
+                        sh '''
+                        docker login -u AWS -p $(aws ecr get-login-password --region us-east-1) 853771734544.dkr.ecr.us-east-1.amazonaws.com
+                        '''
+                        docker.image("${env.IMAGE_NAME}").push("${BUILD_VERSION}")
                     }
                 }
             }
         }
+        
         stage('Deploy') {
             when {
                 anyOf {
@@ -79,22 +82,28 @@ pipeline {
                     triggeredBy 'UserIdCause'
                 }
             }
+            agent {
+                label 'translator && ci && deploy'
+            }
             steps {
-                sshagent (credentials: ['labshare-svc']) {
-                    dir(".") {
-                        sh 'git clone git@github.com:Sphinx-Automation/translator-ops.git'
-                        configFileProvider([
-                            configFile(fileId: 'molepro-api-ci-env', targetLocation: 'translator-ops/ops/molepro/moleproapi/.env')
-                        ]){
-                            withAWS(credentials:'aws-ifx-deploy') {
-                                sh '''
-                                aws --region ${AWS_REGION} eks update-kubeconfig --name ${KUBERNETES_CLUSTER_NAME}
-                                cd translator-ops/ops/molepro/moleproapi/
-                                /bin/bash deploy.sh
-                                '''
-                            }
-                        }
-                    }
+                configFileProvider([
+                    configFile(fileId: 'molepro-api-ci-env', targetLocation: 'molepro-api-ci-env'),
+                    configFile(fileId: 'prepare-moleproapi.sh', targetLocation: 'prepare-moleproapi.sh')
+                ]){
+                    script {
+                        sh '''
+                        aws --region ${AWS_REGION} eks update-kubeconfig --name ${KUBERNETES_CLUSTER_NAME}
+                        /bin/bash prepare-moleproapi.sh
+                        cd translator-ops/ops/molepro/moleproapi/
+                        /bin/bash deploy.sh
+                        '''
+                    } 
+                }    
+            }
+            post {
+                always {
+                    echo " Clean up the workspace in deploy node!"
+                    cleanWs()
                 }
             }
         }
