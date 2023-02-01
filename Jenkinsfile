@@ -32,7 +32,7 @@ pipeline {
                         return !params.BUILD_VERSION
                     }
                     anyOf {
-                        changeset "*"
+                        changeset "**"
                         triggeredBy 'UserIdCause'
                     }
                 }
@@ -54,7 +54,7 @@ pipeline {
                         return !params.BUILD_VERSION
                     }
                     anyOf {
-                        changeset "*"
+                        changeset "**"
                         triggeredBy 'UserIdCause'
                     }
                 }
@@ -64,13 +64,13 @@ pipeline {
                     "IMAGE_NAME=853771734544.dkr.ecr.us-east-1.amazonaws.com/translator-molepro-bigg-models",
                     "BUILD_VERSION=" + (params.BUILD_VERSION ?: env.BUILD_VERSION)
                 ]) {
-                        script {
-                             docker.build("${env.IMAGE_NAME}", "--build-arg SOURCE_FOLDER=./${BUILD_VERSION} --no-cache .")
-                                     sh '''
-                                     docker login -u AWS -p $(aws ecr get-login-password --region us-east-1) 853771734544.dkr.ecr.us-east-1.amazonaws.com
-                                     '''
-                                     docker.image("${env.IMAGE_NAME}").push("${BUILD_VERSION}")
-                        }
+                    script {
+                        docker.build("${env.IMAGE_NAME}", "--build-arg SOURCE_FOLDER=./${BUILD_VERSION} --no-cache .")
+                        sh '''
+                        docker login -u AWS -p $(aws ecr get-login-password --region us-east-1) 853771734544.dkr.ecr.us-east-1.amazonaws.com
+                        '''
+                        docker.image("${env.IMAGE_NAME}").push("${BUILD_VERSION}")
+                    }
                 }
             }
         }
@@ -78,7 +78,7 @@ pipeline {
         stage('Deploy') {
             when {
                 anyOf {
-                    changeset "*"
+                    changeset "**"
                     triggeredBy 'UserIdCause'
                 }
             }
@@ -94,12 +94,18 @@ pipeline {
                         sh '''
                         aws --region ${AWS_REGION} eks update-kubeconfig --name ${KUBERNETES_CLUSTER_NAME}
                         /bin/bash prepare.sh
-                        cp -R translator-ops/ops/molepro/config/transformers/molepro-biggmodels.yaml translator-ops/ops/molepro/helm/
+                        cp translator-ops/ops/molepro/config/transformers/molepro-biggmodels.yaml translator-ops/ops/molepro/helm/
                         cd translator-ops/ops/molepro/helm/
                         /bin/bash deploy.sh
                         '''
                     } 
                 }    
+            }
+            post {
+                always {
+                    echo " Clean up the workspace in deploy node!"
+                    cleanWs()
+                }
             }
         }
     }
