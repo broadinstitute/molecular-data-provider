@@ -1,0 +1,45 @@
+{
+    "name": "UniProt protein-list producer",
+    "label": "UniProt",
+    "description": "Protein-list producer based on UniProt (https://www.uniprot.org/).",
+    "version": "2.4.0",
+    "function": "producer",
+    "knowledge_map": {
+        "input_class": "none",
+        "output_class": "protein",
+        "nodes": {
+            "Protein": {
+                "id_prefixes": [
+                    "UniProtKB",
+                    "ENSEMBL"
+                ],
+                "count": 99594,
+                "attributes": [
+                    {
+                        "attribute_type_id": "data:1249",
+                        "source": "UniProt",
+                        "names": [
+                            "protein sequence length"
+                        ]
+                    }
+                ]
+            }
+        },
+        "edges": []
+    },
+    "properties": {
+        "source_url": "https://www.uniprot.org/",
+        "source_version": "release-2022_04 (2022-10-12)",
+        "terms_of_service": "https://www.uniprot.org/help/license"
+    },
+    "parameters": [
+        {
+            "example": "UniProtKB:P04637",
+            "name": "protein",
+            "type": "string",
+            "suggested_values": "protein names, UniProt ids, or Ensembl ids",
+            "required": true,
+            "multivalued":true
+        }
+    ]
+}

@@ -23,7 +23,9 @@ paths:
         required: true
         schema:
           enum:
+          - molecules
           - proteins
+          - genes
           type: string
         style: simple
       - description: Directive for handling caching, can be 'yes' (default), 'no',
@@ -85,7 +87,9 @@ paths:
         required: true
         schema:
           enum:
+          - molecules
           - proteins
+          - genes
           type: string
         style: simple
       - description: Directive for handling caching, can be 'yes' (default), 'no',

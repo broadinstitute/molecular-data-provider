@@ -1,0 +1,48 @@
+{
+    "name": "UniProt protein to gene transformer",
+    "label": "UniProt",
+    "description": "Protein to gene transformer based on UniProt (https://www.uniprot.org/).",
+    "version": "2.4.0",
+    "function": "transformer",
+    "knowledge_map": {
+        "input_class": "protein",
+        "output_class": "gene",
+        "nodes": {
+            "Protein": {
+                "id_prefixes": [
+                    "UniProtKB",
+                    "ENSEMBL"
+                ],
+                "count": 205788,
+                "attributes": [
+                    {
+                        "attribute_type_id": "data:1249",
+                        "source": "UniProt",
+                        "names": [
+                            "protein sequence length"
+                        ]
+                    }
+                ]
+            },
+            "Gene":{
+                "id_prefixes":[
+                    "HGNC"
+                ]
+            }
+        },
+        "edges": [
+            {
+                "subject": "biolink:Protein",
+                "predicate": "biolink:gene_product_of",
+                "inverse_predicate": "biolink:has_gene_product",
+                "object": "biolink:Gene"
+            }
+        ]
+    },
+    "properties": {
+        "source_url": "https://www.uniprot.org/",
+        "source_version": "release-2022_04 (2022-10-12)",
+        "terms_of_service": "https://www.uniprot.org/help/license"
+    },
+    "parameters": []
+}
