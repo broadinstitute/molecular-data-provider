@@ -87,7 +87,7 @@ pipeline {
             }
             steps {
                 configFileProvider([
-                    configFile(fileId: 'reasoner-api-ci-env', targetLocation: 'reasoner-api-ci-env'),
+                    configFile(fileId: 'reasoner-api-ci-env', targetLocation: '.env'),
                     configFile(fileId: 'prepare-reasonerapi.sh', targetLocation: 'prepare-reasonerapi.sh')
                 ]){
                     script {
