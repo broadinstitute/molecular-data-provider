@@ -12,9 +12,6 @@ pipeline {
         string(name: 'AWS_REGION', defaultValue: 'us-east-1', description: 'AWS Region to deploy')
         string(name: 'KUBERNETES_CLUSTER_NAME', defaultValue: 'translator-eks-ci-blue-cluster', description: 'AWS EKS that will host this application')
     }
-    environment {
-        TRANSFORMERS = "moleproapi"
-    }    
     triggers {
         pollSCM('H/2 * * * *')
     }
@@ -87,7 +84,7 @@ pipeline {
             }
             steps {
                 configFileProvider([
-                    configFile(fileId: 'molepro-api-ci-env', targetLocation: 'molepro-api-ci-env'),
+                    configFile(fileId: 'molepro-api-ci-env', targetLocation: '.env'),
                     configFile(fileId: 'prepare-moleproapi.sh', targetLocation: 'prepare-moleproapi.sh')
                 ]){
                     script {
