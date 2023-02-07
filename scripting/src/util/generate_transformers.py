@@ -3,7 +3,7 @@ from collections import defaultdict
 
 from molepro.openapi_server.classes.transformer_info import TransformerInfo
 
-url = 'https://translator.broadinstitute.org/molecular_data_provider/transformers'
+url = 'https://molepro.broadinstitute.org/molecular_data_provider/transformers'
 
 
 def generate_transformers(transformers):
@@ -20,12 +20,13 @@ def generate_transformers(transformers):
 def generate_transformer(transformer: TransformerInfo):
     function_name = name_to_function_name(transformer.name)
     variable_list = '('
+    cache = ",cache='yes'"
     if transformer.function == 'producer':
         variable_list = variable_list + get_variable_list(transformer)[2:]+')'
     elif transformer.function == 'aggregator':
-        variable_list = variable_list + '*args)'
+        variable_list = variable_list + '*args'+cache+')'
     else:
-        variable_list += 'collection'+get_variable_list(transformer)+')'
+        variable_list += 'collection'+get_variable_list(transformer)+cache+')'
     print('def '+function_name+variable_list+':')
 
     print("    transformer = '"+ transformer.name +"'")
@@ -75,7 +76,7 @@ def get_variable_list(transformer: TransformerInfo):
             variable_list = variable_list + ', '+parameter_to_variable(parameter.name)
     for parameter in transformer.parameters:
         if parameter.required is not None and parameter.required == False:
-            variable_list = variable_list + ', '+parameter_to_variable(parameter.name) + '=' + str(parameter.default)
+            variable_list = variable_list + ', '+parameter_to_variable(parameter.name) + "='" + str(parameter.default)+"'"
     return variable_list
 
 
@@ -93,6 +94,8 @@ def generate_transformer_groups(transformers):
     for classes in trans_by_class.keys():
         input_class, output_class = classes
         if len(trans_by_class[classes]) > 2 and (input_class == 'compound' or output_class == 'compound'):
+            generate_transformer_group(input_class, output_class, trans_by_class[classes])
+        elif input_class in ('none','disease') and output_class in ('gene','protein','disease'):
             generate_transformer_group(input_class, output_class, trans_by_class[classes])
 
 
@@ -123,7 +126,7 @@ def generate_transformer_group(input_class, output_class, transformers):
             variable_list = 'collection'+get_variable_list(transformer)
         print('    x'+str(i)+' = '+function_name+'('+variable_list+')')
         collections.append('x'+str(i))
-    print('    return union(' + ",".join(collections) + ')')
+    print('    return union(' + ",".join(collections) + ",cache='no')")
     print()
     print()
 
