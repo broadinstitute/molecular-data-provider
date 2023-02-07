@@ -11,10 +11,7 @@ pipeline {
         string(name: 'BUILD_VERSION', defaultValue: '', description: 'The build version to deploy (optional)')
         string(name: 'AWS_REGION', defaultValue: 'us-east-1', description: 'AWS Region to deploy')
         string(name: 'KUBERNETES_CLUSTER_NAME', defaultValue: 'translator-eks-ci-blue-cluster', description: 'AWS EKS that will host this application')
-    }
-    environment {
-        TRANSFORMERS = "reasonerapi"
-    }    
+    }  
     triggers {
         pollSCM('H/2 * * * *')
     }
@@ -87,7 +84,7 @@ pipeline {
             }
             steps {
                 configFileProvider([
-                    configFile(fileId: 'reasoner-api-ci-env', targetLocation: 'reasoner-api-ci-env'),
+                    configFile(fileId: 'reasoner-api-ci-env', targetLocation: '.env'),
                     configFile(fileId: 'prepare-reasonerapi.sh', targetLocation: 'prepare-reasonerapi.sh')
                 ]){
                     script {
