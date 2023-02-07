@@ -155,6 +155,9 @@ class KnowledgeMap:
 
         # build the nodes
         with requests.get(url_transformers) as response:
+            logger.warn('Loading transformer list from {}, status_code = {}'.format(url_transformers, response.status_code))
+            if response.status_code != 200:
+                logger.warn('Failed to load transformer list. {}: {}'.format(response.reason,response.text))
             nodes, map_edge_attributes = self.get_node_prefixes(response.json())        
 
         # add MoleProDB predicates
