@@ -14,4 +14,4 @@ COPY reasonerAPI/python-flask-server .
 COPY reasonerAPI/python-flask-server/requirements.txt .
 RUN pip3 install --no-cache-dir -r requirements.txt
 EXPOSE 8080
-CMD ["nohup","gunicorn", "-w","128","-b","0.0.0.0:8080","openapi_server.__main__:app","--timeout","600"]
+CMD ["nohup","gunicorn", "-w","1","-b","0.0.0.0:8080","openapi_server.__main__:app","--timeout","600"]
