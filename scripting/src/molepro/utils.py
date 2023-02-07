@@ -3,7 +3,7 @@ def get_controls(**kwargs):
     controls = []
     for key, value in kwargs.items():
         name = key.replace('___','-')
-        name = key.replace('__',' ')
+        name = name.replace('__',' ')
         if type(value) == list:
             for val in value:
                 controls.append({
@@ -11,8 +11,9 @@ def get_controls(**kwargs):
                     "value": val
                 })
         else:
-            controls.append({
-                "name": name,
-                "value": value
-            })
+            if value is not None:
+                controls.append({
+                    "name": name,
+                    "value": value
+                })
     return controls

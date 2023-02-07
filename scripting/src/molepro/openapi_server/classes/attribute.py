@@ -127,8 +127,8 @@ class Attribute(Model):
         :param original_attribute_name: The original_attribute_name of this Attribute.
         :type original_attribute_name: str
         """
-        if original_attribute_name is None:
-            raise ValueError("Invalid value for `original_attribute_name`, must not be `None`")  # noqa: E501
+        # if original_attribute_name is None:
+        #     raise ValueError("Invalid value for `original_attribute_name`, must not be `None`")  # noqa: E501
 
         self._original_attribute_name = original_attribute_name
 
@@ -200,8 +200,8 @@ class Attribute(Model):
         :param attribute_source: The attribute_source of this Attribute.
         :type attribute_source: str
         """
-        if attribute_source is None:
-            raise ValueError("Invalid value for `attribute_source`, must not be `None`")  # noqa: E501
+        # if attribute_source is None:
+        #    raise ValueError("Invalid value for `attribute_source`, must not be `None`")  # noqa: E501
 
         self._attribute_source = attribute_source
 

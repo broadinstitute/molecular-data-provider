@@ -5,8 +5,8 @@ from datetime import date, datetime  # noqa: F401
 
 from typing import List, Dict  # noqa: F401
 
-from openapi_server.classes.base_model_ import Model
-from openapi_server import util
+from molepro.openapi_server.classes.base_model_ import Model
+from molepro.openapi_server import util
 
 
 class ErrorMsg(Model):
