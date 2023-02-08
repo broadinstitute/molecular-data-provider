@@ -4,7 +4,7 @@ info:
     email: translator@broadinstitute.org
   termsOfService: http://stitch.embl.de/cgi/access.pl?footer_active_subpage=licensing
   title: Transformer API for STITCH
-  version: 2.2.0
+  version: 2.2.1
 servers:
 - url: https://translator.broadinstitute.org/stitch
 tags:

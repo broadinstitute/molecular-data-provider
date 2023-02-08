@@ -10,19 +10,24 @@ import javax.validation.constraints.*;
 /**
  * Description of attribute types provided by this knowledge source.
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class KmAttribute   {
   @JsonProperty("type")
+  
   private String type;
 
   @JsonProperty("attribute_type_id")
+  @NotNull
+
   private String attributeTypeId;
 
   @JsonProperty("source")
+  
   private String source;
 
   @JsonProperty("names")
+  
   private List<String> names = null;
 
   public KmAttribute type(String type) {
@@ -34,7 +39,7 @@ public class KmAttribute   {
    * CURIE of the semantic type of the attribute, from the EDAM ontology if possible. If a suitable identifier does not exist, enter a descriptive phrase here and submit the new type for consideration by the appropriate authority.
    * @return type
   **/
-    public String getType() {
+  public String getType() {
     return type;
   }
 
@@ -51,7 +56,6 @@ public class KmAttribute   {
    * CURIE of the semantic type of the attribute, from the EDAM ontology if possible. If a suitable identifier does not exist, enter a descriptive phrase here and submit the new type for consideration by the appropriate authority.
    * @return attributeTypeId
   **/
-  @NotNull
   public String getAttributeTypeId() {
     return attributeTypeId;
   }
@@ -69,7 +73,7 @@ public class KmAttribute   {
    * Source of the attribute, as a CURIE prefix.
    * @return source
   **/
-    public String getSource() {
+  public String getSource() {
     return source;
   }
 
@@ -94,7 +98,7 @@ public class KmAttribute   {
    * Human-readable names or labels for the attribute for attributes of  given type.
    * @return names
   **/
-    public List<String> getNames() {
+  public List<String> getNames() {
     return names;
   }
 
@@ -104,7 +108,7 @@ public class KmAttribute   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -141,7 +145,7 @@ public class KmAttribute   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

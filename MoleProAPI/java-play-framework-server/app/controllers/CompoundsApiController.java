@@ -6,59 +6,55 @@ import apimodels.Element;
 import apimodels.ErrorMsg;
 import java.util.List;
 
+import com.typesafe.config.Config;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Http;
 import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import java.io.File;
+import play.libs.Files.TemporaryFile;
 import openapitools.OpenAPIUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import javax.validation.constraints.*;
-import play.Configuration;
+import com.typesafe.config.Config;
 
 import openapitools.OpenAPIUtils.ApiAction;
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 public class CompoundsApiController extends Controller {
-
     private final CompoundsApiControllerImpInterface imp;
     private final ObjectMapper mapper;
-    private final Configuration configuration;
+    private final Config configuration;
 
     @Inject
-    private CompoundsApiController(Configuration configuration, CompoundsApiControllerImpInterface imp) {
+    private CompoundsApiController(Config configuration, CompoundsApiControllerImpInterface imp) {
         this.imp = imp;
         mapper = new ObjectMapper();
         this.configuration = configuration;
     }
 
-
     @ApiAction
-    public Result compoundByIdCompoundIdGet(String compoundId) throws Exception {
-        String valuecache = request().getQueryString("cache");
+    public Result compoundByIdCompoundIdGet(Http.Request request, String compoundId) throws Exception {
+        String valuecache = request.getQueryString("cache");
         String cache;
         if (valuecache != null) {
             cache = valuecache;
         } else {
             cache = null;
         }
-        Element obj = imp.compoundByIdCompoundIdGet(compoundId, cache);
-        if (configuration.getBoolean("useOutputBeanValidation")) {
-            OpenAPIUtils.validate(obj);
-        }
-        JsonNode result = mapper.valueToTree(obj);
-        return ok(result);
+        return imp.compoundByIdCompoundIdGetHttp(request, compoundId, cache);
     }
 
     @ApiAction
-    public Result compoundByIdPost() throws Exception {
-        JsonNode noderequestBody = request().body().asJson();
+    public Result compoundByIdPost(Http.Request request) throws Exception {
+        JsonNode noderequestBody = request.body().asJson();
         List<String> requestBody;
         if (noderequestBody != null) {
             requestBody = mapper.readValue(noderequestBody.toString(), new TypeReference<List<String>>(){});
@@ -70,41 +66,31 @@ public class CompoundsApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'request_body' parameter is required");
         }
-        String valuecache = request().getQueryString("cache");
+        String valuecache = request.getQueryString("cache");
         String cache;
         if (valuecache != null) {
             cache = valuecache;
         } else {
             cache = null;
         }
-        CollectionInfo obj = imp.compoundByIdPost(requestBody, cache);
-        if (configuration.getBoolean("useOutputBeanValidation")) {
-            OpenAPIUtils.validate(obj);
-        }
-        JsonNode result = mapper.valueToTree(obj);
-        return ok(result);
+        return imp.compoundByIdPostHttp(request, requestBody, cache);
     }
 
     @ApiAction
-    public Result compoundByNameNameGet(String name) throws Exception {
-        String valuecache = request().getQueryString("cache");
+    public Result compoundByNameNameGet(Http.Request request, String name) throws Exception {
+        String valuecache = request.getQueryString("cache");
         String cache;
         if (valuecache != null) {
             cache = valuecache;
         } else {
             cache = null;
         }
-        Collection obj = imp.compoundByNameNameGet(name, cache);
-        if (configuration.getBoolean("useOutputBeanValidation")) {
-            OpenAPIUtils.validate(obj);
-        }
-        JsonNode result = mapper.valueToTree(obj);
-        return ok(result);
+        return imp.compoundByNameNameGetHttp(request, name, cache);
     }
 
     @ApiAction
-    public Result compoundByNamePost() throws Exception {
-        JsonNode noderequestBody = request().body().asJson();
+    public Result compoundByNamePost(Http.Request request) throws Exception {
+        JsonNode noderequestBody = request.body().asJson();
         List<String> requestBody;
         if (noderequestBody != null) {
             requestBody = mapper.readValue(noderequestBody.toString(), new TypeReference<List<String>>(){});
@@ -116,24 +102,19 @@ public class CompoundsApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'request_body' parameter is required");
         }
-        String valuecache = request().getQueryString("cache");
+        String valuecache = request.getQueryString("cache");
         String cache;
         if (valuecache != null) {
             cache = valuecache;
         } else {
             cache = null;
         }
-        CollectionInfo obj = imp.compoundByNamePost(requestBody, cache);
-        if (configuration.getBoolean("useOutputBeanValidation")) {
-            OpenAPIUtils.validate(obj);
-        }
-        JsonNode result = mapper.valueToTree(obj);
-        return ok(result);
+        return imp.compoundByNamePostHttp(request, requestBody, cache);
     }
 
     @ApiAction
-    public Result compoundByStructurePost() throws Exception {
-        JsonNode nodebody = request().body().asJson();
+    public Result compoundByStructurePost(Http.Request request) throws Exception {
+        JsonNode nodebody = request.body().asJson();
         String body;
         if (nodebody != null) {
             body = mapper.readValue(nodebody.toString(), String.class);
@@ -143,18 +124,14 @@ public class CompoundsApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-        String valuecache = request().getQueryString("cache");
+        String valuecache = request.getQueryString("cache");
         String cache;
         if (valuecache != null) {
             cache = valuecache;
         } else {
             cache = null;
         }
-        Element obj = imp.compoundByStructurePost(body, cache);
-        if (configuration.getBoolean("useOutputBeanValidation")) {
-            OpenAPIUtils.validate(obj);
-        }
-        JsonNode result = mapper.valueToTree(obj);
-        return ok(result);
+        return imp.compoundByStructurePostHttp(request, body, cache);
     }
+
 }

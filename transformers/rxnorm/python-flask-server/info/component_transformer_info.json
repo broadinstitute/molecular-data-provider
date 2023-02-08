@@ -1,0 +1,34 @@
+{
+    "name": "RxNorm components transformer",
+    "label": "RxNorm",
+    "description": "Drug components transformer based on RxNorm (https://www.nlm.nih.gov/research/umls/rxnorm/index.html).",
+    "version": "2.4.0",
+    "function": "transformer",
+    "knowledge_map": {
+        "input_class": "drug",
+        "output_class": "drug",
+        "nodes": {
+            "Drug": {
+                "id_prefixes": ["RXCUI"],
+                "count": -1
+            }
+        },
+        "edges": [
+            {
+                "subject": "ChemicalEntity",
+                "predicate": "biolink:part_of",
+                "inverse_predicate": "biolink:has_part",
+                "object": "Drug",
+                "source": "RxNorm",
+                "count": -1,
+                "attributes": []
+            }
+        ]
+    },
+    "properties": {
+        "source_url": "https://www.nlm.nih.gov/research/umls/rxnorm/index.html",
+        "source_version": "20AA_220307F (2022-03-07)",
+        "terms_of_service": "https://www.nlm.nih.gov/research/umls/rxnorm/docs/termsofservice.html"
+    },
+    "parameters": []
+}

@@ -1,0 +1,58 @@
+{
+    "name": "HMDB locations transformer",
+    "label": "HMDB",
+    "description": "Anatomical locations transformer based on the Human Metabolome Database information (https://www.hmdb.ca/).",
+    "version": "2.4.0",
+    "function": "transformer",
+    "knowledge_map": {
+        "input_class": "compound",
+        "output_class": "AnatomicalEntity",
+        "nodes": {
+            "SmallMolecule": {
+                "id_prefixes": [
+                    "HMDB",
+                    "inchikey"
+                ],
+                "count": -1,
+                "attributes": []
+            },
+            "AnatomicalEntity": {
+                "id_prefixes": [
+                    "UBERON",
+                    "CL",
+                    "GO"
+                ],
+                "count": -1,
+                "attributes": []
+            }
+        },
+        "edges": [
+            {
+                "subject": "SmallMolecule",
+                "predicate": "located_in",
+                "inverse_predicate": "location of",
+                "object": "AnatomicalEntity",
+                "source": "HMDB",
+                "count": 138100,
+                "attributes": [
+                  {
+                    "type": "reference",
+                    "source": "HMDB",
+                    "names": ["reference"]
+                  },
+                  {
+                    "type": "concentration",
+                    "source": "HMDB",
+                    "names": ["normal concentration","abnormal concentration"]
+                  }
+                ]
+            }
+        ]
+    },
+    "properties": {
+        "source_url": "https://www.hmdb.ca/",
+        "source_version": "5.0 (2021-11-17)",
+        "terms_of_service": "http://www.hmdb.ca/about"
+    },
+    "parameters": []
+}

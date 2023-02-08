@@ -15,41 +15,41 @@ class TransformerInfoProperties(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, list_predicate=None, member_predicate=None, source_url=None, terms_of_service=None, method=None):  # noqa: E501
+    def __init__(self, source_url=None, source_version=None, terms_of_service=None, method=None, method_url=None):  # noqa: E501
         """TransformerInfoProperties - a model defined in OpenAPI
 
-        :param list_predicate: The list_predicate of this TransformerInfoProperties.  # noqa: E501
-        :type list_predicate: str
-        :param member_predicate: The member_predicate of this TransformerInfoProperties.  # noqa: E501
-        :type member_predicate: str
         :param source_url: The source_url of this TransformerInfoProperties.  # noqa: E501
         :type source_url: str
+        :param source_version: The source_version of this TransformerInfoProperties.  # noqa: E501
+        :type source_version: str
         :param terms_of_service: The terms_of_service of this TransformerInfoProperties.  # noqa: E501
         :type terms_of_service: str
         :param method: The method of this TransformerInfoProperties.  # noqa: E501
         :type method: str
+        :param method_url: The method_url of this TransformerInfoProperties.  # noqa: E501
+        :type method_url: str
         """
         self.openapi_types = {
-            'list_predicate': str,
-            'member_predicate': str,
             'source_url': str,
+            'source_version': str,
             'terms_of_service': str,
-            'method': str
+            'method': str,
+            'method_url': str
         }
 
         self.attribute_map = {
-            'list_predicate': 'list_predicate',
-            'member_predicate': 'member_predicate',
             'source_url': 'source_url',
+            'source_version': 'source_version',
             'terms_of_service': 'terms_of_service',
-            'method': 'method'
+            'method': 'method',
+            'method_url': 'method_url'
         }
 
-        self._list_predicate = list_predicate
-        self._member_predicate = member_predicate
         self._source_url = source_url
+        self._source_version = source_version
         self._terms_of_service = terms_of_service
         self._method = method
+        self._method_url = method_url
 
     @classmethod
     def from_dict(cls, dikt) -> 'TransformerInfoProperties':
@@ -61,52 +61,6 @@ class TransformerInfoProperties(Model):
         :rtype: TransformerInfoProperties
         """
         return util.deserialize_model(dikt, cls)
-
-    @property
-    def list_predicate(self):
-        """Gets the list_predicate of this TransformerInfoProperties.
-
-        BioLink model predicate describing relationship between input and output gene lists.  # noqa: E501
-
-        :return: The list_predicate of this TransformerInfoProperties.
-        :rtype: str
-        """
-        return self._list_predicate
-
-    @list_predicate.setter
-    def list_predicate(self, list_predicate):
-        """Sets the list_predicate of this TransformerInfoProperties.
-
-        BioLink model predicate describing relationship between input and output gene lists.  # noqa: E501
-
-        :param list_predicate: The list_predicate of this TransformerInfoProperties.
-        :type list_predicate: str
-        """
-
-        self._list_predicate = list_predicate
-
-    @property
-    def member_predicate(self):
-        """Gets the member_predicate of this TransformerInfoProperties.
-
-        BioLink model predicate describing relationship between input and output genes.  # noqa: E501
-
-        :return: The member_predicate of this TransformerInfoProperties.
-        :rtype: str
-        """
-        return self._member_predicate
-
-    @member_predicate.setter
-    def member_predicate(self, member_predicate):
-        """Sets the member_predicate of this TransformerInfoProperties.
-
-        BioLink model predicate describing relationship between input and output genes.  # noqa: E501
-
-        :param member_predicate: The member_predicate of this TransformerInfoProperties.
-        :type member_predicate: str
-        """
-
-        self._member_predicate = member_predicate
 
     @property
     def source_url(self):
@@ -130,6 +84,29 @@ class TransformerInfoProperties(Model):
         """
 
         self._source_url = source_url
+
+    @property
+    def source_version(self):
+        """Gets the source_version of this TransformerInfoProperties.
+
+        Version of the underlying source or data.  # noqa: E501
+
+        :return: The source_version of this TransformerInfoProperties.
+        :rtype: str
+        """
+        return self._source_version
+
+    @source_version.setter
+    def source_version(self, source_version):
+        """Sets the source_version of this TransformerInfoProperties.
+
+        Version of the underlying source or data.  # noqa: E501
+
+        :param source_version: The source_version of this TransformerInfoProperties.
+        :type source_version: str
+        """
+
+        self._source_version = source_version
 
     @property
     def terms_of_service(self):
@@ -158,7 +135,7 @@ class TransformerInfoProperties(Model):
     def method(self):
         """Gets the method of this TransformerInfoProperties.
 
-        A method used to generate output gene lists.  # noqa: E501
+        A method used to generate output lists.  # noqa: E501
 
         :return: The method of this TransformerInfoProperties.
         :rtype: str
@@ -169,10 +146,33 @@ class TransformerInfoProperties(Model):
     def method(self, method):
         """Sets the method of this TransformerInfoProperties.
 
-        A method used to generate output gene lists.  # noqa: E501
+        A method used to generate output lists.  # noqa: E501
 
         :param method: The method of this TransformerInfoProperties.
         :type method: str
         """
 
         self._method = method
+
+    @property
+    def method_url(self):
+        """Gets the method_url of this TransformerInfoProperties.
+
+        Link to a description of a method used to generate output lists.  # noqa: E501
+
+        :return: The method_url of this TransformerInfoProperties.
+        :rtype: str
+        """
+        return self._method_url
+
+    @method_url.setter
+    def method_url(self, method_url):
+        """Sets the method_url of this TransformerInfoProperties.
+
+        Link to a description of a method used to generate output lists.  # noqa: E501
+
+        :param method_url: The method_url of this TransformerInfoProperties.
+        :type method_url: str
+        """
+
+        self._method_url = method_url

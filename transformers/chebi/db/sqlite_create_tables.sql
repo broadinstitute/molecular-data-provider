@@ -30,7 +30,7 @@ CREATE TABLE comments (
                                             references compounds(id)
                                             on delete cascade,
         text                text            not null,
-        created_on          timestamp(0)    not null,
+        created_on          text    not null,
         datatype            varchar(80)     ,
         datatype_id         int             not null
 );

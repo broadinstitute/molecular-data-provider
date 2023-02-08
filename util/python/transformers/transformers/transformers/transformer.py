@@ -187,7 +187,7 @@ class Transformer:
     # 
     def has_prefix(self, fieldname, identifier, molepro_class=None):
         if molepro_class is None:
-            molepro_class = self.INPUT_CLASS     
+            molepro_class = self.INPUT_CLASS 
         if identifier.upper().find(self.prefix_map[self.biolink_class(molepro_class)][fieldname]['molepro_prefix'].upper()) == 0:
             return True
         else:
@@ -203,12 +203,16 @@ class Transformer:
     #  * molepro_class: such as "compound", as specified by input_class or output_class in the 
     #    xxx_transformer_info.json file
     #
-    #  This method was made case-insenstive with respect to the "identifier" argument.
+    #  This method was made case-insenstive with respect to the prefix (e.g., "ChEMBL:") in the "identifier" argument.
+    #  The prefix to be removed from the identifier is determined by the fieldname and the molepro_class
+    #  (i.e., fieldname "chembl" & molepro_class "ChemicalSubstance" means the prefix should be "ChEMBL:")
     #  
     def de_prefix(self, fieldname, identifier, molepro_class=None):
         if molepro_class is None:
             molepro_class = self.INPUT_CLASS 
-        return identifier.upper().split(self.prefix_map[self.biolink_class(molepro_class)][fieldname]['molepro_prefix'].upper() ,1)[1] 
+        prefix = identifier[0 : identifier.index(':')  + 1]        # find the putative prefix
+        identifier = identifier.replace( prefix, prefix.upper() )  # make just the prefix part uppercase to prepare for de-prefixing
+        return identifier.split(self.prefix_map[self.biolink_class(molepro_class)][fieldname]['molepro_prefix'].upper() ,1)[1] 
 
 
     #######################################################################################################

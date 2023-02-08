@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -27,11 +28,21 @@ public class Config {
 			String json = new String(Files.readAllBytes(Paths.get("conf/transformerConfig.json")));
 			Config config = JSON.mapper.readValue(json, Config.class);
 			log.info("Loaded config from conf/transformerConfig.json");
+			config.transformersFileName = "conf/transformers.txt";
+			if (System.getenv().containsKey("MOLEPRO_TRANSFORMERS")) {
+				config.transformersFileName = System.getenv().get("MOLEPRO_TRANSFORMERS");
+			}
 			return config;
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			log.error("Unable to load configuration file", e);
 			throw new InternalServerError("Unable to load configuration file");
 		}
+	}
+
+
+	public String transformersFileName() {
+		return transformersFileName;
 	}
 
 
@@ -42,9 +53,14 @@ public class Config {
 	private URL url;
 	private CURIES curies;
 	private Map<String,String> curiePrefixMap;
+	private Timeouts timeouts;
 	private ExpirationTimes expirationTimes;
 	private String[] compoundSearchProducers;
-	private Map<String, Integer> compoundNamePriority;
+	private Map<String,Integer> compoundNamePriority;
+	private HashSet<String> sourceProvenanceSlots;
+	private String[] identifierPriority;
+	private String transformersFileName;
+
 
 	public URL url() {
 		return url;
@@ -82,6 +98,17 @@ public class Config {
 	}
 
 
+	public Timeouts getTimeouts() {
+		return timeouts;
+	}
+
+
+	@JsonProperty("timeouts")
+	public void setTimeouts(Timeouts timeouts) {
+		this.timeouts = timeouts;
+	}
+
+
 	public ExpirationTimes getExpirationTimes() {
 		return expirationTimes;
 	}
@@ -110,11 +137,11 @@ public class Config {
 		}
 		String[] secondarySource = nameSource.split("@");
 		if (secondarySource.length == 2) {
-			if (compoundNamePriority.containsKey("*"+secondarySource[1])) {
-				return compoundNamePriority.get("*"+secondarySource[1]);
+			if (compoundNamePriority.containsKey("*" + secondarySource[1])) {
+				return compoundNamePriority.get("*" + secondarySource[1]);
 			}
-			if (compoundNamePriority.containsKey(secondarySource[0]+"*")) {
-				return compoundNamePriority.get(secondarySource[0]+"*");
+			if (compoundNamePriority.containsKey(secondarySource[0] + "*")) {
+				return compoundNamePriority.get(secondarySource[0] + "*");
 			}
 		}
 		return compoundNamePriority.size();
@@ -125,8 +152,34 @@ public class Config {
 	public void setCompoundNamePriorityOrder(String[] compoundNamePriority) {
 		this.compoundNamePriority = new HashMap<>();
 		for (int i = 0; i < compoundNamePriority.length; i++) {
-			this.compoundNamePriority.put(compoundNamePriority[i],i);
+			this.compoundNamePriority.put(compoundNamePriority[i], i);
 		}
+	}
+
+
+	public boolean isSourceProvenanceSlot(String slot) {
+		return sourceProvenanceSlots.contains(slot);
+	}
+
+
+	@JsonProperty("source provenance slots")
+	public void setSourceProvenanceSlots(String[] sourceProvenanceSlots) {
+		HashSet<String> sourceProvenanceSlotSet = new HashSet<String>();
+		for (String sourceProvenanceSlot : sourceProvenanceSlots) {
+			sourceProvenanceSlotSet.add(sourceProvenanceSlot);
+		}
+		this.sourceProvenanceSlots = sourceProvenanceSlotSet;
+	}
+
+
+	public String[] getIdentifierPriority() {
+		return identifierPriority;
+	}
+
+
+	@JsonProperty("identifier priority")
+	public void setIdentifierPriority(String[] identifierPriority) {
+		this.identifierPriority = identifierPriority;
 	}
 
 
@@ -146,6 +199,12 @@ public class Config {
 		@JsonProperty("base")
 		public void setBaseURL(String baseURL) {
 			this.baseURL = baseURL;
+			if (baseURL.contains("localhost") && System.getenv().containsKey("MOLEPRO_HOST")) {
+				this.baseURL = System.getenv().get("MOLEPRO_HOST");
+			}
+			else if (baseURL.contains("localhost") && System.getenv().containsKey("HOST")) {
+				this.baseURL = System.getenv().get("HOST");
+			}
 		}
 
 
@@ -387,7 +446,6 @@ public class Config {
 		}
 
 
-		
 		public void setProducer(String producer) {
 			this.producer = producer;
 		}
@@ -415,6 +473,24 @@ public class Config {
 			}
 			return curie;
 		}
+	}
+
+
+	public static class Timeouts {
+
+		private int transformerInfo;
+
+
+		public int getTransformerInfoTimeout() {
+			return transformerInfo;
+		}
+
+
+		@JsonProperty("transformer_info")
+		public void setTransformerInfo(int transformerInfo) {
+			this.transformerInfo = transformerInfo;
+		}
+
 	}
 
 

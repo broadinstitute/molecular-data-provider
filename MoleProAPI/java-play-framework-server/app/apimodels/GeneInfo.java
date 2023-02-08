@@ -12,19 +12,26 @@ import javax.validation.constraints.*;
 /**
  * GeneInfo
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class GeneInfo   {
   @JsonProperty("gene_id")
+  @NotNull
+
   private String geneId;
 
   @JsonProperty("identifiers")
+  @Valid
+
   private GeneInfoIdentifiers identifiers;
 
   @JsonProperty("attributes")
+  @Valid
+
   private List<Attribute> attributes = null;
 
   @JsonProperty("source")
+  
   private String source;
 
   public GeneInfo geneId(String geneId) {
@@ -36,7 +43,6 @@ public class GeneInfo   {
    * Id of the gene. Preferably HGNC id; can be Entrez or ENSEMBL id if HGNC id is not available.
    * @return geneId
   **/
-  @NotNull
   public String getGeneId() {
     return geneId;
   }
@@ -54,7 +60,6 @@ public class GeneInfo   {
    * Get identifiers
    * @return identifiers
   **/
-  @Valid
   public GeneInfoIdentifiers getIdentifiers() {
     return identifiers;
   }
@@ -80,7 +85,6 @@ public class GeneInfo   {
    * Additional information about the gene and provenance about gene-list membership.
    * @return attributes
   **/
-  @Valid
   public List<Attribute> getAttributes() {
     return attributes;
   }
@@ -98,7 +102,7 @@ public class GeneInfo   {
    * Name of a transformer that added gene to the gene list.
    * @return source
   **/
-    public String getSource() {
+  public String getSource() {
     return source;
   }
 
@@ -108,7 +112,7 @@ public class GeneInfo   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -145,7 +149,7 @@ public class GeneInfo   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

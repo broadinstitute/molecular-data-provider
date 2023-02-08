@@ -11,16 +11,22 @@ import javax.validation.constraints.*;
 /**
  * AggregationQuery
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class AggregationQuery   {
   @JsonProperty("operation")
+  @NotNull
+
   private String operation;
 
   @JsonProperty("controls")
+  @Valid
+
   private List<Property> controls = null;
 
   @JsonProperty("collection_ids")
+  @NotNull
+
   private List<String> collectionIds = new ArrayList<>();
 
   public AggregationQuery operation(String operation) {
@@ -32,7 +38,6 @@ public class AggregationQuery   {
    * Gene-list aggregation operation, one of 'union', 'intersection', 'difference','symmetric difference'.
    * @return operation
   **/
-  @NotNull
   public String getOperation() {
     return operation;
   }
@@ -58,7 +63,6 @@ public class AggregationQuery   {
    * Values that control the behavior of the aggregator. Names of the controls must match the names specified in the aggregator's definition and values must match types (and possibly  allowed_values) specified in the aggregator's definition.
    * @return controls
   **/
-  @Valid
   public List<Property> getControls() {
     return controls;
   }
@@ -81,7 +85,6 @@ public class AggregationQuery   {
    * Ids of the collections to be aggregated.
    * @return collectionIds
   **/
-  @NotNull
   public List<String> getCollectionIds() {
     return collectionIds;
   }
@@ -92,7 +95,7 @@ public class AggregationQuery   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -127,7 +130,7 @@ public class AggregationQuery   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

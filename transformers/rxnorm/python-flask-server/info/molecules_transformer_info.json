@@ -2,25 +2,32 @@
     "name": "RxNorm compound-list producer",
     "label": "RxNorm",
     "description": "Compound-list producer based on RxNorm (https://www.nlm.nih.gov/research/umls/rxnorm/index.html).",
-    "version": "2.1.0",
+    "version": "2.4.0",
     "function": "producer",
     "knowledge_map": {
         "input_class": "none",
         "output_class": "compound",
-        "predicates": []
+        "nodes": {
+            "SmallMolecule": {
+                "id_prefixes": ["UNII", "INCHIKEY"],
+                "count": -1
+            }
+        },
+        "edges": []
     },
     "properties": {
-        "list_predicate": "related_to",
-        "member_predicate": "related_to",
         "source_url": "https://www.nlm.nih.gov/research/umls/rxnorm/index.html",
+        "source_version": "20AA_220307F (2022-03-07)",
         "terms_of_service": "https://www.nlm.nih.gov/research/umls/rxnorm/docs/termsofservice.html"
     },
     "parameters": [
         {
             "example": "aspirin",
-            "name": "compounds",
+            "name": "compound",
             "type": "string",
-            "suggested_values": "semicolon-separated list of compounds names or drug names"
+            "required": true,
+            "multivalued": true,
+            "suggested_values": "compound or drug name, UBII id, or InChIKey"
         }
     ]
 }

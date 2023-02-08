@@ -45,6 +45,3 @@ source venv/bin/activate.csh
 nohup gunicorn -w 2 -b 0.0.0.0:<port#> openapi_server.__main__:app --timeout 1800 >& logs/openapi_server.log &
 deactivate
 ```
-
-
-

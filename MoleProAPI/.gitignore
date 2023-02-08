@@ -34,3 +34,6 @@ java-play-framework-server/bin
 java-play-framework-server/target/
 java-play-framework-server/project/target/
 java-play-framework-server/project/project/target/
+
+#local config files
+java-play-framework-server/conf/local*

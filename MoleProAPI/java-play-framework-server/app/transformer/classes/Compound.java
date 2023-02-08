@@ -1,8 +1,9 @@
 package transformer.classes;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -20,6 +21,7 @@ import apimodels.Names;
 import apimodels.Property;
 import apimodels.MoleProQuery;
 import transformer.Config;
+import transformer.MoleProDB;
 import transformer.Config.CURIE;
 import transformer.Transformer;
 import transformer.Transformer.Query;
@@ -27,7 +29,6 @@ import transformer.Transformers;
 import transformer.collection.Aggregator;
 import transformer.collection.CollectionElement;
 import transformer.collection.Collections;
-import transformer.collection.Collections.CACHE;
 import transformer.collection.CollectionsEntry;
 import transformer.collection.CollectionsEntry.CompoundCollection;
 import transformer.exception.BadRequestException;
@@ -38,7 +39,7 @@ import transformer.exception.InternalServerError;
 public class Compound extends TransformerClass {
 
 	public static final String CLASS = "compound";
-	public static final String BIOLINK_CLASS = "ChemicalSubstance";
+	public static final String BIOLINK_CLASS = "SmallMolecule";
 
 	/**
 	 * Logger
@@ -55,7 +56,7 @@ public class Compound extends TransformerClass {
 	@Override
 	public Query getQuery(final List<Property> controls, CollectionsEntry collection) throws BadRequestException {
 		if (collection instanceof CompoundCollection) {
-			return new CompoundListQuery(controls, ((CompoundCollection) collection).getCompounds());
+			return new CompoundListQuery(controls, ((CompoundCollection)collection).getCompounds());
 		}
 		if (CLASS.equals(collection.getInfo().getElementClass())) {
 			CompoundCollection compoundCollection = new CompoundCollection(collection.getInfo(), collection.getElements());
@@ -79,7 +80,7 @@ public class Compound extends TransformerClass {
 		return new CompoundCollection(collectionInfo, filter(compounds));
 	}
 
-	
+
 	private final CompoundInfo[] filter(final CompoundInfo[] src) {
 		final List<CompoundInfo> compounds = new ArrayList<>();
 		for (CompoundInfo compound : src) {
@@ -90,7 +91,7 @@ public class Compound extends TransformerClass {
 		return compounds.toArray(new CompoundInfo[compounds.size()]);
 	}
 
-	
+
 	public static void updateCompound(final Element compound) {
 		MyChem.Info.addInfo(compound);
 		PubChem.addInfo(compound);
@@ -114,10 +115,10 @@ public class Compound extends TransformerClass {
 		for (String key : idKeys) {
 			if (identifiers.containsKey(key)) {
 				if (identifiers.get(key) instanceof String) {
-					return (String) identifiers.get(key);
+					return (String)identifiers.get(key);
 				}
 				if (identifiers.get(key) instanceof String[]) {
-					return ((String[]) identifiers.get(key))[0];
+					return ((String[])identifiers.get(key))[0];
 				}
 			}
 		}
@@ -220,7 +221,7 @@ public class Compound extends TransformerClass {
 	private static CompoundCollection getCollection(final String id, String cache) throws NotFoundException, BadRequestException {
 		final CollectionsEntry collection = Collections.getCollection(id, cache);
 		if (collection instanceof CompoundCollection) {
-			return (CompoundCollection) collection;
+			return (CompoundCollection)collection;
 		}
 		if (CLASS.equals(collection.getInfo().getElementClass())) {
 			return new CompoundCollection(collection.getInfo(), collection.getElements());
@@ -246,33 +247,70 @@ public class Compound extends TransformerClass {
 
 
 	public static Collection getCompoundByName(final String name, String cache) throws NotFoundException, BadRequestException {
-		return getCompoundsByName(name, cache).asCollection();
+		String[] names = name.split(";");
+		return compoundsByName(Arrays.asList(names), cache).asCollection();
 	}
 
 
 	public static CollectionInfo getCompoundsByName(final List<String> compoundNames, String cache) throws Exception {
-		return getCompoundsByName(compoundNames.stream().collect(Collectors.joining(";", "", "")), cache).getInfo();
+		return compoundsByName(compoundNames, cache).getInfo();
 	}
 
 
-	public static CollectionsEntry getCompoundsByName(final String name, String cache) throws NotFoundException, BadRequestException {
+	private static CollectionsEntry compoundsByName(final List<String> names, String cache) throws NotFoundException, BadRequestException {
+		final CollectionInfo collectionInfo = new CollectionInfo();
 		final List<CollectionsEntry> collections = new ArrayList<>();
-		for (String producerName : Config.config.getCompoundSearchProducers()) {
-			try {
-				final CollectionsEntry response = getOneCompoundByName(producerName, name);
-				collections.add(response);
-			} catch (Exception e) {
-				log.warn("Unable to obtain compound '" + name + "' from " + producerName, e);
+		final HashSet<String> remainingNames = new HashSet<>(names);
+		try {
+			final CollectionsEntry moleProDbCollection = MoleProDB.NameProducer.transform(names);
+			moleProDbCollection.getInfo().setElementClass(CLASS);
+			collections.add(moleProDbCollection);
+			for (Element element : moleProDbCollection.asCollection().getElements()) {
+				if (element.getAttributes() != null)
+					for (Attribute attribute : element.getAttributes())
+						if ("query name".equals(attribute.getOriginalAttributeName())) {
+							remainingNames.remove(attribute.getValue());
+						}
+			}
+		}
+		catch (Exception e) {
+			collectionInfo.addAttributesItem(warningAttribute(e, "InternalServerError"));
+		}
+		if (remainingNames.size() > 0) {
+			collections.add(compoundsByName(remainingNames));
+		}
+		final CollectionsEntry union = Aggregator.union(collections);
+		final String source = "MolePro";
+		union.getInfo().setSource(source);
+		for (String name : names) {
+			union.getInfo().addAttributesItem(new Attribute().originalAttributeName("query name").value(name).attributeSource(source));
+		}
+		if (collectionInfo.getAttributes() != null)
+			for (Attribute attribute : collectionInfo.getAttributes()) {
+				union.getInfo().addAttributesItem(attribute);
+			}
+		Collections.save(union, cache);
+		return union;
+	}
+
+
+	private static CompoundCollection compoundsByName(final HashSet<String> remainingNames) {
+		final List<CollectionsEntry> collections = new ArrayList<>();
+		for (String name : remainingNames) {
+			for (String producerName : Config.config.getCompoundSearchProducers()) {
+				try {
+					final CollectionsEntry response = getOneCompoundByName(producerName, name);
+					collections.add(response);
+				}
+				catch (Exception e) {
+					log.warn("Unable to obtain compound '" + name + "' from " + producerName, e);
+				}
 			}
 		}
 		final CompoundCollection union = (CompoundCollection)Aggregator.union(collections);
-		for (CompoundInfo compound: union.getCompounds()) {
+		for (CompoundInfo compound : union.getCompounds()) {
 			updateCompound(compound);
 		}
-		final String source = "Molecular Data Provider";
-		union.getInfo().setSource(source);
-		union.getInfo().addAttributesItem(new Attribute().originalAttributeName("query name").value(name).attributeSource(source));
-		Collections.save(union, cache);
 		return union;
 	}
 
@@ -292,7 +330,19 @@ public class Compound extends TransformerClass {
 		if (compoundId == null || compoundId.length() == 0) {
 			throw new BadRequestException("Empty ID in the compound-by-id query");
 		}
-		CompoundInfo compound = updateCompound(findCompoundById(Config.config.mapCuriePrefix(compoundId)).getCompoundInfo());
+		try {
+			final Collection moleProDbCollection = MoleProDB.IdProducer.transform(java.util.Collections.singletonList(compoundId)).asCollection();
+			if (moleProDbCollection.getSize() > 1) {
+				log.warn("Obtained multiple compounds from MoleProDB for " + compoundId);
+			}
+			if (moleProDbCollection.getSize() > 0) {
+				return moleProDbCollection.getElements().get(0);
+			}
+		}
+		catch (Exception e) {
+			log.warn("Failed to obtain compound from MoleProDB", e);
+		}
+		final CompoundInfo compound = updateCompound(findCompoundById(compoundId).getCompoundInfo());
 		return new CollectionElement.CompoundElement(compound).getElement();
 	}
 
@@ -303,14 +353,33 @@ public class Compound extends TransformerClass {
 		collectionInfo.setAttributes(new ArrayList<Attribute>());
 		collectionInfo.setElementClass(CLASS);
 		final List<CollectionElement> elements = new ArrayList<>();
-		for (final String compoundId : compoundIds) {
+		final HashSet<String> remainingIds = new HashSet<>(compoundIds);
+		try {
+			final Collection moleProDbCollection = MoleProDB.IdProducer.transform(compoundIds).asCollection();
+			for (Element element : moleProDbCollection.getElements()) {
+				elements.add(new CollectionElement.ElementElement(element));
+				remainingIds.remove(element.getId());
+				if (element.getAttributes() != null)
+					for (Attribute attribute : element.getAttributes())
+						if ("query name".equals(attribute.getOriginalAttributeName())) {
+							remainingIds.remove(attribute.getValue());
+						}
+			}
+		}
+		catch (Exception e) {
+			collectionInfo.addAttributesItem(warningAttribute(e, "InternalServerError"));
+		}
+		for (final String compoundId : remainingIds) {
 			try {
 				elements.add(findCompoundById(compoundId));
-			} catch (NotFoundException e) {
+			}
+			catch (NotFoundException e) {
 				collectionInfo.addAttributesItem(warningAttribute(e, "NotFoundException"));
-			} catch (Exception e) {
+			}
+			catch (Exception e) {
 				collectionInfo.addAttributesItem(warningAttribute(e, "InternalServerError"));
-			} catch (InternalServerError e) {
+			}
+			catch (InternalServerError e) {
 				collectionInfo.addAttributesItem(warningAttribute(e, "InternalServerError"));
 			}
 		}
@@ -352,7 +421,8 @@ public class Compound extends TransformerClass {
 	}
 
 
-	private static CollectionElement findCompoundById(final String compoundId) throws NotFoundException {
+	private static CollectionElement findCompoundById(final String srcCompoundId) throws NotFoundException {
+		final String compoundId = Config.config.mapCuriePrefix(srcCompoundId);
 		for (CURIE curie : Config.getConfig().getCuries().getAllCuries()) {
 			if (curie.isPrefixOf(compoundId) && curie.getProducer() != null) {
 				return findCompoundById(curie.getProducer(), compoundId);
@@ -366,14 +436,19 @@ public class Compound extends TransformerClass {
 	}
 
 
-	private static CollectionElement findCompoundById(final String producer, final String compoundId) {
+	private static CollectionElement findCompoundById(final String producer, final String compoundId) throws NotFoundException {
 		try {
 			final CollectionsEntry entry = getOneCompoundByName(producer, compoundId);
 			if (entry.getInfo().getSize() == 0) {
 				throw new NotFoundException(compoundId + " not found in " + producer);
 			}
 			return entry.getElements()[0];
-		} catch (Exception e) {
+		}
+		catch (NotFoundException e) {
+			log.warn(e.getMessage());
+			throw new NotFoundException("Unable to obtain compound " + compoundId + " from " + producer + ": " + e.getMessage());
+		}
+		catch (Exception e) {
 			log.warn(e.getMessage(), e);
 			throw new InternalServerError("Unable to obtain compound " + compoundId + " from " + producer + ": " + e.getMessage());
 		}

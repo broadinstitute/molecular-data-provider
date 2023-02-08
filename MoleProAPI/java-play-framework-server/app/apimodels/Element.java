@@ -15,34 +15,52 @@ import javax.validation.constraints.*;
 /**
  * Element
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Element   {
   @JsonProperty("id")
+  @NotNull
+
   private String id;
 
   @JsonProperty("biolink_class")
+  @NotNull
+
   private String biolinkClass;
 
   @JsonProperty("identifiers")
+  @NotNull
+
   private Map<String, Object> identifiers = new HashMap<>();
 
   @JsonProperty("alternative_identifiers")
+  @Valid
+
   private List<Map<String, Object>> alternativeIdentifiers = null;
 
   @JsonProperty("names_synonyms")
+  @Valid
+
   private List<Names> namesSynonyms = null;
 
   @JsonProperty("attributes")
+  @Valid
+
   private List<Attribute> attributes = null;
 
   @JsonProperty("connections")
+  @Valid
+
   private List<Connection> connections = null;
 
   @JsonProperty("source")
+  @NotNull
+
   private String source;
 
   @JsonProperty("provided_by")
+  @NotNull
+
   private String providedBy;
 
   public Element id(String id) {
@@ -54,7 +72,6 @@ public class Element   {
    * Primary identifier of the element.
    * @return id
   **/
-  @NotNull
   public String getId() {
     return id;
   }
@@ -72,7 +89,6 @@ public class Element   {
    * BioLink class of the element.
    * @return biolinkClass
   **/
-  @NotNull
   public String getBiolinkClass() {
     return biolinkClass;
   }
@@ -95,7 +111,6 @@ public class Element   {
    * identifiers of the element.
    * @return identifiers
   **/
-  @NotNull
   public Map<String, Object> getIdentifiers() {
     return identifiers;
   }
@@ -121,7 +136,6 @@ public class Element   {
    * identifiers of additional chemical structures associated with chemical substance.
    * @return alternativeIdentifiers
   **/
-  @Valid
   public List<Map<String, Object>> getAlternativeIdentifiers() {
     return alternativeIdentifiers;
   }
@@ -147,7 +161,6 @@ public class Element   {
    * Names and synonyms of the element.
    * @return namesSynonyms
   **/
-  @Valid
   public List<Names> getNamesSynonyms() {
     return namesSynonyms;
   }
@@ -173,7 +186,6 @@ public class Element   {
    * Additional information about the element and provenance about collection membership.
    * @return attributes
   **/
-  @Valid
   public List<Attribute> getAttributes() {
     return attributes;
   }
@@ -199,7 +211,6 @@ public class Element   {
    * connections to elements of the input collection.
    * @return connections
   **/
-  @Valid
   public List<Connection> getConnections() {
     return connections;
   }
@@ -217,7 +228,6 @@ public class Element   {
    * Source of the element
    * @return source
   **/
-  @NotNull
   public String getSource() {
     return source;
   }
@@ -235,7 +245,6 @@ public class Element   {
    * Name of a transformer that added the element to the collection.
    * @return providedBy
   **/
-  @NotNull
   public String getProvidedBy() {
     return providedBy;
   }
@@ -246,7 +255,7 @@ public class Element   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -293,7 +302,7 @@ public class Element   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

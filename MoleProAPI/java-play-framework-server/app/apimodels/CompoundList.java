@@ -14,28 +14,41 @@ import javax.validation.constraints.*;
 /**
  * CompoundList
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class CompoundList   {
   @JsonProperty("id")
+  @NotNull
+
   private String id;
 
   @JsonProperty("size")
+  @NotNull
+
   private Integer size;
 
   @JsonProperty("element_class")
+  @NotNull
+
   private String elementClass;
 
   @JsonProperty("source")
+  @NotNull
+
   private String source;
 
   @JsonProperty("url")
+  
   private String url;
 
   @JsonProperty("attributes")
+  @Valid
+
   private List<Attribute> attributes = null;
 
   @JsonProperty("elements")
+  @Valid
+
   private List<CompoundInfo> elements = null;
 
   public CompoundList id(String id) {
@@ -47,7 +60,6 @@ public class CompoundList   {
    * ID of the collection.
    * @return id
   **/
-  @NotNull
   public String getId() {
     return id;
   }
@@ -65,7 +77,6 @@ public class CompoundList   {
    * Number of elements in the collection.
    * @return size
   **/
-  @NotNull
   public Integer getSize() {
     return size;
   }
@@ -83,7 +94,6 @@ public class CompoundList   {
    * BioLink-compatible class of elements in this collection.
    * @return elementClass
   **/
-  @NotNull
   public String getElementClass() {
     return elementClass;
   }
@@ -101,7 +111,6 @@ public class CompoundList   {
    * Transformer that produced this collection.
    * @return source
   **/
-  @NotNull
   public String getSource() {
     return source;
   }
@@ -119,7 +128,7 @@ public class CompoundList   {
    * URL to obtain members of this collection.
    * @return url
   **/
-    public String getUrl() {
+  public String getUrl() {
     return url;
   }
 
@@ -144,7 +153,6 @@ public class CompoundList   {
    * Additional information and provenance about the collection.
    * @return attributes
   **/
-  @Valid
   public List<Attribute> getAttributes() {
     return attributes;
   }
@@ -170,7 +178,6 @@ public class CompoundList   {
    * Members of the compound list.
    * @return elements
   **/
-  @Valid
   public List<CompoundInfo> getElements() {
     return elements;
   }
@@ -181,7 +188,7 @@ public class CompoundList   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -224,7 +231,7 @@ public class CompoundList   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

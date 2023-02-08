@@ -1,0 +1,21 @@
+# java files
+**/*.class
+**/*.jar
+
+#eclipse-related files
+.settings
+.project
+.classpath
+.cache-main
+.cache-tests
+bin
+/bin/
+
+
+#sbt-generated files
+target/
+project/target/
+project/project/target/
+
+#data files
+data/

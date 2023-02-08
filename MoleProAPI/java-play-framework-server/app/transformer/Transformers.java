@@ -21,6 +21,8 @@ import transformer.exception.NotFoundException;
 import transformer.mapping.MappedAttribute;
 import transformer.mapping.MappedBiolinkClass;
 import transformer.mapping.MappedConnection;
+import transformer.mapping.MappedInfoRes;
+import transformer.mapping.MappedName;
 import transformer.util.HTTP;
 import transformer.util.JSON;
 
@@ -49,6 +51,10 @@ public class Transformers {
 
 	private static Map<String,Transformer> internalTransformers = loadInternalTransformers();
 
+	static {
+		getTransformers();
+	}
+
 
 	private static Map<String,Transformer> loadInternalTransformers() {
 		final Map<String,Transformer> map = new HashMap<>();
@@ -59,7 +65,8 @@ public class Transformers {
 				Transformer transformer = InternalTransformer.createFrom(info);
 				map.put(transformer.info.getName(), transformer);
 			}
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			log.error("Unable to load internal transformers", e);
 		}
 		log.debug("Loaded " + map.size() + " internal transformers");
@@ -75,7 +82,8 @@ public class Transformers {
 	public static List<TransformerInfo> getTransformers() {
 		final ArrayList<Transformer> transformers = new ArrayList<Transformer>();
 		try {
-			final BufferedReader transformerFile = new BufferedReader(new FileReader("conf/transformers.txt"));
+			final String transformerfFileName = Config.config.transformersFileName();
+			final BufferedReader transformerFile = new BufferedReader(new FileReader(transformerfFileName));
 			for (String baseURL = transformerFile.readLine(); baseURL != null; baseURL = transformerFile.readLine()) {
 				if (baseURL.startsWith("=")) {
 					String internalName = baseURL.substring(1);
@@ -89,7 +97,8 @@ public class Transformers {
 				}
 			}
 			transformerFile.close();
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			log.error("Unable to load external transformers", e);
 		}
 		updateTransformerMap(transformers);
@@ -97,6 +106,8 @@ public class Transformers {
 		MappedAttribute.loadMapping();
 		MappedConnection.loadMapping();
 		MappedBiolinkClass.loadMapping();
+		MappedName.loadMapping();
+		MappedInfoRes.loadMapping();
 		for (Transformer transformer : transformers) {
 			MappedBiolinkClass.map(transformer.info.getKnowledgeMap().getEdges());
 			MappedConnection.mapPredicates(transformer.info.getLabel(), transformer.info.getKnowledgeMap().getEdges());
@@ -116,12 +127,14 @@ public class Transformers {
 		TransformerInfo info = null;
 		try {
 			final URL url = new URL(baseURL + "/transformer_info");
-			info = JSON.mapper.readValue(HTTP.get(url), TransformerInfo.class);
+			final int timeout = Config.config.getTimeouts().getTransformerInfoTimeout();
+			info = JSON.mapper.readValue(HTTP.get(url, timeout), TransformerInfo.class);
 			if (info.getUrl() == null) {
 				info.setUrl(baseURL);
 			}
 			info.setStatus(ONLINE);
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			log.warn("Transformer offline: " + baseURL);
 			// transformer offline - use cached info
 		}
@@ -171,16 +184,18 @@ public class Transformers {
 			throw new NotFoundException("Transformer '" + transformerName + "' not found");
 		}
 	}
-	
+
+
 	public static void status() {
 		StringBuilder status = new StringBuilder();
-		status.append("transformers:"+transformers.size()+", ");
-		status.append("collections:"+Collections.size()+", ");
-		status.append("genes:"+MyGene.size()+", ");
-		status.append("compounds:"+MyChem.size()+", ");
-		status.append("pubchem:"+PubChem.size()+", ");
-		status.append("free memory:"+Runtime.getRuntime().freeMemory()/1000000);
-		status.append("/"+Runtime.getRuntime().totalMemory()/1000000);
+		status.append("transformers:" + transformers.size() + ", ");
+		status.append("collections:" + Collections.size() + ", ");
+		status.append("elements:" + MoleProDB.size() + ", ");
+		status.append("genes:" + MyGene.size() + ", ");
+		status.append("compounds:" + MyChem.size() + ", ");
+		status.append("pubchem:" + PubChem.size() + ", ");
+		status.append("free memory:" + Runtime.getRuntime().freeMemory() / 1000000);
+		status.append("/" + Runtime.getRuntime().totalMemory() / 1000000);
 		System.out.println(status.toString());
 	}
 }

@@ -1,41 +1,41 @@
 {
     "name": "HMDB disorders transformer",
     "label": "HMDB",
-    "description": "Gene-list transformer based on the Human Metabolome Database target information (https://www.hmdb.ca/).",
-    "version": "2.2.0",
+    "description": "Disease/phenotype transformer based on the Human Metabolome Database target information (https://www.hmdb.ca/).",
+    "version": "2.4.0",
     "function": "transformer",
     "knowledge_map": {
         "input_class": "compound",
         "output_class": "disease",
         "nodes": {
-            "ChemicalSubstance": {
+            "SmallMolecule": {
                 "id_prefixes": [
                     "HMDB",
-                    "ChEBI",
-                    "DrugBank",
-                    "CAS"
+                    "inchikey"
                 ],
                 "count": -1,
                 "attributes": []
             },
-            "Disease": {
+            "DiseaseOrPhenotypicFeature": {
                 "id_prefixes": [
-                    "DOID",
+                    "EFO",
                     "OMIM",
                     "UMLS",
-                    "NCIT"
+                    "NCIT",
+                    "HP",
+                    "OMIM"
                 ],
                 "count": -1,
                 "attributes": []
             }
         },
-        "predicates": [
+        "edges": [
             {
-                "subject": "ChemicalSubstance",
+                "subject": "SmallMolecule",
                 "predicate": "related_to",
-                "object": "Disease",
+                "inverse_predicate": "related_to",
+                "object": "DiseaseOrPhenotypicFeature",
                 "source": "HMDB",
-                "relations": ["affects"],
                 "count": -1,
                 "attributes": [{
                     "type": "reference",
@@ -47,6 +47,7 @@
     },
     "properties": {
         "source_url": "https://www.hmdb.ca/",
+        "source_version": "5.0 (2021-11-17)",
         "terms_of_service": "http://www.hmdb.ca/about"
     },
     "parameters": []

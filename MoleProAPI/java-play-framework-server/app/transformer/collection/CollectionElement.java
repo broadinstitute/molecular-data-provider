@@ -380,12 +380,12 @@ public abstract class CollectionElement {
 	}
 	
 
-	static class ElementElement extends CollectionElement {
+	public static class ElementElement extends CollectionElement {
 
 		private final Element element;
 
 
-		protected ElementElement(final Element element) {
+		public ElementElement(final Element element) {
 			super();
 			this.element = element;
 		}
@@ -405,7 +405,7 @@ public abstract class CollectionElement {
 
 		static CompoundInfo getCompoundInfo(final Element element) {
 			if (!Compound.BIOLINK_CLASS.equals(element.getBiolinkClass())) {
-				throw new ClassCastException("Element("+element.getBiolinkClass()+") cannot be cast to CompoundInfo");
+				throw new ClassCastException("Element("+element.getBiolinkClass()+") cannot be cast to "+Compound.BIOLINK_CLASS);
 			}
 			final CompoundInfo compoundInfo = new CompoundInfo();
 			compoundInfo.setCompoundId(element.getId());

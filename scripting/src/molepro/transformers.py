@@ -31,10 +31,10 @@ def chembank_compound_list_producer(compounds):
     return transform(transformer, collection_id, controls)
 
 
-def chebi_compound_list_producer(compounds):
+def chebi_compound_list_producer(compound):
     transformer = 'ChEBI compound-list producer'
     collection_id = None
-    controls = get_controls(compounds=compounds)
+    controls = get_controls(compound=compound)
     return transform(transformer, collection_id, controls)
 
 
@@ -115,6 +115,13 @@ def probeminer_compound_list_producer(compound):
     return transform(transformer, collection_id, controls)
 
 
+def bindingbd_ligand_producer(ligand):
+    transformer = 'BindingBD ligand producer'
+    collection_id = None
+    controls = get_controls(ligand=ligand)
+    return transform(transformer, collection_id, controls)
+
+
 def inxightdrugs_drug_producer(drugs):
     transformer = 'Inxight:Drugs drug producer'
     collection_id = None
@@ -122,14 +129,14 @@ def inxightdrugs_drug_producer(drugs):
     return transform(transformer, collection_id, controls)
 
 
-def inxightdrugs_relationship_transformer(collection):
+def inxightdrugs_relationship_transformer(collection,cache='yes'):
     transformer = 'Inxight:Drugs relationship transformer'
     collection_id = collection.id
     controls = []
     return transform(transformer, collection_id, controls)
 
 
-def inxightdrugs_active_ingredients_transformer(collection, substances):
+def inxightdrugs_active_ingredients_transformer(collection, substances,cache='yes'):
     transformer = 'Inxight:Drugs active ingredients transformer'
     collection_id = collection.id
     controls = get_controls(substances=substances)
@@ -171,10 +178,10 @@ def hgnc_gene_list_producer(genes):
     return transform(transformer, collection_id, controls)
 
 
-def uniprot_protein_list_producer(proteins):
+def uniprot_protein_list_producer(protein):
     transformer = 'UniProt protein-list producer'
     collection_id = None
-    controls = get_controls(proteins=proteins)
+    controls = get_controls(protein=protein)
     return transform(transformer, collection_id, controls)
 
 
@@ -185,21 +192,21 @@ def drugcentral_disease_producer(disease):
     return transform(transformer, collection_id, controls)
 
 
-def rxnorm_drug_relation_info(collection):
+def rxnorm_drug_relation_info(collection,cache='yes'):
     transformer = 'RxNorm drug relation info'
     collection_id = collection.id
     controls = []
     return transform(transformer, collection_id, controls)
 
 
-def rxnorm_active_ingredient_transformer(collection):
+def rxnorm_active_ingredient_transformer(collection,cache='yes'):
     transformer = 'RxNorm active ingredient transformer'
     collection_id = collection.id
     controls = []
     return transform(transformer, collection_id, controls)
 
 
-def rxnorm_components_transformer(collection):
+def rxnorm_components_transformer(collection,cache='yes'):
     transformer = 'RxNorm components transformer'
     collection_id = collection.id
     controls = []
@@ -213,413 +220,441 @@ def drugcentral_indications_transformer(disease):
     return transform(transformer, collection_id, controls)
 
 
-def hmdb_disorders_transformer(collection):
+def hmdb_disorders_transformer(collection,cache='yes'):
     transformer = 'HMDB disorders transformer'
     collection_id = collection.id
     controls = []
     return transform(transformer, collection_id, controls)
 
 
-def ctd_disease_associations_transformer(collection):
+def ctd_disease_associations_transformer(collection,cache='yes'):
     transformer = 'CTD disease associations transformer'
     collection_id = collection.id
     controls = []
     return transform(transformer, collection_id, controls)
 
 
-def chembl_indication_transformer(collection):
+def chembl_indication_transformer(collection,cache='yes'):
     transformer = 'ChEMBL indication transformer'
     collection_id = collection.id
     controls = []
     return transform(transformer, collection_id, controls)
 
 
-def repurposing_hub_indication_transformer(collection):
+def repurposing_hub_indication_transformer(collection,cache='yes'):
     transformer = 'Repurposing Hub indication transformer'
     collection_id = collection.id
     controls = []
     return transform(transformer, collection_id, controls)
 
 
-def sider_indication_transformer(collection):
+def sider_indication_transformer(collection,cache='yes'):
     transformer = 'SIDER indication transformer'
     collection_id = collection.id
     controls = []
     return transform(transformer, collection_id, controls)
 
 
-def sider_side_effect_transformer(collection):
+def sider_side_effect_transformer(collection,cache='yes'):
     transformer = 'SIDER side effect transformer'
     collection_id = collection.id
     controls = []
     return transform(transformer, collection_id, controls)
 
 
-def drugbank_target_genes_transformer(collection):
+def drugbank_target_genes_transformer(collection,cache='yes'):
     transformer = 'DrugBank target genes transformer'
     collection_id = collection.id
     controls = []
     return transform(transformer, collection_id, controls)
 
 
-def drugbank_enzyme_genes_transformer(collection):
+def drugbank_enzyme_genes_transformer(collection,cache='yes'):
     transformer = 'DrugBank enzyme genes transformer'
     collection_id = collection.id
     controls = []
     return transform(transformer, collection_id, controls)
 
 
-def drugbank_transporter_genes_transformer(collection):
+def drugbank_transporter_genes_transformer(collection,cache='yes'):
     transformer = 'DrugBank transporter genes transformer'
     collection_id = collection.id
     controls = []
     return transform(transformer, collection_id, controls)
 
 
-def drugbank_carrier_genes_transformer(collection):
+def drugbank_carrier_genes_transformer(collection,cache='yes'):
     transformer = 'DrugBank carrier genes transformer'
     collection_id = collection.id
     controls = []
     return transform(transformer, collection_id, controls)
 
 
-def pharos_target_genes_transformer(collection):
+def pharos_target_genes_transformer(collection,cache='yes'):
     transformer = 'Pharos target genes transformer'
     collection_id = collection.id
     controls = []
     return transform(transformer, collection_id, controls)
 
 
-def chembl_gene_target_transformer(collection):
+def chembl_gene_target_transformer(collection,cache='yes'):
     transformer = 'ChEMBL gene target transformer'
     collection_id = collection.id
     controls = []
     return transform(transformer, collection_id, controls)
 
 
-def hmdb_target_genes_transformer(collection):
+def hmdb_target_genes_transformer(collection,cache='yes'):
     transformer = 'HMDB target genes transformer'
     collection_id = collection.id
     controls = []
     return transform(transformer, collection_id, controls)
 
 
-def repurposing_hub_target_transformer(collection):
+def repurposing_hub_target_transformer(collection,cache='yes'):
     transformer = 'Repurposing Hub target transformer'
     collection_id = collection.id
     controls = []
     return transform(transformer, collection_id, controls)
 
 
-def dgidb_target_transformer(collection):
+def dgidb_target_transformer(collection,cache='yes'):
     transformer = 'DGIdb target transformer'
     collection_id = collection.id
     controls = []
     return transform(transformer, collection_id, controls)
 
 
-def gtopdb_target_transformer(collection):
+def gtopdb_target_transformer(collection,cache='yes'):
     transformer = 'GtoPdb target transformer'
     collection_id = collection.id
     controls = []
     return transform(transformer, collection_id, controls)
 
 
-def ctd_gene_interactions_transformer(collection):
+def ctd_gene_interactions_transformer(collection,cache='yes'):
     transformer = 'CTD gene interactions transformer'
     collection_id = collection.id
     controls = []
     return transform(transformer, collection_id, controls)
 
 
-def probeminer_chemical_interactions_transformer(collection):
+def probeminer_chemical_interactions_transformer(collection,cache='yes'):
     transformer = 'ProbeMiner chemical interactions transformer'
     collection_id = collection.id
     controls = []
     return transform(transformer, collection_id, controls)
 
 
-def drugbank_inhibitors_transformer(collection):
+def drugbank_inhibitors_transformer(collection,cache='yes'):
     transformer = 'DrugBank inhibitors transformer'
     collection_id = collection.id
     controls = []
     return transform(transformer, collection_id, controls)
 
 
-def drugbank_substrates_transformer(collection):
+def drugbank_substrates_transformer(collection,cache='yes'):
     transformer = 'DrugBank substrates transformer'
     collection_id = collection.id
     controls = []
     return transform(transformer, collection_id, controls)
 
 
-def drugbank_transporter_substrates_transformer(collection):
+def drugbank_transporter_substrates_transformer(collection,cache='yes'):
     transformer = 'DrugBank transporter substrates transformer'
     collection_id = collection.id
     controls = []
     return transform(transformer, collection_id, controls)
 
 
-def drugbank_carrier_substrates_transformer(collection):
+def drugbank_carrier_substrates_transformer(collection,cache='yes'):
     transformer = 'DrugBank carrier substrates transformer'
     collection_id = collection.id
     controls = []
     return transform(transformer, collection_id, controls)
 
 
-def dgidb_inhibitor_transformer(collection):
+def dgidb_inhibitor_transformer(collection,cache='yes'):
     transformer = 'DGIdb inhibitor transformer'
     collection_id = collection.id
     controls = []
     return transform(transformer, collection_id, controls)
 
 
-def gtopdb_inhibitors_transformer(collection):
+def gtopdb_inhibitors_transformer(collection,cache='yes'):
     transformer = 'GtoPdb inhibitors transformer'
     collection_id = collection.id
     controls = []
     return transform(transformer, collection_id, controls)
 
 
-def stitch_link_transformer(collection, score_threshold, limit):
+def stitch_link_transformer(collection, score_threshold, limit,cache='yes'):
     transformer = 'STITCH link transformer'
     collection_id = collection.id
     controls = get_controls(score_threshold=score_threshold, limit=limit)
     return transform(transformer, collection_id, controls)
 
 
-def drugbank_target_proteins_transformer(collection):
+def drugbank_target_proteins_transformer(collection,cache='yes'):
     transformer = 'DrugBank target proteins transformer'
     collection_id = collection.id
     controls = []
     return transform(transformer, collection_id, controls)
 
 
-def drugbank_enzyme_proteins_transformer(collection):
+def drugbank_enzyme_proteins_transformer(collection,cache='yes'):
     transformer = 'DrugBank enzyme proteins transformer'
     collection_id = collection.id
     controls = []
     return transform(transformer, collection_id, controls)
 
 
-def drugbank_transporter_proteins_transformer(collection):
+def drugbank_transporter_proteins_transformer(collection,cache='yes'):
     transformer = 'DrugBank transporter proteins transformer'
     collection_id = collection.id
     controls = []
     return transform(transformer, collection_id, controls)
 
 
-def drugbank_carrier_proteins_transformer(collection):
+def drugbank_carrier_proteins_transformer(collection,cache='yes'):
     transformer = 'DrugBank carrier proteins transformer'
     collection_id = collection.id
     controls = []
     return transform(transformer, collection_id, controls)
 
 
-def hmdb_target_proteins_transformer(collection):
+def hmdb_target_proteins_transformer(collection,cache='yes'):
     transformer = 'HMDB target proteins transformer'
     collection_id = collection.id
     controls = []
     return transform(transformer, collection_id, controls)
 
 
-def probeminer_protein_interactions_transformer(collection, limit):
+def probeminer_protein_interactions_transformer(collection, limit,cache='yes'):
     transformer = 'ProbeMiner protein interactions transformer'
     collection_id = collection.id
     controls = get_controls(limit=limit)
     return transform(transformer, collection_id, controls)
 
 
-def chembl_metabolite_transformer(collection):
+def bindingbd_binding_transformer(collection, threshold_nm='10000',cache='yes'):
+    transformer = 'BindingBD binding transformer'
+    collection_id = collection.id
+    controls = get_controls(threshold_nm=threshold_nm)
+    return transform(transformer, collection_id, controls)
+
+
+def chembl_metabolite_transformer(collection,cache='yes'):
     transformer = 'ChEMBL metabolite transformer'
     collection_id = collection.id
     controls = []
     return transform(transformer, collection_id, controls)
 
 
-def pubchem_chemical_similarity_transformer(collection):
+def pubchem_chemical_similarity_transformer(collection,cache='yes'):
     transformer = 'PubChem chemical similarity transformer'
     collection_id = collection.id
     controls = []
     return transform(transformer, collection_id, controls)
 
 
-def gwas_disease_to_gene_transformer(collection):
+def chebi_relations_transformer(collection, direction='both',cache='yes'):
+    transformer = 'ChEBI relations transformer'
+    collection_id = collection.id
+    controls = get_controls(direction=direction)
+    return transform(transformer, collection_id, controls)
+
+
+def uniprot_protein_to_gene_transformer(collection,cache='yes'):
+    transformer = 'UniProt protein to gene transformer'
+    collection_id = collection.id
+    controls = []
+    return transform(transformer, collection_id, controls)
+
+
+def uniprot_gene_to_protein_transformer(collection,cache='yes'):
+    transformer = 'UniProt gene to protein transformer'
+    collection_id = collection.id
+    controls = []
+    return transform(transformer, collection_id, controls)
+
+
+def gwas_disease_to_gene_transformer(collection,cache='yes'):
     transformer = 'GWAS disease to gene transformer'
     collection_id = collection.id
     controls = []
     return transform(transformer, collection_id, controls)
 
 
-def gwas_gene_to_disease_transformer(collection):
+def gwas_gene_to_disease_transformer(collection,cache='yes'):
     transformer = 'GWAS gene to disease transformer'
     collection_id = collection.id
     controls = []
     return transform(transformer, collection_id, controls)
 
 
-def cmap_compound_to_compound_expander(collection, score_threshold, maximum_number):
+def cmap_compound_to_compound_expander(collection, score_threshold, maximum_number,cache='yes'):
     transformer = 'CMAP compound-to-compound expander'
     collection_id = collection.id
     controls = get_controls(score__threshold=score_threshold, maximum__number=maximum_number)
     return transform(transformer, collection_id, controls)
 
 
-def ctrp_compound_list_expander(collection, maximum_fdr, disease_context, maximum_number):
+def ctrp_compound_list_expander(collection, maximum_fdr, disease_context, maximum_number,cache='yes'):
     transformer = 'CTRP compound-list expander'
     collection_id = collection.id
     controls = get_controls(maximum__fdr=maximum_fdr, disease__context=disease_context, maximum__number=maximum_number)
     return transform(transformer, collection_id, controls)
 
 
-def cmap_compound_to_gene_transformer(collection, score_threshold, maximum_number):
+def cmap_compound_to_gene_transformer(collection, score_threshold, maximum_number,cache='yes'):
     transformer = 'CMAP compound-to-gene transformer'
     collection_id = collection.id
     controls = get_controls(score__threshold=score_threshold, maximum__number=maximum_number)
     return transform(transformer, collection_id, controls)
 
 
-def cmap_gene_to_compound_transformer(collection, score_threshold, maximum_number):
+def cmap_gene_to_compound_transformer(collection, score_threshold, maximum_number,cache='yes'):
     transformer = 'CMAP gene-to-compound transformer'
     collection_id = collection.id
     controls = get_controls(score__threshold=score_threshold, maximum__number=maximum_number)
     return transform(transformer, collection_id, controls)
 
 
-def cmap_gene_to_gene_expander(collection, score_threshold, maximum_number):
+def cmap_gene_to_gene_expander(collection, score_threshold, maximum_number,cache='yes'):
     transformer = 'CMAP gene-to-gene expander'
     collection_id = collection.id
     controls = get_controls(score__threshold=score_threshold, maximum__number=maximum_number)
     return transform(transformer, collection_id, controls)
 
 
-def depmap_co_fitness_correlation(collection, correlation_threshold, correlation_direction, maximum_number=0):
+def depmap_co_fitness_correlation(collection, correlation_threshold, correlation_direction, maximum_number='0',cache='yes'):
     transformer = 'DepMap co-fitness correlation'
     collection_id = collection.id
     controls = get_controls(correlation__threshold=correlation_threshold, correlation__direction=correlation_direction, maximum__number=maximum_number)
     return transform(transformer, collection_id, controls)
 
 
-def bigg_reactions_transformer(collection):
+def bigg_reactions_transformer(collection,cache='yes'):
     transformer = 'BiGG reactions transformer'
     collection_id = collection.id
     controls = []
     return transform(transformer, collection_id, controls)
 
 
-def bigg_genes_transformer(collection):
+def bigg_genes_transformer(collection,cache='yes'):
     transformer = 'BiGG genes transformer'
     collection_id = collection.id
     controls = []
     return transform(transformer, collection_id, controls)
 
 
-def bigg_gene_reaction_transformer(collection):
+def bigg_gene_reaction_transformer(collection,cache='yes'):
     transformer = 'BiGG gene_reaction transformer'
     collection_id = collection.id
     controls = []
     return transform(transformer, collection_id, controls)
 
 
-def ctd_go_associations_transformer(collection, limit=0):
+def ctd_go_associations_transformer(collection, limit='0',cache='yes'):
     transformer = 'CTD go associations transformer'
     collection_id = collection.id
     controls = get_controls(limit=limit)
     return transform(transformer, collection_id, controls)
 
 
-def ctd_pathway_associations_transformer(collection, limit=0):
+def ctd_pathway_associations_transformer(collection, limit='0',cache='yes'):
     transformer = 'CTD pathway associations transformer'
     collection_id = collection.id
     controls = get_controls(limit=limit)
     return transform(transformer, collection_id, controls)
 
 
-def ctd_phenotype_interactions_transformer(collection):
+def ctd_phenotype_interactions_transformer(collection,cache='yes'):
     transformer = 'CTD phenotype interactions transformer'
     collection_id = collection.id
     controls = []
     return transform(transformer, collection_id, controls)
 
 
-def hmdb_pathways_transformer(collection):
+def hmdb_pathways_transformer(collection,cache='yes'):
     transformer = 'HMDB pathways transformer'
     collection_id = collection.id
     controls = []
     return transform(transformer, collection_id, controls)
 
 
-def msigdb_genes_transformer(collection):
+def msigdb_genes_transformer(collection,cache='yes'):
     transformer = 'MSigDB genes transformer'
     collection_id = collection.id
     controls = []
     return transform(transformer, collection_id, controls)
 
 
-def msigdb_pathways_transformer(collection):
+def msigdb_pathways_transformer(collection,cache='yes'):
     transformer = 'MSigDB pathways transformer'
     collection_id = collection.id
     controls = []
     return transform(transformer, collection_id, controls)
 
 
-def hmdb_locations_transformer(collection):
+def hmdb_locations_transformer(collection,cache='yes'):
     transformer = 'HMDB locations transformer'
     collection_id = collection.id
     controls = []
     return transform(transformer, collection_id, controls)
 
 
-def chembl_activities_transformer(collection):
+def chembl_activities_transformer(collection,cache='yes'):
     transformer = 'ChEMBL activities transformer'
     collection_id = collection.id
     controls = []
     return transform(transformer, collection_id, controls)
 
 
-def chembl_mechanism_transformer(collection):
+def chembl_mechanism_transformer(collection,cache='yes'):
     transformer = 'ChEMBL mechanism transformer'
     collection_id = collection.id
     controls = []
     return transform(transformer, collection_id, controls)
 
 
-def gene_list_network_enrichment_analysis(collection, maximum_p_value, network, gene_set_collection):
+def gene_list_network_enrichment_analysis(collection, maximum_p_value, network, gene_set_collection,cache='yes'):
     transformer = 'Gene-list network enrichment analysis'
     collection_id = collection.id
     controls = get_controls(maximum__p___value=maximum_p_value, network=network, gene___set__collection=gene_set_collection)
     return transform(transformer, collection_id, controls)
 
 
-def union(*args):
+def union(*args,cache='yes'):
     transformer = 'union'
     collection_ids = [collection.id for collection in args]
     controls = []
     return aggregate(transformer, collection_ids)
 
 
-def intersection(*args):
+def intersection(*args,cache='yes'):
     transformer = 'intersection'
     collection_ids = [collection.id for collection in args]
     controls = []
     return aggregate(transformer, collection_ids)
 
 
-def difference(*args):
+def difference(*args,cache='yes'):
     transformer = 'difference'
     collection_ids = [collection.id for collection in args]
     controls = []
     return aggregate(transformer, collection_ids)
 
 
-def symmetric_difference_xor(*args):
+def symmetric_difference_xor(*args,cache='yes'):
     transformer = 'symmetric difference (XOR)'
     collection_ids = [collection.id for collection in args]
     controls = []
     return aggregate(transformer, collection_ids)
 
 
-def string_protein_protein_interaction(collection, minimum_combined_score, minimum_neighborhood_score, minimum_gene_fusion_score, minimum_cooccurence_score, minimum_coexpression_score, minimum_experimental_score, minimum_database_score, minimum_textmining_score, minimum_best_non_textmining_component_score, maximum_number_of_genes):
+def string_protein_protein_interaction(collection, minimum_combined_score, minimum_neighborhood_score, minimum_gene_fusion_score, minimum_cooccurence_score, minimum_coexpression_score, minimum_experimental_score, minimum_database_score, minimum_textmining_score, minimum_best_non_textmining_component_score, maximum_number_of_genes,cache='yes'):
     transformer = 'STRING protein-protein interaction'
     collection_id = collection.id
     controls = get_controls(minimum__combined__score=minimum_combined_score, minimum__neighborhood__score=minimum_neighborhood_score, minimum__gene__fusion__score=minimum_gene_fusion_score, minimum__cooccurence__score=minimum_cooccurence_score, minimum__coexpression__score=minimum_coexpression_score, minimum__experimental__score=minimum_experimental_score, minimum__database__score=minimum_database_score, minimum__textmining__score=minimum_textmining_score, minimum__best__non___textmining__component__score=minimum_best_non_textmining_component_score, maximum__number__of__genes=maximum_number_of_genes)
@@ -647,28 +682,28 @@ def moleprodb_name_producer(name):
     return transform(transformer, collection_id, controls)
 
 
-def moleprodb_connections_transformer(collection, predicate=None, biolink_class=None, id=None, name_source=None, element_attribute=None, connection_attribute=None):
+def moleprodb_connections_transformer(collection, predicate='None', biolink_class='None', id='None', name_source='None', element_attribute='None', connection_attribute='None',cache='yes'):
     transformer = 'MoleProDB connections transformer'
     collection_id = collection.id
     controls = get_controls(predicate=predicate, biolink_class=biolink_class, id=id, name_source=name_source, element_attribute=element_attribute, connection_attribute=connection_attribute)
     return transform(transformer, collection_id, controls)
 
 
-def moleprodb_hierarchy_transformer(collection, name_source=None, element_attribute=None):
+def moleprodb_hierarchy_transformer(collection, name_source='None', element_attribute='None',cache='yes'):
     transformer = 'MoleProDB hierarchy transformer'
     collection_id = collection.id
     controls = get_controls(name_source=name_source, element_attribute=element_attribute)
     return transform(transformer, collection_id, controls)
 
 
-def element_attribute_filter(collection, id, name, operator, value, _not=None, unit_id=None, unit_name=None):
+def element_attribute_filter(collection, id, name, operator, value, _not='None', unit_id='None', unit_name='None',cache='yes'):
     transformer = 'Element attribute filter'
     collection_id = collection.id
     controls = get_controls(id=id, name=name, _not=_not, operator=operator, value=value, unit_id=unit_id, unit_name=unit_name)
     return transform(transformer, collection_id, controls)
 
 
-def connection_attribute_filter(collection, id, name, operator, value, _not=None, unit_id=None, unit_name=None):
+def connection_attribute_filter(collection, id, name, operator, value, _not='None', unit_id='None', unit_name='None',cache='yes'):
     transformer = 'Connection attribute filter'
     collection_id = collection.id
     controls = get_controls(id=id, name=name, _not=_not, operator=operator, value=value, unit_id=unit_id, unit_name=unit_name)
@@ -691,22 +726,38 @@ def compound_producer(elements):
     x12 = bigg_compound_list_producer(elements)
     x13 = ctd_compound_list_producer(elements)
     x14 = probeminer_compound_list_producer(elements)
-    x15 = sider_drug_producer(elements)
-    return union(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12,x13,x14,x15)
+    x15 = bindingbd_ligand_producer(elements)
+    x16 = sider_drug_producer(elements)
+    return union(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12,x13,x14,x15,x16,cache='no')
+
+
+def gene_producer(elements):
+    x0 = hgnc_gene_list_producer(elements)
+    return union(x0,cache='no')
+
+
+def protein_producer(elements):
+    x0 = uniprot_protein_list_producer(elements)
+    return union(x0,cache='no')
+
+
+def disease_producer(elements):
+    x0 = drugcentral_disease_producer(elements)
+    return union(x0,cache='no')
 
 
 def transform_compound_to_disease(collection):
     x0 = hmdb_disorders_transformer(collection)
     x1 = ctd_disease_associations_transformer(collection)
     x2 = chembl_indication_transformer(collection)
-    return union(x0,x1,x2)
+    return union(x0,x1,x2,cache='no')
 
 
 def transform_compound_to_DiseaseOrPhenotypicFeature(collection):
     x0 = repurposing_hub_indication_transformer(collection)
     x1 = sider_indication_transformer(collection)
     x2 = sider_side_effect_transformer(collection)
-    return union(x0,x1,x2)
+    return union(x0,x1,x2,cache='no')
 
 
 def transform_compound_to_gene(collection, score_threshold, maximum_number):
@@ -723,7 +774,7 @@ def transform_compound_to_gene(collection, score_threshold, maximum_number):
     x10 = ctd_gene_interactions_transformer(collection)
     x11 = cmap_compound_to_gene_transformer(collection, score_threshold, maximum_number)
     x12 = bigg_genes_transformer(collection)
-    return union(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12)
+    return union(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12,cache='no')
 
 
 def transform_compound_to_protein(collection, score_threshold, limit):
@@ -734,7 +785,7 @@ def transform_compound_to_protein(collection, score_threshold, limit):
     x4 = drugbank_transporter_proteins_transformer(collection)
     x5 = drugbank_carrier_proteins_transformer(collection)
     x6 = hmdb_target_proteins_transformer(collection)
-    return union(x0,x1,x2,x3,x4,x5,x6)
+    return union(x0,x1,x2,x3,x4,x5,x6,cache='no')
 
 
 def transform_gene_to_compound(collection, score_threshold, maximum_number):
@@ -745,14 +796,27 @@ def transform_gene_to_compound(collection, score_threshold, maximum_number):
     x4 = dgidb_inhibitor_transformer(collection)
     x5 = gtopdb_inhibitors_transformer(collection)
     x6 = cmap_gene_to_compound_transformer(collection, score_threshold, maximum_number)
-    return union(x0,x1,x2,x3,x4,x5,x6)
+    return union(x0,x1,x2,x3,x4,x5,x6,cache='no')
 
 
-def transform_compound_to_compound(collection, score_threshold, maximum_number, maximum_fdr, disease_context):
+def transform_compound_to_target(collection, threshold_nm):
+    x0 = bindingbd_binding_transformer(collection, threshold_nm='10000')
+    x1 = chembl_activities_transformer(collection)
+    x2 = chembl_mechanism_transformer(collection)
+    return union(x0,x1,x2,cache='no')
+
+
+def transform_compound_to_compound(collection, direction, score_threshold, maximum_number, maximum_fdr, disease_context):
     x0 = chembl_metabolite_transformer(collection)
     x1 = pubchem_chemical_similarity_transformer(collection)
-    x2 = cmap_compound_to_compound_expander(collection, score_threshold, maximum_number)
-    x3 = ctrp_compound_list_expander(collection, maximum_fdr, disease_context, maximum_number)
-    return union(x0,x1,x2,x3)
+    x2 = chebi_relations_transformer(collection, direction='both')
+    x3 = cmap_compound_to_compound_expander(collection, score_threshold, maximum_number)
+    x4 = ctrp_compound_list_expander(collection, maximum_fdr, disease_context, maximum_number)
+    return union(x0,x1,x2,x3,x4,cache='no')
+
+
+def transform_disease_to_gene(collection):
+    x0 = gwas_disease_to_gene_transformer(collection)
+    return union(x0,cache='no')
 
 

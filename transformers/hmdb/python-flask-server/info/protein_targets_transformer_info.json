@@ -1,0 +1,46 @@
+{
+    "name": "HMDB target proteins transformer",
+    "label": "HMDB",
+    "description": "Protein-list transformer based on the Human Metabolome Database target information (https://www.hmdb.ca/).",
+    "version": "2.4.0",
+    "function": "transformer",
+    "knowledge_map": {
+        "input_class": "compound",
+        "output_class": "protein",
+        "nodes": {
+            "SmallMolecule": {
+                "id_prefixes": [
+                    "HMDB",
+                    "inchikey"
+                ],
+                "count": -1,
+                "attributes": []
+            },
+            "Protein": {
+                "id_prefixes": [
+                    "UniProt"
+                ],
+                "count": -1,
+                "attributes": []
+            }
+        },
+        "edges": [
+            {
+                "subject": "SmallMolecule",
+                "predicate": "interacts_with",
+                "inverse_predicate": "interacts_with",
+                "object": "Protein",
+                "source": "HMDB",
+                "relations": ["interacts_with"],
+                "count": -1,
+                "attributes": []
+            }
+        ]
+    },
+    "properties": {
+        "source_url": "https://www.hmdb.ca/",
+        "source_version": "5.0 (2021-11-17)",
+        "terms_of_service": "http://www.hmdb.ca/about"
+    },
+    "parameters": []
+}

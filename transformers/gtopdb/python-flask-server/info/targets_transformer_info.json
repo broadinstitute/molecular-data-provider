@@ -2,7 +2,7 @@
     "name": "GtoPdb target transformer",
     "label": "GtoPdb",
     "description": "Gene-list transformer based on GtoPdb target information (https://www.guidetopharmacology.org/).",
-    "version": "2.1.0",
+    "version": "2.1.2",
     "function": "transformer",
     "knowledge_map": {
         "input_class": "compound",
