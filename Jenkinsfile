@@ -94,12 +94,12 @@ pipeline {
             steps {
                 configFileProvider([
                     configFile(fileId: 'values-transformers.yaml', targetLocation: 'values-transformers.yaml'),
-                    configFile(fileId: 'prepare-stitch.sh', targetLocation: 'prepare-stitch.sh')
+                    configFile(fileId: 'prepare-1db.sh', targetLocation: 'prepare-1db.sh')
                 ]){
                     script {
                         sh '''
                         aws --region ${AWS_REGION} eks update-kubeconfig --name ${KUBERNETES_CLUSTER_NAME}
-                        /bin/bash prepare-stitch.sh
+                        /bin/bash prepare-1db.sh
                         cp translator-ops/ops/moleprowithdb/config/transformers/molepro-stitch.yaml translator-ops/ops/moleprowithdb/helm/
                         cd translator-ops/ops/moleprowithdb/helm/
                         /bin/bash deploy.sh
