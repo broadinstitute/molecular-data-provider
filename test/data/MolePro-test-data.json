@@ -43,6 +43,20 @@
             "predicate": "biolink:treated_by",
             "subject_id": "MONDO:0004981",
             "object_id": "CHEBI:4551"
+        },
+        {
+            "subject_category": "biolink:SmallMolecule",
+            "object_category": "biolink:Gene",
+            "predicate": "biolink:affects",
+            "subject_id": "PUBCHEM.COMPOUND:4091",
+            "object_id": "NCBIGene:2475",
+            "association": "biolink:ChemicalGeneInteractionAssociation",
+            "qualifiers": [
+                {
+                    "qualifier_type_id": "causal_mechanism_qualifier",
+                    "qualifier_value": "inhibition"
+                }
+            ]
         }
     ]
 }
