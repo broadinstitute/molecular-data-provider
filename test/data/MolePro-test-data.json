@@ -18,10 +18,10 @@
         },
         {
             "subject_category": "biolink:SmallMolecule",
-            "object_category": "biolink:Assay",
-            "predicate": "biolink:has_evidence",
+            "object_category": "biolink:Protein",
+            "predicate": "biolink:assesses",
             "subject": "CHEBI:52717",
-            "object": "CHEMBL.ASSAY:CHEMBL768300"
+            "object": "UniProtKB:P08246"
         },
         {
             "subject_category": "biolink:SmallMolecule",
