@@ -61,7 +61,7 @@ pipeline {
             }
             steps {
                 withEnv([
-                    "IMAGE_NAME=853771734544.dkr.ecr.us-east-1.amazonaws.com/translator-molepro-bindingdb",
+                    "IMAGE_NAME=853771734544.dkr.ecr.us-east-1.amazonaws.com/translator-molepro-bindingbd",
                     "BUILD_VERSION=" + (params.BUILD_VERSION ?: env.BUILD_VERSION)
                 ]) {
                     script {
