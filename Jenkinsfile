@@ -61,16 +61,15 @@ pipeline {
             }
             steps {
                 withEnv([
-                    "IMAGE_NAME=translator-molepro-bindingbd",
+                    "IMAGE_NAME=853771734544.dkr.ecr.us-east-1.amazonaws.com/translator-molepro-bindingbd",
                     "BUILD_VERSION=" + (params.BUILD_VERSION ?: env.BUILD_VERSION)
                 ]) {
-                    dir(".") {
-                        script {
-                             docker.build("${env.IMAGE_NAME}", "--build-arg SOURCE_FOLDER=./${BUILD_VERSION} --no-cache .")
-                                 docker.withRegistry('https://853771734544.dkr.ecr.us-east-1.amazonaws.com', 'ecr:us-east-1:ifx-jenkins-ci') {
-                                     docker.image("${env.IMAGE_NAME}").push("${BUILD_VERSION}")
-                            }
-                        }
+                    script {
+                        docker.build("${env.IMAGE_NAME}", "--build-arg SOURCE_FOLDER=./${BUILD_VERSION} --no-cache .")
+                        sh '''
+                        docker login -u AWS -p $(aws ecr get-login-password --region us-east-1) 853771734544.dkr.ecr.us-east-1.amazonaws.com
+                        '''
+                        docker.image("${env.IMAGE_NAME}").push("${BUILD_VERSION}")
                     }
                 }
             }
@@ -83,24 +82,29 @@ pipeline {
                     triggeredBy 'UserIdCause'
                 }
             }
+            agent {
+                label 'translator && ci && deploy'
+            }
             steps {
-                sshagent (credentials: ['labshare-svc']) {
-                    dir(".") {
-                        sh 'git clone git@github.com:Sphinx-Automation/translator-ops.git'
-                        configFileProvider([
-                        configFile(fileId: 'values-transformers.yaml', targetLocation: 'translator-ops/ops/molepro/helm/values-transformers.yaml')
-                       ]){
-                        withAWS(credentials:'aws-ifx-deploy') {
-                            sh '''
-                            aws --region ${AWS_REGION} eks update-kubeconfig --name ${KUBERNETES_CLUSTER_NAME}
-                            cp -R translator-ops/ops/molepro/deploy/* translator-ops/ops/molepro/helm/                           
-                            cp -R translator-ops/ops/molepro/config/transformers/molepro-bindingdb.yaml translator-ops/ops/molepro/helm/
-                            cd translator-ops/ops/molepro/helm/
-                            /bin/bash deploy.sh
-                            '''
-                           }
-                       } 
-                    }
+                configFileProvider([
+                    configFile(fileId: 'values-transformers.yaml', targetLocation: 'values-transformers.yaml'),
+                    configFile(fileId: 'prepare.sh', targetLocation: 'prepare.sh')
+                ]){
+                    script {
+                        sh '''
+                        aws --region ${AWS_REGION} eks update-kubeconfig --name ${KUBERNETES_CLUSTER_NAME}
+                        /bin/bash prepare.sh
+                        cp translator-ops/ops/molepro/config/transformers/molepro-bindingdb.yaml translator-ops/ops/molepro/helm/
+                        cd translator-ops/ops/molepro/helm/
+                        /bin/bash deploy.sh
+                        '''
+                    } 
+                }    
+            }
+            post {
+                always {
+                    echo " Clean up the workspace in deploy node!"
+                    cleanWs()
                 }
             }
         }
