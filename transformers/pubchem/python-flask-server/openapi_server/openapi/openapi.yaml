@@ -70,7 +70,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/error_msg'
           description: internal server error
-      summary: Transform a list of genes or compounds
+      summary: Transform a list of compounds
       tags:
       - transformers
       x-openapi-router-controller: openapi_server.controllers.transformers_controller
