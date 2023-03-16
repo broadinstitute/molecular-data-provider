@@ -128,19 +128,20 @@ def execute_lookup(message: Message, submitter, debug=False):
             molepro.execute_transformer_chain(mole_edge, item['transformer_chain'], map_original_query_id)
 
     # get the results
-    query_results = molepro.get_results()
+    response = molepro.get_results()
+    # print("results of size: {}".format(response.message.knowledge_graph.edges))
 
     # if need to flip, then do so
     if is_flipped:
-        query_results = reverse_response(query_results, original_query_graph)
+        response = reverse_response(response, original_query_graph)
     else:
         # run the response through the object filter
-        query_results = filter_by_object_id(query_results, original_query_graph)
+        response = filter_by_object_id(response, original_query_graph)
 
     # return
     logger.info('Returning {} edges to {} in {} s'.format(
-        len(query_results.message.knowledge_graph.edges), submitter,  int(time.time() - start)))
-    return query_results
+        len(response.message.knowledge_graph.edges), submitter,  int(time.time() - start)))
+    return response
 
 
 def expand_ancestry_node_ids(query_graph, debug=False):

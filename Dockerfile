@@ -9,7 +9,7 @@ FROM python:3-alpine AS runtime-image
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 COPY --from=packaging-image /usr/src/reasonerAPI/dist .
-RUN pip3 install -I molepro_trapi-1.3.0.1-py3-none-any.whl
+RUN pip3 install -I molepro_trapi-1.3.0.2-py3-none-any.whl
 COPY reasonerAPI/python-flask-server .
 COPY reasonerAPI/python-flask-server/requirements.txt .
 RUN pip3 install --no-cache-dir -r requirements.txt

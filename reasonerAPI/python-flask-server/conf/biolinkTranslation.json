@@ -34,6 +34,30 @@
         "biolink:Cell": "Cell",
         "biolink:AnatomicalEntity": "AnatomicalEntity",
         "biolink:OrganismTaxon": "OrganismTaxon",
+        "biolink:BiologicalProcess": "BiologicalProcess",
+        "biolink:CellLine": "CellLine",
+        "biolink:ChemicalEntity": "ChemicalEntity",
+        "biolink:DiseaseOrPhenotypicFeature": "DiseaseOrPhenotypicFeature",
+        "biolink:GrossAnatomicalStructure": "GrossAnatomicalStructure",
+        "biolink:InformationContentEntity": "InformationContentEntity",
+        "biolink:MacromolecularComplexMixin": "MacromolecularComplexMixin",
+        "biolink:AnatomiMolecularMixturecalEntity": "MolecularMixture",
+        "biolink:NucleicAcidEntity": "NucleicAcidEntity",
+        "biolink:Organism": "Organism",
+        "biolink:PairwiseGeneToGeneInteraction": "PairwiseGeneToGeneInteraction",
+        "biolink:ProteinComplex": "ProteinComplex",
+        "biolink:ProteinFamily": "ProteinFamily",
+        "biolink:ClinicalAttribute": "ClinicalAttribute",
+        "biolink:Cohort": "Cohort",
+        "biolink:GeneticInheritance": "GeneticInheritance",
+        "biolink:OrganismEntity": "OrganismEntity",
+        "biolink:Phenomenon": "Phenomenon",
+        "biolink:PhysiologicalProcess": "PhysiologicalProcess",
+        "biolink:PopulationOfIndividualOrganisms": "PopulationOfIndividualOrganisms",
+        "biolink:Procedure": "Procedure",
+        "biolink:Publication": "Publication",
+        "biolink:Target": "Target",
+        "biolink:Behavior": "Behavior",
         "biolink:Protein": "Protein"
     },
     "cpd_curie_translation_input": {
@@ -56,6 +80,11 @@
             "KEGG": "KEGG.COMPOUND"
         },
         "biolink:MolecularEntity": {
+            "CHEMBL.COMPOUND": "ChEMBL",
+            "CHEMBL.TARGET": "ChEMBL"
+        },
+        "biolink:ChemicalEntity": {
+            "CHEMBL.COMPOUND": "ChEMBL",
             "CHEMBL.TARGET": "ChEMBL"
         },
         "biolink:Assay": {
@@ -71,7 +100,10 @@
             "KEGG.COMPOUND": "KEGG"
         },
         "biolink:MolecularEntity": {
-            "ChEMBL": "CHEMBL.TARGET"
+            "ChEMBL": "CHEMBL.COMPOUND"
+        },
+        "biolink:ChemicalEntity": {
+            "ChEMBL": "CHEMBL.COMPOUND"
         },
         "biolink:Assay": {
             "ChEMBL": "CHEMBL.ASSAY"

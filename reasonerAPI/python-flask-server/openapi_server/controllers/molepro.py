@@ -174,7 +174,46 @@ class MolePro:
             return response_obj.json()
 
 
-    def add_result(self, source_node, mole_edge, element, collection_id, map_original_query_id):
+    def get_unique_connections_map(self, list_connection, subject=None, object=None, edge_type=None, log=False):
+        '''
+        will return the unique connection map based on (sub, ob, pred, source) key
+        '''
+        # initialize
+        map_connections = {}
+
+        if log:
+            print("object type: {} of size: {}".format(type(list_connection), len(list_connection)))
+
+        for connection in list_connection:
+            # print("build connection: \n{}".format(json.dumps(connection, indent=2)))
+            # get the predicate
+            predicate = edge_type
+            if edge_type is None and connection is not None and 'biolink_predicate' in connection:
+                predicate = connection.get('biolink_predicate')
+
+            # get the source 
+            source = connection.get('source')
+            if source:
+                # build the key
+                key_connection = subject + '-' + object + '-' + predicate + '-' + source
+
+                # make sure the key is unique, then add
+                if key_connection not in map_connections.keys():
+                    map_connections[key_connection] = connection
+                    if log:
+                        print("added connection with key: {}".format(key_connection))
+                else:
+                    if log:
+                        print("skipped connection with key: {}".format(key_connection))
+
+        # log
+        if log:
+            print("for input connection size: {}, return size: {} with input type: {}".format(len(list_connection), len(map_connections), type(list_connection)))
+
+        # return
+        return map_connections
+
+    def add_result(self, source_node, mole_edge, element, collection_id, map_original_query_id, log=False):
         """ 
         for each given element in a collection result, add the edge and corresponding nodes to the result list 
         """
@@ -193,28 +232,40 @@ class MolePro:
                     # log
                     if self.debug and False:
                         print("\nfor collection id: {} - have non empty connections: {}".format(collection_id, connection_list))
+
                     # TODO - change to add all connections/edges
-                    connections = connection_list[0]
+                    # connections = connection_list[0]
+                    # debug
+                    if log:
+                        print("for connection size: {} only using first".format(len(connection_list)))
+                        print(type(connection_list))
+                    map_connections = self.get_unique_connections_map(list_connection=connection_list, subject=source_node.id, object=target_node.id, edge_type=mole_edge.edge_type)
 
+                    # debug
+                    if log:
+                        print("for connection size: {} only alternate count: {}".format(len(connection_list), len(map_connections.values())))
+                    
                     # add the edge
-                    edge = self.add_edge(source_node.id, target_node.id, mole_edge.edge_type, collection_id, connections)
+                    # 20230214 - adding all edges
+                    for connections in map_connections.values():
+                        edge = self.add_edge(source_node.id, target_node.id, mole_edge.edge_type, collection_id, connections)
 
-                    # 20221130 - trapi 1.3 - adding qualifiers for each edge 
+                        # updated for trapi v1.0.0
+                        source_original_id = map_original_query_id.get(source_node.id) if source_node.id else None
+                        source_binding = NodeBinding(id=source_node.id, query_id=source_original_id)
+                        edge_binding = EdgeBinding(id=edge.id)
+                        target_original_id = map_original_query_id.get(target_node.id) if target_node.id else None
+                        target_binding = NodeBinding(id=target_node.id, query_id=target_original_id)
+
+                        edge_map = {mole_edge.edge_key: [edge_binding]}
+                        nodes_map = {mole_edge.source_key: [source_binding], mole_edge.target_key: [target_binding]}
+
+                        # trapi 1.0 changes for the result formating (from list of nodes/edges to map of nodes/edges)
+                        result = Result(node_bindings=nodes_map, edge_bindings=edge_map)
+                        self.results.append(result)
 
 
-                    # updated for trapi v1.0.0
-                    source_original_id = map_original_query_id.get(source_node.id) if source_node.id else None
-                    source_binding = NodeBinding(id=source_node.id, query_id=source_original_id)
-                    edge_binding = EdgeBinding(id=edge.id)
-                    target_original_id = map_original_query_id.get(target_node.id) if target_node.id else None
-                    target_binding = NodeBinding(id=target_node.id, query_id=target_original_id)
 
-                    edge_map = {mole_edge.edge_key: [edge_binding]}
-                    nodes_map = {mole_edge.source_key: [source_binding], mole_edge.target_key: [target_binding]}
-
-                    # trapi 1.0 changes for the result formating (from list of nodes/edges to map of nodes/edges)
-                    result = Result(node_bindings=nodes_map, edge_bindings=edge_map)
-                    self.results.append(result)
 
     def add_element(self, element, source_id=None):
         """ pulls out the target node from the element data """
