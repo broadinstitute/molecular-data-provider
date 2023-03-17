@@ -4,7 +4,9 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,19 +33,34 @@ public class MappedConnection extends Connection {
 		final MappedPredicate mappedPredicate = mapPredicate(src);
 		this.setBiolinkPredicate(mappedPredicate.biolinkPredicate);
 		this.setInversePredicate(mappedPredicate.inversePredicate);
-		this.setRelation(mappedPredicate.relation);
-		this.setInverseRelation(mappedPredicate.inverseRelation);
+		this.setRelation(src.getRelation());
+		this.setInverseRelation(src.getInverseRelation());
+		Set<String> currentQualifiers = Qualifier.getQualifiers(this.getAttributes());
+		for (Qualifier qualifier : mappedPredicate.qualifiers)
+			if (qualifier != null && !currentQualifiers.contains(qualifier.qualifierType) && qualifier.qualifierValue.length() > 0) {
+				this.getAttributes().add(qualifier.asAttribute);
+			}
 	}
 
 
 	private MappedPredicate mapPredicate(Connection src) {
-		final String source = src.getSource();
+		MappedPredicate mappingBySource = mapPredicate(src, src.getSource());
+		MappedPredicate mappingByTransformer = mapPredicate(src, src.getProvidedBy());
+		if (mappingBySource.rank < mappingByTransformer.rank)
+			return mappingBySource;
+		else
+			return mappingByTransformer;
+	}
+
+
+	private MappedPredicate mapPredicate(Connection src, final String source) {
 		final String predicate = src.getBiolinkPredicate();
 		final String relation = src.getRelation();
+		MappedPredicate topMapping = null;
 		if (relation != null && relation.length() > 0) {
 			final String key = key(source, predicate, relation);
 			if (predicateMap.containsKey(key)) {
-				return predicateMap.get(key);
+				topMapping = predicateMap.get(key);
 			}
 		}
 		final String aKey = key(source, predicate, "");
@@ -53,14 +70,23 @@ public class MappedConnection extends Connection {
 				if (attrNames.contains(attribute.getOriginalAttributeName())) {
 					final String key = key(source, predicate, attribute.getOriginalAttributeName() + ":" + attribute.getValue());
 					if (predicateMap.containsKey(key)) {
-						return predicateMap.get(key);
+						final MappedPredicate mapping = predicateMap.get(key);
+						if (topMapping == null || mapping.rank < topMapping.rank) {
+							topMapping = mapping;
+						}
 					}
 				}
 		}
 		if (predicateMap.containsKey(aKey)) {
-			return predicateMap.get(aKey);
+			final MappedPredicate mapping = predicateMap.get(aKey);
+			if (topMapping == null || mapping.rank < topMapping.rank) {
+				topMapping = mapping;
+			}
 		}
-		return new MappedPredicate(predicate, src.getInversePredicate(), relation, src.getInverseRelation());
+		if (topMapping == null) {
+			topMapping = new MappedPredicate(Integer.MAX_VALUE, predicate, src.getInversePredicate(), new Qualifier[0]);
+		}
+		return topMapping;
 	}
 
 
@@ -108,7 +134,10 @@ public class MappedConnection extends Connection {
 		final HashMap<String,MappedPredicate> pMap = new HashMap<>();
 		try {
 			final BufferedReader mapFile = new BufferedReader(new FileReader("conf/predicateMap.txt"));
+			mapFile.readLine(); // ignore header row
+			int rank = 0;
 			for (String line = mapFile.readLine(); line != null; line = mapFile.readLine()) {
+				rank += 1;
 				final String[] row = line.split("\t", 9);
 				final String source = row[0];
 				final String predicate = row[1];
@@ -117,10 +146,10 @@ public class MappedConnection extends Connection {
 				final String attrValue = row[4];
 				final String biolinkPredicate = row[5];
 				final String inversePredicate = row[6];
-				final String mappedRelation = row[7];
-				final String inverseRelation = row[8];
+				final String qualifiedPredicate = row[7];
+				final String[] qualifiers = row[8].split("\t");
 				final String aKey = key(source, predicate, "");
-				MappedPredicate mappedPredicate = new MappedPredicate(biolinkPredicate, inversePredicate, mappedRelation, inverseRelation);
+				MappedPredicate mappedPredicate = new MappedPredicate(rank, biolinkPredicate, inversePredicate, Qualifier.getQualifiers(qualifiedPredicate, qualifiers));
 				if (relation.length() > 0) {
 					pMap.put(key(source, predicate, relation), mappedPredicate);
 				}
@@ -152,28 +181,58 @@ public class MappedConnection extends Connection {
 
 	private static class MappedPredicate {
 
+		private final int rank;
 		private final String biolinkPredicate;
 		private final String inversePredicate;
-		private final String relation;
-		private final String inverseRelation;
+		private final Qualifier[] qualifiers;
 
 
-		MappedPredicate(final String biolinkPredicate, final String inversePredicate, final String relation, final String inverseRelation) {
+		MappedPredicate(final int rank, final String biolinkPredicate, final String inversePredicate, final Qualifier[] qualifiers) {
 			super();
+			this.rank = rank;
 			this.biolinkPredicate = biolinkPredicate;
 			this.inversePredicate = inversePredicate;
-			this.relation = emptyToNull(relation);
-			this.inverseRelation = emptyToNull(inverseRelation);
+			this.qualifiers = qualifiers;
+		}
+	}
+
+
+	private static class Qualifier {
+
+		private static final String QUALIFIED_PREDICATE = "qualified_predicate";
+		private static final String QUALIFIER_PREFIX = "qualifier:";
+		final Attribute asAttribute;
+		final String qualifierType;
+		final String qualifierValue;
+
+
+		Qualifier(String qualifierType, String qualifierValue) {
+			super();
+			this.qualifierType = qualifierType;
+			this.qualifierValue = qualifierValue;
+			this.asAttribute = new Attribute().attributeTypeId(QUALIFIER_PREFIX + qualifierType).value(qualifierValue);
 		}
 
 
-		private String emptyToNull(String relation) {
-			if (relation == null)
-				return null;
-			if (relation.length() == 0)
-				return null;
-			return relation;
+		static Qualifier[] getQualifiers(String qualifiedPredicate, String[] qualifierStrings) {
+			final Qualifier[] qualifiers = new Qualifier[qualifierStrings.length + 1];
+			for (int i = 0; i < qualifierStrings.length; i++) {
+				final String[] qualifier = qualifierStrings[i].split(":", 2);
+				if (qualifier.length >= 2)
+					qualifiers[i + 1] = new Qualifier(qualifier[0], qualifier[1].trim());
+			}
+			qualifiers[0] = new Qualifier(QUALIFIED_PREDICATE, qualifiedPredicate);
+			return qualifiers;
+		}
 
+
+		static Set<String> getQualifiers(List<Attribute> attributes) {
+			final Set<String> qualifiers = new HashSet<String>();
+			for (Attribute attribute : attributes)
+				if (attribute.getAttributeTypeId().startsWith(QUALIFIER_PREFIX)) {
+					qualifiers.add(attribute.getAttributeTypeId().substring(QUALIFIER_PREFIX.length()));
+				}
+			return qualifiers;
 		}
 	}
 }
