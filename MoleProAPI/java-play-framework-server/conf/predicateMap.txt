@@ -30,6 +30,7 @@ BiGG Model	biolink:has_input				biolink:has_input	biolink:is_input
 BiGG Model	biolink:has_output				biolink:has_output	biolink:is_output					
 BiGG Model	biolink:has_participant				biolink:has_participant	biolink:participates_in					
 CMAP	biolink:correlated_with				biolink:correlated_with	biolink:correlated_with					
+CMAP	correlated_with				biolink:correlated_with	biolink:correlated_with					
 CTD	biolink:abundance_affected_by		Relation	abundance affected by	biolink:affected_by	biolink:affects		subject_aspect_qualifier:abundance			
 CTD	biolink:affected_by		Relation	abundance affected by;activity affected by;susceptibility affected by	biolink:affected_by	biolink:affects		subject_aspect_qualifier:abundance			
 CTD	biolink:affected_by		Relation	abundance affected by;localization affected by	biolink:affected_by	biolink:affects		subject_aspect_qualifier:abundance			
@@ -1173,6 +1174,21 @@ ChEBI	related_to		relation	is_conjugate_acid_of	biolink:chemically_similar_to	bi
 ChEBI	related_to		relation	is_enantiomer_of	biolink:chemically_similar_to	biolink:chemically_similar_to		subject_aspect_qualifier:enantiomer			
 ChEBI	related_to		relation	is_substituent_group_from	biolink:part_of	biolink:has_part		subject_part_qualifier:substitutent			
 ChEBI	related_to		relation	is_tautomer_of	biolink:chemically_similar_to	biolink:chemically_similar_to		subject_aspect_qualifier:tautomer			
+ChEBI	subclass_of	is_a			biolink:subclass_of	biolink:superclass_of					
+ChEBI	has_part	has_part			biolink:has_part	biolink:part_of					
+ChEBI	chemically_similar_to	is_conjugate_base_of			biolink:chemically_similar_to	biolink:chemically_similar_to		derivative_qualifier:conjugate_base			
+ChEBI	chemically_similar_to	has_functional_parent			biolink:chemically_similar_to	biolink:chemically_similar_to					
+ChEBI	chemically_similar_to	is_conjugate_acid_of			biolink:chemically_similar_to	biolink:chemically_similar_to		derivative_qualifier:conjugate_acid			
+ChEBI	subclass_of	has_role			biolink:subclass_of	biolink:superclass_of					
+ChEBI	chemically_similar_to	has_parent_hydride			biolink:chemically_similar_to	biolink:chemically_similar_to					
+ChEBI	chemically_similar_to	is_tautomer_of			biolink:chemically_similar_to	biolink:chemically_similar_to		subject_aspect_qualifier:tautomer			
+ChEBI	chemically_similar_to	is_enantiomer_of			biolink:chemically_similar_to	biolink:chemically_similar_to		subject_aspect_qualifier:enantiomer			
+ChEBI	part_of	is_substituent_group_from			biolink:part_of	biolink:has_part		subject_part_qualifier:substitutent			
+ChEBI	subclass_of				biolink:subclass_of	biolink:superclass_of					
+ChEBI	has_part				biolink:has_part	biolink:part_of					
+ChEBI	chemically_similar_to				biolink:chemically_similar_to	biolink:chemically_similar_to					
+ChEBI	part_of				biolink:part_of	biolink:has_part					
+ChEBI	superclass_of				biolink:superclass_of	biolink:subclass_of					
 ChEMBL	biolink:increases_activity_of		action_type	ACTIVATOR	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:activation	
 ChEMBL	biolink:increases_activity_of		action_type	AGONIST	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:agonism	
 ChEMBL	biolink:decreases_activity_of		action_type	ALLOSTERIC ANTAGONIST	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:allosteric_antagonism	
@@ -1761,3 +1777,5 @@ STITCH	related_to				biolink:related_to	biolink:related_to
 STITCH	interacts_with				biolink:interacts_with	biolink:interacts_with					
 STITCH	biolink:expression_affected_by				biolink:affected_by	biolink:affects		subject_aspect_qualifier:expression			
 STRING	related_to				biolink:related_to	biolink:related_to					
+UniProt	gene_product_of				biolink:gene_product_of	biolink:has_gene_product					
+UniProt	has_gene_product				biolink:has_gene_product	biolink:gene_product_of					
