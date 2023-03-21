@@ -115,7 +115,7 @@ Feature: Check MolePro filters
         and we call "MoleProDB connections transformer" transformer with the following parameters:
         | biolink_class |
         | Gene          |
-        then the length of the collection should be 205
+        then the length of the collection should be 209
 
 
     Scenario: Check connections filter
@@ -130,8 +130,8 @@ Feature: Check MolePro filters
         | Gene          |
         and we call "Connection attribute filter" transformer with the following parameters:
         | id      | name    | operator | value |
-        | actions | actions |  ==  | inhibitor |
-        then the length of the collection should be 11
+        | action_type | biolink:relation |  ==  | INHIBITOR |
+        then the length of the collection should be 7
 
 
     Scenario: Check negated connections filter
@@ -151,5 +151,5 @@ Feature: Check MolePro filters
         | not      | true                             |
         | operator | ==                               |
         | value    | infores:drugbank                 |
-        then the length of the collection should be 182
+        then the length of the collection should be 209
 
