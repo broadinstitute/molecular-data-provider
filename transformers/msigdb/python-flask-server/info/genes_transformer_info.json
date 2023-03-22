@@ -1,7 +1,7 @@
 {
     "name": "MSigDB genes transformer",
     "label": "MSigDB",
-    "version": "",
+    "version": "2.3.0",
     "function": "exporter",
     "description": "Pathway-list transformer to query MSigDB pathway sets (http://software.broadinstitute.org/gsea/index.jsp).",
     "knowledge_map": {
