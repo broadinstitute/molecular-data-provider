@@ -4,7 +4,7 @@ info:
     email: translator@broadinstitute.org
   termsOfService: https://www.gsea-msigdb.org/gsea/msigdb_license_terms.jsp
   title: Transformer API for MSigDB exporter
-  version: 2.3.0
+  version: 2.3.0.1
 servers:
 - url: https://translator.broadinstitute.org/msigdb
 tags:
