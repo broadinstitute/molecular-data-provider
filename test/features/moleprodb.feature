@@ -8,10 +8,12 @@ Feature: Check MoleProDB transformer
         Given the transformer
         when we fire "/elements/transformer_info" query
         then the value of "name" should be "MoleProDB node producer"
+        and the value of "label" should be "MolePro"
+        and the value of "function" should be "producer"
         and the value of "knowledge_map.input_class" should be "none"
         and the value of "knowledge_map.output_class" should be "any"
-        and the value of "version" should be "2.4.3"
-        and the value of "properties.source_version" should be "2.4.2 (2021-11-20)"
+        and the value of "version" should be "2.4.4"
+        and the value of "properties.source_version" should be "2.4.4 (2022-09-20)"
         and the size of "parameters" should be 1
 
 
@@ -19,10 +21,12 @@ Feature: Check MoleProDB transformer
         Given the transformer
         when we fire "/names/transformer_info" query
         then the value of "name" should be "MoleProDB name producer"
+        and the value of "label" should be "MolePro"
+        and the value of "function" should be "producer"
         and the value of "knowledge_map.input_class" should be "none"
         and the value of "knowledge_map.output_class" should be "any"
-        and the value of "version" should be "2.4.3"
-        and the value of "properties.source_version" should be "2.4.2 (2021-11-20)"
+        and the value of "version" should be "2.4.4"
+        and the value of "properties.source_version" should be "2.4.4 (2022-09-20)"
         and the size of "parameters" should be 1
 
 
@@ -30,22 +34,26 @@ Feature: Check MoleProDB transformer
         Given the transformer
         when we fire "/connections/transformer_info" query
         then the value of "name" should be "MoleProDB connections transformer"
+        and the value of "label" should be "MolePro"
+        and the value of "function" should be "transformer"
         and the value of "knowledge_map.input_class" should be "any"
         and the value of "knowledge_map.output_class" should be "any"
-        and the value of "version" should be "2.4.3"
-        and the value of "properties.source_version" should be "2.4.2 (2021-11-20)"
-        and the size of "parameters" should be 6
+        and the value of "version" should be "2.4.4"
+        and the value of "properties.source_version" should be "2.4.4 (2022-09-20)"
+        and the size of "parameters" should be 7
 
 
     Scenario: Check transformer info for hierarchy transformer
         Given the transformer
         when we fire "/hierarchy/transformer_info" query
         then the value of "name" should be "MoleProDB hierarchy transformer"
+        and the value of "label" should be "MolePro"
+        and the value of "function" should be "transformer"
         and the value of "knowledge_map.input_class" should be "any"
         and the value of "knowledge_map.output_class" should be "any"
-        and the value of "version" should be "2.4.3"
-        and the value of "properties.source_version" should be "2.4.2 (2021-11-20)"
-        and the size of "parameters" should be 2
+        and the value of "version" should be "2.4.4"
+        and the value of "properties.source_version" should be "2.4.4 (2022-09-20)"
+        and the size of "parameters" should be 3
 
 
     Scenario: Check node producer
@@ -108,7 +116,7 @@ Feature: Check MoleProDB transformer
             | aspirin              |
             | Aspirin              |
             | Acetylsalicylic acid |
-            | tumor protein p53    |
+            | TUMOR PROTEIN P53    |
         and the response contains the following entries in "id"
             | id            |
             | CID:2244      |
@@ -132,7 +140,7 @@ Feature: Check MoleProDB transformer
             ]
         }
         """
-        then the size of the response is 1
+        then the size of the response is 2
         and the response contains the following entries in "source"
             | source  |
             | MolePro |
@@ -144,6 +152,14 @@ Feature: Check MoleProDB transformer
             | aspirin              |
             | Aspirin              |
             | Acetylsalicylic acid |
+        and the response contains the following entries in "biolink_class"
+            | biolink_class |
+            | SmallMolecule |
+            | Drug          |
+        and the response only contains the following entries in "biolink_class"
+            | biolink_class |
+            | Drug          |
+            | SmallMolecule |
 
 
     Scenario: Check connections transformer
@@ -181,7 +197,7 @@ Feature: Check MoleProDB transformer
             ]
         }
         """
-        then the size of the response is 144
+        then the size of the response is 184
         and the response contains the following entries in "source"
             | source      |
             | MolePro |
@@ -239,7 +255,7 @@ Feature: Check MoleProDB transformer
             ]
         }
         """
-        then the size of the response is 162
+        then the size of the response is 538
         and the response contains the following entries in "source"
             | source      |
             | MolePro |
@@ -270,7 +286,7 @@ Feature: Check MoleProDB transformer
             "controls": [
                 {
                     "name": "predicate",
-                    "value": "biolink:is_substrate_of"
+                    "value": "biolink:affects_activity_of"
                 }
             ],
             "collection": [
@@ -297,7 +313,7 @@ Feature: Check MoleProDB transformer
             ]
         }
         """
-        then the size of the response is 12
+        then the size of the response is 9
         and the response contains the following entries in "source"
             | source      |
             | MolePro |
@@ -307,11 +323,9 @@ Feature: Check MoleProDB transformer
         and the response contains the following entries in "biolink_class"
             | biolink_class |
             | Gene          |
-            | Protein       |
         and the response only contains the following entries in "biolink_class"
             | biolink_class |
             | Gene          |
-            | Protein       |
         and the response contains the following entries in "source_element_id" of "connections" array
             | source_element_id |
             | CHEBI:52717       |
@@ -386,6 +400,58 @@ Feature: Check MoleProDB transformer
             | CHEBI:15365       |
 
 
+    Scenario: Check connections transformer with count limit
+        Given the transformer
+        when we fire "/connections/transform" query with the following body:
+        """
+        {
+            "controls": [
+                {
+                    "name": "limit",
+                    "value": "5"
+                }
+            ],
+            "collection": [
+                {
+                    "biolink_class": "ChemicalSubstance",
+                    "id": "CHEBI:52717",
+                    "provided_by": "pharos",
+                    "source": "pharos",
+                    "identifiers": {
+                        "chembl": "CHEMBL325041",
+                        "pubchem": "CID:387447"
+                    }
+                },
+                {
+                    "biolink_class": "ChemicalSubstance",
+                    "id": "CHEBI:15365",
+                    "provided_by": "pharos",
+                    "source": "pharos",
+                    "identifiers": {
+                        "chembl": "ChEMBL:CHEMBL25",
+                        "pubchem": "CID:2244"
+                    }
+                }
+            ]
+        }
+        """
+        then the size of the response is 151
+        and the response contains the following entries in "source"
+            | source      |
+            | MolePro |
+        and the response only contains the following entries in "source"
+            | source      |
+            | MolePro |
+        and the response contains the following entries in "source_element_id" of "connections" array
+            | source_element_id |
+            | CHEBI:52717       |
+            | CHEBI:15365       |
+        and the response only contains the following entries in "source_element_id" of "connections" array
+            | source_element_id |
+            | CHEBI:52717       |
+            | CHEBI:15365       |
+
+
     Scenario: Check hierarchy transformer
         Given the transformer
         when we fire "/hierarchy/transform" query with the following body:
@@ -399,6 +465,10 @@ Feature: Check MoleProDB transformer
                 {
                     "name": "element_attribute",
                     "value": "biolink:publication"
+                },
+                {
+                    "name": "hierarchy_type",
+                    "value": "biolink:subclass_of"
                 }
             ],
             "collection": [
@@ -418,37 +488,37 @@ Feature: Check MoleProDB transformer
         and the response contains the following entries in "id"
             | id            |
             | MONDO:0005148 |
-            | MONDO:0001076 |
-            | MONDO:0005015 |
-            | MONDO:0004335 |
-            | MONDO:0000001 |
-            | MONDO:0005066 |
             | MONDO:0006022 |
+            | MONDO:0012819 |
+            | MONDO:0005015 |
+            | MONDO:0001076 |
+            | MONDO:0004335 |
+            | MONDO:0005066 |
             | MONDO:0005151 |
-            | MONDO:0005020 |
-            | MONDO:0003847 |
             | MONDO:0019052 |
             | MONDO:0002356 |
-            | MONDO:0012819 |
             | MONDO:0002908 |
             | MONDO:0014488 |
+            | MONDO:0011027 |
+            | MONDO:0019214 |
+            | MONDO:0000440 |
         and the response only contains the following entries in "id"
             | id            |
             | MONDO:0005148 |
-            | MONDO:0001076 |
-            | MONDO:0005015 |
-            | MONDO:0004335 |
-            | MONDO:0000001 |
-            | MONDO:0005066 |
             | MONDO:0006022 |
+            | MONDO:0012819 |
+            | MONDO:0005015 |
+            | MONDO:0001076 |
+            | MONDO:0004335 |
+            | MONDO:0005066 |
             | MONDO:0005151 |
-            | MONDO:0005020 |
-            | MONDO:0003847 |
             | MONDO:0019052 |
             | MONDO:0002356 |
-            | MONDO:0012819 |
             | MONDO:0002908 |
             | MONDO:0014488 |
+            | MONDO:0011027 |
+            | MONDO:0019214 |
+            | MONDO:0000440 |
         and the response contains the following entries in "source"
             | source  |
             | MolePro |
