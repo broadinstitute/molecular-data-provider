@@ -1,7 +1,7 @@
 Feature: Check UniProt transformer
 
     Background: Specify transformer API
-        Given a transformer at "https://translator.broadinstitute.org/uniprot"
+        Given a transformer at "https://molepro-uniprot-transformer.transltr.io/uniprot"
 
     Scenario: Check UniProt Protein producer info
         Given the transformer
