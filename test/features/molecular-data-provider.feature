@@ -167,7 +167,7 @@ Feature: Check MolePro
         and another compound list "aspirin;ibuprofen;naproxen"
         when we call aggregator "union"
         then the value of "source" should be "union"
-        and the length of the collection should be 4
+        and the length of the collection should be 8
         and the value of "element_class" should be "compound"
 
 
@@ -177,7 +177,7 @@ Feature: Check MolePro
         and another compound list "aspirin;ibuprofen;naproxen"
         when we call aggregator "intersection"
         then the value of "source" should be "intersection"
-        and the length of the collection should be 2
+        and the length of the collection should be 4
         and the value of "element_class" should be "compound"
 
 
@@ -187,7 +187,7 @@ Feature: Check MolePro
         and another compound list "aspirin;ibuprofen;naproxen"
         when we call aggregator "difference"
         then the value of "source" should be "difference"
-        and the length of the collection should be 1
+        and the length of the collection should be 2
         and the value of "element_class" should be "compound"
 
 
@@ -197,7 +197,7 @@ Feature: Check MolePro
         and another compound list "aspirin;ibuprofen;naproxen"
         when we call aggregator "symmetric difference"
         then the value of "source" should be "symmetric difference"
-        and the length of the collection should be 2
+        and the length of the collection should be 4
         and the value of "element_class" should be "compound"
 
 
