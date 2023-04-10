@@ -41,7 +41,7 @@
         "biolink:GrossAnatomicalStructure": "GrossAnatomicalStructure",
         "biolink:InformationContentEntity": "InformationContentEntity",
         "biolink:MacromolecularComplexMixin": "MacromolecularComplexMixin",
-        "biolink:AnatomiMolecularMixturecalEntity": "MolecularMixture",
+        "biolink:MolecularMixture": "MolecularMixture",
         "biolink:NucleicAcidEntity": "NucleicAcidEntity",
         "biolink:Organism": "Organism",
         "biolink:PairwiseGeneToGeneInteraction": "PairwiseGeneToGeneInteraction",
