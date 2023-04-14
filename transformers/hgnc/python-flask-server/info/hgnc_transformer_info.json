@@ -1,0 +1,80 @@
+{
+    "name": "HGNC gene-list producer",
+    "label": "HGNC",
+    "infores": "infores:hgnc",
+    "description": "Gene-list specified by gene symbols.",
+    "version": "2.5.0",
+    "function": "producer",
+    "knowledge_map": {
+        "input_class": "none",
+        "output_class": "gene",
+        "nodes": {
+            "Gene": {
+                "id_prefixes": [
+                    "NCBIGene",
+                    "HGNC",
+                    "ENSEMBL"
+                ],
+                "count": -1,
+                "attributes": [
+                    {
+                        "attribute_type_id": "biolink:symbol",
+                        "description": "The HGNC approved gene symbol.",
+                        "source": "HGNC",
+                        "names": [
+                            "symbol"
+                        ]
+                    },
+                    {
+                        "attribute_type_id": "locus_group",
+                        "description": "A group name for a set of related locus types as defined by the HGNC (e.g. non-coding RNA).",
+                        "source": "HGNC",
+                        "names": [
+                            "locus_group"
+                        ]
+                    },
+                    {
+                        "attribute_type_id": "locus_type",
+                        "description": "The locus type as defined by the HGNC (e.g. RNA, transfer).",
+                        "source": "HGNC",
+                        "names": [
+                            "locus_type"
+                        ]
+                    },
+                    {
+                        "attribute_type_id": "location",
+                        "description": "Cytogenetic location of the gene (e.g. 2q34).",
+                        "source": "HGNC",
+                        "names": [
+                            "location"
+                        ]
+                    },
+                    {
+                        "attribute_type_id": "gene_group",
+                        "description": "Name given to a gene family or group the gene has been assigned to.",
+                        "source": "HGNC",
+                        "names": [
+                            "gene_group"
+                        ]
+                    }
+                ]
+            }
+        },
+        "edges": []
+    },
+    "properties": {
+        "source_url": "https://www.genenames.org",
+        "source_version": "2023-01-01",
+        "terms_of_service": "https://www.genenames.org/about/license/"
+    },
+    "parameters": [
+        {
+            "name": "gene",
+            "type": "string",
+            "required": true,
+            "multivalued": true,
+            "example": "TP53",
+            "description": "HGNC id, Entrez gene id, Ensembl gene id, gene symbol, or gene name"
+        }
+    ]
+}
