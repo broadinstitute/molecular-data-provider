@@ -1,5 +1,5 @@
 {
-    "url": "https://translator.broadinstitute.org/molepro/trapi/v1.3",
+    "url": "https://translator.broadinstitute.org/molepro/trapi/v1.4",
     "TRAPI": true,
     "edges": [
         {
@@ -53,7 +53,7 @@
             "association": "biolink:ChemicalGeneInteractionAssociation",
             "qualifiers": [
                 {
-                    "qualifier_type_id": "causal_mechanism_qualifier",
+                    "qualifier_type_id": "biolink:causal_mechanism_qualifier",
                     "qualifier_value": "inhibition"
                 }
             ]
