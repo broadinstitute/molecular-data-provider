@@ -9,6 +9,7 @@ from openapi_server.models.base_model_ import Model
 from openapi_server.models.operation_annotate import OperationAnnotate
 from openapi_server.models.operation_annotate_edges import OperationAnnotateEdges
 from openapi_server.models.operation_annotate_nodes import OperationAnnotateNodes
+from openapi_server.models.operation_annotate_runner_parameters import OperationAnnotateRunnerParameters
 from openapi_server.models.operation_bind import OperationBind
 from openapi_server.models.operation_complete_results import OperationCompleteResults
 from openapi_server.models.operation_enrich_results import OperationEnrichResults
@@ -24,6 +25,7 @@ from openapi_server.models.operation_filter_kgraph_top_n import OperationFilterK
 from openapi_server.models.operation_filter_results import OperationFilterResults
 from openapi_server.models.operation_filter_results_top_n import OperationFilterResultsTopN
 from openapi_server.models.operation_lookup import OperationLookup
+from openapi_server.models.operation_lookup_and_score import OperationLookupAndScore
 from openapi_server.models.operation_overlay import OperationOverlay
 from openapi_server.models.operation_overlay_compute_jaccard import OperationOverlayComputeJaccard
 from openapi_server.models.operation_overlay_compute_ngd import OperationOverlayComputeNgd
@@ -41,6 +43,7 @@ from openapi_server import util
 from openapi_server.models.operation_annotate import OperationAnnotate  # noqa: E501
 from openapi_server.models.operation_annotate_edges import OperationAnnotateEdges  # noqa: E501
 from openapi_server.models.operation_annotate_nodes import OperationAnnotateNodes  # noqa: E501
+from openapi_server.models.operation_annotate_runner_parameters import OperationAnnotateRunnerParameters  # noqa: E501
 from openapi_server.models.operation_bind import OperationBind  # noqa: E501
 from openapi_server.models.operation_complete_results import OperationCompleteResults  # noqa: E501
 from openapi_server.models.operation_enrich_results import OperationEnrichResults  # noqa: E501
@@ -56,6 +59,7 @@ from openapi_server.models.operation_filter_kgraph_top_n import OperationFilterK
 from openapi_server.models.operation_filter_results import OperationFilterResults  # noqa: E501
 from openapi_server.models.operation_filter_results_top_n import OperationFilterResultsTopN  # noqa: E501
 from openapi_server.models.operation_lookup import OperationLookup  # noqa: E501
+from openapi_server.models.operation_lookup_and_score import OperationLookupAndScore  # noqa: E501
 from openapi_server.models.operation_overlay import OperationOverlay  # noqa: E501
 from openapi_server.models.operation_overlay_compute_jaccard import OperationOverlayComputeJaccard  # noqa: E501
 from openapi_server.models.operation_overlay_compute_ngd import OperationOverlayComputeNgd  # noqa: E501
@@ -75,26 +79,31 @@ class Schema1(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, parameters=None):  # noqa: E501
+    def __init__(self, id=None, parameters=None, runner_parameters=None):  # noqa: E501
         """Schema1 - a model defined in OpenAPI
 
         :param id: The id of this Schema1.  # noqa: E501
         :type id: str
         :param parameters: The parameters of this Schema1.  # noqa: E501
         :type parameters: OperationSortResultsScoreParameters
+        :param runner_parameters: The runner_parameters of this Schema1.  # noqa: E501
+        :type runner_parameters: OperationAnnotateRunnerParameters
         """
         self.openapi_types = {
             'id': str,
-            'parameters': OperationSortResultsScoreParameters
+            'parameters': OperationSortResultsScoreParameters,
+            'runner_parameters': OperationAnnotateRunnerParameters
         }
 
         self.attribute_map = {
             'id': 'id',
-            'parameters': 'parameters'
+            'parameters': 'parameters',
+            'runner_parameters': 'runner_parameters'
         }
 
         self._id = id
         self._parameters = parameters
+        self._runner_parameters = runner_parameters
 
     @classmethod
     def from_dict(cls, dikt) -> 'Schema1':
@@ -156,3 +165,24 @@ class Schema1(Model):
             raise ValueError("Invalid value for `parameters`, must not be `None`")  # noqa: E501
 
         self._parameters = parameters
+
+    @property
+    def runner_parameters(self):
+        """Gets the runner_parameters of this Schema1.
+
+
+        :return: The runner_parameters of this Schema1.
+        :rtype: OperationAnnotateRunnerParameters
+        """
+        return self._runner_parameters
+
+    @runner_parameters.setter
+    def runner_parameters(self, runner_parameters):
+        """Sets the runner_parameters of this Schema1.
+
+
+        :param runner_parameters: The runner_parameters of this Schema1.
+        :type runner_parameters: OperationAnnotateRunnerParameters
+        """
+
+        self._runner_parameters = runner_parameters

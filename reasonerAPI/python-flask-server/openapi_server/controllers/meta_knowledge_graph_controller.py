@@ -1,5 +1,8 @@
 import connexion
 import six
+from typing import Dict
+from typing import Tuple
+from typing import Union
 
 from openapi_server.models.meta_knowledge_graph import MetaKnowledgeGraph  # noqa: E501
 from openapi_server import util
@@ -11,6 +14,6 @@ def meta_knowledge_graph_get():  # noqa: E501
      # noqa: E501
 
 
-    :rtype: MetaKnowledgeGraph
+    :rtype: Union[MetaKnowledgeGraph, Tuple[MetaKnowledgeGraph, int], Tuple[MetaKnowledgeGraph, int, Dict[str, str]]
     """
     return 'do some magic!'

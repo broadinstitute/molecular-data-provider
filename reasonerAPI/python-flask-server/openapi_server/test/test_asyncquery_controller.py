@@ -6,6 +6,8 @@ import unittest
 from flask import json
 from six import BytesIO
 
+from openapi_server.models.async_query import AsyncQuery  # noqa: E501
+from openapi_server.models.async_query_response import AsyncQueryResponse  # noqa: E501
 from openapi_server.test import BaseTestCase
 
 
@@ -23,7 +25,7 @@ class TestAsyncqueryController(BaseTestCase):
             'Content-Type': 'application/json',
         }
         response = self.client.open(
-            '/molepro/trapi/v1.3/asyncquery',
+            '/molepro/trapi/v1.4/asyncquery',
             method='POST',
             headers=headers,
             data=json.dumps(request_body),
