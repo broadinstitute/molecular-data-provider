@@ -12,7 +12,6 @@ info:
   title: MolePro
   version: 1.4.0.0
   x-translator:
-    infores: infores:molepro
     component: KP
     team:
     - Molecular Data Provider
@@ -1735,7 +1734,7 @@ components:
           type: array
       required:
       - edge_bindings
-      - reasoner_id
+      - resource_id
       title: Analysis
       type: object
     EdgeBinding:
@@ -2682,7 +2681,7 @@ components:
             type: string
           type: array
       required:
-      - resource
+      - resource_id
       - resource_role
       title: RetrievalSource
       type: object

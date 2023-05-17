@@ -9,7 +9,7 @@
                 "name": "RxNorm drug-list producer",
                 "controls": [
                     {
-                        "name": "drugs",
+                        "name": "drug",
                         "value": "#subject"
                     }
                 ]

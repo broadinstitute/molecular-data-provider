@@ -1,5 +1,6 @@
 import requests
 import json
+import yaml
 from contextlib import closing
 
 from openapi_server.models.message import Message
@@ -12,6 +13,9 @@ from openapi_server.models.node_binding import NodeBinding
 from openapi_server.models.response import Response
 from openapi_server.models.attribute import Attribute
 from openapi_server.models.qualifier import Qualifier
+from openapi_server.models.analysis import Analysis
+from openapi_server.models.retrieval_source import RetrievalSource
+from openapi_server.models.resource_role_enum import ResourceRoleEnum
 
 from openapi_server.controllers.utils import translate_type
 from openapi_server.controllers.utils import translate_curie
@@ -21,6 +25,7 @@ import os
 
 # constants
 logger = get_logger(__name__)
+infores_molepro = "infores:molepro"
 
 # environment variables
 MOLEPRO_BASE_URL = os.environ.get('MOLEPRO_BASE_URL')
@@ -29,6 +34,19 @@ BASE_URL = 'https://translator.broadinstitute.org/molecular_data_provider'
 if MOLEPRO_BASE_URL:
     BASE_URL = MOLEPRO_BASE_URL
 logger.info("using molepro base URL: {}".format(BASE_URL))
+
+# read trapi and biolink versions
+VERSION_BIOLINK = 0.1
+VERSION_TRAPI = 1.0
+with open("./openapi_server/openapi/openapi.yaml", "r") as stream:
+    try:
+        map_openapi = yaml.safe_load(stream)
+        VERSION_BIOLINK = map_openapi.get('info').get('x-translator').get('biolink-version')
+        VERSION_TRAPI = map_openapi.get('info').get('x-trapi').get('version')
+        # print(yaml.safe_load(stream))
+    except yaml.YAMLError as exc:
+        print(exc)
+logger.info("Using biolink version: {} and trapi version: {}".format(VERSION_BIOLINK, VERSION_TRAPI))
 
 class MolePro:
 
@@ -41,10 +59,9 @@ class MolePro:
         self.nodes = {}
         self.edges = {}
 
-
     def get_results(self):
         message = Message(results=self.results, query_graph=self.query_graph, knowledge_graph=self.knowledge_graph)
-        results_response = Response(message = message)
+        results_response = Response(message = message, schema_version=VERSION_TRAPI, biolink_version=VERSION_BIOLINK)
         return results_response
 
 
@@ -260,8 +277,11 @@ class MolePro:
                         edge_map = {mole_edge.edge_key: [edge_binding]}
                         nodes_map = {mole_edge.source_key: [source_binding], mole_edge.target_key: [target_binding]}
 
+                        # trapi1.4 - add analyses element
+                        analysis = Analysis(resource_id=infores_molepro, edge_bindings=edge_map)
+
                         # trapi 1.0 changes for the result formating (from list of nodes/edges to map of nodes/edges)
-                        result = Result(node_bindings=nodes_map, edge_bindings=edge_map)
+                        result = Result(node_bindings=nodes_map, analyses=analysis)
                         self.results.append(result)
 
 
@@ -283,7 +303,7 @@ class MolePro:
             id = source_id
         # get the attributes
         if 'attributes' in element:
-            list_node_attribute, list_node_qualifiers = self.pull_attributes_qualifiers(element, node_attributes())
+            list_node_attribute, list_node_qualifiers, list_sources = self.pull_attributes_qualifiers(element, node_attributes())
 
         # debug
         if self.debug:
@@ -296,25 +316,56 @@ class MolePro:
     def pull_attributes_qualifiers(self, node, biolink_attributes):
         """ 
         build a list of attributes and qualifiers from the values in the object 
+        -- biolink_attributes is the list from the MKG, so filter attributes based on those
         """
         # initialize
         list_attributes = []
         list_qualifiers = []
+        list_sources = []
+        source_aggregator = None
         if node is not None and 'attributes' in node and node.get('attributes') is not None:
             for attribute in node.get('attributes'):
-                # print("got attribute: {}".format(attribute))
-                # collect the attributes
-                if attribute.get('attribute_type_id') is not None and attribute.get('attribute_type_id') in biolink_attributes and 'qualifier:' not in attribute.get('attribute_type_id'):
-                    if attribute.get('value') is not None and attribute.get('value') != '':
-                        list_attributes.append(Attribute.from_dict(attribute))
+                # print("\n\ngot attribute: {}".format(attribute))
+                # TRAPI 1.4 - add in retrieval sources
+                if attribute.get('attribute_type_id') is not None:
+                    # populate qualifiers
+                    if 'qualifier:' in attribute.get('attribute_type_id'):
+                        if attribute.get('value') is not None and attribute.get('value') != '':
+                            qualifier_type = attribute.get('attribute_type_id').replace('qualifier:', '')
+                            if 'biolink' not in qualifier_type and ':' not in qualifier_type:
+                                qualifier_type = 'biolink:' + qualifier_type
+                            list_qualifiers.append(Qualifier(qualifier_type_id=qualifier_type, qualifier_value=attribute.get('value')))
 
-                # collect the qualifiers
-                if attribute.get('attribute_type_id') is not None and 'qualifier:' in attribute.get('attribute_type_id'):
-                    if attribute.get('value') is not None and attribute.get('value') != '':
-                        qualifier_type = attribute.get('attribute_type_id').replace('qualifier:', '')
-                        list_qualifiers.append(Qualifier(qualifier_type_id=qualifier_type, qualifier_value=attribute.get('value')))
+                    # populate retrieval sources
+                    # elif attribute.get('attribute_type_id') in [ResourceRoleEnum.AGGREGATOR_KNOWLEDGE_SOURCE, ResourceRoleEnum.PRIMARY_KNOWLEDGE_SOURCE, ResourceRoleEnum.SUPPORTING_DATA_SOURCE]:
+                    elif any(src in attribute.get('attribute_type_id') for src in [ResourceRoleEnum.AGGREGATOR_KNOWLEDGE_SOURCE, ResourceRoleEnum.PRIMARY_KNOWLEDGE_SOURCE, ResourceRoleEnum.SUPPORTING_DATA_SOURCE]):
+                        source_temp = RetrievalSource(resource_id=attribute.get('value'), resource_role=attribute.get('attribute_type_id'))
+                        if ResourceRoleEnum.AGGREGATOR_KNOWLEDGE_SOURCE in attribute.get('attribute_type_id'):
+                            source_aggregator = source_temp
+                        else:
+                            list_sources.append(source_temp)
 
-        return list_attributes, list_qualifiers
+                    # populate filtered attributes
+                    elif attribute.get('attribute_type_id') in biolink_attributes:
+                        if attribute.get('value') is not None and attribute.get('value') != '':
+                            list_attributes.append(Attribute.from_dict(attribute))
+
+
+        # TODO - pull out sources from attributes
+        # create the aggregator source if not present
+        if not source_aggregator:
+            source_aggregator = RetrievalSource(resource_id=infores_molepro, resource_role=ResourceRoleEnum.AGGREGATOR_KNOWLEDGE_SOURCE)
+
+        # add the reference sources to the aggregator source
+        source_node: RetrievalSource = None
+        source_aggregator.upstream_resource_ids = []
+        for source_node in list_sources:
+            source_aggregator.upstream_resource_ids.append(source_node.resource_id)
+
+        # add the aggregator source to the final list
+        list_sources.append(source_aggregator)
+
+        return list_attributes, list_qualifiers, list_sources
 
 
     def add_node(self, id, name, type, attributes=None):
@@ -350,7 +401,7 @@ class MolePro:
         edge_id = 'e' + str(len(self.knowledge_graph.edges)) + '-' + batch_id
 
         # add in the attributes
-        list_attributes, list_qualifiers = self.pull_attributes_qualifiers(connections, edge_attributes())
+        list_attributes, list_qualifiers, list_sources = self.pull_attributes_qualifiers(connections, edge_attributes())
 
         # debug
         if self.debug:
@@ -364,7 +415,7 @@ class MolePro:
 
         # create the edge object
         # edge = Edge(predicate=translate_type(predicate, False), subject=source_id, object=target_id, attributes=list_attributes)
-        edge = Edge(predicate=translate_type(predicate, False), subject=source_id, object=target_id, attributes=list_attributes, qualifiers=list_qualifiers)
+        edge = Edge(predicate=translate_type(predicate, False), subject=source_id, object=target_id, attributes=list_attributes, qualifiers=list_qualifiers, sources=list_sources)
         edge.id = edge_id                # added for trapi v1.0.0
 
         # add the edge to the graph and results collections

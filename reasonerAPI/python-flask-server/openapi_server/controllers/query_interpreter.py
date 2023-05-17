@@ -2,6 +2,7 @@ from contextlib import closing
 import time
 import copy
 import os
+import yaml
 
 from openapi_server.models.query import Query
 from openapi_server.models.message import Message
@@ -29,6 +30,21 @@ if MOLEPRO_QUERY_LIMIT:
 logger = get_logger("query_interpreter")
 logger.info("Using query curie limit of: {}".format(limit_query_curie_size))
 
+# read trapi and biolink versions
+VERSION_BIOLINK = 0.1
+VERSION_TRAPI = 1.0
+with open("./openapi_server/openapi/openapi.yaml", "r") as stream:
+    try:
+        map_openapi = yaml.safe_load(stream)
+        VERSION_BIOLINK = map_openapi.get('info').get('x-translator').get('biolink-version')
+        VERSION_TRAPI = map_openapi.get('info').get('x-trapi').get('version')
+        # print(yaml.safe_load(stream))
+    except yaml.YAMLError as exc:
+        print(exc)
+logger.info("Using biolink version: {} and trapi version: {}".format(VERSION_BIOLINK, VERSION_TRAPI))
+
+# print("biolink: {}".format(self.version_biolink))
+# print("trapi: {}".format(self.version_trapi))
 
 def execute_query(query: Query, debug = False):
     if query.workflow is None:
@@ -69,7 +85,7 @@ def execute_query(query: Query, debug = False):
                 if response.logs is not None:
                     logs.extend(response.logs)
                 
-        return Response(message=message, logs=logs, workflow=workflow)
+        return Response(message=message, logs=logs, workflow=workflow, schema_version=VERSION_TRAPI, biolink_version=VERSION_BIOLINK)
     else:
         return ({"status": 400, "title": "Bad Request", "detail": "Wrong workflow format", "type": "about:blank" }, 400)
 
