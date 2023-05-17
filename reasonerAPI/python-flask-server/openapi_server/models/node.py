@@ -81,6 +81,7 @@ class Node(Model):
     def categories(self):
         """Gets the categories of this Node.
 
+        These should be Biolink Model categories and are NOT allowed to be of type 'abstract' or 'mixin'. Returning 'deprecated' categories should also be avoided.  # noqa: E501
 
         :return: The categories of this Node.
         :rtype: List[str]
@@ -91,6 +92,7 @@ class Node(Model):
     def categories(self, categories):
         """Sets the categories of this Node.
 
+        These should be Biolink Model categories and are NOT allowed to be of type 'abstract' or 'mixin'. Returning 'deprecated' categories should also be avoided.  # noqa: E501
 
         :param categories: The categories of this Node.
         :type categories: List[str]

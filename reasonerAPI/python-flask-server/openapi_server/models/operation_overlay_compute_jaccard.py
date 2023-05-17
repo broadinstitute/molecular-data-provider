@@ -6,9 +6,11 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from openapi_server.models.base_model_ import Model
+from openapi_server.models.operation_annotate_runner_parameters import OperationAnnotateRunnerParameters
 from openapi_server.models.operation_overlay_compute_jaccard_parameters import OperationOverlayComputeJaccardParameters
 from openapi_server import util
 
+from openapi_server.models.operation_annotate_runner_parameters import OperationAnnotateRunnerParameters  # noqa: E501
 from openapi_server.models.operation_overlay_compute_jaccard_parameters import OperationOverlayComputeJaccardParameters  # noqa: E501
 
 class OperationOverlayComputeJaccard(Model):
@@ -17,26 +19,31 @@ class OperationOverlayComputeJaccard(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, parameters=None):  # noqa: E501
+    def __init__(self, id=None, parameters=None, runner_parameters=None):  # noqa: E501
         """OperationOverlayComputeJaccard - a model defined in OpenAPI
 
         :param id: The id of this OperationOverlayComputeJaccard.  # noqa: E501
         :type id: str
         :param parameters: The parameters of this OperationOverlayComputeJaccard.  # noqa: E501
         :type parameters: OperationOverlayComputeJaccardParameters
+        :param runner_parameters: The runner_parameters of this OperationOverlayComputeJaccard.  # noqa: E501
+        :type runner_parameters: OperationAnnotateRunnerParameters
         """
         self.openapi_types = {
             'id': str,
-            'parameters': OperationOverlayComputeJaccardParameters
+            'parameters': OperationOverlayComputeJaccardParameters,
+            'runner_parameters': OperationAnnotateRunnerParameters
         }
 
         self.attribute_map = {
             'id': 'id',
-            'parameters': 'parameters'
+            'parameters': 'parameters',
+            'runner_parameters': 'runner_parameters'
         }
 
         self._id = id
         self._parameters = parameters
+        self._runner_parameters = runner_parameters
 
     @classmethod
     def from_dict(cls, dikt) -> 'OperationOverlayComputeJaccard':
@@ -98,3 +105,24 @@ class OperationOverlayComputeJaccard(Model):
             raise ValueError("Invalid value for `parameters`, must not be `None`")  # noqa: E501
 
         self._parameters = parameters
+
+    @property
+    def runner_parameters(self):
+        """Gets the runner_parameters of this OperationOverlayComputeJaccard.
+
+
+        :return: The runner_parameters of this OperationOverlayComputeJaccard.
+        :rtype: OperationAnnotateRunnerParameters
+        """
+        return self._runner_parameters
+
+    @runner_parameters.setter
+    def runner_parameters(self, runner_parameters):
+        """Sets the runner_parameters of this OperationOverlayComputeJaccard.
+
+
+        :param runner_parameters: The runner_parameters of this OperationOverlayComputeJaccard.
+        :type runner_parameters: OperationAnnotateRunnerParameters
+        """
+
+        self._runner_parameters = runner_parameters
