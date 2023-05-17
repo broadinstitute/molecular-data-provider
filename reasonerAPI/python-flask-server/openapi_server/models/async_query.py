@@ -6,13 +6,15 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from openapi_server.models.base_model_ import Model
-from openapi_server.models.log_level import LogLevel
 from openapi_server.models.message import Message
+from openapi_server.models.query_log_level import QueryLogLevel
+from openapi_server.models.query_workflow import QueryWorkflow
 import re
 from openapi_server import util
 
-from openapi_server.models.log_level import LogLevel  # noqa: E501
 from openapi_server.models.message import Message  # noqa: E501
+from openapi_server.models.query_log_level import QueryLogLevel  # noqa: E501
+from openapi_server.models.query_workflow import QueryWorkflow  # noqa: E501
 import re  # noqa: E501
 
 class AsyncQuery(Model):
@@ -29,17 +31,17 @@ class AsyncQuery(Model):
         :param message: The message of this AsyncQuery.  # noqa: E501
         :type message: Message
         :param log_level: The log_level of this AsyncQuery.  # noqa: E501
-        :type log_level: LogLevel
+        :type log_level: QueryLogLevel
         :param workflow: The workflow of this AsyncQuery.  # noqa: E501
-        :type workflow: List
+        :type workflow: QueryWorkflow
         :param submitter: The submitter of this AsyncQuery.  # noqa: E501
         :type submitter: str
         """
         self.openapi_types = {
             'callback': str,
             'message': Message,
-            'log_level': LogLevel,
-            'workflow': List,
+            'log_level': QueryLogLevel,
+            'workflow': QueryWorkflow,
             'submitter': str
         }
 
@@ -122,10 +124,9 @@ class AsyncQuery(Model):
     def log_level(self):
         """Gets the log_level of this AsyncQuery.
 
-        The least critical level of logs to return  # noqa: E501
 
         :return: The log_level of this AsyncQuery.
-        :rtype: LogLevel
+        :rtype: QueryLogLevel
         """
         return self._log_level
 
@@ -133,10 +134,9 @@ class AsyncQuery(Model):
     def log_level(self, log_level):
         """Sets the log_level of this AsyncQuery.
 
-        The least critical level of logs to return  # noqa: E501
 
         :param log_level: The log_level of this AsyncQuery.
-        :type log_level: LogLevel
+        :type log_level: QueryLogLevel
         """
 
         self._log_level = log_level
@@ -145,10 +145,9 @@ class AsyncQuery(Model):
     def workflow(self):
         """Gets the workflow of this AsyncQuery.
 
-        List of workflow steps to be executed.  # noqa: E501
 
         :return: The workflow of this AsyncQuery.
-        :rtype: List
+        :rtype: QueryWorkflow
         """
         return self._workflow
 
@@ -156,10 +155,9 @@ class AsyncQuery(Model):
     def workflow(self, workflow):
         """Sets the workflow of this AsyncQuery.
 
-        List of workflow steps to be executed.  # noqa: E501
 
         :param workflow: The workflow of this AsyncQuery.
-        :type workflow: List
+        :type workflow: QueryWorkflow
         """
 
         self._workflow = workflow

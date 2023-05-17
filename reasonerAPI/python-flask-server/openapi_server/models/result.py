@@ -6,11 +6,11 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from openapi_server.models.base_model_ import Model
-from openapi_server.models.edge_binding import EdgeBinding
+from openapi_server.models.analysis import Analysis
 from openapi_server.models.node_binding import NodeBinding
 from openapi_server import util
 
-from openapi_server.models.edge_binding import EdgeBinding  # noqa: E501
+from openapi_server.models.analysis import Analysis  # noqa: E501
 from openapi_server.models.node_binding import NodeBinding  # noqa: E501
 
 class Result(Model):
@@ -19,31 +19,26 @@ class Result(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, node_bindings=None, edge_bindings=None, score=None):  # noqa: E501
+    def __init__(self, node_bindings=None, analyses=None):  # noqa: E501
         """Result - a model defined in OpenAPI
 
         :param node_bindings: The node_bindings of this Result.  # noqa: E501
         :type node_bindings: Dict[str, List[NodeBinding]]
-        :param edge_bindings: The edge_bindings of this Result.  # noqa: E501
-        :type edge_bindings: Dict[str, List[EdgeBinding]]
-        :param score: The score of this Result.  # noqa: E501
-        :type score: float
+        :param analyses: The analyses of this Result.  # noqa: E501
+        :type analyses: List[Analysis]
         """
         self.openapi_types = {
             'node_bindings': Dict[str, List[NodeBinding]],
-            'edge_bindings': Dict[str, List[EdgeBinding]],
-            'score': float
+            'analyses': List[Analysis]
         }
 
         self.attribute_map = {
             'node_bindings': 'node_bindings',
-            'edge_bindings': 'edge_bindings',
-            'score': 'score'
+            'analyses': 'analyses'
         }
 
         self._node_bindings = node_bindings
-        self._edge_bindings = edge_bindings
-        self._score = score
+        self._analyses = analyses
 
     @classmethod
     def from_dict(cls, dikt) -> 'Result':
@@ -82,49 +77,26 @@ class Result(Model):
         self._node_bindings = node_bindings
 
     @property
-    def edge_bindings(self):
-        """Gets the edge_bindings of this Result.
+    def analyses(self):
+        """Gets the analyses of this Result.
 
-        The dictionary of Input Query Graph to Result Knowledge Graph edge bindings where the dictionary keys are the key identifiers of the Query Graph edges and the associated values of those keys are instances of EdgeBinding schema type (see below). This value is an array of EdgeBindings since a given query edge may resolve to multiple knowledge graph edges in the result.  # noqa: E501
+        The list of all Analysis components that contribute to the result. See below for Analysis components.  # noqa: E501
 
-        :return: The edge_bindings of this Result.
-        :rtype: Dict[str, List[EdgeBinding]]
+        :return: The analyses of this Result.
+        :rtype: List[Analysis]
         """
-        return self._edge_bindings
+        return self._analyses
 
-    @edge_bindings.setter
-    def edge_bindings(self, edge_bindings):
-        """Sets the edge_bindings of this Result.
+    @analyses.setter
+    def analyses(self, analyses):
+        """Sets the analyses of this Result.
 
-        The dictionary of Input Query Graph to Result Knowledge Graph edge bindings where the dictionary keys are the key identifiers of the Query Graph edges and the associated values of those keys are instances of EdgeBinding schema type (see below). This value is an array of EdgeBindings since a given query edge may resolve to multiple knowledge graph edges in the result.  # noqa: E501
+        The list of all Analysis components that contribute to the result. See below for Analysis components.  # noqa: E501
 
-        :param edge_bindings: The edge_bindings of this Result.
-        :type edge_bindings: Dict[str, List[EdgeBinding]]
+        :param analyses: The analyses of this Result.
+        :type analyses: List[Analysis]
         """
-        if edge_bindings is None:
-            raise ValueError("Invalid value for `edge_bindings`, must not be `None`")  # noqa: E501
+        if analyses is None:
+            raise ValueError("Invalid value for `analyses`, must not be `None`")  # noqa: E501
 
-        self._edge_bindings = edge_bindings
-
-    @property
-    def score(self):
-        """Gets the score of this Result.
-
-        A numerical score associated with this result indicating the relevance or confidence of this result relative to others in the returned set. Higher MUST be better.  # noqa: E501
-
-        :return: The score of this Result.
-        :rtype: float
-        """
-        return self._score
-
-    @score.setter
-    def score(self, score):
-        """Sets the score of this Result.
-
-        A numerical score associated with this result indicating the relevance or confidence of this result relative to others in the returned set. Higher MUST be better.  # noqa: E501
-
-        :param score: The score of this Result.
-        :type score: float
-        """
-
-        self._score = score
+        self._analyses = analyses

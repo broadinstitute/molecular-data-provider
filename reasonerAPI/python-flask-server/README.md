@@ -21,13 +21,13 @@ python3 -m openapi_server
 and open your browser to here:
 
 ```
-http://localhost:8080/molepro/trapi/v1.3/ui/
+http://localhost:8080/molepro/trapi/v1.4/ui/
 ```
 
 Your OpenAPI definition lives here:
 
 ```
-http://localhost:8080/molepro/trapi/v1.3/openapi.json
+http://localhost:8080/molepro/trapi/v1.4/openapi.json
 ```
 
 To launch the integration tests, use tox:
