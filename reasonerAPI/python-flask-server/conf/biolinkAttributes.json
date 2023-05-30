@@ -8,8 +8,11 @@
         "data:1249"
     ],
     "edge_attributes": [
+        "biolink:agent_type",
         "biolink:aggregator_knowledge_source",
         "biolink:FDA_approval_status",
+        "biolink:FDA_APPROVAL_STATUS",
+        "biolink:knowledge_level",
         "biolink:OrganismAttribute",
         "biolink:OrganismTaxon",
         "biolink:original_knowledge_source",
@@ -21,23 +24,25 @@
         "qualifier:object_aspect",
         "qualifier:object_direction",
         "qualifier:mechanism_qualifier",
-        "action_type",
-        "ChEMBL:action_type",
-        "ChEMBL:mechanism_of_action",
         "CMAP:similarity score",
         "NCIT:C68741",
         "NCIT:C53190",
         "OBI:0200163",
         "SIO:000811",
         "SIO:000653",
-        "SIO:000923",
+        "SIO:000923"
+    ],
+    "hidden_attributes": [
         "actions",
-        "Relation",
+        "action_type",
+        "ChEMBL:action_type",
+        "ChEMBL:mechanism_of_action",
         "compartment",
-        "Specific Action of the Ligand",
-        "TYPE",
         "FEATURE_ACTION",
+        "mode",
         "rela",
-        "mode"
+        "Relation",
+        "Specific Action of the Ligand",
+        "TYPE"
     ]
 }

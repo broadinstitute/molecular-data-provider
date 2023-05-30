@@ -1,4 +1,5 @@
 import requests
+import datetime
 import json
 import yaml
 from contextlib import closing
@@ -14,6 +15,8 @@ from openapi_server.models.response import Response
 from openapi_server.models.attribute import Attribute
 from openapi_server.models.qualifier import Qualifier
 from openapi_server.models.analysis import Analysis
+from openapi_server.models.log_entry import LogEntry
+from openapi_server.models.log_level import LogLevel
 from openapi_server.models.retrieval_source import RetrievalSource
 from openapi_server.models.resource_role_enum import ResourceRoleEnum
 
@@ -58,10 +61,12 @@ class MolePro:
         self.knowledge_graph = KnowledgeGraph(nodes={}, edges={})
         self.nodes = {}
         self.edges = {}
+        self.logs = []
+        self.query_transformers = set()
 
     def get_results(self):
         message = Message(results=self.results, query_graph=self.query_graph, knowledge_graph=self.knowledge_graph)
-        results_response = Response(message = message, schema_version=VERSION_TRAPI, biolink_version=VERSION_BIOLINK)
+        results_response = Response(message = message, logs = self.logs, schema_version=VERSION_TRAPI, biolink_version=VERSION_BIOLINK)
         return results_response
 
 
@@ -85,6 +90,8 @@ class MolePro:
         for transformer in transformer_list:
             # TODO - only use id, so could come from first xcall
             response_info = self.execute_transformer(translate_curie(mole_edge.source_id, mole_edge.source_type), transformer, collection_info)
+            for log_entry in self.get_logs(response_info.get('attributes')):
+                self.logs.append(log_entry)
             collection_info = response_info
 
         # apply constraints
@@ -101,6 +108,20 @@ class MolePro:
         if collection.get('elements') is not None:
             for element in collection['elements']:
                 self.add_result(source_node, mole_edge, element, collection_id, map_original_query_id)
+
+
+    def get_logs(self, collection_attributes):
+        logs = []
+        if collection_attributes is not None:
+            for attr in collection_attributes:
+                if attr.get('attribute_type_id') is not None and attr.get('attribute_type_id').startswith('molepro.log:'):
+                    level = LogLevel.INFO
+                    if attr.get('attribute_type_id') == 'molepro.log:warning':
+                        level = LogLevel.WARNING
+                    if attr.get('attribute_type_id') == 'molepro.log:error':
+                        level = LogLevel.ERROR
+                    logs.append(LogEntry(datetime.datetime.now(), level, attr.get('original_attribute_name'), attr.get('value')))
+        return logs
 
 
     def compound_collection(self, curie):
@@ -164,10 +185,16 @@ class MolePro:
             print("querying transformer {} with id {}".format(transformer['name'], collection_id))
             print("url: {}".format(url))
             print("payload: {}\n".format(query))
+        if transformer['name'] not in self.query_transformers:
+            log_msg = "querying transformer '{}' at {}".format(transformer['name'], url)
+            self.query_transformers.add(transformer['name'])
+            self.logs.append(LogEntry(datetime.datetime.now(), LogLevel.INFO, LogLevel.INFO, log_msg))
 
         with closing(requests.post(url, json=query)) as response_obj:
             response_json = response_obj.json()
             if response_obj.status_code != 200:
+                log_msg = "failed querying transformer {} at {} with {}".format(transformer['name'], url, response_obj.status_code)
+                self.logs.append(LogEntry(datetime.datetime.now(), LogLevel.WARNING, response_obj.status_code, log_msg))
                 return None
             return response_json
 
@@ -281,7 +308,7 @@ class MolePro:
                         analysis = Analysis(resource_id=infores_molepro, edge_bindings=edge_map)
 
                         # trapi 1.0 changes for the result formating (from list of nodes/edges to map of nodes/edges)
-                        result = Result(node_bindings=nodes_map, analyses=analysis)
+                        result = Result(node_bindings=nodes_map, analyses=[analysis])
                         self.results.append(result)
 
 
@@ -303,7 +330,7 @@ class MolePro:
             id = source_id
         # get the attributes
         if 'attributes' in element:
-            list_node_attribute, list_node_qualifiers, list_sources = self.pull_attributes_qualifiers(element, node_attributes())
+            list_node_attributes, list_node_qualifiers, list_sources = self.pull_attributes_qualifiers(element, node_attributes())
 
         # debug
         if self.debug:
@@ -322,6 +349,9 @@ class MolePro:
         list_attributes = []
         list_qualifiers = []
         list_sources = []
+        list_pubs_curie = []
+        list_pubs_str = []
+        xrefs = []
         source_aggregator = None
         if node is not None and 'attributes' in node and node.get('attributes') is not None:
             for attribute in node.get('attributes'):
@@ -339,16 +369,60 @@ class MolePro:
                     # populate retrieval sources
                     # elif attribute.get('attribute_type_id') in [ResourceRoleEnum.AGGREGATOR_KNOWLEDGE_SOURCE, ResourceRoleEnum.PRIMARY_KNOWLEDGE_SOURCE, ResourceRoleEnum.SUPPORTING_DATA_SOURCE]:
                     elif any(src in attribute.get('attribute_type_id') for src in [ResourceRoleEnum.AGGREGATOR_KNOWLEDGE_SOURCE, ResourceRoleEnum.PRIMARY_KNOWLEDGE_SOURCE, ResourceRoleEnum.SUPPORTING_DATA_SOURCE]):
-                        source_temp = RetrievalSource(resource_id=attribute.get('value'), resource_role=attribute.get('attribute_type_id'))
+                        resource_role = attribute.get('attribute_type_id')
+                        if resource_role.startswith('biolink:'):
+                            resource_role = resource_role[8:]
+                        source_temp = RetrievalSource(resource_id=attribute.get('value'), resource_role=resource_role)
                         if ResourceRoleEnum.AGGREGATOR_KNOWLEDGE_SOURCE in attribute.get('attribute_type_id'):
                             source_aggregator = source_temp
                         else:
                             list_sources.append(source_temp)
+                        if attribute.get('value_url') is not None and attribute.get('value_url') != '':
+                            source_temp.source_record_urls = attribute.get('value_url').split('\t')
+
+                    # populate publications
+                    elif attribute.get('attribute_type_id') in {'biolink:Publication', 'biolink:publication', 'biolink:publications'}:
+                        if attribute.get('value') is not None and attribute.get('value') != '':
+                            values = []
+                            url = attribute.get('value_url')
+                            if isinstance(attribute.get('value'), str):
+                                if attribute.get('original_attribute_name') == "ClinicalTrials" and attribute.get('value').startswith('NCT'):
+                                    url = None
+                                    for value in attribute.get('value').split(','):
+                                        values.append('clinicaltrials:'+value)
+                                else:
+                                    values.append(attribute.get('value'))
+                            if isinstance(attribute.get('value'), list):
+                                values.extend(attribute.get('value'))
+
+                            if attribute.get('value_type_id') is not None and ('uri' in attribute.get('value_type_id').lower() or 'url' in attribute.get('value_type_id').lower()):
+                                list_pubs_curie.extend(values)
+                            else:
+                                for value in values:
+                                    prefix = value[:value.find(':')] if ':' in value else ''
+                                    if prefix in {'clinicaltrials','PMID','ATC','https','http'}:
+                                        list_pubs_curie.append(value)
+                                    else:
+                                        list_pubs_str.append(value)
+                            if url is not None:
+                                list_pubs_curie.append(url)
 
                     # populate filtered attributes
                     elif attribute.get('attribute_type_id') in biolink_attributes:
                         if attribute.get('value') is not None and attribute.get('value') != '':
                             list_attributes.append(Attribute.from_dict(attribute))
+
+
+        if node is not None and 'identifiers' in node and node.get('identifiers') is not None:
+            category=translate_type(node.get('biolink_class'), False)
+            for field, identifier in node.get('identifiers').items():
+                if isinstance(identifier, str):
+                    translated_curie = translate_curie(identifier, category, False, field)
+                    xrefs.append(translated_curie)
+                if isinstance(identifier, list):
+                    for xref in identifier:
+                        translated_curie = translate_curie(xref, category, False, field)
+                        xrefs.append(translated_curie)
 
 
         # TODO - pull out sources from attributes
@@ -365,6 +439,16 @@ class MolePro:
         # add the aggregator source to the final list
         list_sources.append(source_aggregator)
 
+        # add publications
+        if len(list_pubs_curie) > 0:
+            list_attributes.append(Attribute('biolink:publications', None, list(set(list_pubs_curie)), 'linkml:Uriorcurie'))
+        if len(list_pubs_str) > 0:
+            list_attributes.append(Attribute('biolink:publications', None, list(set(list_pubs_str)), 'linkml:String'))
+
+        # add xrefs
+        if len(xrefs) > 0:
+            list_attributes.append(Attribute('biolink:xref', 'identifiers', xrefs, 'linkml:Curie'))
+
         return list_attributes, list_qualifiers, list_sources
 
 
@@ -377,7 +461,6 @@ class MolePro:
 
         # translate the curie from molepro to biolink
         translated_curie = translate_curie(id, category, False)
-
         if self.debug:
             print("adding {} node {}".format(category, id))
 
@@ -413,9 +496,16 @@ class MolePro:
         if type is None and connections is not None and 'biolink_predicate' in connections:
             predicate = connections.get('biolink_predicate')
 
+        # add qualifiers
+        qualifier_set = []
+        for qualifier in connections.get('qualifiers',[]):
+            qualifier_set.append(Qualifier.from_dict(qualifier))
+        for qualifier in list_qualifiers:
+            qualifier_set.append(qualifier)
+            
         # create the edge object
         # edge = Edge(predicate=translate_type(predicate, False), subject=source_id, object=target_id, attributes=list_attributes)
-        edge = Edge(predicate=translate_type(predicate, False), subject=source_id, object=target_id, attributes=list_attributes, qualifiers=list_qualifiers, sources=list_sources)
+        edge = Edge(predicate=translate_type(predicate, False), subject=source_id, object=target_id, attributes=list_attributes, qualifiers=qualifier_set, sources=list_sources)
         edge.id = edge_id                # added for trapi v1.0.0
 
         # add the edge to the graph and results collections

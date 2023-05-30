@@ -41,7 +41,7 @@
         "biolink:GrossAnatomicalStructure": "GrossAnatomicalStructure",
         "biolink:InformationContentEntity": "InformationContentEntity",
         "biolink:MacromolecularComplexMixin": "MacromolecularComplexMixin",
-        "biolink:AnatomiMolecularMixturecalEntity": "MolecularMixture",
+        "biolink:MolecularMixture": "MolecularMixture",
         "biolink:NucleicAcidEntity": "NucleicAcidEntity",
         "biolink:Organism": "Organism",
         "biolink:PairwiseGeneToGeneInteraction": "PairwiseGeneToGeneInteraction",
@@ -97,12 +97,21 @@
             "ChEBI": "CHEBI",
             "ChEMBL": "CHEMBL.COMPOUND",
             "DrugBank": "DRUGBANK",
-            "KEGG.COMPOUND": "KEGG"
+            "KEGG.COMPOUND": "KEGG",
+            "inchi": "INCHI",
+            "inchikey": "INCHIKEY",
+            "smiles": "SMILES"
         },
         "biolink:MolecularEntity": {
+            "CID": "PUBCHEM.COMPOUND",
+            "ChEBI": "CHEBI",
+            "DrugBank": "DRUGBANK",
             "ChEMBL": "CHEMBL.COMPOUND"
         },
         "biolink:ChemicalEntity": {
+            "CID": "PUBCHEM.COMPOUND",
+            "ChEBI": "CHEBI",
+            "DrugBank": "DRUGBANK",
             "ChEMBL": "CHEMBL.COMPOUND"
         },
         "biolink:Assay": {
