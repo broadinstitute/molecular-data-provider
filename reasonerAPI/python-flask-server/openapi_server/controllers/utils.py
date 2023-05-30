@@ -43,6 +43,8 @@ class BiolinkSingleton:
                     print('loaded '+str(len(self.node_attributes))+' node attributes')
                     self.edge_attributes = set(biolink_attributes.get('edge_attributes'))
                     print('loaded '+str(len(self.edge_attributes))+' edge attributes')
+                    self.hidden_attributes = set(biolink_attributes.get('hidden_attributes'))
+                    print('loaded '+str(len(self.hidden_attributes))+' hidden attributes')
 
 
             # set the object
@@ -80,7 +82,7 @@ def translate_type(input_type, is_input=True):
     return result
 
 
-def translate_curie(input_curie, category, is_input=True):
+def translate_curie(input_curie, category, is_input=True, field=None):
     """ translates the curie prefix if necessary to/from biolink/molepro """
     result = input_curie
     map={}
@@ -103,6 +105,9 @@ def translate_curie(input_curie, category, is_input=True):
             if prefix in map:
                 result = map[prefix] + ":" + value
 
+        if len(split_curie) == 1 and field in map:
+            result = map[field] + ":" + input_curie
+
     # log
     # print("utils.translate_curie: returning {} for input {}".format(result, input_curie))
 
@@ -117,7 +122,11 @@ def node_attributes():
 def edge_attributes():
     return biolink_object.edge_attributes
 
-    
+
+def hidden_attributes():
+    return biolink_object.hidden_attributes
+
+
 def migrate_transformer_chains(inFile, outFile):
     with open(inFile) as f:
         json_obj = json.load(f)

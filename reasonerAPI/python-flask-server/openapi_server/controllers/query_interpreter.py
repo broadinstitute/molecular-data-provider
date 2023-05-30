@@ -1,5 +1,6 @@
 from contextlib import closing
 import time
+import datetime
 import copy
 import os
 import yaml
@@ -7,6 +8,8 @@ import yaml
 from openapi_server.models.query import Query
 from openapi_server.models.message import Message
 from openapi_server.models.attribute import Attribute
+from openapi_server.models.log_entry import LogEntry
+from openapi_server.models.log_level import LogLevel
 from openapi_server.models.response import Response
 
 from openapi_server.controllers.knowledge_map import knowledge_map
@@ -17,7 +20,7 @@ from openapi_server.controllers.biolink_utils import BiolinkAncestrySingleton
 from openapi_server.utils.query_utils import reverse_query, reverse_response, filter_by_object_id
 from openapi_server.controllers.utils import translate_type
 from openapi_server.controllers.utils import translate_curie
-from openapi_server.controllers.utils import node_attributes, edge_attributes
+from openapi_server.controllers.utils import node_attributes, edge_attributes, hidden_attributes
 from openapi_server.controllers.utils import get_logger
 from openapi_server.utils.node_ancestry_utils import get_ancestry_map
 
@@ -103,7 +106,9 @@ def execute_lookup(message: Message, submitter, debug=False):
             if node.ids:
                 id_count = max(id_count, len(node.ids))
                 
-    logger.info("Got {} nodes with {} ids from {}".format(len(query_nodes), id_count, submitter))
+    log_msg = "Got {} nodes with {} ids from {}".format(len(query_nodes), id_count, submitter)
+    logger.info(log_msg)
+    
     if id_count > limit_query_curie_size:
         return ({"status": 413, "title": "Query payload too large", "detail": "Query payload too large, exceeds the {} curie list size".format(limit_query_curie_size), "type": "about:blank" }, 413)
  
@@ -127,6 +132,7 @@ def execute_lookup(message: Message, submitter, debug=False):
 
     # call molepro
     molepro = MolePro(query_graph)
+    molepro.logs.append(LogEntry(datetime.datetime.now(), LogLevel.INFO, LogLevel.INFO, log_msg))
 
     # returned edge is: {'id':edge_id, 'source':source, 'type':predicate, 'target':target}
     # edge, transformer_chain_list = knowledge_map.match_query_graph(query_graph)
@@ -155,8 +161,10 @@ def execute_lookup(message: Message, submitter, debug=False):
         response = filter_by_object_id(response, original_query_graph)
 
     # return
-    logger.info('Returning {} edges to {} in {} s'.format(
-        len(response.message.knowledge_graph.edges), submitter,  int(time.time() - start)))
+    log_msg = 'Returning {} edges to {} in {} s'.format(
+        len(response.message.knowledge_graph.edges), submitter,  int(time.time() - start))
+    logger.info(log_msg)
+    response.logs.append(LogEntry(datetime.datetime.now(), LogLevel.INFO, LogLevel.INFO, log_msg))
     return response
 
 
@@ -274,6 +282,8 @@ def query_molepro_db(molepro, query_graph, map_original_query_id, debug = False)
     for attribute in node_attributes():
         transformer_controls.append({'name':'element_attribute', 'value': attribute})
     for attribute in edge_attributes():
+        transformer_controls.append({'name':'connection_attribute', 'value': attribute})
+    for attribute in hidden_attributes():
         transformer_controls.append({'name':'connection_attribute', 'value': attribute})
 
     if debug:

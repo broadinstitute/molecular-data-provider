@@ -201,10 +201,11 @@ def filter_by_object_id(response: Response, query_graph: QueryGraph, debug=False
                 new_results = []
                 for res in response.message.results:
                     include_bindings = True
-                    for key, value in res.edge_bindings.items():
-                        for list_item in value:
-                            if list_item.id not in new_edges:
-                                include_bindings = False
+                    for analysis in res.analyses:
+                        for key, value in analysis.edge_bindings.items():
+                            for list_item in value:
+                                if list_item.id not in new_edges:
+                                    include_bindings = False
                     
                     # only include result bindings if all nodes were in the result
                     if include_bindings:
