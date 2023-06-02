@@ -90,8 +90,9 @@ class MolePro:
         for transformer in transformer_list:
             # TODO - only use id, so could come from first xcall
             response_info = self.execute_transformer(translate_curie(mole_edge.source_id, mole_edge.source_type), transformer, collection_info)
-            for log_entry in self.get_logs(response_info.get('attributes')):
-                self.logs.append(log_entry)
+            if response_info is not None:
+                for log_entry in self.get_logs(response_info.get('attributes')):
+                    self.logs.append(log_entry)
             collection_info = response_info
 
         # apply constraints
