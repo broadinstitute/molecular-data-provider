@@ -11,9 +11,9 @@ Feature: Check Node_Normalizer transformer
         and the value of "function" should be "producer"
         and the value of "knowledge_map.input_class" should be "none"
         and the value of "knowledge_map.output_class" should be "any"
-        and the value of "version" should be "2.3.0"
-        and the value of "properties.source_version" should be "2.0.1"
-        and the size of "parameters" should be 1
+        and the value of "version" should be "2.5.0"
+        and the value of "properties.source_version" should be "2.0.10"
+        and the size of "parameters" should be 2
 
 
     Scenario: Check Node_Normalizer compound-list producer
@@ -44,11 +44,11 @@ Feature: Check Node_Normalizer transformer
         and the response only contains the following entries in "provided_by"
             | provided_by                     |
             | SRI node normalizer producer    |
-        and the response contains the following entries in "snomedct" of "identifiers"
-            | snomedct            |
+        and the response contains the following entries in "snomed" of "identifiers"
+            | snomed            |
             | SNOMEDCT:44054006 |
-        and the response only contains the following entries in "snomedct" of "identifiers"
-            | snomedct            |
+        and the response only contains the following entries in "snomed" of "identifiers"
+            | snomed            |
             | SNOMEDCT:44054006 |
         and the response contains the following entries in "mesh" of "identifiers"
             | mesh         |
