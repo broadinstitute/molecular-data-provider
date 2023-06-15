@@ -3,12 +3,12 @@ import json
 from contextlib import closing
 from collections import defaultdict
 
-from transformers.transformer import Producer
+from transformers.transformer import Transformer
 
 
-class NodeNormalizer(Producer):
+class NodeNormalizer(Transformer):
 
-    variables = ['id']
+    variables = ['id', 'category']
 
     config = {}
 
@@ -25,26 +25,37 @@ class NodeNormalizer(Producer):
 
 
     def produce(self, controls):
-        self.map = {}
-        return super().produce(controls)
+        element_list = []
+        elements = {}
+        for curie in controls[self.variables[0]]:
+            response = self.find(curie)
+            if response is not None:
+                id = response[curie]['id']['identifier']
+                if id not in elements:
+                    element = self.create_element(id, response[curie], controls)
+                    if element is not None:
+                        elements[id] = element
+                        element_list.append(element)
+                if id in elements:
+                    elements[id].attributes.append(
+                        self.Attribute(name='query name', value=curie, type='')
+                )
+        return element_list
 
 
-    def find_names(self, query_id):
-        url = self.config['url']+self.config['query']+str(query_id)
+    def find(self, curie):
+        url = self.config['url']+self.config['query']+str(curie)
         with closing(requests.get(url)) as response_obj:
             response = response_obj.json()
-            if query_id in response and response[query_id] is not None:
-                id = response[query_id]['id']['identifier']
-                self.map[id] = response[query_id]
-                return [id]
-        return []
+            if curie in response and response[curie] is not None:
+                return response
+        return None
 
 
-    def create_element(self, id):
+    def create_element(self, id, response, controls):
         element = None
-        if id in self.map:
-            response = self.map.pop(id)
-            biolink_class = response.get('type',['biolink:NamedThing'])[0]
+        biolink_class = self.get_biolink_class(response, controls['category'])
+        if biolink_class is not None:
             if biolink_class.startswith('biolink:'):
                 biolink_class = biolink_class[8:]
             biolink_class = self.class_dict.get(biolink_class, biolink_class)
@@ -54,10 +65,20 @@ class NodeNormalizer(Producer):
                 names[self.SOURCE].add(response['id']['label'])
             for alt_id in response.get('equivalent_identifiers',[]):
                 field_name = self.source_map.get(biolink_class,{}).get(self.prefix(alt_id),self.prefix(alt_id).lower())
-                self.add_identifier(identifiers, field_name, alt_id['identifier'])
+                self.add_identifier(identifiers, field_name, alt_id['identifier'], biolink_class)
                 self.add_name(names, field_name, alt_id.get('label'))
             element = self.Element(id, biolink_class, identifiers, self.get_names(names))
         return element
+
+
+    def get_biolink_class(self, response, categories):
+        if categories is None:
+            return response.get('type',['biolink:NamedThing'])[0]
+        types = {tp[8:] if tp.startswith('biolink:') else tp for tp in response.get('type',['biolink:NamedThing'])}
+        for category in categories:
+            if category in types:
+                return category
+        return None
 
 
     def build_source_map(self):
@@ -66,9 +87,10 @@ class NodeNormalizer(Producer):
         for (biolink_class, mapping) in prefix_map.items():
             source_map[biolink_class]['node_normalizer'] = 'node_normalizer'
             for (field_name, prefixes) in mapping.items():
-                print(biolink_class, prefixes['biolink_prefix'], field_name)
-                source_map[biolink_class][prefixes['biolink_prefix']] = field_name
-        print(source_map)
+                if prefixes['biolink_prefix'] not in source_map[biolink_class]:
+                    source_map[biolink_class][prefixes['biolink_prefix']] = field_name
+                else:
+                    print('  duplicate field_name')
         return source_map
 
 
@@ -79,7 +101,8 @@ class NodeNormalizer(Producer):
         return 'node_normalizer'
 
 
-    def add_identifier(self, identifiers, field_name, identifier):
+    def add_identifier(self, identifiers, field_name, identifier, biolink_class):
+        identifier = self.add_prefix(field_name, self.de_prefix(field_name, identifier, biolink_class), biolink_class)
         if field_name in identifiers:
             if isinstance(identifiers[field_name], str):
                 identifiers[field_name] = [identifiers[field_name]]
