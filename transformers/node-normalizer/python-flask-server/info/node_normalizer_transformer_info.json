@@ -1,8 +1,9 @@
 {
     "name": "SRI node normalizer producer",
     "label": "SRI node normalizer",
+    "infores": "infores:sri-node-normalizer",
     "description": "Entity producer based on SRI node normalizer (https://nodenormalization-sri.renci.org).",
-    "version": "2.3.0",
+    "version": "2.5.0",
     "function": "producer",
     "knowledge_map": {
         "input_class": "none",
@@ -20,10 +21,18 @@
         {
             "name": "id",
             "type": "string",
-            "required": "true",
-            "multivalued": "true",
+            "required": true,
+            "multivalued": true,
             "example": "MONDO:0005148",
-            "suggested_values": "entity ids"
+            "description": "entity ids"
+        },
+        {
+            "name": "category",
+            "type": "string",
+            "required": false,
+            "multivalued": true,
+            "example": "Gene",
+            "description": "restrict to a biolink class"
         }
     ]
 }
