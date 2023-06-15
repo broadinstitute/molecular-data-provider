@@ -44,11 +44,11 @@ Feature: Check Node_Normalizer transformer
         and the response only contains the following entries in "provided_by"
             | provided_by                     |
             | SRI node normalizer producer    |
-        and the response contains the following entries in "snomedct" of "identifiers"
-            | snomedct            |
+        and the response contains the following entries in "snomed" of "identifiers"
+            | snomed            |
             | SNOMEDCT:44054006 |
-        and the response only contains the following entries in "snomedct" of "identifiers"
-            | snomedct            |
+        and the response only contains the following entries in "snomed" of "identifiers"
+            | snomed            |
             | SNOMEDCT:44054006 |
         and the response contains the following entries in "mesh" of "identifiers"
             | mesh         |
