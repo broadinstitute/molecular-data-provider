@@ -34,3 +34,9 @@ Reaction	MolecularActivity
 MolecularActivity	MolecularActivity
 BiologicalProcess	BiologicalProcess
 CellularComponent	CellularComponent
+unknown	ChemicalEntity
+oligosaccharide	MolecularEntity
+oligonucleotide	MolecularEntity
+enzyme	Protein
+antibody	ChemicalEntity
+cell	Cell
