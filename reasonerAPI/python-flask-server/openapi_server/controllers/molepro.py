@@ -121,7 +121,7 @@ class MolePro:
                         level = LogLevel.WARNING
                     if attr.get('attribute_type_id') == 'molepro.log:error':
                         level = LogLevel.ERROR
-                    logs.append(LogEntry(datetime.datetime.now(), level, attr.get('original_attribute_name'), attr.get('value')))
+                    logs.append(LogEntry(datetime.datetime.now(), level, str(attr.get('original_attribute_name')), attr.get('value')))
         return logs
 
 
@@ -195,7 +195,7 @@ class MolePro:
             response_json = response_obj.json()
             if response_obj.status_code != 200:
                 log_msg = "failed querying transformer {} at {} with {}".format(transformer['name'], url, response_obj.status_code)
-                self.logs.append(LogEntry(datetime.datetime.now(), LogLevel.WARNING, response_obj.status_code, log_msg))
+                self.logs.append(LogEntry(datetime.datetime.now(), LogLevel.WARNING, str(response_obj.status_code), log_msg))
                 return None
             return response_json
 
