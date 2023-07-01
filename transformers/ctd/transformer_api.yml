@@ -1,11 +1,12 @@
 openapi: 3.0.0
 info:
   title: Transformer API for Molecular Data Provider
-  version: 2.3.0
-  
+
+  version: 2.5.0
+
   contact:
     email: translator@broadinstitute.org
-  
+
 servers:
 - url: https://translator.broadinstitute.org/<path>
 
@@ -114,6 +115,9 @@ components:
         label:
           type: string
           description: Short label for GUI display.
+        infores:
+          type: string
+          description: Information resource identifier.
         description:
           type: string
           description: Description of the transformer.
@@ -206,6 +210,9 @@ components:
           description: Allowed range for values of the parameter.
           items:
             type: number
+        description:
+          type: string
+          description: Description of the parameter.
         suggested_values:
           type: string
           description: Suggested value range for the parameter.
@@ -226,12 +233,6 @@ components:
           additionalProperties:
             $ref: '#/components/schemas/node'
         edges:
-          type: array
-          description: Predicates describing relationships between subjects and objects.
-          items:
-            $ref: '#/components/schemas/predicate'
-        predicates:
-          deprecated: true
           type: array
           description: Predicates describing relationships between subjects and objects.
           items:
@@ -296,6 +297,27 @@ components:
           type: integer
           description: >-
             Number of edge instances known to this knowledge source
+        knowledge_level: 
+          type: string
+          description: >-
+            the level/type of knowledge that is reported in an edge, 
+            based on how the knowledge was produced, the strength of 
+            evidence supporting it, or our confidence in its validity. 
+            (e.g. ‘knowledge assertion’, ‘logical entailment, ‘prediction’,
+            ‘statistical association’, etc.)
+          example: prediction
+        agent_type: 
+          type: string
+          description: >-
+            the type of agent that generated the statement expressed in an edge 
+            (e.g. 'manual agent', 'automated agent', 'computational model', 
+            'text-mining agent', etc.)
+          example: computational model
+        qualifiers:
+          type: array
+          description: An additional nuance attached to connections. 
+          items:
+            $ref: '#/components/schemas/km_qualifier'
         attributes:
           type: array
           items:
@@ -307,20 +329,37 @@ components:
       - object
       additionalProperties: false
 
+    km_qualifier:
+      additionalProperties: false
+      description: >-
+        An additional nuance attached to a connection
+      type: object
+      properties:
+        qualifier_type_id:
+          type: string
+          description: >-
+            The category of the qualifier, drawn from a hierarchy of qualifier
+            slots in the Biolink model (e.g. subject_aspect, subject_direction,
+            object_aspect, object_direction, etc).
+          example: subject_aspect
+        applicable_values:
+          type: array
+          items:
+            type: string
+          description: >-
+            Values associated with the type of the qualifier, drawn from
+            a set of controlled values by the type as specified in
+            the Biolink model (e.g. 'expression' or 'abundance' for the
+            qualifier type 'subject_aspect', etc).
+          example: expression
+      required:
+        - qualifier_type_id
+
     km_attribute:
       type: object
       description: >-
         Description of attribute types provided by this knowledge source.
       properties:
-        type:
-          deprecated: true
-          type: string
-          description: >-
-            CURIE of the semantic type of the attribute, from the EDAM ontology
-            if possible. If a suitable identifier does not exist, enter a
-            descriptive phrase here and submit the new type for consideration
-            by the appropriate authority.
-          example: EDAM:data_1187
         attribute_type_id:
           type: string
           description: >-
@@ -329,6 +368,9 @@ components:
             descriptive phrase here and submit the new type for consideration
             by the appropriate authority.
           example: EDAM:data_1187
+        description:
+          type: string
+          description: Description of the attribute.
         source:
           type: string
           description: Source of the attribute, as a CURIE prefix.
@@ -458,7 +500,6 @@ components:
             but the contents of the field could also be a CURIE of a third
             party ontology term.
           example: p-value
-          nullable: true
         value:
           description: >-
             Value of the attribute. May be any data type, including a list.
@@ -479,7 +520,6 @@ components:
             attribute object. Use a CURIE or namespace designator for this
             resource where possible.
           example: UniProtKB
-          nullable: true
         value_url:
           type: string
           description: >-
@@ -487,13 +527,18 @@ components:
             additional information about an  attribute's value (not the node
             or the edge fom which it hangs).
           example: https://pubmed.ncbi.nlm.nih.gov/32529952
-          nullable: true
         description:
           type: string
           description: >-
             Human-readable description for the attribute and its value.
           example: Assertion Authored By Dr. Trans L. Ator
-          nullable: true
+        attributes:
+          type: array
+          description: >-
+            A list of attributes providing further information about the
+            parent attribute. 
+          items:
+            $ref: '#/components/schemas/attribute'
         provided_by:
           type: string
           description: Transformer that produced the attribute's value.
@@ -534,6 +579,9 @@ components:
     connection:
       type: object
       properties:
+        uuid:
+          type: string
+          description: UUID of the connection.
         source_element_id:
           type: string
           description: Id (CURIE) of the connected query node.
@@ -555,6 +603,11 @@ components:
         provided_by:
           type: string
           description: Transformer that produced the connection.
+        qualifiers:
+          type: array
+          description: An additional nuance attached to the connection. 
+          items:
+            $ref: '#/components/schemas/qualifier'
         attributes:
           type: array
           description: Additional information and provenance about the connection. 
@@ -567,6 +620,31 @@ components:
       - source
       - provided_by
         
+    qualifier:
+      additionalProperties: false
+      description: >-
+        An additional nuance attached to a connection
+      type: object
+      properties:
+        qualifier_type_id:
+          type: string
+          description: >-
+            The category of the qualifier, drawn from a hierarchy of qualifier
+            slots in the Biolink model (e.g. subject_aspect, subject_direction,
+            object_aspect, object_direction, etc).
+          example: subject_aspect
+        qualifier_value:
+          type: string
+          description: >-
+            The value associated with the type of the qualifier, drawn from
+            a set of controlled values by the type as specified in
+            the Biolink model (e.g. 'expression' or 'abundance' for the
+            qualifier type 'subject_aspect', etc).
+          example: expression
+      required:
+        - qualifier_type_id
+        - qualifier_value
+
     error_msg:
       type: object
       properties:
