@@ -1,5 +1,6 @@
 package apimodels;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -84,6 +85,10 @@ public class Parameter   {
 @Valid
 
   private List<BigDecimal> allowedRange = null;
+
+  @JsonProperty("description")
+  
+  private String description;
 
   @JsonProperty("suggested_values")
   
@@ -241,6 +246,23 @@ public class Parameter   {
     this.allowedRange = allowedRange;
   }
 
+  public Parameter description(String description) {
+    this.description = description;
+    return this;
+  }
+
+   /**
+   * Description of the parameter.
+   * @return description
+  **/
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
   public Parameter suggestedValues(String suggestedValues) {
     this.suggestedValues = suggestedValues;
     return this;
@@ -276,12 +298,13 @@ public class Parameter   {
         Objects.equals(example, parameter.example) &&
         Objects.equals(allowedValues, parameter.allowedValues) &&
         Objects.equals(allowedRange, parameter.allowedRange) &&
+        Objects.equals(description, parameter.description) &&
         Objects.equals(suggestedValues, parameter.suggestedValues);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, type, required, multivalued, _default, example, allowedValues, allowedRange, suggestedValues);
+    return Objects.hash(name, type, required, multivalued, _default, example, allowedValues, allowedRange, description, suggestedValues);
   }
 
   @SuppressWarnings("StringBufferReplaceableByString")
@@ -298,6 +321,7 @@ public class Parameter   {
     sb.append("    example: ").append(toIndentedString(example)).append("\n");
     sb.append("    allowedValues: ").append(toIndentedString(allowedValues)).append("\n");
     sb.append("    allowedRange: ").append(toIndentedString(allowedRange)).append("\n");
+    sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    suggestedValues: ").append(toIndentedString(suggestedValues)).append("\n");
     sb.append("}");
     return sb.toString();

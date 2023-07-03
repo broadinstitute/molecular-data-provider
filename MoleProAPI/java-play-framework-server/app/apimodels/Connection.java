@@ -1,6 +1,8 @@
 package apimodels;
 
 import apimodels.Attribute;
+import apimodels.Qualifier;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.*;
@@ -14,6 +16,10 @@ import javax.validation.constraints.*;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Connection   {
+  @JsonProperty("uuid")
+  
+  private String uuid;
+
   @JsonProperty("source_element_id")
   @NotNull
 
@@ -47,10 +53,32 @@ public class Connection   {
 
   private String providedBy;
 
+  @JsonProperty("qualifiers")
+  @Valid
+
+  private List<Qualifier> qualifiers = null;
+
   @JsonProperty("attributes")
   @Valid
 
   private List<Attribute> attributes = null;
+
+  public Connection uuid(String uuid) {
+    this.uuid = uuid;
+    return this;
+  }
+
+   /**
+   * UUID of the connection.
+   * @return uuid
+  **/
+  public String getUuid() {
+    return uuid;
+  }
+
+  public void setUuid(String uuid) {
+    this.uuid = uuid;
+  }
 
   public Connection sourceElementId(String sourceElementId) {
     this.sourceElementId = sourceElementId;
@@ -171,6 +199,31 @@ public class Connection   {
     this.providedBy = providedBy;
   }
 
+  public Connection qualifiers(List<Qualifier> qualifiers) {
+    this.qualifiers = qualifiers;
+    return this;
+  }
+
+  public Connection addQualifiersItem(Qualifier qualifiersItem) {
+    if (qualifiers == null) {
+      qualifiers = new ArrayList<>();
+    }
+    qualifiers.add(qualifiersItem);
+    return this;
+  }
+
+   /**
+   * An additional nuance attached to the connection.
+   * @return qualifiers
+  **/
+  public List<Qualifier> getQualifiers() {
+    return qualifiers;
+  }
+
+  public void setQualifiers(List<Qualifier> qualifiers) {
+    this.qualifiers = qualifiers;
+  }
+
   public Connection attributes(List<Attribute> attributes) {
     this.attributes = attributes;
     return this;
@@ -206,19 +259,21 @@ public class Connection   {
       return false;
     }
     Connection connection = (Connection) o;
-    return Objects.equals(sourceElementId, connection.sourceElementId) &&
+    return Objects.equals(uuid, connection.uuid) &&
+        Objects.equals(sourceElementId, connection.sourceElementId) &&
         Objects.equals(biolinkPredicate, connection.biolinkPredicate) &&
         Objects.equals(inversePredicate, connection.inversePredicate) &&
         Objects.equals(relation, connection.relation) &&
         Objects.equals(inverseRelation, connection.inverseRelation) &&
         Objects.equals(source, connection.source) &&
         Objects.equals(providedBy, connection.providedBy) &&
+        Objects.equals(qualifiers, connection.qualifiers) &&
         Objects.equals(attributes, connection.attributes);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(sourceElementId, biolinkPredicate, inversePredicate, relation, inverseRelation, source, providedBy, attributes);
+    return Objects.hash(uuid, sourceElementId, biolinkPredicate, inversePredicate, relation, inverseRelation, source, providedBy, qualifiers, attributes);
   }
 
   @SuppressWarnings("StringBufferReplaceableByString")
@@ -227,6 +282,7 @@ public class Connection   {
     StringBuilder sb = new StringBuilder();
     sb.append("class Connection {\n");
     
+    sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
     sb.append("    sourceElementId: ").append(toIndentedString(sourceElementId)).append("\n");
     sb.append("    biolinkPredicate: ").append(toIndentedString(biolinkPredicate)).append("\n");
     sb.append("    inversePredicate: ").append(toIndentedString(inversePredicate)).append("\n");
@@ -234,6 +290,7 @@ public class Connection   {
     sb.append("    inverseRelation: ").append(toIndentedString(inverseRelation)).append("\n");
     sb.append("    source: ").append(toIndentedString(source)).append("\n");
     sb.append("    providedBy: ").append(toIndentedString(providedBy)).append("\n");
+    sb.append("    qualifiers: ").append(toIndentedString(qualifiers)).append("\n");
     sb.append("    attributes: ").append(toIndentedString(attributes)).append("\n");
     sb.append("}");
     return sb.toString();

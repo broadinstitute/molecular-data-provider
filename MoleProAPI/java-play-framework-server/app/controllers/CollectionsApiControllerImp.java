@@ -1,9 +1,10 @@
 package controllers;
 
+import apimodels.AggregationQuery;
 import apimodels.Collection;
-import apimodels.CompoundList;
+import apimodels.CollectionInfo;
+import apimodels.ComparisonInfo;
 import apimodels.ErrorMsg;
-import apimodels.GeneList;
 
 import play.mvc.Http;
 import java.util.List;
@@ -16,21 +17,21 @@ import javax.validation.constraints.*;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 public class CollectionsApiControllerImp extends CollectionsApiControllerImpInterface {
     @Override
+    public CollectionInfo aggregatePost(Http.Request request, AggregationQuery aggregationQuery, String cache) throws Exception {
+        //Do your magic!!!
+        return new CollectionInfo();
+    }
+
+    @Override
     public Collection collectionCollectionIdGet(Http.Request request, String collectionId, String cache) throws Exception {
         //Do your magic!!!
         return new Collection();
     }
 
     @Override
-    public CompoundList compoundListListIdGet(Http.Request request, String listId, String cache) throws Exception {
+    public ComparisonInfo comparePost(Http.Request request, AggregationQuery aggregationQuery, String cache) throws Exception {
         //Do your magic!!!
-        return new CompoundList();
-    }
-
-    @Override
-    public GeneList geneListListIdGet(Http.Request request, String listId, String cache) throws Exception {
-        //Do your magic!!!
-        return new GeneList();
+        return new ComparisonInfo();
     }
 
 }
