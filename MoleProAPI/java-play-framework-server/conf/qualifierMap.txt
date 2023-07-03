@@ -1,0 +1,4 @@
+transformer	qualifierType	qualifierValue	mappedQualifierType	mappedQualifierValue
+CTD gene interactions transformer	qualified_predicate	causes	qualified_predicate	biolink:causes
+CTD gene interactions transformer	qualified_predicate	caused_by	qualified_predicate	biolink:caused_by
+CTD phenotype interactions transformer	qualified_predicate	causes	qualified_predicate	biolink:causes

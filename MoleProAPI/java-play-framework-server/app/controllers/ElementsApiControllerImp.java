@@ -6,6 +6,8 @@ import apimodels.ErrorMsg;
 import java.util.List;
 
 import play.mvc.Http;
+import transformer.elements.Elements;
+
 import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,26 +19,22 @@ import javax.validation.constraints.*;
 public class ElementsApiControllerImp extends ElementsApiControllerImpInterface {
     @Override
     public Collection elementByIdCompoundIdGet(Http.Request request, String compoundId, String cache) throws Exception {
-        //Do your magic!!!
-        return new Collection();
+        return Elements.elementById(compoundId, cache);
     }
 
     @Override
     public CollectionInfo elementByIdPost(Http.Request request, List<String> requestBody, String cache) throws Exception {
-        //Do your magic!!!
-        return new CollectionInfo();
+        return Elements.elementById(requestBody, cache);
     }
 
     @Override
     public Collection elementByNameNameGet(Http.Request request, String name, String cache) throws Exception {
-        //Do your magic!!!
-        return new Collection();
+    	return Elements.elementByName(name, cache);
     }
 
     @Override
     public CollectionInfo elementByNamePost(Http.Request request, List<String> requestBody, String cache) throws Exception {
-        //Do your magic!!!
-        return new CollectionInfo();
+    	return Elements.elementByName(requestBody, cache);
     }
 
 }

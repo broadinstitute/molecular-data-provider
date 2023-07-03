@@ -15,6 +15,7 @@ import apimodels.Attribute;
 import apimodels.Connection;
 import apimodels.Element;
 import apimodels.Predicate;
+import apimodels.Qualifier;
 
 public class MappedConnection extends Connection {
 
@@ -26,6 +27,7 @@ public class MappedConnection extends Connection {
 
 	private MappedConnection(Connection src) {
 		super();
+		this.setUuid(mapUUID(src));
 		this.setSourceElementId(src.getSourceElementId());
 		this.setAttributes(src.getAttributes());
 		this.setSource(src.getSource());
@@ -35,11 +37,18 @@ public class MappedConnection extends Connection {
 		this.setInversePredicate(mappedPredicate.inversePredicate);
 		this.setRelation(src.getRelation());
 		this.setInverseRelation(src.getInverseRelation());
-		Set<String> currentQualifiers = Qualifier.getQualifiers(this.getAttributes());
-		for (Qualifier qualifier : mappedPredicate.qualifiers)
-			if (qualifier != null && !currentQualifiers.contains(qualifier.qualifierType) && qualifier.qualifierValue.length() > 0) {
-				this.getAttributes().add(qualifier.asAttribute);
+		this.setQualifiers(MappedQualifier.mapQualifiers(src, mappedPredicate.qualifiers));
+	}
+
+
+	private String mapUUID(Connection src) {
+		if (src.getUuid() != null && src.getUuid().length() > 0)
+			return src.getUuid();
+		for (Attribute attribute : src.getAttributes())
+			if ("connection_id".equals(attribute.getOriginalAttributeName())) {
+				return attribute.getValue().toString();
 			}
+		return null;
 	}
 
 
@@ -149,7 +158,7 @@ public class MappedConnection extends Connection {
 				final String qualifiedPredicate = row[7];
 				final String[] qualifiers = row[8].split("\t");
 				final String aKey = key(source, predicate, "");
-				MappedPredicate mappedPredicate = new MappedPredicate(rank, biolinkPredicate, inversePredicate, Qualifier.getQualifiers(qualifiedPredicate, qualifiers));
+				MappedPredicate mappedPredicate = new MappedPredicate(rank, biolinkPredicate, inversePredicate, MappedQualifier.getQualifiers(qualifiedPredicate, qualifiers));
 				if (relation.length() > 0) {
 					pMap.put(key(source, predicate, relation), mappedPredicate);
 				}
@@ -196,43 +205,4 @@ public class MappedConnection extends Connection {
 		}
 	}
 
-
-	private static class Qualifier {
-
-		private static final String QUALIFIED_PREDICATE = "qualified_predicate";
-		private static final String QUALIFIER_PREFIX = "qualifier:";
-		final Attribute asAttribute;
-		final String qualifierType;
-		final String qualifierValue;
-
-
-		Qualifier(String qualifierType, String qualifierValue) {
-			super();
-			this.qualifierType = qualifierType;
-			this.qualifierValue = qualifierValue;
-			this.asAttribute = new Attribute().attributeTypeId(QUALIFIER_PREFIX + qualifierType).value(qualifierValue);
-		}
-
-
-		static Qualifier[] getQualifiers(String qualifiedPredicate, String[] qualifierStrings) {
-			final Qualifier[] qualifiers = new Qualifier[qualifierStrings.length + 1];
-			for (int i = 0; i < qualifierStrings.length; i++) {
-				final String[] qualifier = qualifierStrings[i].split(":", 2);
-				if (qualifier.length >= 2)
-					qualifiers[i + 1] = new Qualifier(qualifier[0], qualifier[1].trim());
-			}
-			qualifiers[0] = new Qualifier(QUALIFIED_PREDICATE, qualifiedPredicate);
-			return qualifiers;
-		}
-
-
-		static Set<String> getQualifiers(List<Attribute> attributes) {
-			final Set<String> qualifiers = new HashSet<String>();
-			for (Attribute attribute : attributes)
-				if (attribute.getAttributeTypeId().startsWith(QUALIFIER_PREFIX)) {
-					qualifiers.add(attribute.getAttributeTypeId().substring(QUALIFIER_PREFIX.length()));
-				}
-			return qualifiers;
-		}
-	}
 }

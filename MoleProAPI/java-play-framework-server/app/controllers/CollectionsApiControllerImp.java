@@ -7,9 +7,9 @@ import apimodels.ComparisonInfo;
 import apimodels.ErrorMsg;
 
 import play.mvc.Http;
-import transformer.classes.Compound;
-import transformer.classes.Gene;
 import transformer.collection.Collections;
+import transformer.collection.Comparison;
+import transformer.collection.Aggregator;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -22,8 +22,7 @@ import javax.validation.constraints.*;
 public class CollectionsApiControllerImp extends CollectionsApiControllerImpInterface {
     @Override
     public CollectionInfo aggregatePost(Http.Request request, AggregationQuery aggregationQuery, String cache) throws Exception {
-        //Do your magic!!!
-        return new CollectionInfo();
+        return Aggregator.aggregate(aggregationQuery, cache);
     }
 
     @Override
@@ -32,9 +31,8 @@ public class CollectionsApiControllerImp extends CollectionsApiControllerImpInte
     }
 
     @Override
-    public ComparisonInfo comparePost(Http.Request request, AggregationQuery aggregationQuery, String cache) throws Exception {
-        //Do your magic!!!
-        return new ComparisonInfo();
-    }
+	public ComparisonInfo comparePost(Http.Request request, AggregationQuery aggregationQuery, String cache) throws Exception {
+		return Comparison.compare(aggregationQuery, cache);
+	}
 
 }
