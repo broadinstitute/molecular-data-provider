@@ -5,7 +5,7 @@
       "email" : "translator@broadinstitute.org"
     },
     "title" : "Molecular Data Provider",
-    "version" : "2.4.3.1"
+    "version" : "2.5.0"
   },
   "servers" : [ {
     "url" : "https://translator.broadinstitute.org/molecular_data_provider"
@@ -16,6 +16,8 @@
     "name" : "transformers"
   }, {
     "name" : "collections"
+  }, {
+    "name" : "elements"
   } ],
   "paths" : {
     "/compound/by_name/{name}" : {
@@ -139,12 +141,13 @@
         },
         "summary" : "Retrieve multiple compounds specified by names",
         "tags" : [ "compounds" ],
-        "x-contentType" : "application/json",
+        "x-content-type" : "application/json",
         "x-accepts" : "application/json"
       }
     },
     "/compound/by_id/{compound_id}" : {
       "get" : {
+        "deprecated" : true,
         "parameters" : [ {
           "description" : "Id of a compound (CURIE). Can be PubChem CID, DrugBank id, ChEMBL id, ChEBI id , or HMDB id.",
           "explode" : false,
@@ -264,7 +267,7 @@
         },
         "summary" : "Retrieve multiple compounds specified by ids",
         "tags" : [ "compounds" ],
-        "x-contentType" : "application/json",
+        "x-content-type" : "application/json",
         "x-accepts" : "application/json"
       }
     },
@@ -326,7 +329,7 @@
         },
         "summary" : "Retrieve a compound by a structure",
         "tags" : [ "compounds" ],
-        "x-contentType" : "text/plain",
+        "x-content-type" : "text/plain",
         "x-accepts" : "application/json"
       }
     },
@@ -430,9 +433,9 @@
             "description" : "internal server error"
           }
         },
-        "summary" : "Transform a list of genes or compounds",
+        "summary" : "Transform a list of elements",
         "tags" : [ "transformers" ],
-        "x-contentType" : "application/json",
+        "x-content-type" : "application/json",
         "x-accepts" : "application/json"
       }
     },
@@ -497,130 +500,6 @@
         "x-accepts" : "application/json"
       }
     },
-    "/gene/list/{list_id}" : {
-      "get" : {
-        "deprecated" : true,
-        "description" : "Retrieves a gene list for a given gene-list id.",
-        "parameters" : [ {
-          "description" : "gene-list id",
-          "explode" : false,
-          "in" : "path",
-          "name" : "list_id",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          },
-          "style" : "simple"
-        }, {
-          "description" : "Directive for handling caching, can be 'yes' (default), 'no', 'bypass' or 'remove'",
-          "explode" : true,
-          "in" : "query",
-          "name" : "cache",
-          "required" : false,
-          "schema" : {
-            "type" : "string"
-          },
-          "style" : "form"
-        } ],
-        "responses" : {
-          "200" : {
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/gene_list"
-                }
-              }
-            },
-            "description" : "successful operation"
-          },
-          "404" : {
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/error_msg"
-                }
-              }
-            },
-            "description" : "not found"
-          },
-          "500" : {
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/error_msg"
-                }
-              }
-            },
-            "description" : "internal server error"
-          }
-        },
-        "summary" : "Retrieve a gene list",
-        "tags" : [ "collections" ],
-        "x-accepts" : "application/json"
-      }
-    },
-    "/compound/list/{list_id}" : {
-      "get" : {
-        "deprecated" : true,
-        "description" : "Retrieves a compound list for a given compound-list id.",
-        "parameters" : [ {
-          "description" : "compound-list id",
-          "explode" : false,
-          "in" : "path",
-          "name" : "list_id",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          },
-          "style" : "simple"
-        }, {
-          "description" : "Directive for handling caching, can be 'yes' (default), 'no', 'bypass' or 'remove'",
-          "explode" : true,
-          "in" : "query",
-          "name" : "cache",
-          "required" : false,
-          "schema" : {
-            "type" : "string"
-          },
-          "style" : "form"
-        } ],
-        "responses" : {
-          "200" : {
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/compound_list"
-                }
-              }
-            },
-            "description" : "successful operation"
-          },
-          "404" : {
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/error_msg"
-                }
-              }
-            },
-            "description" : "not found"
-          },
-          "500" : {
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/error_msg"
-                }
-              }
-            },
-            "description" : "internal server error"
-          }
-        },
-        "summary" : "Retrieve a compound list",
-        "tags" : [ "collections" ],
-        "x-accepts" : "application/json"
-      }
-    },
     "/aggregate" : {
       "post" : {
         "description" : "Aggregates multiple collections into one collections.",
@@ -659,8 +538,301 @@
           }
         },
         "summary" : "Aggregate multiple collections",
-        "tags" : [ "transformers" ],
-        "x-contentType" : "application/json",
+        "tags" : [ "collections" ],
+        "x-content-type" : "application/json",
+        "x-accepts" : "application/json"
+      }
+    },
+    "/compare" : {
+      "post" : {
+        "description" : "Aggregates multiple collections into one collections.",
+        "parameters" : [ {
+          "description" : "Directive for handling caching, can be 'yes' (default), 'no', 'bypass' or 'remove'",
+          "explode" : true,
+          "in" : "query",
+          "name" : "cache",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "form"
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/aggregation_query"
+              }
+            }
+          },
+          "description" : "aggregation query",
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/comparison_info"
+                }
+              }
+            },
+            "description" : "successful operation"
+          }
+        },
+        "summary" : "Aggregate multiple collections",
+        "tags" : [ "collections" ],
+        "x-content-type" : "application/json",
+        "x-accepts" : "application/json"
+      }
+    },
+    "/element/by_name/{name}" : {
+      "get" : {
+        "parameters" : [ {
+          "description" : "Name of a element.",
+          "explode" : false,
+          "in" : "path",
+          "name" : "name",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        }, {
+          "description" : "Directive for handling caching, can be 'yes' (default), 'no', 'bypass' or 'remove'",
+          "explode" : true,
+          "in" : "query",
+          "name" : "cache",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "form"
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/collection"
+                }
+              }
+            },
+            "description" : "successful operation"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error_msg"
+                }
+              }
+            },
+            "description" : "not found"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error_msg"
+                }
+              }
+            },
+            "description" : "internal server error"
+          }
+        },
+        "summary" : "Retrieve a element by a name",
+        "tags" : [ "elements" ],
+        "x-accepts" : "application/json"
+      }
+    },
+    "/element/by_name" : {
+      "post" : {
+        "parameters" : [ {
+          "description" : "Directive for handling caching, can be 'yes' (default), 'no', 'bypass' or 'remove'",
+          "explode" : true,
+          "in" : "query",
+          "name" : "cache",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "form"
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "items" : {
+                  "type" : "string"
+                },
+                "type" : "array"
+              }
+            }
+          },
+          "description" : "Names of the element",
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/collection_info"
+                }
+              }
+            },
+            "description" : "successful operation"
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error_msg"
+                }
+              }
+            },
+            "description" : "bad request"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error_msg"
+                }
+              }
+            },
+            "description" : "internal server error"
+          }
+        },
+        "summary" : "Retrieve multiple elements specified by names",
+        "tags" : [ "elements" ],
+        "x-content-type" : "application/json",
+        "x-accepts" : "application/json"
+      }
+    },
+    "/element/by_id/{compound_id}" : {
+      "get" : {
+        "parameters" : [ {
+          "description" : "Id of a element (CURIE).",
+          "explode" : false,
+          "in" : "path",
+          "name" : "compound_id",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        }, {
+          "description" : "Directive for handling caching, can be 'yes' (default), 'no', 'bypass' or 'remove'",
+          "explode" : true,
+          "in" : "query",
+          "name" : "cache",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "form"
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/collection"
+                }
+              }
+            },
+            "description" : "successful operation"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error_msg"
+                }
+              }
+            },
+            "description" : "not found"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error_msg"
+                }
+              }
+            },
+            "description" : "internal server error"
+          }
+        },
+        "summary" : "Retrieve a element by an id",
+        "tags" : [ "elements" ],
+        "x-accepts" : "application/json"
+      }
+    },
+    "/element/by_id" : {
+      "post" : {
+        "parameters" : [ {
+          "description" : "Directive for handling caching, can be 'yes' (default), 'no', 'bypass' or 'remove'",
+          "explode" : true,
+          "in" : "query",
+          "name" : "cache",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "form"
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "items" : {
+                  "type" : "string"
+                },
+                "type" : "array"
+              }
+            }
+          },
+          "description" : "Ids (CURIEs) of the element",
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/collection_info"
+                }
+              }
+            },
+            "description" : "successful operation"
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error_msg"
+                }
+              }
+            },
+            "description" : "bad request"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error_msg"
+                }
+              }
+            },
+            "description" : "internal server error"
+          }
+        },
+        "summary" : "Retrieve multiple elements specified by ids",
+        "tags" : [ "elements" ],
+        "x-content-type" : "application/json",
         "x-accepts" : "application/json"
       }
     }
@@ -672,17 +844,28 @@
         "example" : {
           "knowledge_map" : {
             "predicates" : [ {
+              "agent_type" : "computational model",
               "predicate" : "predicate",
               "inverse_relations" : [ "inverse_relations", "inverse_relations" ],
+              "knowledge_level" : "prediction",
               "subject" : "subject",
               "count" : 6,
+              "qualifiers" : [ {
+                "applicable_values" : "expression",
+                "qualifier_type_id" : "subject_aspect"
+              }, {
+                "applicable_values" : "expression",
+                "qualifier_type_id" : "subject_aspect"
+              } ],
               "attributes" : [ {
                 "names" : [ "PubMed Identifier" ],
+                "description" : "description",
                 "attribute_type_id" : "EDAM:data_1187",
                 "source" : "UniProtKB",
                 "type" : "EDAM:data_1187"
               }, {
                 "names" : [ "PubMed Identifier" ],
+                "description" : "description",
                 "attribute_type_id" : "EDAM:data_1187",
                 "source" : "UniProtKB",
                 "type" : "EDAM:data_1187"
@@ -692,17 +875,28 @@
               "inverse_predicate" : "inverse_predicate",
               "object" : "object"
             }, {
+              "agent_type" : "computational model",
               "predicate" : "predicate",
               "inverse_relations" : [ "inverse_relations", "inverse_relations" ],
+              "knowledge_level" : "prediction",
               "subject" : "subject",
               "count" : 6,
+              "qualifiers" : [ {
+                "applicable_values" : "expression",
+                "qualifier_type_id" : "subject_aspect"
+              }, {
+                "applicable_values" : "expression",
+                "qualifier_type_id" : "subject_aspect"
+              } ],
               "attributes" : [ {
                 "names" : [ "PubMed Identifier" ],
+                "description" : "description",
                 "attribute_type_id" : "EDAM:data_1187",
                 "source" : "UniProtKB",
                 "type" : "EDAM:data_1187"
               }, {
                 "names" : [ "PubMed Identifier" ],
+                "description" : "description",
                 "attribute_type_id" : "EDAM:data_1187",
                 "source" : "UniProtKB",
                 "type" : "EDAM:data_1187"
@@ -718,11 +912,13 @@
                 "count" : 0,
                 "attributes" : [ {
                   "names" : [ "PubMed Identifier" ],
+                  "description" : "description",
                   "attribute_type_id" : "EDAM:data_1187",
                   "source" : "UniProtKB",
                   "type" : "EDAM:data_1187"
                 }, {
                   "names" : [ "PubMed Identifier" ],
+                  "description" : "description",
                   "attribute_type_id" : "EDAM:data_1187",
                   "source" : "UniProtKB",
                   "type" : "EDAM:data_1187"
@@ -731,17 +927,28 @@
             },
             "output_class" : "output_class",
             "edges" : [ {
+              "agent_type" : "computational model",
               "predicate" : "predicate",
               "inverse_relations" : [ "inverse_relations", "inverse_relations" ],
+              "knowledge_level" : "prediction",
               "subject" : "subject",
               "count" : 6,
+              "qualifiers" : [ {
+                "applicable_values" : "expression",
+                "qualifier_type_id" : "subject_aspect"
+              }, {
+                "applicable_values" : "expression",
+                "qualifier_type_id" : "subject_aspect"
+              } ],
               "attributes" : [ {
                 "names" : [ "PubMed Identifier" ],
+                "description" : "description",
                 "attribute_type_id" : "EDAM:data_1187",
                 "source" : "UniProtKB",
                 "type" : "EDAM:data_1187"
               }, {
                 "names" : [ "PubMed Identifier" ],
+                "description" : "description",
                 "attribute_type_id" : "EDAM:data_1187",
                 "source" : "UniProtKB",
                 "type" : "EDAM:data_1187"
@@ -751,17 +958,28 @@
               "inverse_predicate" : "inverse_predicate",
               "object" : "object"
             }, {
+              "agent_type" : "computational model",
               "predicate" : "predicate",
               "inverse_relations" : [ "inverse_relations", "inverse_relations" ],
+              "knowledge_level" : "prediction",
               "subject" : "subject",
               "count" : 6,
+              "qualifiers" : [ {
+                "applicable_values" : "expression",
+                "qualifier_type_id" : "subject_aspect"
+              }, {
+                "applicable_values" : "expression",
+                "qualifier_type_id" : "subject_aspect"
+              } ],
               "attributes" : [ {
                 "names" : [ "PubMed Identifier" ],
+                "description" : "description",
                 "attribute_type_id" : "EDAM:data_1187",
                 "source" : "UniProtKB",
                 "type" : "EDAM:data_1187"
               }, {
                 "names" : [ "PubMed Identifier" ],
+                "description" : "description",
                 "attribute_type_id" : "EDAM:data_1187",
                 "source" : "UniProtKB",
                 "type" : "EDAM:data_1187"
@@ -773,6 +991,7 @@
             } ],
             "input_class" : "input_class"
           },
+          "infores" : "infores",
           "function" : "producer",
           "name" : "name",
           "description" : "description",
@@ -785,6 +1004,7 @@
             "multivalued" : true,
             "name" : "name",
             "suggested_values" : "suggested_values",
+            "description" : "description",
             "type" : "Boolean",
             "required" : true,
             "example" : "example"
@@ -795,6 +1015,7 @@
             "multivalued" : true,
             "name" : "name",
             "suggested_values" : "suggested_values",
+            "description" : "description",
             "type" : "Boolean",
             "required" : true,
             "example" : "example"
@@ -816,6 +1037,10 @@
           },
           "label" : {
             "description" : "Short label for GUI display.",
+            "type" : "string"
+          },
+          "infores" : {
+            "description" : "Information resource identifier.",
             "type" : "string"
           },
           "description" : {
@@ -865,6 +1090,7 @@
           "multivalued" : true,
           "name" : "name",
           "suggested_values" : "suggested_values",
+          "description" : "description",
           "type" : "Boolean",
           "required" : true,
           "example" : "example"
@@ -911,6 +1137,10 @@
             "minItems" : 2,
             "type" : "array"
           },
+          "description" : {
+            "description" : "Description of the parameter.",
+            "type" : "string"
+          },
           "suggested_values" : {
             "description" : "Suggested value range for the parameter.",
             "type" : "string"
@@ -923,17 +1153,28 @@
         "description" : "Knowledge-graph representation of the transformer.",
         "example" : {
           "predicates" : [ {
+            "agent_type" : "computational model",
             "predicate" : "predicate",
             "inverse_relations" : [ "inverse_relations", "inverse_relations" ],
+            "knowledge_level" : "prediction",
             "subject" : "subject",
             "count" : 6,
+            "qualifiers" : [ {
+              "applicable_values" : "expression",
+              "qualifier_type_id" : "subject_aspect"
+            }, {
+              "applicable_values" : "expression",
+              "qualifier_type_id" : "subject_aspect"
+            } ],
             "attributes" : [ {
               "names" : [ "PubMed Identifier" ],
+              "description" : "description",
               "attribute_type_id" : "EDAM:data_1187",
               "source" : "UniProtKB",
               "type" : "EDAM:data_1187"
             }, {
               "names" : [ "PubMed Identifier" ],
+              "description" : "description",
               "attribute_type_id" : "EDAM:data_1187",
               "source" : "UniProtKB",
               "type" : "EDAM:data_1187"
@@ -943,17 +1184,28 @@
             "inverse_predicate" : "inverse_predicate",
             "object" : "object"
           }, {
+            "agent_type" : "computational model",
             "predicate" : "predicate",
             "inverse_relations" : [ "inverse_relations", "inverse_relations" ],
+            "knowledge_level" : "prediction",
             "subject" : "subject",
             "count" : 6,
+            "qualifiers" : [ {
+              "applicable_values" : "expression",
+              "qualifier_type_id" : "subject_aspect"
+            }, {
+              "applicable_values" : "expression",
+              "qualifier_type_id" : "subject_aspect"
+            } ],
             "attributes" : [ {
               "names" : [ "PubMed Identifier" ],
+              "description" : "description",
               "attribute_type_id" : "EDAM:data_1187",
               "source" : "UniProtKB",
               "type" : "EDAM:data_1187"
             }, {
               "names" : [ "PubMed Identifier" ],
+              "description" : "description",
               "attribute_type_id" : "EDAM:data_1187",
               "source" : "UniProtKB",
               "type" : "EDAM:data_1187"
@@ -969,11 +1221,13 @@
               "count" : 0,
               "attributes" : [ {
                 "names" : [ "PubMed Identifier" ],
+                "description" : "description",
                 "attribute_type_id" : "EDAM:data_1187",
                 "source" : "UniProtKB",
                 "type" : "EDAM:data_1187"
               }, {
                 "names" : [ "PubMed Identifier" ],
+                "description" : "description",
                 "attribute_type_id" : "EDAM:data_1187",
                 "source" : "UniProtKB",
                 "type" : "EDAM:data_1187"
@@ -982,17 +1236,28 @@
           },
           "output_class" : "output_class",
           "edges" : [ {
+            "agent_type" : "computational model",
             "predicate" : "predicate",
             "inverse_relations" : [ "inverse_relations", "inverse_relations" ],
+            "knowledge_level" : "prediction",
             "subject" : "subject",
             "count" : 6,
+            "qualifiers" : [ {
+              "applicable_values" : "expression",
+              "qualifier_type_id" : "subject_aspect"
+            }, {
+              "applicable_values" : "expression",
+              "qualifier_type_id" : "subject_aspect"
+            } ],
             "attributes" : [ {
               "names" : [ "PubMed Identifier" ],
+              "description" : "description",
               "attribute_type_id" : "EDAM:data_1187",
               "source" : "UniProtKB",
               "type" : "EDAM:data_1187"
             }, {
               "names" : [ "PubMed Identifier" ],
+              "description" : "description",
               "attribute_type_id" : "EDAM:data_1187",
               "source" : "UniProtKB",
               "type" : "EDAM:data_1187"
@@ -1002,17 +1267,28 @@
             "inverse_predicate" : "inverse_predicate",
             "object" : "object"
           }, {
+            "agent_type" : "computational model",
             "predicate" : "predicate",
             "inverse_relations" : [ "inverse_relations", "inverse_relations" ],
+            "knowledge_level" : "prediction",
             "subject" : "subject",
             "count" : 6,
+            "qualifiers" : [ {
+              "applicable_values" : "expression",
+              "qualifier_type_id" : "subject_aspect"
+            }, {
+              "applicable_values" : "expression",
+              "qualifier_type_id" : "subject_aspect"
+            } ],
             "attributes" : [ {
               "names" : [ "PubMed Identifier" ],
+              "description" : "description",
               "attribute_type_id" : "EDAM:data_1187",
               "source" : "UniProtKB",
               "type" : "EDAM:data_1187"
             }, {
               "names" : [ "PubMed Identifier" ],
+              "description" : "description",
               "attribute_type_id" : "EDAM:data_1187",
               "source" : "UniProtKB",
               "type" : "EDAM:data_1187"
@@ -1067,11 +1343,13 @@
           "count" : 0,
           "attributes" : [ {
             "names" : [ "PubMed Identifier" ],
+            "description" : "description",
             "attribute_type_id" : "EDAM:data_1187",
             "source" : "UniProtKB",
             "type" : "EDAM:data_1187"
           }, {
             "names" : [ "PubMed Identifier" ],
+            "description" : "description",
             "attribute_type_id" : "EDAM:data_1187",
             "source" : "UniProtKB",
             "type" : "EDAM:data_1187"
@@ -1104,17 +1382,28 @@
         "additionalProperties" : false,
         "description" : "Predicate describing relationship between a subject and an object.",
         "example" : {
+          "agent_type" : "computational model",
           "predicate" : "predicate",
           "inverse_relations" : [ "inverse_relations", "inverse_relations" ],
+          "knowledge_level" : "prediction",
           "subject" : "subject",
           "count" : 6,
+          "qualifiers" : [ {
+            "applicable_values" : "expression",
+            "qualifier_type_id" : "subject_aspect"
+          }, {
+            "applicable_values" : "expression",
+            "qualifier_type_id" : "subject_aspect"
+          } ],
           "attributes" : [ {
             "names" : [ "PubMed Identifier" ],
+            "description" : "description",
             "attribute_type_id" : "EDAM:data_1187",
             "source" : "UniProtKB",
             "type" : "EDAM:data_1187"
           }, {
             "names" : [ "PubMed Identifier" ],
+            "description" : "description",
             "attribute_type_id" : "EDAM:data_1187",
             "source" : "UniProtKB",
             "type" : "EDAM:data_1187"
@@ -1161,6 +1450,23 @@
             "description" : "Number of edge instances known to this knowledge source",
             "type" : "integer"
           },
+          "knowledge_level" : {
+            "description" : "the level/type of knowledge that is reported in an edge,  based on how the knowledge was produced, the strength of  evidence supporting it, or our confidence in its validity.  (e.g. ‘knowledge assertion’, ‘logical entailment, ‘prediction’, ‘statistical association’, etc.)",
+            "example" : "prediction",
+            "type" : "string"
+          },
+          "agent_type" : {
+            "description" : "the type of agent that generated the statement expressed in an edge  (e.g. 'manual agent', 'automated agent', 'computational model',  'text-mining agent', etc.)",
+            "example" : "computational model",
+            "type" : "string"
+          },
+          "qualifiers" : {
+            "description" : "An additional nuance attached to the connection.",
+            "items" : {
+              "$ref" : "#/components/schemas/km_qualifier"
+            },
+            "type" : "array"
+          },
           "attributes" : {
             "items" : {
               "$ref" : "#/components/schemas/km_attribute"
@@ -1171,11 +1477,37 @@
         "required" : [ "inverse_predicate", "object", "predicate", "subject" ],
         "type" : "object"
       },
+      "km_qualifier" : {
+        "additionalProperties" : false,
+        "description" : "An additional nuance attached to a connection",
+        "example" : {
+          "applicable_values" : "expression",
+          "qualifier_type_id" : "subject_aspect"
+        },
+        "properties" : {
+          "qualifier_type_id" : {
+            "description" : "The category of the qualifier, drawn from a hierarchy of qualifier slots in the Biolink model (e.g. subject_aspect, subject_direction, object_aspect, object_direction, etc).",
+            "example" : "subject_aspect",
+            "type" : "string"
+          },
+          "applicable_values" : {
+            "description" : "Values associated with the type of the qualifier, drawn from a set of controlled values by the type as specified in the Biolink model (e.g. 'expression' or 'abundance' for the qualifier type 'subject_aspect', etc).",
+            "example" : "expression",
+            "items" : {
+              "type" : "string"
+            },
+            "type" : "array"
+          }
+        },
+        "required" : [ "qualifier_type_id" ],
+        "type" : "object"
+      },
       "km_attribute" : {
         "additionalProperties" : false,
         "description" : "Description of attribute types provided by this knowledge source.",
         "example" : {
           "names" : [ "PubMed Identifier" ],
+          "description" : "description",
           "attribute_type_id" : "EDAM:data_1187",
           "source" : "UniProtKB",
           "type" : "EDAM:data_1187"
@@ -1190,6 +1522,10 @@
           "attribute_type_id" : {
             "description" : "CURIE of the semantic type of the attribute, from the EDAM ontology if possible. If a suitable identifier does not exist, enter a descriptive phrase here and submit the new type for consideration by the appropriate authority.",
             "example" : "EDAM:data_1187",
+            "type" : "string"
+          },
+          "description" : {
+            "description" : "Description of the attribute.",
             "type" : "string"
           },
           "source" : {
@@ -1310,27 +1646,11 @@
           "$ref" : "#/components/schemas/collection_allOf"
         } ]
       },
-      "gene_list" : {
-        "allOf" : [ {
-          "$ref" : "#/components/schemas/collection_info"
-        }, {
-          "$ref" : "#/components/schemas/gene_list_allOf"
-        } ],
-        "deprecated" : true
-      },
-      "compound_list" : {
-        "allOf" : [ {
-          "$ref" : "#/components/schemas/collection_info"
-        }, {
-          "$ref" : "#/components/schemas/compound_list_allOf"
-        } ],
-        "deprecated" : true
-      },
       "element" : {
         "example" : {
           "biolink_class" : "biolink_class",
           "identifiers" : {
-            "key" : "{}"
+            "key" : ""
           },
           "provided_by" : "provided_by",
           "attributes" : [ {
@@ -1374,6 +1694,13 @@
           "connections" : [ {
             "inverse_relation" : "inverse_relation",
             "provided_by" : "provided_by",
+            "qualifiers" : [ {
+              "qualifier_value" : "expression",
+              "qualifier_type_id" : "subject_aspect"
+            }, {
+              "qualifier_value" : "expression",
+              "qualifier_type_id" : "subject_aspect"
+            } ],
             "biolink_predicate" : "biolink_predicate",
             "attributes" : [ {
               "value_url" : "https://pubmed.ncbi.nlm.nih.gov/32529952",
@@ -1397,12 +1724,20 @@
               "value" : 0.000153
             } ],
             "source" : "source",
+            "uuid" : "uuid",
             "inverse_predicate" : "inverse_predicate",
             "source_element_id" : "source_element_id",
             "relation" : "relation"
           }, {
             "inverse_relation" : "inverse_relation",
             "provided_by" : "provided_by",
+            "qualifiers" : [ {
+              "qualifier_value" : "expression",
+              "qualifier_type_id" : "subject_aspect"
+            }, {
+              "qualifier_value" : "expression",
+              "qualifier_type_id" : "subject_aspect"
+            } ],
             "biolink_predicate" : "biolink_predicate",
             "attributes" : [ {
               "value_url" : "https://pubmed.ncbi.nlm.nih.gov/32529952",
@@ -1426,14 +1761,15 @@
               "value" : 0.000153
             } ],
             "source" : "source",
+            "uuid" : "uuid",
             "inverse_predicate" : "inverse_predicate",
             "source_element_id" : "source_element_id",
             "relation" : "relation"
           } ],
           "alternative_identifiers" : [ {
-            "key" : "{}"
+            "key" : ""
           }, {
-            "key" : "{}"
+            "key" : ""
           } ]
         },
         "properties" : {
@@ -1491,66 +1827,6 @@
         "required" : [ "biolink_class", "id", "identifiers", "provided_by", "source" ],
         "type" : "object"
       },
-      "gene_info" : {
-        "deprecated" : true,
-        "properties" : {
-          "gene_id" : {
-            "description" : "Id of the gene. Preferably HGNC id; can be Entrez or ENSEMBL id if HGNC id is not available.",
-            "type" : "string"
-          },
-          "identifiers" : {
-            "$ref" : "#/components/schemas/gene_info_identifiers"
-          },
-          "attributes" : {
-            "description" : "Additional information about the gene and provenance about gene-list membership.",
-            "items" : {
-              "$ref" : "#/components/schemas/attribute"
-            },
-            "type" : "array"
-          },
-          "source" : {
-            "description" : "Name of a transformer that added gene to the gene list.",
-            "type" : "string"
-          }
-        },
-        "required" : [ "gene_id" ],
-        "type" : "object"
-      },
-      "compound_info" : {
-        "deprecated" : true,
-        "properties" : {
-          "compound_id" : {
-            "description" : "Ids of the compound.",
-            "type" : "string"
-          },
-          "identifiers" : {
-            "$ref" : "#/components/schemas/compound_info_identifiers"
-          },
-          "names_synonyms" : {
-            "description" : "Compound names and synonyms.",
-            "items" : {
-              "$ref" : "#/components/schemas/names"
-            },
-            "type" : "array"
-          },
-          "structure" : {
-            "$ref" : "#/components/schemas/compound_info_structure"
-          },
-          "attributes" : {
-            "description" : "Additional information about the compound and provenance about compound-list membership.",
-            "items" : {
-              "$ref" : "#/components/schemas/attribute"
-            },
-            "type" : "array"
-          },
-          "source" : {
-            "description" : "Name of a transformer that added compound to the compound list.",
-            "type" : "string"
-          }
-        },
-        "required" : [ "compound_id" ],
-        "type" : "object"
-      },
       "attribute" : {
         "description" : "Generic attribute for a node or an edge that expands the key-value pair concept by including fields for additional metadata. These fields can be used to describe the source of the statement made in key-value pair of the attribute object, or describe the attribute's value itself including its semantic type, or a url providing additional information about it.",
         "example" : {
@@ -1573,7 +1849,6 @@
           "original_attribute_name" : {
             "description" : "The term used by the original source of an attribute to describe the meaning or significance of the value it captures. This may be a column name in a source tsv file, or a key in a source json document for the field in the data that held the attribute's value. Capturing this information  where possible lets us preserve what the original source said. Note that the data type is string' but the contents of the field could also be a CURIE of a third party ontology term.",
             "example" : "p-value",
-            "nullable" : true,
             "type" : "string"
           },
           "value" : {
@@ -1588,19 +1863,16 @@
           "attribute_source" : {
             "description" : "The source of the core assertion made by the key-value pair of an attribute object. Use a CURIE or namespace designator for this resource where possible.",
             "example" : "UniProtKB",
-            "nullable" : true,
             "type" : "string"
           },
           "value_url" : {
             "description" : "Human-consumable URL linking to a web document that provides additional information about an  attribute's value (not the node or the edge fom which it hangs).",
             "example" : "https://pubmed.ncbi.nlm.nih.gov/32529952",
-            "nullable" : true,
             "type" : "string"
           },
           "description" : {
             "description" : "Human-readable description for the attribute and its value.",
             "example" : "Assertion Authored By Dr. Trans L. Ator",
-            "nullable" : true,
             "type" : "string"
           },
           "attributes" : {
@@ -1688,6 +1960,13 @@
         "example" : {
           "inverse_relation" : "inverse_relation",
           "provided_by" : "provided_by",
+          "qualifiers" : [ {
+            "qualifier_value" : "expression",
+            "qualifier_type_id" : "subject_aspect"
+          }, {
+            "qualifier_value" : "expression",
+            "qualifier_type_id" : "subject_aspect"
+          } ],
           "biolink_predicate" : "biolink_predicate",
           "attributes" : [ {
             "value_url" : "https://pubmed.ncbi.nlm.nih.gov/32529952",
@@ -1711,11 +1990,16 @@
             "value" : 0.000153
           } ],
           "source" : "source",
+          "uuid" : "uuid",
           "inverse_predicate" : "inverse_predicate",
           "source_element_id" : "source_element_id",
           "relation" : "relation"
         },
         "properties" : {
+          "uuid" : {
+            "description" : "UUID of the connection.",
+            "type" : "string"
+          },
           "source_element_id" : {
             "description" : "Id (CURIE) of the connected query node.",
             "type" : "string"
@@ -1744,6 +2028,13 @@
             "description" : "Transformer that produced the connection.",
             "type" : "string"
           },
+          "qualifiers" : {
+            "description" : "An additional nuance attached to the connection.",
+            "items" : {
+              "$ref" : "#/components/schemas/qualifier"
+            },
+            "type" : "array"
+          },
           "attributes" : {
             "description" : "Additional information and provenance about the connection.",
             "items" : {
@@ -1753,6 +2044,74 @@
           }
         },
         "required" : [ "biolink_predicate", "inverse_predicate", "provided_by", "source", "source_element_id" ],
+        "type" : "object"
+      },
+      "qualifier" : {
+        "additionalProperties" : false,
+        "description" : "An additional nuance attached to a connection",
+        "example" : {
+          "qualifier_value" : "expression",
+          "qualifier_type_id" : "subject_aspect"
+        },
+        "properties" : {
+          "qualifier_type_id" : {
+            "description" : "The category of the qualifier, drawn from a hierarchy of qualifier slots in the Biolink model (e.g. subject_aspect, subject_direction, object_aspect, object_direction, etc).",
+            "example" : "subject_aspect",
+            "type" : "string"
+          },
+          "qualifier_value" : {
+            "description" : "The value associated with the type of the qualifier, drawn from a set of controlled values by the type as specified in the Biolink model (e.g. 'expression' or 'abundance' for the qualifier type 'subject_aspect', etc).",
+            "example" : "expression",
+            "type" : "string"
+          }
+        },
+        "required" : [ "qualifier_type_id", "qualifier_value" ],
+        "type" : "object"
+      },
+      "comparison_info" : {
+        "example" : {
+          "score" : 0.8008281904610115,
+          "attributes" : [ {
+            "value_url" : "https://pubmed.ncbi.nlm.nih.gov/32529952",
+            "attribute_source" : "UniProtKB",
+            "value_type_id" : "EDAM:data_1187",
+            "description" : "Assertion Authored By Dr. Trans L. Ator",
+            "provided_by" : "provided_by",
+            "attribute_type_id" : "Biolink:has_p-value_evidence, Biolink:has_original_source",
+            "attributes" : [ null, null ],
+            "original_attribute_name" : "p-value",
+            "value" : 0.000153
+          }, {
+            "value_url" : "https://pubmed.ncbi.nlm.nih.gov/32529952",
+            "attribute_source" : "UniProtKB",
+            "value_type_id" : "EDAM:data_1187",
+            "description" : "Assertion Authored By Dr. Trans L. Ator",
+            "provided_by" : "provided_by",
+            "attribute_type_id" : "Biolink:has_p-value_evidence, Biolink:has_original_source",
+            "attributes" : [ null, null ],
+            "original_attribute_name" : "p-value",
+            "value" : 0.000153
+          } ],
+          "operation" : "operation"
+        },
+        "properties" : {
+          "operation" : {
+            "description" : "Comparison operation.",
+            "type" : "string"
+          },
+          "score" : {
+            "description" : "Score of the comparison operation.",
+            "type" : "number"
+          },
+          "attributes" : {
+            "description" : "Additional information about the comparison.",
+            "items" : {
+              "$ref" : "#/components/schemas/attribute"
+            },
+            "type" : "array"
+          }
+        },
+        "required" : [ "operation", "score" ],
         "type" : "object"
       },
       "error_msg" : {
@@ -1815,154 +2174,8 @@
             "type" : "array"
           }
         },
-        "type" : "object"
-      },
-      "gene_list_allOf" : {
-        "properties" : {
-          "elements" : {
-            "description" : "Members of the gene list.",
-            "items" : {
-              "$ref" : "#/components/schemas/gene_info"
-            },
-            "type" : "array"
-          }
-        },
-        "type" : "object"
-      },
-      "compound_list_allOf" : {
-        "properties" : {
-          "elements" : {
-            "description" : "Members of the compound list.",
-            "items" : {
-              "$ref" : "#/components/schemas/compound_info"
-            },
-            "type" : "array"
-          }
-        },
-        "type" : "object"
-      },
-      "gene_info_identifiers" : {
-        "properties" : {
-          "entrez" : {
-            "description" : "Entrez gene id (CURIE).",
-            "example" : "NCBIGene:100",
-            "type" : "string"
-          },
-          "hgnc" : {
-            "description" : "HGNC gene id (CURIE).",
-            "example" : "HGNC:186",
-            "type" : "string"
-          },
-          "mim" : {
-            "description" : "OMIM gene id (CURIE).",
-            "example" : "MIM:608958",
-            "type" : "string"
-          },
-          "ensembl" : {
-            "description" : "ENSEMBL gene id (CURIE).",
-            "items" : {
-              "example" : "ENSEMBL:ENSG00000196839",
-              "type" : "string"
-            },
-            "type" : "array"
-          },
-          "mygene_info" : {
-            "description" : "myGene.info primary id.",
-            "example" : "100",
-            "type" : "string"
-          }
-        },
-        "type" : "object"
-      },
-      "compound_info_identifiers" : {
-        "properties" : {
-          "chebi" : {
-            "description" : "ChEBI id of the compound (CURIE).",
-            "example" : "CHEBI:15365",
-            "type" : "string"
-          },
-          "chembl" : {
-            "description" : "ChEMBL id of the compound (CURIE).",
-            "example" : "ChEMBL:CHEMBL25",
-            "type" : "string"
-          },
-          "drugbank" : {
-            "description" : "DrugBank id of the compound (CURIE).",
-            "example" : "DrugBank:DB00945",
-            "type" : "string"
-          },
-          "pubchem" : {
-            "description" : "PubChem CID of the compound (CURIE).",
-            "example" : "CID:2244",
-            "type" : "string"
-          },
-          "mesh" : {
-            "description" : "MeSH id of the compound (CURIE).",
-            "example" : "MESH:D001241",
-            "type" : "string"
-          },
-          "hmdb" : {
-            "description" : "HMDB id of the compound (CURIE).",
-            "example" : "HMDB:HMDB0001879",
-            "type" : "string"
-          },
-          "unii" : {
-            "description" : "UNII id of the compound (CURIE).",
-            "example" : "UNII:R16CO5Y76E",
-            "type" : "string"
-          },
-          "kegg" : {
-            "description" : "KEGG id of the compound (CURIE).",
-            "example" : "KEGG.COMPOUND:C01405",
-            "type" : "string"
-          },
-          "gtopdb" : {
-            "description" : "Guide to PHARMACOLOGY id of the compound (CURIE).",
-            "example" : "GTOPDB:4139",
-            "type" : "string"
-          },
-          "chembank" : {
-            "description" : "ChemBank id of the compound (CURIE).",
-            "example" : "ChemBank:1171",
-            "type" : "string"
-          },
-          "drugcentral" : {
-            "description" : "DrugCentral id of the compound (CURIE).",
-            "example" : "DrugCentral:74",
-            "type" : "string"
-          },
-          "cas" : {
-            "description" : "CAS id of the compound (CURIE).",
-            "example" : "CAS:50-78-2",
-            "type" : "string"
-          },
-          "mychem_info" : {
-            "description" : "myChem.info id of the compound.",
-            "type" : "string"
-          }
-        },
-        "type" : "object"
-      },
-      "compound_info_structure" : {
-        "properties" : {
-          "smiles" : {
-            "description" : "SMILES representation of the compound's structure.",
-            "type" : "string"
-          },
-          "inchi" : {
-            "description" : "InChI representation of the compound's structure.",
-            "type" : "string"
-          },
-          "inchikey" : {
-            "description" : "InChI key representation of the compound's structure.",
-            "type" : "string"
-          },
-          "source" : {
-            "description" : "Source of the compound's structure.",
-            "type" : "string"
-          }
-        },
-        "type" : "object"
+        "type" : "object",
+        "example" : null
       }
     }
   }
