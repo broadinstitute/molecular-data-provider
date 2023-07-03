@@ -3,12 +3,12 @@ package transformer;
 import java.net.URL;
 
 import apimodels.CollectionInfo;
+import apimodels.Element;
 import apimodels.TransformerInfo;
 import transformer.collection.CollectionsEntry;
+import transformer.elements.CollectionElement;
 import transformer.util.HTTP;
 import transformer.util.JSON;
-import transformer.Transformer.Query;
-import transformer.classes.Other;
 
 public class RemoteTransformer extends Transformer {
 
@@ -23,7 +23,7 @@ public class RemoteTransformer extends Transformer {
 
 
 	@Override
-	public CollectionsEntry transform(final Query query, final CollectionInfo collectionInfo) throws Exception {
+	public CollectionsEntry transform(final TransformerQuery query, final CollectionInfo collectionInfo) throws Exception {
 		final URL url = new URL(info.getUrl() + "/transform");
 		log.debug(info.getName() + " @ " + url);
 		final String json = JSON.mapper.writeValueAsString(query);
@@ -34,9 +34,24 @@ public class RemoteTransformer extends Transformer {
 
 
 	private CollectionsEntry getCollection(final CollectionInfo collectionInfo, final String response) throws Exception {
-		if (info.getVersion().startsWith("1.") || info.getVersion().startsWith("2.0."))
-			return outputClass.getCollection(collectionInfo, response);
-		return Other.getElementCollection(info, collectionInfo, response);
+		Element[] elements = getElementCollection(info.getKnowledgeMap().getOutputClass(), collectionInfo, response);
+		for (Element element : elements) {
+			CollectionElement.mapElement(info, element);
+		}
+		return new CollectionsEntry(collectionInfo, elements);
 	}
+
+	private static Element[] getElementCollection(final String elementClass, final CollectionInfo collectionInfo, final String response) throws Exception {
+		final Element[] elements = JSON.mapper.readValue(response, Element[].class);
+		collectionInfo.setElementClass(elementClass);
+		collectionInfo.setUrl(Config.config.url().getBaseURL() + "/collection/");
+		for (Element element : elements) {
+			if (!MoleProDB.addInfo(element)) {
+				log.warn("Failed to obtain MoleProDB info for " + element.getId());
+			}
+		}
+		return elements;
+	}
+
 
 }

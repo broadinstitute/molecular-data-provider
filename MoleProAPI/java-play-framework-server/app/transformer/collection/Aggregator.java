@@ -8,6 +8,7 @@ import java.util.List;
 import apimodels.AggregationQuery;
 import apimodels.Attribute;
 import apimodels.CollectionInfo;
+import transformer.elements.CollectionElement;
 import transformer.exception.BadRequestException;
 
 public class Aggregator {
@@ -41,7 +42,7 @@ public class Aggregator {
 	}
 
 
-	private static List<CollectionsEntry> getCollections(final List<String> collectionIds, String cache) throws Exception {
+	static List<CollectionsEntry> getCollections(final List<String> collectionIds, String cache) throws Exception {
 		if (collectionIds == null || collectionIds.size() == 0) {
 			throw new BadRequestException("Empty collection list");
 		}
@@ -80,7 +81,7 @@ public class Aggregator {
 	}
 
 
-	private static CollectionsEntry intersection(final List<CollectionsEntry> collections) {
+	static CollectionsEntry intersection(final List<CollectionsEntry> collections) {
 		final CollectionInfo info = new CollectionInfo().attributes(new ArrayList<Attribute>());
 		HashMap<String,CollectionElement> intersection = new HashMap<>();
 		for (CollectionElement element : collections.get(0).getElements()) {

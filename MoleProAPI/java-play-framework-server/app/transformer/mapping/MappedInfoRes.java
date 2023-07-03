@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import apimodels.Attribute;
+import transformer.Config;
 
 public class MappedInfoRes {
 
@@ -50,10 +51,10 @@ public class MappedInfoRes {
 	}
 
 
-	public static Attribute knowledgeSourceAttribute(String providedBy) {
+	public static Attribute knowledgeSourceAttribute(final String providedBy, final String upstreamResourceId) {
 		if (inforesMap.containsKey(providedBy)) {
-			MappedInfoRes infores = inforesMap.get(providedBy);
-			Attribute attribute = new Attribute();
+			final MappedInfoRes infores = inforesMap.get(providedBy);
+			final Attribute attribute = new Attribute();
 			attribute.originalAttributeName(infores.knowledgeSourceSlot);
 			attribute.attributeTypeId(infores.knowledgeSourceSlot);
 			attribute.value(infores.infores);
@@ -63,6 +64,17 @@ public class MappedInfoRes {
 				attribute.description("Molecular Data Provider");
 			else
 				attribute.description("MolePro's " + providedBy);
+			if (upstreamResourceId != null) {
+				final Attribute upstreamResource = new Attribute();
+				upstreamResource.originalAttributeName(Config.config.biolinkAttribute("upstream resource"));
+				upstreamResource.attributeTypeId(Config.config.biolinkAttribute("upstream resource"));
+				upstreamResource.value(upstreamResourceId);
+				upstreamResource.valueTypeId("biolink:InformationResource");
+				upstreamResource.attributeSource(map("MolePro"));
+				if (upstreamResource != null) {
+					attribute.addAttributesItem(upstreamResource);
+				}
+			}
 			return attribute;
 		}
 		return null;

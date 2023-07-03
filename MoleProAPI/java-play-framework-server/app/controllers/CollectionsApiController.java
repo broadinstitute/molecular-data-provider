@@ -1,9 +1,10 @@
 package controllers;
 
+import apimodels.AggregationQuery;
 import apimodels.Collection;
-import apimodels.CompoundList;
+import apimodels.CollectionInfo;
+import apimodels.ComparisonInfo;
 import apimodels.ErrorMsg;
-import apimodels.GeneList;
 
 import com.typesafe.config.Config;
 import play.mvc.Controller;
@@ -40,6 +41,28 @@ public class CollectionsApiController extends Controller {
     }
 
     @ApiAction
+    public Result aggregatePost(Http.Request request) throws Exception {
+        JsonNode nodeaggregationQuery = request.body().asJson();
+        AggregationQuery aggregationQuery;
+        if (nodeaggregationQuery != null) {
+            aggregationQuery = mapper.readValue(nodeaggregationQuery.toString(), AggregationQuery.class);
+            if (configuration.getBoolean("useInputBeanValidation")) {
+                OpenAPIUtils.validate(aggregationQuery);
+            }
+        } else {
+            throw new IllegalArgumentException("'AggregationQuery' parameter is required");
+        }
+        String valuecache = request.getQueryString("cache");
+        String cache;
+        if (valuecache != null) {
+            cache = valuecache;
+        } else {
+            cache = null;
+        }
+        return imp.aggregatePostHttp(request, aggregationQuery, cache);
+    }
+
+    @ApiAction
     public Result collectionCollectionIdGet(Http.Request request, String collectionId) throws Exception {
         String valuecache = request.getQueryString("cache");
         String cache;
@@ -52,7 +75,17 @@ public class CollectionsApiController extends Controller {
     }
 
     @ApiAction
-    public Result compoundListListIdGet(Http.Request request, String listId) throws Exception {
+    public Result comparePost(Http.Request request) throws Exception {
+        JsonNode nodeaggregationQuery = request.body().asJson();
+        AggregationQuery aggregationQuery;
+        if (nodeaggregationQuery != null) {
+            aggregationQuery = mapper.readValue(nodeaggregationQuery.toString(), AggregationQuery.class);
+            if (configuration.getBoolean("useInputBeanValidation")) {
+                OpenAPIUtils.validate(aggregationQuery);
+            }
+        } else {
+            throw new IllegalArgumentException("'AggregationQuery' parameter is required");
+        }
         String valuecache = request.getQueryString("cache");
         String cache;
         if (valuecache != null) {
@@ -60,19 +93,7 @@ public class CollectionsApiController extends Controller {
         } else {
             cache = null;
         }
-        return imp.compoundListListIdGetHttp(request, listId, cache);
-    }
-
-    @ApiAction
-    public Result geneListListIdGet(Http.Request request, String listId) throws Exception {
-        String valuecache = request.getQueryString("cache");
-        String cache;
-        if (valuecache != null) {
-            cache = valuecache;
-        } else {
-            cache = null;
-        }
-        return imp.geneListListIdGetHttp(request, listId, cache);
+        return imp.comparePostHttp(request, aggregationQuery, cache);
     }
 
 }

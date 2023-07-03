@@ -5,11 +5,8 @@ import java.util.List;
 
 import apimodels.Collection;
 import apimodels.CollectionInfo;
-import apimodels.CompoundInfo;
 import apimodels.Element;
-import apimodels.GeneInfo;
-import transformer.classes.Compound;
-import transformer.classes.Gene;
+import transformer.elements.CollectionElement;
 
 public class CollectionsEntry {
 
@@ -64,12 +61,6 @@ public class CollectionsEntry {
 
 	static CollectionsEntry create(CollectionInfo collectionInfo, List<CollectionElement> elements) {
 		CollectionElement[] elementArray = elements.toArray(new CollectionElement[elements.size()]);
-		if (Gene.CLASS.equals(collectionInfo.getElementClass())) {
-			return new GeneCollection(collectionInfo, elementArray);
-		}
-		if (Compound.CLASS.equals(collectionInfo.getElementClass())) {
-			return new CompoundCollection(collectionInfo, elementArray);
-		}
 		return new CollectionsEntry(collectionInfo, elementArray);
 	}
 
@@ -78,73 +69,12 @@ public class CollectionsEntry {
 		ArrayList<CollectionElement> elements = new ArrayList<>(sourceElements.length);
 		for (Element sourceElement : sourceElements) {
 			if (sourceElement != null && sourceElement.getId() != null) {
-				elements.add(new CollectionElement.ElementElement(sourceElement));
+				elements.add(new CollectionElement(sourceElement));
 			}
 		}
 		return elements.toArray(new CollectionElement[0]);
 	}
 
 
-	public static final class GeneCollection extends CollectionsEntry {
 
-		public GeneCollection(CollectionInfo collectionInfo, CollectionElement[] elements) {
-			super(collectionInfo, elements);
-		}
-
-
-		public GeneCollection(CollectionInfo collectionInfo, GeneInfo[] genes) {
-			this(collectionInfo, elements(genes));
-		}
-
-
-		public GeneInfo[] getGenes() {
-			CollectionElement[] elements = getElements();
-			GeneInfo[] genes = new GeneInfo[elements.length];
-			for (int i = 0; i < elements.length; i++) {
-				genes[i] = elements[i].getGeneInfo();
-			}
-			return genes;
-		}
-
-
-		private static CollectionElement[] elements(GeneInfo[] genes) {
-			CollectionElement[] elements = new CollectionElement[genes.length];
-			for (int i = 0; i < genes.length; i++) {
-				elements[i] = new CollectionElement.GeneElement(genes[i]);
-			}
-			return elements;
-		}
-	}
-
-
-	public static final class CompoundCollection extends CollectionsEntry {
-
-		public CompoundCollection(CollectionInfo collectionInfo, CollectionElement[] compounds) {
-			super(collectionInfo, compounds);
-		}
-
-
-		public CompoundCollection(CollectionInfo collectionInfo, CompoundInfo[] compounds) {
-			this(collectionInfo, elements(compounds));
-		}
-
-
-		public CompoundInfo[] getCompounds() {
-			CollectionElement[] elements = getElements();
-			CompoundInfo[] compounds = new CompoundInfo[elements.length];
-			for (int i = 0; i < elements.length; i++) {
-				compounds[i] = elements[i].getCompoundInfo();
-			}
-			return compounds;
-		}
-
-
-		private static CollectionElement[] elements(CompoundInfo[] compounds) {
-			CollectionElement[] elements = new CollectionElement[compounds.length];
-			for (int i = 0; i < compounds.length; i++) {
-				elements[i] = new CollectionElement.CompoundElement(compounds[i]);
-			}
-			return elements;
-		}
-	}
 }

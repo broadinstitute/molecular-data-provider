@@ -3,11 +3,9 @@ package transformer;
 import apimodels.CollectionInfo;
 import apimodels.TransformerInfo;
 import apimodels.TransformerInfo.FunctionEnum;
-import transformer.classes.Gene;
 import transformer.collection.CollectionsEntry;
 import transformer.exception.BadRequestException;
 import transformer.exception.InternalServerError;
-import transformer.Transformer.Query;
 
 public class InternalTransformer extends Transformer {
 
@@ -15,10 +13,10 @@ public class InternalTransformer extends Transformer {
 
 
 	static Transformer createFrom(final InternalTransformerInfo info) {
-		if (info.getName().startsWith("HGNC#")) {
-			info.setName(info.getName().substring(5));
-			return new Gene.GeneListProducer(info);
-		}
+//		if (info.getName().startsWith("HGNC#")) {
+//			info.setName(info.getName().substring(5));
+//			return new Gene.GeneListProducer(info);
+//		}
 		if (info.getName().startsWith("ElementFilter#")) {
 			info.setName(info.getName().substring(14));
 			return new FilterTransformer.ElementFilterTransformer(info);
@@ -40,7 +38,7 @@ public class InternalTransformer extends Transformer {
 
 
 	@Override
-	public CollectionsEntry transform(final Query query, final CollectionInfo collectionInfo) throws Exception {
+	public CollectionsEntry transform(final TransformerQuery query, final CollectionInfo collectionInfo) throws Exception {
 		if (AGGREGATOR.equals(info.getFunction())) {
 			throw new BadRequestException("use /aggregate endpoint to call aggregators");
 		}

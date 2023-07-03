@@ -12,6 +12,7 @@ ChEMBL	organism	organism	biolink:OrganismAttribute	string
 ChEMBL	tax_id	tax_id	biolink:OrganismTaxon	string
 ChEMBL	enzyme_type	enzyme_type	OBI:0000427	string
 ChEMBL	max phase for indication	OPMI:0000367	biolink:FDA_approval_status	biolink:FDA_approval_status_enum
+ChEMBL	max phase for indication	biolink:FDA_APPROVAL_STATUS	biolink:FDA_approval_status	biolink:FDA_approval_status_enum
 ChEMBL	ClinicalTrials	reference	biolink:Publication	string
 ChEMBL	max_phase	max_phase	biolink:highest_FDA_approval_status	biolink:FDA_approval_status_enum
 ChEMBL	action_type	action_type	biolink:relation	string

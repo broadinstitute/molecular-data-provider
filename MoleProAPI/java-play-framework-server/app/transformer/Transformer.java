@@ -2,7 +2,6 @@ package transformer;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,10 +16,6 @@ import apimodels.TransformerInfoProperties;
 import apimodels.MoleProQuery;
 import apimodels.Node;
 import apimodels.Property;
-import transformer.classes.Compound;
-import transformer.classes.Gene;
-import transformer.classes.None;
-import transformer.classes.TransformerClass;
 import transformer.collection.Collections;
 import transformer.collection.CollectionsEntry;
 import transformer.exception.BadRequestException;
@@ -30,24 +25,18 @@ import transformer.exception.NotFoundException;
 public abstract class Transformer {
 
 	final static Logger log = LoggerFactory.getLogger(Config.class);
-	
+
 	private final static TransformerInfo.FunctionEnum PRODUCER = TransformerInfo.FunctionEnum.PRODUCER;
 
 	public final TransformerInfo info;
-
-	protected final TransformerClass inputClass;
-
-	protected final TransformerClass outputClass;
 
 
 	protected Transformer(final TransformerInfo info) {
 		super();
 		this.info = info;
 		if (this.info.getKnowledgeMap() == null) {
-			this.info.setKnowledgeMap(buildKnowledgeMap(info));
+			log.error("No knowledge map info for " + info.getName());
 		}
-		this.inputClass = getInputClass(info.getKnowledgeMap(), info.getName());
-		this.outputClass = getOutputClass(info.getKnowledgeMap(), info.getName());
 		TransformerInfoProperties properties = this.info.getProperties();
 		if (properties == null) {
 			properties = new TransformerInfoProperties();
@@ -95,26 +84,25 @@ public abstract class Transformer {
 
 	public CollectionInfo transform(final MoleProQuery moleproQuery, String cache) throws Exception {
 		try {
-			final Query query = mkQuery(moleproQuery, cache);
+			final TransformerQuery query = mkQuery(moleproQuery, cache);
 			final CollectionInfo collectionInfo = createCollection(moleproQuery);
 			final CollectionsEntry collection = transform(query, collectionInfo);
 			Collections.save(collection);
 			return collection.getInfo();
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			throw new InternalServerError(info.getName() + " failed: " + e.getMessage(), e);
 		}
 	}
 
 
-	private Query mkQuery(final MoleProQuery moleproQuery, String cache) throws NotFoundException, BadRequestException {
-		if (info.getVersion().startsWith("1.") || info.getVersion().startsWith("2.0."))
-			return inputClass.getQuery(moleproQuery, cache);
+	private TransformerQuery mkQuery(final MoleProQuery moleproQuery, String cache) throws NotFoundException, BadRequestException {
 		boolean hasInput = !(PRODUCER.equals(info.getFunction()) || "none".equals(info.getKnowledgeMap().getInputClass()));
 		return new TransformerQuery(moleproQuery, cache, hasInput);
 	}
 
 
-	public abstract CollectionsEntry transform(Query query, CollectionInfo collectionInfo) throws Exception;
+	public abstract CollectionsEntry transform(TransformerQuery query, CollectionInfo collectionInfo) throws Exception;
 
 
 	protected CollectionInfo createCollection(final MoleProQuery query) {
@@ -128,94 +116,4 @@ public abstract class Transformer {
 		return collectionInfo;
 	}
 
-
-	private static TransformerClass getInputClass(final KnowledgeMap kmap, final String name) {
-		if (Compound.CLASS.equals(kmap.getInputClass())) {
-			return new transformer.classes.Compound();
-		}
-		if (Gene.CLASS.equals(kmap.getInputClass())) {
-			return new transformer.classes.Gene();
-		}
-		if (kmap.getInputClass() == null || None.CLASS.equals(kmap.getInputClass())) {
-			return new transformer.classes.None();
-		}
-		return new transformer.classes.Other(kmap.getOutputClass());
-	}
-
-
-	private static TransformerClass getOutputClass(final KnowledgeMap kmap, final String name) {
-		if (Compound.CLASS.equals(kmap.getOutputClass())) {
-			return new transformer.classes.Compound();
-		}
-		if (Gene.CLASS.equals(kmap.getOutputClass())) {
-			return new transformer.classes.Gene();
-		}
-		if (kmap.getOutputClass() == null || None.CLASS.equals(kmap.getOutputClass())) {
-			throw new InternalServerError("Output class '" + kmap.getInputClass() + "' for '" + name + "' is not supported");
-		}
-		return new transformer.classes.Other(kmap.getOutputClass());
-	}
-
-
-	private static KnowledgeMap buildKnowledgeMap(final TransformerInfo info) {
-		final KnowledgeMap kmap = new KnowledgeMap();
-		kmap.setInputClass(getInputClass(info));
-		kmap.setOutputClass(Gene.CLASS);
-		kmap.setEdges(new ArrayList<Predicate>());
-		final String subject = kmap.getInputClass().toString();
-		if (!None.CLASS.equals(subject)) {
-			String predicate = "related to";
-			final String object = kmap.getOutputClass().toString();
-			kmap.addEdgesItem(new Predicate().subject(subject).predicate(predicate)._object(object));
-		}
-		return kmap;
-	}
-
-
-	private static String getInputClass(final TransformerInfo info) {
-		if (info.getFunction() == TransformerInfo.FunctionEnum.PRODUCER) {
-			return None.CLASS;
-		}
-		if (info.getFunction() == TransformerInfo.FunctionEnum.AGGREGATOR) {
-			return None.CLASS;
-		}
-		return Gene.CLASS;
-	}
-
-
-	public static class Query {
-		private final List<Property> controls;
-
-
-		public Query(final MoleProQuery query) {
-			controls = query.getControls();
-		}
-
-
-		public Query(final List<Property> controls) {
-			super();
-			this.controls = controls;
-		}
-
-
-		public List<Property> getControls() {
-			return controls;
-		}
-
-
-		public List<String> getPropertyValue(String name) {
-			List<String> values = new ArrayList<String>();
-			for (Property property : controls) {
-				if (name.equals(property.getName())) {
-					values.add(property.getValue());
-				}
-			}
-			return values;
-		}
-
-
-		public Query query(final List<Property> controls) {
-			return new Query(controls);
-		}
-	}
 }

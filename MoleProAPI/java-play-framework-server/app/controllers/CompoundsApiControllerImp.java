@@ -7,7 +7,7 @@ import apimodels.ErrorMsg;
 import java.util.List;
 
 import play.mvc.Http;
-import transformer.classes.Compound;
+import transformer.elements.Elements;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -21,27 +21,27 @@ public class CompoundsApiControllerImp extends CompoundsApiControllerImpInterfac
     @Override
 
     public Element compoundByIdCompoundIdGet(Http.Request request, String compoundId, String cache) throws Exception {
-        return Compound.getCompoundById(compoundId);
+        return Elements.getCompoundById(compoundId, cache);
     }
 
     @Override
     public CollectionInfo compoundByIdPost(Http.Request request, List<String> requestBody, String cache) throws Exception {
-    	return Compound.getCompoundsById(requestBody, cache);
+    	return Elements.getCompoundsById(requestBody, cache);
     }
 
     @Override
     public Collection compoundByNameNameGet(Http.Request request, String name, String cache) throws Exception {
-        return Compound.getCompoundByName(name, cache);
+        return Elements.getCompoundByName(name, cache);
     }
 
     @Override
     public CollectionInfo compoundByNamePost(Http.Request request, List<String> requestBody, String cache) throws Exception {
-    	return Compound.getCompoundsByName(requestBody, cache);
+    	return Elements.getCompoundsByName(requestBody, cache);
     }
 
     @Override
     public Element compoundByStructurePost(Http.Request request, String body, String cache) throws Exception {
-        return Compound.getCompoundByStructure(body);
+        return Elements.getCompoundByStructure(body, cache);
     }
 
 }

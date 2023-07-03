@@ -2,6 +2,7 @@ package apimodels;
 
 import apimodels.Node;
 import apimodels.Predicate;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

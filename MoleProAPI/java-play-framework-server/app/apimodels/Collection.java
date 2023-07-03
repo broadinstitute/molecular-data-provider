@@ -1,9 +1,8 @@
 package apimodels;
 
 import apimodels.Attribute;
-import apimodels.CollectionAllOf;
-import apimodels.CollectionInfo;
 import apimodels.Element;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.*;

@@ -25,7 +25,7 @@ https://molepro-rxnorm-transformer.test.transltr.io/rxnorm/unii
 https://molepro-drugbank-transformer.test.transltr.io/drugbank/molecules
 https://molepro-sider-transformer.test.transltr.io/sider/drugs
 # gene-list producers
-=HGNC gene-list producer
+https://molepro-hgnc-transformer.test.transltr.io/hgnc/genes
 # disease producers
 https://molepro-drugcentral-transformer.test.transltr.io/drugcentral/diseases
 # drug relations
