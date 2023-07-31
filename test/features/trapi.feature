@@ -310,8 +310,8 @@ Feature: Check reasoner API
             "submitter": "behave test"
         }
         """
-        then the size of "message.results" should be 417
-        and the size of "message.knowledge_graph.edges" should be 417
+        then the size of "message.results" should be 419
+        and the size of "message.knowledge_graph.edges" should be 419
         and the size of "message.knowledge_graph.nodes" should be 282
 
 
