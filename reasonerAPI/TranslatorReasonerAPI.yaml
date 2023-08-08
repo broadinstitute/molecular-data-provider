@@ -15,7 +15,7 @@ info:
     component: KP
     team:
       - Molecular Data Provider
-    biolink-version: 3.2.0
+    biolink-version: 3.4.3
     infores: "infores:molepro"
     externalDocs:
       description: >-

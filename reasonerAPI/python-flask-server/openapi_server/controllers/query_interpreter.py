@@ -226,6 +226,7 @@ def query_molepro_db(molepro, query_graph, map_original_query_id, debug = False)
     source = nodes[edge.subject]
     target = nodes[edge.object]
     source_type = source.categories[0] if source.categories is not None and len(source.categories) > 0 else 'biolink:NamedThing'
+    qualifier_constraints = edge.qualifier_constraints
 
     subject_ids = source.ids
     if debug:
@@ -286,28 +287,45 @@ def query_molepro_db(molepro, query_graph, map_original_query_id, debug = False)
     for attribute in hidden_attributes():
         transformer_controls.append({'name':'connection_attribute', 'value': attribute})
 
+    qualifier_control_sets = []
+    if qualifier_constraints is None or len(qualifier_constraints) == 0:
+        qualifier_control_sets.append([])
+    else:
+        for qualifier_set in qualifier_constraints:
+            qualifier_control = []
+            for qualifier_constraint in qualifier_set.qualifier_set:
+                constraint = qualifier_constraint.qualifier_type_id + '==' + qualifier_constraint.qualifier_value
+                qualifier_control.append({'name':'qualifier_constraint', 'value': constraint})
+            qualifier_control_sets.append(qualifier_control)
+
     if debug:
         print(transformer_controls)
-    producer = {'name': MoleProDB_node_producer, 'controls': [{'name': 'id', 'value': '#subject'}]}
-    transformer = {'name': 'MoleProDB connections transformer', 'controls': transformer_controls}
-    transformer_list = [producer, transformer]
+        print(qualifier_control_sets)
+    
+    for qualifier_control_set in qualifier_control_sets:
+        controls = [{'name':'limit', 'value': '1000'}]
+        controls.extend(transformer_controls)
+        controls.extend(qualifier_control_set)
+        producer = {'name': MoleProDB_node_producer, 'controls': [{'name': 'id', 'value': '#subject'}]}
+        transformer = {'name': 'MoleProDB connections transformer', 'controls': controls}
+        transformer_list = [producer, transformer]
 
-    for subject_id in subject_ids:
-        molepro_edge = MoleproEdgeModel(
-            edge_key= edge_id, 
-            source_key= source.node_id, 
-            target_key= target.node_id, 
-            source_id= subject_id,
-            target_id= None, # target ids specified in transformer_controls
-            edge_type= None, # edge type (predicate) specified in transformer_controls
-            source_type= source_type, 
-            target_type= None, # target type specified in transformer_controls
-            target_constraints= target.constraints, 
-            edge_constraints= edge.attribute_constraints, 
-            transformer_chain_list= transformer_list)
-        if debug:
-            print(molepro_edge)
-        molepro.execute_transformer_chain(molepro_edge, transformer_list, map_original_query_id)
+        for subject_id in subject_ids:
+            molepro_edge = MoleproEdgeModel(
+                edge_key= edge_id, 
+                source_key= source.node_id, 
+                target_key= target.node_id, 
+                source_id= subject_id,
+                target_id= None, # target ids specified in transformer_controls
+                edge_type= None, # edge type (predicate) specified in transformer_controls
+                source_type= source_type, 
+                target_type= None, # target type specified in transformer_controls
+                target_constraints= target.constraints, 
+                edge_constraints= edge.attribute_constraints, 
+                transformer_chain_list= transformer_list)
+            if debug:
+                print(molepro_edge)
+            molepro.execute_transformer_chain(molepro_edge, transformer_list, map_original_query_id)
 
 
 MoleProDB_node_producer = 'MoleProDB node producer'

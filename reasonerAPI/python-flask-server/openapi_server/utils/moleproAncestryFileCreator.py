@@ -13,10 +13,9 @@ logger = logging.getLogger(__name__)
 
 # constants
 url_node_normalizer = "https://bl-lookup-sri.renci.org/bl/{}/ancestors?version={}"
-url_molepro_meta_knowledge_graph = "https://translator.broadinstitute.org/molepro/trapi/v1.3/meta_knowledge_graph"
-url_molepro_meta_knowledge_graph = "http://localhost:9220/molepro/trapi/v1.3/meta_knowledge_graph"
+url_molepro_meta_knowledge_graph = "http://localhost:9220/molepro/trapi/v1.4/meta_knowledge_graph"
 file_molepro = 'biolinkAncestry.json'
-VERSION = "2.2.13"
+VERSION = "latest"
 
 def get_biolink_ancestors(entity_name, api_version=VERSION, log=False):
     ''' retrieve the ancestors of a entity type '''
