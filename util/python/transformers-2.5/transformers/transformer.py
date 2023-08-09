@@ -3,6 +3,7 @@ from openapi_server.models.element import Element
 from openapi_server.models.names import Names
 from openapi_server.models.attribute import Attribute
 from openapi_server.models.connection import Connection
+from openapi_server.models.qualifier import Qualifier
 
 import json
 import csv
@@ -48,7 +49,7 @@ class Transformer:
                     msg = "required parameter '{}' not specified".format(parameter.name)
                     return ({ "status": 400, "title": "Bad Request", "detail": msg, "type": "about:blank" }, 400 )
                 else:
-                    controls[variable] = parameter.default
+                    controls[variable] = Transformer.get_control(parameter.default, parameter)
         
         if self.info.function == 'producer':
             return self.produce(controls)
@@ -147,9 +148,13 @@ class Transformer:
             self.PROVIDED_BY  = self.info.name
             self.OUTPUT_CLASS = self.info.knowledge_map.output_class
             self.INPUT_CLASS  = self.info.knowledge_map.input_class
+            self.AGENT_TYPE   = 'unspecified'
+            self.KNOWLEDGE_LEVEL = 'unspecified'
             if self.info.knowledge_map.edges is not None and len(self.info.knowledge_map.edges) > 0:
-                self.PREDICATE    = self.info.knowledge_map.edges[0].predicate
-                self.INVERSE_PREDICATE    = self.info.knowledge_map.edges[0].inverse_predicate 
+                self.PREDICATE = self.info.knowledge_map.edges[0].predicate
+                self.INVERSE_PREDICATE = self.info.knowledge_map.edges[0].inverse_predicate
+                self.AGENT_TYPE = self.info.knowledge_map.edges[0].agent_type
+                self.KNOWLEDGE_LEVEL = self.info.knowledge_map.edges[0].knowledge_level
         return self.info
 
 
@@ -167,7 +172,7 @@ class Transformer:
     # (1) the MolePro field name of an identifier. e.g., field name "chembl" gets MolePro CURIE prefix "ChEMBL:"
     # (2) the MolePro class e.g., MolePro class determines the Biolink CURIE prefix for the field name "chembl"
     #
-    def get_prefix(self,fieldname,molepro_class=None):
+    def get_prefix(self,fieldname,molepro_class=None, soure = 'molepro_prefix'):
         if molepro_class == None:
             molepro_class = self.OUTPUT_CLASS 
         biolink_class = self.biolink_class(molepro_class)
@@ -175,7 +180,7 @@ class Transformer:
             return None
         if fieldname not in self.prefix_map[biolink_class]:
             return None
-        return self.prefix_map[biolink_class][fieldname]['molepro_prefix']
+        return self.prefix_map[biolink_class][fieldname][soure]
 
 
     #######################################################################################################
@@ -198,6 +203,9 @@ class Transformer:
             return None
         if str(identifier).upper().find(prefix.upper()) == 0:
             return True
+        prefix = self.get_prefix(fieldname, molepro_class, 'biolink_prefix')
+        if str(identifier).upper().find(prefix.upper()) == 0:
+            return True
         else:
             return False
 
@@ -216,10 +224,17 @@ class Transformer:
     #  (i.e., fieldname "chembl" & molepro_class "ChemicalSubstance" means the prefix should be "ChEMBL:")
     #  
     def de_prefix(self, fieldname, identifier, molepro_class=None):
+        if identifier is None:
+            return None
         if molepro_class is None:
             molepro_class = self.INPUT_CLASS
-        if self.has_prefix(fieldname, identifier, molepro_class):
-            return identifier[len(self.get_prefix(fieldname, molepro_class)):]
+
+        prefix = self.get_prefix(fieldname, molepro_class)
+        if prefix is not None and prefix != '' and str(identifier).upper().find(prefix.upper()) == 0: 
+            return identifier[len(prefix):]
+        prefix = self.get_prefix(fieldname, molepro_class, 'biolink_prefix')
+        if prefix is not None and prefix != '' and str(identifier).upper().find(prefix.upper()) == 0: 
+            return identifier[len(prefix)+1:]
         return identifier
 
 
@@ -309,9 +324,9 @@ class Transformer:
 
     #######################################################################################################
     #
-    #  convenience method to create names
+    #  convenience method to create connection
     #
-    def Connection(self, source_element_id, predicate, inv_predicate, relation=None, inv_relation=None, attributes = None):
+    def Connection(self, source_element_id, predicate, inv_predicate, relation=None, inv_relation=None, qualifiers = None, attributes = None):
         return Connection(
             source_element_id=source_element_id, 
             biolink_predicate=predicate, 
@@ -320,8 +335,17 @@ class Transformer:
             inverse_relation=inv_relation, 
             source=self.SOURCE, 
             provided_by=self.PROVIDED_BY, 
+            qualifiers=qualifiers if qualifiers is not None else [],
             attributes=attributes if attributes is not None else []
         )
+
+
+    #######################################################################################################
+    #
+    #  convenience method to create qualifier
+    #
+    def Qualifier(self, qualifier_type_id, qualifier_value):
+        return Qualifier(qualifier_type_id, qualifier_value)
 
 
     @staticmethod
