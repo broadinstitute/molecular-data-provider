@@ -30,7 +30,7 @@
                 "name": "HGNC gene-list producer",
                 "controls": [
                     {
-                        "name": "genes",
+                        "name": "gene",
                         "value": "#subject"
                     }
                 ]
