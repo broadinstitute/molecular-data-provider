@@ -8,7 +8,9 @@ from openapi_server.models.attribute import Attribute
 from openapi_server.models.connection import Connection
 from openapi_server.models.node import Node
 from openapi_server.models.predicate import Predicate
+from openapi_server.models.qualifier import Qualifier
 from openapi_server.models.km_attribute import KmAttribute
+from openapi_server.models.km_qualifier import KmQualifier
 from openapi_server.models.transformer_info import TransformerInfo
 from openapi_server.encoder import JSONEncoder
 
@@ -20,6 +22,10 @@ connection.row_factory = sqlite3.Row
 
 identifier_priority = []
 qualifier_inverses = {}
+qualifier_hierarchy = {}
+
+MAX_QUALIFIER_VALUES = 32
+
 
 class MoleProDB(Transformer):
 
@@ -211,7 +217,7 @@ class MoleProDBTransformer(MoleProDB):
 
     def update_transformer_info(self, transformer_info):
         load_identifier_priority()
-        load_config_file(self, 'conf/qualifier_inverses.json')
+        load_config_file('conf/qualifier_inverses.json', 'conf/qualifier_hierarchy.json')
 
 
     def map(self, input_list, controls):
@@ -609,18 +615,20 @@ def find_connections(query_element_id, controls):
     inv_qualifiers_clause = ''
     if controls.get('qualifier_constraint') is not None:
         for i, (qualifier_type, qualifier_value) in enumerate(controls.get('qualifier_constraint')):
+            qualifier_values = qualifier_hierarchy.get(qualifier_value, [qualifier_value])
             qualifiers_join += 'JOIN Qualifier_Map AS Qualifier_Map_{} ON Qualifier_Map_{}.qualifier_set_id = Connection.qualifier_set_id\n'.format(i,i)
             qualifiers_join += '        JOIN Qualifier AS Qualifier_{} ON Qualifier_{}.qualifier_id = Qualifier_Map_{}.qualifier_id\n'.format(i,i,i)
             qualifiers_clause += "Qualifier_{}.qualifier_type = '{}' AND ".format(i, qualifier_type)
-            qualifiers_clause += "Qualifier_{}.qualifier_value = '{}' AND ".format(i, qualifier_value)
+            qualifiers_clause += "Qualifier_{}.qualifier_value IN ('{}') AND ".format(i, "','".join(qualifier_values))
             if qualifier_type + ':' + qualifier_value in qualifier_inverses:
                 inv_qualifier = qualifier_inverses[qualifier_type + ':' + qualifier_value]
                 qualifier_type = inv_qualifier.qualifier_type_id
                 qualifier_value = inv_qualifier.qualifier_value
+                qualifier_values = qualifier_hierarchy.get(qualifier_value, [qualifier_value])
             if qualifier_type in qualifier_inverses:
                 qualifier_type = qualifier_inverses[qualifier_type]
             inv_qualifiers_clause += "Qualifier_{}.qualifier_type = '{}' AND ".format(i, qualifier_type)
-            inv_qualifiers_clause += "Qualifier_{}.qualifier_value = '{}' AND ".format(i, qualifier_value)
+            inv_qualifiers_clause += "Qualifier_{}.qualifier_value IN ('{}') AND ".format(i, "','".join(qualifier_values))
 
     object_clause = ''
     subject_clause = ''
@@ -779,17 +787,20 @@ def load_identifier_priority():
         identifier_priority = config['identifier priority']
 
 
-def load_config_file(self, config_file):
+def load_config_file(qualifier_inverses_file, qualifier_hierarchy_file):
     global qualifier_inverses
-    with open(config_file) as json_file:
+    global qualifier_hierarchy
+    with open(qualifier_inverses_file) as json_file:
         conf = json.load(json_file)
         for key in conf:
             if isinstance(conf[key], dict):
                 qualifier = conf[key]
                 for (qualifier_type, qualifier_value) in conf[key].items():
-                    qualifier = self.Qualifier(qualifier_type, qualifier_value)
+                    qualifier = Qualifier(qualifier_type, qualifier_value)
                 conf[key] = qualifier
         qualifier_inverses = conf
+    with open(qualifier_hierarchy_file) as json_file:
+        qualifier_hierarchy = json.load(json_file)
 
 
 def get_node_counts():
@@ -844,16 +855,17 @@ def get_edge_counts():
         inverse_predicate = row['inverse_predicate']
         object_class = row['object_class']
         count = row['count']
-        
-        inv_pred = Predicate(object_class, inverse_predicate, biolink_predicate, subject_class, count=count,attributes=[])
+
         if (subject_class, biolink_predicate, object_class) in edges:
             edges[(subject_class, biolink_predicate, object_class)].count += count
         else:
-            pred = Predicate(subject_class, biolink_predicate, inverse_predicate, object_class, count=count,attributes=[])
+            pred = Predicate(subject_class, biolink_predicate, inverse_predicate, object_class, count=count, attributes=[])
             edges[(subject_class, biolink_predicate, object_class)] = pred
+        # counts for inverted predicate
         if (object_class, inverse_predicate, subject_class) in edges:
             edges[(object_class, inverse_predicate, subject_class)].count += count
         else:
+            inv_pred = Predicate(object_class, inverse_predicate, biolink_predicate, subject_class, count=count, attributes=[])
             edges[(object_class, inverse_predicate, subject_class)] = inv_pred
     return edges
 
@@ -871,6 +883,24 @@ def get_edge_attributes():
         JOIN List_Element AS Subject_Element ON Subject_Element.list_element_id = Connection.subject_id
         JOIN Biolink_Class AS Subject_Class ON Subject_Class.biolink_class_id = Subject_Element.biolink_class_id
         JOIN Predicate ON Predicate.predicate_id = Connection.predicate_id
+    """
+    cur = connection.cursor()
+    cur.execute(query)
+    return cur.fetchall()
+
+
+def get_meta_qualifiers():
+    query = """
+        SELECT distinct Subject_Class.biolink_class AS subject_class, biolink_predicate, inverse_predicate, 
+          Object_Class.biolink_class object_class, Qualifier.qualifier_type, Qualifier.qualifier_value
+        FROM Connection
+        JOIN List_Element AS Object_Element ON Object_Element.list_element_id = Connection.object_id
+        JOIN Biolink_Class AS Object_Class ON Object_Class.biolink_class_id = Object_Element.biolink_class_id
+        JOIN List_Element AS Subject_Element ON Subject_Element.list_element_id = Connection.subject_id
+        JOIN Biolink_Class AS Subject_Class ON Subject_Class.biolink_class_id = Subject_Element.biolink_class_id
+        JOIN Predicate ON Predicate.predicate_id = Connection.predicate_id
+        JOIN Qualifier_Map ON Qualifier_Map.qualifier_set_id = Connection.qualifier_set_id
+        JOIN Qualifier ON Qualifier.qualifier_id = Qualifier_Map.qualifier_id
     """
     cur = connection.cursor()
     cur.execute(query)
@@ -930,14 +960,73 @@ def meta_edge_attributes():
         attribute_name = row['attribute_name']
         description = row['description']
         if attribute_type != '':
-            if (subject_class, biolink_predicate, object_class)  not in edges:
-                edges[(subject_class, biolink_predicate, object_class)] = {}
-            if (source_name,attribute_type) not in edges[(subject_class, biolink_predicate, object_class)]:
+            edge = (subject_class, biolink_predicate, object_class)
+            if edge not in edges:
+                edges[edge] = {}
+            if (source_name,attribute_type) not in edges[edge]:
                 attribute = KmAttribute(attribute_type_id = attribute_type, description = description,source=source_name, names = [])
-                edges[(subject_class, biolink_predicate, object_class)][(source_name,attribute_type)] = attribute
-            if attribute_name not in edges[(subject_class, biolink_predicate, object_class)][(source_name,attribute_type)].names:
-                edges[(subject_class, biolink_predicate, object_class)][(source_name,attribute_type)].names.append(attribute_name)
+                edges[edge][(source_name,attribute_type)] = attribute
+            if attribute_name not in edges[edge][(source_name,attribute_type)].names:
+                edges[edge][(source_name,attribute_type)].names.append(attribute_name)
+            # attributes for inverted predicate
+            inv_edge = (object_class, inverse_predicate, subject_class)
+            if inv_edge not in edges:
+                edges[inv_edge] = {}
+            if (source_name,attribute_type) not in edges[inv_edge]:
+                attribute = KmAttribute(attribute_type_id = attribute_type, description = description,source=source_name, names = [])
+                edges[inv_edge][(source_name,attribute_type)] = attribute
+            if attribute_name not in edges[inv_edge][(source_name,attribute_type)].names:
+                edges[inv_edge][(source_name,attribute_type)].names.append(attribute_name)
     return edges
+
+
+def invert_qualifier(qualifier_type, qualifier_value):
+    inv_qualifier_type = qualifier_type
+    inv_qualifier_value = qualifier_value
+    if qualifier_type + ':' + qualifier_value in qualifier_inverses:
+        inv_qualifier = qualifier_inverses[qualifier_type + ':' + qualifier_value]
+        inv_qualifier_type = inv_qualifier.qualifier_type_id
+        inv_qualifier_value = inv_qualifier.qualifier_value
+    elif qualifier_type in qualifier_inverses:
+        inv_qualifier_type = qualifier_inverses[qualifier_type]
+    return (inv_qualifier_type, inv_qualifier_value)
+
+
+def meta_qualifiers():
+    qualifiers = defaultdict(dict)
+    for row in get_meta_qualifiers():
+        subject_class = row['subject_class']
+        biolink_predicate = row['biolink_predicate']
+        inverse_predicate = row['inverse_predicate']
+        object_class = row['object_class']
+        qualifier_type = row['qualifier_type']
+        qualifier_value = row['qualifier_value'] 
+
+        values = qualifiers[(subject_class, biolink_predicate, object_class)].get(qualifier_type)
+        if values is None:
+            values = []
+            qualifiers[(subject_class, biolink_predicate, object_class)][qualifier_type] = values
+        if len(values) <= MAX_QUALIFIER_VALUES:
+            values.append(qualifier_value)
+        # qualifiers for inverted predicate
+        (inv_qualifier_type, inv_qualifier_value) = invert_qualifier(qualifier_type, qualifier_value)
+        values = qualifiers[(object_class, inverse_predicate, subject_class)].get(inv_qualifier_type)
+        if values is None:
+            values = []
+            qualifiers[(object_class, inverse_predicate, subject_class)][inv_qualifier_type] = values
+        if len(values) <= MAX_QUALIFIER_VALUES:
+            values.append(inv_qualifier_value)
+
+    return {edge: edge_qualifiers(qualif) for (edge, qualif) in qualifiers.items()}
+
+
+def edge_qualifiers(qualifiers):
+    meta_qualifiers = []
+    for (qualifier_type, qualifier_values) in qualifiers.items():
+        if len(qualifier_values) > MAX_QUALIFIER_VALUES:
+            qualifier_values = None
+        meta_qualifiers.append(KmQualifier(qualifier_type, qualifier_values))
+    return meta_qualifiers
 
 
 def nodes():
@@ -957,10 +1046,18 @@ def nodes():
 def edges():
     print('loading edge counts')
     edges = get_edge_counts()
+    print('loading qualifiers')
+    for (predicate, qualifiers) in meta_qualifiers().items():
+        if predicate in edges:
+            edges[predicate].qualifiers = qualifiers
+        else:
+            print("WARN: edge {} not counted".format(predicate))
     print('loading edge attributes')
     for (predicate, attributes) in meta_edge_attributes().items():
         if predicate in edges:
             edges[predicate].attributes=list(attributes.values())
+        else:
+            print("WARN: edge {} not counted".format(predicate))
     return  [edges[key] for key in sorted(edges.keys())] 
 
 
@@ -989,4 +1086,5 @@ def main():
         json.dump(info, json_file, cls=JSONEncoder, indent=4, separators=(',', ': '))
 
 if __name__ == "__main__":
+    load_config_file('conf/qualifier_inverses.json', 'conf/qualifier_hierarchy.json')
     main()
