@@ -26,7 +26,7 @@ CREATE TABLE "Biolink_Class" (
 CREATE TABLE "Chem_Structure" (
   "structure_id" INTEGER NOT NULL,
   "inchi" TEXT,
-  "inchikey" TEXT,
+  "inchikey" TEXT NOT NULL,
   PRIMARY KEY ("structure_id")
 );
 
@@ -36,6 +36,7 @@ CREATE TABLE "Chem_Structure_Attribute" (
   "attribute_id" INT NOT NULL REFERENCES "Attribute"("attribute_id"),
   "source_id" INT NOT NULL REFERENCES "Source"("source_id"),
   PRIMARY KEY ("structure_attribute_id")
+  UNIQUE ("structure_id", "attribute_id", "source_id")
 );
 
 CREATE TABLE "Chem_Structure_Identifier" (
@@ -45,6 +46,7 @@ CREATE TABLE "Chem_Structure_Identifier" (
   "prefix_id" INT NOT NULL REFERENCES "Curie_Prefix"("prefix_id"),
   "source_id" INT NOT NULL REFERENCES "Source"("source_id"),
   PRIMARY KEY ("structure_identifier_id")
+  UNIQUE ("structure_id", "xref", "prefix_id", "source_id")
 );
 
 CREATE TABLE "Chem_Structure_Map" (
@@ -53,6 +55,7 @@ CREATE TABLE "Chem_Structure_Map" (
   "structure_id" INT NOT NULL REFERENCES "Chem_Structure"("structure_id"),
   "correct" BOOLEAN,
   PRIMARY KEY ("structure_map_id")
+  UNIQUE ("structure_id", "substance_id")
 );
 
 CREATE TABLE "Chem_Structure_Name" (
@@ -80,6 +83,7 @@ CREATE TABLE "Connection" (
   "predicate_id" INT NOT NULL REFERENCES "Predicate"("predicate_id"),
   "source_id" INT NOT NULL REFERENCES "Source"("source_id"),
   PRIMARY KEY ("connection_id")
+  UNIQUE ("subject_id", "object_id", "predicate_id", "source_id")
 );
 
 CREATE TABLE "Connection_Attribute" (
@@ -88,6 +92,7 @@ CREATE TABLE "Connection_Attribute" (
   "attribute_id" INT NOT NULL REFERENCES "Attribute"("attribute_id"),
   "source_id" INT NOT NULL REFERENCES "Source"("source_id"),
   PRIMARY KEY ("connection_attribute_id")
+  UNIQUE ("connection_id", "attribute_id", "source_id")
 );
 
 CREATE TABLE "Curie_Prefix" (
@@ -99,6 +104,21 @@ CREATE TABLE "Curie_Prefix" (
   "infores_id" INT REFERENCES "Infores"("infores_id"),
   "uri" TEXT,
   PRIMARY KEY ("prefix_id")
+  UNIQUE ("biolink_class_id", "mole_pro_prefix", "field_name", "infores_id")
+);
+
+CREATE TABLE "Element_Hierarchy" (
+  "element_hierarchy_id" INTEGER NOT NULL,
+  "list_element_id" INT NOT NULL REFERENCES "List_Element"("list_element_id"),
+  "parent_element_id" INT NOT NULL REFERENCES "List_Element"("list_element_id"),
+  PRIMARY KEY ("element_hierarchy_id")
+  UNIQUE ("list_element_id", "parent_element_id")
+);
+
+CREATE TABLE "Infores" (
+  "infores_id" INTEGER NOT NULL,
+  "resource" TEXT UNIQUE NOT NULL,
+  PRIMARY KEY ("infores_id")
 );
 
 CREATE TABLE "List_Element" (
@@ -108,25 +128,13 @@ CREATE TABLE "List_Element" (
   PRIMARY KEY ("list_element_id")
 );
 
-CREATE TABLE "Element_Hierarchy" (
-  "element_hierarchy_id" INTEGER NOT NULL,
-  "list_element_id" INT NOT NULL REFERENCES "List_Element"("list_element_id"),
-  "parent_element_id" INT NOT NULL REFERENCES "List_Element"("list_element_id"),
-  PRIMARY KEY ("element_hierarchy_id")
-);
-
-CREATE TABLE "Infores" (
-  "infores_id" INTEGER NOT NULL,
-  "resource" TEXT,
-  PRIMARY KEY ("infores_id")
-);
-
 CREATE TABLE "List_Element_Attribute" (
   "element_attribute_id" INTEGER NOT NULL,
   "list_element_id" INT NOT NULL REFERENCES "List_Element"("list_element_id"),
   "attribute_id" INT NOT NULL REFERENCES "Attribute"("attribute_id"),
   "source_id" INT NOT NULL REFERENCES "Source"("source_id"),
   PRIMARY KEY ("element_attribute_id")
+  UNIQUE ("list_element_id", "attribute_id", "source_id")
 );
 
 CREATE TABLE "List_Element_Identifier" (
@@ -136,6 +144,7 @@ CREATE TABLE "List_Element_Identifier" (
   "prefix_id" INT NOT NULL REFERENCES "Curie_Prefix"("prefix_id"),
   "source_id" INT NOT NULL REFERENCES "Source"("source_id"),
   PRIMARY KEY ("element_identifier_id")
+  UNIQUE ("list_element_id", "xref", "prefix_id", "source_id")
 );
 
 CREATE TABLE "List_Element_Name" (
@@ -178,7 +187,7 @@ CREATE TABLE "Parent_Attribute" (
 CREATE TABLE "Predicate" (
   "predicate_id" INTEGER NOT NULL,
   "biolink_predicate" TEXT NOT NULL,
-  "inverse_predicate" TEXT,
+  "inverse_predicate" TEXT NOT NULL,
   "canonical" TEXT,
   "relation" TEXT UNIQUE NOT NULL,
   "inverse_relation" TEXT,
@@ -190,7 +199,7 @@ CREATE TABLE "Source" (
   "source_name" TEXT NOT NULL,
   "infores_id" INT REFERENCES "Infores"("infores_id"),
   "source_url" TEXT,
-  "transformer" TEXT,
+  "transformer" TEXT UNIQUE NOT NULL,
   "transformer_url" TEXT,
   "transformer_version" TEXT,
   "source_version" TEXT,

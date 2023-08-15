@@ -46,6 +46,9 @@ public abstract class AttributeMapTable extends MoleProTable {
 
 
 	public void insert(final long parentId, final Attribute attribute, final long sourceId) throws SQLException {
+		if ("biolink:aggregator_knowledge_source".equals(attribute.getAttributeTypeId()) && "infores:molepro".equals(attribute.getValue())) {
+			return;
+		}
 		final long attributeId = db.attributeTable.getAttributeId(attribute);
 		saveAttribute(parentId, sourceId, attributeId);
 	}

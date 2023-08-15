@@ -19,3 +19,5 @@ CREATE INDEX C_subject_index     ON Connection (subject_id);
 CREATE INDEX C_object_index      ON Connection (object_id);
 
 CREATE INDEX A_value_index ON Attribute (attribute_value);
+CREATE INDEX P_biolink_predicate_index ON Predicate (biolink_predicate);
+CREATE INDEX P_inverse_predicate_index ON Predicate (inverse_predicate);
