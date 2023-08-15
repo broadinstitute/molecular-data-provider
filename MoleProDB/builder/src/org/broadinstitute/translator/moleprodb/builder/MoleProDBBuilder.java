@@ -70,6 +70,10 @@ public class MoleProDBBuilder {
 			}
 			new MoleProDBMerger(db).mergeConnections(transformer, field, srcDB, idField);
 		}
+		if ("load-hierarchy".equals(command)) {
+			final String hierarchyFile = args[2];
+			new HierarchyLoader(db).loadHierarchy(hierarchyFile);
+		}
 		db.close();
 		Loader.profileReport();
 		System.out.println(String.join(" ", args));

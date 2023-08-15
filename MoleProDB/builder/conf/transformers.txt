@@ -88,7 +88,7 @@ https://translator.broadinstitute.org/gelinea
 =difference
 =symmetric difference (XOR)
 #
-# gene-list sharpener transformers used by MolePro
-https://translator.broadinstitute.org/string_expander
+# protein-protein interactions
+https://translator.broadinstitute.org/string/links
 # node normalizer
 https://translator.broadinstitute.org/node/normalizer

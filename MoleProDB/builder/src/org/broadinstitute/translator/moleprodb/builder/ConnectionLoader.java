@@ -5,7 +5,6 @@ import java.io.FileReader;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
@@ -21,8 +20,6 @@ import transformer.TransformerQuery;
 import transformer.Transformers;
 
 public class ConnectionLoader extends Loader {
-
-	private static final String MOLE_PRO_PREFIX = "MolePro:";
 
 	private static final int BATCH_SIZE = 10;
 
@@ -70,7 +67,7 @@ public class ConnectionLoader extends Loader {
 			 */
 			long listElementId = db.listElementIdentifierTable.findParentId(fieldName, id);
 			if (listElementId > 0) {
-				queryElements.add(queryElement(listElementId));
+				queryElements.add(elementLoader.element(listElementId));
 				if (queryElements.size() >= BATCH_SIZE) {
 					loadConnections(transformer, queryElements);
 					queryElements = new ArrayList<Element>();
@@ -166,27 +163,6 @@ public class ConnectionLoader extends Loader {
 	}
 
 
-	/************************************************************************************
-	 * Make an ELEMENT FOR THE transform(Transformer, Element) method
-	 * 
-	 * @return
-	 * @throws SQLException
-	 */
-	// query elements will be loaded from the database during production after
-	// deployment
-	private Element queryElement(long listElementId) throws SQLException {
-		String id = MOLE_PRO_PREFIX + listElementId;
-		HashMap<String,Object> identifiers = db.listElementIdentifierTable.getListElementIdentiers(listElementId);
-		Element element = new Element();
-		element.setId(id);
-		element.setIdentifiers(identifiers);
-		element.setBiolinkClass(db.listElementTable.getBiolinkClass(listElementId));
-		element.setSource("MolePro");
-		element.setProvidedBy("MolePro");
-		return element;
-	}
-
-
 	/*****************************************************************************
 	 * 
 	 * 
@@ -246,8 +222,8 @@ public class ConnectionLoader extends Loader {
 			profile("find predicate", start);
 
 			long subjectId = srcSubjectId;
-			if (subjectId <= 0 && connection.getSourceElementId().startsWith(MOLE_PRO_PREFIX)) {
-				subjectId = Long.parseLong(connection.getSourceElementId().substring(MOLE_PRO_PREFIX.length()));
+			if (subjectId <= 0 && connection.getSourceElementId().startsWith(ListElementLoader.MOLE_PRO_PREFIX)) {
+				subjectId = Long.parseLong(connection.getSourceElementId().substring(ListElementLoader.MOLE_PRO_PREFIX.length()));
 			}
 			if (subjectId > 0) {
 				// Save to the Connection Table

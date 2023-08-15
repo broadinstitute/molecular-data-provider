@@ -30,7 +30,7 @@ public class MoleProDB {
 	public final AttributeTable attributeTable;
 	public final ListElementAttributeTable listElementAttributeTable;
 	public final ChemStructureAttributeTable chemStructureAttributeTable;
-
+	public final ElementHierarchyTable elementHierarchyTable;
 	public final PredicateTable predicateTable;
 	public final ConnectionTable connectionTable;
 	public final ListElementNameTable listElementNameTable;
@@ -60,6 +60,7 @@ public class MoleProDB {
 		attributeTable = new AttributeTable(this);
 		listElementAttributeTable = new ListElementAttributeTable(this);
 		chemStructureAttributeTable = new ChemStructureAttributeTable(this);
+		elementHierarchyTable = new ElementHierarchyTable(this);
 		predicateTable = new PredicateTable(this);
 		connectionTable = new ConnectionTable(this);
 		listElementNameTable = new ListElementNameTable(this);

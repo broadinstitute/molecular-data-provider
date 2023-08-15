@@ -107,10 +107,7 @@ public class StructureLoader extends Loader {
 			}
 			System.out.print(".");
 		}
-		StringBuilder status = new StringBuilder();
-		status.append("free memory:"+Runtime.getRuntime().freeMemory()/1000000);
-		status.append("/"+Runtime.getRuntime().totalMemory()/1000000);
-		System.out.print(status.toString());
+		printMemoryStatus();
 	}
 
 

@@ -101,6 +101,24 @@ public abstract class IdentifierTable extends MoleProTable {
 	}
 
 
+	public ArrayList<Long> findParentIds(final String curie, final long sourceId) throws SQLException {
+		String[] prefixXref = curie.split(":");
+		ArrayList<Long> ids = new ArrayList<>();
+		if (prefixXref.length == 2) {
+			final String prefix = prefixXref[0];
+			final String xref = prefixXref[1];
+			final String where = " WHERE xref = " + f(xref) + " AND biolink_prefix = " + f(prefix) + " AND source_id = " + sourceId + ";";
+			final String join = " JOIN Curie_Prefix ON Curie_Prefix.prefix_id = " + tableName + ".prefix_id";
+			final String query = "SELECT DISTINCT " + parentIdColumn + " FROM " + tableName + " " + join + " " + where + ";";
+			final ResultSet results = this.executeQuery(query);
+			while (results.next()) {
+				ids.add(results.getLong(1));
+			}
+		}
+		return ids;
+	}
+
+
 	public long findParentId(final String fieldName, final String curie) throws SQLException {
 		final String joinPrefix = " JOIN Curie_Prefix ON Curie_Prefix.prefix_id = " + tableName + ".prefix_id";
 		final String joinSource = " JOIN Source ON Source.source_id = " + tableName + ".source_id";

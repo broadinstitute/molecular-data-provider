@@ -4,7 +4,11 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -21,6 +25,8 @@ import transformer.TransformerQuery;
 import transformer.Transformers;
 
 public class ListElementLoader extends Loader {
+
+	static final String MOLE_PRO_PREFIX = "MolePro:";
 
 	private static final int BATCH_SIZE = 100;
 
@@ -65,8 +71,9 @@ public class ListElementLoader extends Loader {
 	}
 
 
-	private void loadElements(final Transformer transformer, final ArrayList<String> batch, final Set<String> matchFields) {
+	HashSet<Long> loadElements(final Transformer transformer, final ArrayList<String> batch, final Set<String> matchFields) {
 		final int sourceId = db.sourceTable.sourceId(transformer.info.getName());
+		HashSet<Long> elementIds = new HashSet<>();
 		try {
 			final List<Property> controls = new ArrayList<>();
 			final Parameter parameter = transformer.info.getParameters().get(0);
@@ -83,19 +90,29 @@ public class ListElementLoader extends Loader {
 			final Element[] elements = transform(transformer, query);
 			for (Element element : elements) {
 				if (element != null) {
-					listElementId(element, sourceId, matchFields);
+					final long elementId = listElementId(element, sourceId, matchFields);
+					if (elementId > 0) {
+						elementIds.add(elementId);
+					}
 				}
 			}
 		}
 		catch (Exception e) {
 			if (batch.size() > 1) {
 				System.err.println("INFO: batch load failed, trying single elements");
+				elementIds = new HashSet<>();
 				final ArrayList<String> singleton = new ArrayList<String>(1);
 				singleton.add(null);
 				for (String element : batch) {
 					singleton.set(0, element);
-					loadElements(transformer, singleton, matchFields);
+					final HashSet<Long> singleId = loadElements(transformer, singleton, matchFields);
+					for (long elementId : singleId) {
+						if (elementId > 0) {
+							elementIds.add(elementId);
+						}
+					}
 				}
+
 			}
 			else {
 				System.err.println("WARNING: " + transformer.info.getName() + " failed to load " + batch.get(0) + ": " + e);
@@ -103,12 +120,9 @@ public class ListElementLoader extends Loader {
 		}
 		if (batch.size() > 1) {
 			System.out.print(".");
-
-			StringBuilder status = new StringBuilder();
-			status.append("free memory:" + Runtime.getRuntime().freeMemory() / 1000000);
-			status.append("/" + Runtime.getRuntime().totalMemory() / 1000000);
-			System.out.print(status.toString());
+			printMemoryStatus();
 		}
+		return elementIds;
 	}
 
 
@@ -124,7 +138,7 @@ public class ListElementLoader extends Loader {
 		if (listElementId < 0) {
 			listElementId = listElementId(biolinkClassId, element.getIdentifiers(), matchFields);
 			if (listElementId < 0) {
-				System.out.println("Not matched by identifiers: "+element.getId());
+				System.out.println("Not matched by identifiers: " + element.getId());
 			}
 		}
 		profile("find element", start);
@@ -193,16 +207,16 @@ public class ListElementLoader extends Loader {
 		if (fieldName != null && element.getIdentifiers().containsKey(fieldName)) {
 			if (element.getIdentifiers().get(fieldName) instanceof String) {
 				String curie = (String)element.getIdentifiers().get(fieldName);
-				long listElementId =  db.listElementIdentifierTable.findParentId(fieldName, curie);
+				long listElementId = db.listElementIdentifierTable.findParentId(fieldName, curie);
 				if (listElementId > 0) {
 					return listElementId;
 				}
 				else {
-					System.out.println("Not found "+fieldName+": "+curie);
+					System.out.println("Not found " + fieldName + ": " + curie);
 				}
 			}
 		}
-		System.out.println("Check all identifiers "+element.getIdentifiers());
+		System.out.println("Check all identifiers " + element.getIdentifiers());
 		return listElementId(0, element.getIdentifiers(), null);
 	}
 
@@ -281,6 +295,49 @@ public class ListElementLoader extends Loader {
 			}
 		}
 		profile("save element attributes", start);
+	}
+
+
+	@SuppressWarnings("unchecked")
+	Iterable<String> identifiers(Object entry) {
+		if (entry != null) {
+			if (entry instanceof String) {
+				return Collections.singletonList((String)entry);
+
+			}
+			else if (entry instanceof String[]) {
+				return Arrays.asList((String[])entry);
+
+			}
+			else if (entry instanceof ArrayList) {
+				return (ArrayList<String>)entry;
+					 
+			}
+			else {
+				System.err.println("" + entry.getClass());
+				return new ArrayList<String>();
+			}
+		}
+		return new ArrayList<String>();
+	}
+
+
+	/************************************************************************************
+	 * Make an for a elementId
+	 * 
+	 * @return Element
+	 * @throws SQLException
+	 */
+	Element element(long listElementId) throws SQLException {
+		String id = MOLE_PRO_PREFIX + listElementId;
+		HashMap<String,Object> identifiers = db.listElementIdentifierTable.getListElementIdentiers(listElementId);
+		Element element = new Element();
+		element.setId(id);
+		element.setIdentifiers(identifiers);
+		element.setBiolinkClass(db.listElementTable.getBiolinkClass(listElementId));
+		element.setSource("MolePro");
+		element.setProvidedBy("MolePro");
+		return element;
 	}
 
 }
