@@ -51,13 +51,25 @@ public class SubstanceLoader extends SubstanceResolver {
 		if (name == null)
 			name = inchikey;
 		start = new Date();
-		final long biolinkClassId = biolinkClassId(BiolinkClass.ChemicalSubstance);
+		final long biolinkClassId = biolinkClassId(detectMixture(inchi));
 		long elementId = db.listElementTable.insert(name, biolinkClassId);
 		db.chemStructureMapTable.insert(elementId, structureId, true);
 		profile("save element", start);
 		saveIdentifiers(elementId, structureId, inchi, inchikey, biolinkClassId);
 		saveNames(elementId, structureId);
 		saveAttributes(elementId, structureId);
+	}
+
+
+	static String detectMixture(String inchi) {
+		if (inchi == null) {
+			return BiolinkClass.ChemicalEntity;
+		}
+		final String[] inchiParts = inchi.split("/");
+		if (inchiParts.length >= 2) {
+			return (inchiParts[1].contains(".")) ? BiolinkClass.MolecularMixture : BiolinkClass.SmallMolecule;
+		}
+		return BiolinkClass.SmallMolecule;
 	}
 
 
@@ -155,10 +167,7 @@ public class SubstanceLoader extends SubstanceResolver {
 				db.commit();
 				if (structureId % 1000 == 0) {
 					reconnect();
-					StringBuilder status = new StringBuilder();
-					status.append("free memory:" + Runtime.getRuntime().freeMemory() / 1000000);
-					status.append("/" + Runtime.getRuntime().totalMemory() / 1000000);
-					System.out.println(status.toString());
+					printMemoryStatus(" @" + structureId + ": ");
 				}
 			}
 		}

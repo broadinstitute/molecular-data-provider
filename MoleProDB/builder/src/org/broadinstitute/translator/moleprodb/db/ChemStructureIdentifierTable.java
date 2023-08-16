@@ -11,13 +11,13 @@ public class ChemStructureIdentifierTable extends IdentifierTable {
 	}
 
 
-	public long structureId(final long biolinkClassId, final Map<String,Object> identifiers) throws SQLException {
+	public long structureId(final Map<String,Object> identifiers) throws SQLException {
 		for (Map.Entry<String,Object> entry : identifiers.entrySet())
 			if (entry.getValue() != null) {
 				final String fieldName = entry.getKey();
 				if (entry.getValue() instanceof String) {
 					final String curie = (String) entry.getValue();
-					final long structureId = findParentId(biolinkClassId, fieldName, curie);
+					final long structureId = findParentId(fieldName, curie);
 					if (structureId > 0) {
 						return structureId;
 					}

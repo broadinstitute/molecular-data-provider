@@ -1,5 +1,5 @@
 # compound-list producers
-https://translator.broadinstitute.org/pubchem_producer
+https://translator.broadinstitute.org/pubchem/compounds
 https://translator.broadinstitute.org/chembl/molecules
 https://translator.broadinstitute.org/drugbank/compounds
 https://translator.broadinstitute.org/chembank/compounds
@@ -14,25 +14,33 @@ https://translator.broadinstitute.org/stitch/chemicals
 https://translator.broadinstitute.org/rxnorm/molecules
 https://translator.broadinstitute.org/bigg/metabolites
 https://translator.broadinstitute.org/ctdbase/chemicals
+https://translator.broadinstitute.org/probeminer/chemicals
 # drugs
 https://translator.broadinstitute.org/inxight_drugs/drugs
 https://translator.broadinstitute.org/inxight_drugs/relationships
 https://translator.broadinstitute.org/inxight_drugs/active_ingredients
 https://translator.broadinstitute.org/rxnorm/drugs
-https://translator.broadinstitute.org/rxnorm/relations
+https://translator.broadinstitute.org/rxnorm/unii
 https://translator.broadinstitute.org/drugbank/molecules
+https://translator.broadinstitute.org/sider/drugs
 # gene-list producers
 =HGNC gene-list producer
 # protein-list producers
 https://translator.broadinstitute.org/uniprot/proteins
 # disease producers
 https://translator.broadinstitute.org/drugcentral/diseases
+# drug relations
+https://translator.broadinstitute.org/rxnorm/relations
+https://translator.broadinstitute.org/rxnorm/ingredients
+https://translator.broadinstitute.org/rxnorm/components
 # indications
 https://translator.broadinstitute.org/drugcentral/indications
 https://translator.broadinstitute.org/hmdb/disorders
 https://translator.broadinstitute.org/ctdbase/disease-associations
 https://translator.broadinstitute.org/chembl/indications
 https://translator.broadinstitute.org/repurposing/indications
+https://translator.broadinstitute.org/sider/indications
+https://translator.broadinstitute.org/sider/sideeffects
 # gene targets
 https://translator.broadinstitute.org/drugbank/gene_targets
 https://translator.broadinstitute.org/drugbank/gene_enzymes
@@ -40,11 +48,12 @@ https://translator.broadinstitute.org/drugbank/gene_transporters
 https://translator.broadinstitute.org/drugbank/gene_carriers
 https://translator.broadinstitute.org/pharos/gene_targets
 https://translator.broadinstitute.org/chembl/targets
-https://translator.broadinstitute.org/hmdb/targets
+https://translator.broadinstitute.org/hmdb/gene_targets
 https://translator.broadinstitute.org/repurposing/targets
 https://translator.broadinstitute.org/dgidb/targets
 https://translator.broadinstitute.org/gtopdb/targets
 https://translator.broadinstitute.org/ctdbase/gene-interactions
+https://translator.broadinstitute.org/probeminer/chemical_interactions
 # inhibitors
 https://translator.broadinstitute.org/drugbank/inhibitors
 https://translator.broadinstitute.org/drugbank/substrates
@@ -58,8 +67,14 @@ https://translator.broadinstitute.org/drugbank/protein_targets
 https://translator.broadinstitute.org/drugbank/protein_enzymes
 https://translator.broadinstitute.org/drugbank/protein_transporters
 https://translator.broadinstitute.org/drugbank/protein_carriers
+https://translator.broadinstitute.org/hmdb/protein_targets
+https://translator.broadinstitute.org/probeminer/protein_interactions
 # compound relations
 https://translator.broadinstitute.org/chembl/metabolites
+https://translator.broadinstitute.org/pubchem/neighbors
+# gene-disease associations
+https://translator.broadinstitute.org/gwas/genes
+https://translator.broadinstitute.org/gwas/diseases
 # profile similarity
 https://translator.broadinstitute.org/cmap/compound/compound
 https://translator.broadinstitute.org/ctrp
@@ -76,10 +91,14 @@ https://translator.broadinstitute.org/bigg/gene-reactions
 https://translator.broadinstitute.org/ctdbase/go-associations
 https://translator.broadinstitute.org/ctdbase/pathway-associations
 https://translator.broadinstitute.org/ctdbase/phenotype-interactions
+https://translator.broadinstitute.org/hmdb/pathways
+https://translator.broadinstitute.org/msigdb/genes
+https://translator.broadinstitute.org/msigdb/pathways
+# locations
+https://translator.broadinstitute.org/hmdb/locations
 # exporters
-https://translator.broadinstitute.org/chembl/assays
+https://translator.broadinstitute.org/chembl/activities
 https://translator.broadinstitute.org/chembl/mechanisms
-https://translator.broadinstitute.org/msigdb
 https://translator.broadinstitute.org/gelinea
 #
 # aggregators

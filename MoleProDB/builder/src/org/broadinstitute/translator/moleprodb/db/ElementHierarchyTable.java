@@ -11,23 +11,23 @@ public class ElementHierarchyTable extends MoleProTable {
 	}
 
 
-	private void insert(final long listElementId, final long parentElementId) throws SQLException {
-		String sql = "INSERT INTO " + tableName + " (list_element_id, parent_element_id)\n";
-		sql = sql + "VALUES (" + listElementId + "," + parentElementId + ")";
+	private void insert(final long listElementId, final long parentElementId, final String hierarchyType) throws SQLException {
+		String sql = "INSERT INTO " + tableName + " (list_element_id, parent_element_id, hierarchy_type)\n";
+		sql = sql + "VALUES (" + listElementId + "," + parentElementId + "," + f(hierarchyType) + ")";
 		executeUpdate(sql);
 	}
 
 
-	private boolean find(final long listElementId, final long parentElementId) {
-		final String where = "WHERE list_element_id = " + listElementId + " AND parent_element_id = " + parentElementId;
+	private boolean find(final long listElementId, final long parentElementId, final String hierarchyType) {
+		final String where = "WHERE list_element_id = " + listElementId + " AND parent_element_id = " + parentElementId + " AND hierarchy_type " + is(hierarchyType);
 		final long elementHierarchyId = findId("element_hierarchy_id", where);
 		return elementHierarchyId > 0;
 	}
 
 
-	public void saveHierarchy(final long listElementId, final long parentElementId) throws SQLException {
-		if (!find(listElementId, parentElementId)) {
-			insert(listElementId, parentElementId);
+	public void saveHierarchy(final long listElementId, final long parentElementId, final String hierarchyType) throws SQLException {
+		if (!find(listElementId, parentElementId, hierarchyType)) {
+			insert(listElementId, parentElementId, hierarchyType);
 		}
 	}
 

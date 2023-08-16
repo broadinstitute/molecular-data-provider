@@ -21,7 +21,7 @@ public class ListElementIdentifierTable extends IdentifierTable {
 	 */
 	public HashMap<String,Object> getListElementIdentiers(Long listElementId) throws SQLException {
 
-		String sql = "SELECT DISTINCT xref, biolink_prefix, field_name  FROM List_Element_Identifier ";
+		String sql = "SELECT DISTINCT xref, mole_pro_prefix, field_name  FROM List_Element_Identifier ";
 		sql = sql + "JOIN Curie_Prefix ON List_Element_Identifier.prefix_id = Curie_Prefix.prefix_id ";
 		sql = sql + "WHERE list_element_id = '" + listElementId.toString() + "'";
 
@@ -29,7 +29,7 @@ public class ListElementIdentifierTable extends IdentifierTable {
 		HashMap<String,Object> queryIdentifiers = new HashMap<String,Object>();
 		while (results.next()) {
 			final String fieldName = results.getString("field_name");
-			String prefix = results.getString("biolink_prefix");
+			String prefix = results.getString("mole_pro_prefix");
 			String value = "";
 			if (prefix != null && prefix.trim().length() > 0) {
 				value = prefix + ":" + results.getString("xref");

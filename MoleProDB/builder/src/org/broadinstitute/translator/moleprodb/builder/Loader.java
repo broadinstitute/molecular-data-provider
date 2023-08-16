@@ -2,8 +2,10 @@ package org.broadinstitute.translator.moleprodb.builder;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.broadinstitute.translator.moleprodb.db.MoleProDB;
@@ -11,6 +13,7 @@ import org.broadinstitute.translator.moleprodb.db.MoleProDB;
 import apimodels.CollectionInfo;
 import apimodels.CompoundInfo;
 import apimodels.Element;
+import apimodels.Property;
 import apimodels.TransformerInfo;
 import transformer.InternalTransformer;
 import transformer.Transformer;
@@ -27,7 +30,10 @@ import transformer.util.JSON;
 public abstract class Loader {
 
 	protected static class BiolinkClass {
-		public static String ChemicalSubstance = "SmallMolecule";
+		public static String ChemicalStructure = "ChemicalStructure";
+		public static String ChemicalEntity = "ChemicalEntity";
+		public static String SmallMolecule = "SmallMolecule";
+		public static String MolecularMixture = "MolecularMixture";
 	}
 
 	protected final MoleProDB db;
@@ -145,6 +151,41 @@ public abstract class Loader {
 			final String transformer = entry.getKey();
 			final long responseTime = entry.getValue();
 			System.out.println(transformer + "\t" + responseTime);
+		}
+	}
+
+
+	public static class TransformerRun {
+
+		final Transformer transformer;
+
+		final TransformerInfo info;
+
+		private final List<Property> controls = new ArrayList<>();
+
+
+		TransformerRun(final String transformerDefinition) throws Exception {
+			String transformerName = transformerDefinition;
+			if (transformerDefinition.contains("(")) {
+				final int open = transformerDefinition.indexOf('(');
+				final int close = transformerDefinition.lastIndexOf(')');
+				transformerName = transformerDefinition.substring(0, open);
+				final String[] parameters = transformerDefinition.substring(open + 1, close).split(",");
+				for (String parameter : parameters) {
+					System.out.println(parameter);
+					String[] control = parameter.split("=");
+					Property property = new Property().name(control[0].trim()).value(control[1].trim());
+					System.out.println(property);
+					controls.add(property);
+				}
+			}
+			transformer = Transformers.getTransformer(transformerName);
+			info = transformer.info;
+		}
+
+
+		List<Property> controls() {
+			return controls;
 		}
 	}
 }

@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Map;
 
+import org.broadinstitute.translator.moleprodb.db.IdentifierTable;
 import org.broadinstitute.translator.moleprodb.db.MoleProDB;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -28,7 +29,7 @@ public class HierarchyLoader extends Loader {
 	private final Transformer nodeNormalizer;
 	private final int sourceId;
 
-	private final HashSet<String> matchFields;
+	private final String[] matchFields;
 
 
 	public HierarchyLoader(MoleProDB db) throws Exception {
@@ -37,10 +38,7 @@ public class HierarchyLoader extends Loader {
 		Transformers.getTransformers();
 		nodeNormalizer = Transformers.getTransformer("SRI node normalizer producer");
 		sourceId = db.sourceTable.sourceId(nodeNormalizer.info.getName());
-		matchFields = new HashSet<String>();
-		matchFields.add("mondo");
-		matchFields.add("hpo");
-		matchFields.add("hp");
+		matchFields = new String[] { "mondo", "hpo", "hp" };
 	}
 
 
@@ -57,26 +55,34 @@ public class HierarchyLoader extends Loader {
 			query.node1ids = new String[] { objectElementId };
 			nodeId = "n0";
 		}
-		final String json = HTTP.post(new URL("https://automat.renci.org/ontological-hierarchy/1.2/query"), query.toJSON());
-		final TrapiResponse response = JSON.mapper.readValue(json, TrapiResponse.class);
-		for (Result result : response.message.results) {
-			String objectId = result.nodeBindings.get(nodeId)[0].id;
-			parents.add(objectId);
+		try {
+			final String json = HTTP.post(new URL("https://automat.transltr.io/ontological-hierarchy/1.3/query"), query.toJSON());
+			final TrapiResponse response = JSON.mapper.readValue(json, TrapiResponse.class);
+			for (Result result : response.message.results) {
+				String objectId = result.nodeBindings.get(nodeId)[0].id;
+				parents.add(objectId);
+			}
+		}
+		catch (Exception e) {
+			System.out.println("[error] failed to retrieve hierarchy for " + subjectElementId + "/" + objectElementId);
+			System.out.println(e.getMessage());
 		}
 		return parents;
 	}
 
 
-	private HashSet<String> getParents(final String elementId) throws Exception {
+	private HashSet<String> getParents(final String elementId, final boolean isSubclass) throws Exception {
 		Date start = new Date();
 		final HashSet<String> parents = new HashSet<>();
 		parents.add(elementId);
-		for (String parent : getParents(elementId, null)) {
-			parents.add(parent);
-		}
-		for (String parent : getParents(null, elementId)) {
-			parents.add(parent);
-		}
+		if (isSubclass)
+			for (String parent : getParents(elementId, null)) {
+				parents.add(parent);
+			}
+		else
+			for (String parent : getParents(null, elementId)) {
+				parents.add(parent);
+			}
 		profile("getParents", start);
 		return parents;
 	}
@@ -91,7 +97,8 @@ public class HierarchyLoader extends Loader {
 		for (String line = input.readLine(); line != null; line = input.readLine()) {
 			long element = Long.parseLong(line);
 			if (!hierarchyDone.contains(element)) {
-				loadHierarchy(element);
+				loadHierarchy(element, true);
+				loadHierarchy(element, false);
 				i = i + 1;
 				if (i % 10 == 0) {
 					System.out.println("i = " + i + ": ");
@@ -109,12 +116,12 @@ public class HierarchyLoader extends Loader {
 	}
 
 
-	private void loadHierarchy(long elementId) throws Exception {
+	private void loadHierarchy(long elementId, final boolean isSubclass) throws Exception {
 		final Element element = listElementLoader.element(elementId);
 		final HashSet<Long> parentElementIds = new HashSet<>();
-		for (String mondoId : listElementLoader.identifiers(element.getIdentifiers().get("mondo"))) {
+		for (String mondoId : IdentifierTable.identifiers(element.getIdentifiers().get("mondo"))) {
 			ArrayList<String> batch = new ArrayList<>();
-			for (String parentId : getParents(mondoId)) {
+			for (String parentId : getParents(mondoId, isSubclass)) {
 				final ArrayList<Long> dbElementIds = db.listElementIdentifierTable.findParentIds(parentId, sourceId);
 				if (dbElementIds.size() == 0) {
 					batch.add(parentId);
@@ -138,10 +145,13 @@ public class HierarchyLoader extends Loader {
 				}
 			}
 		}
-
 		Date start = new Date();
+		final String hierarchyType = (isSubclass) ? "biolink:subclass_of" : "biolink:superclass_of";
 		for (long parentElementId : parentElementIds) {
-			db.elementHierarchyTable.saveHierarchy(elementId, parentElementId);
+			db.elementHierarchyTable.saveHierarchy(elementId, parentElementId, hierarchyType);
+		}
+		if (parentElementIds.size() > 100) {
+			System.out.println("elementId: " + elementId + " " + hierarchyType + " size " + parentElementIds.size());
 		}
 		profile("save hierarchy", start);
 	}

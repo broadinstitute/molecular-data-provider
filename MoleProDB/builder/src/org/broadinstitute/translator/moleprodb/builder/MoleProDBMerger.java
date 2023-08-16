@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.UUID;
 
 import org.broadinstitute.translator.moleprodb.db.MoleProDB;
 
@@ -29,10 +29,11 @@ public class MoleProDBMerger extends Loader {
 		Transformers.getTransformers();
 		final TransformerInfo transformerInfo = Transformers.getTransformer(transformer).info;
 		final StructureLoader loader = new StructureLoader(db);
-		final int sourceId = srcDB.sourceTable.sourceId(transformer);
+		final int srcDBsourceId = srcDB.sourceTable.sourceId(transformer);
+		final int sourceId = loader.db.sourceTable.sourceId(transformer);
 		final long lastStructureId = srcDB.chemStructureTable.lastStructureId();
 		for (long structureId = 1; structureId <= lastStructureId; structureId++) {
-			final Element structure = getStructure(srcDB, structureId, sourceId);
+			final Element structure = getStructure(srcDB, structureId, srcDBsourceId);
 			if (structure != null) {
 				Other.mapElement(transformerInfo, structure);
 				loader.save(sourceId, structure);
@@ -41,7 +42,7 @@ public class MoleProDBMerger extends Loader {
 				db.commit();
 				db.reconnect();
 				srcDB.reconnect();
-				printMemoryStatus();
+				printMemoryStatus("@" + structureId + ": ");
 			}
 		}
 		db.commit();
@@ -68,26 +69,27 @@ public class MoleProDBMerger extends Loader {
 	}
 
 
-	public void mergeElements(String transformer, MoleProDB srcDB, final Set<String> matchFields) throws Exception {
+	public void mergeElements(String transformer, MoleProDB srcDB, final String[] matchFields) throws Exception {
 		Transformers.getTransformers();
 		final TransformerInfo transformerInfo = Transformers.getTransformer(transformer).info;
 		final ListElementLoader loader = new ListElementLoader(db);
-		final int sourceId = srcDB.sourceTable.sourceId(transformer);
+		final int srcDBsourceId = srcDB.sourceTable.sourceId(transformer);
+		final int sourceId = loader.db.sourceTable.sourceId(transformer);
 		final long lastElementId = srcDB.listElementTable.lastElementId();
 		long count = 0;
 		for (long elementId = 1; elementId < lastElementId; elementId++) {
 			final Date start = new Date();
-			final Element element = getElement(srcDB, elementId, sourceId);
+			final Element element = getElement(srcDB, elementId, srcDBsourceId);
 			profile("get element", start);
 			if (element != null) {
 				Other.mapElement(transformerInfo, element);
-				loader.listElementId(element, sourceId, matchFields);
+				loader.getCreateListElementId(element, sourceId, matchFields);
 				count++;
 				if (count % 100 == 0) {
 					db.commit();
 					db.reconnect();
 					srcDB.reconnect();
-					printMemoryStatus();
+					printMemoryStatus("@" + count + ": ");
 				}
 			}
 		}
@@ -142,7 +144,8 @@ public class MoleProDBMerger extends Loader {
 				final long objectElementId = elementLoader.findListElementId(triple.objectElement, idField);
 				Other.mapElement(transformerInfo, triple.objectElement);
 				if (objectElementId > 0 && subjectElementId > 0) {
-					connectionLoader.saveConnections(triple.objectElement, objectElementId, outputSourceId, subjectElementId);
+					UUID uuid = UUID.randomUUID();
+					connectionLoader.saveConnections(uuid.toString(), triple.objectElement, objectElementId, outputSourceId, subjectElementId);
 					count++;
 				}
 				else {

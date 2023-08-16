@@ -30,25 +30,25 @@ public class ConnectionTable extends MoleProTable {
 	 * @param source_id
 	 * @throws SQLException
 	 */
-	private long insert(long subjectId, long objectId, long predicateId, int sourceId) throws SQLException {
+	private long insert(String uuid, long subjectId, long objectId, long predicateId, int sourceId) throws SQLException {
 		if (lastConnectionId < 0) {
 			lastConnectionId = lastId("connection_id");
 		}
 		lastConnectionId = lastConnectionId + 1;
 		final long connectionId = lastConnectionId;
-		String sql = "INSERT INTO Connection(connection_id, subject_id, object_id, predicate_id, source_id)\n";
-		sql = sql + "VALUES (" + connectionId + "," + subjectId + "," + objectId + "," + predicateId + "," + sourceId + ")";
+		String sql = "INSERT INTO Connection(connection_id, uuid, subject_id, object_id, predicate_id, source_id)\n";
+		sql = sql + "VALUES (" + connectionId + "," + f(uuid) + "," + subjectId + "," + objectId + "," + predicateId + "," + sourceId + ")";
 		executeUpdate(sql);
 		return lastConnectionId;
 	}
 
 
-	public long connectionId(long subjectId, long objectId, long predicateId, int sourceId) throws SQLException {
+	public long connectionId(String uuid, long subjectId, long objectId, long predicateId, int sourceId) throws SQLException {
 		final long connectionId = findConnectionId(subjectId, objectId, predicateId, sourceId);
 		if (connectionId > 0) {
 			return connectionId;
 		}
-		return insert(subjectId, objectId, predicateId, sourceId);
+		return insert(uuid, subjectId, objectId, predicateId, sourceId);
 	}
 
 

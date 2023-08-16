@@ -11,7 +11,7 @@ Compile / unmanagedJars := (baseDirectory.value / "lib" * "*.jar").classpath
 
 mainClass in (Compile, run) := Some("org.broadinstitute.translator.moleprodb.builder.MoleProDBBuilder")
 
-libraryDependencies += "org.xerial" % "sqlite-jdbc" % "3.21.0"
+libraryDependencies += "org.xerial" % "sqlite-jdbc" % "3.8.11.2"
 
 lazy val createDB = taskKey[Unit]("Create new MolePro database.")
 

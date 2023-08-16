@@ -35,7 +35,7 @@ CREATE TABLE "Chem_Structure_Attribute" (
   "structure_id" INT NOT NULL REFERENCES "Chem_Structure"("structure_id"),
   "attribute_id" INT NOT NULL REFERENCES "Attribute"("attribute_id"),
   "source_id" INT NOT NULL REFERENCES "Source"("source_id"),
-  PRIMARY KEY ("structure_attribute_id")
+  PRIMARY KEY ("structure_attribute_id"),
   UNIQUE ("structure_id", "attribute_id", "source_id")
 );
 
@@ -45,7 +45,7 @@ CREATE TABLE "Chem_Structure_Identifier" (
   "xref" TEXT NOT NULL,
   "prefix_id" INT NOT NULL REFERENCES "Curie_Prefix"("prefix_id"),
   "source_id" INT NOT NULL REFERENCES "Source"("source_id"),
-  PRIMARY KEY ("structure_identifier_id")
+  PRIMARY KEY ("structure_identifier_id"),
   UNIQUE ("structure_id", "xref", "prefix_id", "source_id")
 );
 
@@ -54,7 +54,7 @@ CREATE TABLE "Chem_Structure_Map" (
   "substance_id" INT NOT NULL REFERENCES "List_Element"("list_element_id"),
   "structure_id" INT NOT NULL REFERENCES "Chem_Structure"("structure_id"),
   "correct" BOOLEAN,
-  PRIMARY KEY ("structure_map_id")
+  PRIMARY KEY ("structure_map_id"),
   UNIQUE ("structure_id", "substance_id")
 );
 
@@ -78,11 +78,12 @@ CREATE TABLE "Chem_Structure_Source" (
 
 CREATE TABLE "Connection" (
   "connection_id" INTEGER NOT NULL,
+  "uuid" TEXT UNIQUE,
   "subject_id" INT NOT NULL REFERENCES "List_Element"("list_element_id"),
   "object_id" INT NOT NULL REFERENCES "List_Element"("list_element_id"),
   "predicate_id" INT NOT NULL REFERENCES "Predicate"("predicate_id"),
   "source_id" INT NOT NULL REFERENCES "Source"("source_id"),
-  PRIMARY KEY ("connection_id")
+  PRIMARY KEY ("connection_id"),
   UNIQUE ("subject_id", "object_id", "predicate_id", "source_id")
 );
 
@@ -91,7 +92,7 @@ CREATE TABLE "Connection_Attribute" (
   "connection_id" INT NOT NULL REFERENCES "Connection"("connection_id"),
   "attribute_id" INT NOT NULL REFERENCES "Attribute"("attribute_id"),
   "source_id" INT NOT NULL REFERENCES "Source"("source_id"),
-  PRIMARY KEY ("connection_attribute_id")
+  PRIMARY KEY ("connection_attribute_id"),
   UNIQUE ("connection_id", "attribute_id", "source_id")
 );
 
@@ -103,7 +104,7 @@ CREATE TABLE "Curie_Prefix" (
   "field_name" TEXT NOT NULL,
   "infores_id" INT REFERENCES "Infores"("infores_id"),
   "uri" TEXT,
-  PRIMARY KEY ("prefix_id")
+  PRIMARY KEY ("prefix_id"),
   UNIQUE ("biolink_class_id", "mole_pro_prefix", "field_name", "infores_id")
 );
 
@@ -111,8 +112,9 @@ CREATE TABLE "Element_Hierarchy" (
   "element_hierarchy_id" INTEGER NOT NULL,
   "list_element_id" INT NOT NULL REFERENCES "List_Element"("list_element_id"),
   "parent_element_id" INT NOT NULL REFERENCES "List_Element"("list_element_id"),
-  PRIMARY KEY ("element_hierarchy_id")
-  UNIQUE ("list_element_id", "parent_element_id")
+  "hierarchy_type" TEXT NOT NULL,
+  PRIMARY KEY ("element_hierarchy_id"),
+  UNIQUE ("list_element_id", "parent_element_id", "hierarchy_type")
 );
 
 CREATE TABLE "Infores" (
@@ -133,7 +135,7 @@ CREATE TABLE "List_Element_Attribute" (
   "list_element_id" INT NOT NULL REFERENCES "List_Element"("list_element_id"),
   "attribute_id" INT NOT NULL REFERENCES "Attribute"("attribute_id"),
   "source_id" INT NOT NULL REFERENCES "Source"("source_id"),
-  PRIMARY KEY ("element_attribute_id")
+  PRIMARY KEY ("element_attribute_id"),
   UNIQUE ("list_element_id", "attribute_id", "source_id")
 );
 
@@ -143,7 +145,7 @@ CREATE TABLE "List_Element_Identifier" (
   "xref" TEXT NOT NULL,
   "prefix_id" INT NOT NULL REFERENCES "Curie_Prefix"("prefix_id"),
   "source_id" INT NOT NULL REFERENCES "Source"("source_id"),
-  PRIMARY KEY ("element_identifier_id")
+  PRIMARY KEY ("element_identifier_id"),
   UNIQUE ("list_element_id", "xref", "prefix_id", "source_id")
 );
 

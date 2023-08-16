@@ -5,8 +5,8 @@ import java.io.FileReader;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
+import java.util.UUID;
 
 import org.broadinstitute.translator.moleprodb.db.MoleProDB;
 
@@ -15,13 +15,12 @@ import apimodels.Connection;
 import apimodels.Element;
 import apimodels.Property;
 import apimodels.TransformerInfo;
-import transformer.Transformer;
 import transformer.TransformerQuery;
 import transformer.Transformers;
 
 public class ConnectionLoader extends Loader {
 
-	private static final int BATCH_SIZE = 10;
+	private static final int BATCH_SIZE = 5;
 
 	private final ListElementLoader elementLoader;
 
@@ -34,26 +33,38 @@ public class ConnectionLoader extends Loader {
 
 	/********************************************************
 	 * 
-	 * called by loadConnections(db, transformers, compounds)
+	 * Load collections
 	 * 
 	 * @param db
 	 * @param transformers
 	 * @param compounds
 	 * @throws Exception
 	 */
-	public void loadConnections(final String fieldName, final String compoundFile, final String transformerName) throws Exception {
+	public void loadConnections(final String fieldName, final String compoundFile, final String transformerName, final String[] matchFields) throws Exception {
 		Transformers.getTransformers();
-		final Transformer transformer = Transformers.getTransformer(transformerName);
+		final TransformerRun transformer = new TransformerRun(transformerName);
 		if (transformer.info.getFunction() == TransformerInfo.FunctionEnum.PRODUCER) {
-			loadProducerConnections(fieldName, compoundFile, transformer);
+			loadProducerConnections(fieldName, compoundFile, transformer, true, matchFields);
 		}
 		else {
-			loadTransformerConnections(fieldName, compoundFile, transformer);
+			loadTransformerConnections(fieldName, compoundFile, transformer, true, matchFields);
 		}
 	}
 
 
-	private void loadTransformerConnections(final String fieldName, final String compoundFile, final Transformer transformer) throws Exception {
+	public void addConnections(final String fieldName, final String compoundFile, final String transformerName, final String[] matchFields) throws Exception {
+		Transformers.getTransformers();
+		final TransformerRun transformer = new TransformerRun(transformerName);
+		if (transformer.info.getFunction() == TransformerInfo.FunctionEnum.PRODUCER) {
+			loadProducerConnections(fieldName, compoundFile, transformer, false, matchFields);
+		}
+		else {
+			loadTransformerConnections(fieldName, compoundFile, transformer, false, matchFields);
+		}
+	}
+
+
+	private void loadTransformerConnections(final String fieldName, final String compoundFile, final TransformerRun transformer, final boolean createObject, final String[] matchFields) throws Exception {
 		ArrayList<Element> queryElements = new ArrayList<Element>();
 
 		// Loop through all given compound names
@@ -69,7 +80,7 @@ public class ConnectionLoader extends Loader {
 			if (listElementId > 0) {
 				queryElements.add(elementLoader.element(listElementId));
 				if (queryElements.size() >= BATCH_SIZE) {
-					loadConnections(transformer, queryElements);
+					loadConnections(transformer, queryElements, createObject, matchFields);
 					queryElements = new ArrayList<Element>();
 					db.commit();
 				}
@@ -78,28 +89,22 @@ public class ConnectionLoader extends Loader {
 				System.out.println("WARN: element not found: " + id);
 			}
 			i = i + 1;
-			if (i % 1000 == 0) {
-				reconnect();
+			if (i % 100 == 0) {
+				printMemoryStatus(i + "\n");
+			}
+			if (i % 100 == 0) {
+				db.reconnect();
 			}
 		}
 		if (queryElements.size() > 0) {
-			loadConnections(transformer, queryElements);
+			loadConnections(transformer, queryElements, createObject, matchFields);
 			db.commit();
 		}
 		input.close();
 	}
 
 
-	private void reconnect() throws SQLException {
-		db.reconnect();
-		StringBuilder status = new StringBuilder();
-		status.append("free memory:" + Runtime.getRuntime().freeMemory() / 1000000);
-		status.append("/" + Runtime.getRuntime().totalMemory() / 1000000);
-		System.out.println(status.toString());
-	}
-
-
-	private void loadProducerConnections(final String fieldName, final String compoundFile, final Transformer transformer) throws Exception {
+	private void loadProducerConnections(final String fieldName, final String compoundFile, final TransformerRun transformer, final boolean createObject, final String[] matchFields) throws Exception {
 		final int sourceId = db.sourceTable.sourceId(transformer.info.getName());
 		final List<Property> controls = new ArrayList<>();
 		final Property control = new Property().name(transformer.info.getParameters().get(0).getName());
@@ -113,11 +118,8 @@ public class ConnectionLoader extends Loader {
 				control.setValue(id);
 				try {
 					TransformerQuery query = new TransformerQuery(controls, new ArrayList<Element>());
-					Element[] elements = super.transform(transformer, query);
-					for (Element objectElement : elements) {
-						final long objectElementId = elementLoader.listElementId(objectElement, sourceId, new HashSet<String>());
-						saveConnections(objectElement, objectElementId, sourceId, subjectElementId);
-					}
+					Element[] elements = super.transform(transformer.transformer, query);
+					saveConnections(elements, sourceId, subjectElementId, createObject, matchFields);
 				}
 				catch (Exception e) {
 					System.out.println(e.toString());
@@ -126,8 +128,11 @@ public class ConnectionLoader extends Loader {
 				i = i + 1;
 				if (i % 10 == 0) {
 					db.commit();
+					if (i % 100 == 0) {
+						printMemoryStatus(i + "\n");
+					}
 					if (i % 1000 == 0) {
-						reconnect();
+						db.reconnect();
 					}
 				}
 			}
@@ -139,19 +144,14 @@ public class ConnectionLoader extends Loader {
 	}
 
 
-	private void loadConnections(Transformer transformer, ArrayList<Element> queryElements) {
+	private void loadConnections(TransformerRun transformer, ArrayList<Element> queryElements, final boolean createObject, final String[] matchFields) {
 		final int sourceId = db.sourceTable.sourceId(transformer.info.getName());
 		try {
 			// Run a transformer on the query element to obtain list of object elements
 			Element[] elements = transform(transformer, queryElements);
 			// Iterate through responses from the transformer and then
 			// save all the object elements to the database
-			for (Element objectElement : elements) {
-				final long listElementId = elementLoader.listElementId(objectElement, sourceId, new HashSet<String>());
-				if (listElementId > 0) {
-					saveConnections(objectElement, listElementId, sourceId, -1);
-				}
-			}
+			saveConnections(elements, sourceId, -1, createObject, matchFields);
 		}
 		catch (Exception e) {
 			System.out.println(e.toString());
@@ -171,23 +171,29 @@ public class ConnectionLoader extends Loader {
 	 * @return
 	 * @throws Exception
 	 */
-	private Element[] transform(Transformer transformer, ArrayList<Element> elements) throws Exception {
+	private Element[] transform(TransformerRun transformer, ArrayList<Element> elements) throws Exception {
+		TransformerQuery query = new TransformerQuery(transformer.controls(), elements);
+		return super.transform(transformer.transformer, query);
+	}
 
-		List<Property> controls = new ArrayList<>();
-		// ArrayList<Element> elements = new ArrayList<>();
-		// elements.add(element);
-		Property score = new Property(); // For Stitch Only
-		score.setName("score_threshold"); // For Stitch Only
-		score.setValue("150"); // For Stitch Only
-		controls.add(score); // For Stitch Only
-		Property limit = new Property(); // For Stitch Only
-		limit.setName("limit"); // For Stitch Only
-		limit.setValue("5"); // For Stitch Only
-		controls.add(limit); // For Stitch Only
 
-		TransformerQuery query = new TransformerQuery(controls, elements);
-		return super.transform(transformer, query);
+	private void saveConnections(final Element[] elements, final int sourceId, final long subjectElementId, final boolean createObject, final String[] matchFields) throws SQLException {
+		for (Element objectElement : elements) {
+			final long objectElementId = objectElementId(objectElement, sourceId, createObject, matchFields);
+			if (objectElementId > 0) {
+				saveConnections(null, objectElement, objectElementId, sourceId, subjectElementId);
+			}
+		}
+	}
 
+
+	private long objectElementId(final Element objectElement, final int sourceId, final boolean createObject, final String[] matchFields) throws SQLException {
+		if (createObject) {
+			return elementLoader.getCreateListElementId(objectElement, sourceId, matchFields);
+		}
+		else {
+			return elementLoader.getListElementId(objectElement, sourceId, matchFields);
+		}
 	}
 
 
@@ -203,7 +209,7 @@ public class ConnectionLoader extends Loader {
 	 * @param sourceId
 	 * @throws SQLException
 	 */
-	public void saveConnections(final Element objectElement, final long objectId, final int sourceId, final long srcSubjectId) throws SQLException {
+	public void saveConnections(final String srcUUID, final Element objectElement, final long objectId, final int sourceId, final long srcSubjectId) throws SQLException {
 		for (Connection connection : objectElement.getConnections()) {
 			// Save to the Predicate Table and get ID
 
@@ -226,9 +232,10 @@ public class ConnectionLoader extends Loader {
 				subjectId = Long.parseLong(connection.getSourceElementId().substring(ListElementLoader.MOLE_PRO_PREFIX.length()));
 			}
 			if (subjectId > 0) {
+				String uuid = (srcUUID == null)? UUID.randomUUID().toString() : srcUUID;
 				// Save to the Connection Table
 				start = new Date();
-				long connectionId = db.connectionTable.connectionId(subjectId, objectId, predicateId, sourceId);
+				long connectionId = db.connectionTable.connectionId(uuid, subjectId, objectId, predicateId, sourceId);
 				profile("save connection", start);
 
 				// Save to the Connection_Attribute Table

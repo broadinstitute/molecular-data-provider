@@ -2,6 +2,7 @@ package org.broadinstitute.translator.moleprodb.builder;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -43,17 +44,16 @@ public class StructureLoader extends Loader {
 		try {
 			input.readLine(); // header line
 			for (String compound = input.readLine(); compound != null; compound = input.readLine()) {
-
-				batch[i% BATCH_SIZE] = compound;
+				batch[i % BATCH_SIZE] = compound;
 				i = i + 1;
 				if (i % BATCH_SIZE == 0) {
-					System.out.println(compound);
+					System.out.println(compound + " @"+i);
 					loadStructures(transformers, batch);
 					db.commit();
 					System.out.println();
 					batch = new String[BATCH_SIZE];
 				}
-				if (i % (10*BATCH_SIZE) == 0) {
+				if (i % (10 * BATCH_SIZE) == 0) {
 					System.out.println("db.reconnect");
 					db.reconnect();
 				}
@@ -93,19 +93,36 @@ public class StructureLoader extends Loader {
 				else {
 					controls.add(new Property().name(parameter.getName()).value(String.join(";", compounds)));
 				}
-				final TransformerQuery query = new TransformerQuery(controls);
-				final Element[] elements = transform(transformer, query);
-				for (Element element : elements) {
-					if (element != null) {
-						save(sourceId, element);
+				if (controls.size() > 0) {
+					final TransformerQuery query = new TransformerQuery(controls);
+					final Element[] elements = transform(transformer, query);
+					for (Element element : elements) {
+						if (element != null) {
+							save(sourceId, element);
+						}
 					}
 				}
 			}
+
+			catch (IOException e) {
+				if (compounds.length > 1) {
+					System.err.println("INFO: batch load failed, trying single elements");
+					final String[] singleton = new String[1];
+					for (String compound : compounds) {
+						singleton[0] = compound;
+						loadStructures(transformers, singleton);
+					}
+				}
+				else {
+
+					System.err.println("WARNING: when processing " + compounds[0] + ", " + transformer.info.getName() + " failed: " + e.getMessage());
+					e.printStackTrace();
+				}
+			}
 			catch (Exception e) {
-				System.err.println("WARNING: "+transformer.info.getName() + " failed: " + e.getMessage());
+				System.err.println("WARNING: " + transformer.info.getName() + " failed: " + e.getMessage());
 				e.printStackTrace();
 			}
-			System.out.print(".");
 		}
 		printMemoryStatus();
 	}
@@ -123,13 +140,13 @@ public class StructureLoader extends Loader {
 			return;
 		}
 
-		String inchi = (String) element.getIdentifiers().get("inchi");
-		String inchikey = (String) element.getIdentifiers().get("inchikey");
+		String inchi = (String)element.getIdentifiers().get("inchi");
+		String inchikey = (String)element.getIdentifiers().get("inchikey");
 		Date start = new Date();
-		final long biolinkClassId = biolinkClassId(element.getBiolinkClass());
+		final long biolinkClassId = biolinkClassId(BiolinkClass.ChemicalStructure);
 		long structureId = db.chemStructureTable.getStructureId(inchi, inchikey);
 		if (structureId <= 0) {
-			structureId = db.chemStructureIdentifierTable.structureId(biolinkClassId, element.getIdentifiers());
+			structureId = db.chemStructureIdentifierTable.structureId(element.getIdentifiers());
 		}
 		profile("get structureId", start);
 		if (structureId > 0) {
@@ -165,8 +182,5 @@ public class StructureLoader extends Loader {
 			db.chemStructureAttributeTable.insert(structureId, attribute, sourceId);
 		}
 	}
-
-
-
 
 }

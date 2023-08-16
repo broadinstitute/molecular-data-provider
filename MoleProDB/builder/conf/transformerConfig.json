@@ -13,7 +13,8 @@
             "synonyms": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/%s/synonyms/JSON",
             "smiles": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/smiles/cids/JSON",
             "inchi": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/inchi/cids/JSON"
-        }
+        },
+        "automat.hierarchy":"https://automat.transltr.io/ontological-hierarchy/1.3/query"
     },
     "curies": {
         "nbcigene": {

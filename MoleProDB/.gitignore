@@ -92,6 +92,8 @@ bin
 target/
 project/target/
 project/project/target/
+tmp/
+.bsp/
 
 #ignore windows system files
 schema/Thumbs.db

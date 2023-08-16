@@ -3,6 +3,8 @@ package org.broadinstitute.translator.moleprodb.db;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,10 +45,11 @@ public abstract class IdentifierTable extends MoleProTable {
 	public void saveIdentifiers(final long listElementId, final long biolinkClassId, final Element element, final int sourceId) throws SQLException {
 		for (Map.Entry<String,Object> entry : element.getIdentifiers().entrySet()) {
 			final String fieldName = entry.getKey();
-			for (String curie : curies(entry.getValue())) {
-				final IdentifierTable.ParsedCurie parsedCurie = parseCurie(biolinkClassId, fieldName, curie);
+			for (String curie : identifiers(entry.getValue())) {
+				final IdentifierTable.ParsedCurie parsedCurie = parseCurie(fieldName, curie);
 				if (parsedCurie != null) {
-					saveIdentifier(listElementId, parsedCurie.xref, parsedCurie.prefixId, sourceId);
+					final long prefixId = db.curiePrefixTable.prefixId(biolinkClassId, parsedCurie.prefix, fieldName);
+					saveIdentifier(listElementId, parsedCurie.xref, prefixId, sourceId);
 				}
 			}
 		}
@@ -54,17 +57,26 @@ public abstract class IdentifierTable extends MoleProTable {
 
 
 	@SuppressWarnings("unchecked")
-	private static String[] curies(Object entryValue) {
-		if (entryValue instanceof String) {
-			return new String[] { (String)entryValue };
+	public static Iterable<String> identifiers(Object entry) {
+		if (entry != null) {
+			if (entry instanceof String) {
+				return Collections.singletonList((String)entry);
+
+			}
+			else if (entry instanceof String[]) {
+				return Arrays.asList((String[])entry);
+
+			}
+			else if (entry instanceof ArrayList) {
+				return (ArrayList<String>)entry;
+
+			}
+			else {
+				System.err.println("WARN: unexpected identifier type: " + entry.getClass());
+				return new ArrayList<String>();
+			}
 		}
-		if (entryValue instanceof String[]) {
-			return (String[])entryValue;
-		}
-		if (entryValue instanceof ArrayList) {
-			return ((ArrayList<String>)entryValue).toArray(new String[0]);
-		}
-		return new String[0];
+		return new ArrayList<String>();
 	}
 
 
@@ -81,23 +93,14 @@ public abstract class IdentifierTable extends MoleProTable {
 	}
 
 
-	public long findParentId(final long biolinkClassId, final String fieldName, final String curie, final int sourceId) throws SQLException {
-		final ParsedCurie parsedCurie = parseCurie(biolinkClassId, fieldName, curie);
+	public long findParentId(final String fieldName, final String curie, final int sourceId) throws SQLException {
+		final ParsedCurie parsedCurie = parseCurie(fieldName, curie);
 		if (parsedCurie != null) {
-			return findParentId(parsedCurie.xref, parsedCurie.prefixId, sourceId);
+			final String joinPrefix = " JOIN Curie_Prefix ON Curie_Prefix.prefix_id = " + tableName + ".prefix_id";
+			final String where = " WHERE xref = " + f(parsedCurie.xref) + " AND mole_pro_prefix = " + f(parsedCurie.prefix) + " AND source_id = " + sourceId + ";";
+			return findId(parentIdColumn, joinPrefix + where);
 		}
 		return -1;
-	}
-
-
-	private long findParentId(final String xref, final long prefixId, final long sourceId) {
-		final String where = " WHERE xref = " + f(xref) + " AND prefix_id = " + prefixId + " AND source_id = " + sourceId + ";";
-		return findId(parentIdColumn, where);
-	}
-
-
-	public long findParentId(final long biolinkClassId, final String fieldName, final String curie) throws SQLException {
-		return findParentId(fieldName, curie);
 	}
 
 
@@ -122,7 +125,7 @@ public abstract class IdentifierTable extends MoleProTable {
 	public long findParentId(final String fieldName, final String curie) throws SQLException {
 		final String joinPrefix = " JOIN Curie_Prefix ON Curie_Prefix.prefix_id = " + tableName + ".prefix_id";
 		final String joinSource = " JOIN Source ON Source.source_id = " + tableName + ".source_id";
-		final ParsedCurie parsedCurie = parseCurie(0, fieldName, curie);
+		final ParsedCurie parsedCurie = parseCurie(fieldName, curie);
 		if (parsedCurie != null) {
 			final String where = " WHERE xref = " + f(parsedCurie.xref) + " AND mole_pro_prefix = " + f(parsedCurie.prefix);
 			final String whereInfores = " AND Source.infores_id = Curie_Prefix.infores_id";
@@ -136,7 +139,7 @@ public abstract class IdentifierTable extends MoleProTable {
 	}
 
 
-	private ParsedCurie parseCurie(final long biolinkClassId, final String fieldName, final String curie) throws SQLException {
+	private ParsedCurie parseCurie(final String fieldName, final String curie) throws SQLException {
 		if (curie == null || fieldName == null) {
 			return null;
 		}
@@ -151,8 +154,7 @@ public abstract class IdentifierTable extends MoleProTable {
 			xref = splitCurie[1];
 		}
 		if (xref != null) {
-			final long prefixId = db.curiePrefixTable.prefixId(biolinkClassId, moleProPrefix, fieldName);
-			return new ParsedCurie(moleProPrefix, xref, prefixId);
+			return new ParsedCurie(moleProPrefix, xref);
 		}
 		return null;
 	}
@@ -164,14 +166,11 @@ public abstract class IdentifierTable extends MoleProTable {
 
 		public final String xref;
 
-		public final long prefixId;
 
-
-		private ParsedCurie(final String prefix, final String xref, final long prefixId) {
+		private ParsedCurie(final String prefix, final String xref) {
 			super();
 			this.prefix = prefix;
 			this.xref = xref;
-			this.prefixId = prefixId;
 		}
 	}
 

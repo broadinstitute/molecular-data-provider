@@ -13,3 +13,5 @@ ChEBI
 HMDB
 ChemBank
 BiGG
+ProbeMiner
+SRI node normalizer

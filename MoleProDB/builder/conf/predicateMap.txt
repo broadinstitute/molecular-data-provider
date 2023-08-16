@@ -57,6 +57,7 @@ DGIdb	affects		Specific Action of the Ligand	Feedback inhibition	biolink:affects
 DGIdb	affects		Specific Action of the Ligand	Neutral	biolink:affects	biolink:affected_by		
 DGIdb	affects		Specific Action of the Ligand	Slows inactivation	biolink:decreases_activity_of	biolink:activity_decreased_by		
 DGIdb	affected_by				biolink:affected_by	biolink:affects		
+DGIdb	is_affected_by				biolink:affected_by	biolink:affects		
 DGIdb	affects				biolink:affects	biolink:affected_by		
 DrugBank	affects		actions	inhibitor	biolink:decreases_activity_of	biolink:activity_decreased_by		
 DrugBank	affects		actions	agonist	biolink:increases_activity_of	biolink:activity_increased_by		
@@ -230,6 +231,7 @@ GtoPdb	affects		TYPE	Antibody	biolink:affects_activity_of	biolink:activity_affec
 GtoPdb	affects		TYPE	Gating inhibitor	biolink:decreases_activity_of	biolink:activity_decreased_by		
 GtoPdb	affects		TYPE	Subunit-specific	biolink:affects_activity_of	biolink:activity_affected_by		
 GtoPdb	affected_by				biolink:affected_by	biolink:affects		
+GtoPdb	is_affected_by				biolink:affected_by	biolink:affects		
 GtoPdb	affects				biolink:affects	biolink:affected_by		
 HMDB	interacts_with				biolink:interacts_with	biolink:interacts_with		
 HMDB	related_to				biolink:related_to	biolink:related_to		
@@ -1334,3 +1336,11 @@ CTD	related_to		Relation	uptake increased by;susceptibility decreased by	biolink
 CTD	related_to		Relation	uptake increased by;susceptibility increased by	biolink:affected_by	biolink:affects		
 CTD	related_to		DirectEvidence	therapeutic	biolink:treats	biolink:treated_by		
 CTD	related_to				biolink:related_to	biolink:related_to		
+STITCH	related_to		mode	expression	biolink:affects_expression_of	biolink:expression_affected_by		
+STITCH	related_to		mode	binding	biolink:physically_interacts_with	biolink:physically_interacts_with		
+STITCH	related_to		mode	pred_bind	biolink:interacts_with	biolink:interacts_with		
+STITCH	related_to		mode	reaction	biolink:affects	biolink:affected_by		
+STITCH	related_to		mode	catalysis	biolink:affects	biolink:affected_by		
+STITCH	related_to		mode	inhibition	biolink:decreases_activity_of	biolink:activity_decreased_by		
+STITCH	related_to		mode	activation	biolink:increases_activity_of	biolink:activity_increased_by		
+STITCH	related_to				biolink:related_to	biolink:related_to		
