@@ -3,6 +3,8 @@ BiGG	BiGG compound-list producer	infores:bigg-models	biolink:primary_knowledge_s
 BiGG	BiGG reactions transformer	infores:bigg-models	biolink:primary_knowledge_source
 BiGG	BiGG genes transformer	infores:bigg-models	biolink:primary_knowledge_source
 BiGG	BiGG gene_reaction transformer	infores:bigg-models	biolink:primary_knowledge_source
+BindingBD	BindingBD binding transformer	infores:bindingdb	biolink:primary_knowledge_source
+BindingBD	BindingBD ligand producer	infores:bindingdb	biolink:primary_knowledge_source
 ChEBI	ChEBI compound-list producer	infores:chebi	biolink:primary_knowledge_source
 ChemBank	ChemBank compound-list producer	infores:chembank	biolink:primary_knowledge_source
 ChEMBL	ChEMBL compound-list producer	infores:chembl	biolink:primary_knowledge_source
@@ -69,6 +71,7 @@ Pharos	Pharos target genes transformer	infores:pharos	biolink:primary_knowledge_
 ProbeMiner	ProbeMiner compound-list producer	infores:probe-miner	biolink:primary_knowledge_source
 ProbeMiner	ProbeMiner chemical interactions transformer	infores:probe-miner	biolink:primary_knowledge_source
 ProbeMiner	ProbeMiner protein interactions transformer	infores:probe-miner	biolink:primary_knowledge_source
+PubChem	PubChem chemical similarity transformer	infores:pubchem	biolink:primary_knowledge_source
 PubChem	Pubchem compound-list producer	infores:pubchem	biolink:primary_knowledge_source
 Repurposing	Repurposing Hub compound-list producer	infores:drug-repurposing-hub	biolink:primary_knowledge_source
 Repurposing	Repurposing Hub indication transformer	infores:drug-repurposing-hub	biolink:primary_knowledge_source
@@ -89,6 +92,8 @@ SRI node normalizer	SRI node normalizer producer	infores:sri-node-normalizer	bio
 symmetric difference	symmetric difference (XOR)	infores:molepro	biolink:aggregator_knowledge_source
 union	union	infores:molepro	biolink:aggregator_knowledge_source
 UniProt	UniProt protein-list producer	infores:uniprot	biolink:primary_knowledge_source
+UniProt	UniProt protein to gene transformer	infores:uniprot	biolink:primary_knowledge_source
+UniProt	UniProt gene to protein transformer	infores:uniprot	biolink:primary_knowledge_source
 MolePro	MolePro	infores:molepro	biolink:aggregator_knowledge_source
 infores:molepro_kp	infores:molepro_kp	infores:molepro	biolink:aggregator_knowledge_source
 myGene.info	myGene.info	infores:mygene-info	biolink:aggregator_knowledge_source

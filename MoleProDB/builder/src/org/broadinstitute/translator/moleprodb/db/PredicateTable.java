@@ -56,7 +56,7 @@ public class PredicateTable extends MoleProTable {
 	 * @throws SQLException
 	 */
 	private long findPredicateId(final String biolinkPredicate, final String relation) {
-		final String where = "WHERE relation = " + f(relation);
+		final String where = "WHERE relation = " + f(relation) + " AND biolink_predicate = " + f(biolinkPredicate);
 		final String query = "SELECT DISTINCT predicate_id, biolink_predicate FROM " + tableName + " " + where + ";";
 		final String idColumn = "predicate_id";
 		long id = -1;

@@ -83,3 +83,8 @@
     select feature_xref from feature as gene_id
     where feature_type = 'target' and feature_xref like 'HGNC%';
 
+
+--> data/translator/uniprot/latest/UniProt.sqlite >>> data/nn/UniProt-gene-id.tsv
+
+    select XREF from XREF where XREF_TYPE = 'HGNC';
+

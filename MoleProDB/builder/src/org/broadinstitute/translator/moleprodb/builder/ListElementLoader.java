@@ -216,16 +216,13 @@ public class ListElementLoader extends Loader {
 
 	long findListElementId(Element element, String fieldName) throws SQLException {
 		if (fieldName != null && element.getIdentifiers().containsKey(fieldName)) {
-			if (element.getIdentifiers().get(fieldName) instanceof String) {
-				String curie = (String)element.getIdentifiers().get(fieldName);
+			for (String curie : IdentifierTable.identifiers(element.getIdentifiers().get(fieldName))) {
 				long listElementId = db.listElementIdentifierTable.findParentId(fieldName, curie);
 				if (listElementId > 0) {
 					return listElementId;
 				}
-				else {
-					System.out.println("Not found " + fieldName + ": " + curie);
-				}
 			}
+			System.out.println("Not found " + fieldName + ": " + element.getIdentifiers().get(fieldName));
 		}
 		System.out.println("Check all identifiers " + element.getIdentifiers());
 		return findListElementId(element.getIdentifiers(), null);

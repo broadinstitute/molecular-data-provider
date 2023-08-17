@@ -38,3 +38,11 @@
     JOIN drug_indication ON drug_indication.molregno=molecule_dictionary.molregno
     );
 
+
+--> data/translator/chebi/latest/chebi.sqlite >>> data/nn/ChEBI-no-struct-id.tsv
+
+    select distinct chebi_accession
+    from compounds
+    left join structures on (structures.compound_id = compounds.id and structures.type = 'InChIKey')
+    where parent_id is null and structure is null
+    and status != 'O' and status != 'D' and status != 'F' ;

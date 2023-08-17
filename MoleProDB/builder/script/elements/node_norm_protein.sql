@@ -1,3 +1,9 @@
+--> data/translator/bindingdb/latest/BindingDB.sqlite >>> data/nn/BindingDB-protein-id.tsv
+
+    select distinct 'UniProtKB:' || UniProt_ID as id
+    from TARGET_CHAIN
+    where UniProt_ID is not null;
+
 --> data/translator/chembl/chembl_30/chembl_30.db >>> data/nn/ChEMBL-protein-id.tsv
 
     select distinct 'UniProtKB:' || accession as id
@@ -28,5 +34,9 @@
     select distinct 'UniProtKB:' || UNIPROT_ACCESSION as id 
     from proteins;
 
+
+--> data/translator/uniprot/latest/UniProt.sqlite >>> data/nn/UniProt-uniprot-id.tsv
+
+    select 'UniProtKB:' || UNIPROT_AC from PROTEIN;
 
 

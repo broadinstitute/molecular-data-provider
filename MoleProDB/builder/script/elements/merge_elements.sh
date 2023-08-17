@@ -2,6 +2,8 @@ sbt -mem 4096 'run data/MoleProDB.sqlite merge-elements "BiGG gene_reaction tran
 sbt -mem 4096 'run data/MoleProDB.sqlite merge-elements "BiGG genes transformer" data/bigg/MolePro.BiGG.sqlite entrez'
 sbt -mem 4096 'run data/MoleProDB.sqlite merge-elements "BiGG reactions transformer" data/bigg/MolePro.BiGG.sqlite bigg'
 
+sbt -mem 4096 'run data/MoleProDB.sqlite merge-elements "BindingBD binding transformer" data/bindingdb/MolePro.BindingDB.sqlite uniprot'
+
 sbt -mem 4096 'run data/MoleProDB.sqlite merge-elements "ChEMBL activities transformer" data/chembl/MolePro.ChEMBL.sqlite uniprot,chembl'
 sbt -mem 4096 'run data/MoleProDB.sqlite merge-elements "ChEMBL gene target transformer" data/chembl/MolePro.ChEMBL.sqlite entrez'
 sbt -mem 4096 'run data/MoleProDB.sqlite merge-elements "ChEMBL indication transformer" data/chembl/MolePro.ChEMBL.sqlite mesh'
@@ -48,3 +50,6 @@ sbt -mem 4096 'run data/MoleProDB.sqlite merge-elements "SIDER side effect trans
 
 sbt -mem 4096 'run data/MoleProDB.sqlite merge-elements "STITCH link transformer" data/stitch/MolePro.STITCH.sqlite ensembl'
 
+sbt -mem 4096 'run data/MoleProDB.sqlite merge-elements "UniProt protein to gene transformer" data/uniprot/MolePro.UniProt.sqlite hgnc'
+cp data/MoleProDB.sqlite data/backup/MoleProDB-elements.sqlite
+cp data/MoleProDB.sqlite data/backup/MoleProDB.sqlite

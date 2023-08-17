@@ -191,9 +191,10 @@ CREATE TABLE "Predicate" (
   "biolink_predicate" TEXT NOT NULL,
   "inverse_predicate" TEXT NOT NULL,
   "canonical" TEXT,
-  "relation" TEXT UNIQUE NOT NULL,
+  "relation" TEXT NOT NULL,
   "inverse_relation" TEXT,
   PRIMARY KEY ("predicate_id")
+  UNIQUE ("biolink_predicate", "relation")
 );
 
 CREATE TABLE "Source" (
