@@ -2,21 +2,22 @@ package org.broadinstitute.translator.moleprodb.builder;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 import org.broadinstitute.translator.moleprodb.db.MoleProDB;
 
 import apimodels.CollectionInfo;
 import apimodels.CompoundInfo;
 import apimodels.Element;
+import apimodels.Property;
 import apimodels.TransformerInfo;
 import transformer.InternalTransformer;
 import transformer.Transformer;
 import transformer.Transformers;
 import transformer.classes.Other;
-import transformer.Transformer.Query;
+import transformer.TransformerQuery;
 import transformer.collection.CollectionElement.CompoundElement;
 import transformer.collection.CollectionsEntry;
 import transformer.exception.NotFoundException;
@@ -27,12 +28,13 @@ import transformer.util.JSON;
 public abstract class Loader {
 
 	protected static class BiolinkClass {
-		public static String ChemicalSubstance = "SmallMolecule";
+		public static String ChemicalStructure = "ChemicalStructure";
+		public static String ChemicalEntity = "ChemicalEntity";
+		public static String SmallMolecule = "SmallMolecule";
+		public static String MolecularMixture = "MolecularMixture";
 	}
 
 	protected final MoleProDB db;
-
-	public static final HashMap<String,Long> profile = new HashMap<>();
 
 
 	public Loader(MoleProDB db) {
@@ -41,7 +43,7 @@ public abstract class Loader {
 	}
 
 
-	final protected Element[] transform(final Transformer transformer, final Query query) throws Exception {
+	final protected Element[] transform(final Transformer transformer, final TransformerQuery query) throws Exception {
 		final Element[] elements = callTransformer(transformer, query);
 		for (Element element : elements) {
 			if (element != null) {
@@ -83,7 +85,7 @@ public abstract class Loader {
 	 * @return
 	 * @throws Exception
 	 */
-	private static Element[] callTransformer(final Transformer transformer, final Query query) throws Exception {
+	private static Element[] callTransformer(final Transformer transformer, final TransformerQuery query) throws Exception {
 		TransformerInfo info = transformer.info;
 		if (transformer instanceof InternalTransformer || info.getUrl().length() == 0) {
 			return callInternalTransformer(transformer, query);
@@ -107,7 +109,7 @@ public abstract class Loader {
 	}
 
 
-	private static Element[] callInternalTransformer(final Transformer transformer, final Query query) throws Exception {
+	private static Element[] callInternalTransformer(final Transformer transformer, final TransformerQuery query) throws Exception {
 		final Date start = new Date();
 		final CollectionsEntry response = transformer.transform(query, new CollectionInfo());
 		profile(transformer.info.getName() + " (internal)", start);
@@ -132,19 +134,47 @@ public abstract class Loader {
 	}
 
 
-	public static void profile(String transformerName, Date start) {
-		final long responseTime = (new Date()).getTime() - start.getTime();
-		long sumTime = profile.getOrDefault(transformerName, 0L);
-		profile.put(transformerName, sumTime + responseTime);
+	protected static void profile(final String transformerName, final Date start) {
+		MoleProDB.profile(transformerName, start);
 	}
 
 
-	public static void profileReport() {
-		System.out.println();
-		for (Map.Entry<String,Long> entry : profile.entrySet()) {
-			final String transformer = entry.getKey();
-			final long responseTime = entry.getValue();
-			System.out.println(transformer + "\t" + responseTime);
+	protected static void profileReport() {
+		MoleProDB.profileReport();
+	}
+
+
+	public static class TransformerRun {
+
+		final Transformer transformer;
+
+		final TransformerInfo info;
+
+		private final List<Property> controls = new ArrayList<>();
+
+
+		TransformerRun(final String transformerDefinition) throws Exception {
+			String transformerName = transformerDefinition;
+			if (transformerDefinition.contains("(")) {
+				final int open = transformerDefinition.indexOf('(');
+				final int close = transformerDefinition.lastIndexOf(')');
+				transformerName = transformerDefinition.substring(0, open);
+				final String[] parameters = transformerDefinition.substring(open + 1, close).split(",");
+				for (String parameter : parameters) {
+					System.out.println(parameter);
+					String[] control = parameter.split("=");
+					Property property = new Property().name(control[0].trim()).value(control[1].trim());
+					System.out.println(property);
+					controls.add(property);
+				}
+			}
+			transformer = Transformers.getTransformer(transformerName);
+			info = transformer.info;
+		}
+
+
+		List<Property> controls() {
+			return controls;
 		}
 	}
 }

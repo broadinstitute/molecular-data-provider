@@ -2,6 +2,7 @@ package org.broadinstitute.translator.moleprodb.db;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 
 public abstract class MoleProTable {
 
@@ -42,6 +43,21 @@ public abstract class MoleProTable {
 
 
 	/**
+	 * Format java string for SQL WHERE clause
+	 * 
+	 * @return formated string
+	 */
+	protected String is(Long longValue) {
+		if (longValue == null) {
+			return "IS NULL";
+		}
+		else {
+			return "= " + f(longValue);
+		}
+	}
+
+
+	/**
 	 * Format java string for SQL
 	 * 
 	 * @return formated string
@@ -61,6 +77,16 @@ public abstract class MoleProTable {
 	 * 
 	 * @return formated string
 	 */
+	protected String f(boolean value) {
+		return value ? "1" : "0";
+	}
+
+
+	/**
+	 * Format java string for SQL
+	 * 
+	 * @return formated string
+	 */
 	protected String f(Long longValue) {
 		if (longValue == null) {
 			return "NULL";
@@ -68,6 +94,19 @@ public abstract class MoleProTable {
 		else {
 			return Long.toString(longValue);
 		}
+	}
+
+
+	/**
+	 * Return long value, distinguishing null result. 
+	 *  
+	 */
+	protected Long getLong(final ResultSet result, final String column) throws SQLException {
+		final long value = result.getLong(column);
+		if (result.wasNull()) {
+			return null;
+		}
+		return value;
 	}
 
 
@@ -108,22 +147,31 @@ public abstract class MoleProTable {
 
 
 	protected long findId(final String idColumn, final String where) {
-		long id = -1;
 		final String query = "SELECT DISTINCT " + idColumn + " FROM " + tableName + " " + where + ";";
+		return findId(query);
+	}
+
+
+	protected long findId(final String query) {
+		long id = -1;
 		try {
 			final ResultSet results = this.executeQuery(query);
 			if (results.next()) {
 				id = results.getLong(1);
 			}
 			if (results.next()) {
-				System.err.println("WARN: Found multiple ids in " + idColumn + " " + where);
+				System.err.println("WARN: Found multiple ids in " + query);
 			}
 			results.close();
 		}
 		catch (SQLException e) {
-			System.err.println("WARN: Failed to obtain " + idColumn + " " + where + ": " + e.getMessage());
+			System.err.println("WARN: Failed to obtain " + query + ": " + e.getMessage());
 		}
 		return id;
 	}
 
+
+	protected static void profile(final String transformerName, final Date start) {
+		MoleProDB.profile(transformerName, start);
+	}
 }

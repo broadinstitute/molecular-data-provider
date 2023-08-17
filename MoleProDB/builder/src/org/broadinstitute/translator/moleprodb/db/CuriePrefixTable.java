@@ -37,7 +37,7 @@ public class CuriePrefixTable extends MoleProTable {
 			lastPrefixId = lastId("prefix_id");
 		}
 		lastPrefixId = lastPrefixId + 1;
-		final Long inforesId = db.inforesTable.InfoResId(fieldName);
+		final Long inforesId = db.inforesTable.infoResId(fieldName);
 		insert(lastPrefixId, biolinkClassId, moleProPrefix, biolinkPrefix, fieldName, inforesId, uri);
 		return lastPrefixId;
 	}

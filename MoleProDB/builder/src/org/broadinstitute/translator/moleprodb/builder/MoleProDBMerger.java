@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.broadinstitute.translator.moleprodb.db.MoleProDB;
 
@@ -14,6 +13,7 @@ import apimodels.Attribute;
 import apimodels.Connection;
 import apimodels.Element;
 import apimodels.Names;
+import apimodels.Qualifier;
 import apimodels.TransformerInfo;
 import transformer.Transformers;
 import transformer.classes.Other;
@@ -29,10 +29,11 @@ public class MoleProDBMerger extends Loader {
 		Transformers.getTransformers();
 		final TransformerInfo transformerInfo = Transformers.getTransformer(transformer).info;
 		final StructureLoader loader = new StructureLoader(db);
-		final int sourceId = srcDB.sourceTable.sourceId(transformer);
+		final int srcDBsourceId = srcDB.sourceTable.sourceId(transformer);
+		final int sourceId = loader.db.sourceTable.sourceId(transformer);
 		final long lastStructureId = srcDB.chemStructureTable.lastStructureId();
 		for (long structureId = 1; structureId <= lastStructureId; structureId++) {
-			final Element structure = getStructure(srcDB, structureId, sourceId);
+			final Element structure = getStructure(srcDB, structureId, srcDBsourceId);
 			if (structure != null) {
 				Other.mapElement(transformerInfo, structure);
 				loader.save(sourceId, structure);
@@ -41,7 +42,10 @@ public class MoleProDBMerger extends Loader {
 				db.commit();
 				db.reconnect();
 				srcDB.reconnect();
-				printMemoryStatus();
+				printMemoryStatus("@" + structureId + ": ");
+				if (structureId % 10000 == 0) {
+					profileReport();
+				}
 			}
 		}
 		db.commit();
@@ -68,26 +72,30 @@ public class MoleProDBMerger extends Loader {
 	}
 
 
-	public void mergeElements(String transformer, MoleProDB srcDB, final Set<String> matchFields) throws Exception {
+	public void mergeElements(String transformer, MoleProDB srcDB, final String[] matchFields) throws Exception {
 		Transformers.getTransformers();
 		final TransformerInfo transformerInfo = Transformers.getTransformer(transformer).info;
 		final ListElementLoader loader = new ListElementLoader(db);
-		final int sourceId = srcDB.sourceTable.sourceId(transformer);
+		final int srcDBsourceId = srcDB.sourceTable.sourceId(transformer);
+		final int sourceId = loader.db.sourceTable.sourceId(transformer);
 		final long lastElementId = srcDB.listElementTable.lastElementId();
 		long count = 0;
 		for (long elementId = 1; elementId < lastElementId; elementId++) {
 			final Date start = new Date();
-			final Element element = getElement(srcDB, elementId, sourceId);
+			final Element element = getElement(srcDB, elementId, srcDBsourceId);
 			profile("get element", start);
 			if (element != null) {
 				Other.mapElement(transformerInfo, element);
-				loader.listElementId(element, sourceId, matchFields);
+				loader.getCreateListElementId(element, sourceId, matchFields);
 				count++;
 				if (count % 100 == 0) {
 					db.commit();
 					db.reconnect();
 					srcDB.reconnect();
-					printMemoryStatus();
+					printMemoryStatus("@" + count + ": ");
+					if (count % 10000 == 0) {
+						profileReport();
+					}
 				}
 			}
 		}
@@ -127,11 +135,13 @@ public class MoleProDBMerger extends Loader {
 	public void mergeConnections(final String transformer, final String field, final MoleProDB srcDB, final String idField) throws Exception {
 		Transformers.getTransformers();
 		final TransformerInfo transformerInfo = Transformers.getTransformer(transformer).info;
-
+		srcDB.qualifierMapTable.reset();
 		final long lastConnectionId = srcDB.connectionTable.lastConnectionId();
+		System.out.println("Merging " + lastConnectionId + " connections");
 		final ListElementLoader elementLoader = new ListElementLoader(db);
 		final ConnectionLoader connectionLoader = new ConnectionLoader(db);
 		final int outputSourceId = db.sourceTable.sourceId(transformer);
+		System.out.println("Start merging " + lastConnectionId + " connections");
 		long count = 0;
 		for (long connectionId = 1; connectionId < lastConnectionId; connectionId++) {
 			final Date start = new Date();
@@ -142,7 +152,8 @@ public class MoleProDBMerger extends Loader {
 				final long objectElementId = elementLoader.findListElementId(triple.objectElement, idField);
 				Other.mapElement(transformerInfo, triple.objectElement);
 				if (objectElementId > 0 && subjectElementId > 0) {
-					connectionLoader.saveConnections(triple.objectElement, objectElementId, outputSourceId, subjectElementId);
+					String uuid = triple.connection.getUuid();
+					connectionLoader.saveConnections(uuid, triple.objectElement, objectElementId, outputSourceId, subjectElementId);
 					count++;
 				}
 				else {
@@ -156,8 +167,20 @@ public class MoleProDBMerger extends Loader {
 					db.reconnect();
 					srcDB.reconnect();
 					srcDB.connectionTable.reset();
+					srcDB.qualifierMapTable.reset();
 					printMemoryStatus(connectionId + ": ");
+					if (count % 10000 == 0) {
+						profileReport();
+					}
 				}
+			}
+			if (connectionId % 10000 == 0) {
+				db.commit();
+				db.reconnect();
+				srcDB.reconnect();
+				srcDB.connectionTable.reset();
+				srcDB.qualifierMapTable.reset();
+				printMemoryStatus(connectionId + ": ");
 			}
 		}
 		db.commit();
@@ -195,6 +218,7 @@ public class MoleProDBMerger extends Loader {
 
 	private Connection createConnection(final MoleProDB srcDB, final ResultSet result, final int inputSourceId, final TransformerInfo transformerInfo) throws SQLException {
 		final Connection connection = new Connection();
+		connection.setUuid(result.getString("uuid"));
 		connection.setBiolinkPredicate(result.getString("biolink_predicate"));
 		connection.setInversePredicate(result.getString("inverse_predicate"));
 		connection.setRelation(result.getString("relation"));
@@ -203,6 +227,8 @@ public class MoleProDBMerger extends Loader {
 		connection.setSource(transformerInfo.getLabel());
 		final List<Attribute> attributes = srcDB.connectionAttributeTable.getAttributes(result.getLong("connection_id"), inputSourceId);
 		connection.setAttributes(attributes);
+		List<Qualifier> qualifiers = srcDB.qualifierMapTable.getQualifiers(result.getLong("qualifier_set_id"));
+		connection.setQualifiers(qualifiers );
 		return connection;
 	}
 

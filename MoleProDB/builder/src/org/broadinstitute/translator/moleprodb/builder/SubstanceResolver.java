@@ -346,7 +346,7 @@ public class SubstanceResolver extends Loader {
 			System.out.println("query name '" + queryName + "' != best name '" + bestName + "'");
 			return getSubstanceId(bestName);
 		}
-		final long biolinkClassId = biolinkClassId(BiolinkClass.ChemicalSubstance);
+		final long biolinkClassId = biolinkClassId(BiolinkClass.ChemicalEntity);
 		final long substanceId = db.listElementTable.insert(bestName, biolinkClassId);
 		db.chemStructureMapTable.insert(substanceId, bestStructureId, true);
 		insertIdentifiers(substanceId, biolinkClassId, bestStructureId);

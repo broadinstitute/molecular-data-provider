@@ -4,6 +4,7 @@ import org.broadinstitute.translator.moleprodb.db.MoleProDB;
 
 import apimodels.TransformerInfo;
 import transformer.Transformers;
+import transformer.mapping.MappedInfoRes;
 
 public class TransformerLoader extends Loader {
 
@@ -24,9 +25,12 @@ public class TransformerLoader extends Loader {
 			System.out.println(transformer.getName());
 			int sourceId = db.sourceTable.sourceId(transformer.getName());
 			if (sourceId <= 0) {
+				String infores = transformer.getInfores();
+				if (infores == null)
+					infores = MappedInfoRes.map(transformer.getName());
 				db.sourceTable.insert(
 					transformer.getLabel(), transformer.getProperties().getSourceUrl(), transformer.getProperties().getSourceVersion(), 
-					transformer.getName(), transformer.getUrl(), transformer.getVersion()
+					transformer.getName(), infores, transformer.getUrl(), transformer.getVersion()
 				);
 			}
 		}

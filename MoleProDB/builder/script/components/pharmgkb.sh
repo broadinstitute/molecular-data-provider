@@ -1,0 +1,10 @@
+python -u script/extract_ids.py script/components/pharmgkb.sql
+sbt 'run data/pharmgkb/MolePro.PharmGKB.sqlite exec ../schema/MoleProSchema.sql'
+sbt 'run data/pharmgkb/MolePro.PharmGKB.sqlite exec ../schema/MoleProPreLoadIndexes.sql'
+sbt 'run data/pharmgkb/MolePro.PharmGKB.sqlite load-transformers'
+sbt -mem 4096 'run data/pharmgkb/MolePro.PharmGKB.sqlite load-structures "Pubchem compound-list producer" data/pharmgkb/PharmGKB-CID.tsv'
+sbt 'run data/pharmgkb/MolePro.PharmGKB.sqlite load-compounds'
+sbt -mem 4096 'run data/pharmgkb/MolePro.PharmGKB.sqlite load-elements "PharmGKB compound-list producer" data/pharmgkb/PharmGKB-ID.tsv pubchem,inchi'
+sbt -mem 16384 'run data/pharmgkb/MolePro.PharmGKB.sqlite load-connections pharmgkb data/pharmgkb/PharmGKB-ID.tsv "PharmGKB relations transformer" entrez,pharmgkb'
+sbt -mem 16384 'run data/pharmgkb/MolePro.PharmGKB.sqlite load-connections pharmgkb data/pharmgkb/PharmGKB-ID.tsv "PharmGKB automated annotations transformer" entrez,pharmgkb'
+sbt 'run data/pharmgkb/MolePro.PharmGKB.sqlite exec ../schema/MoleProPostLoadIndexes.sql'

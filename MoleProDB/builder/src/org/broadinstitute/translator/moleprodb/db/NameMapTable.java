@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 import apimodels.Names;
@@ -70,6 +71,7 @@ public class NameMapTable extends MoleProTable {
 
 
 	public ArrayList<Names> getNames(final long parentId, final long sourceId) throws SQLException {
+		Date start = new Date();
 		String query = "SELECT name, name_type, name_source, transformer, language \n";
 		query = query + "FROM " + tableName + "\n";
 		query = query + "JOIN Name_Type ON Name_Type.name_type_id = " + tableName + ".name_type_id\n";
@@ -135,6 +137,7 @@ public class NameMapTable extends MoleProTable {
 				namesSynonyms.setName(null);
 			}
 		}
+		profile("- get structure - getNames", start);
 		return nameList;
 	}
 

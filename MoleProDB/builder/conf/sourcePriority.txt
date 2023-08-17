@@ -11,5 +11,9 @@ STITCH
 PubChem
 ChEBI
 HMDB
+CTD
 ChemBank
 BiGG
+ProbeMiner
+BindingBD
+SRI node normalizer

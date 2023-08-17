@@ -5,10 +5,12 @@ import java.io.FileReader;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
+import org.broadinstitute.translator.moleprodb.db.IdentifierTable;
 import org.broadinstitute.translator.moleprodb.db.MoleProDB;
 
 import apimodels.Attribute;
@@ -16,11 +18,12 @@ import apimodels.Element;
 import apimodels.Names;
 import apimodels.Parameter;
 import apimodels.Property;
-import transformer.Transformer;
 import transformer.TransformerQuery;
 import transformer.Transformers;
 
 public class ListElementLoader extends Loader {
+
+	static final String MOLE_PRO_PREFIX = "MolePro:";
 
 	private static final int BATCH_SIZE = 100;
 
@@ -30,9 +33,9 @@ public class ListElementLoader extends Loader {
 	}
 
 
-	public void loadElements(final String transformerName, final String compoundFile, final Set<String> matchFields) throws Exception {
+	public void loadElements(final String transformerName, final String compoundFile, final String[] matchFields) throws Exception {
 		Transformers.getTransformers();
-		Transformer transformer = Transformers.getTransformer(transformerName);
+		final TransformerRun transformer = new TransformerRun(transformerName);
 		ArrayList<String> batch = new ArrayList<>();
 		int i = 0;
 		final BufferedReader input = new BufferedReader(new FileReader(compoundFile));
@@ -43,7 +46,7 @@ public class ListElementLoader extends Loader {
 				batch.add(element);
 				i = i + 1;
 				if (i % BATCH_SIZE == 0) {
-					System.out.println(element);
+					System.out.println(element + "\t@" + i);
 					loadElements(transformer, batch, matchFields);
 					db.commit();
 					System.out.println();
@@ -53,20 +56,25 @@ public class ListElementLoader extends Loader {
 					System.out.println("db.reconnect");
 					db.reconnect();
 				}
+				if (i % (100 * BATCH_SIZE) == 0) {
+					Loader.profileReport();
+				}
 			}
-			loadElements(transformer, batch, matchFields);
-			db.commit();
+			if (batch.size() > 0) {
+				loadElements(transformer, batch, matchFields);
+				db.commit();
+			}
 		}
 		finally {
 			db.rollback();
 			input.close();
 		}
-
 	}
 
 
-	private void loadElements(final Transformer transformer, final ArrayList<String> batch, final Set<String> matchFields) {
+	HashSet<Long> loadElements(final TransformerRun transformer, final ArrayList<String> batch, final String[] matchFields) {
 		final int sourceId = db.sourceTable.sourceId(transformer.info.getName());
+		HashSet<Long> elementIds = new HashSet<>();
 		try {
 			final List<Property> controls = new ArrayList<>();
 			final Parameter parameter = transformer.info.getParameters().get(0);
@@ -79,23 +87,45 @@ public class ListElementLoader extends Loader {
 			else {
 				controls.add(new Property().name(parameter.getName()).value(String.join(";", batch)));
 			}
+			for (Property property : transformer.controls()) {
+				controls.add(property);
+			}
 			final TransformerQuery query = new TransformerQuery(controls);
-			final Element[] elements = transform(transformer, query);
+			final Element[] elements = transform(transformer.transformer, query);
+			final HashSet<String> foundIds = new HashSet<>();
 			for (Element element : elements) {
 				if (element != null) {
-					listElementId(element, sourceId, matchFields);
+					final long elementId = getCreateListElementId(element, sourceId, matchFields);
+					if (elementId > 0) {
+						elementIds.add(elementId);
+						for (String queryId : queryNames(element)) {
+							foundIds.add(queryId);
+						}
+					}
+				}
+			}
+			for (String id : batch) {
+				if (!foundIds.contains(id)) {
+					System.out.println("WARN: id not found " + id);
 				}
 			}
 		}
 		catch (Exception e) {
 			if (batch.size() > 1) {
 				System.err.println("INFO: batch load failed, trying single elements");
+				elementIds = new HashSet<>();
 				final ArrayList<String> singleton = new ArrayList<String>(1);
 				singleton.add(null);
 				for (String element : batch) {
 					singleton.set(0, element);
-					loadElements(transformer, singleton, matchFields);
+					final HashSet<Long> singleId = loadElements(transformer, singleton, matchFields);
+					for (long elementId : singleId) {
+						if (elementId > 0) {
+							elementIds.add(elementId);
+						}
+					}
 				}
+
 			}
 			else {
 				System.err.println("WARNING: " + transformer.info.getName() + " failed to load " + batch.get(0) + ": " + e);
@@ -103,146 +133,139 @@ public class ListElementLoader extends Loader {
 		}
 		if (batch.size() > 1) {
 			System.out.print(".");
-
-			StringBuilder status = new StringBuilder();
-			status.append("free memory:" + Runtime.getRuntime().freeMemory() / 1000000);
-			status.append("/" + Runtime.getRuntime().totalMemory() / 1000000);
-			System.out.print(status.toString());
+			printMemoryStatus();
 		}
+		return elementIds;
 	}
 
 
-	public long listElementId(final Element element, final int sourceId, final Set<String> matchFields) throws SQLException {
-		final long biolinkClassId = biolinkClassId(element.getBiolinkClass());
-		Date start = new Date();
-		long listElementId = db.listElementIdentifierTable.findParentId(biolinkClassId, idFieldName(element), element.getId(), sourceId);
+	private List<String> queryNames(Element element) {
+		List<String> queryNames = new ArrayList<>();
+		for (Attribute attribute : element.getAttributes()) {
+			if ("query name".equals(attribute.getOriginalAttributeName()))
+				if ("".equals(attribute.getAttributeTypeId()) || "query name".equals(attribute.getAttributeTypeId())) {
+					queryNames.add(attribute.getValue().toString());
+				}
+		}
+		return queryNames;
+	}
+
+
+	public long getCreateListElementId(final Element element, final int sourceId, final String[] matchFields) throws SQLException {
+		return getListElementId(element, sourceId, matchFields, true);
+	}
+
+
+	public long getListElementId(final Element element, final int sourceId, final String[] matchFields) throws SQLException {
+		return getListElementId(element, sourceId, matchFields, false);
+	}
+
+
+	private long getListElementId(final Element element, final int sourceId, final String[] matchFields, final boolean create) throws SQLException {
+		long listElementId = findListElementId(element, sourceId, matchFields);
 		if (listElementId > 0) {
-			profile("find element", start);
+			saveElement(listElementId, element, sourceId);
 			return listElementId;
 		}
-		listElementId = db.listElementIdentifierTable.findParentId(biolinkClassId, idFieldName(element), element.getId());
-		if (listElementId < 0) {
-			listElementId = listElementId(biolinkClassId, element.getIdentifiers(), matchFields);
-			if (listElementId < 0) {
-				System.out.println("Not matched by identifiers: "+element.getId());
+		if (create) {
+			if (listElementId < 0 && element.getIdentifiers() != null && element.getIdentifiers().size() > 0) {
+				listElementId = createListElement(element);
+				if (listElementId > 0) {
+					saveElement(listElementId, element, sourceId);
+					return listElementId;
+				}
 			}
 		}
-		profile("find element", start);
-
-		if (listElementId > 0) {
-			saveElement(listElementId, biolinkClassId, element, sourceId);
-			return listElementId;
+		if (listElementId <= 0) {
+			System.out.println("WARN: Not matched by identifiers: " + element.getId());
 		}
-
-		if (listElementId < 0 && element.getIdentifiers() != null && element.getIdentifiers().size() > 0) {
-			listElementId = createListElement(element, biolinkClassId);
-		}
-		if (listElementId > 0) {
-			saveElement(listElementId, biolinkClassId, element, sourceId);
-			return listElementId;
-		}
-
 		return -1;
 	}
 
 
-	public long createListElement(final Element element, final long biolinkClassId) throws SQLException {
+	public long findListElementId(final Element element, final int sourceId, final String[] matchFields) throws SQLException {
+		final Date start = new Date();
+		long listElementId = -1;
+		if (matchFields == null || matchFields.length == 0 || (matchFields[0].equals("id"))) {
+			final String fieldName = idFieldName(element);
+			listElementId = db.listElementIdentifierTable.findParentId(fieldName, element.getId(), sourceId);
+			if (listElementId <= 0) {
+				listElementId = db.listElementIdentifierTable.findParentId(fieldName, element.getId());
+			}
+		}
+		if (listElementId <= 0) {
+			listElementId = findListElementId(element.getIdentifiers(), matchFields);
+		}
+		profile("find element", start);
+		return listElementId;
+	}
+
+
+	private long createListElement(final Element element) throws SQLException {
+		Date start = new Date();
+		final long biolinkClassId = biolinkClassId(element.getBiolinkClass());
+		profile("get biolink class id", start);
 		long listElementId;
 		String primaryName = element.getId();
 		if (element.getNamesSynonyms() != null && element.getNamesSynonyms().size() > 0) {
 			if (element.getNamesSynonyms().get(0).getName() != null) {
 				primaryName = element.getNamesSynonyms().get(0).getName();
 			}
+			for (Names names : element.getNamesSynonyms()) {
+				if ("primary name".equals(names.getNameType()) && names.getName() != null) {
+					primaryName = names.getName();
+				}
+			}
 		}
 		listElementId = db.listElementTable.insert(primaryName, biolinkClassId);
+		profile("save element", start);
 		return listElementId;
 	}
 
 
-	@SuppressWarnings("rawtypes")
 	private static String idFieldName(final Element element) {
 		for (Map.Entry<String,Object> entry : element.getIdentifiers().entrySet())
 			if (entry.getValue() != null) {
-				if (entry.getValue() instanceof String) {
-					if (element.getId().equals(entry.getValue())) {
+				for (String value : IdentifierTable.identifiers(entry.getValue()))
+					if (element.getId().equals(value)) {
 						return entry.getKey();
 					}
-				}
-				else if (entry.getValue() instanceof String[]) {
-					for (String value : (String[])entry.getValue())
-						if (element.getId().equals(value)) {
-							return entry.getKey();
-						}
-				}
-				else if (entry.getValue() instanceof ArrayList) {
-					for (Object value : (ArrayList)entry.getValue())
-						if (element.getId().equals(value)) {
-							return entry.getKey();
-						}
-				}
-				else {
-					System.err.println("" + entry.getValue().getClass());
-				}
 			}
 		System.err.println("WARN: Id not found among element identifiers: " + element.getId());
+		System.err.println("  #connections: " + element.getConnections().size());
+		for (apimodels.Connection connection : element.getConnections()) {
+			System.err.println("  " + connection);
+		}
 		return null;
 	}
 
 
 	long findListElementId(Element element, String fieldName) throws SQLException {
 		if (fieldName != null && element.getIdentifiers().containsKey(fieldName)) {
-			if (element.getIdentifiers().get(fieldName) instanceof String) {
-				String curie = (String)element.getIdentifiers().get(fieldName);
-				long listElementId =  db.listElementIdentifierTable.findParentId(fieldName, curie);
+			for (String curie : IdentifierTable.identifiers(element.getIdentifiers().get(fieldName))) {
+				long listElementId = db.listElementIdentifierTable.findParentId(fieldName, curie);
 				if (listElementId > 0) {
 					return listElementId;
 				}
-				else {
-					System.out.println("Not found "+fieldName+": "+curie);
-				}
 			}
+			System.out.println("Not found " + fieldName + ": " + element.getIdentifiers().get(fieldName));
 		}
-		System.out.println("Check all identifiers "+element.getIdentifiers());
-		return listElementId(0, element.getIdentifiers(), null);
+		System.out.println("Check all identifiers " + element.getIdentifiers());
+		return findListElementId(element.getIdentifiers(), null);
 	}
 
 
-	@SuppressWarnings("rawtypes")
-	private long listElementId(final long biolinkClassId, final Map<String,Object> identifiers, final Set<String> matchFields) throws SQLException {
+	private long findListElementId(final Map<String,Object> identifiers, String[] matchFields) throws SQLException {
 		long listElementId = -1;
-		for (Map.Entry<String,Object> entry : identifiers.entrySet())
-			if (entry.getValue() != null) {
-				final String fieldName = entry.getKey();
-				if (matchFields == null || matchFields.contains(fieldName)) {
-					if (entry.getValue() instanceof String) {
-						final String curie = (String)entry.getValue();
-						long newListElementId = db.listElementIdentifierTable.findParentId(biolinkClassId, fieldName, curie);
-						listElementId = listElementId(listElementId, newListElementId, curie);
-					}
-					else if (entry.getValue() instanceof String[]) {
-						for (String curie : (String[])entry.getValue()) {
-							long newListElementId = db.listElementIdentifierTable.findParentId(biolinkClassId, fieldName, curie);
-							listElementId = listElementId(listElementId, newListElementId, curie);
-						}
-
-					}
-					else if (entry.getValue() instanceof ArrayList) {
-						for (Object curie : (ArrayList)entry.getValue())
-							if (curie != null) {
-								if (curie instanceof String) {
-									long newListElementId = db.listElementIdentifierTable.findParentId(biolinkClassId, fieldName, (String)curie);
-									listElementId = listElementId(listElementId, newListElementId, (String)curie);
-								}
-								else {
-									System.err.println("WARN: unexpected identifier type:" + curie.getClass());
-								}
-							}
-					}
-					else {
-						System.err.println("WARN: unexpected identifier type:" + entry.getValue());
-					}
-				}
+		if (matchFields == null) {
+			matchFields = identifiers.keySet().toArray(new String[0]);
+		}
+		for (String fieldName : matchFields) {
+			for (String curie : IdentifierTable.identifiers(identifiers.get(fieldName))) {
+				long newListElementId = db.listElementIdentifierTable.findParentId(fieldName, curie);
+				listElementId = listElementId(listElementId, newListElementId, curie);
 			}
+		}
 		return listElementId;
 	}
 
@@ -261,8 +284,10 @@ public class ListElementLoader extends Loader {
 	}
 
 
-	private void saveElement(final long listElementId, final long biolinkClassId, final Element element, final int sourceId) throws SQLException {
+	private void saveElement(final long listElementId, final Element element, final int sourceId) throws SQLException {
 		Date start = new Date();
+		final long biolinkClassId = biolinkClassId(element.getBiolinkClass());
+		profile("get biolink class id", start);
 		db.listElementIdentifierTable.saveIdentifiers(listElementId, biolinkClassId, element, sourceId);
 		profile("save element identifiers", start);
 		start = new Date();
@@ -281,6 +306,25 @@ public class ListElementLoader extends Loader {
 			}
 		}
 		profile("save element attributes", start);
+	}
+
+
+	/************************************************************************************
+	 * Make an Element from an elementId
+	 * 
+	 * @return Element
+	 * @throws SQLException
+	 */
+	Element element(long listElementId) throws SQLException {
+		String id = MOLE_PRO_PREFIX + listElementId;
+		HashMap<String,Object> identifiers = db.listElementIdentifierTable.getListElementIdentiers(listElementId);
+		Element element = new Element();
+		element.setId(id);
+		element.setIdentifiers(identifiers);
+		element.setBiolinkClass(db.listElementTable.getBiolinkClass(listElementId));
+		element.setSource("MolePro");
+		element.setProvidedBy("MolePro");
+		return element;
 	}
 
 }

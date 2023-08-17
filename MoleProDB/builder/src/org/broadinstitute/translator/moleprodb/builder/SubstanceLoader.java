@@ -51,13 +51,25 @@ public class SubstanceLoader extends SubstanceResolver {
 		if (name == null)
 			name = inchikey;
 		start = new Date();
-		final long biolinkClassId = biolinkClassId(BiolinkClass.ChemicalSubstance);
+		final long biolinkClassId = biolinkClassId(detectMixture(inchi));
 		long elementId = db.listElementTable.insert(name, biolinkClassId);
 		db.chemStructureMapTable.insert(elementId, structureId, true);
 		profile("save element", start);
 		saveIdentifiers(elementId, structureId, inchi, inchikey, biolinkClassId);
 		saveNames(elementId, structureId);
 		saveAttributes(elementId, structureId);
+	}
+
+
+	static String detectMixture(String inchi) {
+		if (inchi == null) {
+			return BiolinkClass.ChemicalEntity;
+		}
+		final String[] inchiParts = inchi.split("/");
+		if (inchiParts.length >= 2) {
+			return (inchiParts[1].contains(".")) ? BiolinkClass.MolecularMixture : BiolinkClass.SmallMolecule;
+		}
+		return BiolinkClass.SmallMolecule;
 	}
 
 
@@ -115,23 +127,24 @@ public class SubstanceLoader extends SubstanceResolver {
 
 
 	private String attributesQuery() {
-		String sql = "SELECT attribute_id, source_id\n";
+		String sql = "SELECT attribute_type_id, attribute_id, source_id\n";
 		sql = sql + "FROM Chem_Structure_Attribute\n";
 		sql = sql + "WHERE structure_id = ?";
 		return sql;
 	}
 
 
-	private void saveAttributes(long elementId, long structureId) throws SQLException {
+	private void saveAttributes(final long elementId, final long structureId) throws SQLException {
 		Date start = new Date();
 		attributesQuery.setLong(1, structureId);
-		ResultSet attributes = attributesQuery.executeQuery();
+		final ResultSet attributes = attributesQuery.executeQuery();
 		profile("get attributes", start);
 		start = new Date();
 		while (attributes.next()) {
-			int sourceId = attributes.getInt("source_id");
-			long attributeId = attributes.getLong("attribute_id");
-			db.listElementAttributeTable.saveAttribute(elementId, sourceId, attributeId);
+			final long attrTypeId = attributes.getLong("attribute_type_id");
+			final long attributeId = attributes.getLong("attribute_id");
+			final int sourceId = attributes.getInt("source_id");
+			db.listElementAttributeTable.saveAttribute(elementId, attrTypeId, attributeId, sourceId);
 		}
 		attributes.close();
 		profile("save attributes", start);
@@ -155,10 +168,7 @@ public class SubstanceLoader extends SubstanceResolver {
 				db.commit();
 				if (structureId % 1000 == 0) {
 					reconnect();
-					StringBuilder status = new StringBuilder();
-					status.append("free memory:" + Runtime.getRuntime().freeMemory() / 1000000);
-					status.append("/" + Runtime.getRuntime().totalMemory() / 1000000);
-					System.out.println(status.toString());
+					printMemoryStatus(" @" + structureId + ": ");
 				}
 			}
 		}
