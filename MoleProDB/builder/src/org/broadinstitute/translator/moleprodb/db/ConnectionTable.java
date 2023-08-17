@@ -30,30 +30,34 @@ public class ConnectionTable extends MoleProTable {
 	 * @param source_id
 	 * @throws SQLException
 	 */
-	private long insert(String uuid, long subjectId, long objectId, long predicateId, int sourceId) throws SQLException {
+	private long insert(final String uuid, final long subjectId, final long objectId, final long predicateId, final Long qualifierSetId, final int sourceId) throws SQLException {
 		if (lastConnectionId < 0) {
 			lastConnectionId = lastId("connection_id");
 		}
 		lastConnectionId = lastConnectionId + 1;
 		final long connectionId = lastConnectionId;
-		String sql = "INSERT INTO Connection(connection_id, uuid, subject_id, object_id, predicate_id, source_id)\n";
-		sql = sql + "VALUES (" + connectionId + "," + f(uuid) + "," + subjectId + "," + objectId + "," + predicateId + "," + sourceId + ")";
+		String sql = "INSERT INTO Connection(connection_id, uuid, subject_id, object_id, predicate_id, qualifier_set_id, source_id)\n";
+		sql = sql + "VALUES (" + connectionId + "," + f(uuid) + "," + subjectId + "," + objectId + "," + predicateId + "," + f(qualifierSetId) + "," + sourceId + ")";
 		executeUpdate(sql);
 		return lastConnectionId;
 	}
 
 
-	public long connectionId(String uuid, long subjectId, long objectId, long predicateId, int sourceId) throws SQLException {
-		final long connectionId = findConnectionId(subjectId, objectId, predicateId, sourceId);
+	public long connectionId(final String uuid, final long subjectId, final long objectId, final long predicateId, final Long qualifierSetId, final int sourceId) throws SQLException {
+		final long connectionId = findConnectionId(subjectId, objectId, predicateId, qualifierSetId, sourceId);
 		if (connectionId > 0) {
 			return connectionId;
 		}
-		return insert(uuid, subjectId, objectId, predicateId, sourceId);
+		return insert(uuid, subjectId, objectId, predicateId, qualifierSetId, sourceId);
 	}
 
 
-	private long findConnectionId(final long subjectId, final long objectId, final long predicateId, final int sourceId) {
-		final String where = "WHERE subject_id = " + subjectId + " AND object_id = " + objectId + " AND predicate_id = " + predicateId + " AND source_id = " + sourceId;
+	private long findConnectionId(final long subjectId, final long objectId, final long predicateId, final Long qualifierSetId, final int sourceId) {
+		final String where = "WHERE subject_id = " + subjectId + 
+				" AND object_id = " + objectId + 
+				" AND predicate_id = " + predicateId + 
+				" AND qualifier_set_id " + is(qualifierSetId) + 
+				" AND source_id = " + sourceId;
 		return findId("connection_id", where);
 	}
 
@@ -64,8 +68,25 @@ public class ConnectionTable extends MoleProTable {
 	}
 
 
+	private boolean hasUUID() {
+		try {
+			final ResultSet results = this.executeQuery("pragma main.table_info('Connection');");
+			while (results.next()) {
+				if ("uuid".equals(results.getString("name"))) {
+					return true;
+				}
+			}
+		}
+		catch (SQLException e) {
+			System.out.println(e);
+		}
+		return false;
+	}
+
+
 	public String connectionQuery() {
-		String sql = "SELECT connection_id, subject_id, object_id, source_id, biolink_predicate, inverse_predicate, relation, inverse_relation ";
+		final String nullUUID = hasUUID() ? "" : "NULL AS ";
+		String sql = "SELECT connection_id, " + nullUUID + "uuid, subject_id, object_id, source_id, biolink_predicate, inverse_predicate, relation, inverse_relation, qualifier_set_id ";
 		sql = sql + " FROM " + tableName + "\n";
 		sql = sql + " JOIN Predicate ON Predicate.predicate_id = " + tableName + ".predicate_id\n";
 		sql = sql + " WHERE connection_id = ? AND source_id = ?";

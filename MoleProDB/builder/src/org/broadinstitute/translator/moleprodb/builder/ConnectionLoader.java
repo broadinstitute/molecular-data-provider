@@ -95,6 +95,9 @@ public class ConnectionLoader extends Loader {
 			if (i % 100 == 0) {
 				db.reconnect();
 			}
+			if (i % 10000 == 0) {
+				Loader.profileReport();
+			}
 		}
 		if (queryElements.size() > 0) {
 			loadConnections(transformer, queryElements, createObject, matchFields);
@@ -134,6 +137,9 @@ public class ConnectionLoader extends Loader {
 					if (i % 1000 == 0) {
 						db.reconnect();
 					}
+				}
+				if (i % 10000 == 0) {
+					Loader.profileReport();
 				}
 			}
 			else {
@@ -232,10 +238,13 @@ public class ConnectionLoader extends Loader {
 				subjectId = Long.parseLong(connection.getSourceElementId().substring(ListElementLoader.MOLE_PRO_PREFIX.length()));
 			}
 			if (subjectId > 0) {
-				String uuid = (srcUUID == null)? UUID.randomUUID().toString() : srcUUID;
+				String uuid = (srcUUID == null) ? UUID.randomUUID().toString() : srcUUID;
 				// Save to the Connection Table
 				start = new Date();
-				long connectionId = db.connectionTable.connectionId(uuid, subjectId, objectId, predicateId, sourceId);
+				final Long qualifierSetId = db.qualifierSetTable.getQualifierSetId(connection.getQualifiers());
+				profile("qualifiers", start);
+				start = new Date();
+				final long connectionId = db.connectionTable.connectionId(uuid, subjectId, objectId, predicateId, qualifierSetId, sourceId);
 				profile("save connection", start);
 
 				// Save to the Connection_Attribute Table

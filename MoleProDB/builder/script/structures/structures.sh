@@ -11,6 +11,11 @@ sbt -mem 4096 'run data/MoleProDB.sqlite merge-structures "Pubchem compound-list
 cp data/MoleProDB.sqlite data/backup/MoleProDB-stitch.sqlite
 sbt -mem 4096 'run data/MoleProDB.sqlite merge-structures "ChEMBL compound-list producer" data/chembl/MolePro.ChEMBL.sqlite'
 cp data/MoleProDB.sqlite data/backup/MoleProDB-chembl.sqlite
+sbt -mem 4096 'run data/MoleProDB.sqlite merge-structures "Pubchem compound-list producer" data/pharos/MolePro.Pharos.sqlite'
+sbt -mem 4096 'run data/MoleProDB.sqlite merge-structures "ChEMBL compound-list producer"  data/pharos/MolePro.Pharos.sqlite'
+cp data/MoleProDB.sqlite data/backup/MoleProDB-pharos.sqlite
+sbt -mem 4096 'run data/MoleProDB.sqlite merge-structures "Pubchem compound-list producer" data/pharmgkb/MolePro.PharmGKB.sqlite'
+cp data/MoleProDB.sqlite data/backup/MoleProDB-pharmgkb.sqlite
 sbt -mem 4096 'run data/MoleProDB.sqlite merge-structures "ChEBI compound-list producer" data/chebi/MolePro.ChEBI.sqlite'
 cp data/MoleProDB.sqlite data/backup/MoleProDB-chebi.sqlite
 sbt -mem 4096 'run data/MoleProDB.sqlite merge-structures "HMDB metabolite producer" data/hmdb/MolePro.HMDB.sqlite'
@@ -25,7 +30,7 @@ sbt -mem 4096 'run data/MoleProDB.sqlite merge-structures "ChemBank compound-lis
 cp data/MoleProDB.sqlite data/backup/MoleProDB-chembank.sqlite
 sbt -mem 4096 'run data/MoleProDB.sqlite merge-structures "Repurposing Hub compound-list producer" data/rephub/MolePro.RepHub.sqlite'
 cp data/MoleProDB.sqlite data/backup/MoleProDB-rephub.sqlite
-sbt -mem 4096 'run data/MoleProDB.sqlite merge-structures "ProbeMiner compound-list producer" data/probe-miner/MolePro.ProbeMiner.sqlite'
+sbt -mem 4096 'run data/MoleProDB.sqlite merge-structures "ProbeMiner compound-list producer" data/probeminer/MolePro.ProbeMiner.sqlite'
 cp data/MoleProDB.sqlite data/backup/MoleProDB-probe.sqlite
 sbt -mem 4096 'run data/MoleProDB.sqlite merge-structures "DGIdb compound-list producer" data/dgidb/MolePro.DGIdb.sqlite'
 cp data/MoleProDB.sqlite data/backup/MoleProDB-dgidb.sqlite
@@ -37,7 +42,7 @@ sbt -mem 4096 'run data/MoleProDB.sqlite merge-structures "Pubchem compound-list
 cp data/MoleProDB.sqlite data/backup/MoleProDB-ctd.sqlite
 sbt -mem 4096 'run data/MoleProDB.sqlite merge-structures "BindingBD ligand producer" data/bindingdb/MolePro.BindingDB.sqlite'
 cp data/MoleProDB.sqlite data/backup/MoleProDB-bindingdb.sqlite
-sbt -mem 4096 'run data/MoleProDB.sqlite merge-structures "SRI node normalizer producer" data/ctd/MolePro.CTD.sqlite'
+sbt -mem 4096 'run data/MoleProDB.sqlite merge-structures "CTD compound-list producer" data/ctd/MolePro.CTD.sqlite'
 cp data/MoleProDB.sqlite data/backup/MoleProDB-structures.sqlite
 
 sbt -mem 4096 'run data/MoleProDB.sqlite load-compounds'

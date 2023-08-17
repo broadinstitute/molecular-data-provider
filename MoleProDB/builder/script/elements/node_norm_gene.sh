@@ -1,4 +1,4 @@
-python script/extract_ids.py script/elements/node_norm_gene.sql
+python -u script/extract_ids.py script/elements/node_norm_gene.sql
 sbt 'run data/MoleProDB.sqlite load-elements "SRI node normalizer producer" data/nn/BiGG-entrez.tsv id'
 sbt 'run data/MoleProDB.sqlite load-elements "SRI node normalizer producer" data/nn/ChEMBL-gene-id.tsv id'
 sbt 'run data/MoleProDB.sqlite load-elements "SRI node normalizer producer" data/nn/CMAP-NCBIGeneId.tsv id'

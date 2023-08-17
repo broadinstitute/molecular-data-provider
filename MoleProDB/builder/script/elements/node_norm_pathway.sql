@@ -1,4 +1,4 @@
---> data/translator/ctd/2021-03/CTD_07_21.sqlite >>> data/nn/CTD-GO.tsv
+--> data/translator/ctd/latest/CTD.sqlite >>> data/nn/CTD-GO.tsv
 
     select distinct GOTermID as GO
     from chem_go_enriched
@@ -9,7 +9,7 @@
     where phenotypeid is not null;
 
 
---> data/translator/ctd/2021-03/CTD_07_21.sqlite >>> data/nn/CTD-pathways.tsv
+--> data/translator/ctd/latest/CTD.sqlite >>> data/nn/CTD-pathways.tsv
 
     select distinct pathwayID as id
     from chem_pathways_enriched

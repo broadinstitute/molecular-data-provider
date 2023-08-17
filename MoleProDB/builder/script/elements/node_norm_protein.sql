@@ -11,7 +11,7 @@
     where component_type = 'PROTEIN';
 
 
---> data/translator/drugbank/ver-5.1.8/DrugBank.sqlite >>> data/nn/DrugBank-protein-id.tsv
+--> data/translator/drugbank/latest/DrugBank.sqlite >>> data/nn/DrugBank-protein-id.tsv
 
     select distinct 'UniProtKB:' || POLYPEPTIDE_IDENTIFIER as id
     from POLYPEPTIDE;

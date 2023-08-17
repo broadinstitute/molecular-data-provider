@@ -15,7 +15,7 @@ import org.broadinstitute.translator.moleprodb.db.MoleProDB;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import apimodels.Element;
-import transformer.Transformer;
+import transformer.Config;
 import transformer.Transformers;
 import transformer.util.HTTP;
 import transformer.util.JSON;
@@ -26,7 +26,7 @@ public class HierarchyLoader extends Loader {
 
 	private final ListElementLoader listElementLoader;
 
-	private final Transformer nodeNormalizer;
+	private final TransformerRun nodeNormalizer;
 	private final int sourceId;
 
 	private final String[] matchFields;
@@ -36,36 +36,36 @@ public class HierarchyLoader extends Loader {
 		super(db);
 		listElementLoader = new ListElementLoader(db);
 		Transformers.getTransformers();
-		nodeNormalizer = Transformers.getTransformer("SRI node normalizer producer");
+		nodeNormalizer = new TransformerRun("SRI node normalizer producer");
 		sourceId = db.sourceTable.sourceId(nodeNormalizer.info.getName());
-		matchFields = new String[] { "mondo", "hpo", "hp" };
+		matchFields = new String[] { "mondo", "hpo", "hp", "disease_ontology", "omim", "umls", "nci_thesaurus", "ncit", "snomed", "snomedct"};
 	}
 
 
-	private ArrayList<String> getParents(final String subjectElementId, final String objectElementId) throws Exception {
-		final ArrayList<String> parents = new ArrayList<>();
+	private TrapiQuery getQuery(final String subjectElementId, final boolean isSubclass) {
 		final TrapiQuery query = new TrapiQuery();
-		String nodeId = "n1";
-		query.predicates = new String[] { "biolink:subclass_of" };
-		if (subjectElementId != null) {
-			query.node0ids = new String[] { subjectElementId };
-			nodeId = "n1";
-		}
-		if (objectElementId != null) {
-			query.node1ids = new String[] { objectElementId };
-			nodeId = "n0";
-		}
-		try {
-			final String json = HTTP.post(new URL("https://automat.transltr.io/ontological-hierarchy/1.3/query"), query.toJSON());
-			final TrapiResponse response = JSON.mapper.readValue(json, TrapiResponse.class);
-			for (Result result : response.message.results) {
-				String objectId = result.nodeBindings.get(nodeId)[0].id;
+		if (isSubclass)
+			query.predicates = new String[] { "biolink:subclass_of" };
+		else
+			query.predicates = new String[] { "biolink:superclass_of" };
+		query.node0ids = new String[] { subjectElementId };
+		return query;
+	}
+
+
+	private ArrayList<String> getParents(final TrapiQuery query, final String queryId) throws Exception {
+		final ArrayList<String> parents = new ArrayList<>();
+
+		String url = Config.getConfig().url().getAutomatHierarchyURL();
+		final String json = HTTP.post(new URL(url), query.toJSON());
+		final TrapiResponse response = JSON.mapper.readValue(json, TrapiResponse.class);
+		for (Result result : response.message.results) {
+			String subjectId = result.nodeBindings.get(query.subjectNode)[0].id;
+			String subjectQueryId = result.nodeBindings.get(query.subjectNode)[0].qnodeId;
+			String objectId = result.nodeBindings.get(query.objectNode)[0].id;
+			if (subjectId != null && (subjectId.equals(queryId) || subjectId.equals(subjectQueryId))) {
 				parents.add(objectId);
 			}
-		}
-		catch (Exception e) {
-			System.out.println("[error] failed to retrieve hierarchy for " + subjectElementId + "/" + objectElementId);
-			System.out.println(e.getMessage());
 		}
 		return parents;
 	}
@@ -75,14 +75,16 @@ public class HierarchyLoader extends Loader {
 		Date start = new Date();
 		final HashSet<String> parents = new HashSet<>();
 		parents.add(elementId);
-		if (isSubclass)
-			for (String parent : getParents(elementId, null)) {
+		try {
+			final TrapiQuery query = getQuery(elementId, isSubclass);
+			for (String parent : getParents(query, elementId)) {
 				parents.add(parent);
 			}
-		else
-			for (String parent : getParents(null, elementId)) {
-				parents.add(parent);
-			}
+		}
+		catch (Exception e) {
+			System.out.println("[error] failed to retrieve hierarchy for " + elementId + ", isSubclass=" + isSubclass);
+			System.out.println(e.getMessage());
+		}
 		profile("getParents", start);
 		return parents;
 	}
@@ -98,7 +100,7 @@ public class HierarchyLoader extends Loader {
 			long element = Long.parseLong(line);
 			if (!hierarchyDone.contains(element)) {
 				loadHierarchy(element, true);
-				loadHierarchy(element, false);
+				// loadHierarchy(element, false);
 				i = i + 1;
 				if (i % 10 == 0) {
 					System.out.println("i = " + i + ": ");
@@ -116,12 +118,21 @@ public class HierarchyLoader extends Loader {
 	}
 
 
+	private Iterable<String> getIdentifier(final Map<String,Object> identifiers) {
+		for (String field : matchFields) {
+			if (identifiers.get(field) != null)
+				return IdentifierTable.identifiers(identifiers.get(field));
+		}
+		return new ArrayList<String>();
+	}
+
+
 	private void loadHierarchy(long elementId, final boolean isSubclass) throws Exception {
 		final Element element = listElementLoader.element(elementId);
 		final HashSet<Long> parentElementIds = new HashSet<>();
-		for (String mondoId : IdentifierTable.identifiers(element.getIdentifiers().get("mondo"))) {
+		for (String elementIdentifier : getIdentifier(element.getIdentifiers())) {
 			ArrayList<String> batch = new ArrayList<>();
-			for (String parentId : getParents(mondoId, isSubclass)) {
+			for (String parentId : getParents(elementIdentifier, isSubclass)) {
 				final ArrayList<Long> dbElementIds = db.listElementIdentifierTable.findParentIds(parentId, sourceId);
 				if (dbElementIds.size() == 0) {
 					batch.add(parentId);
@@ -162,6 +173,8 @@ public class HierarchyLoader extends Loader {
 		private String[] node0ids;
 		private String[] predicates;
 		private String[] node1ids;
+		final String subjectNode = "n0";
+		final String objectNode = "n1";
 
 
 		String toJSON() {
@@ -185,7 +198,7 @@ public class HierarchyLoader extends Loader {
 
 
 		private String edge() {
-			return field("e0") + object(field("subject", "n0"), field("object", "n1"), predicates());
+			return field("e0") + object(field("subject", subjectNode), field("object", objectNode), predicates());
 		}
 
 
@@ -195,7 +208,7 @@ public class HierarchyLoader extends Loader {
 
 
 		private String nodes() {
-			return field("nodes") + object(node("n0", node0ids), node("n1", node1ids));
+			return field("nodes") + object(node(subjectNode, node0ids), node(objectNode, node1ids));
 		}
 
 
@@ -336,14 +349,19 @@ public class HierarchyLoader extends Loader {
 
 	static class Result {
 		private Map<String,ID[]> nodeBindings;
-		@SuppressWarnings("unused")
-		private Map<String,ID[]> edgeBindings;
 
 
 		@JsonProperty("node_bindings")
 		public void setNodeBindings(Map<String,ID[]> nodeBindings) {
 			this.nodeBindings = nodeBindings;
 		}
+
+	}
+
+
+	static class Analysis {
+		@SuppressWarnings("unused")
+		private Map<String,ID[]> edgeBindings;
 
 
 		@JsonProperty("edge_bindings")
@@ -356,10 +374,17 @@ public class HierarchyLoader extends Loader {
 
 	static class ID {
 		private String id;
+		private String qnodeId;
 
 
 		public void setId(String id) {
 			this.id = id;
+		}
+
+
+		@JsonProperty("query_id")
+		public void setQnodeId(String qnodeId) {
+			this.qnodeId = qnodeId;
 		}
 	}
 

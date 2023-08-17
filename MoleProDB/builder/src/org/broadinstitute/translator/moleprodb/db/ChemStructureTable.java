@@ -86,9 +86,12 @@ public class ChemStructureTable extends MoleProTable {
 	}
 
 
-	public long getStructureId(final String inchi, final String inchikey) throws SQLException {
+	public long getStructureId(final String inchi, String inchikey) throws SQLException {
 		if (inchikey == null) {
 			return -1;
+		}
+		if (inchikey.toUpperCase().startsWith("INCHIKEY:")) {
+			inchikey = inchikey.substring(9);
 		}
 		long structureId = db.chemStructureTable.structureIdInchi(inchi);
 		if (structureId <= 0) {

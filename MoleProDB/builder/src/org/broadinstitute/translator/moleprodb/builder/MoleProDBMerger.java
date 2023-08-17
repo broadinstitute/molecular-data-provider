@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import org.broadinstitute.translator.moleprodb.db.MoleProDB;
 
@@ -14,6 +13,7 @@ import apimodels.Attribute;
 import apimodels.Connection;
 import apimodels.Element;
 import apimodels.Names;
+import apimodels.Qualifier;
 import apimodels.TransformerInfo;
 import transformer.Transformers;
 import transformer.classes.Other;
@@ -43,6 +43,9 @@ public class MoleProDBMerger extends Loader {
 				db.reconnect();
 				srcDB.reconnect();
 				printMemoryStatus("@" + structureId + ": ");
+				if (structureId % 10000 == 0) {
+					profileReport();
+				}
 			}
 		}
 		db.commit();
@@ -90,6 +93,9 @@ public class MoleProDBMerger extends Loader {
 					db.reconnect();
 					srcDB.reconnect();
 					printMemoryStatus("@" + count + ": ");
+					if (count % 10000 == 0) {
+						profileReport();
+					}
 				}
 			}
 		}
@@ -129,11 +135,13 @@ public class MoleProDBMerger extends Loader {
 	public void mergeConnections(final String transformer, final String field, final MoleProDB srcDB, final String idField) throws Exception {
 		Transformers.getTransformers();
 		final TransformerInfo transformerInfo = Transformers.getTransformer(transformer).info;
-
+		srcDB.qualifierMapTable.reset();
 		final long lastConnectionId = srcDB.connectionTable.lastConnectionId();
+		System.out.println("Merging " + lastConnectionId + " connections");
 		final ListElementLoader elementLoader = new ListElementLoader(db);
 		final ConnectionLoader connectionLoader = new ConnectionLoader(db);
 		final int outputSourceId = db.sourceTable.sourceId(transformer);
+		System.out.println("Start merging " + lastConnectionId + " connections");
 		long count = 0;
 		for (long connectionId = 1; connectionId < lastConnectionId; connectionId++) {
 			final Date start = new Date();
@@ -144,8 +152,8 @@ public class MoleProDBMerger extends Loader {
 				final long objectElementId = elementLoader.findListElementId(triple.objectElement, idField);
 				Other.mapElement(transformerInfo, triple.objectElement);
 				if (objectElementId > 0 && subjectElementId > 0) {
-					UUID uuid = UUID.randomUUID();
-					connectionLoader.saveConnections(uuid.toString(), triple.objectElement, objectElementId, outputSourceId, subjectElementId);
+					String uuid = triple.connection.getUuid();
+					connectionLoader.saveConnections(uuid, triple.objectElement, objectElementId, outputSourceId, subjectElementId);
 					count++;
 				}
 				else {
@@ -159,8 +167,20 @@ public class MoleProDBMerger extends Loader {
 					db.reconnect();
 					srcDB.reconnect();
 					srcDB.connectionTable.reset();
+					srcDB.qualifierMapTable.reset();
 					printMemoryStatus(connectionId + ": ");
+					if (count % 10000 == 0) {
+						profileReport();
+					}
 				}
+			}
+			if (connectionId % 10000 == 0) {
+				db.commit();
+				db.reconnect();
+				srcDB.reconnect();
+				srcDB.connectionTable.reset();
+				srcDB.qualifierMapTable.reset();
+				printMemoryStatus(connectionId + ": ");
 			}
 		}
 		db.commit();
@@ -198,6 +218,7 @@ public class MoleProDBMerger extends Loader {
 
 	private Connection createConnection(final MoleProDB srcDB, final ResultSet result, final int inputSourceId, final TransformerInfo transformerInfo) throws SQLException {
 		final Connection connection = new Connection();
+		connection.setUuid(result.getString("uuid"));
 		connection.setBiolinkPredicate(result.getString("biolink_predicate"));
 		connection.setInversePredicate(result.getString("inverse_predicate"));
 		connection.setRelation(result.getString("relation"));
@@ -206,6 +227,8 @@ public class MoleProDBMerger extends Loader {
 		connection.setSource(transformerInfo.getLabel());
 		final List<Attribute> attributes = srcDB.connectionAttributeTable.getAttributes(result.getLong("connection_id"), inputSourceId);
 		connection.setAttributes(attributes);
+		List<Qualifier> qualifiers = srcDB.qualifierMapTable.getQualifiers(result.getLong("qualifier_set_id"));
+		connection.setQualifiers(qualifiers );
 		return connection;
 	}
 

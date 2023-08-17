@@ -1,11 +1,12 @@
 label	transformer	mappedInfores	knowledge_source_slot
 BiGG	BiGG compound-list producer	infores:bigg-models	biolink:primary_knowledge_source
-BiGG	BiGG reactions transformer	infores:bigg-models	biolink:primary_knowledge_source
-BiGG	BiGG genes transformer	infores:bigg-models	biolink:primary_knowledge_source
-BiGG	BiGG gene_reaction transformer	infores:bigg-models	biolink:primary_knowledge_source
+BiGG Model	BiGG reactions transformer	infores:bigg-models	biolink:primary_knowledge_source
+BiGG Model	BiGG genes transformer	infores:bigg-models	biolink:primary_knowledge_source
+BiGG Model	BiGG gene_reaction transformer	infores:bigg-models	biolink:primary_knowledge_source
 BindingBD	BindingBD binding transformer	infores:bindingdb	biolink:primary_knowledge_source
 BindingBD	BindingBD ligand producer	infores:bindingdb	biolink:primary_knowledge_source
 ChEBI	ChEBI compound-list producer	infores:chebi	biolink:primary_knowledge_source
+ChEBI	ChEBI relations transformer	infores:chebi	biolink:primary_knowledge_source
 ChemBank	ChemBank compound-list producer	infores:chembank	biolink:primary_knowledge_source
 ChEMBL	ChEMBL compound-list producer	infores:chembl	biolink:primary_knowledge_source
 ChEMBL	ChEMBL gene target transformer	infores:chembl	biolink:primary_knowledge_source

@@ -1,7 +1,6 @@
 package org.broadinstitute.translator.moleprodb.db;
 
 import java.sql.SQLException;
-import transformer.mapping.MappedInfoRes;
 
 public class InfoResTable extends MoleProTable {
 
@@ -16,9 +15,8 @@ public class InfoResTable extends MoleProTable {
 	}
 
 
-	public Long InfoResId(String transformerName) throws SQLException {
-		String infores = MappedInfoRes.map(transformerName);
-		if (infores.startsWith("infores:")) {
+	public Long infoResId(String infores) throws SQLException {
+		if (infores != null && infores.startsWith("infores:")) {
 			final long inforesId = findInfoRes(infores);
 			if (inforesId > 0) {
 				return inforesId;

@@ -1,4 +1,4 @@
---> data/translator/BiGG_model/ver-1.6.0/BiGG.sqlite >>> data/nn/BiGG-entrez.tsv
+--> data/translator/BiGG_model/latest/BiGG.sqlite >>> data/nn/BiGG-entrez.tsv
 
     select distinct db_id as gene_id
     from gene_db
@@ -22,7 +22,7 @@
     where biolink_class = 'Gene' and Curie_Prefix.field_name = 'entrez';
 
 
---> data/translator/ctd/2021-03/CTD_07_21.sqlite >>> data/nn/CTD-geneID.tsv
+--> data/translator/ctd/latest/CTD.sqlite >>> data/nn/CTD-geneID.tsv
 
     select distinct 'NCBIGene:'||GeneID as gene_id
     from chem_gene_ixns

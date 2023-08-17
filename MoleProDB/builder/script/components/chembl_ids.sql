@@ -56,7 +56,7 @@
     where xref_src_db = 'EnsemblGene';
 
 
---> data/translator/chebi/latest/ChEBI.sqlite >>> data/chembl/ChEBI-inchikey.tsv
+--> data/translator/chebi/latest/chebi.sqlite >>> data/chembl/ChEBI-inchikey.tsv
 
     select distinct structure as inchikey from structures where structures.type = 'InChIKey';
 

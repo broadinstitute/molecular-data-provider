@@ -1,4 +1,4 @@
---> data/translator/drugbank/ver-5.1.8/DrugBank.sqlite >>> data/nn/DrugBank-molecule-id.tsv
+--> data/translator/drugbank/latest/DrugBank.sqlite >>> data/nn/DrugBank-molecule-id.tsv
 
     select distinct 'DrugBank:'|| DRUG_BANK_ID as DRUG_BANK_ID from DRUG;
 

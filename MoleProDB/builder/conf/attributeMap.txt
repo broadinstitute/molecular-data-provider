@@ -12,6 +12,7 @@ ChEMBL	organism	organism	biolink:OrganismAttribute	string
 ChEMBL	tax_id	tax_id	biolink:OrganismTaxon	string
 ChEMBL	enzyme_type	enzyme_type	OBI:0000427	string
 ChEMBL	max phase for indication	OPMI:0000367	biolink:FDA_approval_status	biolink:FDA_approval_status_enum
+ChEMBL	max phase for indication	biolink:FDA_APPROVAL_STATUS	biolink:FDA_approval_status	biolink:FDA_approval_status_enum
 ChEMBL	ClinicalTrials	reference	biolink:Publication	string
 ChEMBL	max_phase	max_phase	biolink:highest_FDA_approval_status	biolink:FDA_approval_status_enum
 ChEMBL	action_type	action_type	biolink:relation	string
@@ -34,7 +35,8 @@ ChEMBL	oral	oral	route of administration	string
 ChEMBL	parenteral	parenteral	route of administration	string
 ChEMBL	topical	topical	route of administration	string
 HMDB	reference	reference	biolink:Publication	biolink:Publication
-CTD	ReferencePMIDs	ReferencePMIDs	biolink:Publication	biolink:Publication
+CTD	pubmedids	biolink:Publication	biolink:Publication	biolink:uriorcurie
+CTD	ReferencePMIDs	biolink:Publication	biolink:Publication	biolink:uriorcurie
 CTD	Relation	Relation	biolink:relation	string
 CTRP	correlation	correlation	SIO:000923	number
 CTRP	z-score	z-score	NCIT:C68741	number
@@ -57,3 +59,5 @@ GtoPdb	APPROVED	APPROVED	biolink:highest_FDA_approval_status	biolink:FDA_approva
 DGIdb	publication	IAO:0000311	biolink:Publication	biolink:Publication
 Drug Repurposing Hub	clinical_phase	clinical_phase	biolink:highest_FDA_approval_status	biolink:FDA_approval_status_enum
 DrugBank	group	group	biolink:highest_FDA_approval_status	biolink:FDA_approval_status_enum
+ProbeMiner	aggregator_knowledge_source	biolink:aggregator_knowledge_source	biolink:primary_knowledge_source	biolink:InformationResource
+infores:molepro	aggregator_knowledge_source	biolink:aggregator_knowledge_source	biolink:primary_knowledge_source	biolink:InformationResource

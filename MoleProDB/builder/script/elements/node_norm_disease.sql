@@ -17,7 +17,7 @@
     select distinct 'MESH:'||mesh_id as id from drug_indication;
 
 
---> data/translator/ctd/2021-03/CTD_07_21.sqlite >>> data/nn/CTD-disease-id.tsv
+--> data/translator/ctd/latest/CTD.sqlite >>> data/nn/CTD-disease-id.tsv
 
     select distinct DiseaseID as id
     from chemicals_diseases

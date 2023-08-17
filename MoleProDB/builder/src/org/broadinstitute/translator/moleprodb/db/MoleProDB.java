@@ -8,6 +8,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MoleProDB {
 
@@ -30,12 +33,18 @@ public class MoleProDB {
 	public final AttributeTable attributeTable;
 	public final ListElementAttributeTable listElementAttributeTable;
 	public final ChemStructureAttributeTable chemStructureAttributeTable;
+	public final ParentAttributeTable parentAttributeTable;
 	public final ElementHierarchyTable elementHierarchyTable;
 	public final PredicateTable predicateTable;
 	public final ConnectionTable connectionTable;
 	public final ListElementNameTable listElementNameTable;
 	public final ConnectionAttributeTable connectionAttributeTable;
 	public final ChemStructureMapTable chemStructureMapTable;
+	public final QualifierTable qualifierTable;
+	public final QualifierMapTable qualifierMapTable;
+	public final QualifierSetTable qualifierSetTable;
+
+	public static final HashMap<String,Long> profile = new HashMap<>();
 
 
 	public MoleProDB(final String location) throws Exception {
@@ -60,12 +69,16 @@ public class MoleProDB {
 		attributeTable = new AttributeTable(this);
 		listElementAttributeTable = new ListElementAttributeTable(this);
 		chemStructureAttributeTable = new ChemStructureAttributeTable(this);
+		parentAttributeTable = new ParentAttributeTable(this);
 		elementHierarchyTable = new ElementHierarchyTable(this);
 		predicateTable = new PredicateTable(this);
 		connectionTable = new ConnectionTable(this);
 		listElementNameTable = new ListElementNameTable(this);
 		connectionAttributeTable = new ConnectionAttributeTable(this);
 		chemStructureMapTable = new ChemStructureMapTable(this);
+		qualifierTable = new QualifierTable(this);
+		qualifierMapTable = new QualifierMapTable(this);
+		qualifierSetTable = new QualifierSetTable(this);
 	}
 
 
@@ -90,15 +103,21 @@ public class MoleProDB {
 	public void executeScript(final String filename) throws Exception {
 		StringBuilder sb = new StringBuilder();
 		final BufferedReader input = new BufferedReader(new FileReader(filename));
+		int i = 0;
 		try {
 			for (String line = input.readLine(); line != null; line = input.readLine()) {
 				sb.append(line);
 				if (line.trim().endsWith(";")) {
+					i = i + 1;
+					System.out.println("execute # " + i);
 					executeUpdate(sb.toString());
 					sb = new StringBuilder();
 				}
 			}
 			commit();
+		}
+		catch (Exception e) {
+			System.out.println(e);
 		}
 		finally {
 			connection.rollback();
@@ -129,4 +148,20 @@ public class MoleProDB {
 		connection.setAutoCommit(false);
 	}
 
+
+	public static void profile(String transformerName, Date start) {
+		final long responseTime = (new Date()).getTime() - start.getTime();
+		long sumTime = profile.getOrDefault(transformerName, 0L);
+		profile.put(transformerName, sumTime + responseTime);
+	}
+
+
+	public static void profileReport() {
+		System.out.println();
+		for (Map.Entry<String,Long> entry : profile.entrySet()) {
+			final String transformer = entry.getKey();
+			final long responseTime = entry.getValue();
+			System.out.println(transformer + "\t" + responseTime);
+		}
+	}
 }

@@ -1,11 +1,12 @@
 CREATE TABLE "Attribute" (
   "attribute_id" INTEGER NOT NULL,
-  "attribute_type_id" INT NOT NULL REFERENCES "Attribute_Type"("attribute_type_id"),
   "attribute_value" TEXT NOT NULL,
+  "is_json" BOOLEAN NOT NULL,
   "url" TEXT,
   "description" TEXT,
+  "subattribute_id" INT,
   PRIMARY KEY ("attribute_id"),
-  UNIQUE ("attribute_type_id", "attribute_value", "url", "description")
+  UNIQUE ("attribute_value", "is_json", "url", "description", "subattribute_id")
 );
 
 CREATE TABLE "Attribute_Type" (
@@ -13,8 +14,9 @@ CREATE TABLE "Attribute_Type" (
   "attribute_name" TEXT NOT NULL,
   "attribute_type" TEXT NOT NULL,
   "value_type" TEXT,
+  "description" TEXT,
   PRIMARY KEY ("attribute_type_id"),
-  UNIQUE ("attribute_type", "attribute_name")
+  UNIQUE ("attribute_name", "attribute_type", "value_type", "description")
 );
 
 CREATE TABLE "Biolink_Class" (
@@ -33,10 +35,11 @@ CREATE TABLE "Chem_Structure" (
 CREATE TABLE "Chem_Structure_Attribute" (
   "structure_attribute_id" INTEGER NOT NULL,
   "structure_id" INT NOT NULL REFERENCES "Chem_Structure"("structure_id"),
+  "attribute_type_id" INT NOT NULL REFERENCES "Attribute_Type"("attribute_type_id"),
   "attribute_id" INT NOT NULL REFERENCES "Attribute"("attribute_id"),
   "source_id" INT NOT NULL REFERENCES "Source"("source_id"),
   PRIMARY KEY ("structure_attribute_id"),
-  UNIQUE ("structure_id", "attribute_id", "source_id")
+  UNIQUE ("structure_id", "attribute_type_id", "attribute_id", "source_id")
 );
 
 CREATE TABLE "Chem_Structure_Identifier" (
@@ -82,18 +85,20 @@ CREATE TABLE "Connection" (
   "subject_id" INT NOT NULL REFERENCES "List_Element"("list_element_id"),
   "object_id" INT NOT NULL REFERENCES "List_Element"("list_element_id"),
   "predicate_id" INT NOT NULL REFERENCES "Predicate"("predicate_id"),
+  "qualifier_set_id" INT REFERENCES "Qualifier_Set"("qualifier_set_id"),
   "source_id" INT NOT NULL REFERENCES "Source"("source_id"),
   PRIMARY KEY ("connection_id"),
-  UNIQUE ("subject_id", "object_id", "predicate_id", "source_id")
+  UNIQUE ("subject_id", "object_id", "predicate_id", "qualifier_set_id", "source_id")
 );
 
 CREATE TABLE "Connection_Attribute" (
   "connection_attribute_id" INTEGER NOT NULL,
   "connection_id" INT NOT NULL REFERENCES "Connection"("connection_id"),
+  "attribute_type_id" INT NOT NULL REFERENCES "Attribute_Type"("attribute_type_id"),
   "attribute_id" INT NOT NULL REFERENCES "Attribute"("attribute_id"),
   "source_id" INT NOT NULL REFERENCES "Source"("source_id"),
   PRIMARY KEY ("connection_attribute_id"),
-  UNIQUE ("connection_id", "attribute_id", "source_id")
+  UNIQUE ("connection_id", "attribute_type_id", "attribute_id", "source_id")
 );
 
 CREATE TABLE "Curie_Prefix" (
@@ -106,15 +111,6 @@ CREATE TABLE "Curie_Prefix" (
   "uri" TEXT,
   PRIMARY KEY ("prefix_id"),
   UNIQUE ("biolink_class_id", "mole_pro_prefix", "field_name", "infores_id")
-);
-
-CREATE TABLE "Element_Hierarchy" (
-  "element_hierarchy_id" INTEGER NOT NULL,
-  "list_element_id" INT NOT NULL REFERENCES "List_Element"("list_element_id"),
-  "parent_element_id" INT NOT NULL REFERENCES "List_Element"("list_element_id"),
-  "hierarchy_type" TEXT NOT NULL,
-  PRIMARY KEY ("element_hierarchy_id"),
-  UNIQUE ("list_element_id", "parent_element_id", "hierarchy_type")
 );
 
 CREATE TABLE "Infores" (
@@ -133,10 +129,21 @@ CREATE TABLE "List_Element" (
 CREATE TABLE "List_Element_Attribute" (
   "element_attribute_id" INTEGER NOT NULL,
   "list_element_id" INT NOT NULL REFERENCES "List_Element"("list_element_id"),
+  "attribute_type_id" INT NOT NULL REFERENCES "Attribute_Type"("attribute_type_id"),
   "attribute_id" INT NOT NULL REFERENCES "Attribute"("attribute_id"),
   "source_id" INT NOT NULL REFERENCES "Source"("source_id"),
   PRIMARY KEY ("element_attribute_id"),
-  UNIQUE ("list_element_id", "attribute_id", "source_id")
+  UNIQUE ("list_element_id", "attribute_type_id", "attribute_id", "source_id")
+);
+
+CREATE TABLE "List_Element_Hierarchy" (
+  "element_hierarchy_id" INTEGER NOT NULL,
+  "list_element_id" INT NOT NULL REFERENCES "List_Element"("list_element_id"),
+  "parent_element_id" INT NOT NULL REFERENCES "List_Element"("list_element_id"),
+  "connection_id" INT NOT NULL REFERENCES "Connection"("connection_id"),
+  "hierarchy_type" TEXT NOT NULL,
+  PRIMARY KEY ("element_hierarchy_id"),
+  UNIQUE ("list_element_id", "parent_element_id", "hierarchy_type")
 );
 
 CREATE TABLE "List_Element_Identifier" (
@@ -182,8 +189,9 @@ CREATE TABLE "Name_Type" (
 CREATE TABLE "Parent_Attribute" (
   "attribute_id" INTEGER NOT NULL,
   "parent_attribute_id" INT NOT NULL REFERENCES "Attribute"("attribute_id"),
+  "attribute_type_id" INT NOT NULL REFERENCES "Attribute_Type"("attribute_type_id"),
   "source_id" INT NOT NULL REFERENCES "Source"("source_id"),
-  PRIMARY KEY ("attribute_id")
+  UNIQUE ("attribute_id", "parent_attribute_id", "attribute_type_id", "source_id")
 );
 
 CREATE TABLE "Predicate" (
@@ -193,8 +201,26 @@ CREATE TABLE "Predicate" (
   "canonical" TEXT,
   "relation" TEXT NOT NULL,
   "inverse_relation" TEXT,
-  PRIMARY KEY ("predicate_id")
+  PRIMARY KEY ("predicate_id"),
   UNIQUE ("biolink_predicate", "relation")
+);
+
+CREATE TABLE "Qualifier" (
+  "qualifier_id" INTEGER NOT NULL,
+  "qualifier_type" TEXT NOT NULL,
+  "qualifier_value" TEXT NOT NULL,
+  PRIMARY KEY ("qualifier_id"),
+  UNIQUE ("qualifier_type", "qualifier_value")
+);
+
+CREATE TABLE "Qualifier_Map" (
+  "qualifier_set_id" INT NOT NULL REFERENCES "Qualifier_Set"("qualifier_set_id"),
+  "qualifier_id" INT NOT NULL REFERENCES "Qualifier"("qualifier_id")
+);
+
+CREATE TABLE "Qualifier_Set" (
+  "qualifier_set_id" INTEGER NOT NULL,
+  PRIMARY KEY ("qualifier_set_id")
 );
 
 CREATE TABLE "Source" (

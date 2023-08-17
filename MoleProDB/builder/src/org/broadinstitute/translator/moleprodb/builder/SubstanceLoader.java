@@ -127,23 +127,24 @@ public class SubstanceLoader extends SubstanceResolver {
 
 
 	private String attributesQuery() {
-		String sql = "SELECT attribute_id, source_id\n";
+		String sql = "SELECT attribute_type_id, attribute_id, source_id\n";
 		sql = sql + "FROM Chem_Structure_Attribute\n";
 		sql = sql + "WHERE structure_id = ?";
 		return sql;
 	}
 
 
-	private void saveAttributes(long elementId, long structureId) throws SQLException {
+	private void saveAttributes(final long elementId, final long structureId) throws SQLException {
 		Date start = new Date();
 		attributesQuery.setLong(1, structureId);
-		ResultSet attributes = attributesQuery.executeQuery();
+		final ResultSet attributes = attributesQuery.executeQuery();
 		profile("get attributes", start);
 		start = new Date();
 		while (attributes.next()) {
-			int sourceId = attributes.getInt("source_id");
-			long attributeId = attributes.getLong("attribute_id");
-			db.listElementAttributeTable.saveAttribute(elementId, sourceId, attributeId);
+			final long attrTypeId = attributes.getLong("attribute_type_id");
+			final long attributeId = attributes.getLong("attribute_id");
+			final int sourceId = attributes.getInt("source_id");
+			db.listElementAttributeTable.saveAttribute(elementId, attrTypeId, attributeId, sourceId);
 		}
 		attributes.close();
 		profile("save attributes", start);

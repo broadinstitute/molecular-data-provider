@@ -25,7 +25,7 @@ https://translator.broadinstitute.org/rxnorm/unii
 https://translator.broadinstitute.org/drugbank/molecules
 https://translator.broadinstitute.org/sider/drugs
 # gene-list producers
-=HGNC gene-list producer
+https://translator.broadinstitute.org/hgnc/genes
 # protein-list producers
 https://translator.broadinstitute.org/uniprot/molecules
 # disease producers

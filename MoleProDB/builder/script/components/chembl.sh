@@ -1,4 +1,4 @@
-python script/extract_ids.py script/components/chembl_ids.sql 
+python -u script/extract_ids.py script/components/chembl_ids.sql 
 sbt 'run data/chembl/MolePro.ChEMBL.sqlite exec ../schema/MoleProSchema.sql'
 sbt 'run data/chembl/MolePro.ChEMBL.sqlite exec ../schema/MoleProPreLoadIndexes.sql'
 sbt 'run data/chembl/MolePro.ChEMBL.sqlite load-transformers'
@@ -18,8 +18,8 @@ sbt -mem 4096 'run data/chembl/MolePro.ChEMBL.sqlite load-structures "ChEMBL com
 sbt -mem 4096 'run data/chembl/MolePro.ChEMBL.sqlite load-compounds'
 cp data/chembl/MolePro.ChEMBL.sqlite data/chembl/MolePro.ChEMBL.compounds.sqlite
 sbt -mem 4096 'run data/chembl/MolePro.ChEMBL.sqlite load-elements "ChEMBL compound-list producer" data/chembl/ChEMBL-ID.tsv chembl'
-sbt -mem 4096 'run data/chembl/MolePro.ChEMBL.sqlite load-elements "SRI node normalizer producer" data/chembl/ChEMBL-gene-id.tsv ensembl'
-sbt -mem 4096 'run data/chembl/MolePro.ChEMBL.sqlite load-elements "SRI node normalizer producer" data/chembl/ChEMBL-disease-id.tsv mesh'
+sbt -mem 4096 'run data/chembl/MolePro.ChEMBL.sqlite load-elements "SRI node normalizer producer(category=Gene)" data/chembl/ChEMBL-gene-id.tsv ensembl'
+sbt -mem 4096 'run data/chembl/MolePro.ChEMBL.sqlite load-elements "SRI node normalizer producer(category=Disease,category=PhenotypicFeature)" data/chembl/ChEMBL-disease-id.tsv mesh'
 cp data/chembl/MolePro.ChEMBL.sqlite data/chembl/MolePro.ChEMBL.elements.sqlite
 sbt -mem 4096 'run data/chembl/MolePro.ChEMBL.sqlite add-connections chembl data/chembl/ChEMBL-ID.tsv "ChEMBL metabolite transformer" chembl'
 sbt -mem 4096 'run data/chembl/MolePro.ChEMBL.sqlite add-connections chembl data/chembl/ChEMBL-ID.tsv "ChEMBL gene target transformer" ensembl'
@@ -27,3 +27,5 @@ sbt -mem 4096 'run data/chembl/MolePro.ChEMBL.sqlite load-connections chembl dat
 sbt -mem 4096 'run data/chembl/MolePro.ChEMBL.sqlite load-connections chembl data/chembl/ChEMBL-ID.tsv "ChEMBL mechanism transformer" chembl'
 cp data/chembl/MolePro.ChEMBL.sqlite data/chembl/MolePro.ChEMBL.activities.sqlite
 sbt -mem 4096 'run data/chembl/MolePro.ChEMBL.sqlite load-connections chembl data/chembl/ChEMBL-ID.tsv "ChEMBL activities transformer" chembl'
+cp data/chembl/MolePro.ChEMBL.sqlite data/chembl/MolePro.ChEMBL.preIndexes.sqlite
+sbt 'run data/chembl/MolePro.ChEMBL.sqlite exec ../schema/MoleProPostLoadIndexes.sql'

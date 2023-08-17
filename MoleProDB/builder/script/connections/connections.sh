@@ -38,9 +38,12 @@ sbt -mem 4096 'run data/MoleProDB.sqlite merge-connections hmdb    "HMDB target 
 cp data/MoleProDB.sqlite data/backup/MoleProDB-hmdb-con.sqlite
 sbt -mem 4096 'run data/MoleProDB.sqlite merge-connections entrez  "MSigDB pathways transformer"      data/msigdb/MolePro.MSigDB.sqlite'
 cp data/MoleProDB.sqlite data/backup/MoleProDB-msigdb-con.sqlite
+sbt -mem 4096 'run data/MoleProDB.sqlite merge-connections entrez  "PharmGKB relations transformer"             data/pharmgkb/MolePro.PharmGKB.sqlite entrez,pharmgkb'
+sbt -mem 4096 'run data/MoleProDB.sqlite merge-connections entrez  "PharmGKB automated annotations transformer" data/pharmgkb/MolePro.PharmGKB.sqlite entrez,pharmgkb'
+cp data/MoleProDB.sqlite data/backup/MoleProDB-pharmgkb-con.sqlite
 sbt -mem 4096 'run data/MoleProDB.sqlite merge-connections pubchem "Pharos target genes transformer"  data/pharos/MolePro.Pharos.sqlite entrez'
 cp data/MoleProDB.sqlite data/backup/MoleProDB-pharos-con.sqlite
-sbt -mem 4096 'run data/MoleProDB.sqlite merge-connections inchikey "ProbeMiner chemical interactions transformer" data/probe-miner/MolePro.ProbeMiner.sqlite uniprot'
+sbt -mem 4096 'run data/MoleProDB.sqlite merge-connections inchikey "ProbeMiner chemical interactions transformer" data/probeminer/MolePro.ProbeMiner.sqlite uniprot'
 cp data/MoleProDB.sqlite data/backup/MoleProDB-probe-miner-con.sqlite
 sbt -mem 4096 'run data/MoleProDB.sqlite merge-connections inchikey "Repurposing Hub indication transformer" data/rephub/MolePro.RepHub.sqlite'
 sbt -mem 4096 'run data/MoleProDB.sqlite merge-connections inchikey "Repurposing Hub target transformer"     data/rephub/MolePro.RepHub.sqlite hgnc'

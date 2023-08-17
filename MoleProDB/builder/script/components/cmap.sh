@@ -8,3 +8,4 @@ sbt -mem 4096 'run data/cmap/MolePro.CMAP.sqlite load-elements "SRI node normali
 sbt -mem 4096 'run data/cmap/MolePro.CMAP.sqlite add-connections pubchem data/cmap/CMAP-CID.tsv "CMAP compound-to-compound expander(score threshold = 99, maximum number = 500)" pubchem'
 sbt -mem 4096 'run data/cmap/MolePro.CMAP.sqlite add-connections pubchem data/cmap/CMAP-CID.tsv "CMAP compound-to-gene transformer(score threshold = 99, maximum number = 500)" entrez'
 sbt -mem 4096 'run data/cmap/MolePro.CMAP.sqlite add-connections entrez data/cmap/CMAP-NCBIGeneId.tsv "CMAP gene-to-gene expander(score threshold = 99, maximum number = 500)" entrez'
+sbt 'run data/cmap/MolePro.CMAP.sqlite exec ../schema/MoleProPostLoadIndexes.sql'

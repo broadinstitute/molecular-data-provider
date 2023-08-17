@@ -36,12 +36,12 @@ public class SourceTable extends MoleProTable {
 	}
 
 
-	public void insert(String name, String url, String sourceVersion, String transformer, String transformerURL, String transformerVersion) throws SQLException {
+	public void insert(String name, String url, String sourceVersion, String transformer, String infores, String transformerURL, String transformerVersion) throws SQLException {
 		if (lastSourceId < 0) {
 			lastSourceId = lastId("source_id");
 		}
 		lastSourceId = lastSourceId + 1;
-		final Long inforesId = db.inforesTable.InfoResId(transformer);
+		final Long inforesId = db.inforesTable.infoResId(infores);
 		insert(lastSourceId, name, url, sourceVersion, transformer, transformerURL, transformerVersion, inforesId);
 	}
 
@@ -57,8 +57,25 @@ public class SourceTable extends MoleProTable {
 			results.close();
 		}
 		catch (SQLException e) {
-			System.err.println("Failed to obtain source_id for " + transformer + ": " + e.getMessage());
+			System.err.println("WARN: Failed to obtain source_id for " + transformer + ": " + e.getMessage());
 		}
 		return sourceId;
+	}
+
+
+	public String getTransformerName(final long sourceId) {
+		String transformerName = null;
+		String query = "SELECT transformer from Source WHERE source_id  = " + sourceId + ";";
+		try {
+			ResultSet results = this.executeQuery(query);
+			if (results.next()) {
+				transformerName = results.getString(1);
+			}
+			results.close();
+		}
+		catch (SQLException e) {
+			System.err.println("WARN: Failed to obtain transformer name for " + sourceId + ": " + e.getMessage());
+		}
+		return transformerName;
 	}
 }

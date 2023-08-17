@@ -2,6 +2,7 @@ package org.broadinstitute.translator.moleprodb.db;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.Map;
 
 public class ChemStructureIdentifierTable extends IdentifierTable {
@@ -28,6 +29,7 @@ public class ChemStructureIdentifierTable extends IdentifierTable {
 
 
 	public Map<String,Object> getIdentifiers(final long parentId, final long sourceId) throws SQLException {
+		Date start = new Date();
 		String query = "SELECT field_name, mole_pro_prefix, xref\n";
 		query = query + "FROM " + tableName + "\n";
 		query = query + "JOIN Curie_Prefix ON Curie_Prefix.prefix_id = " + tableName + ".prefix_id\n";
@@ -49,11 +51,13 @@ public class ChemStructureIdentifierTable extends IdentifierTable {
 		query = query + "  inchikey AS xref\n";
 		query = query + "FROM Chem_Structure\n";
 		query = query + "WHERE " + parentIdColumn + " = " + parentId + "\n";
+		profile("- get structure - getIdentifiers", start);
 		return getIdentifiers(query);
 	}
 
 
 	public String getBiolinkClass(final long parentId, final long sourceId) throws SQLException {
+		Date start = new Date();
 		String query = "SELECT DISTINCT biolink_class\n";
 		query = query + "FROM " + tableName + "\n";
 		query = query + "JOIN Curie_Prefix ON Curie_Prefix.prefix_id = " + tableName + ".prefix_id\n";
@@ -64,8 +68,10 @@ public class ChemStructureIdentifierTable extends IdentifierTable {
 		while (results.next()) {
 			String biolinkClass = results.getString("biolink_class");
 			results.close();
+			profile("- get structure - biolinkClass", start);
 			return biolinkClass;
 		}
+		profile("- get structure - biolinkClass", start);
 		return null;
 	}
 }

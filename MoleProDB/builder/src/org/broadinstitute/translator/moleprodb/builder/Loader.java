@@ -4,9 +4,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.broadinstitute.translator.moleprodb.db.MoleProDB;
 
@@ -19,7 +17,7 @@ import transformer.InternalTransformer;
 import transformer.Transformer;
 import transformer.Transformers;
 import transformer.classes.Other;
-import transformer.Transformer.Query;
+import transformer.TransformerQuery;
 import transformer.collection.CollectionElement.CompoundElement;
 import transformer.collection.CollectionsEntry;
 import transformer.exception.NotFoundException;
@@ -38,8 +36,6 @@ public abstract class Loader {
 
 	protected final MoleProDB db;
 
-	public static final HashMap<String,Long> profile = new HashMap<>();
-
 
 	public Loader(MoleProDB db) {
 		super();
@@ -47,7 +43,7 @@ public abstract class Loader {
 	}
 
 
-	final protected Element[] transform(final Transformer transformer, final Query query) throws Exception {
+	final protected Element[] transform(final Transformer transformer, final TransformerQuery query) throws Exception {
 		final Element[] elements = callTransformer(transformer, query);
 		for (Element element : elements) {
 			if (element != null) {
@@ -89,7 +85,7 @@ public abstract class Loader {
 	 * @return
 	 * @throws Exception
 	 */
-	private static Element[] callTransformer(final Transformer transformer, final Query query) throws Exception {
+	private static Element[] callTransformer(final Transformer transformer, final TransformerQuery query) throws Exception {
 		TransformerInfo info = transformer.info;
 		if (transformer instanceof InternalTransformer || info.getUrl().length() == 0) {
 			return callInternalTransformer(transformer, query);
@@ -113,7 +109,7 @@ public abstract class Loader {
 	}
 
 
-	private static Element[] callInternalTransformer(final Transformer transformer, final Query query) throws Exception {
+	private static Element[] callInternalTransformer(final Transformer transformer, final TransformerQuery query) throws Exception {
 		final Date start = new Date();
 		final CollectionsEntry response = transformer.transform(query, new CollectionInfo());
 		profile(transformer.info.getName() + " (internal)", start);
@@ -138,20 +134,13 @@ public abstract class Loader {
 	}
 
 
-	public static void profile(String transformerName, Date start) {
-		final long responseTime = (new Date()).getTime() - start.getTime();
-		long sumTime = profile.getOrDefault(transformerName, 0L);
-		profile.put(transformerName, sumTime + responseTime);
+	protected static void profile(final String transformerName, final Date start) {
+		MoleProDB.profile(transformerName, start);
 	}
 
 
-	public static void profileReport() {
-		System.out.println();
-		for (Map.Entry<String,Long> entry : profile.entrySet()) {
-			final String transformer = entry.getKey();
-			final long responseTime = entry.getValue();
-			System.out.println(transformer + "\t" + responseTime);
-		}
+	protected static void profileReport() {
+		MoleProDB.profileReport();
 	}
 
 

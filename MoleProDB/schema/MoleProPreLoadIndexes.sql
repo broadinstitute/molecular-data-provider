@@ -19,7 +19,12 @@ CREATE INDEX C_subject_index     ON Connection (subject_id);
 CREATE INDEX C_object_index      ON Connection (object_id);
 
 CREATE INDEX A_value_index ON Attribute (attribute_value);
+CREATE INDEX A_subattribute_index ON Attribute (subattribute_id);
 CREATE INDEX P_biolink_predicate_index ON Predicate (biolink_predicate);
 CREATE INDEX P_inverse_predicate_index ON Predicate (inverse_predicate);
 
 CREATE INDEX PA_parent_index ON Parent_Attribute (parent_attribute_id);
+CREATE INDEX PA_attribute_index ON Parent_Attribute (attribute_id);
+
+CREATE INDEX QM_qualifier_index ON Qualifier_Map (qualifier_id);
+CREATE INDEX QM_qualifier_set_index ON Qualifier_Map (qualifier_set_id);

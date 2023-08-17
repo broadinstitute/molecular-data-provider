@@ -34,8 +34,11 @@ sbt -mem 4096 'run data/MoleProDB.sqlite merge-elements "HMDB target genes trans
 sbt -mem 4096 'run data/MoleProDB.sqlite merge-elements "HMDB target proteins transformer" data/hmdb/MolePro.HMDB.sqlite uniprot'
 
 sbt -mem 4096 'run data/MoleProDB.sqlite merge-elements "MSigDB pathways transformer" data/msigdb/MolePro.MSigDB.sqlite'
+sbt -mem 4096 'run data/MoleProDB.sqlite merge-elements "PharmGKB relations transformer" data/pharmgkb/MolePro.PharmGKB.sqlite entrez,pharmgkb'
+sbt -mem 4096 'run data/MoleProDB.sqlite merge-elements "PharmGKB automated annotations transformer" data/pharmgkb/MolePro.PharmGKB.sqlite entrez,pharmgkb'
+
 sbt -mem 4096 'run data/MoleProDB.sqlite merge-elements "Pharos target genes transformer" data/pharos/MolePro.Pharos.sqlite entrez'
-sbt -mem 4096 'run data/MoleProDB.sqlite merge-elements "ProbeMiner chemical interactions transformer" data/probe-miner/MolePro.ProbeMiner.sqlite uniprot'
+sbt -mem 4096 'run data/MoleProDB.sqlite merge-elements "ProbeMiner chemical interactions transformer" data/probeminer/MolePro.ProbeMiner.sqlite uniprot'
 sbt -mem 4096 'run data/MoleProDB.sqlite merge-elements "Repurposing Hub indication transformer" data/rephub/MolePro.RepHub.sqlite'
 sbt -mem 4096 'run data/MoleProDB.sqlite merge-elements "Repurposing Hub target transformer" data/rephub/MolePro.RepHub.sqlite hgnc'
 

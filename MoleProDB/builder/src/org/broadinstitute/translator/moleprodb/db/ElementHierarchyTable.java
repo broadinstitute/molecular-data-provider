@@ -7,13 +7,13 @@ import java.util.HashSet;
 public class ElementHierarchyTable extends MoleProTable {
 
 	public ElementHierarchyTable(MoleProDB db) {
-		super(db, "Element_Hierarchy");
+		super(db, "List_Element_Hierarchy");
 	}
 
 
-	private void insert(final long listElementId, final long parentElementId, final String hierarchyType) throws SQLException {
-		String sql = "INSERT INTO " + tableName + " (list_element_id, parent_element_id, hierarchy_type)\n";
-		sql = sql + "VALUES (" + listElementId + "," + parentElementId + "," + f(hierarchyType) + ")";
+	private void insert(final long listElementId, final long parentElementId, final String hierarchyType, final long connectionId) throws SQLException {
+		String sql = "INSERT INTO " + tableName + " (list_element_id, parent_element_id, connection_id, hierarchy_type)\n";
+		sql = sql + "VALUES (" + listElementId + "," + parentElementId + "," + connectionId + "," + f(hierarchyType) + ")";
 		executeUpdate(sql);
 	}
 
@@ -27,13 +27,13 @@ public class ElementHierarchyTable extends MoleProTable {
 
 	public void saveHierarchy(final long listElementId, final long parentElementId, final String hierarchyType) throws SQLException {
 		if (!find(listElementId, parentElementId, hierarchyType)) {
-			insert(listElementId, parentElementId, hierarchyType);
+			insert(listElementId, parentElementId, hierarchyType, 0);
 		}
 	}
 
 
 	public HashSet<Long> hierarchyDone() throws SQLException {
-		String sql = "SELECT DISTINCT list_element_id FROM Element_Hierarchy";
+		String sql = "SELECT DISTINCT list_element_id FROM List_Element_Hierarchy";
 		HashSet<Long> ids = new HashSet<>();
 		ResultSet results = this.executeQuery(sql);
 		while (results.next()) {

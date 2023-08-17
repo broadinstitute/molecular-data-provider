@@ -18,7 +18,6 @@ import apimodels.Element;
 import apimodels.Names;
 import apimodels.Parameter;
 import apimodels.Property;
-import transformer.Transformer;
 import transformer.TransformerQuery;
 import transformer.Transformers;
 
@@ -36,7 +35,7 @@ public class ListElementLoader extends Loader {
 
 	public void loadElements(final String transformerName, final String compoundFile, final String[] matchFields) throws Exception {
 		Transformers.getTransformers();
-		final Transformer transformer = Transformers.getTransformer(transformerName);
+		final TransformerRun transformer = new TransformerRun(transformerName);
 		ArrayList<String> batch = new ArrayList<>();
 		int i = 0;
 		final BufferedReader input = new BufferedReader(new FileReader(compoundFile));
@@ -57,6 +56,9 @@ public class ListElementLoader extends Loader {
 					System.out.println("db.reconnect");
 					db.reconnect();
 				}
+				if (i % (100 * BATCH_SIZE) == 0) {
+					Loader.profileReport();
+				}
 			}
 			if (batch.size() > 0) {
 				loadElements(transformer, batch, matchFields);
@@ -70,7 +72,7 @@ public class ListElementLoader extends Loader {
 	}
 
 
-	HashSet<Long> loadElements(final Transformer transformer, final ArrayList<String> batch, final String[] matchFields) {
+	HashSet<Long> loadElements(final TransformerRun transformer, final ArrayList<String> batch, final String[] matchFields) {
 		final int sourceId = db.sourceTable.sourceId(transformer.info.getName());
 		HashSet<Long> elementIds = new HashSet<>();
 		try {
@@ -85,14 +87,26 @@ public class ListElementLoader extends Loader {
 			else {
 				controls.add(new Property().name(parameter.getName()).value(String.join(";", batch)));
 			}
+			for (Property property : transformer.controls()) {
+				controls.add(property);
+			}
 			final TransformerQuery query = new TransformerQuery(controls);
-			final Element[] elements = transform(transformer, query);
+			final Element[] elements = transform(transformer.transformer, query);
+			final HashSet<String> foundIds = new HashSet<>();
 			for (Element element : elements) {
 				if (element != null) {
 					final long elementId = getCreateListElementId(element, sourceId, matchFields);
 					if (elementId > 0) {
 						elementIds.add(elementId);
+						for (String queryId : queryNames(element)) {
+							foundIds.add(queryId);
+						}
 					}
+				}
+			}
+			for (String id : batch) {
+				if (!foundIds.contains(id)) {
+					System.out.println("WARN: id not found " + id);
 				}
 			}
 		}
@@ -122,6 +136,18 @@ public class ListElementLoader extends Loader {
 			printMemoryStatus();
 		}
 		return elementIds;
+	}
+
+
+	private List<String> queryNames(Element element) {
+		List<String> queryNames = new ArrayList<>();
+		for (Attribute attribute : element.getAttributes()) {
+			if ("query name".equals(attribute.getOriginalAttributeName()))
+				if ("".equals(attribute.getAttributeTypeId()) || "query name".equals(attribute.getAttributeTypeId())) {
+					queryNames.add(attribute.getValue().toString());
+				}
+		}
+		return queryNames;
 	}
 
 
