@@ -11,7 +11,7 @@ import numpy as np
 # And generate CTD_from_xml.csv as the output of parse_ctd_xml.py
 
 # Make sure no database already exists with this name
-connection = sqlite3.connect("CTD.sqlite", check_same_thread=False)
+connection = sqlite3.connect("data/CTD.sqlite", check_same_thread=False)
 cur = connection.cursor()
 CHUNK_SIZE = 25000
 DO_IF_EXISTS = 'append'
@@ -28,7 +28,7 @@ CREATE TABLE chem_gene_ixns_no_cid (
     OrganismID INTEGER,
     Interaction TEXT,
     InteractionActions TEXT,
-    PubMedIDs INTEGER
+    PubMedIDs TEXT
 );
 
 CREATE TABLE chemicals_diseases (
@@ -87,7 +87,8 @@ CREATE TABLE pheno_term_ixns (
     interactionactions TEXT COLLATE NOCASE,
     anatomyterms TEXT COLLATE NOCASE,
     inferencegenesymbols TEXT COLLATE NOCASE,
-    pubmedids INTEGER
+    pubmedids TEXT,
+    blank TEXT
 );
 
 CREATE TABLE chemicals (
@@ -98,7 +99,8 @@ CREATE TABLE chemicals (
     ParentIDs TEXT COLLATE NOCASE,
     TreeNumbers TEXT COLLATE NOCASE,
     ParentTreeNumbers TEXT COLLATE NOCASE,
-    Synonyms TEXT COLLATE NOCASE
+    Synonyms TEXT COLLATE NOCASE,
+    blank TEXT
 );
 
 CREATE TABLE chem_gene_ixns_with_axns (
@@ -313,40 +315,75 @@ CREATE INDEX pheno_term_ixns_CasRN_idx ON pheno_term_ixns (
 def build_database():
     cur.executescript(create_tables)
 
-    df = pd.read_csv('CTD_chem_gene_ixns.tsv', sep="\t", header=0)
+    df = pd.read_csv('data/CTD_chem_gene_ixns.tsv', sep="\t", header=0)
     df.to_sql("chem_gene_ixns_no_cid", connection, if_exists=DO_IF_EXISTS, index=False, chunksize=CHUNK_SIZE)
+    connection.commit()
+    print("chem_gene_ixns_no_cid")
 
-    df = pd.read_csv('CTD_chemicals_diseases.tsv', sep="\t", header=0)
+    df = pd.read_csv('data/CTD_chemicals_diseases.tsv', sep="\t", header=0)
     df.to_sql("chemicals_diseases", connection, if_exists=DO_IF_EXISTS, index=False, chunksize=CHUNK_SIZE)
+    connection.commit()
+    print("chemicals_diseases")
 
-    df = pd.read_csv('CTD_chem_pathways_enriched.tsv', sep="\t", header=0)
+    df = pd.read_csv('data/CTD_chem_pathways_enriched.tsv', sep="\t", header=0)
     df.to_sql("chem_pathways_enriched", connection, if_exists=DO_IF_EXISTS, index=False,
               chunksize=CHUNK_SIZE)
-    df = pd.read_csv('CTD_chem_go_enriched.tsv', sep="\t", header=0)
+    connection.commit()
+    print("chem_pathways_enriched")
+
+    df = pd.read_csv('data/CTD_chem_go_enriched.tsv', sep="\t", header=0)
     df.to_sql("chem_go_enriched", connection, if_exists=DO_IF_EXISTS, index=False,
               chunksize=CHUNK_SIZE)
-    df = pd.read_csv('CTD_pheno_term_ixns.tsv', sep="\t", header=0)
+    connection.commit()
+    print("chem_go_enriched")
+
+    df = pd.read_csv('data/CTD_pheno_term_ixns.tsv', sep="\t", header=0)
     df.to_sql("pheno_term_ixns", connection, if_exists=DO_IF_EXISTS, index=False,
               chunksize=CHUNK_SIZE)
-    df = pd.read_csv('CTD_chemicals.tsv', sep="\t", header=0)
+    connection.commit()
+    print("pheno_term_ixns")
+
+    df = pd.read_csv('data/CTD_chemicals.tsv', sep="\t", header=0)
     df['ChemicalID'] = [word[5:] for word in df['ChemicalID']]
     df.to_sql("chemicals", connection, if_exists=DO_IF_EXISTS, index=False,
               chunksize=CHUNK_SIZE)
-    df = pd.read_csv('CTD_from_xml.csv', sep=",", header=0)
+    connection.commit()
+    print("chemicals")
+
+    df = pd.read_csv('data/CTD_from_xml.csv', sep=",", header=0)
     df.to_sql("chem_gene_ixns_with_axns", connection, if_exists=DO_IF_EXISTS, index=False,
               chunksize=CHUNK_SIZE)
-    df = pd.read_csv('mesh_to_pubchemCID_w_nn.tsv', sep="\t", header=0)
+    connection.commit()
+    print("chem_gene_ixns_with_axns")
+
+    df = pd.read_csv('data/mesh_to_pubchemCID_MolePro.tsv', sep="\t", header=0)
     df.to_sql("mesh_to_cid", connection, if_exists=DO_IF_EXISTS, index=False,
               chunksize=CHUNK_SIZE)
+    connection.commit()
+    print("mesh_to_cid")
 
-    df = pd.read_csv('CTD_inverses.csv', sep=",", header=0)
+    df = pd.read_csv('data/CTD_inverses.csv', sep=",", header=0)
     df.to_sql("axn_name_inverses", connection, if_exists=DO_IF_EXISTS, index=False,
               chunksize=CHUNK_SIZE)
+    connection.commit()
+    print("axn_name_inverses")
 
     cur.executescript(merge_tables)
+    connection.commit()
+    print("merge_tables")
+
     cur.executescript(delete_tables)
+    connection.commit()
+    print("delete_tables")
+
     cur.executescript(create_indexes)
     connection.commit()
+    print("create_indexes")
+
+    cur.executescript("VACUUM")
+    connection.commit()
+    print("vacuumed")
+
     cur.close()
     connection.close()
 
