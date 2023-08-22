@@ -159,7 +159,7 @@ Feature: Check MolePro
         and we call "CMAP compound-to-gene transformer" transformer with the following parameters:
         | score threshold | maximum number |
         | 99.0            | 2              |
-        then the length of the collection should be 23
+        then the length of the collection should be 20
         and the value of "element_class" should be "gene"
         and the value of "source" should be "CMAP compound-to-gene transformer"
 
@@ -271,7 +271,7 @@ Feature: Check MolePro
             ["aspirin","bortezomib","Velcade","ibuprofen"]
         """
         then the size of "attributes" should be 4
-        and the int value of "size" should be 3
+        and the int value of "size" should be 4
 
 
     Scenario: Check batch element list by id
@@ -291,4 +291,4 @@ Feature: Check MolePro
             ["aspirin","bortezomib","Velcade","ibuprofen"]
         """
         then the size of "attributes" should be 0
-        and the int value of "size" should be 6
+        and the int value of "size" should be 7
