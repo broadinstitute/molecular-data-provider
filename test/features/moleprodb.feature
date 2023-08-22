@@ -9,11 +9,12 @@ Feature: Check MoleProDB transformer
         when we fire "/elements/transformer_info" query
         then the value of "name" should be "MoleProDB node producer"
         and the value of "label" should be "MolePro"
+        and the value of "infores" should be "infores:molepro"
         and the value of "function" should be "producer"
         and the value of "knowledge_map.input_class" should be "none"
         and the value of "knowledge_map.output_class" should be "any"
-        and the value of "version" should be "2.4.4"
-        and the value of "properties.source_version" should be "2.4.4 (2022-09-20)"
+        and the value of "version" should be "2.5.0"
+        and the value of "properties.source_version" should be "2.5.0 (2023-08-01)"
         and the size of "parameters" should be 1
 
 
@@ -22,11 +23,12 @@ Feature: Check MoleProDB transformer
         when we fire "/names/transformer_info" query
         then the value of "name" should be "MoleProDB name producer"
         and the value of "label" should be "MolePro"
+        and the value of "infores" should be "infores:molepro"
         and the value of "function" should be "producer"
         and the value of "knowledge_map.input_class" should be "none"
         and the value of "knowledge_map.output_class" should be "any"
-        and the value of "version" should be "2.4.4"
-        and the value of "properties.source_version" should be "2.4.4 (2022-09-20)"
+        and the value of "version" should be "2.5.0"
+        and the value of "properties.source_version" should be "2.5.0 (2023-08-01)"
         and the size of "parameters" should be 1
 
 
@@ -35,12 +37,13 @@ Feature: Check MoleProDB transformer
         when we fire "/connections/transformer_info" query
         then the value of "name" should be "MoleProDB connections transformer"
         and the value of "label" should be "MolePro"
+        and the value of "infores" should be "infores:molepro"
         and the value of "function" should be "transformer"
         and the value of "knowledge_map.input_class" should be "any"
         and the value of "knowledge_map.output_class" should be "any"
-        and the value of "version" should be "2.4.4"
-        and the value of "properties.source_version" should be "2.4.4 (2022-09-20)"
-        and the size of "parameters" should be 7
+        and the value of "version" should be "2.5.0"
+        and the value of "properties.source_version" should be "2.5.0 (2023-08-01)"
+        and the size of "parameters" should be 8
 
 
     Scenario: Check transformer info for hierarchy transformer
@@ -48,11 +51,12 @@ Feature: Check MoleProDB transformer
         when we fire "/hierarchy/transformer_info" query
         then the value of "name" should be "MoleProDB hierarchy transformer"
         and the value of "label" should be "MolePro"
+        and the value of "infores" should be "infores:molepro"
         and the value of "function" should be "transformer"
         and the value of "knowledge_map.input_class" should be "any"
         and the value of "knowledge_map.output_class" should be "any"
-        and the value of "version" should be "2.4.4"
-        and the value of "properties.source_version" should be "2.4.4 (2022-09-20)"
+        and the value of "version" should be "2.5.0"
+        and the value of "properties.source_version" should be "2.5.0 (2023-08-01)"
         and the size of "parameters" should be 3
 
 
@@ -167,37 +171,32 @@ Feature: Check MoleProDB transformer
         when we fire "/connections/transform" query with the following body:
         """
         {
-            "controls": [
-                {
-                    "name": "biolink_class",
-                    "value": "biolink:Gene"
-                }
-            ],
+            "controls": [],
             "collection": [
                 {
                     "biolink_class": "ChemicalSubstance",
-                    "id": "CHEBI:52717",
+                    "id": "CHEBI:30116",
                     "provided_by": "pharos",
                     "source": "pharos",
                     "identifiers": {
-                        "chembl": "CHEMBL325041",
-                        "pubchem": "CID:387447"
+                        "chembl": "CHEBI:30116",
+                        "pubchem": "CID:6857644"
                     }
                 },
                 {
                     "biolink_class": "ChemicalSubstance",
-                    "id": "CHEBI:15365",
+                    "id": "CHEBI:140499",
                     "provided_by": "pharos",
                     "source": "pharos",
                     "identifiers": {
-                        "chembl": "ChEMBL:CHEMBL25",
-                        "pubchem": "CID:2244"
+                        "chembl": "CHEBI:140499",
+                        "pubchem": "CID:71300855"
                     }
                 }
             ]
         }
         """
-        then the size of the response is 184
+        then the size of the response is 24
         and the response contains the following entries in "source"
             | source      |
             | MolePro |
@@ -206,18 +205,22 @@ Feature: Check MoleProDB transformer
             | MolePro |
         and the response contains the following entries in "biolink_class"
             | biolink_class |
-            | Gene          |
-        and the response only contains the following entries in "biolink_class"
-            | biolink_class |
-            | Gene          |
+            | MolecularMixture |
+            | SmallMolecule    |
+            | ChemicalEntity   |
+         and the response only contains the following entries in "biolink_class"
+            | biolink_class    |
+            | MolecularMixture |
+            | SmallMolecule    |
+            | ChemicalEntity   |
         and the response contains the following entries in "source_element_id" of "connections" array
             | source_element_id |
-            | CHEBI:52717       |
-            | CHEBI:15365       |
+            | CHEBI:30116       |
+            | CHEBI:140499      |
         and the response only contains the following entries in "source_element_id" of "connections" array
             | source_element_id |
-            | CHEBI:52717       |
-            | CHEBI:15365       |
+            | CHEBI:30116       |
+            | CHEBI:140499      |
 
 
     Scenario: Check connections transformer with resticted object class
@@ -228,34 +231,34 @@ Feature: Check MoleProDB transformer
             "controls": [
                 {
                     "name": "biolink_class",
-                    "value": "biolink:Disease"
+                    "value": "biolink:SmallMolecule"
                 }
             ],
             "collection": [
                 {
                     "biolink_class": "ChemicalSubstance",
-                    "id": "CHEBI:52717",
+                    "id": "CHEBI:30116",
                     "provided_by": "pharos",
                     "source": "pharos",
                     "identifiers": {
-                        "chembl": "CHEMBL325041",
-                        "pubchem": "CID:387447"
+                        "chembl": "CHEBI:30116",
+                        "pubchem": "CID:6857644"
                     }
                 },
                 {
                     "biolink_class": "ChemicalSubstance",
-                    "id": "CHEBI:15365",
+                    "id": "CHEBI:140499",
                     "provided_by": "pharos",
                     "source": "pharos",
                     "identifiers": {
-                        "chembl": "ChEMBL:CHEMBL25",
-                        "pubchem": "CID:2244"
+                        "chembl": "CHEBI:140499",
+                        "pubchem": "CID:71300855"
                     }
                 }
             ]
         }
         """
-        then the size of the response is 538
+        then the size of the response is 1
         and the response contains the following entries in "source"
             | source      |
             | MolePro |
@@ -264,18 +267,16 @@ Feature: Check MoleProDB transformer
             | MolePro |
         and the response contains the following entries in "biolink_class"
             | biolink_class |
-            | Disease       |
+            | SmallMolecule |
         and the response only contains the following entries in "biolink_class"
             | biolink_class |
-            | Disease       |
+            | SmallMolecule |
         and the response contains the following entries in "source_element_id" of "connections" array
             | source_element_id |
-            | CHEBI:52717       |
-            | CHEBI:15365       |
+            | CHEBI:30116       |
         and the response only contains the following entries in "source_element_id" of "connections" array
             | source_element_id |
-            | CHEBI:52717       |
-            | CHEBI:15365       |
+            | CHEBI:30116       |
 
 
     Scenario: Check connections transformer with resticted predicate
@@ -286,34 +287,34 @@ Feature: Check MoleProDB transformer
             "controls": [
                 {
                     "name": "predicate",
-                    "value": "biolink:affects_activity_of"
+                    "value": "biolink:has_part"
                 }
             ],
             "collection": [
                 {
                     "biolink_class": "ChemicalSubstance",
-                    "id": "CHEBI:52717",
+                    "id": "CHEBI:30116",
                     "provided_by": "pharos",
                     "source": "pharos",
                     "identifiers": {
-                        "chembl": "CHEMBL325041",
-                        "pubchem": "CID:387447"
+                        "chembl": "CHEBI:30116",
+                        "pubchem": "CID:6857644"
                     }
                 },
                 {
                     "biolink_class": "ChemicalSubstance",
-                    "id": "CHEBI:15365",
+                    "id": "CHEBI:140499",
                     "provided_by": "pharos",
                     "source": "pharos",
                     "identifiers": {
-                        "chembl": "ChEMBL:CHEMBL25",
-                        "pubchem": "CID:2244"
+                        "chembl": "CHEBI:140499",
+                        "pubchem": "CID:71300855"
                     }
                 }
             ]
         }
         """
-        then the size of the response is 9
+        then the size of the response is 5
         and the response contains the following entries in "source"
             | source      |
             | MolePro |
@@ -321,19 +322,19 @@ Feature: Check MoleProDB transformer
             | source      |
             | MolePro |
         and the response contains the following entries in "biolink_class"
-            | biolink_class |
-            | Gene          |
-        and the response only contains the following entries in "biolink_class"
-            | biolink_class |
-            | Gene          |
+            | biolink_class  |
+            | SmallMolecule  |
+            | ChemicalEntity |
+         and the response only contains the following entries in "biolink_class"
+            | biolink_class  |
+            | SmallMolecule  |
+            | ChemicalEntity |
         and the response contains the following entries in "source_element_id" of "connections" array
             | source_element_id |
-            | CHEBI:52717       |
-            | CHEBI:15365       |
-        and the response only contains the following entries in "source_element_id" of "connections" array
+            | CHEBI:30116       |
+       and the response only contains the following entries in "source_element_id" of "connections" array
             | source_element_id |
-            | CHEBI:52717       |
-            | CHEBI:15365       |
+            | CHEBI:30116       |
 
 
     Scenario: Check connections transformer with resticted object id
@@ -435,7 +436,7 @@ Feature: Check MoleProDB transformer
             ]
         }
         """
-        then the size of the response is 151
+        then the size of the response is 158
         and the response contains the following entries in "source"
             | source      |
             | MolePro |
@@ -484,41 +485,19 @@ Feature: Check MoleProDB transformer
             ]
         }
         """
-        then the size of the response is 15
+        then the size of the response is 4
         and the response contains the following entries in "id"
             | id            |
             | MONDO:0005148 |
-            | MONDO:0006022 |
-            | MONDO:0012819 |
-            | MONDO:0005015 |
-            | MONDO:0001076 |
-            | MONDO:0004335 |
-            | MONDO:0005066 |
-            | MONDO:0005151 |
-            | MONDO:0019052 |
-            | MONDO:0002356 |
-            | MONDO:0002908 |
             | MONDO:0014488 |
             | MONDO:0011027 |
-            | MONDO:0019214 |
-            | MONDO:0000440 |
+            | MONDO:0005827 |
         and the response only contains the following entries in "id"
             | id            |
             | MONDO:0005148 |
-            | MONDO:0006022 |
-            | MONDO:0012819 |
-            | MONDO:0005015 |
-            | MONDO:0001076 |
-            | MONDO:0004335 |
-            | MONDO:0005066 |
-            | MONDO:0005151 |
-            | MONDO:0019052 |
-            | MONDO:0002356 |
-            | MONDO:0002908 |
             | MONDO:0014488 |
             | MONDO:0011027 |
-            | MONDO:0019214 |
-            | MONDO:0000440 |
+            | MONDO:0005827 |
         and the response contains the following entries in "source"
             | source  |
             | MolePro |
