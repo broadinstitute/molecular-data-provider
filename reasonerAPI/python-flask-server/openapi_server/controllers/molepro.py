@@ -503,7 +503,10 @@ class MolePro:
             qualifier_set.append(Qualifier.from_dict(qualifier))
         for qualifier in list_qualifiers:
             qualifier_set.append(qualifier)
-            
+        for qualifier in qualifier_set:
+            if not qualifier.qualifier_type_id.startswith('biolink:'):
+                qualifier.qualifier_type_id = 'biolink:' + qualifier.qualifier_type_id
+
         # create the edge object
         # edge = Edge(predicate=translate_type(predicate, False), subject=source_id, object=target_id, attributes=list_attributes)
         edge = Edge(predicate=translate_type(predicate, False), subject=source_id, object=target_id, attributes=list_attributes, qualifiers=qualifier_set, sources=list_sources)
