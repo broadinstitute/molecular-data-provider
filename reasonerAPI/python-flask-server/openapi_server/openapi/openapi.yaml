@@ -27,7 +27,7 @@ info:
     operations:
     - lookup
     - annotate_nodes
-    batch_size_limit: 1000
+    batch_size_limit: 500
     test_data_location: https://github.com/broadinstitute/molecular-data-provider/tree/master/test/data
     externalDocs:
       description: The values for version are restricted according to the regex in
