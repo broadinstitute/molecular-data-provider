@@ -24,7 +24,7 @@
         "qualifier:object_aspect",
         "qualifier:object_direction",
         "qualifier:mechanism_qualifier",
-        "CMAP:similarity score",
+        "CMAP:similarity_score",
         "NCIT:C68741",
         "NCIT:C53190",
         "OBI:0200163",

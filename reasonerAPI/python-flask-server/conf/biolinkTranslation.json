@@ -80,10 +80,12 @@
             "KEGG": "KEGG.COMPOUND"
         },
         "biolink:MolecularEntity": {
+            "PUBCHEM.COMPOUND": "CID",
             "CHEMBL.COMPOUND": "ChEMBL",
             "CHEMBL.TARGET": "ChEMBL"
         },
         "biolink:ChemicalEntity": {
+            "PUBCHEM.COMPOUND": "CID",
             "CHEMBL.COMPOUND": "ChEMBL",
             "CHEMBL.TARGET": "ChEMBL"
         },
@@ -103,6 +105,12 @@
             "smiles": "SMILES"
         },
         "biolink:MolecularEntity": {
+            "CID": "PUBCHEM.COMPOUND",
+            "ChEBI": "CHEBI",
+            "DrugBank": "DRUGBANK",
+            "ChEMBL": "CHEMBL.COMPOUND"
+        },
+        "biolink:MolecularMixture": {
             "CID": "PUBCHEM.COMPOUND",
             "ChEBI": "CHEBI",
             "DrugBank": "DRUGBANK",
