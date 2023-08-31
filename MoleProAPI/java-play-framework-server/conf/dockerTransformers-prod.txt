@@ -26,6 +26,8 @@ https://molepro-drugbank-transformer.transltr.io/drugbank/molecules
 https://molepro-sider-transformer.transltr.io/sider/drugs
 # gene-list producers
 https://molepro-hgnc-transformer.transltr.io/hgnc/genes
+# protein-list producers
+https://molepro-uniprot-transformer.transltr.io/uniprot/molecules
 # disease producers
 https://molepro-drugcentral-transformer.transltr.io/drugcentral/diseases
 # drug relations
@@ -72,6 +74,10 @@ https://molepro-bindingdb-transformer.transltr.io/bindingdb/bindings
 # compound relations
 https://molepro-chembl-transformer.transltr.io/chembl/metabolites
 https://molepro-pubchem-transformer.transltr.io/pubchem/neighbors
+https://molepro-chebi-transformer.transltr.io/chebi/relations
+# protein relations
+https://molepro-uniprot-transformer.transltr.io/uniprot/genes
+https://molepro-uniprot-transformer.transltr.io/uniprot/proteins
 # gene-disease associations
 https://molepro-gwas-transformer.transltr.io/gwas/genes
 https://molepro-gwas-transformer.transltr.io/gwas/diseases

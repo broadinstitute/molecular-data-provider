@@ -1,5 +1,6 @@
 source	name	srcType	mappedAttrType	mappedValueType
-CMAP	CMAP similarity score	CMAP similarity score	CMAP:similarity score	number
+CMAP	CMAP similarity score	CMAP similarity score	CMAP:similarity_score	number
+CMAP	CMAP similarity score	CMAP:similarity score	CMAP:similarity_score	number
 CMAP	reference	reference	biolink:Publication	biolink:Publication
 CMAP	about CMAP	about CMAP	SIO:000811	string
 CMAP	CMAP touchstone data version	CMAP touchstone data version	SIO:000653	string
