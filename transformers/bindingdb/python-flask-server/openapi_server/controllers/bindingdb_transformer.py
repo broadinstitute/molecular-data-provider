@@ -137,6 +137,7 @@ class BindingDbTransformer(Transformer):
             if inchikey_regex.match(id):
                 ligand_ids.extend(find_ligand_by_inchikey(id))
             return ligand_ids
+        return []
 
 
     def get_identifiers(self, compound: Element, field_name: str, de_prefix = True):
@@ -203,7 +204,8 @@ class BindingDbTransformer(Transformer):
 
     
     def add_connection(self, source_element_id, row, target_element, complex, connections, threshold):
-        if self.numeric_value(self.get_binding_value(row)[1]) >= threshold:
+        binding_value = self.get_binding_value(row)
+        if binding_value is None or self.numeric_value(binding_value[1]) >= threshold:
             return
         infores = self.Curation_DataSources.get(row['Curation_DataSource'],'infores:bindingdb')
         if (target_element.id,infores) in connections:
@@ -234,6 +236,7 @@ class BindingDbTransformer(Transformer):
         for key in ['Ki','IC50','Kd','EC50','kon','koff']:
             if row[key] is not None and row[key] != '':
                 return (key, row[key])
+        return None
 
 
     def numeric_value(self, value):
