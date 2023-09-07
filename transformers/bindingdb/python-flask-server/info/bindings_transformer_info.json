@@ -2,7 +2,7 @@
     "name": "BindingBD binding transformer",
     "label": "BindingBD",
     "description": "binding transformer based on BindingBD data",
-    "version": "2.4.0",
+    "version": "2.4.1",
     "function": "transformer",
     "knowledge_map": {
         "input_class": "compound",
