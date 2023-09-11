@@ -6,8 +6,8 @@ GET     /api                        controllers.ApiDocController.api
 
 
 #Functions for Transformers API
-POST     /gelinea/transform                     controllers.TransformersApiController.transformPost()
-GET     /gelinea/transformer_info                     controllers.TransformersApiController.transformerInfoGet()
+POST     /gelinea/:service/transform                     controllers.TransformersApiController.serviceTransformPost(request: Request, service: String)
+GET     /gelinea/:service/transformer_info                     controllers.TransformersApiController.serviceTransformerInfoGet(request: Request, service: String)
 
 # Map static resources from the /public folder to the /assets URL path
 GET /assets/*file           controllers.Assets.at(file)
