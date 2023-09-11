@@ -1,8 +1,12 @@
 package apimodels;
 
+import apimodels.Node;
 import apimodels.Predicate;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import com.fasterxml.jackson.annotation.*;
 import java.util.Set;
 import javax.validation.*;
@@ -11,18 +15,28 @@ import javax.validation.constraints.*;
 /**
  * Knowledge-graph representation of the transformer.
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", date = "2020-02-27T16:03:08.782-05:00[America/New_York]")
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class KnowledgeMap   {
   @JsonProperty("input_class")
+  @NotNull
+
   private String inputClass;
 
   @JsonProperty("output_class")
+  @NotNull
+
   private String outputClass;
 
-  @JsonProperty("predicates")
-  private List<Predicate> predicates = null;
+  @JsonProperty("nodes")
+  @Valid
+
+  private Map<String, Node> nodes = null;
+
+  @JsonProperty("edges")
+  @Valid
+
+  private List<Predicate> edges = null;
 
   public KnowledgeMap inputClass(String inputClass) {
     this.inputClass = inputClass;
@@ -33,7 +47,7 @@ public class KnowledgeMap   {
    * BioLink class for the members of the input list.
    * @return inputClass
   **/
-    public String getInputClass() {
+  public String getInputClass() {
     return inputClass;
   }
 
@@ -50,7 +64,7 @@ public class KnowledgeMap   {
    * BioLink class for the members of the output list.
    * @return outputClass
   **/
-    public String getOutputClass() {
+  public String getOutputClass() {
     return outputClass;
   }
 
@@ -58,35 +72,59 @@ public class KnowledgeMap   {
     this.outputClass = outputClass;
   }
 
-  public KnowledgeMap predicates(List<Predicate> predicates) {
-    this.predicates = predicates;
+  public KnowledgeMap nodes(Map<String, Node> nodes) {
+    this.nodes = nodes;
     return this;
   }
 
-  public KnowledgeMap addPredicatesItem(Predicate predicatesItem) {
-    if (predicates == null) {
-      predicates = new ArrayList<>();
+  public KnowledgeMap putNodesItem(String key, Node nodesItem) {
+    if (this.nodes == null) {
+      this.nodes = new HashMap<>();
     }
-    predicates.add(predicatesItem);
+    this.nodes.put(key, nodesItem);
+    return this;
+  }
+
+   /**
+   * List of semantic types in the KnowledgeMap.
+   * @return nodes
+  **/
+  public Map<String, Node> getNodes() {
+    return nodes;
+  }
+
+  public void setNodes(Map<String, Node> nodes) {
+    this.nodes = nodes;
+  }
+
+  public KnowledgeMap edges(List<Predicate> edges) {
+    this.edges = edges;
+    return this;
+  }
+
+  public KnowledgeMap addEdgesItem(Predicate edgesItem) {
+    if (edges == null) {
+      edges = new ArrayList<>();
+    }
+    edges.add(edgesItem);
     return this;
   }
 
    /**
    * Predicates describing relationships between subjects and objects.
-   * @return predicates
+   * @return edges
   **/
-  @Valid
-  public List<Predicate> getPredicates() {
-    return predicates;
+  public List<Predicate> getEdges() {
+    return edges;
   }
 
-  public void setPredicates(List<Predicate> predicates) {
-    this.predicates = predicates;
+  public void setEdges(List<Predicate> edges) {
+    this.edges = edges;
   }
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -96,12 +134,13 @@ public class KnowledgeMap   {
     KnowledgeMap knowledgeMap = (KnowledgeMap) o;
     return Objects.equals(inputClass, knowledgeMap.inputClass) &&
         Objects.equals(outputClass, knowledgeMap.outputClass) &&
-        Objects.equals(predicates, knowledgeMap.predicates);
+        Objects.equals(nodes, knowledgeMap.nodes) &&
+        Objects.equals(edges, knowledgeMap.edges);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(inputClass, outputClass, predicates);
+    return Objects.hash(inputClass, outputClass, nodes, edges);
   }
 
   @SuppressWarnings("StringBufferReplaceableByString")
@@ -112,7 +151,8 @@ public class KnowledgeMap   {
     
     sb.append("    inputClass: ").append(toIndentedString(inputClass)).append("\n");
     sb.append("    outputClass: ").append(toIndentedString(outputClass)).append("\n");
-    sb.append("    predicates: ").append(toIndentedString(predicates)).append("\n");
+    sb.append("    nodes: ").append(toIndentedString(nodes)).append("\n");
+    sb.append("    edges: ").append(toIndentedString(edges)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -121,7 +161,7 @@ public class KnowledgeMap   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

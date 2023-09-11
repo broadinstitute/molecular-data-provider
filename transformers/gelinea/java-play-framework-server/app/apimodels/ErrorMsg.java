@@ -1,5 +1,6 @@
 package apimodels;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.*;
 import java.util.Set;
 import javax.validation.*;
@@ -8,20 +9,23 @@ import javax.validation.constraints.*;
 /**
  * ErrorMsg
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", date = "2020-02-27T16:03:08.782-05:00[America/New_York]")
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class ErrorMsg   {
   @JsonProperty("status")
+  
   private Integer status;
 
   @JsonProperty("title")
+  
   private String title;
 
   @JsonProperty("detail")
+  
   private String detail;
 
   @JsonProperty("type")
+  
   private String type;
 
   public ErrorMsg status(Integer status) {
@@ -33,7 +37,7 @@ public class ErrorMsg   {
    * Get status
    * @return status
   **/
-    public Integer getStatus() {
+  public Integer getStatus() {
     return status;
   }
 
@@ -50,7 +54,7 @@ public class ErrorMsg   {
    * Get title
    * @return title
   **/
-    public String getTitle() {
+  public String getTitle() {
     return title;
   }
 
@@ -67,7 +71,7 @@ public class ErrorMsg   {
    * Get detail
    * @return detail
   **/
-    public String getDetail() {
+  public String getDetail() {
     return detail;
   }
 
@@ -84,7 +88,7 @@ public class ErrorMsg   {
    * Get type
    * @return type
   **/
-    public String getType() {
+  public String getType() {
     return type;
   }
 
@@ -94,7 +98,7 @@ public class ErrorMsg   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -131,7 +135,7 @@ public class ErrorMsg   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }
