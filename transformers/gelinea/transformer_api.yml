@@ -1,6 +1,7 @@
 openapi: 3.0.0
 info:
   title: Transformer API for Gene-List Network Enrichment Analysis
+  termsOfService: https://github.com/broadinstitute/GeLiNEA#citing-gelinea
 
   version: 2.5.0
 
@@ -27,7 +28,7 @@ paths:
         required: true
         schema:
           type: string
-          enum: [SERVICE-LIST]
+          enum: [enrichment]
       - name: cache
         in: query
         description: >-
@@ -58,7 +59,7 @@ paths:
         required: true
         schema:
           type: string
-          enum: [SERVICE-LIST]
+          enum: [enrichment]
       - name: cache
         in: query
         description: >-

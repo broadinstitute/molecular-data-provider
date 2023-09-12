@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import java.io.File;
@@ -36,6 +37,7 @@ public class TransformersApiController extends Controller {
     private TransformersApiController(Config configuration, TransformersApiControllerImpInterface imp) {
         this.imp = imp;
         mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         this.configuration = configuration;
     }
 

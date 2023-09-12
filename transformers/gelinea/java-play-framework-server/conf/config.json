@@ -4,7 +4,7 @@
         "C2 - curated gene sets": "data/c2.all.current.STRING.gmt",
         "C5 - GO gene sets": "data/c5.all.current.STRING.gmt"
     },
-    "urlPrefix": "http://software.broadinstitute.org/gsea/msigdb/cards/%s.html",
+    "urlPrefix": "https://www.gsea-msigdb.org/gsea/msigdb/cards/%s.html",
     "networks": [
         {
             "network": "STRING-human-700",
