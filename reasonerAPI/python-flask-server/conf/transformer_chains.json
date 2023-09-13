@@ -1,0 +1,97 @@
+[
+    {
+        "subject": "biolink:Drug",
+        "predicate": "biolink:has_active_ingredient",
+        "inverse_predicate": "biolink:is_active_ingredient_of",
+        "object": "biolink:SmallMolecule",
+        "transformer_chain": [
+            {
+                "name": "RxNorm drug-list producer",
+                "controls": [
+                    {
+                        "name": "drug",
+                        "value": "#subject"
+                    }
+                ]
+            },
+            {
+                "name": "Inxight:Drugs active ingredients transformer",
+                "controls": []
+            }
+        ]
+    },
+    {
+        "subject": "biolink:Gene",
+        "predicate": "biolink:related_to",
+        "inverse_predicate": "biolink:related_to",
+        "object": "biolink:Gene",
+        "transformer_chain": [
+            {
+                "name": "HGNC gene-list producer",
+                "controls": [
+                    {
+                        "name": "gene",
+                        "value": "#subject"
+                    }
+                ]
+            },
+            {
+                "controls": [
+                    {
+                        "value": "0.7",
+                        "name": "minimum combined score"
+                    },
+                    {
+                        "value": "0",
+                        "name": "minimum neighborhood score"
+                    },
+                    {
+                        "value": "0",
+                        "name": "minimum gene fusion score"
+                    },
+                    {
+                        "value": "0",
+                        "name": "minimum cooccurence score"
+                    },
+                    {
+                        "value": "0",
+                        "name": "minimum coexpression score"
+                    },
+                    {
+                        "value": "0",
+                        "name": "minimum experimental score"
+                    },
+                    {
+                        "value": "0",
+                        "name": "minimum database score"
+                    },
+                    {
+                        "value": "0",
+                        "name": "minimum textmining score"
+                    },
+                    {
+                        "value": "0",
+                        "name": "minimum best non-textmining component score"
+                    },
+                    {
+                        "value": "100",
+                        "name": "maximum number of genes"
+                    }
+                ],
+                "name": "STRING protein-protein interaction"
+            }
+        ]
+    },
+    {
+        "subject": "biolink:SmallMolecule",
+        "predicate": "biolink:chemically_similar_to",
+        "inverse_predicate": "biolink:chemically_similar_to",
+        "object": "biolink:SmallMolecule",
+        "transformer_chain": [
+            {
+                "controls": [],
+                "name": "PubChem chemical similarity transformer"
+            }
+        ]
+    }
+]

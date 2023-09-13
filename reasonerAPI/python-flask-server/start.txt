@@ -1,0 +1,9 @@
+
+export MOLEPRO_QUERY_LIMIT=500
+export MOLEPRO_PORT=9221
+
+export MOLEPRO_BASE_URL=https://translator.broadinstitute.org/molecular_data_provider
+export MOLEPRO_URL_BIOLINK=https://bl-lookup-sri.renci.org/bl
+export MOLEPRO_URL_TRANSFORMERS=https://translator.broadinstitute.org/molecular_data_provider/transformers
+
+python3 -m openapi_server

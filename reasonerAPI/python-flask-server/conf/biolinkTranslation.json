@@ -1,0 +1,129 @@
+{
+    "type_translation_input": {
+        "biolink:affected_by": "affected_by",
+        "biolink:affects": "affects",
+        "biolink:treated_by": "treated_by",
+        "biolink:treats": "treats",
+        "biolink:related_to": "related_to",
+        "biolink:correlated_with": "correlated_with",
+        "biolink:has_metabolite": "has_metabolite",
+        "biolink:has_evidence": "has_evidence",
+        "biolink:has_input":"has_input",
+        "biolink:has_output":"has_output",
+        "biolink:has_participant":"has_participant",
+        "biolink:interacts_with": "interacts_with",
+        "biolink:is_input_of":"is_input",
+        "biolink:is_output_of":"is_output",
+        "biolink:participates_in":"participates_in",
+        "biolink:regulates": "biolink:entity_regulates_entity",
+        "biolink:regulated_by": "biolink:entity_regulated_by_entity",
+        "biolink:negatively_regulates": "biolink:entity_negatively_regulates_entity",
+        "biolink:negatively_regulated_by": "biolink:entity_negatively_regulated_by_entity",
+        "biolink:positively_regulates": "biolink:entity_positively_regulates_entity",
+        "biolink:positively_regulated_by": "biolink:entity_positively_regulated_by_entity",
+        "biolink:Gene": "Gene",
+        "biolink:SmallMolecule": "SmallMolecule",
+        "biolink:Disease": "Disease",
+        "biolink:Drug": "Drug",
+        "biolink:Pathway": "Pathway",
+        "biolink:MolecularEntity": "MolecularEntity",
+        "biolink:MolecularActivity": "MolecularActivity",
+        "biolink:Assay": "Assay",
+        "biolink:CellularComponent": "CellularComponent",
+        "biolink:PhenotypicFeature": "PhenotypicFeature",
+        "biolink:Cell": "Cell",
+        "biolink:AnatomicalEntity": "AnatomicalEntity",
+        "biolink:OrganismTaxon": "OrganismTaxon",
+        "biolink:BiologicalProcess": "BiologicalProcess",
+        "biolink:CellLine": "CellLine",
+        "biolink:ChemicalEntity": "ChemicalEntity",
+        "biolink:DiseaseOrPhenotypicFeature": "DiseaseOrPhenotypicFeature",
+        "biolink:GrossAnatomicalStructure": "GrossAnatomicalStructure",
+        "biolink:InformationContentEntity": "InformationContentEntity",
+        "biolink:MacromolecularComplexMixin": "MacromolecularComplexMixin",
+        "biolink:MolecularMixture": "MolecularMixture",
+        "biolink:NucleicAcidEntity": "NucleicAcidEntity",
+        "biolink:Organism": "Organism",
+        "biolink:PairwiseGeneToGeneInteraction": "PairwiseGeneToGeneInteraction",
+        "biolink:ProteinComplex": "ProteinComplex",
+        "biolink:ProteinFamily": "ProteinFamily",
+        "biolink:ClinicalAttribute": "ClinicalAttribute",
+        "biolink:Cohort": "Cohort",
+        "biolink:GeneticInheritance": "GeneticInheritance",
+        "biolink:OrganismEntity": "OrganismEntity",
+        "biolink:Phenomenon": "Phenomenon",
+        "biolink:PhysiologicalProcess": "PhysiologicalProcess",
+        "biolink:PopulationOfIndividualOrganisms": "PopulationOfIndividualOrganisms",
+        "biolink:Procedure": "Procedure",
+        "biolink:Publication": "Publication",
+        "biolink:Target": "Target",
+        "biolink:Behavior": "Behavior",
+        "biolink:Protein": "Protein"
+    },
+    "cpd_curie_translation_input": {
+        "PUBCHEM.COMPOUND": "CID",
+        "CHEMBL.COMPOUND": "ChEMBL",
+        "DRUGBANK": "DrugBank",
+        "KEGG": "KEGG.COMPOUND"
+    },
+    "target_curie_translation_input": {
+        "CHEMBL.TARGET": "ChEMBL"
+    },
+    "assay_curie_translation_input": {
+        "CHEMBL.ASSAY": "ChEMBL"
+    },
+    "curie_translation_input": {
+        "biolink:SmallMolecule": {
+            "PUBCHEM.COMPOUND": "CID",
+            "CHEMBL.COMPOUND": "ChEMBL",
+            "DRUGBANK": "DrugBank",
+            "KEGG": "KEGG.COMPOUND"
+        },
+        "biolink:MolecularEntity": {
+            "PUBCHEM.COMPOUND": "CID",
+            "CHEMBL.COMPOUND": "ChEMBL",
+            "CHEMBL.TARGET": "ChEMBL"
+        },
+        "biolink:ChemicalEntity": {
+            "PUBCHEM.COMPOUND": "CID",
+            "CHEMBL.COMPOUND": "ChEMBL",
+            "CHEMBL.TARGET": "ChEMBL"
+        },
+        "biolink:Assay": {
+            "CHEMBL.ASSAY": "ChEMBL"
+        }
+    },
+    "curie_translation_output": {
+        "biolink:SmallMolecule": {
+            "CID": "PUBCHEM.COMPOUND",
+            "ChEBI": "CHEBI",
+            "ChEMBL": "CHEMBL.COMPOUND",
+            "DrugBank": "DRUGBANK",
+            "KEGG.COMPOUND": "KEGG",
+            "inchi": "INCHI",
+            "inchikey": "INCHIKEY",
+            "smiles": "SMILES"
+        },
+        "biolink:MolecularEntity": {
+            "CID": "PUBCHEM.COMPOUND",
+            "ChEBI": "CHEBI",
+            "DrugBank": "DRUGBANK",
+            "ChEMBL": "CHEMBL.COMPOUND"
+        },
+        "biolink:MolecularMixture": {
+            "CID": "PUBCHEM.COMPOUND",
+            "ChEBI": "CHEBI",
+            "DrugBank": "DRUGBANK",
+            "ChEMBL": "CHEMBL.COMPOUND"
+        },
+        "biolink:ChemicalEntity": {
+            "CID": "PUBCHEM.COMPOUND",
+            "ChEBI": "CHEBI",
+            "DrugBank": "DRUGBANK",
+            "ChEMBL": "CHEMBL.COMPOUND"
+        },
+        "biolink:Assay": {
+            "ChEMBL": "CHEMBL.ASSAY"
+        }
+    }
+}
