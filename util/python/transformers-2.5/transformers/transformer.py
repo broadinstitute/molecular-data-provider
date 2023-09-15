@@ -167,6 +167,22 @@ class Transformer:
         pass
 
 
+    #######################################################################################################
+    #
+    # Support for fields with multiple identifiers.
+    #
+    def get_identifiers(self, compound: Element, field_name: str, de_prefix = True):
+        if field_name in compound.identifiers and compound.identifiers[field_name] is not None:
+            identifiers = compound.identifiers[field_name]
+            if isinstance(identifiers, str):
+                identifiers = [identifiers]
+            if isinstance(identifiers, list):
+                if de_prefix:
+                    identifiers = [self.de_prefix(field_name, id) for id in identifiers]
+                return [id for id in identifiers if id is not None]
+        return []
+
+
     ########################################################################################################
     # Lookup the required CURIE Prefix corresponding to parameters:
     # (1) the MolePro field name of an identifier. e.g., field name "chembl" gets MolePro CURIE prefix "ChEMBL:"
