@@ -25,6 +25,7 @@ paths:
           enum:
           - chemicals
           - relations
+          - text-mining
           type: string
         style: simple
       - description: "Directive for handling caching, can be 'yes' (default), 'no',\
@@ -88,6 +89,7 @@ paths:
           enum:
           - chemicals
           - relations
+          - text-mining
           type: string
         style: simple
       - description: "Directive for handling caching, can be 'yes' (default), 'no',\

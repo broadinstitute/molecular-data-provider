@@ -1,0 +1,38 @@
+{
+    "name": "PharmGKB compound-list producer",
+    "label": "PharmGKB",
+    "description": "Compound-list producer based on PharmGKB (https://www.pharmgkb.org/).",
+    "infores": "infores:pharmgkb",
+    "version": "2.5.0",
+    "function": "producer",
+    "knowledge_map": {
+        "input_class": "none",
+        "output_class": "compound",
+        "nodes": {
+            "SmallMolecule" : {
+                "id_prefixes": ["CHEBI",
+                                "DrugBank",
+                                "KEGG.COMPOUND",
+                                "InChI"],
+                "count": -1,
+                "attributes": []
+            }
+        },
+        "edges": []
+    },
+    "properties": {
+        "source_url": "https://www.pharmgkb.org/",
+        "terms_of_service": "https://www.pharmgkb.org/page/dataUsagePolicy",
+        "source_version": "Jan-2023"
+    },
+    "parameters": [
+        {
+            "example": "aspirin",
+            "name": "compound",
+            "type": "string",
+            "description": "compound name, ChEBI ID, DrugBank ID, InChI, KEGG Compound ID, PubChem Compound ID",
+            "multivalued": true,
+            "required": true
+        }
+    ]
+}

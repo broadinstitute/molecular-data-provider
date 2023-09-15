@@ -28,7 +28,7 @@ paths:
         required: true
         schema:
           type: string
-          enum: [chemicals, relations]
+          enum: [chemicals, relationss, text-mining]
       - name: cache
         in: query
         description: >-
@@ -59,7 +59,7 @@ paths:
         required: true
         schema:
           type: string
-          enum: [chemicals, relations]
+          enum: [chemicals, relationss, text-mining]
       - name: cache
         in: query
         description: >-
