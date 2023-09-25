@@ -1,0 +1,80 @@
+{
+    "name": "KINOMEscan screening transformer",
+    "label": "KINOMEscan",
+    "infores":"infores:kinomescan",
+    "description": "Protein to small molecule transformer based on KINOMEscan (https://lincs.hms.harvard.edu/kinomescan/).",
+    "version": "2.5.0",
+    "function": "transformer",
+    "knowledge_map": {
+        "input_class": "protein",
+        "output_class": "small molecule",
+        "nodes": {
+            "SmallMolecule": {
+                "id_prefixes": [
+                    "HMSL"
+                ]
+            },
+            "Protein": {
+                "id_prefixes": [
+                    "UniProtKB"
+                ]
+            }
+        },
+        "edges": [
+            {
+                "subject": "Protein",
+                "predicate": "biolink:is_assessed_by",
+                "inverse_predicate": "biolink:assess",
+                "object": "SmallMolecule",
+                "source": "KINOMEscan",
+                "count":-1,
+                "knowledge_level": "observation",
+                "agent_type": "experimental_agent",
+                "qualifiers": [
+                    {
+                        "qualifier_type_id": "object_form_or_variant_qualifier" 
+                    }
+                ],
+                "attributes":[
+                    {
+                        "attribute_type_id":"biolink:primary_knowledge_source",
+                        "source":"KINOMEscan"
+                    },
+                    {
+                        "attribute_type_id":"kd_threshold",
+                        "description": "Kd values (nM) reported for each compound were determined using 11 serial threefold dilutions of test compound and a DMSO control. A null result means no inhibition of kinase binding to the ligand in the presence of the compound and low Kd means strong inhibition.",
+                        "source":"KINOMEscan"   
+                    },
+                    {
+                        "attribute_type_id":"percent_control_threshold",
+                        "description":" Results for each kinase are reported as 'Percent of control', where the control is DMSO and where a 100% result means no inhibition of kinase binding to the ligand in the presence of the compound, and where low percent results mean strong inhibition.",
+                        "source": "KINOMEscan"
+                    }
+                ]
+            }
+        ]
+    },
+    "properties": {
+        "source_url": "https://lincs.hms.harvard.edu/kinomescan/",
+        "source_version": "2018-01-18",
+        "terms_of_service": "https://lincs.hms.harvard.edu/terms/"
+    },
+    "parameters": [
+        {
+            "example": "10000",
+            "name": "Kd nMol threshold",
+            "type": "double",
+            "suggested_values": "Kd number value threshold for assay",
+            "required": true,
+            "multivalued": false
+        }, 
+        {
+            "example": "10",
+            "name": "percent control threshold",
+            "type": "double",
+            "suggested_values": "percent value threshold for assay",
+            "required": true,
+            "multivalued": false
+        }
+    ]
+}
