@@ -1,20 +1,22 @@
 openapi: 3.0.1
 info:
-  description: INSERT-DESCRIPTION-OF-YOUR-SERVICE-HERE
-  version: INSERT-VERSION-OF-YOUR-SERVICE-HERE
-  title: INSERT-TITLE-OF-YOUR-SERVICE-HERE
+  description: TRAPI API for Gene-List Network Enrichment Analysis
+  version: 1.4.0.0
+  title: Gene-List Network Enrichment Analysis
   contact:
-    email: INSERT@EMAIL-ADDRESS-OF-IMPLEMENTER-HERE.ORG
+    email: translator@broadinstitute.org
+    name: Molecular Data Provider
+    x-role: responsible organization
   license:
-    name: Apache 2.0
-    url: http://www.apache.org/licenses/LICENSE-2.0.html
-  termsOfService: INSERT-URL-HERE
+    name: MIT License
+    url: https://github.com/broadinstitute/molecular-data-provider/blob/master/LICENSE
+  termsOfService: https://github.com/broadinstitute/molecular-data-provider/blob/master/terms_of_service.md
   x-translator:
-    component: INSERT-EITHER-ARA-OR-KP-OR-ARS-OR-Utility-HERE
+    component: KP
     team:
-      - INSERT-ONE-TRANSLATOR-TEAM-NAME-PER-ELEMENT-HERE
-    biolink-version: INSERT-BIOLINK-MODEL-VERSION-HERE
-    infores: INSERT-INFORES-CURIE-OF-THIS-RESOURCE-HERE
+      - Molecular Data Provider
+    biolink-version: 3.4.3
+    infores: infores:molepro
     externalDocs:
       description: >-
         The values for component and team are restricted according to this
@@ -23,12 +25,12 @@ info:
         production/x-translator/
   x-trapi:
     version: 1.4.0
-    asyncquery: REPLACE-WITH-true-IF-/asyncquery-IS-IMPLEMENTED-ELSE-false
+    asyncquery: true
     operations:
-      - LIST-ALL-SUPPORTED-OPERATION-IDS-HERE-OR-REMOVE-THIS-SECTION
-    batch_size_limit: ADD-BATCH-SIZE-LIMIT-OR-REMOVE-IF-NO-LIMIT
-    rate_limit: ADD-REQUEST-RATE-LIMIT-OR-REMOVE-IF-NO-LIMIT
-    test_data_location: ADD-URL-THAT-RESOLVES-TO-SRI-TESTING-HARNESS-DATA
+      - lookup
+      - enrich_results
+    batch_size_limit: 2500
+    test_data_location: https://github.com/broadinstitute/molecular-data-provider/blob/master/test/data/GeLiNEA-test-data.json
     externalDocs:
       description: >-
         The values for version are restricted according to the regex in
@@ -36,8 +38,9 @@ info:
       url: https://github.com/NCATSTranslator/translator_extensions/blob/\
         production/x-trapi/
 servers:
-  - url: INSERT-URL-HERE
-    description: INSERT-SERVER-DESCRIPTION-HERE
+  - url: https://translator.broadinstitute.org/gelinea-trapi/v1.4
+    description: TRAPI development service for GeLiNEA
+    x-maturity: development
 externalDocs:
   description: >-
     Documentation for the NCATS Biomedical Translator Reasoners web services
@@ -51,20 +54,10 @@ tags:
       NOT including all implied ancestor relationships. ARAs SHOULD provide
       the union of all meta knowledge graphs of all the KPs that they can
       consult.
-    externalDocs:
-      description: >-
-        Documentation for the reasoner meta_knowledge_graph function
-      url: INSERT-URL-HERE-OR-REMOVE-EXTERNALDOCS-IF-NA
   - name: query
     description: Initiate a query and wait to receive the response
-    externalDocs:
-      description: Documentation for the reasoner query function
-      url: INSERT-URL-HERE-OR-REMOVE-EXTERNALDOCS-IF-NA
   - name: asyncquery
     description: Initiate a query with a callback to receive the response
-    externalDocs:
-      description: Documentation for the reasoner asynchquery function
-      url: INSERT-URL-HERE-OR-REMOVE-EXTERNALDOCS-IF-NA
   - name: asyncquery_status
     description: >-
       Retrieve the current status of a previously submitted
@@ -288,6 +281,42 @@ components:
             the source of queries for development and issue resolution.
           nullable: true
       additionalProperties: true
+      example:
+        message:
+          knowledge_graph:
+            edges: {}
+            nodes:
+              NCBIGene:23279:
+                categories: 
+                  - biolink:Gene
+              NCBIGene:7175:
+                categories:
+                  - biolink:Gene
+              NCBIGene:55706:
+                categories:
+                  - biolink:Gene
+              NCBIGene:5315:
+                categories:
+                  - biolink:Gene
+              NCBIGene:5566:
+                categories:
+                  - biolink:Gene
+              NCBIGene:2023:
+                categories:
+                  - biolink:Gene
+              NCBIGene:79023:
+                categories:
+                  - biolink:Gene
+              NCBIGene:81929:
+                categories:
+                  - biolink:Gene
+              NCBIGene:8086:
+                categories:
+                  - biolink:Gene
+        workflow:
+          - id: enrich_results
+            parameters:
+              pvalue_threshold: 1e-3
       required:
         - message
     AsyncQuery:
