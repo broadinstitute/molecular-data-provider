@@ -5,43 +5,45 @@ import apimodels.ErrorMsg;
 import apimodels.TransformerInfo;
 import apimodels.TransformerQuery;
 
+import com.typesafe.config.Config;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Http;
 import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import java.io.File;
+import play.libs.Files.TemporaryFile;
 import openapitools.OpenAPIUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import javax.validation.constraints.*;
-import play.Configuration;
+import com.typesafe.config.Config;
 
 import openapitools.OpenAPIUtils.ApiAction;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", date = "2020-02-27T16:03:08.782-05:00[America/New_York]")
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 public class TransformersApiController extends Controller {
-
     private final TransformersApiControllerImpInterface imp;
     private final ObjectMapper mapper;
-    private final Configuration configuration;
+    private final Config configuration;
 
     @Inject
-    private TransformersApiController(Configuration configuration, TransformersApiControllerImpInterface imp) {
+    private TransformersApiController(Config configuration, TransformersApiControllerImpInterface imp) {
         this.imp = imp;
         mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         this.configuration = configuration;
     }
 
-
     @ApiAction
-    public Result transformPost() throws Exception {
-        JsonNode nodetransformerQuery = request().body().asJson();
+    public Result serviceTransformPost(Http.Request request, String service) throws Exception {
+        JsonNode nodetransformerQuery = request.body().asJson();
         TransformerQuery transformerQuery;
         if (nodetransformerQuery != null) {
             transformerQuery = mapper.readValue(nodetransformerQuery.toString(), TransformerQuery.class);
@@ -51,23 +53,26 @@ public class TransformersApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'TransformerQuery' parameter is required");
         }
-        List<Element> obj = imp.transformPost(transformerQuery);
-        if (configuration.getBoolean("useOutputBeanValidation")) {
-            for (Element curItem : obj) {
-                OpenAPIUtils.validate(curItem);
-            }
+        String valuecache = request.getQueryString("cache");
+        String cache;
+        if (valuecache != null) {
+            cache = valuecache;
+        } else {
+            cache = null;
         }
-        JsonNode result = mapper.valueToTree(obj);
-        return ok(result);
+        return imp.serviceTransformPostHttp(request, service, transformerQuery, cache);
     }
 
     @ApiAction
-    public Result transformerInfoGet() throws Exception {
-        TransformerInfo obj = imp.transformerInfoGet();
-        if (configuration.getBoolean("useOutputBeanValidation")) {
-            OpenAPIUtils.validate(obj);
+    public Result serviceTransformerInfoGet(Http.Request request, String service) throws Exception {
+        String valuecache = request.getQueryString("cache");
+        String cache;
+        if (valuecache != null) {
+            cache = valuecache;
+        } else {
+            cache = null;
         }
-        JsonNode result = mapper.valueToTree(obj);
-        return ok(result);
+        return imp.serviceTransformerInfoGetHttp(request, service, cache);
     }
+
 }

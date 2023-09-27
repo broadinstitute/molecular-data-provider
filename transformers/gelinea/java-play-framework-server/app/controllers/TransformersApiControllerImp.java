@@ -9,21 +9,23 @@ import play.mvc.Http;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.io.FileInputStream;
+import play.libs.Files.TemporaryFile;
 import javax.validation.constraints.*;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", date = "2020-02-27T16:03:08.782-05:00[America/New_York]")
 
-public class TransformersApiControllerImp implements TransformersApiControllerImpInterface {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
+public class TransformersApiControllerImp extends TransformersApiControllerImpInterface {
 
     GeLiNEATransformer transformer = new GeLiNEATransformer();
 
     @Override
-    public List<Element> transformPost(TransformerQuery transformerQuery) throws Exception {
+    public List<Element> serviceTransformPost(Http.Request request, String service, TransformerQuery transformerQuery, String cache) throws Exception {
         return transformer.transform(transformerQuery);
     }
 
     @Override
-    public TransformerInfo transformerInfoGet() throws Exception {
+    public TransformerInfo serviceTransformerInfoGet(Http.Request request, String service, String cache) throws Exception {
         return transformer.getInfo();
     }
 

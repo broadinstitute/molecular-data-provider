@@ -1,5 +1,6 @@
 package apimodels;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,11 +12,12 @@ import javax.validation.constraints.*;
 /**
  * Parameter
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", date = "2020-02-27T16:03:08.782-05:00[America/New_York]")
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Parameter   {
   @JsonProperty("name")
+  @NotNull
+
   private String name;
 
   /**
@@ -54,28 +56,43 @@ public class Parameter   {
   }
 
   @JsonProperty("type")
+  @NotNull
+
   private TypeEnum type;
 
+  @JsonProperty("required")
+  
+  private Boolean required;
+
+  @JsonProperty("multivalued")
+  
+  private Boolean multivalued;
+
   @JsonProperty("default")
+  
   private String _default;
 
   @JsonProperty("example")
+  
   private String example;
 
-  @JsonProperty("biolink_class")
-  private String biolinkClass;
-
   @JsonProperty("allowed_values")
+  
   private List<String> allowedValues = null;
 
   @JsonProperty("allowed_range")
+  @Size(min=2,max=2)
+@Valid
+
   private List<BigDecimal> allowedRange = null;
 
-  @JsonProperty("suggested_values")
-  private String suggestedValues;
+  @JsonProperty("description")
+  
+  private String description;
 
-  @JsonProperty("lookup_url")
-  private String lookupUrl;
+  @JsonProperty("suggested_values")
+  
+  private String suggestedValues;
 
   public Parameter name(String name) {
     this.name = name;
@@ -86,7 +103,6 @@ public class Parameter   {
    * Name of the parameter.
    * @return name
   **/
-  @NotNull
   public String getName() {
     return name;
   }
@@ -104,13 +120,46 @@ public class Parameter   {
    * Type of the parameter, one of 'Boolean', 'int', 'double', 'string'.
    * @return type
   **/
-  @NotNull
   public TypeEnum getType() {
     return type;
   }
 
   public void setType(TypeEnum type) {
     this.type = type;
+  }
+
+  public Parameter required(Boolean required) {
+    this.required = required;
+    return this;
+  }
+
+   /**
+   * Indicates whether the parameter is required(default true).
+   * @return required
+  **/
+  public Boolean getRequired() {
+    return required;
+  }
+
+  public void setRequired(Boolean required) {
+    this.required = required;
+  }
+
+  public Parameter multivalued(Boolean multivalued) {
+    this.multivalued = multivalued;
+    return this;
+  }
+
+   /**
+   * Indicates whether multiple occurences of the parameter are allowed (default false).
+   * @return multivalued
+  **/
+  public Boolean getMultivalued() {
+    return multivalued;
+  }
+
+  public void setMultivalued(Boolean multivalued) {
+    this.multivalued = multivalued;
   }
 
   public Parameter _default(String _default) {
@@ -122,7 +171,7 @@ public class Parameter   {
    * Default value of the parameter.
    * @return _default
   **/
-    public String getDefault() {
+  public String getDefault() {
     return _default;
   }
 
@@ -139,29 +188,12 @@ public class Parameter   {
    * Example value of the parameter.
    * @return example
   **/
-    public String getExample() {
+  public String getExample() {
     return example;
   }
 
   public void setExample(String example) {
     this.example = example;
-  }
-
-  public Parameter biolinkClass(String biolinkClass) {
-    this.biolinkClass = biolinkClass;
-    return this;
-  }
-
-   /**
-   * BioLink class of the parameter. Applicable to producers only and only one parameter can have a BioLink class.
-   * @return biolinkClass
-  **/
-    public String getBiolinkClass() {
-    return biolinkClass;
-  }
-
-  public void setBiolinkClass(String biolinkClass) {
-    this.biolinkClass = biolinkClass;
   }
 
   public Parameter allowedValues(List<String> allowedValues) {
@@ -181,7 +213,7 @@ public class Parameter   {
    * Allowed values for the parameter.
    * @return allowedValues
   **/
-    public List<String> getAllowedValues() {
+  public List<String> getAllowedValues() {
     return allowedValues;
   }
 
@@ -206,14 +238,29 @@ public class Parameter   {
    * Allowed range for values of the parameter.
    * @return allowedRange
   **/
-  @Size(min=2,max=2)
-@Valid
   public List<BigDecimal> getAllowedRange() {
     return allowedRange;
   }
 
   public void setAllowedRange(List<BigDecimal> allowedRange) {
     this.allowedRange = allowedRange;
+  }
+
+  public Parameter description(String description) {
+    this.description = description;
+    return this;
+  }
+
+   /**
+   * Description of the parameter.
+   * @return description
+  **/
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
   }
 
   public Parameter suggestedValues(String suggestedValues) {
@@ -225,7 +272,7 @@ public class Parameter   {
    * Suggested value range for the parameter.
    * @return suggestedValues
   **/
-    public String getSuggestedValues() {
+  public String getSuggestedValues() {
     return suggestedValues;
   }
 
@@ -233,26 +280,9 @@ public class Parameter   {
     this.suggestedValues = suggestedValues;
   }
 
-  public Parameter lookupUrl(String lookupUrl) {
-    this.lookupUrl = lookupUrl;
-    return this;
-  }
-
-   /**
-   * URL to search for suitable parameter values.
-   * @return lookupUrl
-  **/
-    public String getLookupUrl() {
-    return lookupUrl;
-  }
-
-  public void setLookupUrl(String lookupUrl) {
-    this.lookupUrl = lookupUrl;
-  }
-
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -262,18 +292,19 @@ public class Parameter   {
     Parameter parameter = (Parameter) o;
     return Objects.equals(name, parameter.name) &&
         Objects.equals(type, parameter.type) &&
+        Objects.equals(required, parameter.required) &&
+        Objects.equals(multivalued, parameter.multivalued) &&
         Objects.equals(_default, parameter._default) &&
         Objects.equals(example, parameter.example) &&
-        Objects.equals(biolinkClass, parameter.biolinkClass) &&
         Objects.equals(allowedValues, parameter.allowedValues) &&
         Objects.equals(allowedRange, parameter.allowedRange) &&
-        Objects.equals(suggestedValues, parameter.suggestedValues) &&
-        Objects.equals(lookupUrl, parameter.lookupUrl);
+        Objects.equals(description, parameter.description) &&
+        Objects.equals(suggestedValues, parameter.suggestedValues);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, type, _default, example, biolinkClass, allowedValues, allowedRange, suggestedValues, lookupUrl);
+    return Objects.hash(name, type, required, multivalued, _default, example, allowedValues, allowedRange, description, suggestedValues);
   }
 
   @SuppressWarnings("StringBufferReplaceableByString")
@@ -284,13 +315,14 @@ public class Parameter   {
     
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
+    sb.append("    required: ").append(toIndentedString(required)).append("\n");
+    sb.append("    multivalued: ").append(toIndentedString(multivalued)).append("\n");
     sb.append("    _default: ").append(toIndentedString(_default)).append("\n");
     sb.append("    example: ").append(toIndentedString(example)).append("\n");
-    sb.append("    biolinkClass: ").append(toIndentedString(biolinkClass)).append("\n");
     sb.append("    allowedValues: ").append(toIndentedString(allowedValues)).append("\n");
     sb.append("    allowedRange: ").append(toIndentedString(allowedRange)).append("\n");
+    sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    suggestedValues: ").append(toIndentedString(suggestedValues)).append("\n");
-    sb.append("    lookupUrl: ").append(toIndentedString(lookupUrl)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -299,7 +331,7 @@ public class Parameter   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }
