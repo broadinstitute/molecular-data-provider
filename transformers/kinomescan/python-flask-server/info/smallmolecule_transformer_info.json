@@ -1,0 +1,38 @@
+{
+    "name": "KINOMEscan small-molecule-list producer",
+    "label": "KINOMEscan",
+    "infores":"infores:kinomescan",
+    "description": "Small molecule-list producer based on KINOMEscan (https://lincs.hms.harvard.edu/kinomescan/).",
+    "version": "2.5.0",
+    "function": "producer",
+    "knowledge_map": {
+        "input_class": "none",
+        "output_class": "small molecule",
+        "nodes": {
+            "SmallMolecule": {
+                "id_prefixes": [
+                    "HMSL", 
+                    "CID", 
+                    "INCHIKEY"
+                ],
+                "count": 165
+            }
+        },
+        "edges": []
+    },
+    "properties": {
+        "source_url": "https://lincs.hms.harvard.edu/kinomescan/",
+        "source_version": "2018-01-18",
+        "terms_of_service": "https://lincs.hms.harvard.edu/terms/"
+    },
+    "parameters": [
+        {
+            "example": "HMS:HMSL10350",
+            "name": "small molecule",
+            "type": "string",
+            "suggested_values": "semicolon-separated list of protein names, HMS Small Molecule ids, or LINCS Small Molecule ids",
+            "required": true,
+            "multivalued":true
+        }
+    ]
+}
