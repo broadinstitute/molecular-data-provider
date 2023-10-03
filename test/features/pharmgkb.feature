@@ -1,7 +1,7 @@
 Feature: Check PharmGKB transformer
 
     Background: Specify transformer API
-        Given a transformer at "http://translator.broadinstitute.org/pharmgkb"
+        Given a transformer at "https://translator.broadinstitute.org/pharmgkb"
 
 
     Scenario: Check PharmGKB producer info
@@ -113,7 +113,7 @@ Feature: Check PharmGKB transformer
            },
            {
               "biolink_class": "SmallMolecule",
-              "id": "query:1",
+              "id": "query:2",
               "identifiers": {
                   "pharmgkb": "PHARMGKB.CHEMICAL:PA164712302"
               },
@@ -121,14 +121,17 @@ Feature: Check PharmGKB transformer
             "source": "PharmGKB"
            }
          ]}
-      """
-      then the size of the response is 4 
-      and  the response contains the following entries in "id"
+        """
+        then the size of the response is 4 
+        and  the response contains the following entries in "id"
             | id            |
             | NCBIGene:3753 |
             | NCBIGene:9992 |
             | NCBIGene:3757 |
             | NCBIGene:9722 |
+        and the response contains the following entries in "source_element_id" of "connections" array
+            | source_element_id |
+            | query:1           |
 
 
 
@@ -155,7 +158,56 @@ Feature: Check PharmGKB transformer
             | id            |
             | NCBIGene:5243 |
             | NCBIGene:4363 |
+        and the response contains the following entries in "source_element_id" of "connections" array
+            | source_element_id |
+            | CID 4046          |
 
+
+
+    Scenario: Check PharmGKB relations transformer on MolePro input
+        Given the transformer
+        when we fire "/relations/transform" query with the following body:
+        """
+        {
+            "controls": [],
+            "collection": [
+                {
+                    "id": "CID:4485",
+                    "biolink_class": "SmallMolecule",
+                    "identifiers": {
+                        "cas": "CAS:21829-25-4",
+                        "chebi": "CHEBI:7565",
+                        "drugbank": "DrugBank:DB01115",
+                        "inchi": "InChI=1S/C17H18N2O6/c1-9-13(16(20)24-3)15(14(10(2)18-9)17(21)25-4)11-7-5-6-8-12(11)19(22)23/h5-8,15,18H,1-4H3",
+                        "kegg": "KEGG.DRUG:D00437",
+                        "pharmgkb": "PHARMGKB.CHEMICAL:PA450631",
+                        "pubchem": "CID:4485",
+                        "smiles": "CC1=C(C(C(=C(N1)C)C(=O)OC)C2=CC=CC=C2[N+](=O)[O-])C(=O)OC",
+                        "bindingdb": "BINDINGDB:50101817",
+                        "cansar": "canSAR:1601610",
+                        "chembank": "ChemBank:110",
+                        "chembl": "ChEMBL:CHEMBL193",
+                        "drugcentral": "DrugCentral:1922",
+                        "drugstore": "DrugStore:880",
+                        "gtopdb": "GTOPDB:2514",
+                        "hmdb": "HMDB:HMDB0015247",
+                        "inchikey": "HYIMSNHJOBLJNT-UHFFFAOYSA-N",
+                        "nci_thesaurus": "NCIT:C29290",
+                        "pdb": "PDB.LIGAND:C5U",
+                        "pubchem.substance": "SID:53801065",
+                        "secondary_hmdb": "HMDB:HMDB15247",
+                        "unii": "UNII:I9ZF7L6G2L"
+                    },
+                    "provided_by": "PharmGKB compound-list producer",
+                    "source": "PharmGKB"
+                }
+            ]
+        }
+        """
+        then the size of the response is 8 
+        and the response contains the following entries in "source_element_id" of "connections" array
+            | source_element_id |
+            | CID:4485          |
 
 
     Scenario: Check PharmGKB text-mining transformer on two compound inputs
@@ -178,7 +230,7 @@ Feature: Check PharmGKB transformer
            },
            {
               "biolink_class": "SmallMolecule",
-              "id": "query:1",
+              "id": "query:2",
               "identifiers": {
                   "pharmgkb": "PHARMGKB.CHEMICAL:PA164712302"
               },
@@ -187,23 +239,45 @@ Feature: Check PharmGKB transformer
            } 
          ]}
       """
-      then the size of the response is 7 
+      then the size of the response is 5 
       and  the response contains the following entries in "id"
             | id            |
             | NCBIGene:9722 |
-            | NCBIGene:10295|
+            | NCBIGene:79001|
             | NCBIGene:8529 |
             | NCBIGene:2677 |
             | NCBIGene:9429 |
-            | NCBIGene:10295|
-            | NCBIGene:8529 |
-            | NCBIGene:2677 |
-            | NCBIGene:9429 |
-            | NCBIGene:9722 |
-            | NCBIGene:10295|
-            | NCBIGene:8529 |
-            | NCBIGene:2677 |
-            | NCBIGene:9429 |
-            | NCBIGene:9722 |
-            | NCBIGene:10295|
-            |NCBIGene:8529  |
+        and the response contains the following entries in "source_element_id" of "connections" array
+            | source_element_id |
+            | query:1           |
+
+
+    Scenario: Check PharmGKB relations transformer on ID input
+        Given the transformer
+        when we fire "/relations/transform" query with the following body:
+        """
+        {
+           "controls": [],
+           "collection": [
+             {
+              "biolink_class": "SmallMolecule",
+              "id": "PA10069",
+              "provided_by": "pharmgkb",
+              "source": "pharmgkb",
+              "identifiers": {
+                 "pharmgkb": "PHARMGKB.CHEMICAL:PA10069"
+             }        
+             }
+          ]
+        }
+        """
+      then the size of the response is 1 
+        then the response contains the following entries in "id"
+            | id            |
+            | NCBIGene:1244 |
+        and the response contains the following entries in "source_element_id" of "connections" array
+            | source_element_id |
+            | PA10069           |
+
+
+
