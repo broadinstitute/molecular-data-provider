@@ -1,7 +1,7 @@
 Feature: Check Kinomescan transformer
 
     Background: Specify transformer API
-        Given a transformer at "https://translator.broadinstitute.org/kinomescan"
+        Given a transformer at "https://molepro-kinomescan-transformer.ci.transltr.io/kinomescan"
 
 
     Scenario: Check transformer info

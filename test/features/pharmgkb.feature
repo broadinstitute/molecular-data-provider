@@ -1,7 +1,7 @@
 Feature: Check PharmGKB transformer
 
     Background: Specify transformer API
-        Given a transformer at "https://translator.broadinstitute.org/pharmgkb"
+        Given a transformer at "https://molepro-pharmgkb-transformer.ci.transltr.io/pharmgkb"
 
 
     Scenario: Check PharmGKB producer info
