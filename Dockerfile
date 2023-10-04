@@ -24,4 +24,4 @@ ADD https://translator.broadinstitute.org/db/gelinea/human.links_400.txt data/hu
 ADD https://translator.broadinstitute.org/db/gelinea/human.links_700.txt data/human.links_700.txt
 ADD https://translator.broadinstitute.org/db/gelinea/human_GeneID.txt data/human_GeneID.txt
 EXPOSE 8290
-CMD ["./bin/gelinea-transformer", "-J-Xmx4096m", "-Dhttp.port=8290"]
+CMD ["./bin/gelinea-transformer", "-J-Xmx4096m", "-Dhttp.port=8080"]
