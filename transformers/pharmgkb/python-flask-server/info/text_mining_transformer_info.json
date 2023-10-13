@@ -1,0 +1,97 @@
+{
+    "name": "PharmGKB automated annotations transformer",
+    "label": "PharmGKB",
+    "infores": "infores:pharmgkb",    
+    "description": "Text mining transformer based on PharmGKB relation information (https://www.pharmgkb.org/).",
+    "version": "2.5.0",
+    "function": "transformer",
+    "knowledge_map": {
+        "input_class": "compound",
+        "output_class": "gene",
+        "nodes": {
+            "SmallMolecule" : {
+                "id_prefixes": ["PHARMGKB.CHEMICAL"],
+                "count": -1
+            },
+            "ChemicalEntity" : {
+                "id_prefixes": ["PHARMGKB.CHEMICAL"],
+                "count": -1
+            },
+            "Gene" : {
+                "id_prefixes": ["PHARMGKB.GENE"],
+                "count": -1
+            }   
+        },
+        "edges": [
+            {
+                "subject": "SmallMolecule",
+                "predicate": "associated_with",
+                "inverse_predicate": "associated_with",
+                "object": "Gene",
+                "knowledge_level":"knowledge_assertion",	
+                "agent_type":"automated_agent",
+                "source": "PharmGKB",
+                "count": -1,
+                "attributes": [
+                    {
+                        "attribute_type_id": "biolink:primary_knowledge_source",
+                        "source": "MolePro"
+                    },
+                    {
+                        "attribute_type_id": "association",
+                        "source": "PharmGKB",
+                        "names": [
+                            "association"
+                        ]
+                        
+                    },
+                    {
+                        "attribute_type_id": "biolink:publication",
+                        "source": "PharmGKB",
+                        "names": [
+                            "PMIDs"
+                        ]
+                    },
+                    {
+                        "attribute_type_id": "variant_reference_sequence",
+                        "source": "PharmGKB",
+                        "names": [
+                            "variant_reference_sequence"
+                        ]
+                    },
+                    {
+                        "attribute_type_id": "variant_location",
+                        "source": "PharmGKB",
+                        "names": [
+                            "variant_location"
+                        ]
+                    },
+                    {
+                        "attribute_type_id": "biolink:disease",
+                        "source": "PharmGKB",
+                        "names": [
+                            "Clinical_Annotation.Phenotypes"
+                        ]
+                    }                          
+                ],
+                "qualifiers": [
+                    {
+                        "qualifier_type_id": "object_form_or_variant_qualifier"
+                    },
+                    {
+                        "qualifier_type_id": "disease_or_phenotypic_feature_context_qualifier"
+                    },
+                    {
+                        "qualifier_type_id": "population_context_qualifier"
+                    }
+                ]                
+            }
+        ]
+    },
+    "properties": {
+        "source_url": "https://www.pharmgkb.org/",
+        "terms_of_service": "https://www.pharmgkb.org/page/dataUsagePolicy",
+        "source_version": "Jan-2023"
+    },
+    "parameters": []
+}
