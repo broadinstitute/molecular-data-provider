@@ -1,7 +1,7 @@
 Feature: Check GeLiNEA transformer
 
     Background: Specify transformer API
-        Given a transformer at "https://translator.broadinstitute.org/gelinea/enrichment"
+        Given a transformer at "https://molepro-gelinea-transformer.transltr.io/gelinea/enrichment"
 
     Scenario: Check GeLiNEA producer info
         Given the transformer
