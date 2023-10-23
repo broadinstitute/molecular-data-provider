@@ -16,6 +16,8 @@ https://molepro-biggmodels-transformer.test.transltr.io/bigg/metabolites
 https://molepro-ctd-transformer.test.transltr.io/ctdbase/chemicals
 https://molepro-probeminer-transformer.test.transltr.io/probeminer/chemicals
 https://molepro-bindingdb-transformer.test.transltr.io/bindingdb/ligands
+https://molepro-pharmgkb-transformer.test.transltr.io/pharmgkb/chemicals
+https://molepro-kinomescan-transformer.test.transltr.io/kinomescan/compounds
 # drugs
 https://molepro-inxightdrugs-transformer.test.transltr.io/inxight_drugs/drugs
 https://molepro-inxightdrugs-transformer.test.transltr.io/inxight_drugs/relationships
@@ -26,6 +28,8 @@ https://molepro-drugbank-transformer.test.transltr.io/drugbank/molecules
 https://molepro-sider-transformer.test.transltr.io/sider/drugs
 # gene-list producers
 https://molepro-hgnc-transformer.test.transltr.io/hgnc/genes
+# protein-list producers
+https://molepro-uniprot-transformer.test.transltr.io/uniprot/molecules
 # disease producers
 https://molepro-drugcentral-transformer.test.transltr.io/drugcentral/diseases
 # drug relations
@@ -53,6 +57,8 @@ https://molepro-dgidb-transformer.test.transltr.io/dgidb/targets
 https://molepro-gtopdb-transformer.test.transltr.io/gtopdb/targets
 https://molepro-ctd-transformer.test.transltr.io/ctdbase/gene-interactions
 https://molepro-probeminer-transformer.test.transltr.io/probeminer/chemical_interactions
+https://molepro-pharmgkb-transformer.test.transltr.io/pharmgkb/relations
+https://molepro-pharmgkb-transformer.test.transltr.io/pharmgkb/text-mining
 # inhibitors
 https://molepro-drugbank-transformer.test.transltr.io/drugbank/inhibitors
 https://molepro-drugbank-transformer.test.transltr.io/drugbank/substrates
@@ -69,9 +75,15 @@ https://molepro-drugbank-transformer.test.transltr.io/drugbank/protein_carriers
 https://molepro-hmdb-transformer.test.transltr.io/hmdb/protein_targets
 https://molepro-probeminer-transformer.test.transltr.io/probeminer/protein_interactions
 https://molepro-bindingdb-transformer.test.transltr.io/bindingdb/bindings
+https://molepro-kinomescan-transformer.test.transltr.io/kinomescan/activity
+https://molepro-kinomescan-transformer.test.transltr.io/kinomescan/screening
 # compound relations
 https://molepro-chembl-transformer.test.transltr.io/chembl/metabolites
 https://molepro-pubchem-transformer.test.transltr.io/pubchem/neighbors
+https://molepro-chebi-transformer.test.transltr.io/chebi/relations
+# protein relations
+https://molepro-uniprot-transformer.test.transltr.io/uniprot/genes
+https://molepro-uniprot-transformer.test.transltr.io/uniprot/proteins
 # gene-disease associations
 https://molepro-gwas-transformer.test.transltr.io/gwas/genes
 https://molepro-gwas-transformer.test.transltr.io/gwas/diseases
@@ -98,6 +110,7 @@ https://molepro-hmdb-transformer.test.transltr.io/hmdb/locations
 # exporters
 https://molepro-chembl-transformer.test.transltr.io/chembl/activities
 https://molepro-chembl-transformer.test.transltr.io/chembl/mechanisms
+https://molepro-gelinea-transformer.test.transltr.io/gelinea/enrichment
 #
 # aggregators
 =union
