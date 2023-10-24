@@ -2,7 +2,7 @@
 
 import pandas as pd
 # Read in and format the file for translating CTD IDs to PubChem CIDs
-fname = "pcsubstance_result.txt"
+fname = "data/pcsubstance_result.txt"
 cpd_df = pd.read_csv(fname, sep="\t", header=None)
 # Keep only the rows that start with SID
 cpd_df = cpd_df[['SID:' in x for x in cpd_df[0]]]
@@ -38,7 +38,7 @@ for entry in entry_list:
         sid_list.append("")
 
     if cid_index != -1:
-        cid_list.append(entry[(cid_index + 5):ctd_index])
+        cid_list.append(entry[(cid_index + 5):ctd_index-1])
     else:
         cid_list.append("")
 
@@ -52,7 +52,7 @@ formatted_cid_list = ["CID:" + x if x != "" else x for x in cid_list]
 dict = {'PubChem CID': formatted_cid_list, 'CTD MeSH': ctd_list}
 new_df = pd.DataFrame(dict)
 
-new_df.to_csv('mesh_to_pubchemCID.tsv', sep='\t', index=False)
+new_df.to_csv('data/mesh_to_pubchemCID.tsv', sep='\t', index=False)
 
 
 # Use node normalizer to fill in missing values
@@ -81,6 +81,7 @@ for i in range(len(mesh_list)):
         if result.json()[mesh_list[i]]['id']['identifier'].startswith("PUBCHEM.COMPOUND:"):
             cid_from_nn = result.json()[mesh_list[i]]['id']['identifier']
             cid_from_nn = "CID:" + cid_from_nn[17:]
+            print(cid_from_nn+'\t'+mesh_list[i][5:])
             formatted_cid_list[mesh_index_list[i]] = cid_from_nn
     else:
         if result.status_code == 200 and result.json()[mesh_list[i]] != None and 'equivalent_identifiers' in \
@@ -89,14 +90,15 @@ for i in range(len(mesh_list)):
                 if identifier_dict['identifier'].startswith("PUBCHEM.COMPOUND:"):
                     cid_from_nn = identifier_dict['identifier']
                     cid_from_nn = "CID:" + cid_from_nn[17:]
+                    print('"'+cid_from_nn+'"')
                     formatted_cid_list[mesh_index_list[i]] = cid_from_nn
                     break  # break out of for loop because we want to use the first pubchem curie returned
 
 
-for i in range(len(ctd_list)):
-    if ctd_list[i] != "":
-        ctd_list[i] = ctd_list[i][5:]
+#for i in range(len(ctd_list)):
+#    if ctd_list[i] != "":
+#        ctd_list[i] = ctd_list[i][5:]
 dict = {'PubChem_CID': formatted_cid_list, 'ChemicalID': ctd_list}
 final_df = pd.DataFrame(dict)
-final_df.to_csv('mesh_to_pubchemCID_w_nn.tsv', sep='\t', index=False)
+final_df.to_csv('data/mesh_to_pubchemCID_w_nn.tsv', sep='\t', index=False)
 

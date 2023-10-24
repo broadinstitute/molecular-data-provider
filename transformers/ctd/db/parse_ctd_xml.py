@@ -119,21 +119,15 @@ class CTDHandler(xml.sax.ContentHandler):
                 data_entry['AxnName'] = ""
 
                 for i in list(self.axnCode.keys()):
-                    if i == 0:
-                        data_entry['AxnCode'] = self.axnCode[i]
-                        data_entry['AxnDegreeCode'] = self.axnDegreeCode[i]
-                        data_entry['AxnPosition'] = self.axnPosition[i]
-                        data_entry['AxnParentID'] = self.axnParentID[i]
-                        data_entry['AxnName'] = self.axnContent[i]
-                    else:
-                        data_entry['AxnCode'] = data_entry['AxnCode'] + ";" + self.axnCode[i]
-                        data_entry['AxnDegreeCode'] = data_entry['AxnDegreeCode'] + ";" + self.axnDegreeCode[i]
-                        data_entry['AxnPosition'] = data_entry['AxnPosition'] + ";" + self.axnPosition[i]
-                        data_entry['AxnParentID'] = data_entry['AxnParentID'] + ";" + self.axnParentID[i]
-                        data_entry['AxnName'] = data_entry['AxnName'] + ";" + self.axnContent[i]
+                    data_entry_row = {}
+                    data_entry_row.update(data_entry)
+                    data_entry_row['AxnCode'] = self.axnCode[i]
+                    data_entry_row['AxnDegreeCode'] = self.axnDegreeCode[i]
+                    data_entry_row['AxnPosition'] = self.axnPosition[i]
+                    data_entry_row['AxnParentID'] = self.axnParentID[i]
+                    data_entry_row['AxnName'] = self.axnContent[i]
+                    data_for_df.append(data_entry_row)
 
-
-                data_for_df.append(data_entry)
             #Clear all
             self.ixnID = ""
             self.taxonID = ""
@@ -189,7 +183,7 @@ parser.setFeature(xml.sax.handler.feature_namespaces, 0)
 Handler = CTDHandler()
 parser.setContentHandler(Handler)
 
-parser.parse("CTD_chem_gene_ixns_structured.xml")
+parser.parse("data/CTD_chem_gene_ixns_structured.xml")
 
 df = pd.DataFrame(data_for_df)
-df.to_csv('CTD_from_xml.csv', sep=',', index=False)
+df.to_csv('data/CTD_from_xml.csv', sep=',', index=False)
