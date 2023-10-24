@@ -189,8 +189,8 @@ Feature: Check MolePro
         | 99              | 0              |
         and we call "Gene-list network enrichment analysis" transformer with the following parameters:
         | network          | gene-set collection    | maximum p-value |
-        | STRING-human-700 | H - hallmark gene sets | 0.01            |
-        then the length of the collection should be 3
+        | STRING-human-700 | H - hallmark gene sets | 0.05            |
+        then the length of the collection should be 6
         and the value of "element_class" should be "pathway"
         and the value of "source" should be "Gene-list network enrichment analysis"
 
