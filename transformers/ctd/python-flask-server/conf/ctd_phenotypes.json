@@ -1,0 +1,10 @@
+{
+    "decreases^phenotype": {
+        "qualified_predicate": "causes",
+        "object_direction_qualifier": "increased"
+    },
+    "increases^phenotype": {
+        "qualified_predicate": "causes",
+        "object_direction_qualifier": "decreased"
+    }
+}

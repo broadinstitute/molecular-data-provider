@@ -1,32 +1,169 @@
 {
     "name": "CTD disease associations transformer",
     "label": "CTD",
+    "infores": "infores:ctd",
     "description": "Transformer based on Comparative Toxicogenomics Database (http://ctdbase.org/).",
-    "version": "2.3.0",
+    "version": "2.5.0",
     "function": "transformer",
     "knowledge_map": {
         "input_class": "compound",
         "output_class": "disease",
         "nodes": {
-            "SmallMolecule": {
-                "id_prefixes": ["CID","MeSH"]
+            "ChemicalEntity": {
+                "id_prefixes": [
+                    "CID",
+                    "MeSH"
+                ],
+                "count": -1
             },
             "Disease": {
-                "id_prefixes": ["MESH", "OMIM"]
+                "id_prefixes": [
+                    "MESH",
+                    "OMIM"
+                ],
+                "count": -1
             }
         },
-        "edges": [{
-            "subject": "SmallMolecule",
-            "predicate": "related_to",
-            "inverse_predicate": "related_to",
-            "object": "Disease"
-        }]
+        "edges": [
+            {
+                "subject": "ChemicalEntity",
+                "predicate": "treats",
+                "inverse_predicate": "treated_by",
+                "object": "Disease",
+                "source": "CTD",
+                "count": -1,
+                "knowledge_level": "knowledge_assertion",
+                "agent_type": "manual_agent",
+                "qualifiers": [],
+                "attributes": [
+                    {
+                        "attribute_type_id": "biolink:primary_knowledge_source",
+                        "source": "MolePro"
+                    },
+                    {
+                        "attribute_type_id": "biolink:Publication",
+                        "source": "CTD",
+                        "names": [
+                            "PubMedIDs"
+                        ]
+                    },
+                    {
+                        "attribute_type_id": "biolink:knowledge_type",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "biolink:agent_type",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "DirectEvidence",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "biolink:knowledge_level",
+                        "source": "MolePro"
+                    },
+                    {
+                        "attribute_type_id": "biolink:agent_type",
+                        "source": "MolePro"
+                    }
+                ]
+            },
+            {
+                "subject": "ChemicalEntity",
+                "predicate": "biomarker_for",
+                "inverse_predicate": "has_biomarker",
+                "object": "Disease",
+                "source": "CTD",
+                "count": -1,
+                "knowledge_level": "knowledge_assertion",
+                "agent_type": "manual_agent",
+                "qualifiers": [],
+                "attributes": [
+                    {
+                        "attribute_type_id": "biolink:primary_knowledge_source",
+                        "source": "MolePro"
+                    },
+                    {
+                        "attribute_type_id": "biolink:Publication",
+                        "source": "CTD",
+                        "names": [
+                            "PubMedIDs"
+                        ]
+                    },
+                    {
+                        "attribute_type_id": "biolink:knowledge_type",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "biolink:agent_type",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "DirectEvidence",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "biolink:knowledge_level",
+                        "source": "MolePro"
+                    },
+                    {
+                        "attribute_type_id": "biolink:agent_type",
+                        "source": "MolePro"
+                    }
+                ]
+            },
+            {
+                "subject": "ChemicalEntity",
+                "predicate": "associated_with",
+                "inverse_predicate": "associated_with",
+                "object": "Disease",
+                "source": "CTD",
+                "count": -1,
+                "knowledge_level": "statistical_association",
+                "agent_type": "data_analysis_pipeline",
+                "qualifiers": [],
+                "attributes": [
+                    {
+                        "attribute_type_id": "biolink:primary_knowledge_source",
+                        "source": "MolePro"
+                    },
+                    {
+                        "attribute_type_id": "biolink:Publication",
+                        "source": "CTD",
+                        "names": [
+                            "PubMedIDs"
+                        ]
+                    },
+                    {
+                        "attribute_type_id": "biolink:knowledge_type",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "biolink:agent_type",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "InferenceScore",
+                        "description": "The inference score reflects the degree of similarity between CTD chemical–gene–disease networks and a imilar scale-free random network. The higher the score, the more likely the inference network has atypical connectivity.",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "biolink:knowledge_level",
+                        "source": "MolePro"
+                    },
+                    {
+                        "attribute_type_id": "biolink:agent_type",
+                        "source": "MolePro"
+                    }
+                ]
+            }
+        ]
     },
     "properties": {
         "source_url": "http://ctdbase.org/",
-        "source_version": "March 2021",
+        "source_version": "April 2023 (2023-05-20)",
         "terms_of_service": "http://ctdbase.org/about/legal.jsp"
     },
-    "parameters": [
-    ]
+    "parameters": []
 }
