@@ -1,0 +1,773 @@
+{
+    "ChemicalForm": {
+        "analog": {
+            "subject_form_or_variant_qualifier": "analog"
+        },
+        "deficiency": {
+            "subject_aspect_qualifier": "abundance",
+            "subject_direction_qualifier": "decreased"
+        },
+        "metabolite": {
+            "subject_derivative_qualifier": "metabolite"
+        }
+    },
+    "AxnCode": {
+        "abu+": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "increased",
+            "_aspect_qualifier": "abundance"
+        },
+        "abu-": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "decreased",
+            "_aspect_qualifier": "abundance"
+        },
+        "abu1": {
+            "predicate": "affects",
+            "_aspect_qualifier": "abundance"
+        },
+        "ace+": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "increased",
+            "_aspect_qualifier": "acetylation"
+        },
+        "ace-": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "decreased",
+            "_aspect_qualifier": "acetylation"
+        },
+        "ace1": {
+            "predicate": "affects",
+            "_aspect_qualifier": "acetylation"
+        },
+        "act+": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "increased",
+            "_aspect_qualifier": "activity"
+        },
+        "act-": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "decreased",
+            "_aspect_qualifier": "activity"
+        },
+        "act1": {
+            "predicate": "affects",
+            "_aspect_qualifier": "activity"
+        },
+        "acy+": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "increased",
+            "_aspect_qualifier": "acylation"
+        },
+        "acy-": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "decreased",
+            "_aspect_qualifier": "acylation"
+        },
+        "alk+": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "increased",
+            "_aspect_qualifier": "alkylation"
+        },
+        "alk-": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "decreased",
+            "_aspect_qualifier": "alkylation"
+        },
+        "alk1": {
+            "predicate": "affects",
+            "_aspect_qualifier": "alkylation"
+        },
+        "ami+": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "increased",
+            "_aspect_qualifier": "amination"
+        },
+        "ami-": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "decreased",
+            "_aspect_qualifier": "amination"
+        },
+        "arb+": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "increased",
+            "_aspect_qualifier": "ADP-ribosylation"
+        },
+        "arb-": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "decreased",
+            "_aspect_qualifier": "ADP-ribosylation"
+        },
+        "b1": {
+            "predicate": "binds"
+        },
+        "car+": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "increased",
+            "_aspect_qualifier": "carbamoylation"
+        },
+        "car-": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "decreased",
+            "_aspect_qualifier": "carbamoylation"
+        },
+        "clv+": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "increased",
+            "_aspect_qualifier": "cleavage"
+        },
+        "clv-": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "decreased",
+            "_aspect_qualifier": "cleavage"
+        },
+        "clv1": {
+            "predicate": "affects",
+            "_aspect_qualifier": "cleavage"
+        },
+        "cox+": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "increased",
+            "_aspect_qualifier": "carboxylation"
+        },
+        "cox-": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "decreased",
+            "_aspect_qualifier": "carboxylation"
+        },
+        "cox1": {
+            "predicate": "affects",
+            "_aspect_qualifier": "carboxylation"
+        },
+        "csy+": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "increased",
+            "_aspect_qualifier": "synthesis"
+        },
+        "csy-": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "decreased",
+            "_aspect_qualifier": "synthesis"
+        },
+        "csy1": {
+            "predicate": "affects",
+            "_aspect_qualifier": "synthesis"
+        },
+        "deg+": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "increased",
+            "_aspect_qualifier": "degradation"
+        },
+        "deg-": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "decreased",
+            "_aspect_qualifier": "degradation"
+        },
+        "deg1": {
+            "predicate": "affects",
+            "_aspect_qualifier": "degradation"
+        },
+        "eth-": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "decreased",
+            "_aspect_qualifier": "ethylation"
+        },
+        "exp+": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "increased",
+            "_aspect_qualifier": "expression"
+        },
+        "exp-": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "decreased",
+            "_aspect_qualifier": "expression"
+        },
+        "exp1": {
+            "predicate": "affects",
+            "_aspect_qualifier": "expression"
+        },
+        "ext+": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "increased",
+            "_aspect_qualifier": "export"
+        },
+        "ext-": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "decreased",
+            "_aspect_qualifier": "export"
+        },
+        "ext1": {
+            "predicate": "affects",
+            "_aspect_qualifier": "export"
+        },
+        "far+": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "increased",
+            "_aspect_qualifier": "farnesylation"
+        },
+        "far-": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "decreased",
+            "_aspect_qualifier": "farnesylation"
+        },
+        "far1": {
+            "predicate": "affects",
+            "_aspect_qualifier": "farnesylation"
+        },
+        "fol+": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "increased",
+            "_aspect_qualifier": "folding"
+        },
+        "fol-": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "decreased",
+            "_aspect_qualifier": "folding"
+        },
+        "fol1": {
+            "predicate": "affects",
+            "_aspect_qualifier": "folding"
+        },
+        "ger-": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "decreased",
+            "_aspect_qualifier": "geranoylation"
+        },
+        "glc+": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "increased",
+            "_aspect_qualifier": "glucuronidation"
+        },
+        "glc-": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "decreased",
+            "_aspect_qualifier": "glucuronidation"
+        },
+        "glc1": {
+            "predicate": "affects",
+            "_aspect_qualifier": "glucuronidation"
+        },
+        "glt+": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "increased",
+            "_aspect_qualifier": "glutathionylation"
+        },
+        "glt-": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "decreased",
+            "_aspect_qualifier": "glutathionylation"
+        },
+        "glt1": {
+            "predicate": "affects",
+            "_aspect_qualifier": "glutathionylation"
+        },
+        "gly+": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "increased",
+            "_aspect_qualifier": "glycosylation"
+        },
+        "gly-": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "decreased",
+            "_aspect_qualifier": "glycosylation"
+        },
+        "gly1": {
+            "predicate": "affects",
+            "_aspect_qualifier": "glycosylation"
+        },
+        "gyc+": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "increased",
+            "_aspect_qualifier": "glycation"
+        },
+        "gyc-": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "decreased",
+            "_aspect_qualifier": "glycation"
+        },
+        "gyc1": {
+            "predicate": "affects",
+            "_aspect_qualifier": "glycation"
+        },
+        "hdx+": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "increased",
+            "_aspect_qualifier": "hydroxylation"
+        },
+        "hdx-": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "decreased",
+            "_aspect_qualifier": "hydroxylation"
+        },
+        "hdx1": {
+            "predicate": "affects",
+            "_aspect_qualifier": "hydroxylation"
+        },
+        "hyd+": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "increased",
+            "_aspect_qualifier": "hydrolysis"
+        },
+        "hyd-": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "decreased",
+            "_aspect_qualifier": "hydrolysis"
+        },
+        "hyd1": {
+            "predicate": "affects",
+            "_aspect_qualifier": "hydrolysis"
+        },
+        "imt+": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "increased",
+            "_aspect_qualifier": "import"
+        },
+        "imt-": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "decreased",
+            "_aspect_qualifier": "import"
+        },
+        "imt1": {
+            "predicate": "affects",
+            "_aspect_qualifier": "import"
+        },
+        "lip+": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "increased",
+            "_aspect_qualifier": "lipidation"
+        },
+        "lip-": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "decreased",
+            "_aspect_qualifier": "lipidation"
+        },
+        "lip1": {
+            "predicate": "affects",
+            "_aspect_qualifier": "lipidation"
+        },
+        "loc+": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "increased",
+            "_aspect_qualifier": "localization"
+        },
+        "loc-": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "decreased",
+            "_aspect_qualifier": "localization"
+        },
+        "loc1": {
+            "predicate": "affects",
+            "_aspect_qualifier": "localization"
+        },
+        "met+": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "increased",
+            "_aspect_qualifier": "metabolic_processing"
+        },
+        "met-": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "decreased",
+            "_aspect_qualifier": "metabolic_processing"
+        },
+        "met1": {
+            "predicate": "affects",
+            "_aspect_qualifier": "metabolic_processing"
+        },
+        "mut+": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "increased",
+            "_aspect_qualifier": "mutation_rate"
+        },
+        "mut-": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "decreased",
+            "_aspect_qualifier": "mutation_rate"
+        },
+        "mut1": {
+            "predicate": "affects",
+            "_aspect_qualifier": "mutation_rate"
+        },
+        "myl+": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "increased",
+            "_aspect_qualifier": "methylation"
+        },
+        "myl-": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "decreased",
+            "_aspect_qualifier": "methylation"
+        },
+        "myl1": {
+            "predicate": "affects",
+            "_aspect_qualifier": "methylation"
+        },
+        "ngl+": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "increased",
+            "_aspect_qualifier": "n_linked_glycosylation"
+        },
+        "ngl-": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "decreased",
+            "_aspect_qualifier": "n_linked_glycosylation"
+        },
+        "ngl1": {
+            "predicate": "affects",
+            "_aspect_qualifier": "n_linked_glycosylation"
+        },
+        "nit+": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "increased",
+            "_aspect_qualifier": "nitrosation"
+        },
+        "nit-": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "decreased",
+            "_aspect_qualifier": "nitrosation"
+        },
+        "ogl+": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "increased",
+            "_aspect_qualifier": "o_linked_glycosylation"
+        },
+        "ogl-": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "decreased",
+            "_aspect_qualifier": "o_linked_glycosylation"
+        },
+        "oxd+": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "increased",
+            "_aspect_qualifier": "oxidation"
+        },
+        "oxd-": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "decreased",
+            "_aspect_qualifier": "oxidation"
+        },
+        "oxd1": {
+            "predicate": "affects",
+            "_aspect_qualifier": "oxidation"
+        },
+        "pal-": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "decreased",
+            "_aspect_qualifier": "palmitoylation"
+        },
+        "pho+": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "increased",
+            "_aspect_qualifier": "phosphorylation"
+        },
+        "pho-": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "decreased",
+            "_aspect_qualifier": "phosphorylation"
+        },
+        "pho1": {
+            "predicate": "affects",
+            "_aspect_qualifier": "phosphorylation"
+        },
+        "pre+": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "increased",
+            "_aspect_qualifier": "prenylation"
+        },
+        "pre-": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "decreased",
+            "_aspect_qualifier": "prenylation"
+        },
+        "rec+": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "increased",
+            "_aspect_qualifier": "susceptibility"
+        },
+        "rec-": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "decreased",
+            "_aspect_qualifier": "susceptibility"
+        },
+        "rec1": {
+            "predicate": "affects",
+            "_aspect_qualifier": "susceptibility"
+        },
+        "red+": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "increased",
+            "_aspect_qualifier": "reduction"
+        },
+        "red-": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "decreased",
+            "_aspect_qualifier": "reduction"
+        },
+        "red1": {
+            "predicate": "affects",
+            "_aspect_qualifier": "reduction"
+        },
+        "rib+": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "increased",
+            "_aspect_qualifier": "ribosylation"
+        },
+        "rxn+": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "increased",
+            "_aspect_qualifier": "metabolic_processing"
+        },
+        "rxn-": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "decreased",
+            "_aspect_qualifier": "metabolic_processing"
+        },
+        "rxn1": {
+            "predicate": "affects",
+            "_aspect_qualifier": "metabolic_processing"
+        },
+        "sec+": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "increased",
+            "_aspect_qualifier": "secretion"
+        },
+        "sec-": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "decreased",
+            "_aspect_qualifier": "secretion"
+        },
+        "sec1": {
+            "predicate": "affects",
+            "_aspect_qualifier": "secretion"
+        },
+        "spl+": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "increased",
+            "_aspect_qualifier": "splicing"
+        },
+        "spl-": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "decreased",
+            "_aspect_qualifier": "splicing"
+        },
+        "spl1": {
+            "predicate": "affects",
+            "_aspect_qualifier": "splicing"
+        },
+        "sta+": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "increased",
+            "_aspect_qualifier": "stability"
+        },
+        "sta-": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "decreased",
+            "_aspect_qualifier": "stability"
+        },
+        "sta1": {
+            "predicate": "affects",
+            "_aspect_qualifier": "stability"
+        },
+        "sul+": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "increased",
+            "_aspect_qualifier": "sulfation"
+        },
+        "sul-": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "decreased",
+            "_aspect_qualifier": "sulfation"
+        },
+        "sul1": {
+            "predicate": "affects",
+            "_aspect_qualifier": "sulfation"
+        },
+        "sum+": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "increased",
+            "_aspect_qualifier": "sumoylation"
+        },
+        "sum-": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "decreased",
+            "_aspect_qualifier": "sumoylation"
+        },
+        "sum1": {
+            "predicate": "affects",
+            "_aspect_qualifier": "sumoylation"
+        },
+        "trt+": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "increased",
+            "_aspect_qualifier": "transport"
+        },
+        "trt-": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "decreased",
+            "_aspect_qualifier": "transport"
+        },
+        "trt1": {
+            "predicate": "affects",
+            "_aspect_qualifier": "transport"
+        },
+        "ubq+": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "increased",
+            "_aspect_qualifier": "ubiquitination"
+        },
+        "ubq-": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "decreased",
+            "_aspect_qualifier": "ubiquitination"
+        },
+        "ubq1": {
+            "predicate": "affects",
+            "_aspect_qualifier": "ubiquitination"
+        },
+        "upt+": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "increased",
+            "_aspect_qualifier": "uptake"
+        },
+        "upt-": {
+            "predicate": "affects",
+            "qualified_predicate": "causes",
+            "_direction_qualifier": "decreased",
+            "_aspect_qualifier": "uptake"
+        },
+        "upt1": {
+            "predicate": "affects",
+            "_aspect_qualifier": "uptake"
+        }
+    },
+    "GeneForm": {
+        "alternative form": {
+            "object_form_or_variant_qualifier": "alternative_form"
+        },
+        "modified form": {
+            "object_form_or_variant_qualifier": "modified_form"
+        },
+        "mutant form": {
+            "object_form_or_variant_qualifier": "genetic_variant_form"
+        },
+        "polymorphism": {
+            "object_form_or_variant_qualifier": "polymorphic_form"
+        },
+        "SNP": {
+            "object_form_or_variant_qualifier": "snp_form"
+        },
+        "promoter": {
+            "object_part_qualifier": "promoter"
+        },
+        "enhancer": {
+            "object_part_qualifier": "enhancer"
+        },
+        "intron": {
+            "object_part_qualifier": "intron"
+        },
+        "exon": {
+            "object_part_qualifier": "exon"
+        },
+        "3' UTR": {
+            "object_part_qualifier": "3_prime_utr"
+        },
+        "5' UTR": {
+            "object_part_qualifier": "5_prime_utr"
+        },
+        "polyA tail": {
+            "object_part_qualifier": "polya_tail"
+        }
+    }
+}
