@@ -1,40 +1,100 @@
 {
     "name": "CTD pathway associations transformer",
     "label": "CTD",
+    "infores": "infores:ctd",
     "description": "Transformer based on Comparative Toxicogenomics Database (http://ctdbase.org/).",
-    "version": "2.3.0",
+    "version": "2.5.0",
     "function": "transformer",
     "knowledge_map": {
         "input_class": "compound",
         "output_class": "pathway",
         "nodes": {
             "SmallMolecule": {
-                "id_prefixes": ["CID","MeSH"]
+                "id_prefixes": [
+                    "CID",
+                    "MeSH"
+                ]
             },
             "Pathway": {
-                "id_prefixes": ["REACT", "KEGG"]
+                "id_prefixes": [
+                    "REACT",
+                    "KEGG"
+                ]
             }
         },
-        "edges": [{
-            "subject": "SmallMolecule",
-            "predicate": "related_to",
-            "inverse_predicate": "related_to",
-            "object": "Pathway"
-        }]
+        "edges": [
+            {
+                "subject": "SmallMolecule",
+                "predicate": "associated_with",
+                "inverse_predicate": "associated_with",
+                "object": "Pathway",
+                "source": "CTD",
+                "count": -1,
+                "knowledge_level": "statistical_association",
+                "agent_type": "data_analysis_pipeline",
+                "qualifiers": [],
+                "attributes": [
+                    {
+                        "attribute_type_id": "biolink:primary_knowledge_source",
+                        "source": "MolePro"
+                    },
+                    {
+                        "attribute_type_id": "biolink:p_value",
+                        "description": "The raw p-value",
+                        "source": "CTD",
+                        "names": [
+                            "PValue"
+                        ]
+                    },
+                    {
+                        "attribute_type_id": "biolink:adjusted_p_value",
+                        "description": "The corrected p-value calculated using the Bonferroni multiple testing adjustment",
+                        "source": "CTD",
+                        "names": [
+                            "CorrectedPValue"
+                        ]
+                    },
+                    {
+                        "attribute_type_id": "TargetMatchQty",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "TargetTotalQty",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "BackgroundMatchQty",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "BackgroundTotalQty",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "biolink:knowledge_level",
+                        "source": "MolePro"
+                    },
+                    {
+                        "attribute_type_id": "biolink:agent_type",
+                        "source": "MolePro"
+                    }
+                ]
+            }
+        ]
     },
     "properties": {
         "source_url": "http://ctdbase.org/",
-        "source_version": "March 2021",
+        "source_version": "April 2023 (2023-05-20)",
         "terms_of_service": "http://ctdbase.org/about/legal.jsp"
     },
     "parameters": [
         {
-            "default":"0",
-            "required":false,
-            "name":"limit",
-            "type":"string",
-            "suggested_values":"maximum number of pathways to display"
+            "default": "0",
+            "required": false,
+            "multivalued": false,
+            "name": "limit",
+            "type": "string",
+            "description": "maximum number of pathways to display"
         }
-
     ]
 }
