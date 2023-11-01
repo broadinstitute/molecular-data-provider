@@ -27,7 +27,7 @@ paths:
         required: true
         schema:
           type: string
-          enum: [genes,diseases]
+          enum: [gwas-genes,gwas-diseases,biggim-genes,biggim-drugs]
       - name: cache
         in: query
         description: >-
@@ -58,7 +58,7 @@ paths:
         required: true
         schema:
           type: string
-          enum: [genes,diseases]
+          enum: [gwas-genes,gwas-diseases,biggim-genes,biggim-drugs]
       - name: cache
         in: query
         description: >-
