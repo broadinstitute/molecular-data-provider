@@ -10,9 +10,9 @@ from openapi_server.models.transformer_info import TransformerInfo  # noqa: E501
 from openapi_server.models.transformer_query import TransformerQuery  # noqa: E501
 from openapi_server import util
 
-from openapi_server.controllers.gwas_transformer import GWASTransformer, DiseaseToGeneTranformer, GeneToDiseaseTranformer
+from openapi_server.controllers.trapi_transformer import TrapiTransformer, DiseaseToGeneTranformer, GeneToDiseaseTranformer, GeneToGeneTransformer, GenetoDrugTransformer
 
-transformer = {'genes': DiseaseToGeneTranformer(), 'diseases': GeneToDiseaseTranformer()}
+transformer = {'gwas-genes': DiseaseToGeneTranformer(), 'gwas-diseases': GeneToDiseaseTranformer(), 'biggim-genes': GeneToGeneTransformer(), 'biggim-drugs': GenetoDrugTransformer()}
 
 def service_transform_post(service, body, cache=None):  # noqa: E501
     """Transform a list of genes or compounds

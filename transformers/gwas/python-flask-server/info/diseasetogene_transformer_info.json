@@ -1,8 +1,9 @@
 {
     "name": "GWAS disease to gene transformer",
     "label": "GWAS",
+    "infores": "infores:genetics-data-provider",
     "description": "GWAS data based on Genetics Knowledge Provider",
-    "version": "2.4.0",
+    "version": "2.5.0",
     "function": "transformer",
     "knowledge_map": {
         "input_class": "disease",
@@ -59,8 +60,8 @@
         ]
     },
     "properties": {
-        "source_url": "https://translator.broadinstitute.org/genetics_provider/trapi/v1.2/query",
-        "source_version": "v1.2"
+        "source_url": "https://genetics-kp.transltr.io/genetics_provider/trapi/v1.4/query",
+        "source_version": "v1.4"
     },
     "parameters": [
     ]
