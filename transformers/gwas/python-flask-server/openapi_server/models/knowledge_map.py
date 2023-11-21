@@ -19,7 +19,7 @@ class KnowledgeMap(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, input_class=None, output_class=None, nodes=None, edges=None, predicates=None):  # noqa: E501
+    def __init__(self, input_class=None, output_class=None, nodes=None, edges=None):  # noqa: E501
         """KnowledgeMap - a model defined in OpenAPI
 
         :param input_class: The input_class of this KnowledgeMap.  # noqa: E501
@@ -30,30 +30,25 @@ class KnowledgeMap(Model):
         :type nodes: Dict[str, Node]
         :param edges: The edges of this KnowledgeMap.  # noqa: E501
         :type edges: List[Predicate]
-        :param predicates: The predicates of this KnowledgeMap.  # noqa: E501
-        :type predicates: List[Predicate]
         """
         self.openapi_types = {
             'input_class': str,
             'output_class': str,
             'nodes': Dict[str, Node],
-            'edges': List[Predicate],
-            'predicates': List[Predicate]
+            'edges': List[Predicate]
         }
 
         self.attribute_map = {
             'input_class': 'input_class',
             'output_class': 'output_class',
             'nodes': 'nodes',
-            'edges': 'edges',
-            'predicates': 'predicates'
+            'edges': 'edges'
         }
 
         self._input_class = input_class
         self._output_class = output_class
         self._nodes = nodes
         self._edges = edges
-        self._predicates = predicates
 
     @classmethod
     def from_dict(cls, dikt) -> 'KnowledgeMap':
@@ -161,26 +156,3 @@ class KnowledgeMap(Model):
         """
 
         self._edges = edges
-
-    @property
-    def predicates(self):
-        """Gets the predicates of this KnowledgeMap.
-
-        Predicates describing relationships between subjects and objects.  # noqa: E501
-
-        :return: The predicates of this KnowledgeMap.
-        :rtype: List[Predicate]
-        """
-        return self._predicates
-
-    @predicates.setter
-    def predicates(self, predicates):
-        """Sets the predicates of this KnowledgeMap.
-
-        Predicates describing relationships between subjects and objects.  # noqa: E501
-
-        :param predicates: The predicates of this KnowledgeMap.
-        :type predicates: List[Predicate]
-        """
-
-        self._predicates = predicates

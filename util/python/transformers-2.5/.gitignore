@@ -45,25 +45,4 @@ coverage.xml
 *,cover
 .hypothesis/
 venv/
-.venv/
 .python-version
-.pytest_cache
-
-# Translations
-*.mo
-*.pot
-
-# Django stuff:
-*.log
-
-# Sphinx documentation
-docs/_build/
-
-# PyBuilder
-target/
-
-#Ipython Notebook
-.ipynb_checkpoints
-
-# data folder
-data/

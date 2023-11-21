@@ -1,0 +1,40 @@
+{
+    "name": "BigGIM gene to drug transformer",
+    "label": "Trapi",
+    "description": "BigGIM data based on Multiomics Provider",
+    "version": "2.4.0",
+    "function": "transformer",
+    "knowledge_map": {
+        "input_class": "gene",
+        "output_class": "drug",
+        "nodes": {
+            "Gene": {
+                "id_prefixes": [
+                    "NCBIGene",
+                    "ENSEMBL",
+                    "HGNC",
+                    "SYMBOL",
+                    "OMIM",
+                    "UniProtKB",
+                    "UMLS",
+                    "MGI",
+                    "name"
+                ]
+            }
+        }, 
+        "edges":[ 
+            {
+                "subject": "biolink:Gene",
+                "predicate": "biolink:associated_with_sensitivity_to",
+                "inverse_predicate": "",
+                "object": "biolink:SmallMolecule"
+            }
+        ]
+    },
+    "properties": {
+        "source_url": "https://api.bte.ncats.io/v1/smartapi/adf20dd6ff23dfe18e8e012bde686e31/query",
+        "source_version": ""
+    },
+    "parameters": [
+    ]
+}
