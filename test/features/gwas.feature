@@ -28,7 +28,7 @@ Feature: Check GWAS transformer
         and the size of "parameters" should be 0
 
 
-    Scenario: Check STRING links transformer
+    Scenario: Check GWAS gene to disease transformer
         Given the transformer
         when we fire "/gwas-diseases/transform" query with the following body:
         """
@@ -47,7 +47,7 @@ Feature: Check GWAS transformer
             ]
         }
         """
-        then the size of the response is 37
+        then the size of the response is 118
         and the response contains the following entries in "source"
             | source |
             | GWAS   |
@@ -86,7 +86,7 @@ Feature: Check GWAS transformer
             | GWAS gene to disease transformer |
 
 
-    Scenario: Check STRING links transformer with empty input list
+    Scenario: Check GWAS gene to disease transformer with empty input list
         Given the transformer
         when we fire "/gwas-diseases/transform" query with the following body:
         """
@@ -98,7 +98,7 @@ Feature: Check GWAS transformer
         then the size of the response is 0
 
 
-    Scenario: Check STRING links transformer
+    Scenario: Check GWAS disease to gene transformer
         Given the transformer
         when we fire "/gwas-genes/transform" query with the following body:
         """
@@ -156,7 +156,7 @@ Feature: Check GWAS transformer
             | GWAS disease to gene transformer |
 
 
-    Scenario: Check STRING links transformer with empty input list
+    Scenario: Check GWAS disease to gene transformer with empty input list
         Given the transformer
         when we fire "/gwas-genes/transform" query with the following body:
         """
