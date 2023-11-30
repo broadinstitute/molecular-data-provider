@@ -85,8 +85,8 @@ https://molepro-chebi-transformer.test.transltr.io/chebi/relations
 https://molepro-uniprot-transformer.test.transltr.io/uniprot/genes
 https://molepro-uniprot-transformer.test.transltr.io/uniprot/proteins
 # gene-disease associations
-https://molepro-gwas-transformer.test.transltr.io/gwas/genes
-https://molepro-gwas-transformer.test.transltr.io/gwas/diseases
+https://molepro-gwas-transformer.test.transltr.io/gwas/gwas-genes
+https://molepro-gwas-transformer.test.transltr.io/gwas/gwas-diseases
 # profile similarity
 https://molepro-cmap-transformer.test.transltr.io/cmap/compound/compound
 https://molepro-ctrp-transformer.test.transltr.io/ctrp
