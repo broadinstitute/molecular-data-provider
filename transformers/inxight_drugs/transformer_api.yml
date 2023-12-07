@@ -59,7 +59,7 @@ paths:
         required: true
         schema:
           type: string
-          enum: [SERVICE-LIST]
+          enum: [substances, relationships, drugs, active_ingredients]
       - name: cache
         in: query
         description: >-
@@ -75,14 +75,6 @@ paths:
             schema:
               $ref: '#/components/schemas/transformer_query'
         required: true
-      parameters:
-      - name: service
-        in: path
-        description: Inxight_Drugs service
-        required: true
-        schema:
-          type: string
-          enum: [substances, relationships, drugs, active_ingredients]
       responses:
         200:
           description: successful operation
