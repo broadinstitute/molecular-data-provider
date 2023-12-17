@@ -15,9 +15,9 @@ python setup.py bdist_wheel
 
 ### Copy files to server
 
-**copy `transformers/moleprodb/python-flask-server/dist/moleprodb_transformer-2.4.3-py3-none-any.whl` to the target folder**
+**copy `transformers/moleprodb/python-flask-server/dist/moleprodb_transformer-2.5.1-py3-none-any.whl` to the target folder**
 
-copy `util/python/transformers-2.0/dist/base_transformer-2.0.0-py3-none-any.whl` to the target folder
+copy `util/python/transformers-2.0/dist/base_transformer-2.5.0-py3-none-any.whl` to the target folder
 
 copy `transformers/moleprodb/python-flask-server/info` folder to the target folder
 
@@ -43,8 +43,8 @@ download moleprodb_transformer_info.json from `https://translator.broadinstitute
 ```
 python3 -m venv venv
 source venv/bin/activate.csh
-pip install -I moleprodb_transformer-2.4.3-py3-none-any.whl
-pip install -I base_transformer-2.0.0-py3-none-any.whl
+pip install -I moleprodb_transformer-2.5.1-py3-none-any.whl
+pip install -I base_transformer-2.5.0-py3-none-any.whl
 pip install gunicorn
 pip install "connexion[swagger-ui]"
 deactivate
