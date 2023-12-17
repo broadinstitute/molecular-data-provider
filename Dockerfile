@@ -30,7 +30,7 @@ ADD https://translator.broadinstitute.org/db/moleprodb_hierarchy_transformer_inf
 WORKDIR /usr/src/app
 COPY --from=packaging-image /usr/src/base/dist .
 COPY --from=packaging-image /usr/src/moleprodb/dist .
-RUN pip3 install -I moleprodb_transformer-2.5.0-py3-none-any.whl
+RUN pip3 install -I moleprodb_transformer-2.5.1-py3-none-any.whl
 RUN pip3 install -I base_transformer-2.5.0-py3-none-any.whl
 COPY transformers/molepro-db/python-flask-server/requirements.txt .
 RUN pip3 install --no-cache-dir -r requirements.txt
