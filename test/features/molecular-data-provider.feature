@@ -232,18 +232,18 @@ Feature: Check MolePro
 
     Scenario: Check union
         Given the Molecular Data Provider
-        and a compound list "aspirin;ibuprofen;acetaminophen"
-        and another compound list "aspirin;ibuprofen;naproxen"
+        and a compound list "aspirin;bortezomib;acetaminophen"
+        and another compound list "aspirin;bortezomib;naproxen"
         when we call aggregator "union"
         then the value of "source" should be "union"
-        and the length of the collection should be 4
+        and the length of the collection should be 6
         and the value of "element_class" should be "compound"
 
 
     Scenario: Check intersection
         Given the Molecular Data Provider
-        and a compound list "aspirin;ibuprofen;acetaminophen"
-        and another compound list "aspirin;ibuprofen;naproxen"
+        and a compound list "aspirin;bortezomib;acetaminophen"
+        and another compound list "aspirin;bortezomib;naproxen"
         when we call aggregator "intersection"
         then the value of "source" should be "intersection"
         and the length of the collection should be 2
@@ -252,8 +252,8 @@ Feature: Check MolePro
 
     Scenario: Check difference
         Given the Molecular Data Provider
-        and a compound list "aspirin;ibuprofen;acetaminophen"
-        and another compound list "aspirin;ibuprofen;naproxen"
+        and a compound list "aspirin;bortezomib;acetaminophen"
+        and another compound list "aspirin;bortezomib;naproxen"
         when we call aggregator "difference"
         then the value of "source" should be "difference"
         and the length of the collection should be 1
@@ -262,11 +262,11 @@ Feature: Check MolePro
 
     Scenario: Check symmetric difference
         Given the Molecular Data Provider
-        and a compound list "aspirin;ibuprofen;acetaminophen"
-        and another compound list "aspirin;ibuprofen;naproxen"
+        and a compound list "aspirin;bortezomib;acetaminophen"
+        and another compound list "aspirin;bortezomib;naproxen"
         when we call aggregator "symmetric difference"
         then the value of "source" should be "symmetric difference"
-        and the length of the collection should be 2
+        and the length of the collection should be 4
         and the value of "element_class" should be "compound"
 
 
@@ -287,7 +287,7 @@ Feature: Check MolePro
             ["aspirin","bortezomib","Velcade","ibuprofen"]
         """
         then the size of "attributes" should be 4
-        and the int value of "size" should be 4
+        and the int value of "size" should be 5
 
 
     Scenario: Check batch element list by id
@@ -307,4 +307,4 @@ Feature: Check MolePro
             ["aspirin","bortezomib","Velcade","ibuprofen"]
         """
         then the size of "attributes" should be 0
-        and the int value of "size" should be 7
+        and the int value of "size" should be 6
