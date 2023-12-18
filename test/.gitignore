@@ -1,1 +1,4 @@
-test.venv
+*.venv
+venv
+logs/
+*.log
