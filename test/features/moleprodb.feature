@@ -13,8 +13,8 @@ Feature: Check MoleProDB transformer
         and the value of "function" should be "producer"
         and the value of "knowledge_map.input_class" should be "none"
         and the value of "knowledge_map.output_class" should be "any"
-        and the value of "version" should be "2.5.0"
-        and the value of "properties.source_version" should be "2.5.0 (2023-08-01)"
+        and the value of "version" should be "2.5.1"
+        and the value of "properties.source_version" should be "2.5.1 (2023-12-15)"
         and the size of "parameters" should be 1
 
 
@@ -27,8 +27,8 @@ Feature: Check MoleProDB transformer
         and the value of "function" should be "producer"
         and the value of "knowledge_map.input_class" should be "none"
         and the value of "knowledge_map.output_class" should be "any"
-        and the value of "version" should be "2.5.0"
-        and the value of "properties.source_version" should be "2.5.0 (2023-08-01)"
+        and the value of "version" should be "2.5.1"
+        and the value of "properties.source_version" should be "2.5.1 (2023-12-15)"
         and the size of "parameters" should be 1
 
 
@@ -41,8 +41,8 @@ Feature: Check MoleProDB transformer
         and the value of "function" should be "transformer"
         and the value of "knowledge_map.input_class" should be "any"
         and the value of "knowledge_map.output_class" should be "any"
-        and the value of "version" should be "2.5.0"
-        and the value of "properties.source_version" should be "2.5.0 (2023-08-01)"
+        and the value of "version" should be "2.5.1"
+        and the value of "properties.source_version" should be "2.5.1 (2023-12-15)"
         and the size of "parameters" should be 8
 
 
@@ -55,8 +55,8 @@ Feature: Check MoleProDB transformer
         and the value of "function" should be "transformer"
         and the value of "knowledge_map.input_class" should be "any"
         and the value of "knowledge_map.output_class" should be "any"
-        and the value of "version" should be "2.5.0"
-        and the value of "properties.source_version" should be "2.5.0 (2023-08-01)"
+        and the value of "version" should be "2.5.1"
+        and the value of "properties.source_version" should be "2.5.1 (2023-12-15)"
         and the size of "parameters" should be 3
 
 
@@ -144,7 +144,7 @@ Feature: Check MoleProDB transformer
             ]
         }
         """
-        then the size of the response is 2
+        then the size of the response is 1
         and the response contains the following entries in "source"
             | source  |
             | MolePro |
@@ -159,10 +159,8 @@ Feature: Check MoleProDB transformer
         and the response contains the following entries in "biolink_class"
             | biolink_class |
             | SmallMolecule |
-            | Drug          |
         and the response only contains the following entries in "biolink_class"
             | biolink_class |
-            | Drug          |
             | SmallMolecule |
 
 
@@ -436,7 +434,7 @@ Feature: Check MoleProDB transformer
             ]
         }
         """
-        then the size of the response is 158
+        then the size of the response is 188
         and the response contains the following entries in "source"
             | source      |
             | MolePro |
