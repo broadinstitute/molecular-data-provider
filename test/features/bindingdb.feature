@@ -22,7 +22,7 @@ Feature: Check BindingBD  transformer
         when we fire "/bindings/transformer_info" query
         then the value of "name" should be "BindingBD binding transformer"
         and the value of "label" should be "BindingBD"
-        and the value of "version" should be "2.4.0"
+        and the value of "version" should be "2.4.1"
         and the value of "function" should be "transformer"
         and the value of "knowledge_map.input_class" should be "compound"
         and the value of "knowledge_map.output_class" should be "target"
@@ -214,3 +214,24 @@ Feature: Check BindingBD  transformer
             | infores:uniprot   |
             | infores:bindingdb |
 
+
+    Scenario: Check BindingBD bindings transformer with no results
+        Given the transformer
+        when we fire "/bindings/transform" query with the following body:
+        """
+        {
+            "controls": [],
+            "collection": [
+                {
+                    "biolink_class": "SmallMolecule",
+                    "id": "BINDINGDB:23410",
+                    "identifiers": {
+                        "pubchem": "CID:5281691"
+                    },
+                    "provided_by": "BindingBD ligand producer",
+                    "source": "BindingBD"
+                }
+            ]
+        }
+        """
+        then the size of the response is 0
