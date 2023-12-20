@@ -1,0 +1,17 @@
+{
+    "CAS": "cas",
+    "CHEBI": "chebi",
+    "CHEMBL": "chembl",
+    "ChEMBL": "chembl",
+    "DRUG BANK": "drugbank",
+    "DRUG CENTRAL": "drugcentral",
+    "FDA UNII": "unii",
+    "KEGG": "kegg",
+    "MESH": "mesh",
+    "NCBI TAXONOMY": "ncbi_taxon",
+    "NCI_THESAURUS": "nci_thesaurus",
+    "PUBCHEM": "pubchem",
+    "RXCUI": "rxnorm",
+    "UNII": "unii",
+    "UNIPROT": "uniprot"
+}

@@ -312,7 +312,7 @@ class Connection(Model):
     def attributes(self):
         """Gets the attributes of this Connection.
 
-        Additional information and provenance about the connection.  # noqa: E501
+        Additional information about the element and provenance about collection membership.  # noqa: E501
 
         :return: The attributes of this Connection.
         :rtype: List[Attribute]
@@ -323,7 +323,7 @@ class Connection(Model):
     def attributes(self, attributes):
         """Sets the attributes of this Connection.
 
-        Additional information and provenance about the connection.  # noqa: E501
+        Additional information about the element and provenance about collection membership.  # noqa: E501
 
         :param attributes: The attributes of this Connection.
         :type attributes: List[Attribute]
