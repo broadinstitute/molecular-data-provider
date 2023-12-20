@@ -1,26 +1,33 @@
 {
-    "description": "Drug transformer based on Inxight:Drugs information (https://drugs.ncats.io/).",
+    "name": "Inxight:Drugs drug producer",
+    "label": "Inxight_Drugs",
+    "description": "Drug-list producer based on Inxight:Drugs information (https://drugs.ncats.io/).",
+    "version": "2.5.0",
     "function": "producer",
     "knowledge_map": {
         "input_class": "none",
+        "output_class": "drug",
         "nodes": {
             "Drug": {
-                "attributes": [],
-                "count": 12334,
-                "id_prefixes": [
-                    "RXCUI"
-                ]
+                "attributes": [
+
+                ],
+                "count": -1,
+                "id_prefixes": ["UNII",
+                                "INCHIKEY",
+                                "RXCUI",
+                                "CID"]
             }
         },
-        "output_class": "drug",
-        "predicates": []
+        "edges": []
     },
-    "label": "Inxight_Drugs",
-    "name": "Inxight:Drugs drug producer",
+    
     "parameters": [
         {
             "example": "aspirin",
+            "multivalued": true,
             "name": "drugs",
+            "required": true,
             "suggested_values": "semicolon-separated list of drug names",
             "type": "string"
         }
@@ -29,7 +36,7 @@
         "list_predicate": "related_to",
         "member_predicate": "related_to",
         "source_url": "https://drugs.ncats.io/",
+        "source_version": "2023-03-15",
         "terms_of_service": "https://ncats.nih.gov/disclaimer"
-    },
-    "version": "2.2.0"
+    }
 }

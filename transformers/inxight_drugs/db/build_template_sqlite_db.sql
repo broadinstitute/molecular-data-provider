@@ -14,8 +14,7 @@ BEGIN TRANSACTION;
 
 -- Table: _references
 CREATE TABLE _references (
-    uuid         STRING (100, 100) PRIMARY KEY
-                                   NOT NULL,
+    uuid         TEXT PRIMARY KEY,
     citation     TEXT,
     id           TEXT,
     docType      TEXT,
@@ -27,8 +26,7 @@ CREATE TABLE _references (
 
 -- Table: codes
 CREATE TABLE codes (
-    uuid       STRING (100, 100) PRIMARY KEY
-                                 NOT NULL,
+    uuid       TEXT PRIMARY KEY,
     type       TEXT,
     codeSystem TEXT,
     comments   TEXT,
@@ -40,8 +38,7 @@ CREATE TABLE codes (
 
 -- Table: components
 CREATE TABLE components (
-    uuid       TEXT PRIMARY KEY
-                    NOT NULL,
+    uuid       TEXT PRIMARY KEY,
     mixture_id TEXT,
     refuuid    TEXT,
     type       TEXT
@@ -65,9 +62,8 @@ CREATE TABLE mixtures (
 
 -- Table: names
 CREATE TABLE names (
-    uuid        STRING (100, 100) PRIMARY KEY
-                                  NOT NULL,
-    name        TEXT,
+    uuid        TEXT PRIMARY KEY,
+    name        TEXT COLLATE NOCASE,
     type        TEXT,
     preferred   TEXT,
     displayName TEXT
@@ -76,8 +72,7 @@ CREATE TABLE names (
 
 -- Table: nucleic_acid_sequences
 CREATE TABLE nucleic_acid_sequences (
-    uuid            TEXT    PRIMARY KEY
-                            NOT NULL,
+    uuid            TEXT    PRIMARY KEY,
     nucleic_acid_id TEXT    NOT NULL,
     subunitIndex    INTEGER,
     sequence        TEXT,
@@ -87,8 +82,7 @@ CREATE TABLE nucleic_acid_sequences (
 
 -- Table: nucleic_acid_sugars
 CREATE TABLE nucleic_acid_sugars (
-    uuid            TEXT PRIMARY KEY
-                         NOT NULL,
+    uuid            TEXT PRIMARY KEY,
     nucleic_acid_id TEXT NOT NULL,
     sugar           TEXT,
     sitesShorthand  TEXT
@@ -97,8 +91,7 @@ CREATE TABLE nucleic_acid_sugars (
 
 -- Table: nucleic_acids
 CREATE TABLE nucleic_acids (
-    uuid            TEXT PRIMARY KEY
-                         NOT NULL,
+    uuid            TEXT PRIMARY KEY,
     substance_id    TEXT NOT NULL,
     sequenceType    TEXT,
     nucleicAcidType TEXT,
@@ -108,8 +101,7 @@ CREATE TABLE nucleic_acids (
 
 -- Table: polymers
 CREATE TABLE polymers (
-    uuid                  TEXT PRIMARY KEY
-                               NOT NULL,
+    uuid                  TEXT PRIMARY KEY,
     substance_id          TEXT NOT NULL,
     polymerClass          TEXT,
     polymerSubclass       TEXT,
@@ -122,19 +114,17 @@ CREATE TABLE polymers (
 
 -- Table: protein_sequences
 CREATE TABLE protein_sequences (
-    uuid         TEXT PRIMARY KEY
-                      NOT NULL,
+    uuid         TEXT PRIMARY KEY,
     protein_id   TEXT NOT NULL,
-    subunitIndex TEXT,
+    subunitIndex INTEGER,
     sequence     TEXT,
-    length       TEXT
+    length       INTEGER
 );
 
 
 -- Table: proteins
 CREATE TABLE proteins (
-    uuid              TEXT PRIMARY KEY
-                           NOT NULL,
+    uuid              TEXT PRIMARY KEY,
     substance_id      TEXT NOT NULL,
     proteinType       TEXT,
     proteinSubType    TEXT,
@@ -147,8 +137,7 @@ CREATE TABLE proteins (
 
 -- Table: relationships
 CREATE TABLE relationships (
-    uuid                 STRING (100, 100) PRIMARY KEY
-                                           NOT NULL,
+    uuid                 TEXT PRIMARY KEY,
     relatedSubstance_id  TEXT,
     originatorUuid       TEXT,
     type                 TEXT,
@@ -166,8 +155,7 @@ CREATE TABLE relationships (
 
 -- Table: structurallyDiverse
 CREATE TABLE structurallyDiverse (
-    uuid                          TEXT PRIMARY KEY
-                                       NOT NULL,
+    uuid                          TEXT PRIMARY KEY,
     substance_id                  TEXT NOT NULL,
     sourceMaterialClass           TEXT,
     sourceMaterialType            TEXT,
@@ -190,8 +178,7 @@ CREATE TABLE structurallyDiverse (
 
 -- Table: structures
 CREATE TABLE structures (
-    id              STRING (100, 100) PRIMARY KEY
-                                      NOT NULL,
+    id              TEXT PRIMARY KEY,
     digest          TEXT,
     smiles          TEXT,
     formula         TEXT,
@@ -233,8 +220,7 @@ CREATE TABLE substance_names (
 
 -- Table: substances
 CREATE TABLE substances (
-    uuid                STRING (100, 100) PRIMARY KEY
-                                          NOT NULL,
+    uuid                TEXT PRIMARY KEY,
     definitionType      TEXT,
     definitionLevel     TEXT,
     substanceClass      TEXT,
@@ -244,7 +230,7 @@ CREATE TABLE substances (
     structurallyDiverse TEXT,
     protein             TEXT,
     nucleicAcid         TEXT,
-    _name               TEXT              COLLATE NOCASE,
+    _name               TEXT COLLATE NOCASE,
     mixture             TEXT,
     _moieties           TEXT,
     structure_id        TEXT,
@@ -254,7 +240,7 @@ CREATE TABLE substances (
 
 -- Table: unii_lookup
 CREATE TABLE unii_lookup (
-    UNII            TEXT (12) PRIMARY KEY,
+    UNII            TEXT PRIMARY KEY,
     PT              TEXT,
     RN              TEXT,
     EC              TEXT,
@@ -273,85 +259,6 @@ CREATE TABLE unii_lookup (
     INGREDIENT_TYPE TEXT
 );
 
-
--- Index: codes_index
-CREATE INDEX codes_index ON codes (
-    uuid
-);
-
-
--- Index: index_substance_on_uuid
-CREATE UNIQUE INDEX index_substance_on_uuid ON substances (
-    uuid
-);
-
-
--- Index: index_entity_references_entity_id
-CREATE INDEX index_entity_references_entity_id ON entity_references (
-    entity_id
-);
-
-
--- Index: references_uuid
-CREATE INDEX references_uuid ON entity_references (
-    entity_id,
-    reference_id
-);
-
-
--- Index: referencesIndex
-CREATE INDEX referencesIndex ON _references (
-    uuid
-);
-
-
--- Index: relationship_index
-CREATE INDEX relationship_index ON relationships (
-    relatedSubstance_id ASC,
-    substance_id
-);
-
-
--- Index: structures_index
-CREATE INDEX structures_index ON structures (
-    id
-);
-
-
--- Index: unii_lookup_index
-CREATE INDEX unii_lookup_index ON unii_lookup (
-    UNII
-);
-
-
--- Index: index_unii_lookup_rxcui
-CREATE INDEX index_unii_lookup_rxcui ON unii_lookup (
-    RXCUI
-);
-
-
--- Index: substance_names_substance_id_index
-CREATE INDEX substance_names_substance_id_index ON substance_names (
-    substance_id
-);
-
-
--- Index: substance_codes_substance_id_index
-CREATE INDEX substance_codes_substance_id_index ON substance_codes (
-    substance_id
-);
-
-
--- Index: proteins_substance_id_index
-CREATE INDEX proteins_substance_id_index ON proteins (
-    substance_id
-);
-
-
--- Index: protein_sequences_protein_id_index
-CREATE INDEX protein_sequences_protein_id_index ON protein_sequences (
-    protein_id
-);
 
 COMMIT TRANSACTION;
 PRAGMA foreign_keys = on;

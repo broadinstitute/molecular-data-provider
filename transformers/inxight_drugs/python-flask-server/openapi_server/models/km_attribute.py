@@ -15,29 +15,34 @@ class KmAttribute(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, type=None, source=None, names=None):  # noqa: E501
+    def __init__(self, attribute_type_id=None, description=None, source=None, names=None):  # noqa: E501
         """KmAttribute - a model defined in OpenAPI
 
-        :param type: The type of this KmAttribute.  # noqa: E501
-        :type type: str
+        :param attribute_type_id: The attribute_type_id of this KmAttribute.  # noqa: E501
+        :type attribute_type_id: str
+        :param description: The description of this KmAttribute.  # noqa: E501
+        :type description: str
         :param source: The source of this KmAttribute.  # noqa: E501
         :type source: str
         :param names: The names of this KmAttribute.  # noqa: E501
         :type names: List[str]
         """
         self.openapi_types = {
-            'type': str,
+            'attribute_type_id': str,
+            'description': str,
             'source': str,
             'names': List[str]
         }
 
         self.attribute_map = {
-            'type': 'type',
+            'attribute_type_id': 'attribute_type_id',
+            'description': 'description',
             'source': 'source',
             'names': 'names'
         }
 
-        self._type = type
+        self._attribute_type_id = attribute_type_id
+        self._description = description
         self._source = source
         self._names = names
 
@@ -53,29 +58,52 @@ class KmAttribute(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def type(self):
-        """Gets the type of this KmAttribute.
+    def attribute_type_id(self):
+        """Gets the attribute_type_id of this KmAttribute.
 
         CURIE of the semantic type of the attribute, from the EDAM ontology if possible. If a suitable identifier does not exist, enter a descriptive phrase here and submit the new type for consideration by the appropriate authority.  # noqa: E501
 
-        :return: The type of this KmAttribute.
+        :return: The attribute_type_id of this KmAttribute.
         :rtype: str
         """
-        return self._type
+        return self._attribute_type_id
 
-    @type.setter
-    def type(self, type):
-        """Sets the type of this KmAttribute.
+    @attribute_type_id.setter
+    def attribute_type_id(self, attribute_type_id):
+        """Sets the attribute_type_id of this KmAttribute.
 
         CURIE of the semantic type of the attribute, from the EDAM ontology if possible. If a suitable identifier does not exist, enter a descriptive phrase here and submit the new type for consideration by the appropriate authority.  # noqa: E501
 
-        :param type: The type of this KmAttribute.
-        :type type: str
+        :param attribute_type_id: The attribute_type_id of this KmAttribute.
+        :type attribute_type_id: str
         """
-        if type is None:
-            raise ValueError("Invalid value for `type`, must not be `None`")  # noqa: E501
+        if attribute_type_id is None:
+            raise ValueError("Invalid value for `attribute_type_id`, must not be `None`")  # noqa: E501
 
-        self._type = type
+        self._attribute_type_id = attribute_type_id
+
+    @property
+    def description(self):
+        """Gets the description of this KmAttribute.
+
+        Description of the attribute.  # noqa: E501
+
+        :return: The description of this KmAttribute.
+        :rtype: str
+        """
+        return self._description
+
+    @description.setter
+    def description(self, description):
+        """Sets the description of this KmAttribute.
+
+        Description of the attribute.  # noqa: E501
+
+        :param description: The description of this KmAttribute.
+        :type description: str
+        """
+
+        self._description = description
 
     @property
     def source(self):

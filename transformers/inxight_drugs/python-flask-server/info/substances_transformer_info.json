@@ -1,37 +1,110 @@
 {
+    "name": "Inxight:Drugs substance-list producer",
+    "label": "Inxight:Drugs",
     "description": "Substance-list producer based on Inxight_Drugs (https://drugs.ncats.io/).",
+    "version": "2.5.0",
     "function": "producer",
     "knowledge_map": {
         "input_class": "none",
+        "output_class": "ChemicalEntity",
         "nodes": {
-            "ChemicalSubstance": {
-                "attributes": [],
-                "count": 107352,
-                "id_prefixes": [
-                    "UNII",
-                    "INCHIKEY",
-                    "CID"
-                ]
+            "ChemicalEntity": {
+                "attributes": [ 
+                {
+                    "attribute_type_id": "nucleicAcidType",
+                    "description": "The nucleic acid type, e.g., MRNA, oligonucleotide",
+                    "source": "infores:inxight_drugs",
+                    "names": [
+                        "nucleicAcidType"
+                    ]                    
+                },                   
+                {
+                    "attribute_type_id": "proteinType",
+                    "description": "The protein type, e.g., peptide, monoclonal antibody.",
+                    "source": "infores:inxight_drugs",
+                    "names": [
+                        "proteinType"
+                    ]
+                },
+                {
+                    "attribute_type_id": "proteinSubType",
+                    "description": "The protein sub-type, e.g., T-cell antigen, Igg1",
+                    "source": "infores:inxight_drugs",
+                    "names": [
+                        "proteinSubType"
+                    ]
+                },
+                {
+                    "attribute_type_id": "biolink:has_biological_sequence",
+                    "description": "The protein’s amino acid sequence",
+                    "source": "infores:inxight_drugs",
+                    "names": [
+                        "sequence"
+                    ]
+                },
+                {
+                    "attribute_type_id": "sequenceOrigin",
+                    "description": "The nucleic acid or the protein’s source, e.g., human, canine, viral, synthetic",
+                    "source": "infores:inxight_drugs",
+                    "names": [
+                        "sequenceOrigin"
+                    ]
+                },
+                {
+                    "attribute_type_id": "disulfideLinks",
+                    "description": "The disulfide bonds which stabilizes the mature proteins' 3D structure and/or redox activity",
+                    "source": "infores:inxight_drugs",
+                    "names": [
+                        "disulfideLinks"
+                    ]
+                },
+                {
+                    "attribute_type_id": "glycosylationType",
+                    "description": "The kind of covalent addition of sugar moieties to specific amino acids of the protein, e.g., human, mammalian, plant",
+                    "source": "infores:inxight_drugs",
+                    "names": [
+                        "glycosylationType"
+                    ]
+                },
+                {
+                    "attribute_type_id": "sequenceType",
+                    "description": "The status of the provided sequence, e.g., complete, unknown, partial, fragment",
+                    "source": "infores:inxight_drugs",
+                    "names": [
+                        "sequenceType"
+                    ]
+                },
+                {
+                    "attribute_type_id": "length",
+                    "description": "The number of amino acid residues in the protein sequence",
+                    "source": "infores:inxight_drugs",
+                    "names": [
+                        "length"
+                    ]
+                }
+            ],
+                "count": -1,
+                "id_prefixes": ["UNII",
+                                "INCHIKEY",
+                                "RXCUI",
+                                "CID"]
             }
         },
-        "output_class": "substance",
-        "predicates": []
+        "edges": []
     },
-    "label": "Inxight_Drugs",
-    "name": "Inxight:Drugs substance-list producer",
     "parameters": [
         {
             "example": "aspirin",
-            "name": "substances",
-            "suggested_values": "semicolon-separated list of substances",
+            "name": "substance",
+            "suggested_values": "name or identifier of a substance",
+            "multivalued": true,
+            "required": true,
             "type": "string"
         }
     ],
     "properties": {
-        "list_predicate": "related_to",
-        "member_predicate": "related_to",
         "source_url": "https://drugs.ncats.io/",
-        "terms_of_service": "https://ncats.nih.gov/disclaimer"
-    },
-    "version": "2.2.0"
+        "terms_of_service": "https://ncats.nih.gov/disclaimer",
+        "source_version": "2023-03-15"
+    }
 }

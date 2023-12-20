@@ -16,37 +16,41 @@ from openapi_server.test import BaseTestCase
 class TestTransformersController(BaseTestCase):
     """TransformersController integration test stubs"""
 
-    def test_service_transform_post(self):
-        """Test case for service_transform_post
+    def test_transform_post(self):
+        """Test case for transform_post
 
-        Transform a list of drugs or substances
+        Transform a list of genes or compounds
         """
-        transformer_query = {}
+        transformer_query = openapi_server.TransformerQuery()
+        query_string = [('cache', 'cache_example')]
         headers = { 
             'Accept': 'application/json',
             'Content-Type': 'application/json',
         }
         response = self.client.open(
-            '/inxight_drugs/{service}/transform'.format(service='service_example'),
+            '/inxight_drugs/transform',
             method='POST',
             headers=headers,
             data=json.dumps(transformer_query),
-            content_type='application/json')
+            content_type='application/json',
+            query_string=query_string)
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
-    def test_service_transformer_info_get(self):
-        """Test case for service_transformer_info_get
+    def test_transformer_info_get(self):
+        """Test case for transformer_info_get
 
         Retrieve transformer info
         """
+        query_string = [('cache', 'cache_example')]
         headers = { 
             'Accept': 'application/json',
         }
         response = self.client.open(
-            '/inxight_drugs/{service}/transformer_info'.format(service='service_example'),
+            '/inxight_drugs/transformer_info',
             method='GET',
-            headers=headers)
+            headers=headers,
+            query_string=query_string)
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
