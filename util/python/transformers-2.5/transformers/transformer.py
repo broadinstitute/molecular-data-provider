@@ -334,7 +334,7 @@ class Transformer:
             name_type=type, 
             source=name_source if name_source is not None else self.SOURCE, 
             provided_by=self.PROVIDED_BY, 
-            language=None
+            language=language
         )
 
 
@@ -399,6 +399,8 @@ class TransformerUtility:
                         else:
                             prefix["molepro_prefix"] = line['MolePro CURIE prefix']
                         prefix["biolink_prefix"] = line['Biolink CURIE prefix']
+                        if line['infores'] != '':
+                            prefix['infores'] = line['infores']
                         prefixMap[line['Biolink class']][line['MolePro field name']]= prefix
                         
 #       Save as a JSON file
