@@ -96,6 +96,23 @@ def step_impl(context, key, parent):
         assert row[key] in entries
 
 
+@then('the response may contain the following entries in "{key}" of "{parent}"')
+def step_impl(context, key, parent):
+    """
+    This step checks whether all values specified in the test are contained in the response
+    """
+    entries = set()
+    print('Collected entries:')
+    for entry in context.response_json:
+        if key in entry[parent] :
+            print(' ', entry[parent][key])
+            entries.add(entry[parent][key])
+    print('Tested entries:')
+    for row in context.table:
+        print(' ', row[key])
+        assert row[key] in entries
+
+
 @then('the response contains the following entries in "{key}" of "{parent}" array')
 def step_impl(context, key, parent):
     """
