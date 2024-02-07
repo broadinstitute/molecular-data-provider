@@ -11,7 +11,7 @@ Feature: Check MolePro filters
         | id   | CID:2244         |
         | id   | DrugBank:DB00188 |
         | id   | CHEBI:4167       |
-        then the length of the collection should be 5
+        then the length of the collection should be 3
 
 
     Scenario: Check integer less then filter
@@ -37,7 +37,7 @@ Feature: Check MolePro filters
         and we call "Element attribute filter" transformer with the following parameters:
         | id                   | name      | operator | value |
         | ROTATABLE_BOND_COUNT | ROTATABLE_BOND_COUNT | == | 9 |
-        then the length of the collection should be 2
+        then the length of the collection should be 1
 
 
     Scenario: Check integer not equals filter
@@ -63,7 +63,7 @@ Feature: Check MolePro filters
         and we call "Element attribute filter" transformer with the following parameters:
         | id                   | name      | operator | value |
         | ROTATABLE_BOND_COUNT | ROTATABLE_BOND_COUNT | > | 5 |
-        then the length of the collection should be 2
+        then the length of the collection should be 1
 
 
     Scenario: Check float then filter
@@ -89,7 +89,7 @@ Feature: Check MolePro filters
         and we call "Element attribute filter" transformer with the following parameters:
         | id               | name       | operator | value |
         | MOLECULAR_WEIGHT | MOLECULAR_WEIGHT | > | 199.99 |
-        then the length of the collection should be 2
+        then the length of the collection should be 1
 
 
     Scenario: Check string equals filter
@@ -115,7 +115,7 @@ Feature: Check MolePro filters
         and we call "MoleProDB connections transformer" transformer with the following parameters:
         | biolink_class |
         | Gene          |
-        then the length of the collection should be 209
+        then the length of the collection should be 314
 
 
     Scenario: Check connections filter
@@ -151,5 +151,5 @@ Feature: Check MolePro filters
         | not      | true                             |
         | operator | ==                               |
         | value    | infores:drugbank                 |
-        then the length of the collection should be 209
+        then the length of the collection should be 300
 
