@@ -76,6 +76,8 @@ def execute_query(query: Query, debug = False):
             if operation_id == 'lookup':
                 logger.info('Received lookup query from {}'.format(query.submitter))
                 response = execute_lookup(message, query.submitter)
+                if isinstance(response, tuple):
+                    return response
                 message = response.message
                 workflow.append(operation)
                 if response.logs is not None:
@@ -83,6 +85,8 @@ def execute_query(query: Query, debug = False):
             if operation_id == 'annotate_nodes':
                 logger.info('Received annotate_nodes query from {}'.format(query.submitter))
                 response = execute_annotate_nodes(operation, message, query.submitter)
+                if isinstance(response, tuple):
+                    return response
                 message = response.message
                 workflow.append(operation)
                 if response.logs is not None:
@@ -106,7 +110,7 @@ def execute_lookup(message: Message, submitter, debug=False):
             if node.ids:
                 id_count = max(id_count, len(node.ids))
                 
-    log_msg = "Got {} nodes with {} ids from {}".format(len(query_nodes), id_count, submitter)
+    log_msg = "Got {} nodes & {} edges with {} ids from {}".format(len(query_nodes), len(query_graph.edges), id_count, submitter)
     logger.info(log_msg)
     
     if id_count > limit_query_curie_size:
@@ -127,12 +131,15 @@ def execute_lookup(message: Message, submitter, debug=False):
             print("Flipped query graph")
 
     # expand the ancestry for the nodes
-    query_graph, map_original_query_id = expand_ancestry_node_ids(query_graph, debug=debug)
+    query_graph, map_original_query_id, map_ancestry = expand_ancestry_node_ids(query_graph, debug=debug)
     # print("got original query id map: {}".format(map_original_query_id))
 
     # call molepro
     molepro = MolePro(query_graph)
     molepro.logs.append(LogEntry(datetime.datetime.now(), LogLevel.INFO, LogLevel.INFO, log_msg))
+
+    # add the ancestry map to the molepro to help resolve names
+    molepro.add_to_ancestry_names_map(map_ancestry=map_ancestry)
 
     # returned edge is: {'id':edge_id, 'source':source, 'type':predicate, 'target':target}
     # edge, transformer_chain_list = knowledge_map.match_query_graph(query_graph)
@@ -191,8 +198,8 @@ def expand_ancestry_node_ids(query_graph, debug=False):
                 # concatenate all the results
                 list_updated_ids = node.ids
                 for key, list_item in map_ancestry.items():
-                    list_updated_ids = list_updated_ids + list_item
-                    for row in list_item:
+                    list_updated_ids = list_updated_ids + list(list_item.keys())
+                    for row in list_item.keys():
                         map_query_id[row] = key
                 
                 # make sure list is unique
@@ -211,7 +218,7 @@ def expand_ancestry_node_ids(query_graph, debug=False):
         logger.info("returning map query id: {}".format(map_query_id))
 
     # return
-    return query_graph, map_query_id
+    return query_graph, map_query_id, map_ancestry
 
 def query_molepro_db(molepro, query_graph, map_original_query_id, debug = False):
 

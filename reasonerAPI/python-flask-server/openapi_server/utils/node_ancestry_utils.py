@@ -50,17 +50,15 @@ def get_ancestry_map_with_url(query_url, list_ids, debug=False):
 
     # split based on prefix of ID
     list_temp = []
+    list_skipped = []
     map_skipped = {}
     map_ancestry = {}
     for item in list_ids:
         if item.split(":")[0] in ANCESTRY_PREFIX:
             list_temp.append(item)
         else:
-            map_skipped[item] = [item]
-
-    # log
-    if debug:
-        print("got skipped map: {}".format(map_skipped))
+            # map_skipped[item] = [item]
+            list_skipped.append(item)
 
     if len(list_temp) > 0:
         # get the collection id
@@ -71,6 +69,10 @@ def get_ancestry_map_with_url(query_url, list_ids, debug=False):
 
         # get the ancestry map
         map_ancestry = get_node_ancestry_from_url(get_url, debug)
+
+    # create map from skipped ancestryu step items (bug 317)
+    for item in list_skipped:
+        map_skipped[item] = {item: item}
 
     # log
     if debug:
@@ -167,6 +169,14 @@ def get_node_ancestry_from_url(query_url, debug=False):
         for element in elements_list:
             # get the child id
             child_id = element.get('id')
+            name = None
+
+            # get the name
+            name_list = element.get("names_synonyms")
+            if name_list and isinstance(name_list, list) and len(name_list) > 0:
+                # get the first name
+                name = name_list[0].get("name")
+                # print("NODE id: {} and name: {}".format(child_id, name))
 
             # loop through the connections
             connections = element.get('connections')
@@ -176,8 +186,8 @@ def get_node_ancestry_from_url(query_url, debug=False):
 
                     # add to the result map
                     if not result_map.get(parent_id):
-                        result_map[parent_id] = []
-                    result_map.get(parent_id).append(child_id)
+                        result_map[parent_id] = {}
+                    result_map.get(parent_id)[child_id] = name
                     
 
     # log
