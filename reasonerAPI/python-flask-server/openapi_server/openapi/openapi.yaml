@@ -10,7 +10,7 @@ info:
     url: https://github.com/broadinstitute/molecular-data-provider/blob/master/LICENSE
   termsOfService: https://github.com/broadinstitute/molecular-data-provider/blob/master/terms_of_service.md
   title: MolePro
-  version: 1.4.0.2
+  version: 1.4.0.3
   x-translator:
     component: KP
     team:
