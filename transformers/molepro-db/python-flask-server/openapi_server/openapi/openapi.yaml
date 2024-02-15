@@ -4,7 +4,7 @@ info:
     email: translator@broadinstitute.org
   termsOfService: https://github.com/broadinstitute/molecular-data-provider/blob/master/terms_of_service.md
   title: Transformer API for MolePro database
-  version: 2.4.4
+  version: 2.5.1
 servers:
 - url: https://translator.broadinstitute.org/moleprodb
 tags:
@@ -12,8 +12,8 @@ tags:
 paths:
   /{service}/transform:
     post:
-      description: Depending on the function of a transformer, creates, expands, or
-        filters a list.
+      description: "Depending on the function of a transformer, creates, expands,\
+        \ or filters a list."
       operationId: service_transform_post
       parameters:
       - description: Service provided by this transformer.
@@ -29,8 +29,8 @@ paths:
           - hierarchy
           type: string
         style: simple
-      - description: Directive for handling caching, can be 'yes' (default), 'no',
-          'bypass' or 'remove'
+      - description: "Directive for handling caching, can be 'yes' (default), 'no',\
+          \ 'bypass' or 'remove'"
         explode: true
         in: query
         name: cache
@@ -46,7 +46,7 @@ paths:
         description: transformer query
         required: true
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
@@ -54,19 +54,19 @@ paths:
                   $ref: '#/components/schemas/element'
                 type: array
           description: successful operation
-        400:
+        "400":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/error_msg'
           description: bad request
-        404:
+        "404":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/error_msg'
           description: not found
-        500:
+        "500":
           content:
             application/json:
               schema:
@@ -94,8 +94,8 @@ paths:
           - hierarchy
           type: string
         style: simple
-      - description: Directive for handling caching, can be 'yes' (default), 'no',
-          'bypass' or 'remove'
+      - description: "Directive for handling caching, can be 'yes' (default), 'no',\
+          \ 'bypass' or 'remove'"
         explode: true
         in: query
         name: cache
@@ -104,7 +104,7 @@ paths:
           type: string
         style: form
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
@@ -120,51 +120,6 @@ components:
       description: Definition of the transformer.
       example:
         knowledge_map:
-          predicates:
-          - predicate: predicate
-            inverse_relations:
-            - inverse_relations
-            - inverse_relations
-            subject: subject
-            count: 6
-            attributes:
-            - names:
-              - PubMed Identifier
-              attribute_type_id: EDAM:data_1187
-              source: UniProtKB
-              type: EDAM:data_1187
-            - names:
-              - PubMed Identifier
-              attribute_type_id: EDAM:data_1187
-              source: UniProtKB
-              type: EDAM:data_1187
-            source: ChEMBL
-            relations:
-            - binds_to
-            inverse_predicate: inverse_predicate
-            object: object
-          - predicate: predicate
-            inverse_relations:
-            - inverse_relations
-            - inverse_relations
-            subject: subject
-            count: 6
-            attributes:
-            - names:
-              - PubMed Identifier
-              attribute_type_id: EDAM:data_1187
-              source: UniProtKB
-              type: EDAM:data_1187
-            - names:
-              - PubMed Identifier
-              attribute_type_id: EDAM:data_1187
-              source: UniProtKB
-              type: EDAM:data_1187
-            source: ChEMBL
-            relations:
-            - binds_to
-            inverse_predicate: inverse_predicate
-            object: object
           nodes:
             key:
               id_prefixes:
@@ -174,61 +129,76 @@ components:
               attributes:
               - names:
                 - PubMed Identifier
+                description: description
                 attribute_type_id: EDAM:data_1187
                 source: UniProtKB
-                type: EDAM:data_1187
               - names:
                 - PubMed Identifier
+                description: description
                 attribute_type_id: EDAM:data_1187
                 source: UniProtKB
-                type: EDAM:data_1187
           output_class: output_class
           edges:
-          - predicate: predicate
+          - agent_type: computational model
+            predicate: predicate
             inverse_relations:
             - inverse_relations
             - inverse_relations
+            knowledge_level: prediction
             subject: subject
             count: 6
+            qualifiers:
+            - applicable_values: expression
+              qualifier_type_id: subject_aspect
+            - applicable_values: expression
+              qualifier_type_id: subject_aspect
             attributes:
             - names:
               - PubMed Identifier
+              description: description
               attribute_type_id: EDAM:data_1187
               source: UniProtKB
-              type: EDAM:data_1187
             - names:
               - PubMed Identifier
+              description: description
               attribute_type_id: EDAM:data_1187
               source: UniProtKB
-              type: EDAM:data_1187
             source: ChEMBL
             relations:
             - binds_to
             inverse_predicate: inverse_predicate
             object: object
-          - predicate: predicate
+          - agent_type: computational model
+            predicate: predicate
             inverse_relations:
             - inverse_relations
             - inverse_relations
+            knowledge_level: prediction
             subject: subject
             count: 6
+            qualifiers:
+            - applicable_values: expression
+              qualifier_type_id: subject_aspect
+            - applicable_values: expression
+              qualifier_type_id: subject_aspect
             attributes:
             - names:
               - PubMed Identifier
+              description: description
               attribute_type_id: EDAM:data_1187
               source: UniProtKB
-              type: EDAM:data_1187
             - names:
               - PubMed Identifier
+              description: description
               attribute_type_id: EDAM:data_1187
               source: UniProtKB
-              type: EDAM:data_1187
             source: ChEMBL
             relations:
             - binds_to
             inverse_predicate: inverse_predicate
             object: object
           input_class: input_class
+        infores: infores
         function: producer
         name: name
         description: description
@@ -245,6 +215,7 @@ components:
           multivalued: true
           name: name
           suggested_values: suggested_values
+          description: description
           type: Boolean
           required: true
           example: example
@@ -258,6 +229,7 @@ components:
           multivalued: true
           name: name
           suggested_values: suggested_values
+          description: description
           type: Boolean
           required: true
           example: example
@@ -270,19 +242,27 @@ components:
       properties:
         name:
           description: Name of the transformer.
+          title: name
           type: string
         label:
           description: Short label for GUI display.
+          title: label
+          type: string
+        infores:
+          description: Information resource identifier.
+          title: infores
           type: string
         description:
           description: Description of the transformer.
+          title: description
           type: string
         version:
           description: Transformer's version.
+          title: version
           type: string
         function:
-          description: Function of the transformer, one of 'producer', 'expander',
-            'filter', 'transformer', 'exporter', or 'aggregator'.
+          description: "Function of the transformer, one of 'producer', 'expander',\
+            \ 'filter', 'transformer', 'exporter', or 'aggregator'."
           enum:
           - producer
           - expander
@@ -290,6 +270,7 @@ components:
           - transformer
           - exporter
           - aggregator
+          title: function
           type: string
         knowledge_map:
           $ref: '#/components/schemas/knowledge_map'
@@ -299,6 +280,7 @@ components:
           description: Parameters used to control the transformer.
           items:
             $ref: '#/components/schemas/parameter'
+          title: parameters
           type: array
       required:
       - function
@@ -306,6 +288,7 @@ components:
       - label
       - name
       - version
+      title: transformer_info
       type: object
     parameter:
       example:
@@ -319,38 +302,47 @@ components:
         multivalued: true
         name: name
         suggested_values: suggested_values
+        description: description
         type: Boolean
         required: true
         example: example
       properties:
         name:
           description: Name of the parameter.
+          title: name
           type: string
         type:
-          description: Type of the parameter, one of 'Boolean', 'int', 'double', 'string'.
+          description: "Type of the parameter, one of 'Boolean', 'int', 'double',\
+            \ 'string'."
           enum:
           - Boolean
           - int
           - double
           - string
+          title: type
           type: string
         required:
           description: Indicates whether the parameter is required(default true).
+          title: required
           type: boolean
         multivalued:
           description: Indicates whether multiple occurences of the parameter are
             allowed (default false).
+          title: multivalued
           type: boolean
         default:
           description: Default value of the parameter.
+          title: default
           type: string
         example:
           description: Example value of the parameter.
+          title: example
           type: string
         allowed_values:
           description: Allowed values for the parameter.
           items:
             type: string
+          title: allowed_values
           type: array
         allowed_range:
           description: Allowed range for values of the parameter.
@@ -358,62 +350,24 @@ components:
             type: number
           maxItems: 2
           minItems: 2
+          title: allowed_range
           type: array
+        description:
+          description: Description of the parameter.
+          title: description
+          type: string
         suggested_values:
           description: Suggested value range for the parameter.
+          title: suggested_values
           type: string
       required:
       - name
       - type
+      title: parameter
       type: object
     knowledge_map:
       description: Knowledge-graph representation of the transformer.
       example:
-        predicates:
-        - predicate: predicate
-          inverse_relations:
-          - inverse_relations
-          - inverse_relations
-          subject: subject
-          count: 6
-          attributes:
-          - names:
-            - PubMed Identifier
-            attribute_type_id: EDAM:data_1187
-            source: UniProtKB
-            type: EDAM:data_1187
-          - names:
-            - PubMed Identifier
-            attribute_type_id: EDAM:data_1187
-            source: UniProtKB
-            type: EDAM:data_1187
-          source: ChEMBL
-          relations:
-          - binds_to
-          inverse_predicate: inverse_predicate
-          object: object
-        - predicate: predicate
-          inverse_relations:
-          - inverse_relations
-          - inverse_relations
-          subject: subject
-          count: 6
-          attributes:
-          - names:
-            - PubMed Identifier
-            attribute_type_id: EDAM:data_1187
-            source: UniProtKB
-            type: EDAM:data_1187
-          - names:
-            - PubMed Identifier
-            attribute_type_id: EDAM:data_1187
-            source: UniProtKB
-            type: EDAM:data_1187
-          source: ChEMBL
-          relations:
-          - binds_to
-          inverse_predicate: inverse_predicate
-          object: object
         nodes:
           key:
             id_prefixes:
@@ -423,55 +377,69 @@ components:
             attributes:
             - names:
               - PubMed Identifier
+              description: description
               attribute_type_id: EDAM:data_1187
               source: UniProtKB
-              type: EDAM:data_1187
             - names:
               - PubMed Identifier
+              description: description
               attribute_type_id: EDAM:data_1187
               source: UniProtKB
-              type: EDAM:data_1187
         output_class: output_class
         edges:
-        - predicate: predicate
+        - agent_type: computational model
+          predicate: predicate
           inverse_relations:
           - inverse_relations
           - inverse_relations
+          knowledge_level: prediction
           subject: subject
           count: 6
+          qualifiers:
+          - applicable_values: expression
+            qualifier_type_id: subject_aspect
+          - applicable_values: expression
+            qualifier_type_id: subject_aspect
           attributes:
           - names:
             - PubMed Identifier
+            description: description
             attribute_type_id: EDAM:data_1187
             source: UniProtKB
-            type: EDAM:data_1187
           - names:
             - PubMed Identifier
+            description: description
             attribute_type_id: EDAM:data_1187
             source: UniProtKB
-            type: EDAM:data_1187
           source: ChEMBL
           relations:
           - binds_to
           inverse_predicate: inverse_predicate
           object: object
-        - predicate: predicate
+        - agent_type: computational model
+          predicate: predicate
           inverse_relations:
           - inverse_relations
           - inverse_relations
+          knowledge_level: prediction
           subject: subject
           count: 6
+          qualifiers:
+          - applicable_values: expression
+            qualifier_type_id: subject_aspect
+          - applicable_values: expression
+            qualifier_type_id: subject_aspect
           attributes:
           - names:
             - PubMed Identifier
+            description: description
             attribute_type_id: EDAM:data_1187
             source: UniProtKB
-            type: EDAM:data_1187
           - names:
             - PubMed Identifier
+            description: description
             attribute_type_id: EDAM:data_1187
             source: UniProtKB
-            type: EDAM:data_1187
           source: ChEMBL
           relations:
           - binds_to
@@ -481,29 +449,28 @@ components:
       properties:
         input_class:
           description: BioLink class for the members of the input list.
+          title: input_class
           type: string
         output_class:
           description: BioLink class for the members of the output list.
+          title: output_class
           type: string
         nodes:
           additionalProperties:
             $ref: '#/components/schemas/node'
           description: List of semantic types in the KnowledgeMap.
+          title: nodes
           type: object
         edges:
           description: Predicates describing relationships between subjects and objects.
           items:
             $ref: '#/components/schemas/predicate'
-          type: array
-        predicates:
-          deprecated: true
-          description: Predicates describing relationships between subjects and objects.
-          items:
-            $ref: '#/components/schemas/predicate'
+          title: edges
           type: array
       required:
       - input_class
       - output_class
+      title: knowledge_map
       type: object
     node:
       additionalProperties: false
@@ -516,14 +483,14 @@ components:
         attributes:
         - names:
           - PubMed Identifier
+          description: description
           attribute_type_id: EDAM:data_1187
           source: UniProtKB
-          type: EDAM:data_1187
         - names:
           - PubMed Identifier
+          description: description
           attribute_type_id: EDAM:data_1187
           source: UniProtKB
-          type: EDAM:data_1187
       properties:
         id_prefixes:
           description: List of CURIE prefixes that this knowledge source understands
@@ -533,38 +500,49 @@ components:
           - 'inchikey:'
           items:
             type: string
+          title: id_prefixes
           type: array
         count:
           description: Number of node instances known to this knowledge source
+          title: count
           type: integer
         attributes:
           items:
             $ref: '#/components/schemas/km_attribute'
+          title: attributes
           type: array
       required:
       - id_prefixes
+      title: node
       type: object
     predicate:
       additionalProperties: false
       description: Predicate describing relationship between a subject and an object.
       example:
+        agent_type: computational model
         predicate: predicate
         inverse_relations:
         - inverse_relations
         - inverse_relations
+        knowledge_level: prediction
         subject: subject
         count: 6
+        qualifiers:
+        - applicable_values: expression
+          qualifier_type_id: subject_aspect
+        - applicable_values: expression
+          qualifier_type_id: subject_aspect
         attributes:
         - names:
           - PubMed Identifier
+          description: description
           attribute_type_id: EDAM:data_1187
           source: UniProtKB
-          type: EDAM:data_1187
         - names:
           - PubMed Identifier
+          description: description
           attribute_type_id: EDAM:data_1187
           source: UniProtKB
-          type: EDAM:data_1187
         source: ChEMBL
         relations:
         - binds_to
@@ -572,16 +550,21 @@ components:
         object: object
       properties:
         subject:
+          title: subject
           type: string
         predicate:
+          title: predicate
           type: string
         inverse_predicate:
+          title: inverse_predicate
           type: string
         object:
+          title: object
           type: string
         source:
           description: Source of the relationship.
           example: ChEMBL
+          title: source
           type: string
         relations:
           description: Low-level relations from the underlying source.
@@ -589,24 +572,78 @@ components:
           - binds_to
           items:
             type: string
+          title: relations
           type: array
         inverse_relations:
           description: Inverse low-level relations from the underlying source.
           items:
             type: string
+          title: inverse_relations
           type: array
         count:
           description: Number of edge instances known to this knowledge source
+          title: count
           type: integer
+        knowledge_level:
+          description: "the level/type of knowledge that is reported in an edge, \
+            \ based on how the knowledge was produced, the strength of  evidence supporting\
+            \ it, or our confidence in its validity.  (e.g. ‘knowledge assertion’\
+            , ‘logical entailment, ‘prediction’, ‘statistical association’, etc.)"
+          example: prediction
+          title: knowledge_level
+          type: string
+        agent_type:
+          description: "the type of agent that generated the statement expressed in\
+            \ an edge  (e.g. 'manual agent', 'automated agent', 'computational model',\
+            \  'text-mining agent', etc.)"
+          example: computational model
+          title: agent_type
+          type: string
+        qualifiers:
+          description: An additional nuance attached to connections.
+          items:
+            $ref: '#/components/schemas/km_qualifier'
+          title: qualifiers
+          type: array
         attributes:
           items:
             $ref: '#/components/schemas/km_attribute'
+          title: attributes
           type: array
       required:
       - inverse_predicate
       - object
       - predicate
       - subject
+      title: predicate
+      type: object
+    km_qualifier:
+      additionalProperties: false
+      description: An additional nuance attached to a connection
+      example:
+        applicable_values: expression
+        qualifier_type_id: subject_aspect
+      properties:
+        qualifier_type_id:
+          description: "The category of the qualifier, drawn from a hierarchy of qualifier\
+            \ slots in the Biolink model (e.g. subject_aspect, subject_direction,\
+            \ object_aspect, object_direction, etc)."
+          example: subject_aspect
+          title: qualifier_type_id
+          type: string
+        applicable_values:
+          description: "Values associated with the type of the qualifier, drawn from\
+            \ a set of controlled values by the type as specified in the Biolink model\
+            \ (e.g. 'expression' or 'abundance' for the qualifier type 'subject_aspect',\
+            \ etc)."
+          example: expression
+          items:
+            type: string
+          title: applicable_values
+          type: array
+      required:
+      - qualifier_type_id
+      title: km_qualifier
       type: object
     km_attribute:
       additionalProperties: false
@@ -614,28 +651,26 @@ components:
       example:
         names:
         - PubMed Identifier
+        description: description
         attribute_type_id: EDAM:data_1187
         source: UniProtKB
-        type: EDAM:data_1187
       properties:
-        type:
-          deprecated: true
-          description: CURIE of the semantic type of the attribute, from the EDAM
-            ontology if possible. If a suitable identifier does not exist, enter a
-            descriptive phrase here and submit the new type for consideration by the
-            appropriate authority.
-          example: EDAM:data_1187
-          type: string
         attribute_type_id:
-          description: CURIE of the semantic type of the attribute, from the EDAM
-            ontology if possible. If a suitable identifier does not exist, enter a
-            descriptive phrase here and submit the new type for consideration by the
-            appropriate authority.
+          description: "CURIE of the semantic type of the attribute, from the EDAM\
+            \ ontology if possible. If a suitable identifier does not exist, enter\
+            \ a descriptive phrase here and submit the new type for consideration\
+            \ by the appropriate authority."
           example: EDAM:data_1187
+          title: attribute_type_id
+          type: string
+        description:
+          description: Description of the attribute.
+          title: description
           type: string
         source:
-          description: Source of the attribute, as a CURIE prefix.
+          description: "Source of the attribute, as a CURIE prefix."
           example: UniProtKB
+          title: source
           type: string
         names:
           description: Human-readable names or labels for the attribute for attributes
@@ -644,9 +679,11 @@ components:
           - PubMed Identifier
           items:
             type: string
+          title: names
           type: array
       required:
       - attribute_type_id
+      title: km_attribute
       type: object
     transformer_query:
       properties:
@@ -655,6 +692,7 @@ components:
             transformers except producers.
           items:
             $ref: '#/components/schemas/element'
+          title: collection
           type: array
         controls:
           description: Values that control the behavior of the transformer. Names
@@ -663,25 +701,30 @@ components:
             the transformer's definition.
           items:
             $ref: '#/components/schemas/property'
+          title: controls
           type: array
       required:
       - controls
+      title: transformer_query
       type: object
     property:
       properties:
         name:
+          title: name
           type: string
         value:
+          title: value
           type: string
       required:
       - name
       - value
+      title: property
       type: object
     element:
       example:
         biolink_class: biolink_class
         identifiers:
-          key: '{}'
+          key: ""
         provided_by: provided_by
         attributes:
         - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
@@ -689,7 +732,7 @@ components:
           value_type_id: EDAM:data_1187
           description: Assertion Authored By Dr. Trans L. Ator
           provided_by: provided_by
-          attribute_type_id: Biolink:has_p-value_evidence, Biolink:has_original_source
+          attribute_type_id: "Biolink:has_p-value_evidence, Biolink:has_original_source"
           attributes:
           - null
           - null
@@ -700,7 +743,7 @@ components:
           value_type_id: EDAM:data_1187
           description: Assertion Authored By Dr. Trans L. Ator
           provided_by: provided_by
-          attribute_type_id: Biolink:has_p-value_evidence, Biolink:has_original_source
+          attribute_type_id: "Biolink:has_p-value_evidence, Biolink:has_original_source"
           attributes:
           - null
           - null
@@ -728,6 +771,11 @@ components:
         connections:
         - inverse_relation: inverse_relation
           provided_by: provided_by
+          qualifiers:
+          - qualifier_value: expression
+            qualifier_type_id: subject_aspect
+          - qualifier_value: expression
+            qualifier_type_id: subject_aspect
           biolink_predicate: biolink_predicate
           attributes:
           - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
@@ -735,7 +783,7 @@ components:
             value_type_id: EDAM:data_1187
             description: Assertion Authored By Dr. Trans L. Ator
             provided_by: provided_by
-            attribute_type_id: Biolink:has_p-value_evidence, Biolink:has_original_source
+            attribute_type_id: "Biolink:has_p-value_evidence, Biolink:has_original_source"
             attributes:
             - null
             - null
@@ -746,18 +794,24 @@ components:
             value_type_id: EDAM:data_1187
             description: Assertion Authored By Dr. Trans L. Ator
             provided_by: provided_by
-            attribute_type_id: Biolink:has_p-value_evidence, Biolink:has_original_source
+            attribute_type_id: "Biolink:has_p-value_evidence, Biolink:has_original_source"
             attributes:
             - null
             - null
             original_attribute_name: p-value
             value: 0.000153
           source: source
+          uuid: uuid
           inverse_predicate: inverse_predicate
           source_element_id: source_element_id
           relation: relation
         - inverse_relation: inverse_relation
           provided_by: provided_by
+          qualifiers:
+          - qualifier_value: expression
+            qualifier_type_id: subject_aspect
+          - qualifier_value: expression
+            qualifier_type_id: subject_aspect
           biolink_predicate: biolink_predicate
           attributes:
           - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
@@ -765,7 +819,7 @@ components:
             value_type_id: EDAM:data_1187
             description: Assertion Authored By Dr. Trans L. Ator
             provided_by: provided_by
-            attribute_type_id: Biolink:has_p-value_evidence, Biolink:has_original_source
+            attribute_type_id: "Biolink:has_p-value_evidence, Biolink:has_original_source"
             attributes:
             - null
             - null
@@ -776,29 +830,33 @@ components:
             value_type_id: EDAM:data_1187
             description: Assertion Authored By Dr. Trans L. Ator
             provided_by: provided_by
-            attribute_type_id: Biolink:has_p-value_evidence, Biolink:has_original_source
+            attribute_type_id: "Biolink:has_p-value_evidence, Biolink:has_original_source"
             attributes:
             - null
             - null
             original_attribute_name: p-value
             value: 0.000153
           source: source
+          uuid: uuid
           inverse_predicate: inverse_predicate
           source_element_id: source_element_id
           relation: relation
         alternative_identifiers:
-        - key: '{}'
-        - key: '{}'
+        - key: ""
+        - key: ""
       properties:
         id:
           description: Primary identifier of the element.
+          title: id
           type: string
         biolink_class:
           description: BioLink class of the element.
+          title: biolink_class
           type: string
         identifiers:
           additionalProperties: true
           description: identifiers of the element.
+          title: identifiers
           type: object
         alternative_identifiers:
           description: identifiers of additional chemical structures associated with
@@ -806,28 +864,34 @@ components:
           items:
             additionalProperties: true
             type: object
+          title: alternative_identifiers
           type: array
         names_synonyms:
           description: Names and synonyms of the element.
           items:
             $ref: '#/components/schemas/names'
+          title: names_synonyms
           type: array
         attributes:
           description: Additional information about the element and provenance about
             collection membership.
           items:
             $ref: '#/components/schemas/attribute'
+          title: attributes
           type: array
         connections:
           description: connections to elements of the input collection.
           items:
             $ref: '#/components/schemas/connection'
+          title: connections
           type: array
         source:
           description: Source of the element
+          title: source
           type: string
         provided_by:
           description: Name of a transformer that added the element to the collection.
+          title: provided_by
           type: string
       required:
       - biolink_class
@@ -835,20 +899,21 @@ components:
       - identifiers
       - provided_by
       - source
+      title: element
       type: object
     attribute:
-      description: Generic attribute for a node or an edge that expands the key-value
-        pair concept by including fields for additional metadata. These fields can
-        be used to describe the source of the statement made in key-value pair of
-        the attribute object, or describe the attribute's value itself including its
-        semantic type, or a url providing additional information about it.
+      description: "Generic attribute for a node or an edge that expands the key-value\
+        \ pair concept by including fields for additional metadata. These fields can\
+        \ be used to describe the source of the statement made in key-value pair of\
+        \ the attribute object, or describe the attribute's value itself including\
+        \ its semantic type, or a url providing additional information about it."
       example:
         value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
         attribute_source: UniProtKB
         value_type_id: EDAM:data_1187
         description: Assertion Authored By Dr. Trans L. Ator
         provided_by: provided_by
-        attribute_type_id: Biolink:has_p-value_evidence, Biolink:has_original_source
+        attribute_type_id: "Biolink:has_p-value_evidence, Biolink:has_original_source"
         attributes:
         - null
         - null
@@ -856,69 +921,76 @@ components:
         value: 0.000153
       properties:
         attribute_type_id:
-          description: The 'key' of the attribute object, holding a CURIE of an ontology
-            property defining the attribute (preferably the CURIE of a Biolink association
-            slot). This property captures the relationship asserted to hold between
-            the value of the attribute, and the node or edge from  which it hangs.
-            For example, that a value of '0.000153' represents a p-value supporting
-            an edge, or that a value of 'ChEMBL' represents the original source of
-            the knowledge expressed in the edge.
-          example: Biolink:has_p-value_evidence, Biolink:has_original_source
+          description: "The 'key' of the attribute object, holding a CURIE of an ontology\
+            \ property defining the attribute (preferably the CURIE of a Biolink association\
+            \ slot). This property captures the relationship asserted to hold between\
+            \ the value of the attribute, and the node or edge from  which it hangs.\
+            \ For example, that a value of '0.000153' represents a p-value supporting\
+            \ an edge, or that a value of 'ChEMBL' represents the original source\
+            \ of the knowledge expressed in the edge."
+          example: "Biolink:has_p-value_evidence, Biolink:has_original_source"
+          title: attribute_type_id
           type: string
         original_attribute_name:
-          description: The term used by the original source of an attribute to describe
-            the meaning or significance of the value it captures. This may be a column
-            name in a source tsv file, or a key in a source json document for the
-            field in the data that held the attribute's value. Capturing this information  where
-            possible lets us preserve what the original source said. Note that the
-            data type is string' but the contents of the field could also be a CURIE
-            of a third party ontology term.
+          description: "The term used by the original source of an attribute to describe\
+            \ the meaning or significance of the value it captures. This may be a\
+            \ column name in a source tsv file, or a key in a source json document\
+            \ for the field in the data that held the attribute's value. Capturing\
+            \ this information  where possible lets us preserve what the original\
+            \ source said. Note that the data type is string' but the contents of\
+            \ the field could also be a CURIE of a third party ontology term."
           example: p-value
-          nullable: true
+          title: original_attribute_name
           type: string
         value:
-          description: Value of the attribute. May be any data type, including a list.
+          description: "Value of the attribute. May be any data type, including a\
+            \ list."
           example: 0.000153
+          title: value
         value_type_id:
-          description: CURIE describing the semantic type of an  attribute's value.
-            Use a Biolink class if possible, otherwise a term from an external ontology.
-            If a suitable CURIE/identifier does not exist, enter a descriptive phrase
-            here and submit the new type for consideration by the appropriate authority.
+          description: "CURIE describing the semantic type of an  attribute's value.\
+            \ Use a Biolink class if possible, otherwise a term from an external ontology.\
+            \ If a suitable CURIE/identifier does not exist, enter a descriptive phrase\
+            \ here and submit the new type for consideration by the appropriate authority."
           example: EDAM:data_1187
+          title: value_type_id
           type: string
         attribute_source:
           description: The source of the core assertion made by the key-value pair
             of an attribute object. Use a CURIE or namespace designator for this resource
             where possible.
           example: UniProtKB
-          nullable: true
+          title: attribute_source
           type: string
         value_url:
           description: Human-consumable URL linking to a web document that provides
             additional information about an  attribute's value (not the node or the
             edge fom which it hangs).
           example: https://pubmed.ncbi.nlm.nih.gov/32529952
-          nullable: true
+          title: value_url
           type: string
         description:
           description: Human-readable description for the attribute and its value.
           example: Assertion Authored By Dr. Trans L. Ator
-          nullable: true
+          title: description
           type: string
         attributes:
           description: 'A list of attributes providing further information about the
             parent attribute. '
           items:
             $ref: '#/components/schemas/attribute'
+          title: attributes
           type: array
         provided_by:
           description: Transformer that produced the attribute's value.
+          title: provided_by
           type: string
       required:
       - attribute_source
       - attribute_type_id
       - original_attribute_name
       - value
+      title: attribute
       type: object
     names:
       example:
@@ -933,33 +1005,45 @@ components:
       properties:
         name:
           description: Name of the compound.
+          title: name
           type: string
         synonyms:
           description: Name of the compound.
           items:
             type: string
+          title: synonyms
           type: array
         name_type:
-          description: Type of names and synonyms, e.g. inn, trademarked name.
+          description: "Type of names and synonyms, e.g. inn, trademarked name."
+          title: name_type
           type: string
         source:
           description: Primary source of names and synonyms.
+          title: source
           type: string
         provided_by:
           description: Transformer that produced the names and synonyms.
+          title: provided_by
           type: string
         language:
           description: Language of names and synonyms.
+          title: language
           type: string
       required:
       - name_type
       - provided_by
       - source
+      title: names
       type: object
     connection:
       example:
         inverse_relation: inverse_relation
         provided_by: provided_by
+        qualifiers:
+        - qualifier_value: expression
+          qualifier_type_id: subject_aspect
+        - qualifier_value: expression
+          qualifier_type_id: subject_aspect
         biolink_predicate: biolink_predicate
         attributes:
         - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
@@ -967,7 +1051,7 @@ components:
           value_type_id: EDAM:data_1187
           description: Assertion Authored By Dr. Trans L. Ator
           provided_by: provided_by
-          attribute_type_id: Biolink:has_p-value_evidence, Biolink:has_original_source
+          attribute_type_id: "Biolink:has_p-value_evidence, Biolink:has_original_source"
           attributes:
           - null
           - null
@@ -978,42 +1062,61 @@ components:
           value_type_id: EDAM:data_1187
           description: Assertion Authored By Dr. Trans L. Ator
           provided_by: provided_by
-          attribute_type_id: Biolink:has_p-value_evidence, Biolink:has_original_source
+          attribute_type_id: "Biolink:has_p-value_evidence, Biolink:has_original_source"
           attributes:
           - null
           - null
           original_attribute_name: p-value
           value: 0.000153
         source: source
+        uuid: uuid
         inverse_predicate: inverse_predicate
         source_element_id: source_element_id
         relation: relation
       properties:
+        uuid:
+          description: UUID of the connection.
+          title: uuid
+          type: string
         source_element_id:
           description: Id (CURIE) of the connected query node.
+          title: source_element_id
           type: string
         biolink_predicate:
           description: Biolink predicate.
+          title: biolink_predicate
           type: string
         inverse_predicate:
           description: Inverse Biolink predicate.
+          title: inverse_predicate
           type: string
         relation:
           description: Lower-level relationship type of this connection.
+          title: relation
           type: string
         inverse_relation:
           description: Inverse lower-level relationship type of this connection.
+          title: inverse_relation
           type: string
         source:
-          description: Source of the connection, as a CURIE prefix.
+          description: "Source of the connection, as a CURIE prefix."
+          title: source
           type: string
         provided_by:
           description: Transformer that produced the connection.
+          title: provided_by
           type: string
+        qualifiers:
+          description: An additional nuance attached to the connection.
+          items:
+            $ref: '#/components/schemas/qualifier'
+          title: qualifiers
+          type: array
         attributes:
           description: Additional information and provenance about the connection.
           items:
             $ref: '#/components/schemas/attribute'
+          title: attributes
           type: array
       required:
       - biolink_predicate
@@ -1021,17 +1124,50 @@ components:
       - provided_by
       - source
       - source_element_id
+      title: connection
+      type: object
+    qualifier:
+      additionalProperties: false
+      description: An additional nuance attached to a connection
+      example:
+        qualifier_value: expression
+        qualifier_type_id: subject_aspect
+      properties:
+        qualifier_type_id:
+          description: "The category of the qualifier, drawn from a hierarchy of qualifier\
+            \ slots in the Biolink model (e.g. subject_aspect, subject_direction,\
+            \ object_aspect, object_direction, etc)."
+          example: subject_aspect
+          title: qualifier_type_id
+          type: string
+        qualifier_value:
+          description: "The value associated with the type of the qualifier, drawn\
+            \ from a set of controlled values by the type as specified in the Biolink\
+            \ model (e.g. 'expression' or 'abundance' for the qualifier type 'subject_aspect',\
+            \ etc)."
+          example: expression
+          title: qualifier_value
+          type: string
+      required:
+      - qualifier_type_id
+      - qualifier_value
+      title: qualifier
       type: object
     error_msg:
       properties:
         status:
+          title: status
           type: integer
         title:
+          title: title
           type: string
         detail:
+          title: detail
           type: string
         type:
+          title: type
           type: string
+      title: error_msg
       type: object
     transformer_info_properties:
       description: Additional metadata for the transformer.
@@ -1044,17 +1180,24 @@ components:
       properties:
         source_url:
           description: URL for underlying data or a wrapped service.
+          title: source_url
           type: string
         source_version:
           description: Version of the underlying source or data.
+          title: source_version
           type: string
         terms_of_service:
           description: Link to the page that describes the terms of service for the
             transformer.
+          title: terms_of_service
           type: string
         method:
           description: A method used to generate output lists.
+          title: method
           type: string
         method_url:
           description: Link to a description of a method used to generate output lists.
+          title: method_url
           type: string
+      title: transformer_info_properties
+      type: object
