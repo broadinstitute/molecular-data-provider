@@ -23,7 +23,7 @@ WORKDIR /usr/src/app
 COPY --from=packaging-image /usr/src/base/dist .
 COPY --from=packaging-image /usr/src/bindingdb/dist .
 RUN pip3 install -I base_transformer-2.0.1-py3-none-any.whl
-RUN pip3 install -I bindingdb_transformer-2.4.0-py3-none-any.whl
+RUN pip3 install -I bindingdb_transformer-2.4.1-py3-none-any.whl
 COPY transformers/bindingdb/python-flask-server/requirements.txt .
 RUN pip3 install --no-cache-dir -r requirements.txt
 EXPOSE 8080
