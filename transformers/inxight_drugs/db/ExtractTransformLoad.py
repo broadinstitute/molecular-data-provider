@@ -14,7 +14,7 @@
 ############################################################
 
 
-accimport requests
+import requests
 import sqlite3
 import json
 request_headers = {}
