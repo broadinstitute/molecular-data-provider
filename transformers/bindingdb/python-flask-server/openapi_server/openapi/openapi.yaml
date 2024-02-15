@@ -4,7 +4,7 @@ info:
     email: translator@broadinstitute.org
   termsOfService: https://www.bindingdb.org/rwd/bind/aboutus.jsp
   title: Transformer API for BindingDB
-  version: 2.4.0
+  version: 2.4.1
 servers:
 - url: https://translator.broadinstitute.org/bindingdb
 tags:
