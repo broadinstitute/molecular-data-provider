@@ -11,12 +11,10 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import apimodels.Parameter;
 import apimodels.TransformerInfo;
 import transformer.collection.Collections;
 import transformer.InternalTransformer.InternalTransformerInfo;
-import transformer.classes.MyChem;
-import transformer.classes.MyGene;
-import transformer.classes.PubChem;
 import transformer.exception.NotFoundException;
 import transformer.mapping.MappedAttribute;
 import transformer.mapping.MappedBiolinkClass;
@@ -109,9 +107,14 @@ public class Transformers {
 		MappedName.loadMapping();
 		MappedInfoRes.loadMapping();
 		for (Transformer transformer : transformers) {
-			MappedBiolinkClass.map(transformer.info.getKnowledgeMap().getEdges());
-			MappedConnection.mapPredicates(transformer.info.getLabel(), transformer.info.getKnowledgeMap().getEdges());
+			final TransformerInfo info = transformer.info;
+			MappedBiolinkClass.map(info.getKnowledgeMap().getEdges());
+			MappedConnection.mapPredicates(info.getLabel(), info.getKnowledgeMap().getEdges());
+			if (info.getInfores() == null) {
+				info.setInfores(MappedInfoRes.map(info.getLabel()));
+			}
 		}
+		MappedAttribute.loadKnowledgeTypeMapping();
 		return getInfo(transformers);
 	}
 
@@ -133,6 +136,14 @@ public class Transformers {
 				info.setUrl(baseURL);
 			}
 			info.setStatus(ONLINE);
+			for (Parameter parameter : info.getParameters()) {
+				if (parameter.getRequired() == null) {
+					parameter.setRequired(true);
+				}
+				if (parameter.getMultivalued() == null) {
+					parameter.setMultivalued(false);
+				}
+			}
 		}
 		catch (Exception e) {
 			log.warn("Transformer offline: " + baseURL);
@@ -164,12 +175,17 @@ public class Transformers {
 	}
 
 
-	private static List<TransformerInfo> getInfo(final ArrayList<Transformer> transformers) {
+	private static List<TransformerInfo> getInfo(final java.util.Collection<Transformer> transformers) {
 		final ArrayList<TransformerInfo> transformerInfo = new ArrayList<TransformerInfo>();
 		for (Transformer transformer : transformers) {
 			transformerInfo.add(transformer.info);
 		}
 		return transformerInfo;
+	}
+
+
+	public static java.util.Collection<TransformerInfo> getInfo() {
+		return getInfo(transformers.values());
 	}
 
 
@@ -191,9 +207,6 @@ public class Transformers {
 		status.append("transformers:" + transformers.size() + ", ");
 		status.append("collections:" + Collections.size() + ", ");
 		status.append("elements:" + MoleProDB.size() + ", ");
-		status.append("genes:" + MyGene.size() + ", ");
-		status.append("compounds:" + MyChem.size() + ", ");
-		status.append("pubchem:" + PubChem.size() + ", ");
 		status.append("free memory:" + Runtime.getRuntime().freeMemory() / 1000000);
 		status.append("/" + Runtime.getRuntime().totalMemory() / 1000000);
 		System.out.println(status.toString());

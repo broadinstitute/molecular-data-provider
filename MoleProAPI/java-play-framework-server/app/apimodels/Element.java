@@ -3,6 +3,7 @@ package apimodels;
 import apimodels.Attribute;
 import apimodels.Connection;
 import apimodels.Names;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

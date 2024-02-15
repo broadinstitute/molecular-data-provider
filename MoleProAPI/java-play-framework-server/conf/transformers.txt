@@ -1,105 +1,116 @@
 # compound-list producers
-https://translator.broadinstitute.org/pubchem/compounds
-https://translator.broadinstitute.org/chembl/molecules
-https://translator.broadinstitute.org/drugbank/compounds
-https://translator.broadinstitute.org/chembank/compounds
-https://translator.broadinstitute.org/chebi/compounds
-https://translator.broadinstitute.org/repurposing/compounds
-https://translator.broadinstitute.org/dgidb/molecules
-https://translator.broadinstitute.org/gtopdb/molecules
-https://translator.broadinstitute.org/hmdb/metabolites
-https://translator.broadinstitute.org/drugcentral/compounds
-https://translator.broadinstitute.org/inxight_drugs/substances
-https://translator.broadinstitute.org/stitch/chemicals
-https://translator.broadinstitute.org/rxnorm/molecules
-https://translator.broadinstitute.org/bigg/metabolites
-https://translator.broadinstitute.org/ctdbase/chemicals
-https://translator.broadinstitute.org/probeminer/chemicals
+https://molepro-pubchem-transformer.transltr.io/pubchem/compounds
+https://molepro-chembl-transformer.transltr.io/chembl/molecules
+https://molepro-drugbank-transformer.transltr.io/drugbank/compounds
+https://molepro-chembank-transformer.transltr.io/chembank/compounds
+https://molepro-chebi-transformer.transltr.io/chebi/compounds
+https://molepro-rephub-transformer.transltr.io/repurposing/compounds
+https://molepro-dgidb-transformer.transltr.io/dgidb/molecules
+https://molepro-gtopdb-transformer.transltr.io/gtopdb/molecules
+https://molepro-hmdb-transformer.transltr.io/hmdb/metabolites
+https://molepro-drugcentral-transformer.transltr.io/drugcentral/compounds
+https://molepro-inxightdrugs-transformer.transltr.io/inxight_drugs/substances
+https://molepro-stitch-transformer.transltr.io/stitch/chemicals
+https://molepro-rxnorm-transformer.transltr.io/rxnorm/molecules
+https://molepro-biggmodels-transformer.transltr.io/bigg/metabolites
+https://molepro-ctd-transformer.transltr.io/ctdbase/chemicals
+https://molepro-probeminer-transformer.transltr.io/probeminer/chemicals
+https://molepro-bindingdb-transformer.transltr.io/bindingdb/ligands
+https://molepro-pharmgkb-transformer.transltr.io/pharmgkb/chemicals
+https://molepro-kinomescan-transformer.transltr.io/kinomescan/compounds
 # drugs
-https://translator.broadinstitute.org/inxight_drugs/drugs
-https://translator.broadinstitute.org/inxight_drugs/relationships
-https://translator.broadinstitute.org/inxight_drugs/active_ingredients
-https://translator.broadinstitute.org/rxnorm/drugs
-https://translator.broadinstitute.org/rxnorm/unii
-https://translator.broadinstitute.org/drugbank/molecules
-https://translator.broadinstitute.org/sider/drugs
+https://molepro-inxightdrugs-transformer.transltr.io/inxight_drugs/drugs
+https://molepro-inxightdrugs-transformer.transltr.io/inxight_drugs/relationships
+https://molepro-inxightdrugs-transformer.transltr.io/inxight_drugs/active_ingredients
+https://molepro-rxnorm-transformer.transltr.io/rxnorm/drugs
+https://molepro-rxnorm-transformer.transltr.io/rxnorm/unii
+https://molepro-drugbank-transformer.transltr.io/drugbank/molecules
+https://molepro-sider-transformer.transltr.io/sider/drugs
 # gene-list producers
-=HGNC gene-list producer
+https://molepro-hgnc-transformer.transltr.io/hgnc/genes
 # protein-list producers
-https://translator.broadinstitute.org/uniprot/proteins
+https://molepro-uniprot-transformer.transltr.io/uniprot/molecules
 # disease producers
-https://translator.broadinstitute.org/drugcentral/diseases
+https://molepro-drugcentral-transformer.transltr.io/drugcentral/diseases
 # drug relations
-https://translator.broadinstitute.org/rxnorm/relations
-https://translator.broadinstitute.org/rxnorm/ingredients
-https://translator.broadinstitute.org/rxnorm/components
+https://molepro-rxnorm-transformer.transltr.io/rxnorm/relations
+https://molepro-rxnorm-transformer.transltr.io/rxnorm/ingredients
+https://molepro-rxnorm-transformer.transltr.io/rxnorm/components
 # indications
-https://translator.broadinstitute.org/drugcentral/indications
-https://translator.broadinstitute.org/hmdb/disorders
-https://translator.broadinstitute.org/ctdbase/disease-associations
-https://translator.broadinstitute.org/chembl/indications
-https://translator.broadinstitute.org/repurposing/indications
-https://translator.broadinstitute.org/sider/indications
-https://translator.broadinstitute.org/sider/sideeffects
+https://molepro-drugcentral-transformer.transltr.io/drugcentral/indications
+https://molepro-hmdb-transformer.transltr.io/hmdb/disorders
+https://molepro-ctd-transformer.transltr.io/ctdbase/disease-associations
+https://molepro-chembl-transformer.transltr.io/chembl/indications
+https://molepro-rephub-transformer.transltr.io/repurposing/indications
+https://molepro-sider-transformer.transltr.io/sider/indications
+https://molepro-sider-transformer.transltr.io/sider/sideeffects
 # gene targets
-https://translator.broadinstitute.org/drugbank/gene_targets
-https://translator.broadinstitute.org/drugbank/gene_enzymes
-https://translator.broadinstitute.org/drugbank/gene_transporters
-https://translator.broadinstitute.org/drugbank/gene_carriers
-https://translator.broadinstitute.org/pharos/gene_targets
-https://translator.broadinstitute.org/chembl/targets
-https://translator.broadinstitute.org/hmdb/gene_targets
-https://translator.broadinstitute.org/repurposing/targets
-https://translator.broadinstitute.org/dgidb/targets
-https://translator.broadinstitute.org/gtopdb/targets
-https://translator.broadinstitute.org/ctdbase/gene-interactions
-https://translator.broadinstitute.org/probeminer/chemical_interactions
+https://molepro-drugbank-transformer.transltr.io/drugbank/gene_targets
+https://molepro-drugbank-transformer.transltr.io/drugbank/gene_enzymes
+https://molepro-drugbank-transformer.transltr.io/drugbank/gene_transporters
+https://molepro-drugbank-transformer.transltr.io/drugbank/gene_carriers
+https://molepro-pharos-transformer.transltr.io/pharos/gene_targets
+https://molepro-chembl-transformer.transltr.io/chembl/targets
+https://molepro-hmdb-transformer.transltr.io/hmdb/gene_targets
+https://molepro-rephub-transformer.transltr.io/repurposing/targets
+https://molepro-dgidb-transformer.transltr.io/dgidb/targets
+https://molepro-gtopdb-transformer.transltr.io/gtopdb/targets
+https://molepro-ctd-transformer.transltr.io/ctdbase/gene-interactions
+https://molepro-probeminer-transformer.transltr.io/probeminer/chemical_interactions
+https://molepro-pharmgkb-transformer.transltr.io/pharmgkb/relations
+https://molepro-pharmgkb-transformer.transltr.io/pharmgkb/text-mining
 # inhibitors
-https://translator.broadinstitute.org/drugbank/inhibitors
-https://translator.broadinstitute.org/drugbank/substrates
-https://translator.broadinstitute.org/drugbank/transporter_substrates
-https://translator.broadinstitute.org/drugbank/carrier_substrates
-https://translator.broadinstitute.org/dgidb/inhibitors
-https://translator.broadinstitute.org/gtopdb/inhibitors
+https://molepro-drugbank-transformer.transltr.io/drugbank/inhibitors
+https://molepro-drugbank-transformer.transltr.io/drugbank/substrates
+https://molepro-drugbank-transformer.transltr.io/drugbank/transporter_substrates
+https://molepro-drugbank-transformer.transltr.io/drugbank/carrier_substrates
+https://molepro-dgidb-transformer.transltr.io/dgidb/inhibitors
+https://molepro-gtopdb-transformer.transltr.io/gtopdb/inhibitors
 # protein targets
-https://translator.broadinstitute.org/stitch/links
-https://translator.broadinstitute.org/drugbank/protein_targets
-https://translator.broadinstitute.org/drugbank/protein_enzymes
-https://translator.broadinstitute.org/drugbank/protein_transporters
-https://translator.broadinstitute.org/drugbank/protein_carriers
-https://translator.broadinstitute.org/hmdb/protein_targets
-https://translator.broadinstitute.org/probeminer/protein_interactions
+https://molepro-stitch-transformer.transltr.io/stitch/links
+https://molepro-drugbank-transformer.transltr.io/drugbank/protein_targets
+https://molepro-drugbank-transformer.transltr.io/drugbank/protein_enzymes
+https://molepro-drugbank-transformer.transltr.io/drugbank/protein_transporters
+https://molepro-drugbank-transformer.transltr.io/drugbank/protein_carriers
+https://molepro-hmdb-transformer.transltr.io/hmdb/protein_targets
+https://molepro-probeminer-transformer.transltr.io/probeminer/protein_interactions
+https://molepro-bindingdb-transformer.transltr.io/bindingdb/bindings
+https://molepro-kinomescan-transformer.transltr.io/kinomescan/activity
+https://molepro-kinomescan-transformer.transltr.io/kinomescan/screening
 # compound relations
-https://translator.broadinstitute.org/chembl/metabolites
-https://translator.broadinstitute.org/pubchem/neighbors
+https://molepro-chembl-transformer.transltr.io/chembl/metabolites
+https://molepro-pubchem-transformer.transltr.io/pubchem/neighbors
+https://molepro-chebi-transformer.transltr.io/chebi/relations
+# protein relations
+https://molepro-uniprot-transformer.transltr.io/uniprot/genes
+https://molepro-uniprot-transformer.transltr.io/uniprot/proteins
 # gene-disease associations
-https://translator.broadinstitute.org/gwas/genes
-https://translator.broadinstitute.org/gwas/diseases
+https://molepro-gwas-transformer.transltr.io/gwas/gwas-genes
+https://molepro-gwas-transformer.transltr.io/gwas/gwas-diseases
 # profile similarity
-https://translator.broadinstitute.org/cmap/compound/compound
-https://translator.broadinstitute.org/ctrp
-https://translator.broadinstitute.org/cmap/compound/gene
-https://translator.broadinstitute.org/cmap/gene/compound
-https://translator.broadinstitute.org/cmap/gene/gene
-https://translator.broadinstitute.org/depmap/correlation
-#https://translator.broadinstitute.org/expression_correlation
+https://molepro-cmap-transformer.transltr.io/cmap/compound/compound
+https://molepro-ctrp-transformer.transltr.io/ctrp
+https://molepro-cmap-transformer.transltr.io/cmap/compound/gene
+https://molepro-cmap-transformer.transltr.io/cmap/gene/compound
+https://molepro-cmap-transformer.transltr.io/cmap/gene/gene
+https://molepro-depmap-transformer.transltr.io/depmap/correlation
 # reactions
-https://translator.broadinstitute.org/bigg/reactions
-https://translator.broadinstitute.org/bigg/genes
-https://translator.broadinstitute.org/bigg/gene-reactions
+https://molepro-biggmodels-transformer.transltr.io/bigg/reactions
+https://molepro-biggmodels-transformer.transltr.io/bigg/genes
+https://molepro-biggmodels-transformer.transltr.io/bigg/gene-reactions
 # pathways
-https://translator.broadinstitute.org/ctdbase/go-associations
-https://translator.broadinstitute.org/ctdbase/pathway-associations
-https://translator.broadinstitute.org/ctdbase/phenotype-interactions
-https://translator.broadinstitute.org/hmdb/pathways
-https://translator.broadinstitute.org/msigdb/genes
-https://translator.broadinstitute.org/msigdb/pathways
+https://molepro-ctd-transformer.transltr.io/ctdbase/go-associations
+https://molepro-ctd-transformer.transltr.io/ctdbase/pathway-associations
+https://molepro-ctd-transformer.transltr.io/ctdbase/phenotype-interactions
+https://molepro-hmdb-transformer.transltr.io/hmdb/pathways
+https://molepro-msigdb-transformer.transltr.io/msigdb/genes
+https://molepro-msigdb-transformer.transltr.io/msigdb/pathways
 # locations
-https://translator.broadinstitute.org/hmdb/locations
+https://molepro-hmdb-transformer.transltr.io/hmdb/locations
 # exporters
-https://translator.broadinstitute.org/chembl/activities
-https://translator.broadinstitute.org/chembl/mechanisms
-https://translator.broadinstitute.org/gelinea
+https://molepro-chembl-transformer.transltr.io/chembl/activities
+https://molepro-chembl-transformer.transltr.io/chembl/mechanisms
+https://molepro-gelinea-transformer.transltr.io/gelinea/enrichment
 #
 # aggregators
 =union
@@ -108,14 +119,14 @@ https://translator.broadinstitute.org/gelinea
 =symmetric difference (XOR)
 #
 # protein-protein interactions
-https://translator.broadinstitute.org/string/links
+https://molepro-string-transformer.transltr.io/string/links
 # node normalizer
-https://translator.broadinstitute.org/node/normalizer
+https://molepro-node-normalizer-transformer.transltr.io/node/normalizer
 # MolePro DB
-https://translator.broadinstitute.org/moleprodb/elements
-https://translator.broadinstitute.org/moleprodb/names
-https://translator.broadinstitute.org/moleprodb/connections
-https://translator.broadinstitute.org/moleprodb/hierarchy
+https://molepro-db-transformer.transltr.io/moleprodb/elements
+https://molepro-db-transformer.transltr.io/moleprodb/names
+https://molepro-db-transformer.transltr.io/moleprodb/connections
+https://molepro-db-transformer.transltr.io/moleprodb/hierarchy
 # filters
 =Element attribute filter
 =Connection attribute filter

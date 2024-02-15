@@ -5,7 +5,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -57,7 +56,7 @@ public class Config {
 	private ExpirationTimes expirationTimes;
 	private String[] compoundSearchProducers;
 	private Map<String,Integer> compoundNamePriority;
-	private HashSet<String> sourceProvenanceSlots;
+	private Map<String,String> biolinkAttributes;
 	private String[] identifierPriority;
 	private String transformersFileName;
 
@@ -157,18 +156,14 @@ public class Config {
 	}
 
 
-	public boolean isSourceProvenanceSlot(String slot) {
-		return sourceProvenanceSlots.contains(slot);
+	public String biolinkAttribute(final String attributeName) {
+		return biolinkAttributes.get(attributeName);
 	}
 
 
-	@JsonProperty("source provenance slots")
-	public void setSourceProvenanceSlots(String[] sourceProvenanceSlots) {
-		HashSet<String> sourceProvenanceSlotSet = new HashSet<String>();
-		for (String sourceProvenanceSlot : sourceProvenanceSlots) {
-			sourceProvenanceSlotSet.add(sourceProvenanceSlot);
-		}
-		this.sourceProvenanceSlots = sourceProvenanceSlotSet;
+	@JsonProperty("biolink attributes")
+	public void setSourceProvenanceSlots(Map<String,String> biolinkAttributes) {
+		this.biolinkAttributes = biolinkAttributes;
 	}
 
 
@@ -189,6 +184,7 @@ public class Config {
 		private MyGeneInfo myGeneInfo;
 		private MyChemInfo myChemInfo;
 		private PubChem pubchem;
+		private String automatHierarchyURL;
 
 
 		public String getBaseURL() {
@@ -238,6 +234,17 @@ public class Config {
 		@JsonProperty("PubChem")
 		public void setPubchem(PubChem pubchem) {
 			this.pubchem = pubchem;
+		}
+
+
+		public String getAutomatHierarchyURL() {
+			return automatHierarchyURL;
+		}
+
+
+		@JsonProperty("automat.hierarchy")
+		public void setAutomatHierarchyURL(String automatHierarchyURL) {
+			this.automatHierarchyURL = automatHierarchyURL;
 		}
 
 

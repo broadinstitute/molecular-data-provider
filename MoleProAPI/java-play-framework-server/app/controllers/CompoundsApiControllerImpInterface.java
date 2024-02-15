@@ -17,7 +17,9 @@ import play.mvc.Result;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import openapitools.OpenAPIUtils;
+import openapitools.SecurityAPIUtils;
 import static play.mvc.Results.ok;
+import static play.mvc.Results.unauthorized;
 import play.libs.Files.TemporaryFile;
 
 import javax.validation.constraints.*;
@@ -25,15 +27,19 @@ import javax.validation.constraints.*;
 @SuppressWarnings("RedundantThrows")
 public abstract class CompoundsApiControllerImpInterface {
     @Inject private Config configuration;
+    @Inject private SecurityAPIUtils securityAPIUtils;
     private ObjectMapper mapper = new ObjectMapper();
 
     public Result compoundByIdCompoundIdGetHttp(Http.Request request, String compoundId, String cache) throws Exception {
         Element obj = compoundByIdCompoundIdGet(request, compoundId, cache);
-    if (configuration.getBoolean("useOutputBeanValidation")) {
+
+        if (configuration.getBoolean("useOutputBeanValidation")) {
             OpenAPIUtils.validate(obj);
-    }
-JsonNode result = mapper.valueToTree(obj);
-return ok(result);
+        }
+
+        JsonNode result = mapper.valueToTree(obj);
+
+        return ok(result);
 
     }
 
@@ -41,11 +47,14 @@ return ok(result);
 
     public Result compoundByIdPostHttp(Http.Request request, List<String> requestBody, String cache) throws Exception {
         CollectionInfo obj = compoundByIdPost(request, requestBody, cache);
-    if (configuration.getBoolean("useOutputBeanValidation")) {
+
+        if (configuration.getBoolean("useOutputBeanValidation")) {
             OpenAPIUtils.validate(obj);
-    }
-JsonNode result = mapper.valueToTree(obj);
-return ok(result);
+        }
+
+        JsonNode result = mapper.valueToTree(obj);
+
+        return ok(result);
 
     }
 
@@ -53,11 +62,14 @@ return ok(result);
 
     public Result compoundByNameNameGetHttp(Http.Request request, String name, String cache) throws Exception {
         Collection obj = compoundByNameNameGet(request, name, cache);
-    if (configuration.getBoolean("useOutputBeanValidation")) {
+
+        if (configuration.getBoolean("useOutputBeanValidation")) {
             OpenAPIUtils.validate(obj);
-    }
-JsonNode result = mapper.valueToTree(obj);
-return ok(result);
+        }
+
+        JsonNode result = mapper.valueToTree(obj);
+
+        return ok(result);
 
     }
 
@@ -65,11 +77,14 @@ return ok(result);
 
     public Result compoundByNamePostHttp(Http.Request request, List<String> requestBody, String cache) throws Exception {
         CollectionInfo obj = compoundByNamePost(request, requestBody, cache);
-    if (configuration.getBoolean("useOutputBeanValidation")) {
+
+        if (configuration.getBoolean("useOutputBeanValidation")) {
             OpenAPIUtils.validate(obj);
-    }
-JsonNode result = mapper.valueToTree(obj);
-return ok(result);
+        }
+
+        JsonNode result = mapper.valueToTree(obj);
+
+        return ok(result);
 
     }
 
@@ -77,11 +92,14 @@ return ok(result);
 
     public Result compoundByStructurePostHttp(Http.Request request, String body, String cache) throws Exception {
         Element obj = compoundByStructurePost(request, body, cache);
-    if (configuration.getBoolean("useOutputBeanValidation")) {
+
+        if (configuration.getBoolean("useOutputBeanValidation")) {
             OpenAPIUtils.validate(obj);
-    }
-JsonNode result = mapper.valueToTree(obj);
-return ok(result);
+        }
+
+        JsonNode result = mapper.valueToTree(obj);
+
+        return ok(result);
 
     }
 

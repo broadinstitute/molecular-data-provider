@@ -12,15 +12,22 @@ import org.slf4j.LoggerFactory;
 import apimodels.Attribute;
 import apimodels.Connection;
 import apimodels.Element;
+import apimodels.Predicate;
+import apimodels.TransformerInfo;
 import transformer.Config;
+import transformer.Transformers;
 
 public class MappedAttribute extends Attribute {
 
 	final static Logger log = LoggerFactory.getLogger("application");
 
+	private static final String UNSPECIFIED = "unspecified";
+
 	private static HashMap<String,MappedType> attributeMap = new HashMap<>();
 
 	private static HashMap<String,String> attributeValueMap = new HashMap<>();
+
+	private static HashMap<String,KnowledgeType> knowledgeTypeMap = new HashMap<>();
 
 
 	public MappedAttribute(final Attribute src) {
@@ -86,32 +93,100 @@ public class MappedAttribute extends Attribute {
 
 	public static void mapAttributes(Element element) {
 		element.setAttributes(map(element.getAttributes()));
+		String upstreamResourceId = null;
 		if (element.getConnections() != null) {
 			for (Connection connection : element.getConnections()) {
 				connection.setAttributes(map(connection.getAttributes()));
-				if (!sourceProvenance(connection.getAttributes())) {
-					final Attribute ksAttribute = MappedInfoRes.knowledgeSourceAttribute(connection.getProvidedBy());
-					if (ksAttribute != null) {
-						connection.addAttributesItem(ksAttribute);
+				boolean hasSourceProvenance = false;
+				boolean hasKnowledgeLevel = false;
+				boolean hasAgentType = false;
+				for (Attribute attribute : connection.getAttributes()) {
+					if (has(attribute, "primary source")) {
+						hasSourceProvenance = true;
+						if (upstreamResourceId == null && attribute.getValue() != null) {
+							upstreamResourceId = attribute.getValue().toString();
+						}
+					}
+					if (has(attribute, "aggregator source")) {
+						if (attribute.getValue() != null) {
+							upstreamResourceId = attribute.getValue().toString();
+						}
+					}
+					if (has(attribute, "knowledge level")) {
+						hasKnowledgeLevel = true;
+					}
+					if (has(attribute, "agent type")) {
+						hasAgentType = true;
 					}
 				}
-				connection.addAttributesItem(MappedInfoRes.knowledgeSourceAttribute("MolePro"));
+				if (!hasSourceProvenance) {
+					addKnowledgeSourceAttribute(connection);
+				}
+				if (!hasKnowledgeLevel) {
+					addKnowledgeLevelAttribute(connection, element.getBiolinkClass());
+				}
+				if (!hasAgentType) {
+					addAgentTypeAttribute(connection, element.getBiolinkClass());
+				}
+				connection.addAttributesItem(MappedInfoRes.knowledgeSourceAttribute("MolePro", upstreamResourceId));
 			}
 		}
 	}
 
 
-	private static boolean sourceProvenance(List<Attribute> attributes) {
-		for (Attribute attribute : attributes) {
-			if (Config.config.isSourceProvenanceSlot(attribute.getAttributeTypeId())) {
-				return true;
-			}
+	private static boolean has(Attribute attribute, String attributeName) {
+		if (attribute.getAttributeTypeId() == null) {
+			return false;
 		}
-		return false;
+		return attribute.getAttributeTypeId().equals(Config.config.biolinkAttribute(attributeName));
 	}
 
 
-	private static void loadTypeMapping() {
+	private static void addKnowledgeSourceAttribute(Connection connection) {
+		final Attribute ksAttribute = MappedInfoRes.knowledgeSourceAttribute(connection.getProvidedBy(), null);
+		if (ksAttribute != null) {
+			connection.addAttributesItem(ksAttribute);
+		}
+	}
+
+
+	private static void addKnowledgeLevelAttribute(final Connection connection, final String biolinkClass) {
+		final KnowledgeType knowledgeType = getKnowledgeType(connection, biolinkClass);
+		final String attributeType = Config.config.biolinkAttribute("knowledge level");
+		final String knowledgeLevel = (knowledgeType == null) ? UNSPECIFIED : knowledgeType.knowledgeLevel;
+		connection.addAttributesItem(knowledgeTypeAttribute(attributeType, knowledgeLevel));
+	}
+
+
+	private static void addAgentTypeAttribute(Connection connection, final String biolinkClass) {
+		final KnowledgeType knowledgeType = getKnowledgeType(connection, biolinkClass);
+		final String attributeType = Config.config.biolinkAttribute("agent type");
+		final String agentType = (knowledgeType == null) ? UNSPECIFIED : knowledgeType.agentType;
+		connection.addAttributesItem(knowledgeTypeAttribute(attributeType, agentType));
+	}
+
+
+	private static KnowledgeType getKnowledgeType(final Connection connection, final String biolinkClass) {
+		final String key = key(connection.getProvidedBy(), connection.getBiolinkPredicate(), biolinkClass);
+		KnowledgeType knowledgeType = knowledgeTypeMap.get(key);
+		if (knowledgeType == null)
+			knowledgeType = knowledgeTypeMap.get(connection.getProvidedBy());
+		return knowledgeType;
+	}
+
+
+	private static Attribute knowledgeTypeAttribute(final String attributeType, final String value) {
+		Attribute attribute = new Attribute();
+		attribute.originalAttributeName(attributeType);
+		attribute.attributeTypeId(attributeType);
+		attribute.value((value == null) ? UNSPECIFIED : value);
+		attribute.valueTypeId("string");
+		attribute.attributeSource(MappedInfoRes.map("MolePro"));
+		return attribute;
+	}
+
+
+	private static void loadAttributeTypeMapping() {
 		final HashMap<String,MappedType> map = new HashMap<>();
 		try {
 			final BufferedReader mapFile = new BufferedReader(new FileReader("conf/attributeMap.txt"));
@@ -128,7 +203,7 @@ public class MappedAttribute extends Attribute {
 	}
 
 
-	private static void loadValueMapping() {
+	private static void loadAttributeValueMapping() {
 		final HashMap<String,String> map = new HashMap<>();
 		try {
 			final BufferedReader mapFile = new BufferedReader(new FileReader("conf/attributeValueMap.txt"));
@@ -145,9 +220,42 @@ public class MappedAttribute extends Attribute {
 	}
 
 
+	public static void loadKnowledgeTypeMapping() {
+		final HashMap<String,KnowledgeType> map = new HashMap<>();
+		for (TransformerInfo transformer : Transformers.getInfo()) {
+			if (!"MolePro".equals(transformer.getLabel()) && transformer.getKnowledgeMap().getEdges() != null) {
+				for (Predicate predicate : transformer.getKnowledgeMap().getEdges()) {
+					final String knowledgeLevel = predicate.getKnowledgeLevel();
+					final String agentType = predicate.getAgentType();
+					if (knowledgeLevel != null || agentType != null) {
+						final String biolinkClass = predicate.getObject();
+						final String key = key(transformer.getName(), predicate.getPredicate(), biolinkClass);
+						map.put(key, new KnowledgeType(knowledgeLevel, agentType));
+					}
+				}
+			}
+		}
+		try {
+			final BufferedReader mapFile = new BufferedReader(new FileReader("conf/knowledgeTypeMap.txt"));
+			mapFile.readLine(); // skip header
+			for (String line = mapFile.readLine(); line != null; line = mapFile.readLine()) {
+				final String[] row = line.split("\t", 3);
+				map.put(row[0], new KnowledgeType(row[1], row[2]));
+			}
+			mapFile.close();
+			knowledgeTypeMap = map;
+		}
+		catch (Exception e) {
+			log.warn("Failed to load knowledge type mapping", e);
+		}
+
+	}
+
+
 	public static void loadMapping() {
-		loadTypeMapping();
-		loadValueMapping();
+		loadAttributeTypeMapping();
+		loadAttributeValueMapping();
+		loadKnowledgeTypeMapping();
 	}
 
 	static {
@@ -166,6 +274,25 @@ public class MappedAttribute extends Attribute {
 			this.attributeType = attributeType;
 			this.valueType = valueType;
 		}
+	}
 
+
+	private static class KnowledgeType {
+
+		private final String knowledgeLevel;
+		private final String agentType;
+
+
+		KnowledgeType(final String knowledgeLevel, final String agentType) {
+			super();
+			this.knowledgeLevel = knowledgeLevel;
+			this.agentType = agentType;
+		}
+
+
+		@Override
+		public String toString() {
+			return "KnowledgeType[knowledgeLevel=" + knowledgeLevel + ";agentType=" + agentType + "]";
+		}
 	}
 }

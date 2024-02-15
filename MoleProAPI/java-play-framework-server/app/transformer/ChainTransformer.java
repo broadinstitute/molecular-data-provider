@@ -13,10 +13,9 @@ import transformer.collection.CollectionsEntry;
 import transformer.exception.BadRequestException;
 import transformer.exception.InternalServerError;
 import transformer.InternalTransformer.InternalTransformerInfo;
-import transformer.Transformer.Query;
 
 public class ChainTransformer extends InternalTransformer {
-	
+
 	final static Logger log = LoggerFactory.getLogger(ChainTransformer.class);
 
 	private final String[] chain;
@@ -29,25 +28,25 @@ public class ChainTransformer extends InternalTransformer {
 
 
 	@Override
-	public CollectionsEntry transform(final Query srcQuery, final CollectionInfo collectionInfo) throws Exception {
+	public CollectionsEntry transform(final TransformerQuery srcQuery, final CollectionInfo collectionInfo) throws Exception {
 		CollectionsEntry entry = null;
 		try {
-		for (String transformerName : this.chain) {
-			Transformer transformer = Transformers.getTransformer(transformerName);
-			List<Property> controls = controls(srcQuery, transformer);
-			Query query = (entry == null) ? srcQuery.query(controls) : transformer.inputClass.getQuery(controls, entry);
-			entry = transformer.transform(query, new CollectionInfo());
-		}
+			for (String transformerName : this.chain) {
+				Transformer transformer = Transformers.getTransformer(transformerName);
+				List<Property> controls = controls(srcQuery, transformer);
+				TransformerQuery query = (entry == null) ? srcQuery.query(controls) : new TransformerQuery(controls, entry);
+				entry = transformer.transform(query, new CollectionInfo());
+			}
 		}
 		catch (Exception e) {
-			log.warn("Chain transformer failed: ",e);
-			throw new InternalServerError("Chain transformer failed: "+e.getMessage(), e);
+			log.warn("Chain transformer failed: ", e);
+			throw new InternalServerError("Chain transformer failed: " + e.getMessage(), e);
 		}
 		return new CollectionsEntry(collectionInfo, entry.getElements());
 	}
 
 
-	private List<Property> controls(final Query srcQuery, Transformer transformer) throws BadRequestException {
+	private List<Property> controls(final TransformerQuery srcQuery, Transformer transformer) throws BadRequestException {
 		final List<Property> controls = new ArrayList<>();
 		for (Parameter parameter : transformer.info.getParameters()) {
 			String name = parameter.getName();
