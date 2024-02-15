@@ -7,9 +7,9 @@ GET     /molecular_data_provider/api                        controllers.ApiDocCo
 GET     /molecular_data_provider/status                        controllers.ApiDocController.status
 
 #Functions for Collections API
+POST     /molecular_data_provider/aggregate                     controllers.CollectionsApiController.aggregatePost(request: Request)
 GET     /molecular_data_provider/collection/:collectionId                     controllers.CollectionsApiController.collectionCollectionIdGet(request: Request, collectionId: String)
-GET     /molecular_data_provider/compound/list/:listId                     controllers.CollectionsApiController.compoundListListIdGet(request: Request, listId: String)
-GET     /molecular_data_provider/gene/list/:listId                     controllers.CollectionsApiController.geneListListIdGet(request: Request, listId: String)
+POST     /molecular_data_provider/compare                     controllers.CollectionsApiController.comparePost(request: Request)
 
 #Functions for Compounds API
 GET     /molecular_data_provider/compound/by_id/*compoundId                     controllers.CompoundsApiController.compoundByIdCompoundIdGet(request: Request, compoundId: String)
@@ -18,8 +18,13 @@ GET     /molecular_data_provider/compound/by_name/*name                     cont
 POST     /molecular_data_provider/compound/by_name                     controllers.CompoundsApiController.compoundByNamePost(request: Request)
 POST     /molecular_data_provider/compound/by_structure                     controllers.CompoundsApiController.compoundByStructurePost(request: Request)
 
+#Functions for Elements API
+GET     /molecular_data_provider/element/by_id/:compoundId                     controllers.ElementsApiController.elementByIdCompoundIdGet(request: Request, compoundId: String)
+POST     /molecular_data_provider/element/by_id                     controllers.ElementsApiController.elementByIdPost(request: Request)
+GET     /molecular_data_provider/element/by_name/:name                     controllers.ElementsApiController.elementByNameNameGet(request: Request, name: String)
+POST     /molecular_data_provider/element/by_name                     controllers.ElementsApiController.elementByNamePost(request: Request)
+
 #Functions for Transformers API
-POST     /molecular_data_provider/aggregate                     controllers.TransformersApiController.aggregatePost(request: Request)
 POST     /molecular_data_provider/transform                     controllers.TransformersApiController.transformPost(request: Request)
 GET     /molecular_data_provider/transformers                     controllers.TransformersApiController.transformersGet(request: Request)
 

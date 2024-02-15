@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Molecular Data Provider
-  version: 2.4.3
+  version: 2.5.0
   contact:
     email: translator@broadinstitute.org
   
@@ -12,6 +12,7 @@ tags:
   - name: compounds
   - name: transformers
   - name: collections
+  - name: elements
 
 paths:
 
@@ -102,6 +103,7 @@ paths:
 
   /compound/by_id/{compound_id}:
     get:
+      deprecated: true
       tags:
       - compounds
       summary: Retrieve a compound by an id
@@ -254,7 +256,7 @@ paths:
     post:
       tags:
       - transformers
-      summary: Transform a list of genes or compounds
+      summary: Transform a list of elements
       description: >-
         Depending on the function of a transformer, creates, expands, or
         filters a list.
@@ -343,96 +345,10 @@ paths:
                 $ref: '#/components/schemas/error_msg'
 
 
-  /gene/list/{list_id}:
-    get:
-      deprecated: true
-      tags:
-      - collections
-      summary: Retrieve a gene list
-      description: Retrieves a gene list for a given gene-list id.
-      parameters:
-      - name: list_id
-        in: path
-        description: gene-list id
-        required: true
-        schema:
-          type: string
-      - name: cache
-        in: query
-        description: >-
-          Directive for handling caching, can be 'yes' (default), 'no', 'bypass'
-          or 'remove'
-        required: false
-        schema:
-          type: string
-      responses:
-        200:
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/gene_list'
-        404:
-          description: not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/error_msg'
-        500:
-          description: internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/error_msg'
-
-
-  /compound/list/{list_id}:
-    get:
-      deprecated: true
-      tags:
-      - collections
-      summary: Retrieve a compound list
-      description: Retrieves a compound list for a given compound-list id.
-      parameters:
-      - name: list_id
-        in: path
-        description: compound-list id
-        required: true
-        schema:
-          type: string
-      - name: cache
-        in: query
-        description: >-
-          Directive for handling caching, can be 'yes' (default), 'no', 'bypass'
-          or 'remove'
-        required: false
-        schema:
-          type: string
-      responses:
-        200:
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/compound_list'
-        404:
-          description: not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/error_msg'
-        500:
-          description: internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/error_msg'
-
-
   /aggregate:
     post:
       tags:
-      - transformers
+      - collections
       summary: Aggregate multiple collections
       description: Aggregates multiple collections into one collections.
       parameters:
@@ -459,6 +375,204 @@ paths:
               schema:
                 $ref: '#/components/schemas/collection_info'
 
+  /compare:
+    post:
+      tags:
+      - collections
+      summary: Aggregate multiple collections
+      description: Aggregates multiple collections into one collections.
+      parameters:
+      - name: cache
+        in: query
+        description: >-
+          Directive for handling caching, can be 'yes' (default), 'no', 'bypass'
+          or 'remove'
+        required: false
+        schema:
+          type: string
+      requestBody:
+        description: aggregation query
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/aggregation_query'
+        required: true
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/comparison_info'
+
+  /element/by_name/{name}:
+    get:
+      tags:
+      - elements
+      summary: Retrieve a element by a name
+      parameters:
+      - name: name
+        in: path
+        description: Name of a element.
+        required: true
+        schema:
+          type: string
+      - name: cache
+        in: query
+        description: >-
+          Directive for handling caching, can be 'yes' (default), 'no', 'bypass'
+          or 'remove'
+        required: false
+        schema:
+          type: string
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/collection'
+        404:
+          description: not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_msg'
+        500:
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_msg'
+
+
+  /element/by_name:
+    post:
+      tags:
+      - elements
+      summary: Retrieve multiple elements specified by names
+      parameters:
+      - name: cache
+        in: query
+        description: >-
+          Directive for handling caching, can be 'yes' (default), 'no', 'bypass'
+          or 'remove'
+        required: false
+        schema:
+          type: string
+      requestBody:
+        description: Names of the element
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+        required: true
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/collection_info'
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_msg'
+        500:
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_msg'
+
+
+  /element/by_id/{compound_id}:
+    get:
+      tags:
+      - elements
+      summary: Retrieve a element by an id
+      parameters:
+      - name: compound_id
+        in: path
+        description: Id of a element (CURIE).
+        required: true
+        schema:
+          type: string
+      - name: cache
+        in: query
+        description: >-
+          Directive for handling caching, can be 'yes' (default), 'no', 'bypass'
+          or 'remove'
+        required: false
+        schema:
+          type: string
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/collection'
+        404:
+          description: not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_msg'
+        500:
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_msg'
+
+
+  /element/by_id:
+    post:
+      tags:
+      - elements
+      summary: Retrieve multiple elements specified by ids
+      parameters:
+      - name: cache
+        in: query
+        description: >-
+          Directive for handling caching, can be 'yes' (default), 'no', 'bypass'
+          or 'remove'
+        required: false
+        schema:
+          type: string
+      requestBody:
+        description: Ids (CURIEs) of the element
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+        required: true
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/collection_info'
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_msg'
+        500:
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_msg'
 
 
 components:
@@ -473,6 +587,9 @@ components:
         label:
           type: string
           description: Short label for GUI display.
+        infores:
+          type: string
+          description: Information resource identifier.
         description:
           type: string
           description: Description of the transformer.
@@ -576,6 +693,9 @@ components:
           description: Allowed range for values of the parameter.
           items:
             type: number
+        description:
+          type: string
+          description: Description of the parameter.
         suggested_values:
           type: string
           description: Suggested value range for the parameter.
@@ -666,6 +786,27 @@ components:
           type: integer
           description: >-
             Number of edge instances known to this knowledge source
+        knowledge_level: 
+          type: string
+          description: >-
+            the level/type of knowledge that is reported in an edge, 
+            based on how the knowledge was produced, the strength of 
+            evidence supporting it, or our confidence in its validity. 
+            (e.g. ‘knowledge assertion’, ‘logical entailment, ‘prediction’,
+            ‘statistical association’, etc.)
+          example: prediction
+        agent_type: 
+          type: string
+          description: >-
+            the type of agent that generated the statement expressed in an edge 
+            (e.g. 'manual agent', 'automated agent', 'computational model', 
+            'text-mining agent', etc.)
+          example: computational model
+        qualifiers:
+          type: array
+          description: An additional nuance attached to the connection. 
+          items:
+            $ref: '#/components/schemas/km_qualifier'
         attributes:
           type: array
           items:
@@ -676,6 +817,32 @@ components:
       - inverse_predicate
       - object
       additionalProperties: false
+
+    km_qualifier:
+      additionalProperties: false
+      description: >-
+        An additional nuance attached to a connection
+      type: object
+      properties:
+        qualifier_type_id:
+          type: string
+          description: >-
+            The category of the qualifier, drawn from a hierarchy of qualifier
+            slots in the Biolink model (e.g. subject_aspect, subject_direction,
+            object_aspect, object_direction, etc).
+          example: subject_aspect
+        applicable_values:
+          type: array
+          items:
+            type: string
+          description: >-
+            Values associated with the type of the qualifier, drawn from
+            a set of controlled values by the type as specified in
+            the Biolink model (e.g. 'expression' or 'abundance' for the
+            qualifier type 'subject_aspect', etc).
+          example: expression
+      required:
+        - qualifier_type_id
 
     km_attribute:
       type: object
@@ -699,6 +866,9 @@ components:
             descriptive phrase here and submit the new type for consideration
             by the appropriate authority.
           example: EDAM:data_1187
+        description:
+          type: string
+          description: Description of the attribute.
         source:
           type: string
           description: Source of the attribute, as a CURIE prefix.
@@ -787,30 +957,6 @@ components:
               items:
                 $ref: '#/components/schemas/element'
 
-    gene_list:
-      deprecated: true
-      allOf:
-        - $ref: '#/components/schemas/collection_info'
-        - type: object
-          properties:
-            elements:
-              type: array
-              description: Members of the gene list.
-              items:
-                $ref: '#/components/schemas/gene_info'
-
-    compound_list:
-      deprecated: true
-      allOf:
-        - $ref: '#/components/schemas/collection_info'
-        - type: object
-          properties:
-            elements:
-              type: array
-              description: Members of the compound list.
-              items:
-                $ref: '#/components/schemas/compound_info'
-
     element:
       type: object
       properties:
@@ -859,144 +1005,6 @@ components:
       - source
       - provided_by
 
-    gene_info:
-      type: object
-      deprecated: true
-      properties:
-        gene_id:
-          type: string
-          description: Id of the gene. Preferably HGNC id; can be Entrez or ENSEMBL
-            id if HGNC id is not available.
-        identifiers:
-          type: object
-          properties:
-            entrez:
-              type: string
-              description: Entrez gene id (CURIE).
-              example: NCBIGene:100
-            hgnc:
-              type: string
-              description: HGNC gene id (CURIE).
-              example: HGNC:186
-            mim:
-              type: string
-              description: OMIM gene id (CURIE).
-              example: MIM:608958
-            ensembl:
-              type: array
-              description: ENSEMBL gene id (CURIE).
-              items:
-                type: string
-                example: ENSEMBL:ENSG00000196839
-            mygene_info:
-              type: string
-              description: myGene.info primary id.
-              example: "100"
-        attributes:
-          type: array
-          description: Additional information about the gene and provenance about
-            gene-list membership. 
-          items:
-            $ref: '#/components/schemas/attribute'
-        source:
-          type: string
-          description: Name of a transformer that added gene to the gene list.
-      required:
-      - gene_id
-
-    compound_info:
-      type: object
-      deprecated: true
-      properties:
-        compound_id:
-          type: string
-          description: Ids of the compound.
-        identifiers:
-          type: object
-          properties:
-            chebi:
-              type: string
-              description: ChEBI id of the compound (CURIE).
-              example: CHEBI:15365
-            chembl:
-              type: string
-              description: ChEMBL id of the compound (CURIE).
-              example: ChEMBL:CHEMBL25
-            drugbank:
-              type: string
-              description: DrugBank id of the compound (CURIE).
-              example: DrugBank:DB00945
-            pubchem:
-              type: string
-              description: PubChem CID of the compound (CURIE).
-              example: CID:2244
-            mesh:
-              type: string
-              description: MeSH id of the compound (CURIE).
-              example: MESH:D001241
-            hmdb:
-              type: string
-              description: HMDB id of the compound (CURIE).
-              example: HMDB:HMDB0001879
-            unii:
-              type: string
-              description: UNII id of the compound (CURIE).
-              example: UNII:R16CO5Y76E
-            kegg:
-              type: string
-              description: KEGG id of the compound (CURIE).
-              example: KEGG.COMPOUND:C01405
-            gtopdb:
-              type: string
-              description: Guide to PHARMACOLOGY id of the compound (CURIE).
-              example: GTOPDB:4139
-            chembank:
-              type: string
-              description: ChemBank id of the compound (CURIE).
-              example: ChemBank:1171
-            drugcentral:
-              type: string
-              description: DrugCentral id of the compound (CURIE).
-              example: DrugCentral:74
-            cas:
-              type: string
-              description: CAS id of the compound (CURIE).
-              example: CAS:50-78-2
-            mychem_info:
-              type: string
-              description: myChem.info id of the compound.
-        names_synonyms:
-          type: array
-          items:
-            $ref: '#/components/schemas/names'
-          description: Compound names and synonyms.
-        structure:
-          type: object
-          properties:
-            smiles:
-              type: string
-              description: SMILES representation of the compound's structure.
-            inchi:
-              type: string
-              description: InChI representation of the compound's structure.
-            inchikey:
-              type: string
-              description: InChI key representation of the compound's structure.
-            source:
-              type: string
-              description: Source of the compound's structure.
-        attributes:
-          type: array
-          description: Additional information about the compound and provenance about
-            compound-list membership. 
-          items:
-            $ref: '#/components/schemas/attribute'
-        source:
-          type: string
-          description: Name of a transformer that added compound to the compound list.
-      required: 
-      - compound_id
-
     attribute:
       type: object
       description: >-
@@ -1031,7 +1039,6 @@ components:
             but the contents of the field could also be a CURIE of a third
             party ontology term.
           example: p-value
-          nullable: true
         value:
           description: >-
             Value of the attribute. May be any data type, including a list.
@@ -1052,7 +1059,6 @@ components:
             attribute object. Use a CURIE or namespace designator for this
             resource where possible.
           example: UniProtKB
-          nullable: true
         value_url:
           type: string
           description: >-
@@ -1060,13 +1066,11 @@ components:
             additional information about an  attribute's value (not the node
             or the edge fom which it hangs).
           example: https://pubmed.ncbi.nlm.nih.gov/32529952
-          nullable: true
         description:
           type: string
           description: >-
             Human-readable description for the attribute and its value.
           example: Assertion Authored By Dr. Trans L. Ator
-          nullable: true
         attributes:
           type: array
           description: >-
@@ -1141,6 +1145,9 @@ components:
     connection:
       type: object
       properties:
+        uuid:
+          type: string
+          description: UUID of the connection.
         source_element_id:
           type: string
           description: Id (CURIE) of the connected query node.
@@ -1162,6 +1169,11 @@ components:
         provided_by:
           type: string
           description: Transformer that produced the connection.
+        qualifiers:
+          type: array
+          description: An additional nuance attached to the connection. 
+          items:
+            $ref: '#/components/schemas/qualifier'
         attributes:
           type: array
           description: Additional information and provenance about the connection. 
@@ -1174,6 +1186,49 @@ components:
       - source
       - provided_by
         
+    qualifier:
+      additionalProperties: false
+      description: >-
+        An additional nuance attached to a connection
+      type: object
+      properties:
+        qualifier_type_id:
+          type: string
+          description: >-
+            The category of the qualifier, drawn from a hierarchy of qualifier
+            slots in the Biolink model (e.g. subject_aspect, subject_direction,
+            object_aspect, object_direction, etc).
+          example: subject_aspect
+        qualifier_value:
+          type: string
+          description: >-
+            The value associated with the type of the qualifier, drawn from
+            a set of controlled values by the type as specified in
+            the Biolink model (e.g. 'expression' or 'abundance' for the
+            qualifier type 'subject_aspect', etc).
+          example: expression
+      required:
+        - qualifier_type_id
+        - qualifier_value
+
+    comparison_info:
+      type: object
+      properties:
+        operation:    
+          type: string
+          description: Comparison operation.
+        score:
+          type: number
+          description: Score of the comparison operation.
+        attributes:
+          type: array
+          description: Additional information about the comparison.
+          items:
+            $ref: '#/components/schemas/attribute'
+      required:
+      - operation
+      - score
+
     error_msg:
       type: object
       properties:

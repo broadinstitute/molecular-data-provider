@@ -1,6 +1,5 @@
 package controllers;
 
-import apimodels.AggregationQuery;
 import apimodels.CollectionInfo;
 import apimodels.ErrorMsg;
 import apimodels.MoleProQuery;
@@ -38,28 +37,6 @@ public class TransformersApiController extends Controller {
         this.imp = imp;
         mapper = new ObjectMapper();
         this.configuration = configuration;
-    }
-
-    @ApiAction
-    public Result aggregatePost(Http.Request request) throws Exception {
-        JsonNode nodeaggregationQuery = request.body().asJson();
-        AggregationQuery aggregationQuery;
-        if (nodeaggregationQuery != null) {
-            aggregationQuery = mapper.readValue(nodeaggregationQuery.toString(), AggregationQuery.class);
-            if (configuration.getBoolean("useInputBeanValidation")) {
-                OpenAPIUtils.validate(aggregationQuery);
-            }
-        } else {
-            throw new IllegalArgumentException("'AggregationQuery' parameter is required");
-        }
-        String valuecache = request.getQueryString("cache");
-        String cache;
-        if (valuecache != null) {
-            cache = valuecache;
-        } else {
-            cache = null;
-        }
-        return imp.aggregatePostHttp(request, aggregationQuery, cache);
     }
 
     @ApiAction

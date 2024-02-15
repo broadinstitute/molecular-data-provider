@@ -1,6 +1,5 @@
 package controllers;
 
-import apimodels.AggregationQuery;
 import apimodels.CollectionInfo;
 import apimodels.ErrorMsg;
 import apimodels.MoleProQuery;
@@ -19,11 +18,6 @@ import play.libs.Files.TemporaryFile;
 import javax.validation.constraints.*;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 public class TransformersApiControllerImp extends TransformersApiControllerImpInterface {
-    @Override
-    public CollectionInfo aggregatePost(Http.Request request, AggregationQuery aggregationQuery, String cache) throws Exception {
-        return Aggregator.aggregate(aggregationQuery, cache);
-    }
-
     @Override
     public CollectionInfo transformPost(Http.Request request, MoleProQuery moleProQuery, String cache) throws Exception {
         return Transformers.getTransformer(moleProQuery.getName()).transform(moleProQuery, cache);

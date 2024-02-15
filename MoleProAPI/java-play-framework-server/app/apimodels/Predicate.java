@@ -1,6 +1,8 @@
 package apimodels;
 
 import apimodels.KmAttribute;
+import apimodels.KmQualifier;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.*;
@@ -49,6 +51,19 @@ public class Predicate   {
   @JsonProperty("count")
   
   private Integer count;
+
+  @JsonProperty("knowledge_level")
+  
+  private String knowledgeLevel;
+
+  @JsonProperty("agent_type")
+  
+  private String agentType;
+
+  @JsonProperty("qualifiers")
+  @Valid
+
+  private List<KmQualifier> qualifiers = null;
 
   @JsonProperty("attributes")
   @Valid
@@ -207,6 +222,65 @@ public class Predicate   {
     this.count = count;
   }
 
+  public Predicate knowledgeLevel(String knowledgeLevel) {
+    this.knowledgeLevel = knowledgeLevel;
+    return this;
+  }
+
+   /**
+   * the level/type of knowledge that is reported in an edge,  based on how the knowledge was produced, the strength of  evidence supporting it, or our confidence in its validity.  (e.g. ‘knowledge assertion’, ‘logical entailment, ‘prediction’, ‘statistical association’, etc.)
+   * @return knowledgeLevel
+  **/
+  public String getKnowledgeLevel() {
+    return knowledgeLevel;
+  }
+
+  public void setKnowledgeLevel(String knowledgeLevel) {
+    this.knowledgeLevel = knowledgeLevel;
+  }
+
+  public Predicate agentType(String agentType) {
+    this.agentType = agentType;
+    return this;
+  }
+
+   /**
+   * the type of agent that generated the statement expressed in an edge  (e.g. 'manual agent', 'automated agent', 'computational model',  'text-mining agent', etc.)
+   * @return agentType
+  **/
+  public String getAgentType() {
+    return agentType;
+  }
+
+  public void setAgentType(String agentType) {
+    this.agentType = agentType;
+  }
+
+  public Predicate qualifiers(List<KmQualifier> qualifiers) {
+    this.qualifiers = qualifiers;
+    return this;
+  }
+
+  public Predicate addQualifiersItem(KmQualifier qualifiersItem) {
+    if (qualifiers == null) {
+      qualifiers = new ArrayList<>();
+    }
+    qualifiers.add(qualifiersItem);
+    return this;
+  }
+
+   /**
+   * An additional nuance attached to the connection.
+   * @return qualifiers
+  **/
+  public List<KmQualifier> getQualifiers() {
+    return qualifiers;
+  }
+
+  public void setQualifiers(List<KmQualifier> qualifiers) {
+    this.qualifiers = qualifiers;
+  }
+
   public Predicate attributes(List<KmAttribute> attributes) {
     this.attributes = attributes;
     return this;
@@ -250,12 +324,15 @@ public class Predicate   {
         Objects.equals(relations, predicate.relations) &&
         Objects.equals(inverseRelations, predicate.inverseRelations) &&
         Objects.equals(count, predicate.count) &&
+        Objects.equals(knowledgeLevel, predicate.knowledgeLevel) &&
+        Objects.equals(agentType, predicate.agentType) &&
+        Objects.equals(qualifiers, predicate.qualifiers) &&
         Objects.equals(attributes, predicate.attributes);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(subject, predicate, inversePredicate, _object, source, relations, inverseRelations, count, attributes);
+    return Objects.hash(subject, predicate, inversePredicate, _object, source, relations, inverseRelations, count, knowledgeLevel, agentType, qualifiers, attributes);
   }
 
   @SuppressWarnings("StringBufferReplaceableByString")
@@ -272,6 +349,9 @@ public class Predicate   {
     sb.append("    relations: ").append(toIndentedString(relations)).append("\n");
     sb.append("    inverseRelations: ").append(toIndentedString(inverseRelations)).append("\n");
     sb.append("    count: ").append(toIndentedString(count)).append("\n");
+    sb.append("    knowledgeLevel: ").append(toIndentedString(knowledgeLevel)).append("\n");
+    sb.append("    agentType: ").append(toIndentedString(agentType)).append("\n");
+    sb.append("    qualifiers: ").append(toIndentedString(qualifiers)).append("\n");
     sb.append("    attributes: ").append(toIndentedString(attributes)).append("\n");
     sb.append("}");
     return sb.toString();

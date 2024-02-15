@@ -1,6 +1,5 @@
 package controllers;
 
-import apimodels.AggregationQuery;
 import apimodels.CollectionInfo;
 import apimodels.ErrorMsg;
 import apimodels.MoleProQuery;
@@ -17,7 +16,9 @@ import play.mvc.Result;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import openapitools.OpenAPIUtils;
+import openapitools.SecurityAPIUtils;
 import static play.mvc.Results.ok;
+import static play.mvc.Results.unauthorized;
 import play.libs.Files.TemporaryFile;
 
 import javax.validation.constraints.*;
@@ -25,27 +26,19 @@ import javax.validation.constraints.*;
 @SuppressWarnings("RedundantThrows")
 public abstract class TransformersApiControllerImpInterface {
     @Inject private Config configuration;
+    @Inject private SecurityAPIUtils securityAPIUtils;
     private ObjectMapper mapper = new ObjectMapper();
-
-    public Result aggregatePostHttp(Http.Request request, AggregationQuery aggregationQuery, String cache) throws Exception {
-        CollectionInfo obj = aggregatePost(request, aggregationQuery, cache);
-    if (configuration.getBoolean("useOutputBeanValidation")) {
-            OpenAPIUtils.validate(obj);
-    }
-JsonNode result = mapper.valueToTree(obj);
-return ok(result);
-
-    }
-
-    public abstract CollectionInfo aggregatePost(Http.Request request, AggregationQuery aggregationQuery, String cache) throws Exception;
 
     public Result transformPostHttp(Http.Request request, MoleProQuery moleProQuery, String cache) throws Exception {
         CollectionInfo obj = transformPost(request, moleProQuery, cache);
-    if (configuration.getBoolean("useOutputBeanValidation")) {
+
+        if (configuration.getBoolean("useOutputBeanValidation")) {
             OpenAPIUtils.validate(obj);
-    }
-JsonNode result = mapper.valueToTree(obj);
-return ok(result);
+        }
+
+        JsonNode result = mapper.valueToTree(obj);
+
+        return ok(result);
 
     }
 
@@ -53,13 +46,16 @@ return ok(result);
 
     public Result transformersGetHttp(Http.Request request) throws Exception {
         List<TransformerInfo> obj = transformersGet(request);
-    if (configuration.getBoolean("useOutputBeanValidation")) {
-        for (TransformerInfo curItem : obj) {
-            OpenAPIUtils.validate(curItem);
+
+        if (configuration.getBoolean("useOutputBeanValidation")) {
+            for (TransformerInfo curItem : obj) {
+                OpenAPIUtils.validate(curItem);
+            }
         }
-    }
-JsonNode result = mapper.valueToTree(obj);
-return ok(result);
+
+        JsonNode result = mapper.valueToTree(obj);
+
+        return ok(result);
 
     }
 

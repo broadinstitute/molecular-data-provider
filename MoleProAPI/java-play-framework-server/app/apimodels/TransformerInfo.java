@@ -3,6 +3,7 @@ package apimodels;
 import apimodels.KnowledgeMap;
 import apimodels.Parameter;
 import apimodels.TransformerInfoProperties;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.*;
@@ -25,6 +26,10 @@ public class TransformerInfo   {
   @NotNull
 
   private String label;
+
+  @JsonProperty("infores")
+  
+  private String infores;
 
   @JsonProperty("description")
   
@@ -168,6 +173,23 @@ public class TransformerInfo   {
 
   public void setLabel(String label) {
     this.label = label;
+  }
+
+  public TransformerInfo infores(String infores) {
+    this.infores = infores;
+    return this;
+  }
+
+   /**
+   * Information resource identifier.
+   * @return infores
+  **/
+  public String getInfores() {
+    return infores;
+  }
+
+  public void setInfores(String infores) {
+    this.infores = infores;
   }
 
   public TransformerInfo description(String description) {
@@ -326,6 +348,7 @@ public class TransformerInfo   {
     TransformerInfo transformerInfo = (TransformerInfo) o;
     return Objects.equals(name, transformerInfo.name) &&
         Objects.equals(label, transformerInfo.label) &&
+        Objects.equals(infores, transformerInfo.infores) &&
         Objects.equals(description, transformerInfo.description) &&
         Objects.equals(url, transformerInfo.url) &&
         Objects.equals(version, transformerInfo.version) &&
@@ -338,7 +361,7 @@ public class TransformerInfo   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, label, description, url, version, status, function, knowledgeMap, properties, parameters);
+    return Objects.hash(name, label, infores, description, url, version, status, function, knowledgeMap, properties, parameters);
   }
 
   @SuppressWarnings("StringBufferReplaceableByString")
@@ -349,6 +372,7 @@ public class TransformerInfo   {
     
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    label: ").append(toIndentedString(label)).append("\n");
+    sb.append("    infores: ").append(toIndentedString(infores)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    url: ").append(toIndentedString(url)).append("\n");
     sb.append("    version: ").append(toIndentedString(version)).append("\n");

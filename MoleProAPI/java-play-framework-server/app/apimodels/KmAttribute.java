@@ -1,5 +1,6 @@
 package apimodels;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.*;
@@ -21,6 +22,10 @@ public class KmAttribute   {
   @NotNull
 
   private String attributeTypeId;
+
+  @JsonProperty("description")
+  
+  private String description;
 
   @JsonProperty("source")
   
@@ -62,6 +67,23 @@ public class KmAttribute   {
 
   public void setAttributeTypeId(String attributeTypeId) {
     this.attributeTypeId = attributeTypeId;
+  }
+
+  public KmAttribute description(String description) {
+    this.description = description;
+    return this;
+  }
+
+   /**
+   * Description of the attribute.
+   * @return description
+  **/
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
   }
 
   public KmAttribute source(String source) {
@@ -118,13 +140,14 @@ public class KmAttribute   {
     KmAttribute kmAttribute = (KmAttribute) o;
     return Objects.equals(type, kmAttribute.type) &&
         Objects.equals(attributeTypeId, kmAttribute.attributeTypeId) &&
+        Objects.equals(description, kmAttribute.description) &&
         Objects.equals(source, kmAttribute.source) &&
         Objects.equals(names, kmAttribute.names);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(type, attributeTypeId, source, names);
+    return Objects.hash(type, attributeTypeId, description, source, names);
   }
 
   @SuppressWarnings("StringBufferReplaceableByString")
@@ -135,6 +158,7 @@ public class KmAttribute   {
     
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("    attributeTypeId: ").append(toIndentedString(attributeTypeId)).append("\n");
+    sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    source: ").append(toIndentedString(source)).append("\n");
     sb.append("    names: ").append(toIndentedString(names)).append("\n");
     sb.append("}");

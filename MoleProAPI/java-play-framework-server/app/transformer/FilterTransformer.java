@@ -13,9 +13,9 @@ import apimodels.Connection;
 import apimodels.MoleProQuery;
 import apimodels.Property;
 import apimodels.TransformerInfo;
-import transformer.collection.CollectionElement;
 import transformer.collection.Collections;
 import transformer.collection.CollectionsEntry;
+import transformer.elements.CollectionElement;
 import transformer.exception.BadRequestException;
 
 public abstract class FilterTransformer extends InternalTransformer {
