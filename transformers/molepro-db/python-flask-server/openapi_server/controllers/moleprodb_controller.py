@@ -8,7 +8,9 @@ from openapi_server.models.attribute import Attribute
 from openapi_server.models.connection import Connection
 from openapi_server.models.node import Node
 from openapi_server.models.predicate import Predicate
+from openapi_server.models.qualifier import Qualifier
 from openapi_server.models.km_attribute import KmAttribute
+from openapi_server.models.km_qualifier import KmQualifier
 from openapi_server.models.transformer_info import TransformerInfo
 from openapi_server.encoder import JSONEncoder
 
@@ -19,6 +21,11 @@ connection = sqlite3.connect("database/MoleProDB.sqlite", check_same_thread=Fals
 connection.row_factory = sqlite3.Row
 
 identifier_priority = []
+qualifier_inverses = {}
+qualifier_hierarchy = {}
+
+MAX_QUALIFIER_VALUES = 32
+
 
 class MoleProDB(Transformer):
 
@@ -93,13 +100,11 @@ class MoleProDB(Transformer):
             name = Names(primary_name,[],'','MolePro',self.PROVIDED_BY,None)
             name_list.append(name)
             names[self.key(name.source, name.provided_by, name.name_type, name.language)] = name
-            if name_sources is not None:
-                name_sources.discard('MolePro')
        
         if name_sources is None or len(name_sources) > 0:
             for row in rows:
                 name_source = row['name_source']
-                if name_sources is None or name_source in name_sources:
+                if name_sources is None or (name_source in name_sources and name_source != 'MolePro'):
                     name = row['name']
                     is_synonym = False
                     name_type = row['name_type']
@@ -133,6 +138,8 @@ class MoleProDB(Transformer):
             attribute_type = row['attribute_type']
             attribute_name = row['attribute_name']
             attribute_value = row['attribute_value']
+            if row['is_json'] == 1:
+                attribute_value = json.loads(attribute_value)
             value_type = row['value_type']
             url = row['url']
             description = row['description']
@@ -201,21 +208,29 @@ class MoleProDBNameProducer(Producer, MoleProDB):
 #
 class MoleProDBTransformer(MoleProDB):
 
-    variables = ['predicate', 'biolink_class', 'id', 'name_source', 'element_attribute', 'connection_attribute', 'limit']
+    variables = ['predicate', 'qualifier_constraint', 'biolink_class', 'id', 'name_source', 'element_attribute', 'connection_attribute', 'limit']
 
 
     def __init__(self):
         super().__init__(self.variables, definition_file='data/moleprodb_transformer_info.json')
 
+
     def update_transformer_info(self, transformer_info):
         load_identifier_priority()
+        load_config_file('conf/qualifier_inverses.json', 'conf/qualifier_hierarchy.json')
 
 
     def map(self, input_list, controls):
+        if controls.get('qualifier_constraint') is not None:
+            parsed_qualifier_constraints = parse_qualifier_constraints(controls.get('qualifier_constraint'))
+            if parsed_qualifier_constraints is None:
+                return ({"status": 400, "title": "Bad Request", "detail": "Wrong qualifier_constraint format", "type": "about:blank"}, 400)
+            else:
+                controls['qualifier_constraint'] = parsed_qualifier_constraints
         name_sources = set(controls.get('name_source')) if controls.get('name_source') is not None else None
         control_element_attributes = set(controls.get('element_attribute')) if controls.get('element_attribute') is not None else None
         control_connection_attributes = set(controls.get('connection_attribute')) if controls.get('connection_attribute') is not None else None
-        limit = int(controls.get('limit', 0))
+        limit = controls.get('limit', 0)
 
         connections = self.get_connections(input_list, controls, limit)
         element_ids = self.get_element_ids(connections)
@@ -232,10 +247,12 @@ class MoleProDBTransformer(MoleProDB):
                 elements[element_id] = element
         connection_ids = [connection['connection_id'] for connection in connections]
         connection_attributes = self.get_attributes(connection_ids, 'Connection_Attribute', 'connection_id', control_connection_attributes)
+        qualifiers = self.get_qualifiers(connection_ids)
         for connection_row in connections:
             connection_id = connection_row['connection_id']
             element_id = connection_row['object_id']
-            connection = self.create_connection(connection_row, connection_attributes.get(connection_id,[]))
+            connection_qualifiers = qualifiers.get(connection_id,[])
+            connection = self.create_connection(connection_row, connection_qualifiers, connection_attributes.get(connection_id,[]))
             if element_id in elements:
                 elements[element_id].connections.append(connection)
         return element_list
@@ -267,6 +284,27 @@ class MoleProDBTransformer(MoleProDB):
         return element_ids
             
 
+    def get_qualifiers(self, connection_ids):
+        if len(connection_ids) == 0:
+            return {}
+        qualifiers = defaultdict(list)
+        for row in get_qualifiers(connection_ids):
+            connection_id = row['connection_id']
+            qualifier_type = row['qualifier_type']
+            qualifier_value = row['qualifier_value']
+            qualifier = self.Qualifier(qualifier_type, qualifier_value)
+            qualifiers[connection_id].append(qualifier)
+        return qualifiers
+
+
+    def inverse_qualifier(self, qualifier):
+        if qualifier.qualifier_type_id+':'+qualifier.qualifier_value in qualifier_inverses:
+            return qualifier_inverses[qualifier.qualifier_type_id+':'+qualifier.qualifier_value]
+        if qualifier.qualifier_type_id in qualifier_inverses:
+            return self.Qualifier(qualifier_inverses[qualifier.qualifier_type_id], qualifier.qualifier_value)
+        return qualifier
+
+
     def create_element(self, row, identifiers, names, element_attributes, name_sources):
         id = self.primary_id(identifiers)
         if id is None:
@@ -275,18 +313,20 @@ class MoleProDBTransformer(MoleProDB):
         return self.Element(id, row['biolink_class'], identifiers, names, element_attributes)
 
 
-    def create_connection(self, row, connection_attributes):
+    def create_connection(self, row, qualifiers, connection_attributes):
         source_element_id = row['source_element_id']
         uuid = row['uuid']
         biolink_predicate = row['biolink_predicate']
         inverse_predicate = row['inverse_predicate']
+        if row['inverse'] == 1:
+            qualifiers = [self.inverse_qualifier(qualifier) for qualifier in qualifiers]
         relation = row['relation']
         inverse_relation = row['inverse_relation']
         source_name = row['source_name']
         transformer = row['transformer']
         attributes = connection_attributes
-        attributes.append(self.Attribute('connection_id', str(uuid), type=''))
         connection = Connection(
+            uuid = uuid,
             source_element_id = source_element_id,
             biolink_predicate = biolink_predicate,
             inverse_predicate = inverse_predicate,
@@ -294,6 +334,7 @@ class MoleProDBTransformer(MoleProDB):
             inverse_relation = inverse_relation,
             source = source_name,
             provided_by = transformer,
+            qualifiers = qualifiers,
             attributes = attributes
         )
         return connection
@@ -510,13 +551,13 @@ def get_attributes_single(parent_id, attr_table, parent_id_name, types):
 
 def get_attributes(parent_ids, attr_table, parent_id_name, types):
     query = """
-        SELECT {}, Attribute.attribute_id, attribute_type, attribute_name, attribute_value, value_type, url, description, source_name, transformer
+        SELECT {}, Attribute.attribute_id, attribute_type, attribute_name, attribute_value, value_type, is_json, url, Attribute.description, source_name, transformer
         FROM {}
         JOIN Attribute ON Attribute.attribute_id = {}.attribute_id
-        JOIN Attribute_Type ON Attribute_Type.attribute_type_id = Attribute.attribute_type_id
+        JOIN Attribute_Type ON Attribute_Type.attribute_type_id = {}.attribute_type_id
         JOIN Source ON Source.source_id = {}.source_id
         WHERE {} in ({})
-    """.format(parent_id_name, attr_table, attr_table, attr_table, parent_id_name, ','.join([str(id) for id in parent_ids]))
+    """.format(parent_id_name, attr_table, attr_table, attr_table, attr_table, parent_id_name, ','.join([str(id) for id in parent_ids]))
     if types is not None:
         query = query + "AND attribute_type IN ('" + "','".join(types) + "')"
     cur = connection.cursor()
@@ -531,6 +572,7 @@ CONNECTION_COLUMNS = [
     'object_id',
     'biolink_predicate',
     'inverse_predicate',
+    'inverse',
     'relation',
     'inverse_relation',
     'source_name',
@@ -568,6 +610,26 @@ def find_connections(query_element_id, controls):
         classes = ["'" + biolink_class + "'" for biolink_class in classes]
         biolink_class_clause = 'biolink_class in (' + ','.join(classes) + ') AND'
 
+    qualifiers_join = ''
+    qualifiers_clause = ''
+    inv_qualifiers_clause = ''
+    if controls.get('qualifier_constraint') is not None:
+        for i, (qualifier_type, qualifier_value) in enumerate(controls.get('qualifier_constraint')):
+            qualifier_values = qualifier_hierarchy.get(qualifier_value, [qualifier_value])
+            qualifiers_join += 'JOIN Qualifier_Map AS Qualifier_Map_{} ON Qualifier_Map_{}.qualifier_set_id = Connection.qualifier_set_id\n'.format(i,i)
+            qualifiers_join += '        JOIN Qualifier AS Qualifier_{} ON Qualifier_{}.qualifier_id = Qualifier_Map_{}.qualifier_id\n'.format(i,i,i)
+            qualifiers_clause += "Qualifier_{}.qualifier_type = '{}' AND ".format(i, qualifier_type)
+            qualifiers_clause += "Qualifier_{}.qualifier_value IN ('{}') AND ".format(i, "','".join(qualifier_values))
+            if qualifier_type + ':' + qualifier_value in qualifier_inverses:
+                inv_qualifier = qualifier_inverses[qualifier_type + ':' + qualifier_value]
+                qualifier_type = inv_qualifier.qualifier_type_id
+                qualifier_value = inv_qualifier.qualifier_value
+                qualifier_values = qualifier_hierarchy.get(qualifier_value, [qualifier_value])
+            if qualifier_type in qualifier_inverses:
+                qualifier_type = qualifier_inverses[qualifier_type]
+            inv_qualifiers_clause += "Qualifier_{}.qualifier_type = '{}' AND ".format(i, qualifier_type)
+            inv_qualifiers_clause += "Qualifier_{}.qualifier_value IN ('{}') AND ".format(i, "','".join(qualifier_values))
+
     object_clause = ''
     subject_clause = ''
     if controls.get('id') is not None:
@@ -587,6 +649,7 @@ def find_connections(query_element_id, controls):
             object_id,
             biolink_predicate,
             inverse_predicate,
+            0 AS inverse,
             relation,
             inverse_relation,
             source_name,
@@ -595,7 +658,8 @@ def find_connections(query_element_id, controls):
         JOIN Source ON Source.source_id = Connection.source_id
         JOIN Predicate ON Predicate.predicate_id = Connection.predicate_id
         {}
-        WHERE subject_id = ? AND {} {} {} Connection.source_id > 0
+        {}
+        WHERE subject_id = ? AND {} {} {} {} Connection.source_id > 0
         
         UNION
 
@@ -606,6 +670,7 @@ def find_connections(query_element_id, controls):
             subject_id AS object_id,
             inverse_predicate AS biolink_predicate,
             biolink_predicate AS inverse_predicate,
+            1 AS inverse,
             inverse_relation AS relation,
             relation AS inverse_relation,
             source_name,
@@ -614,13 +679,42 @@ def find_connections(query_element_id, controls):
         JOIN Source ON Source.source_id = Connection.source_id
         JOIN Predicate ON Predicate.predicate_id = Connection.predicate_id
         {}
-        WHERE object_id = ? AND {} {} {} Connection.source_id > 0;
-    """.format(biolink_class_join, predicate_clause, biolink_class_clause, object_clause,
-        inv_biolink_class_join, inv_predicate_clause, biolink_class_clause, subject_clause
+        {}
+        WHERE object_id = ? AND {} {} {} {} Connection.source_id > 0;
+    """.format(biolink_class_join, qualifiers_join, predicate_clause, qualifiers_clause, biolink_class_clause, object_clause,
+        inv_biolink_class_join, qualifiers_join, inv_predicate_clause, inv_qualifiers_clause, biolink_class_clause, subject_clause
     )
     cur = connection.cursor()
     cur.execute(query,(query_element_id,query_element_id))
     return cur.fetchall()
+
+
+def get_qualifiers(connection_ids):
+    query = """
+        SELECT connection_id, qualifier_type, qualifier_value
+        FROM Connection
+        JOIN Qualifier_Map ON Qualifier_Map.qualifier_set_id = Connection.qualifier_set_id
+        JOIN Qualifier ON Qualifier.qualifier_id = Qualifier_Map.qualifier_id
+        WHERE connection_id IN ({})
+    """.format(','.join([str(connection_id) for connection_id in connection_ids]))
+    cur = connection.cursor()
+    cur.execute(query)
+    return cur.fetchall()
+
+
+def parse_qualifier_constraints(qualifier_constraints):
+    parsed_qualifier_constraints = []
+    for qualifier_constraint in qualifier_constraints:
+        if '==' in qualifier_constraint:
+            parsed_qualifier_constraint = qualifier_constraint.split('==', 1)
+            if len(parsed_qualifier_constraint) == 2:
+                qualifier_type, qualifier_value = parsed_qualifier_constraint
+                if qualifier_type.startswith('biolink:'):
+                    qualifier_type = qualifier_type[8:]
+                parsed_qualifier_constraints.append((qualifier_type, qualifier_value))
+        else:
+            return None
+    return parsed_qualifier_constraints
 
 
 ####################################################################################################
@@ -636,7 +730,7 @@ def find_hierarchy(query_element_id, hierarchy_types):
         return []
     query = """
         SELECT list_element_id, hierarchy_type
-        FROM Element_Hierarchy
+        FROM List_Element_Hierarchy
         WHERE parent_element_id = ? {};
         """.format(in_hierarchy_types)
     cur = connection.cursor()
@@ -693,6 +787,22 @@ def load_identifier_priority():
         identifier_priority = config['identifier priority']
 
 
+def load_config_file(qualifier_inverses_file, qualifier_hierarchy_file):
+    global qualifier_inverses
+    global qualifier_hierarchy
+    with open(qualifier_inverses_file) as json_file:
+        conf = json.load(json_file)
+        for key in conf:
+            if isinstance(conf[key], dict):
+                qualifier = conf[key]
+                for (qualifier_type, qualifier_value) in conf[key].items():
+                    qualifier = Qualifier(qualifier_type, qualifier_value)
+                conf[key] = qualifier
+        qualifier_inverses = conf
+    with open(qualifier_hierarchy_file) as json_file:
+        qualifier_hierarchy = json.load(json_file)
+
+
 def get_node_counts():
     query = """
     SELECT count(*) as count, biolink_class
@@ -712,10 +822,9 @@ def get_node_counts():
 
 def get_node_attributes():
     query = """
-        SELECT source_name, biolink_class, attribute_type, attribute_name
+        SELECT source_name, biolink_class, attribute_type, attribute_name, Attribute_Type.description
         FROM List_Element_Attribute
-        JOIN Attribute ON Attribute.attribute_id = List_Element_Attribute.attribute_id
-        JOIN Attribute_Type ON Attribute_Type.attribute_type_id = Attribute.attribute_type_id
+        JOIN Attribute_Type ON Attribute_Type.attribute_type_id = List_Element_Attribute.attribute_type_id
         JOIN Source ON Source.source_id = List_Element_Attribute.source_id
         JOIN List_Element ON List_Element.list_element_id = List_Element_Attribute.list_element_id
         JOIN Biolink_Class ON Biolink_Class.biolink_class_id = List_Element.biolink_class_id
@@ -746,16 +855,17 @@ def get_edge_counts():
         inverse_predicate = row['inverse_predicate']
         object_class = row['object_class']
         count = row['count']
-        
-        inv_pred = Predicate(object_class, inverse_predicate, biolink_predicate, subject_class, count=count,attributes=[])
+
         if (subject_class, biolink_predicate, object_class) in edges:
             edges[(subject_class, biolink_predicate, object_class)].count += count
         else:
-            pred = Predicate(subject_class, biolink_predicate, inverse_predicate, object_class, count=count,attributes=[])
+            pred = Predicate(subject_class, biolink_predicate, inverse_predicate, object_class, count=count, attributes=[])
             edges[(subject_class, biolink_predicate, object_class)] = pred
+        # counts for inverted predicate
         if (object_class, inverse_predicate, subject_class) in edges:
             edges[(object_class, inverse_predicate, subject_class)].count += count
         else:
+            inv_pred = Predicate(object_class, inverse_predicate, biolink_predicate, subject_class, count=count, attributes=[])
             edges[(object_class, inverse_predicate, subject_class)] = inv_pred
     return edges
 
@@ -763,10 +873,9 @@ def get_edge_counts():
 def get_edge_attributes():
     query = """
         SELECT Subject_Class.biolink_class AS subject_class, biolink_predicate, inverse_predicate, 
-          Object_Class.biolink_class object_class, source_name, attribute_type, attribute_name
+          Object_Class.biolink_class object_class, source_name, attribute_type, attribute_name, Attribute_Type.description
         FROM Connection_Attribute
-        JOIN Attribute ON Attribute.attribute_id = Connection_Attribute.attribute_id
-        JOIN Attribute_Type ON Attribute_Type.attribute_type_id = Attribute.attribute_type_id
+        JOIN Attribute_Type ON Attribute_Type.attribute_type_id = Connection_Attribute.attribute_type_id
         JOIN Source ON Source.source_id = Connection_Attribute.source_id
         JOIN Connection ON Connection.connection_id = Connection_Attribute.connection_id
         JOIN List_Element AS Object_Element ON Object_Element.list_element_id = Connection.object_id
@@ -774,6 +883,24 @@ def get_edge_attributes():
         JOIN List_Element AS Subject_Element ON Subject_Element.list_element_id = Connection.subject_id
         JOIN Biolink_Class AS Subject_Class ON Subject_Class.biolink_class_id = Subject_Element.biolink_class_id
         JOIN Predicate ON Predicate.predicate_id = Connection.predicate_id
+    """
+    cur = connection.cursor()
+    cur.execute(query)
+    return cur.fetchall()
+
+
+def get_meta_qualifiers():
+    query = """
+        SELECT distinct Subject_Class.biolink_class AS subject_class, biolink_predicate, inverse_predicate, 
+          Object_Class.biolink_class object_class, Qualifier.qualifier_type, Qualifier.qualifier_value
+        FROM Connection
+        JOIN List_Element AS Object_Element ON Object_Element.list_element_id = Connection.object_id
+        JOIN Biolink_Class AS Object_Class ON Object_Class.biolink_class_id = Object_Element.biolink_class_id
+        JOIN List_Element AS Subject_Element ON Subject_Element.list_element_id = Connection.subject_id
+        JOIN Biolink_Class AS Subject_Class ON Subject_Class.biolink_class_id = Subject_Element.biolink_class_id
+        JOIN Predicate ON Predicate.predicate_id = Connection.predicate_id
+        JOIN Qualifier_Map ON Qualifier_Map.qualifier_set_id = Connection.qualifier_set_id
+        JOIN Qualifier ON Qualifier.qualifier_id = Qualifier_Map.qualifier_id
     """
     cur = connection.cursor()
     cur.execute(query)
@@ -808,11 +935,12 @@ def meta_node_attributes():
         biolink_class = row['biolink_class']
         attribute_type = row['attribute_type']
         attribute_name = row['attribute_name']
+        description = row['description']
         if attribute_type != '':
             if biolink_class not in nodes:
                 nodes[biolink_class] = {}
             if (source_name,attribute_type) not in nodes[biolink_class]:
-                attribute = KmAttribute(type=attribute_type, attribute_type_id = attribute_type, source=source_name, names = [])
+                attribute = KmAttribute(attribute_type_id = attribute_type, description = description, source=source_name, names = [])
                 nodes[biolink_class][(source_name,attribute_type)] = attribute
             if attribute_name not in nodes[biolink_class][(source_name,attribute_type)].names:
                 nodes[biolink_class][(source_name,attribute_type)].names.append(attribute_name)
@@ -830,15 +958,75 @@ def meta_edge_attributes():
         source_name = row['source_name']
         attribute_type = row['attribute_type']
         attribute_name = row['attribute_name']
+        description = row['description']
         if attribute_type != '':
-            if (subject_class, biolink_predicate, object_class)  not in edges:
-                edges[(subject_class, biolink_predicate, object_class)] = {}
-            if (source_name,attribute_type) not in edges[(subject_class, biolink_predicate, object_class)]:
-                attribute = KmAttribute(type=attribute_type, attribute_type_id = attribute_type, source=source_name, names = [])
-                edges[(subject_class, biolink_predicate, object_class)][(source_name,attribute_type)] = attribute
-            if attribute_name not in edges[(subject_class, biolink_predicate, object_class)][(source_name,attribute_type)].names:
-                edges[(subject_class, biolink_predicate, object_class)][(source_name,attribute_type)].names.append(attribute_name)
+            edge = (subject_class, biolink_predicate, object_class)
+            if edge not in edges:
+                edges[edge] = {}
+            if (source_name,attribute_type) not in edges[edge]:
+                attribute = KmAttribute(attribute_type_id = attribute_type, description = description,source=source_name, names = [])
+                edges[edge][(source_name,attribute_type)] = attribute
+            if attribute_name not in edges[edge][(source_name,attribute_type)].names:
+                edges[edge][(source_name,attribute_type)].names.append(attribute_name)
+            # attributes for inverted predicate
+            inv_edge = (object_class, inverse_predicate, subject_class)
+            if inv_edge not in edges:
+                edges[inv_edge] = {}
+            if (source_name,attribute_type) not in edges[inv_edge]:
+                attribute = KmAttribute(attribute_type_id = attribute_type, description = description,source=source_name, names = [])
+                edges[inv_edge][(source_name,attribute_type)] = attribute
+            if attribute_name not in edges[inv_edge][(source_name,attribute_type)].names:
+                edges[inv_edge][(source_name,attribute_type)].names.append(attribute_name)
     return edges
+
+
+def invert_qualifier(qualifier_type, qualifier_value):
+    inv_qualifier_type = qualifier_type
+    inv_qualifier_value = qualifier_value
+    if qualifier_type + ':' + qualifier_value in qualifier_inverses:
+        inv_qualifier = qualifier_inverses[qualifier_type + ':' + qualifier_value]
+        inv_qualifier_type = inv_qualifier.qualifier_type_id
+        inv_qualifier_value = inv_qualifier.qualifier_value
+    elif qualifier_type in qualifier_inverses:
+        inv_qualifier_type = qualifier_inverses[qualifier_type]
+    return (inv_qualifier_type, inv_qualifier_value)
+
+
+def meta_qualifiers():
+    qualifiers = defaultdict(dict)
+    for row in get_meta_qualifiers():
+        subject_class = row['subject_class']
+        biolink_predicate = row['biolink_predicate']
+        inverse_predicate = row['inverse_predicate']
+        object_class = row['object_class']
+        qualifier_type = row['qualifier_type']
+        qualifier_value = row['qualifier_value'] 
+
+        values = qualifiers[(subject_class, biolink_predicate, object_class)].get(qualifier_type)
+        if values is None:
+            values = []
+            qualifiers[(subject_class, biolink_predicate, object_class)][qualifier_type] = values
+        if len(values) <= MAX_QUALIFIER_VALUES:
+            values.append(qualifier_value)
+        # qualifiers for inverted predicate
+        (inv_qualifier_type, inv_qualifier_value) = invert_qualifier(qualifier_type, qualifier_value)
+        values = qualifiers[(object_class, inverse_predicate, subject_class)].get(inv_qualifier_type)
+        if values is None:
+            values = []
+            qualifiers[(object_class, inverse_predicate, subject_class)][inv_qualifier_type] = values
+        if len(values) <= MAX_QUALIFIER_VALUES:
+            values.append(inv_qualifier_value)
+
+    return {edge: edge_qualifiers(qualif) for (edge, qualif) in qualifiers.items()}
+
+
+def edge_qualifiers(qualifiers):
+    meta_qualifiers = []
+    for (qualifier_type, qualifier_values) in qualifiers.items():
+        if len(qualifier_values) > MAX_QUALIFIER_VALUES:
+            qualifier_values = None
+        meta_qualifiers.append(KmQualifier(qualifier_type, qualifier_values))
+    return meta_qualifiers
 
 
 def nodes():
@@ -858,10 +1046,18 @@ def nodes():
 def edges():
     print('loading edge counts')
     edges = get_edge_counts()
+    print('loading qualifiers')
+    for (predicate, qualifiers) in meta_qualifiers().items():
+        if predicate in edges:
+            edges[predicate].qualifiers = qualifiers
+        else:
+            print("WARN: edge {} not counted".format(predicate))
     print('loading edge attributes')
     for (predicate, attributes) in meta_edge_attributes().items():
         if predicate in edges:
             edges[predicate].attributes=list(attributes.values())
+        else:
+            print("WARN: edge {} not counted".format(predicate))
     return  [edges[key] for key in sorted(edges.keys())] 
 
 
@@ -890,4 +1086,5 @@ def main():
         json.dump(info, json_file, cls=JSONEncoder, indent=4, separators=(',', ': '))
 
 if __name__ == "__main__":
+    load_config_file('conf/qualifier_inverses.json', 'conf/qualifier_hierarchy.json')
     main()

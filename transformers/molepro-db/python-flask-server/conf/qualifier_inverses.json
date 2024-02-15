@@ -1,0 +1,22 @@
+{
+    "qualified_predicate:caused_by": {
+        "qualified_predicate": "causes"
+    },
+    "qualified_predicate:causes": {
+        "qualified_predicate": "caused_by"
+    },
+    "qualified_predicate:biolink:caused_by": {
+        "qualified_predicate": "biolink:causes"
+    },
+    "qualified_predicate:biolink:causes": {
+        "qualified_predicate": "biolink:caused_by"
+    },
+    "object_aspect_qualifier": "subject_aspect_qualifier",
+    "object_direction_qualifier": "subject_direction_qualifier",
+    "object_form_or_variant_qualifier": "subject_form_or_variant_qualifier",
+    "object_part_qualifier": "subject_part_qualifier",
+    "subject_aspect_qualifier": "object_aspect_qualifier",
+    "subject_derivative_qualifier": "object_derivative_qualifier",
+    "subject_direction_qualifier": "object_direction_qualifier",
+    "subject_form_or_variant_qualifier": "object_form_or_variant_qualifier"
+}

@@ -1,0 +1,23 @@
+{
+    "activity_or_abundance": [
+        "activity",
+        "abundance",
+        "expression",
+        "synthesis"
+    ],
+    "abundance": [
+        "abundance",
+        "expression",
+        "synthesis"
+    ],
+    "degradation": [
+        "degradation",
+        "cleavage",
+        "hydrolysis"
+    ],
+    "transport": [
+        "transport",
+        "secretion",
+        "uptake"
+    ]
+}
