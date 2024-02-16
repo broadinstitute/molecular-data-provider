@@ -1,0 +1,40 @@
+{
+    "name": "BigGIM gene to gene transformer",
+    "label": "Trapi",
+    "description": "BigGIM data based on Multiomics Provider",
+    "version": "2.4.0",
+    "function": "transformer",
+    "knowledge_map": {
+        "input_class": "gene",
+        "output_class": "gene",
+        "nodes": {
+            "Gene": {
+                "id_prefixes": [
+                    "NCBIGene",
+                    "ENSEMBL",
+                    "HGNC",
+                    "SYMBOL",
+                    "OMIM",
+                    "UniProtKB",
+                    "UMLS",
+                    "MGI",
+                    "name"
+                ]
+            }
+        }, 
+        "edges":[ 
+            {
+                "subject": "biolink:Gene",
+                "predicate": "biolink:correlated_with",
+                "inverse_predicate": "biolink:correlated_with",
+                "object": "biolink:Gene"
+            }
+        ]
+    },
+    "properties": {
+        "source_url": "https://api.bte.ncats.io/v1/smartapi/520851943d84a639c23b0a2116e6e83c/query",
+        "source_version": ""
+    },
+    "parameters": [
+    ]
+}

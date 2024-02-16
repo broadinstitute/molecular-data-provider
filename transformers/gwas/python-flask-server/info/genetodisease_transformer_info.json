@@ -1,0 +1,68 @@
+{
+    "name": "GWAS gene to disease transformer",
+    "label": "GWAS",
+    "infores": "infores:genetics-data-provider",
+    "description": "GWAS data based on Genetics Knowledge Provider",
+    "version": "2.5.0",
+    "function": "transformer",
+    "knowledge_map": {
+        "input_class": "gene",
+        "output_class": "disease",
+        "nodes": {
+            "Disease": {
+                "id_prefixes": [
+                    "MONDO",
+                    "EFO",
+                    "UMLS",
+                    "HP",
+                    "NCIT",
+                    "MESH",
+                    "SNOMEDCT",
+                    "DOID"
+                ]
+            },
+            "Gene":{
+                "id_prefixes":[
+                    "NCBIGene",
+                    "ENSEMBL",
+                    "HGNC",
+                    "OMIM",
+                    "UMLS",
+                    "UniProtKB"
+                ]
+            },
+            "PhenotypicFeature": {
+                "id_prefixes": [
+                    "MONDO",
+                    "EFO",
+                    "UMLS",
+                    "HP",
+                    "NCIT",
+                    "MESH",
+                    "SNOMEDCT",
+                    "DOID"
+                ]
+            } 
+        }, 
+        "edges":[ 
+            {
+                "subject": "biolink:Gene",
+                "predicate": "biolink:gene_associated_with_condition",
+                "inverse_predicate": "biolink:condition_associated_with_gene",
+                "object": "biolink:Disease"
+            },
+            {
+                "subject": "biolink:Gene",
+                "predicate": "biolink:gene_associated_with_condition",
+                "inverse_predicate": "biolink:condition_associated_with_gene",
+                "object": "biolink:PhenotypicFeature"
+            }
+        ]
+    },
+    "properties": {
+        "source_url": "https://genetics-kp.transltr.io/genetics_provider/trapi/v1.4/query",
+        "source_version": "v1.4"
+    },
+    "parameters": [
+    ]
+}
