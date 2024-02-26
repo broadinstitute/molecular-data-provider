@@ -9,3 +9,4 @@ sbt 'run data/sider/MolePro.SIDER.sqlite load-elements "SIDER drug producer" dat
 sbt -mem 4096 'run data/sider/MolePro.SIDER.sqlite load-elements "SRI node normalizer producer" data/sider/SIDER-UMLS.tsv umls'
 sbt -mem 16384 'run data/sider/MolePro.SIDER.sqlite load-connections pubchem data/sider/SIDER-CID.tsv "SIDER side effect transformer" umls'
 sbt -mem 4096 'run data/sider/MolePro.SIDER.sqlite load-connections pubchem data/sider/SIDER-CID.tsv "SIDER indication transformer" umls'
+sbt 'run data/sider/MolePro.SIDER.sqlite exec ../schema/MoleProPostLoadIndexes.sql'

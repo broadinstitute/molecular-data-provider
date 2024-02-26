@@ -9,16 +9,14 @@ import java.util.List;
 import org.broadinstitute.translator.moleprodb.db.MoleProDB;
 
 import apimodels.CollectionInfo;
-import apimodels.CompoundInfo;
 import apimodels.Element;
 import apimodels.Property;
 import apimodels.TransformerInfo;
 import transformer.InternalTransformer;
 import transformer.Transformer;
 import transformer.Transformers;
-import transformer.classes.Other;
 import transformer.TransformerQuery;
-import transformer.collection.CollectionElement.CompoundElement;
+import transformer.elements.CollectionElement;
 import transformer.collection.CollectionsEntry;
 import transformer.exception.NotFoundException;
 import transformer.mapping.MappedBiolinkClass;
@@ -46,11 +44,19 @@ public abstract class Loader {
 	final protected Element[] transform(final Transformer transformer, final TransformerQuery query) throws Exception {
 		final Element[] elements = callTransformer(transformer, query);
 		for (Element element : elements) {
-			if (element != null) {
-				Other.mapElement(transformer.info, element);
-			}
+			mapElement(transformer.info, element);
 		}
 		return elements;
+	}
+
+
+	static void mapElement(final TransformerInfo transformerInfo, final Element element) {
+		if (element != null) {
+			CollectionElement.mapElement(transformerInfo, element);
+			if ("MolecularEntity".equals(element.getBiolinkClass())) {
+				element.setBiolinkClass("ChemicalEntity");
+			}
+		}
 	}
 
 
@@ -95,17 +101,7 @@ public abstract class Loader {
 		final Date start = new Date();
 		final String response = HTTP.post(url, json);
 		profile(transformer.info.getName(), start);
-		if (info.getVersion().startsWith("1.") || info.getVersion().startsWith("2.0.")) {
-			final CompoundInfo[] compounds = JSON.mapper.readValue(response, CompoundInfo[].class);
-			Element[] elements = new Element[compounds.length];
-			for (int i = 0; i < compounds.length; i++) {
-				elements[i] = new CompoundElement(compounds[i]).getElement();
-			}
-			return elements;
-		}
-		else {
-			return JSON.mapper.readValue(response, Element[].class);
-		}
+		return JSON.mapper.readValue(response, Element[].class);
 	}
 
 

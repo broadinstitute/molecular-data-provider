@@ -13,6 +13,7 @@ ChEBI
 HMDB
 CTD
 ChemBank
+KINOMEscan
 BiGG
 ProbeMiner
 BindingBD

@@ -2,6 +2,7 @@ python -u script/extract_ids.py script/components/bigg.sql
 sbt 'run data/bigg/MolePro.BiGG.sqlite exec ../schema/MoleProSchema.sql'
 sbt 'run data/bigg/MolePro.BiGG.sqlite exec ../schema/MoleProPreLoadIndexes.sql'
 sbt 'run data/bigg/MolePro.BiGG.sqlite load-transformers'
+sbt 'run data/bigg/MolePro.BiGG.sqlite load-prefixes'
 sbt -mem 4096 'run data/bigg/MolePro.BiGG.sqlite load-structures "BiGG compound-list producer" data/bigg/BiGG-metabolite_id.tsv'
 sbt -mem 4096 'run data/bigg/MolePro.BiGG.sqlite load-structures "Pubchem compound-list producer" data/bigg/BiGG-inchikey.tsv'
 sbt -mem 4096 'run data/bigg/MolePro.BiGG.sqlite load-compounds'

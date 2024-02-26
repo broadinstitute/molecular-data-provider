@@ -2,6 +2,7 @@ python -u script/extract_ids.py script/components/probeminer.sql
 sbt 'run data/probeminer/MolePro.ProbeMiner.sqlite exec ../schema/MoleProSchema.sql'
 sbt 'run data/probeminer/MolePro.ProbeMiner.sqlite exec ../schema/MoleProPreLoadIndexes.sql'
 sbt 'run data/probeminer/MolePro.ProbeMiner.sqlite load-transformers'
+sbt 'run data/probeminer/MolePro.ProbeMiner.sqlite load-prefixes'
 sbt 'run data/probeminer/MolePro.ProbeMiner.sqlite load-structures "ProbeMiner compound-list producer" data/probeminer/probe-miner-id.tsv'
 cp data/probeminer/MolePro.ProbeMiner.sqlite data/probeminer/MolePro.ProbeMiner.compounds.sqlite
 sbt 'run data/probeminer/MolePro.ProbeMiner.sqlite load-compounds'

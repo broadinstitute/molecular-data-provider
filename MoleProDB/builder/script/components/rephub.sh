@@ -2,6 +2,7 @@ python -u script/extract_ids.py script/components/rephub.sql
 sbt 'run data/rephub/MolePro.RepHub.sqlite exec ../schema/MoleProSchema.sql'
 sbt 'run data/rephub/MolePro.RepHub.sqlite exec ../schema/MoleProPreLoadIndexes.sql'
 sbt 'run data/rephub/MolePro.RepHub.sqlite load-transformers'
+sbt 'run data/rephub/MolePro.RepHub.sqlite load-prefixes'
 sbt 'run data/rephub/MolePro.RepHub.sqlite load-structures "Pubchem compound-list producer" data/rephub/RepHub-inchikey.tsv'
 sbt 'run data/rephub/MolePro.RepHub.sqlite load-structures "ChEMBL compound-list producer" data/rephub/RepHub-inchikey.tsv'
 sbt 'run data/rephub/MolePro.RepHub.sqlite load-structures "ChEBI compound-list producer" data/rephub/RepHub-inchikey.tsv'

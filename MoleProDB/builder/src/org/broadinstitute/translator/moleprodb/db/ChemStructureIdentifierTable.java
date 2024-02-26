@@ -51,8 +51,9 @@ public class ChemStructureIdentifierTable extends IdentifierTable {
 		query = query + "  inchikey AS xref\n";
 		query = query + "FROM Chem_Structure\n";
 		query = query + "WHERE " + parentIdColumn + " = " + parentId + "\n";
+		final Map<String,Object> identifiers = getIdentifiers(query);
 		profile("- get structure - getIdentifiers", start);
-		return getIdentifiers(query);
+		return identifiers;
 	}
 
 

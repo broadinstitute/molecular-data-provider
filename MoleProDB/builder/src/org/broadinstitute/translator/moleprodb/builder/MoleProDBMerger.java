@@ -16,7 +16,6 @@ import apimodels.Names;
 import apimodels.Qualifier;
 import apimodels.TransformerInfo;
 import transformer.Transformers;
-import transformer.classes.Other;
 
 public class MoleProDBMerger extends Loader {
 
@@ -35,7 +34,7 @@ public class MoleProDBMerger extends Loader {
 		for (long structureId = 1; structureId <= lastStructureId; structureId++) {
 			final Element structure = getStructure(srcDB, structureId, srcDBsourceId);
 			if (structure != null) {
-				Other.mapElement(transformerInfo, structure);
+				Loader.mapElement(transformerInfo, structure);
 				loader.save(sourceId, structure);
 			}
 			if (structureId % 100 == 0) {
@@ -85,7 +84,7 @@ public class MoleProDBMerger extends Loader {
 			final Element element = getElement(srcDB, elementId, srcDBsourceId);
 			profile("get element", start);
 			if (element != null) {
-				Other.mapElement(transformerInfo, element);
+				Loader.mapElement(transformerInfo, element);
 				loader.getCreateListElementId(element, sourceId, matchFields);
 				count++;
 				if (count % 100 == 0) {
@@ -139,7 +138,7 @@ public class MoleProDBMerger extends Loader {
 		final long lastConnectionId = srcDB.connectionTable.lastConnectionId();
 		System.out.println("Merging " + lastConnectionId + " connections");
 		final ListElementLoader elementLoader = new ListElementLoader(db);
-		final ConnectionLoader connectionLoader = new ConnectionLoader(db);
+		final ConnectionLoader connectionLoader = new ConnectionLoader(db, true);
 		final int outputSourceId = db.sourceTable.sourceId(transformer);
 		System.out.println("Start merging " + lastConnectionId + " connections");
 		long count = 0;
@@ -150,7 +149,7 @@ public class MoleProDBMerger extends Loader {
 			if (triple != null) {
 				final long subjectElementId = elementLoader.findListElementId(triple.subjectElement, field);
 				final long objectElementId = elementLoader.findListElementId(triple.objectElement, idField);
-				Other.mapElement(transformerInfo, triple.objectElement);
+				Loader.mapElement(transformerInfo, triple.objectElement);
 				if (objectElementId > 0 && subjectElementId > 0) {
 					String uuid = triple.connection.getUuid();
 					connectionLoader.saveConnections(uuid, triple.objectElement, objectElementId, outputSourceId, subjectElementId);
@@ -228,7 +227,7 @@ public class MoleProDBMerger extends Loader {
 		final List<Attribute> attributes = srcDB.connectionAttributeTable.getAttributes(result.getLong("connection_id"), inputSourceId);
 		connection.setAttributes(attributes);
 		List<Qualifier> qualifiers = srcDB.qualifierMapTable.getQualifiers(result.getLong("qualifier_set_id"));
-		connection.setQualifiers(qualifiers );
+		connection.setQualifiers(qualifiers);
 		return connection;
 	}
 

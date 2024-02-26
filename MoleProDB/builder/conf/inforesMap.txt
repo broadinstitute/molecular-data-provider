@@ -44,6 +44,8 @@ DrugBank	DrugBank target proteins transformer	infores:drugbank	biolink:primary_k
 DrugBank	DrugBank enzyme proteins transformer	infores:drugbank	biolink:primary_knowledge_source
 DrugBank	DrugBank transporter proteins transformer	infores:drugbank	biolink:primary_knowledge_source
 DrugBank	DrugBank carrier proteins transformer	infores:drugbank	biolink:primary_knowledge_source
+DrugBank	DrugBank gene interactions transformer	infores:drugbank	biolink:primary_knowledge_source
+DrugBank	DrugBank protein interactions transformer	infores:drugbank	biolink:primary_knowledge_source
 DrugCentral	DrugCentral compounds producer	infores:drugcentral	biolink:primary_knowledge_source
 DrugCentral	DrugCentral disease producer	infores:drugcentral	biolink:primary_knowledge_source
 DrugCentral	DrugCentral indications transformer	infores:drugcentral	biolink:primary_knowledge_source

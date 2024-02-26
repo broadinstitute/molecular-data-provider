@@ -2,6 +2,7 @@ python -u script/extract_ids.py script/components/pharmgkb.sql
 sbt 'run data/pharmgkb/MolePro.PharmGKB.sqlite exec ../schema/MoleProSchema.sql'
 sbt 'run data/pharmgkb/MolePro.PharmGKB.sqlite exec ../schema/MoleProPreLoadIndexes.sql'
 sbt 'run data/pharmgkb/MolePro.PharmGKB.sqlite load-transformers'
+sbt 'run data/pharmgkb/MolePro.PharmGKB.sqlite load-prefixes'
 sbt -mem 4096 'run data/pharmgkb/MolePro.PharmGKB.sqlite load-structures "Pubchem compound-list producer" data/pharmgkb/PharmGKB-CID.tsv'
 sbt 'run data/pharmgkb/MolePro.PharmGKB.sqlite load-compounds'
 sbt -mem 4096 'run data/pharmgkb/MolePro.PharmGKB.sqlite load-elements "PharmGKB compound-list producer" data/pharmgkb/PharmGKB-ID.tsv pubchem,inchi'

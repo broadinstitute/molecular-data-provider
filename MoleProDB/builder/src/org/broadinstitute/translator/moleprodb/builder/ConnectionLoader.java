@@ -24,10 +24,13 @@ public class ConnectionLoader extends Loader {
 
 	private final ListElementLoader elementLoader;
 
+	final boolean saveSubAttributes;
 
-	public ConnectionLoader(MoleProDB db) {
+
+	public ConnectionLoader(MoleProDB db, final boolean saveSubAttributes) {
 		super(db);
 		elementLoader = new ListElementLoader(db);
+		this.saveSubAttributes = saveSubAttributes;
 	}
 
 
@@ -266,9 +269,9 @@ public class ConnectionLoader extends Loader {
 	 * @param sourceId
 	 * @throws SQLException
 	 */
-	private static void saveConnectionAttributes(final MoleProDB db, final long connectionId, final Connection connection, final int sourceId) throws SQLException {
+	private void saveConnectionAttributes(final MoleProDB db, final long connectionId, final Connection connection, final int sourceId) throws SQLException {
 		for (Attribute attribute : connection.getAttributes()) {
-			db.connectionAttributeTable.insert(connectionId, attribute, sourceId);
+			db.connectionAttributeTable.insert(connectionId, attribute, sourceId, saveSubAttributes);
 		}
 	}
 

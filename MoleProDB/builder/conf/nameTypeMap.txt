@@ -54,11 +54,13 @@ jan	DrugBank	JAN	DrugBank
 	DrugBank		DrugBank
 	GtoPdb		GtoPdb
 	HMDB		HMDB
+INN	Inxight:Drugs	INN	Inxight:Drugs
 Brand Name	Inxight:Drugs	brand name	Inxight:Drugs
 Code	Inxight:Drugs	research code	Inxight:Drugs
 Common Name	Inxight:Drugs	common name	Inxight:Drugs
 Official Name	Inxight:Drugs	primary name	Inxight:Drugs
 Systematic Name	Inxight:Drugs	chemical name	Inxight:Drugs
+Manufacturer Name?	Inxight:Drugs	vendor name	Inxight:Drugs
 	Inxight:Drugs		Inxight:Drugs
 IENECS	PubChem	IENECS	PubChem
 INN	PubChem	INN	PubChem
