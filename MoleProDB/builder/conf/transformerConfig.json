@@ -92,12 +92,13 @@
         "ChEMBL",
         "*@ChEMBL"
     ],
-    "source provenance slots": [
-        "biolink:primary_knowledge_source",
-        "biolink:original_knowledge_source",
-        "biolink:aggregator_knowledge_source",
-        "biolink:supporting_data_source"
-    ],
+    "biolink attributes": {
+        "primary source": "biolink:primary_knowledge_source",
+        "aggregator source": "biolink:aggregator_knowledge_source",
+        "upstream resource": "biolink:upstream_resource_id",
+        "knowledge level": "biolink:knowledge_level",
+        "agent type": "biolink:agent_type"
+    },
     "identifier priority": [
         "pubchem",
         "chembl",

@@ -45,7 +45,8 @@ public class MoleProDBBuilder {
 			final String compounds = args[3];
 			final String transformer = args[4];
 			final String[] mergeFields = mergeFields(args, 5);
-			new ConnectionLoader(db).addConnections(field, compounds, transformer, mergeFields);
+			final boolean noSubAttributes = args.length > 6 && "-noSubAttributes".equals(args[6]);
+			new ConnectionLoader(db, !noSubAttributes).addConnections(field, compounds, transformer, mergeFields);
 		}
 
 		else if ("load-connections".equals(command)) {
@@ -53,7 +54,8 @@ public class MoleProDBBuilder {
 			final String compounds = args[3];
 			final String transformer = args[4];
 			final String[] mergeFields = mergeFields(args, 5);
-			new ConnectionLoader(db).loadConnections(field, compounds, transformer, mergeFields);
+			final boolean noSubAttributes = args.length > 6 && "-noSubAttributes".equals(args[6]);
+			new ConnectionLoader(db, !noSubAttributes).loadConnections(field, compounds, transformer, mergeFields);
 		}
 
 		else if ("merge-structures".equals(command)) {

@@ -16,6 +16,8 @@ https://translator.broadinstitute.org/bigg/metabolites
 https://translator.broadinstitute.org/ctdbase/chemicals
 https://translator.broadinstitute.org/probeminer/chemicals
 https://translator.broadinstitute.org/bindingdb/ligands
+https://translator.broadinstitute.org/pharmgkb/chemicals
+https://translator.broadinstitute.org/kinomescan/compounds
 # drugs
 https://translator.broadinstitute.org/inxight_drugs/drugs
 https://translator.broadinstitute.org/inxight_drugs/relationships
@@ -55,6 +57,8 @@ https://translator.broadinstitute.org/dgidb/targets
 https://translator.broadinstitute.org/gtopdb/targets
 https://translator.broadinstitute.org/ctdbase/gene-interactions
 https://translator.broadinstitute.org/probeminer/chemical_interactions
+https://translator.broadinstitute.org/pharmgkb/relations
+https://translator.broadinstitute.org/pharmgkb/text-mining
 # inhibitors
 https://translator.broadinstitute.org/drugbank/inhibitors
 https://translator.broadinstitute.org/drugbank/substrates
@@ -71,6 +75,8 @@ https://translator.broadinstitute.org/drugbank/protein_carriers
 https://translator.broadinstitute.org/hmdb/protein_targets
 https://translator.broadinstitute.org/probeminer/protein_interactions
 https://translator.broadinstitute.org/bindingdb/bindings
+https://translator.broadinstitute.org/kinomescan/activity
+https://translator.broadinstitute.org/kinomescan/screening
 # compound relations
 https://translator.broadinstitute.org/chembl/metabolites
 https://translator.broadinstitute.org/pubchem/neighbors
@@ -79,8 +85,8 @@ https://translator.broadinstitute.org/chebi/relations
 https://translator.broadinstitute.org/uniprot/genes
 https://translator.broadinstitute.org/uniprot/proteins
 # gene-disease associations
-https://translator.broadinstitute.org/gwas/genes
-https://translator.broadinstitute.org/gwas/diseases
+https://translator.broadinstitute.org/gwas/gwas-genes
+https://translator.broadinstitute.org/gwas/gwas-diseases
 # profile similarity
 https://translator.broadinstitute.org/cmap/compound/compound
 https://translator.broadinstitute.org/ctrp
@@ -105,7 +111,7 @@ https://translator.broadinstitute.org/hmdb/locations
 # exporters
 https://translator.broadinstitute.org/chembl/activities
 https://translator.broadinstitute.org/chembl/mechanisms
-https://translator.broadinstitute.org/gelinea
+https://translator.broadinstitute.org/gelinea/enrichment
 #
 # aggregators
 =union

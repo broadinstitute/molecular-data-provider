@@ -34,7 +34,7 @@ public class AttributeTable extends MoleProTable {
 	}
 
 
-	long getAttributeId(final Attribute attribute, final long sourceId) throws SQLException {
+	long getAttributeId(final Attribute attribute, final long sourceId, final boolean saveSubAttributes) throws SQLException {
 		if (attribute.getValue() == null) {
 			return -1;
 		}
@@ -55,7 +55,7 @@ public class AttributeTable extends MoleProTable {
 		}
 		Date start = new Date();
 		final List<Attribute> subAttributes = removeDuplicates(attribute.getAttributes());
-		final long[] subAttributeIds = findSubAttributes(subAttributes, sourceId);
+		final long[] subAttributeIds = findSubAttributes(subAttributes, sourceId, saveSubAttributes);
 		profile("**get subattributes", start);
 		start = new Date();
 		final long[] subAttributeTypes = findSubAttributeTypes(subAttributes, sourceId);
@@ -72,7 +72,7 @@ public class AttributeTable extends MoleProTable {
 		lastAttributeId = lastAttributeId + 1;
 		final Long subAttributeId = (subAttributeIds == null) ? null : lastAttributeId;
 		start = new Date();
-		if (subAttributeIds != null)
+		if (subAttributeIds != null && saveSubAttributes)
 			for (int i = 0; i < subAttributeIds.length; i++) {
 				db.parentAttributeTable.insert(lastAttributeId, subAttributeTypes[i], subAttributeIds[i], sourceId);
 			}
@@ -100,12 +100,12 @@ public class AttributeTable extends MoleProTable {
 	}
 
 
-	private long[] findSubAttributes(final List<Attribute> attributes, final long sourceId) throws SQLException {
+	private long[] findSubAttributes(final List<Attribute> attributes, final long sourceId, final boolean saveSubAttributes) throws SQLException {
 		if (attributes == null || attributes.size() == 0)
 			return null;
 		final long[] attributeIds = new long[attributes.size()];
 		for (int i = 0; i < attributeIds.length; i++) {
-			attributeIds[i] = getAttributeId(attributes.get(i), sourceId);
+			attributeIds[i] = getAttributeId(attributes.get(i), sourceId, saveSubAttributes);
 		}
 		return attributeIds;
 	}

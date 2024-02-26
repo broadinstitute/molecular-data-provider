@@ -23,12 +23,43 @@ BiGG Model	biolink:is_input		compartment	BIGG.COMPARTMENT:g	biolink:is_input	bio
 BiGG Model	biolink:is_output		compartment	BIGG.COMPARTMENT:g	biolink:is_output	biolink:has_output		anatomical_context_qualifier:golgi_apparatus			
 BiGG Model	biolink:is_input		compartment	BIGG.COMPARTMENT:n	biolink:is_input	biolink:has_input		anatomical_context_qualifier:nucleus			
 BiGG Model	biolink:is_output		compartment	BIGG.COMPARTMENT:n	biolink:is_output	biolink:has_output		anatomical_context_qualifier:nucleus			
+BiGG Model	participates_in		compartment	BIGG.COMPARTMENT:c	biolink:participates_in	biolink:has_participant		anatomical_context_qualifier:cytosol			
+BiGG Model	participates_in		compartment	BIGG.COMPARTMENT:e	biolink:participates_in	biolink:has_participant		anatomical_context_qualifier:extracellular_space			
+BiGG Model	participates_in		compartment	BIGG.COMPARTMENT:m	biolink:participates_in	biolink:has_participant		anatomical_context_qualifier:mitochondria			
+BiGG Model	participates_in		compartment	BIGG.COMPARTMENT:x	biolink:participates_in	biolink:has_participant		anatomical_context_qualifier:peroxisome/glyoxysome			
+BiGG Model	participates_in		compartment	BIGG.COMPARTMENT:g	biolink:participates_in	biolink:has_participant		anatomical_context_qualifier:golgi_apparatus			
+BiGG Model	participates_in		compartment	BIGG.COMPARTMENT:r	biolink:participates_in	biolink:has_participant		anatomical_context_qualifier:endoplasmic_reticulum			
+BiGG Model	participates_in		compartment	BIGG.COMPARTMENT:n	biolink:participates_in	biolink:has_participant		anatomical_context_qualifier:nucleus			
+BiGG Model	participates_in		compartment	BIGG.COMPARTMENT:l	biolink:participates_in	biolink:has_participant		anatomical_context_qualifier:lysosome			
+BiGG Model	is_input		compartment	BIGG.COMPARTMENT:c	biolink:is_input	biolink:has_input		anatomical_context_qualifier:cytosol			
+BiGG Model	is_output		compartment	BIGG.COMPARTMENT:l	biolink:is_output	biolink:has_output		anatomical_context_qualifier:lysosome			
+BiGG Model	is_output		compartment	BIGG.COMPARTMENT:m	biolink:is_output	biolink:has_output		anatomical_context_qualifier:mitochondria			
+BiGG Model	is_input		compartment	BIGG.COMPARTMENT:m	biolink:is_input	biolink:has_input		anatomical_context_qualifier:mitochondria			
+BiGG Model	is_output		compartment	BIGG.COMPARTMENT:c	biolink:is_output	biolink:has_output		anatomical_context_qualifier:cytosol			
+BiGG Model	is_input		compartment	BIGG.COMPARTMENT:e	biolink:is_input	biolink:has_input		anatomical_context_qualifier:extracellular_space			
+BiGG Model	is_output		compartment	BIGG.COMPARTMENT:x	biolink:is_output	biolink:has_output		anatomical_context_qualifier:peroxisome/glyoxysome			
+BiGG Model	is_input		compartment	BIGG.COMPARTMENT:r	biolink:is_input	biolink:has_input		anatomical_context_qualifier:endoplasmic_reticulum			
+BiGG Model	is_output		compartment	BIGG.COMPARTMENT:r	biolink:is_output	biolink:has_output		anatomical_context_qualifier:endoplasmic_reticulum			
+BiGG Model	is_input		compartment	BIGG.COMPARTMENT:x	biolink:is_input	biolink:has_input		anatomical_context_qualifier:peroxisome/glyoxysome			
+BiGG Model	is_input		compartment	BIGG.COMPARTMENT:l	biolink:is_input	biolink:has_input		anatomical_context_qualifier:lysosome			
+BiGG Model	is_output		compartment	BIGG.COMPARTMENT:e	biolink:is_output	biolink:has_output		anatomical_context_qualifier:extracellular_space			
+BiGG Model	is_input		compartment	BIGG.COMPARTMENT:g	biolink:is_input	biolink:has_input		anatomical_context_qualifier:golgi_apparatus			
+BiGG Model	is_output		compartment	BIGG.COMPARTMENT:g	biolink:is_output	biolink:has_output		anatomical_context_qualifier:golgi_apparatus			
+BiGG Model	is_input		compartment	BIGG.COMPARTMENT:n	biolink:is_input	biolink:has_input		anatomical_context_qualifier:nucleus			
+BiGG Model	is_output		compartment	BIGG.COMPARTMENT:n	biolink:is_output	biolink:has_output		anatomical_context_qualifier:nucleus			
 BiGG Model	biolink:participates_in				biolink:participates_in	biolink:has_participant					
 BiGG Model	biolink:is_input				biolink:is_input	biolink:has_input					
 BiGG Model	biolink:is_output				biolink:is_output	biolink:has_output					
 BiGG Model	biolink:has_input				biolink:has_input	biolink:is_input					
 BiGG Model	biolink:has_output				biolink:has_output	biolink:is_output					
 BiGG Model	biolink:has_participant				biolink:has_participant	biolink:participates_in					
+BiGG Model	participates_in				biolink:participates_in	biolink:has_participant					
+BiGG Model	is_input				biolink:is_input	biolink:has_input					
+BiGG Model	is_output				biolink:is_output	biolink:has_output					
+BiGG Model	has_input				biolink:has_input	biolink:is_input					
+BiGG Model	has_output				biolink:has_output	biolink:is_output					
+BiGG Model	has_participant				biolink:has_participant	biolink:participates_in					
+BiGG Model	affected_by				biolink:affected_by	biolink:affects					
 CMAP	biolink:correlated_with				biolink:correlated_with	biolink:correlated_with					
 CMAP	correlated_with				biolink:correlated_with	biolink:correlated_with					
 CTD	affected_by				biolink:affected_by	biolink:affects					
@@ -38,7 +69,7 @@ CTD	binds				biolink:binds	biolink:binds
 CTD	biomarker_for				biolink:biomarker_for	biolink:has_biomarker					
 CTD	treats				biolink:treats	biolink:treated_by					
 CTRP	biolink:correlated_with				biolink:correlated_with	biolink:correlated_with					
-CTRP	correlated_with				biolink:correlated_with	biolink:correlated_with	biolink:correlated_with				
+CTRP	correlated_with				biolink:correlated_with	biolink:correlated_with					
 ChEBI	related_to		relation	has_functional_parent	biolink:chemically_similar_to	biolink:chemically_similar_to					
 ChEBI	related_to		relation	has_parent_hydride	biolink:chemically_similar_to	biolink:chemically_similar_to					
 ChEBI	related_to		relation	is_conjugate_base_of	biolink:chemically_similar_to	biolink:chemically_similar_to		derivative_qualifier:conjugate_base			
@@ -529,6 +560,8 @@ Pharos	affects		action_type	POSITIVE MODULATOR	biolink:affects	biolink:affected_
 Pharos	affects		action_type	MODULATOR	biolink:affects	biolink:affected_by		object_aspect_qualifier:activity	causal_mechanism_qualifier:modulation		
 Pharos	affects		action_type	ALLOSTERIC MODULATOR	biolink:affects	biolink:affected_by		object_aspect_qualifier:activity	causal_mechanism_qualifier:allosteric_modulation		
 Pharos	affects				biolink:affects	biolink:affected_by					
+PharmGKB	associated_with				biolink:associated_with	biolink:associated_with					
+PharmGKB	related_to_at_instance_level				biolink:related_to_at_instance_level	biolink:related_to_at_instance_level					
 ProbeMiner	biolink:related_to				biolink:related_to	biolink:related_to					
 ProbeMiner	related_to				biolink:related_to	biolink:related_to					
 Repurposing	biolink:affects		FEATURE_ACTION	affects	biolink:affects	biolink:affected_by					

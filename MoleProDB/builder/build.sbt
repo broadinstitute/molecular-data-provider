@@ -2,7 +2,7 @@
 scalaVersion     := "2.12.8"
 
 name := "molepro-db"
-version := "2.3.0"
+version := "2.5.1"
 
 lazy val root = (project in file("."))
 
