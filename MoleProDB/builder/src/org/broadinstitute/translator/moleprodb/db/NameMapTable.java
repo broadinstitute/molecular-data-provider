@@ -40,14 +40,14 @@ public class NameMapTable extends MoleProTable {
 	public void saveNames(final long parentId, final int sourceId, final Names namesSynonyms) throws SQLException {
 		final String language = mapLanguage(namesSynonyms.getLanguage());
 		final long nameSourceId = db.nameSourceTable.nameSourceId(namesSynonyms.getSource());
-		if (namesSynonyms != null && namesSynonyms.getName() != null) {
+		if (namesSynonyms != null && namesSynonyms.getName() != null && namesSynonyms.getName().length() > 0) {
 			final long nameId = db.nameTable.nameId(namesSynonyms.getName());
 			final long nameTypeId = db.nameTypeTable.nameTypeId(namesSynonyms.getNameType());
 			saveName(parentId, sourceId, nameId, nameTypeId, nameSourceId, language);
 		}
 		if (namesSynonyms != null && namesSynonyms.getSynonyms() != null) {
 			for (String synonym : namesSynonyms.getSynonyms())
-				if (synonym != null) {
+				if (synonym != null && synonym.length() > 0) {
 					final long synonymId = db.nameTable.nameId(synonym);
 					final long synonymTypeId = db.nameTypeTable.synonymTypeId(namesSynonyms.getNameType());
 					saveName(parentId, sourceId, synonymId, synonymTypeId, nameSourceId, language);
@@ -126,8 +126,6 @@ public class NameMapTable extends MoleProTable {
 					namesSynonyms.setName(name);
 				}
 				else {
-					namesSynonyms.getSynonyms().add(namesSynonyms.getName());
-					namesSynonyms.setName("");
 					namesSynonyms.getSynonyms().add(name);
 				}
 			}

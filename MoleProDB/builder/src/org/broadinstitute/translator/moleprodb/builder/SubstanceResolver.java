@@ -83,7 +83,7 @@ public class SubstanceResolver extends Loader {
 			e.printStackTrace();
 			System.exit(1);
 		}
-		System.out.println(sourcePriority.size()+" source priorities loaded");
+		System.out.println(sourcePriority.size() + " source priorities loaded");
 		return sourcePriority;
 	}
 
@@ -197,7 +197,7 @@ public class SubstanceResolver extends Loader {
 
 
 	private String bestNameQuery(int level) {
-		String sql = "SELECT distinct name, source_name\n";
+		String sql = "SELECT distinct name, source_name, name_priority\n";
 		sql = sql + "FROM Chem_Structure_Name\n";
 		sql = sql + "JOIN Name ON (Name.name_id = Chem_Structure_Name.name_id)\n";
 		sql = sql + "JOIN Name_Type ON (Name_Type.name_type_id = Chem_Structure_Name.name_type_id)\n";
@@ -281,22 +281,25 @@ public class SubstanceResolver extends Loader {
 				counter = new NameCount(name);
 				nameCounts.put(name, counter);
 			}
-			counter.inc(results.getString("source_name"));
+			counter.inc(results.getString("source_name"), results.getInt("name_priority"));
 		}
 		// find most frequent name
 		int bestCount = 0;
 		int minSourcePriority = Integer.MAX_VALUE;
+		int minTypePriority = Integer.MAX_VALUE;
 		String bestName = null;
 		for (Map.Entry<String,HashMap<String,NameCount>> entry : counts.entrySet()) {
 			int count = countNames(entry.getValue());
-			//System.out.println("      " + entry.getKey() + ": " + count);
-			if (bestCount < count || (bestCount == count && minPriority(entry.getValue()) < minSourcePriority)) {
+			// System.out.println(" " + entry.getKey() + ": " + count);
+			int typePriority = minTypePriority(entry.getValue());
+			if (bestCount < count || (bestCount == count && typePriority < minTypePriority) || (bestCount == count && typePriority == minTypePriority && minPriority(entry.getValue()) < minSourcePriority)) {
 				bestCount = count;
 				minSourcePriority = minPriority(entry.getValue());
+				minTypePriority = minTypePriority(entry.getValue());
 				bestName = entry.getValue().containsKey(entry.getKey()) ? entry.getKey() : mostFrequentName(entry.getValue());
 			}
 		}
-		//System.out.println("      best name:" + bestName);
+		// System.out.println(" best name:" + bestName);
 		return bestName;
 	}
 
@@ -309,6 +312,17 @@ public class SubstanceResolver extends Loader {
 			}
 		}
 		return minSourcePriority;
+	}
+
+
+	private int minTypePriority(HashMap<String,NameCount> nameCounters) {
+		int minTypePriority = Integer.MAX_VALUE;
+		for (NameCount counter : nameCounters.values()) {
+			if (counter.minTypePriority < minTypePriority) {
+				minTypePriority = counter.minTypePriority;
+			}
+		}
+		return minTypePriority;
 	}
 
 
@@ -410,9 +424,11 @@ public class SubstanceResolver extends Loader {
 	}
 
 
-	/** Find best structure associated with the name.
+	/**
+	 * Find best structure associated with the name.
+	 * 
 	 * @param name
-	 * @return primary name for the best structure 
+	 * @return primary name for the best structure
 	 * @throws SQLException
 	 */
 	private String resolve(String name) throws SQLException {
@@ -541,7 +557,7 @@ public class SubstanceResolver extends Loader {
 
 
 	public void resolveStructures() throws SQLException {
-		final ResultSet results = null;//allStructures();
+		final ResultSet results = null;// allStructures();
 		ArrayList<Long> mismatches = new ArrayList<>();
 		while (results.next()) {
 			final long structureId = results.getLong("structure_id");
@@ -555,7 +571,7 @@ public class SubstanceResolver extends Loader {
 					System.out.println("WARNING - name mismatch @ " + structureId);
 				}
 				else {
-					
+
 				}
 			}
 		}
@@ -611,6 +627,7 @@ public class SubstanceResolver extends Loader {
 
 		final String name;
 		int minSourcePriority = Integer.MAX_VALUE;
+		int minTypePriority = Integer.MAX_VALUE;
 		int count = 0;
 
 
@@ -620,14 +637,17 @@ public class SubstanceResolver extends Loader {
 		}
 
 
-		void inc(String sourceName) {
+		void inc(String sourceName, int typePriority) {
 			count = count + 1;
 			if (!sourcePriority.containsKey(sourceName)) {
 				System.out.println("WARNING: No source priority for " + sourceName);
 			}
-			int priority = sourcePriority.get(sourceName);
+			int priority = sourcePriority.getOrDefault(sourceName, Integer.MAX_VALUE);
 			if (priority < minSourcePriority) {
 				minSourcePriority = priority;
+			}
+			if (typePriority < minTypePriority) {
+				minTypePriority = typePriority;
 			}
 		}
 

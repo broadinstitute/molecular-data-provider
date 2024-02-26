@@ -32,12 +32,12 @@ public class CuriePrefixTable extends MoleProTable {
 	}
 
 
-	private long insert(long biolinkClassId, String moleProPrefix, String biolinkPrefix, String fieldName, String uri) throws SQLException {
+	private long insert(long biolinkClassId, String moleProPrefix, String biolinkPrefix, String fieldName, String infores, String uri) throws SQLException {
 		if (lastPrefixId < 0) {
 			lastPrefixId = lastId("prefix_id");
 		}
 		lastPrefixId = lastPrefixId + 1;
-		final Long inforesId = db.inforesTable.infoResId(fieldName);
+		final Long inforesId = db.inforesTable.infoResId(infores);
 		insert(lastPrefixId, biolinkClassId, moleProPrefix, biolinkPrefix, fieldName, inforesId, uri);
 		return lastPrefixId;
 	}
@@ -79,11 +79,11 @@ public class CuriePrefixTable extends MoleProTable {
 	 * @throws SQLException
 	 */
 	public long prefixId(final long biolinkClassId, final String moleProPrefix, final String fieldName) throws SQLException {
-		return prefixId(biolinkClassId, moleProPrefix, moleProPrefix, fieldName);
+		return prefixId(biolinkClassId, moleProPrefix, moleProPrefix, fieldName, null);
 	}
 
 
-	private long prefixId(final long biolinkClassId, final String moleProPrefix, final String biolinkPrefix, final String fieldName) throws SQLException {
+	private long prefixId(final long biolinkClassId, final String moleProPrefix, final String biolinkPrefix, final String fieldName, final String infores) throws SQLException {
 		if (biolinkClassId <= 0) {
 			return 0;
 		}
@@ -94,7 +94,7 @@ public class CuriePrefixTable extends MoleProTable {
 		if (prefixId > 0) {
 			return prefixId;
 		}
-		return insert(biolinkClassId, moleProPrefix, biolinkPrefix, fieldName, null);
+		return insert(biolinkClassId, moleProPrefix, biolinkPrefix, fieldName, infores, null);
 	}
 
 
@@ -113,7 +113,7 @@ public class CuriePrefixTable extends MoleProTable {
 				if (moleproPrefix.endsWith(":")) {
 					moleproPrefix = moleproPrefix.substring(0, moleproPrefix.length() - 1);
 				}
-				prefixId(biolinkClassId, moleproPrefix, prefixes.biolinkPrefix, fieldName);
+				prefixId(biolinkClassId, moleproPrefix, prefixes.biolinkPrefix, fieldName, prefixes.infores);
 			}
 		}
 		db.commit();
@@ -124,6 +124,7 @@ public class CuriePrefixTable extends MoleProTable {
 
 		String biolinkPrefix;
 		String moleproPrefix;
+		String infores;
 
 
 		@JsonProperty("biolink_prefix")
@@ -135,6 +136,12 @@ public class CuriePrefixTable extends MoleProTable {
 		@JsonProperty("molepro_prefix")
 		public void setMoleproPrefix(String moleproPrefix) {
 			this.moleproPrefix = moleproPrefix;
+		}
+
+
+		@JsonProperty("infores")
+		public void setInfoRes(String infores) {
+			this.infores = infores;
 		}
 
 

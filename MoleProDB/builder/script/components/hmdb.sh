@@ -2,6 +2,7 @@ python -u script/extract_ids.py script/components/hmdb.sql
 sbt 'run data/hmdb/MolePro.HMDB.sqlite exec ../schema/MoleProSchema.sql'
 sbt 'run data/hmdb/MolePro.HMDB.sqlite exec ../schema/MoleProPreLoadIndexes.sql'
 sbt 'run data/hmdb/MolePro.HMDB.sqlite load-transformers'
+sbt 'run data/hmdb/MolePro.HMDB.sqlite load-prefixes'
 sbt -mem 2028 'run data/hmdb/MolePro.HMDB.sqlite load-structures "HMDB metabolite producer" data/hmdb/HMDB-id.tsv'
 sbt -mem 2028 'run data/hmdb/MolePro.HMDB.sqlite load-compounds'
 sbt -mem 2028 'run data/hmdb/MolePro.HMDB.sqlite load-connections hmdb data/hmdb/HMDB-id.tsv "HMDB target proteins transformer" uniprot'

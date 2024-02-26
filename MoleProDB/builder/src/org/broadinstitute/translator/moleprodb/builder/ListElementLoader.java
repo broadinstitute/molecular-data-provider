@@ -302,7 +302,7 @@ public class ListElementLoader extends Loader {
 			// Save to the List_Element_Attribute Table, the cross reference between
 			// List_Element and Attribute Tables.
 			for (Attribute attribute : element.getAttributes()) {
-				db.listElementAttributeTable.insert(listElementId, attribute, sourceId);
+				db.listElementAttributeTable.insert(listElementId, attribute, sourceId, true);
 			}
 		}
 		profile("save element attributes", start);

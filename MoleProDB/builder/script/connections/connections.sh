@@ -36,10 +36,14 @@ sbt -mem 4096 'run data/MoleProDB.sqlite merge-connections hmdb    "HMDB pathway
 sbt -mem 4096 'run data/MoleProDB.sqlite merge-connections hmdb    "HMDB target genes transformer"    data/hmdb/MolePro.HMDB.sqlite entrez'
 sbt -mem 4096 'run data/MoleProDB.sqlite merge-connections hmdb    "HMDB target proteins transformer" data/hmdb/MolePro.HMDB.sqlite uniprot'
 cp data/MoleProDB.sqlite data/backup/MoleProDB-hmdb-con.sqlite
+sbt -mem 4096 'run data/MoleProDB.sqlite merge-connections unii     "Inxight:Drugs relationship transformer" data/inxight/MolePro.InxightDrugs.sqlite unii'
+cp data/MoleProDB.sqlite data/backup/MoleProDB-inxight-con.sqlite
+sbt -mem 4096 'run data/MoleProDB.sqlite merge-connections inchikey "KINOMEscan activity transformer" data/kinomescan/MolePro.KINOMEscan.sqlite uniprot'
+cp data/MoleProDB.sqlite data/backup/MoleProDB-kinomescan-con.sqlite
 sbt -mem 4096 'run data/MoleProDB.sqlite merge-connections entrez  "MSigDB pathways transformer"      data/msigdb/MolePro.MSigDB.sqlite'
 cp data/MoleProDB.sqlite data/backup/MoleProDB-msigdb-con.sqlite
-sbt -mem 4096 'run data/MoleProDB.sqlite merge-connections entrez  "PharmGKB relations transformer"             data/pharmgkb/MolePro.PharmGKB.sqlite entrez,pharmgkb'
-sbt -mem 4096 'run data/MoleProDB.sqlite merge-connections entrez  "PharmGKB automated annotations transformer" data/pharmgkb/MolePro.PharmGKB.sqlite entrez,pharmgkb'
+sbt -mem 4096 'run data/MoleProDB.sqlite merge-connections pharmgkb "PharmGKB relations transformer"             data/pharmgkb/MolePro.PharmGKB.sqlite entrez,pharmgkb'
+sbt -mem 4096 'run data/MoleProDB.sqlite merge-connections pharmgkb "PharmGKB automated annotations transformer" data/pharmgkb/MolePro.PharmGKB.sqlite entrez,pharmgkb'
 cp data/MoleProDB.sqlite data/backup/MoleProDB-pharmgkb-con.sqlite
 sbt -mem 4096 'run data/MoleProDB.sqlite merge-connections pubchem "Pharos target genes transformer"  data/pharos/MolePro.Pharos.sqlite entrez'
 cp data/MoleProDB.sqlite data/backup/MoleProDB-pharos-con.sqlite

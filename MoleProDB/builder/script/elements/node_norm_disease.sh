@@ -1,4 +1,4 @@
-python script/extract_ids.py script/elements/node_norm_disease.sql
+python -u script/extract_ids.py script/elements/node_norm_disease.sql
 sbt 'run data/MoleProDB.sqlite load-elements "SRI node normalizer producer" data/nn/HMDB-OMIM.tsv id'
 sbt 'run data/MoleProDB.sqlite load-elements "SRI node normalizer producer" data/hmdb/HMDB-term-id.tsv id'
 sbt 'run data/MoleProDB.sqlite load-elements "SRI node normalizer producer" data/nn/DrugCentral-SNOMED.tsv id'

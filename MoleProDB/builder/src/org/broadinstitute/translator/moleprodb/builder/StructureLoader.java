@@ -179,7 +179,7 @@ public class StructureLoader extends Loader {
 	 */
 	private void saveChemStructureAttributes(final Element element, long structureId, int sourceId) throws SQLException {
 		for (Attribute attribute : element.getAttributes()) {
-			db.chemStructureAttributeTable.insert(structureId, attribute, sourceId);
+			db.chemStructureAttributeTable.insert(structureId, attribute, sourceId, true);
 		}
 	}
 

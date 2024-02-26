@@ -2,6 +2,7 @@ python -u script/extract_ids.py script/components/drugbank.sql
 sbt 'run data/drugbank/MolePro.DrugBank.sqlite exec ../schema/MoleProSchema.sql'
 sbt 'run data/drugbank/MolePro.DrugBank.sqlite exec ../schema/MoleProPreLoadIndexes.sql'
 sbt 'run data/drugbank/MolePro.DrugBank.sqlite load-transformers'
+sbt 'run data/drugbank/MolePro.DrugBank.sqlite load-prefixes'
 sbt 'run data/drugbank/MolePro.DrugBank.sqlite load-structures "DrugBank compound-list producer" data/drugbank/DrugBank-compound-id.tsv'
 sbt 'run data/drugbank/MolePro.DrugBank.sqlite load-compounds'
 sbt 'run data/drugbank/MolePro.DrugBank.sqlite load-elements "DrugBank molecule-list producer" data/drugbank/DrugBank-id.tsv drugbank'

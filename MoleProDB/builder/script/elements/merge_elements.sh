@@ -4,11 +4,13 @@ sbt -mem 4096 'run data/MoleProDB.sqlite merge-elements "BiGG reactions transfor
 
 sbt -mem 4096 'run data/MoleProDB.sqlite merge-elements "BindingBD binding transformer" data/bindingdb/MolePro.BindingDB.sqlite uniprot'
 
-sbt -mem 4096 'run data/MoleProDB.sqlite merge-elements "ChEMBL activities transformer" data/chembl/MolePro.ChEMBL.sqlite uniprot,chembl'
+sbt -mem 4096 'run data/MoleProDB.sqlite merge-elements "ChEBI compound-list producer" data/chebi/MolePro.ChEBI.sqlite chebi'
+
+sbt -mem 4096 'run data/MoleProDB.sqlite merge-elements "ChEMBL activities transformer"  data/chembl/MolePro.ChEMBL.sqlite uniprot,chembl'
 sbt -mem 4096 'run data/MoleProDB.sqlite merge-elements "ChEMBL gene target transformer" data/chembl/MolePro.ChEMBL.sqlite entrez'
-sbt -mem 4096 'run data/MoleProDB.sqlite merge-elements "ChEMBL indication transformer" data/chembl/MolePro.ChEMBL.sqlite mesh'
-sbt -mem 4096 'run data/MoleProDB.sqlite merge-elements "ChEMBL mechanism transformer" data/chembl/MolePro.ChEMBL.sqlite uniprot,chembl'
-sbt -mem 4096 'run data/MoleProDB.sqlite merge-elements "ChEMBL metabolite transformer" data/chembl/MolePro.ChEMBL.sqlite chembl'
+sbt -mem 4096 'run data/MoleProDB.sqlite merge-elements "ChEMBL indication transformer"  data/chembl/MolePro.ChEMBL.sqlite mesh'
+sbt -mem 4096 'run data/MoleProDB.sqlite merge-elements "ChEMBL mechanism transformer"   data/chembl/MolePro.ChEMBL.sqlite uniprot,chembl'
+sbt -mem 4096 'run data/MoleProDB.sqlite merge-elements "ChEMBL metabolite transformer"  data/chembl/MolePro.ChEMBL.sqlite chembl'
 
 sbt -mem 4096 'run data/MoleProDB.sqlite merge-elements "CMAP compound-to-compound expander" data/cmap/MolePro.CMAP.sqlite pubchem'
 sbt -mem 4096 'run data/MoleProDB.sqlite merge-elements "CMAP compound-to-gene transformer"  data/cmap/MolePro.CMAP.sqlite entrez'
@@ -32,6 +34,10 @@ sbt -mem 4096 'run data/MoleProDB.sqlite merge-elements "HMDB locations transfor
 sbt -mem 4096 'run data/MoleProDB.sqlite merge-elements "HMDB pathways transformer" data/hmdb/MolePro.HMDB.sqlite'
 sbt -mem 4096 'run data/MoleProDB.sqlite merge-elements "HMDB target genes transformer" data/hmdb/MolePro.HMDB.sqlite entrez'
 sbt -mem 4096 'run data/MoleProDB.sqlite merge-elements "HMDB target proteins transformer" data/hmdb/MolePro.HMDB.sqlite uniprot'
+
+sbt -mem 4096 'run data/MoleProDB.sqlite merge-elements "Inxight:Drugs relationship transformer" data/inxight/MolePro.InxightDrugs.sqlite unii'
+
+sbt -mem 4096 'run data/MoleProDB.sqlite merge-elements "KINOMEscan activity transformer" data/kinomescan/MolePro.KINOMEscan.sqlite uniprot'
 
 sbt -mem 4096 'run data/MoleProDB.sqlite merge-elements "MSigDB pathways transformer" data/msigdb/MolePro.MSigDB.sqlite'
 sbt -mem 4096 'run data/MoleProDB.sqlite merge-elements "PharmGKB relations transformer" data/pharmgkb/MolePro.PharmGKB.sqlite entrez,pharmgkb'

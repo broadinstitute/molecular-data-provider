@@ -15,6 +15,7 @@ sbt -mem 4096 'run data/MoleProDB.sqlite merge-structures "Pubchem compound-list
 sbt -mem 4096 'run data/MoleProDB.sqlite merge-structures "ChEMBL compound-list producer"  data/pharos/MolePro.Pharos.sqlite'
 cp data/MoleProDB.sqlite data/backup/MoleProDB-pharos.sqlite
 sbt -mem 4096 'run data/MoleProDB.sqlite merge-structures "Pubchem compound-list producer" data/pharmgkb/MolePro.PharmGKB.sqlite'
+sbt -mem 4096 'run data/MoleProDB.sqlite merge-structures "PharmGKB compound-list producer" data/pharmgkb/MolePro.PharmGKB.sqlite'
 cp data/MoleProDB.sqlite data/backup/MoleProDB-pharmgkb.sqlite
 sbt -mem 4096 'run data/MoleProDB.sqlite merge-structures "ChEBI compound-list producer" data/chebi/MolePro.ChEBI.sqlite'
 cp data/MoleProDB.sqlite data/backup/MoleProDB-chebi.sqlite
@@ -39,10 +40,18 @@ cp data/MoleProDB.sqlite data/backup/MoleProDB-bigg.sqlite
 sbt -mem 4096 'run data/MoleProDB.sqlite merge-structures "RxNorm compound-list producer" data/rxnorm/MolePro.RxNorm.sqlite'
 cp data/MoleProDB.sqlite data/backup/MoleProDB-rxnorm.sqlite
 sbt -mem 4096 'run data/MoleProDB.sqlite merge-structures "Pubchem compound-list producer" data/ctd/MolePro.CTD.sqlite'
+sbt -mem 4096 'run data/MoleProDB.sqlite merge-structures "CTD compound-list producer" data/ctd/MolePro.CTD.sqlite'
 cp data/MoleProDB.sqlite data/backup/MoleProDB-ctd.sqlite
 sbt -mem 4096 'run data/MoleProDB.sqlite merge-structures "BindingBD ligand producer" data/bindingdb/MolePro.BindingDB.sqlite'
 cp data/MoleProDB.sqlite data/backup/MoleProDB-bindingdb.sqlite
-sbt -mem 4096 'run data/MoleProDB.sqlite merge-structures "CTD compound-list producer" data/ctd/MolePro.CTD.sqlite'
+sbt -mem 4096 'run data/MoleProDB.sqlite merge-structures "Pubchem compound-list producer" data/sider/MolePro.SIDER.sqlite'
+sbt -mem 4096 'run data/MoleProDB.sqlite merge-structures "SIDER drug producer" data/sider/MolePro.SIDER.sqlite'
+cp data/MoleProDB.sqlite data/backup/MoleProDB-sider.sqlite
+sbt -mem 4096 'run data/MoleProDB.sqlite merge-structures "Inxight:Drugs substance-list producer" data/inxight/MolePro.InxightDrugs.sqlite'
+cp data/MoleProDB.sqlite data/backup/MoleProDB-inxight.sqlite
+sbt -mem 4096 'run data/MoleProDB.sqlite merge-structures "KINOMEscan small-molecule-list producer" data/kinomescan/MolePro.KINOMEscan.sqlite'
+cp data/MoleProDB.sqlite data/backup/MoleProDB-kinomescan.sqlite
+
 cp data/MoleProDB.sqlite data/backup/MoleProDB-structures.sqlite
 
 sbt -mem 4096 'run data/MoleProDB.sqlite load-compounds'

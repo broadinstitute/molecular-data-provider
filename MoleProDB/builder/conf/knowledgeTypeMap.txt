@@ -1,0 +1,68 @@
+transformer	knowledgeLevel	agentType
+BiGG gene_reaction transformer	knowledge_assertion	manual_agent
+BiGG genes transformer	knowledge_assertion	manual_agent
+BiGG reactions transformer	knowledge_assertion	manual_agent
+BindingBD binding transformer	observation	experimental_agent
+ChEBI relations transformer	knowledge_assertion	manual_agent
+ChEMBL activities transformer	observation	experimental_agent
+ChEMBL gene target transformer	knowledge_assertion	manual_agent
+ChEMBL indication transformer	knowledge_assertion	manual_agent
+ChEMBL mechanism transformer	knowledge_assertion	manual_agent
+ChEMBL metabolite transformer	knowledge_assertion	manual_agent
+CMAP compound-to-compound expander	statistical_association	data_analysis_pipeline
+CMAP compound-to-gene transformer	statistical_association	data_analysis_pipeline
+CMAP gene-to-compound transformer	statistical_association	data_analysis_pipeline
+CMAP gene-to-gene expander	statistical_association	data_analysis_pipeline
+CTD disease associations transformer	unspecified	unspecified
+CTD gene interactions transformer	knowledge_assertion	manual_agent
+CTD go associations transformer	statistical_association	data_analysis_pipeline
+CTD pathway associations transformer	statistical_association	data_analysis_pipeline
+CTD phenotype interactions transformer	knowledge_assertion	manual_agent
+CTRP compound-list expander	statistical_association	data_analysis_pipeline
+DepMap co-fitness correlation	statistical_association	data_analysis_pipeline
+DGIdb inhibitor transformer	unspecified	unspecified
+DGIdb target transformer	unspecified	unspecified
+DrugBank carrier genes transformer	knowledge_assertion	manual_agent
+DrugBank carrier proteins transformer	knowledge_assertion	manual_agent
+DrugBank carrier substrates transformer	knowledge_assertion	manual_agent
+DrugBank enzyme genes transformer	knowledge_assertion	manual_agent
+DrugBank enzyme proteins transformer	knowledge_assertion	manual_agent
+DrugBank inhibitors transformer	knowledge_assertion	manual_agent
+DrugBank substrates transformer	knowledge_assertion	manual_agent
+DrugBank target genes transformer	knowledge_assertion	manual_agent
+DrugBank target proteins transformer	knowledge_assertion	manual_agent
+DrugBank transporter genes transformer	knowledge_assertion	manual_agent
+DrugBank transporter proteins transformer	knowledge_assertion	manual_agent
+DrugBank transporter substrates transformer	knowledge_assertion	manual_agent
+DrugCentral indications transformer	knowledge_assertion	manual_agent
+DrugBank gene interactions transformer	knowledge_assertion	manual_agent
+DrugBank protein interactions transformer	knowledge_assertion	manual_agent
+Gene-list network enrichment analysis	statistical_association	computational_model
+GtoPdb inhibitors transformer	unspecified	unspecified
+GtoPdb target transformer	unspecified	unspecified
+GWAS disease to gene transformer	statistical_association	data_analysis_pipeline
+GWAS gene to disease transformer	statistical_association	data_analysis_pipeline
+HMDB disorders transformer	knowledge_assertion	manual_agent
+HMDB locations transformer	knowledge_assertion	manual_agent
+HMDB pathways transformer	knowledge_assertion	manual_agent
+HMDB target genes transformer	knowledge_assertion	manual_agent
+HMDB target proteins transformer	knowledge_assertion	manual_agent
+Inxight:Drugs active ingredients transformer	logical_entailment	manual_agent
+Inxight:Drugs relationship transformer	knowledge_assertion	manual_agent
+MSigDB genes transformer	knowledge_assertion	manual_agent
+MSigDB pathways transformer	knowledge_assertion	manual_agent
+Pharos target genes transformer	unspecified	unspecified
+ProbeMiner chemical interactions transformer	statistical_association	data_analysis_pipeline
+ProbeMiner protein interactions transformer	statistical_association	data_analysis_pipeline
+PubChem chemical similarity transformer	statistical_association	data_analysis_pipeline
+Repurposing Hub indication transformer	knowledge_assertion	manual_agent
+Repurposing Hub target transformer	knowledge_assertion	manual_agent
+RxNorm active ingredient transformer	logical_entailment	manual_agent
+RxNorm components transformer	knowledge_assertion	manual_agent
+RxNorm drug relation info	knowledge_assertion	manual_agent
+SIDER indication transformer	knowledge_assertion	manual_agent
+SIDER side effect transformer	knowledge_assertion	manual_agent
+STITCH link transformer	unspecified	data_analysis_pipeline
+STRING protein-protein interaction	unspecified	data_analysis_pipeline
+UniProt gene to protein transformer	logical_entailment	manual_agent
+UniProt protein to gene transformer	logical_entailment	manual_agent
