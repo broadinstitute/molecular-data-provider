@@ -9,9 +9,9 @@ FROM python:3-alpine AS runtime-image
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 COPY --from=packaging-image /usr/src/reasonerAPI/dist .
-RUN pip3 install -I molepro_trapi-1.4.0.3-py3-none-any.whl
+RUN pip3 install -I molepro_trapi-1.4.0.4-py3-none-any.whl
 COPY reasonerAPI/python-flask-server .
 COPY reasonerAPI/python-flask-server/requirements.txt .
 RUN pip3 install --no-cache-dir -r requirements.txt
 EXPOSE 8080
-CMD ["nohup","gunicorn", "-w","128","-b","0.0.0.0:8080","openapi_server.__main__:app","--timeout","600"]
+CMD ["nohup","gunicorn", "-w","1","-b","0.0.0.0:8080","openapi_server.__main__:app","--timeout","600"]
