@@ -11,7 +11,7 @@ from openapi_server.models.transformer_query import TransformerQuery  # noqa: E5
 from openapi_server import util
 
 
-from openapi_server.controllers.cmap_expander import CmapExpander
+from openapi_server.controllers.cmap_expander import CmapExpander, CmapProducer
 
 transformers = {
     'gene': {
@@ -20,7 +20,8 @@ transformers = {
         },
     'compound': {
         'gene': CmapExpander('compound', 'gene'),
-        'compound':  CmapExpander('compound', 'compound')
+        'compound':  CmapExpander('compound', 'compound'),
+        'producer': CmapProducer()
         }
     }
 
@@ -45,7 +46,7 @@ def input_class_output_class_transform_post(input_class, output_class, body, cac
     """
     if connexion.request.is_json:
         transformer_query = TransformerQuery.from_dict(connexion.request.get_json())  # noqa: E501
-    if input_class in classes and output_class in classes:
+    if input_class in transformers and output_class in transformers[input_class]:
         return transformers[input_class][output_class].transform(transformer_query)
     else:
         msg = "invalid input or output class: '"+input_class+"/"+output_class+"'"
@@ -66,8 +67,8 @@ def input_class_output_class_transformer_info_get(input_class, output_class, cac
 
     :rtype: Union[TransformerInfo, Tuple[TransformerInfo, int], Tuple[TransformerInfo, int, Dict[str, str]]
     """
-    if input_class in classes and output_class in classes:
-        return transformers[input_class][output_class].info
+    if input_class in transformers and output_class in transformers[input_class]:
+        return transformers[input_class][output_class].transformer_info(cache)
     else:
         msg = "invalid input or output class: '"+input_class+"/"+output_class+"'"
         return ({ "status": 400, "title": "Bad Request", "detail": msg, "type": "about:blank" }, 400 )
