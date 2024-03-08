@@ -11,9 +11,11 @@ from openapi_server.models.transformer_query import TransformerQuery  # noqa: E5
 from openapi_server import util
 
 from openapi_server.controllers.string_transformer import StringTransformer
+from openapi_server.controllers.string_transformer import StringPhysicalLinkTransformer
 
 transformer = {
-    'links': StringTransformer()
+    'links': StringTransformer(),
+    'physical_links': StringPhysicalLinkTransformer()
 }
 
 def service_transform_post(service, body, cache=None):  # noqa: E501

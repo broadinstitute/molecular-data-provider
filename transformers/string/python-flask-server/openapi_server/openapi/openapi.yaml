@@ -24,6 +24,7 @@ paths:
         schema:
           enum:
           - links
+          - physical_links
           type: string
         style: simple
       - description: "Directive for handling caching, can be 'yes' (default), 'no',\
@@ -86,6 +87,7 @@ paths:
         schema:
           enum:
           - links
+          - physical_links
           type: string
         style: simple
       - description: "Directive for handling caching, can be 'yes' (default), 'no',\
