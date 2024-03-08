@@ -11,6 +11,7 @@ def main():
     app.add_api('openapi.yaml',
                 arguments={'title': 'Transformer API for STRING database'},
                 pythonic_params=True)
+
     app.run(port=8080)
 
 
