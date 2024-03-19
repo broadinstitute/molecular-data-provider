@@ -265,3 +265,7 @@ Feature: Check CMAP transformer
             | id                         |
             | NCBIGene:51176 |
             | NCBIGene:3675  |
+
+
+
+

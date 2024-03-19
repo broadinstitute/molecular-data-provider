@@ -1,7 +1,7 @@
 Feature: Check PharmGKB transformer
 
     Background: Specify transformer API
-        Given a transformer at "https://translator.broadinstitute.org/pharmgkb"
+        Given a transformer at "https://molepro-pharmgkb-transformer.test.transltr.io/pharmgkb"
 
 
     Scenario: Check PharmGKB producer info
@@ -11,7 +11,7 @@ Feature: Check PharmGKB transformer
         and the value of "function" should be "producer"
         and the value of "knowledge_map.input_class" should be "none"
         and the value of "knowledge_map.output_class" should be "compound"
-        and the value of "version" should be "2.5.0"
+        and the value of "version" should be "2.5.1"
         and the value of "properties.source_version" should be "Jan-2023"
         and the size of "parameters" should be 1
 
@@ -23,7 +23,7 @@ Feature: Check PharmGKB transformer
         and the value of "function" should be "transformer"
         and the value of "knowledge_map.input_class" should be "compound"
         and the value of "knowledge_map.output_class" should be "gene"
-        and the value of "version" should be "2.5.0"
+        and the value of "version" should be "2.5.1"
         and the value of "properties.source_version" should be "Jan-2023"
         and the size of "parameters" should be 1
 
@@ -35,7 +35,7 @@ Feature: Check PharmGKB transformer
         and the value of "function" should be "transformer"
         and the value of "knowledge_map.input_class" should be "compound"
         and the value of "knowledge_map.output_class" should be "gene"
-        and the value of "version" should be "2.5.0"
+        and the value of "version" should be "2.5.1"
         and the value of "properties.source_version" should be "Jan-2023"
         and the size of "parameters" should be 0
 
