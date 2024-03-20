@@ -1,7 +1,7 @@
 Feature: Check ChEMBL transformer
 
     Background: Specify transformer API
-        Given a transformer at "https://translator.broadinstitute.org/chembl"
+        Given a transformer at "https://molepro-chembl-transformer.test.transltr.io/chembl"
 
 
     Scenario: Check ChEMBL producer info

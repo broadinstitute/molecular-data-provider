@@ -1,8 +1,8 @@
 Feature: Check GtoPdb transformer
 
     Background: Specify transformer API
+    
         Given a transformer at "https://translator.broadinstitute.org/gtopdb"
-
 
     Scenario: Check transformer info
         Given the transformer

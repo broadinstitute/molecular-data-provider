@@ -1,7 +1,7 @@
 Feature: Check DGIdb transformer
 
     Background: Specify transformer API
-        Given a transformer at "https://translator.broadinstitute.org/dgidb"
+        Given a transformer at "https://molepro-dgidb-transformer.test.transltr.io/dgidb"
 
 
     Scenario: Check DGIdb producer info

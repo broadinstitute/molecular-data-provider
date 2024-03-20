@@ -1,7 +1,7 @@
 Feature: Check HGNC  transformer
 
     Background: Specify transformer API
-        Given a transformer at "https://translator.broadinstitute.org/hgnc"
+        Given a transformer at "https://molepro-hgnc-transformer.test.transltr.io/hgnc"
 
 
     Scenario: Check HGNC gene producer transformer info

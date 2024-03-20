@@ -1,17 +1,22 @@
 Feature: Check CTD transformer
 
     Background: Specify transformer API
-        Given a transformer at "https://translator.broadinstitute.org/ctdbase"
+        Given a transformer at "https://molepro-ctd-transformer.test.transltr.io/ctdbase"
 
 
     Scenario: Check CTD producer info
         Given the transformer
         when we fire "/chemicals/transformer_info" query
         then the value of "name" should be "CTD compound-list producer"
+        and the value of "label" should be "CTD"
+        and the value of "infores" should be "infores:ctd"
+        and the value of "version" should be "2.5.0"
         and the value of "function" should be "producer"
         and the value of "knowledge_map.input_class" should be "none"
         and the value of "knowledge_map.output_class" should be "compound"
         and the size of "knowledge_map" should be 4
+        and the size of "knowledge_map.nodes" should be 2
+        and the value of "properties.source_version" should be "April 2023 (2023-05-20)"
         and the size of "parameters" should be 1
 
 
@@ -19,10 +24,15 @@ Feature: Check CTD transformer
         Given the transformer
         when we fire "/gene-interactions/transformer_info" query
         then the value of "name" should be "CTD gene interactions transformer"
+        and the value of "label" should be "CTD"
+        and the value of "infores" should be "infores:ctd"
+        and the value of "version" should be "2.5.0"
         and the value of "function" should be "transformer"
         and the value of "knowledge_map.input_class" should be "compound"
         and the value of "knowledge_map.output_class" should be "gene"
         and the size of "knowledge_map" should be 4
+        and the size of "knowledge_map.nodes" should be 3
+        and the value of "properties.source_version" should be "April 2023 (2023-05-20)"
         and the size of "parameters" should be 0
 
 
@@ -30,10 +40,16 @@ Feature: Check CTD transformer
         Given the transformer
         when we fire "/disease-associations/transformer_info" query
         then the value of "name" should be "CTD disease associations transformer"
+        and the value of "label" should be "CTD"
+        and the value of "infores" should be "infores:ctd"
+        and the value of "version" should be "2.5.0"
         and the value of "function" should be "transformer"
         and the value of "knowledge_map.input_class" should be "compound"
         and the value of "knowledge_map.output_class" should be "disease"
         and the size of "knowledge_map" should be 4
+        and the size of "knowledge_map.nodes" should be 2
+        and the size of "knowledge_map.edges" should be 3
+        and the value of "properties.source_version" should be "April 2023 (2023-05-20)"
         and the size of "parameters" should be 0
 
 
@@ -41,10 +57,16 @@ Feature: Check CTD transformer
         Given the transformer
         when we fire "/pathway-associations/transformer_info" query
         then the value of "name" should be "CTD pathway associations transformer"
+        and the value of "label" should be "CTD"
+        and the value of "infores" should be "infores:ctd"
+        and the value of "version" should be "2.5.0"
         and the value of "function" should be "transformer"
         and the value of "knowledge_map.input_class" should be "compound"
         and the value of "knowledge_map.output_class" should be "pathway"
         and the size of "knowledge_map" should be 4
+        and the size of "knowledge_map.nodes" should be 2
+        and the size of "knowledge_map.edges" should be 1
+        and the value of "properties.source_version" should be "April 2023 (2023-05-20)"
         and the size of "parameters" should be 1
 
 
@@ -52,10 +74,16 @@ Feature: Check CTD transformer
         Given the transformer
         when we fire "/go-associations/transformer_info" query
         then the value of "name" should be "CTD go associations transformer"
+        and the value of "label" should be "CTD"
+        and the value of "infores" should be "infores:ctd"
+        and the value of "version" should be "2.5.0"
         and the value of "function" should be "transformer"
         and the value of "knowledge_map.input_class" should be "compound"
         and the value of "knowledge_map.output_class" should be "BiologicalEntity"
         and the size of "knowledge_map" should be 4
+        and the size of "knowledge_map.nodes" should be 4
+        and the size of "knowledge_map.edges" should be 3
+        and the value of "properties.source_version" should be "April 2023 (2023-05-20)"
         and the size of "parameters" should be 1
 
 
@@ -63,10 +91,16 @@ Feature: Check CTD transformer
         Given the transformer
         when we fire "/phenotype-interactions/transformer_info" query
         then the value of "name" should be "CTD phenotype interactions transformer"
+        and the value of "label" should be "CTD"
+        and the value of "infores" should be "infores:ctd"
+        and the value of "version" should be "2.5.0"
         and the value of "function" should be "transformer"
         and the value of "knowledge_map.input_class" should be "compound"
-        and the value of "knowledge_map.output_class" should be "BiologicalProcess"
+        and the value of "knowledge_map.output_class" should be "BiologicalProcessOrActivity"
         and the size of "knowledge_map" should be 4
+        and the size of "knowledge_map.nodes" should be 2
+        and the size of "knowledge_map.edges" should be 1
+        and the value of "properties.source_version" should be "April 2023 (2023-05-20)"
         and the size of "parameters" should be 0
 
 
@@ -134,7 +168,7 @@ Feature: Check CTD transformer
             "collection": [
                 {
                     "id": "CID:2836600",
-                    "biolink_class": "ChemicalSUbstance",
+                    "biolink_class": "SmallMolecule",
                     "identifiers": {
                         "pubchem": "CID:2836600"
                     },
@@ -144,7 +178,7 @@ Feature: Check CTD transformer
             ]
         }
         """
-        then the size of the response is 6
+        then the size of the response is 2
         and the response contains the following entries in "provided_by"
             | provided_by                       |
             | CTD gene interactions transformer |
@@ -154,6 +188,12 @@ Feature: Check CTD transformer
         and the response contains the following entries in "source" of "names_synonyms" array
             | source |
             | CTD    |
+        and the response contains the following entries in "source_element_id" of "connections" array
+            | source_element_id |
+            | CID:2836600       |
+        and the response only contains the following entries in "source_element_id" of "connections" array
+            | source_element_id |
+            | CID:2836600       |
         and the response contains the following entries in "source" of "connections" array
             | source |
             | CTD    |
@@ -181,7 +221,7 @@ Feature: Check CTD transformer
             ]
         }
         """
-        then the size of the response is 48
+        then the size of the response is 49
         and the response contains the following entries in "provided_by"
             | provided_by                          |
             | CTD disease associations transformer |
@@ -191,6 +231,12 @@ Feature: Check CTD transformer
         and the response contains the following entries in "source" of "names_synonyms" array
             | source |
             | CTD    |
+        and the response contains the following entries in "source_element_id" of "connections" array
+            | source_element_id |
+            | CID:114709        |
+        and the response only contains the following entries in "source_element_id" of "connections" array
+            | source_element_id |
+            | CID:114709        |
         and the response contains the following entries in "source" of "connections" array
             | source |
             | CTD    |
@@ -260,7 +306,7 @@ Feature: Check CTD transformer
             ]
         }
         """
-        then the size of the response is 8
+        then the size of the response is 12
         and the response contains the following entries in "provided_by"
             | provided_by                     |
             | CTD go associations transformer |
@@ -276,6 +322,12 @@ Feature: Check CTD transformer
         and the response only contains the following entries in "source" of "connections" array
             | source |
             | CTD    |
+        and the response contains the following entries in "source_element_id" of "connections" array
+            | source_element_id |
+            | CID:2836600       |
+        and the response only contains the following entries in "source_element_id" of "connections" array
+            | source_element_id |
+            | CID:2836600       |
         and the response contains the following entries in "provided_by" of "attributes" array
             | provided_by                     |
             | CTD go associations transformer |
@@ -319,6 +371,12 @@ Feature: Check CTD transformer
         and the response only contains the following entries in "source" of "connections" array
             | source |
             | CTD    |
+        and the response contains the following entries in "source_element_id" of "connections" array
+            | source_element_id |
+            | CID:2836600       |
+        and the response only contains the following entries in "source_element_id" of "connections" array
+            | source_element_id |
+            | CID:2836600       |
         and the response contains the following entries in "provided_by" of "connections" array
             | provided_by                            |
             | CTD phenotype interactions transformer |

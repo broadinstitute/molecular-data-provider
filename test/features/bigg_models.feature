@@ -2,7 +2,7 @@ Feature: Check BiGG transformer
 
 
     Background: Specify transformer API
-        Given a transformer at "https://translator.broadinstitute.org/bigg"
+        Given a transformer at "https://molepro-biggmodels-transformer.test.transltr.io/bigg"
 
 
     Scenario: Check BiGG producer info
