@@ -21,7 +21,7 @@ class TestTransformersController(BaseTestCase):
 
         Transform a list of genes or compounds
         """
-        transformer_query = {}
+        transformer_query = openapi_server.TransformerQuery()
         query_string = [('cache', 'cache_example')]
         headers = { 
             'Accept': 'application/json',
