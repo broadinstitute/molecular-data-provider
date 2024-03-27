@@ -1,7 +1,9 @@
 import sqlite3
+import json
 import re
 import csv
 from collections import defaultdict
+from collections import OrderedDict
 
 from transformers.transformer import Transformer
 
@@ -13,14 +15,8 @@ MESH = 'MESH:'
 
 DOC_URL = 'https://www.ebi.ac.uk/chembl/document_report_card/'
 
-#Biolink class
-ASSAY = 'Assay'
-CHEMICAL_SUBSTANCE = 'ChemicalSubstance'
-# DISEASE = 'Disease'
-# GENE = 'Gene'
-# MOLECULAR_ENTITY = 'MolecularEntity'
-
 inchikey_regex = re.compile('[A-Z]{14}-[A-Z]{10}-[A-Z]')
+
 
 class ChemblProducer(Transformer):
 
@@ -28,15 +24,13 @@ class ChemblProducer(Transformer):
 
     def __init__(self):
         super().__init__(self.variables, definition_file='info/molecules_transformer_info.json')
+        with open('conf/chembl_producer_attr_map.json') as json_file:
+            self.attribute_map = json.load(json_file)                          
 
 
     def produce(self, controls):
         compound_list = []
         names = controls['compound']
-   #    disable the following because the compounds will be submitted as a list
-   #    and because there can be ';' in compound names
-   #     if len(names) == 1 and ';' in names[0]:
-   #         names  = names[0].split(';')
         for name in names:
             name = name.strip()
             for compound in self.find_compound(name):
@@ -129,10 +123,8 @@ class ChemblProducer(Transformer):
             'max_phase','molecule_type','first_approval','usan_year',
             'usan_stem','usan_substem','usan_stem_definition','indication_class']
         flag_attr = [
-            'therapeutic_flag','dosed_ingredient','oral','parenteral','topical','black_box_warning',
+            'therapeutic_flag','dosed_ingredient','black_box_warning',
             'natural_product','first_in_class','prodrug','inorganic_flag','polymer_flag','withdrawn_flag']
-        chirality = {0:'racemic mixture',1:'single stereoisomer',2:'achiral molecule'}
-        availability_type = {0: 'discontinued', 1: 'prescription only', 2: 'over the counter'}
         for attr_name in str_attr:
             # (self, transformer, element, row, name)
             add_attribute(self, None, element, row, attr_name)
@@ -140,17 +132,24 @@ class ChemblProducer(Transformer):
             if row[attr_name] is not None and row[attr_name] > 0:
                 attr = add_attribute(self, None, element, row, attr_name)
                 attr.value = 'yes'
-        if row['chirality'] in chirality:
-            attr = add_attribute(self, None, element, row, 'chirality')
-            attr.value = chirality[row['chirality']]
-        if row['availability_type'] is not None and row['availability_type'] in availability_type:
-            attr = add_attribute(self, None, element, row, 'availability_type')
-            attr.value = availability_type[row['availability_type']]
+        for attr in self.attribute_map:
+            attr_name = attr['original_attribute_name']
+            attr_type = attr['attribute_type_id']
+            attr_value_type = attr.get('value_type_id')
+            attr_value = attr['value_map'].get(str(row[attr_name]))
+            if attr_value is not None:
+                element.attributes.append(self.Attribute(
+                    name = attr_name,
+                    value = attr_value,
+                    type = attr_type,
+                    value_type = attr_value_type
+                ))
         self.add_atc_classification(element, row["molregno"])
         self.add_drug_warning(element, row["molregno"])
-
+        
 
     def add_atc_classification(self, element, molregno):
+        atc_classifications = OrderedDict()
         for atc in get_atc_classification(molregno):
             value  = atc['level1']+'-'+atc['level1_description']+'|'
             value += atc['level2']+'-'+atc['level2_description']+'|'
@@ -161,38 +160,32 @@ class ChemblProducer(Transformer):
                 self.Attribute(
                     name='atc_classification',
                     value=value,
-                    type='atc_classification',
-                    url=None
+                    type='atc_classification'
                 )
             )
+            atc_classifications['ATC:'+atc['level1']] = atc['level1']
+            atc_classifications['ATC:'+atc['level2']] = atc['level2']
+            atc_classifications['ATC:'+atc['level3']] = atc['level3']
+            atc_classifications['ATC:'+atc['level4']] = atc['level4']
+            atc_classifications['ATC:'+atc['level5']] = atc['level5']
+        element.attributes.append(
+            self.Attribute(
+                name='atc_classifications',
+                value=[atc for atc in atc_classifications],
+                type='atc_classifications'
+            )
+        )
+
 
     def add_drug_warning(self, element, molregno):
         for warning in get_drug_warning(molregno):
             sub_attributes = []
        
-            if warning['withdrawn_year'] is not None:
+            if warning['withdrawn_flag'] is not None:
                 sub_attributes.append(self.Attribute(
-                    name='withdrawn_year', 
-                    value=warning["withdrawn_year"],
-                    type='withdrawn_year', url=None)
-                )
-            if warning['withdrawn_country'] is not None:
-                sub_attributes.append(self.Attribute(
-                    name='warning_country', 
-                    value=warning["warning_country"],
-                    type='warning_country', url=None)
-                )
-            if warning['withdrawn_reason'] is not None:
-                sub_attributes.append(self.Attribute(
-                    name='withdrawn_reason',
-                    value=warning["withdrawn_reason"],
-                    type='withdrawn_reason', url=None)
-                )
-            if warning['withdrawn_class'] is not None:
-                sub_attributes.append(self.Attribute(
-                    name='withdrawn_class',
-                    value=warning["withdrawn_class"],
-                    type='withdrawn_class', url=None)
+                    name='withdrawn_flag', 
+                    value=warning["withdrawn_flag"],
+                    type='withdrawn_flag', url=None)
                 )
             if warning["warning_type"] is not None:
                 sub_attributes.append(self.Attribute(
@@ -252,22 +245,33 @@ class ChemblIndicationsTransformer(Transformer):
 
     variables = []
 
+    research_phase_map = {
+        0.5: 'pre_clinical_research_phase',
+        1: 'clinical_trial_phase_1',
+        2: 'clinical_trial_phase_2',
+        3: 'clinical_trial_phase_3',
+        4: 'clinical_trial_phase_4',
+        }
+
     def __init__(self):
         super().__init__(self.variables, definition_file='info/indications_transformer_info.json')
+        self.TREAT_PREDICATE = self.PREDICATE
+        self.TREAT_INV_PREDICATE = self.INVERSE_PREDICATE
+        if len(self.info.knowledge_map.edges) >= 2:
+            self.TREAT_PREDICATE = self.info.knowledge_map.edges[1].predicate
+            self.TREAT_INV_PREDICATE = self.info.knowledge_map.edges[1].inverse_predicate
 
     def map(self, collection, controls):
         indication_list = []
         indications = {}
         for element in collection:
             identifiers = element.identifiers
+            ids = []
             if 'chembl' in identifiers and identifiers['chembl'] is not None:
-                curie = identifiers['chembl']
-                if curie is not None:
-                    id = self.de_prefix('chembl', identifiers['chembl'])
+                ids = self.get_identifiers(element, 'chembl', de_prefix=True)
             elif 'inchikey' in identifiers and identifiers['inchikey'] is not None:
-                for compound in get_compound_by_inchikey(identifiers['inchikey']):
-                    id = compound['chembl_id']
-            if id is not None:
+                ids = [compound['chembl_id'] for compound in get_compound_by_inchikey(identifiers['inchikey'])]
+            for id in ids:
                 for row in get_indications(id):
                     indication = self.get_or_create_indication(row, indications, indication_list)
                     self.add_identifiers_names(indication, row)
@@ -327,35 +331,71 @@ class ChemblIndicationsTransformer(Transformer):
         if connection is None:
             infores = self.Attribute('biolink:primary_knowledge_source','infores:chembl')
             infores.attribute_source = 'infores:molepro'
+            level = self.Attribute('biolink:knowledge_level',self.KNOWLEDGE_LEVEL)
+            level.attribute_source = 'infores:molepro'
+            agent = self.Attribute('biolink:agent_type',self.AGENT_TYPE)
+            agent.attribute_source = 'infores:molepro'
             connection = self.Connection(
                 source_element_id=source_element_id, 
                 predicate=self.PREDICATE,
                 inv_predicate=self.INVERSE_PREDICATE,
-                attributes=[infores]
+                attributes=[infores, level, agent]
             )
             indication.connections.append(connection)
+        # clinical trial phase
         max_phase = row['max_phase_for_ind']
         max_phase_attr = None
+        research_phase_attr = None
+        approval_attr = None
         for attr in connection.attributes:
-            if attr.original_attribute_name	 == 'max phase for indication':
+            if attr.original_attribute_name	 == 'max_phase_for_ind':
                 max_phase_attr = attr
-                break
+            if attr.original_attribute_name	 == 'max_research_phase':
+                research_phase_attr = attr
+            if attr.original_attribute_name	 == 'clinical_approval_status':
+                approval_attr = attr
         if max_phase_attr is None:
             max_phase_attr = self.Attribute(
-                name='max phase for indication',
+                name='max_phase_for_ind',
                 value=max_phase,
-                type='biolink:FDA_APPROVAL_STATUS',  # clinical trial phase
+                type='max phase for indication',  
                 url=None
             )
             connection.attributes.append(max_phase_attr)
+        if research_phase_attr is None and max_phase > 0:
+            research_phase_attr = self.Attribute(
+                name='max_research_phase',
+                value=self.research_phase_map.get(max_phase,'not_provided'),
+                type='biolink:max_research_phase', 
+                url=None
+            )
+            connection.attributes.append(research_phase_attr)
         elif max_phase > max_phase_attr.value:
             max_phase_attr.value = max_phase
-        connection.attributes.append(self.Attribute(
-            name=row['ref_type'],
-            value='ATC:' + row['ref_id'] if row['ref_type'] == 'ATC' else row['ref_id'],
-            type='biolink:publication',
-            url=row['ref_url']
-        ))
+        if max_phase == 4:
+            connection.biolink_predicate = self.TREAT_PREDICATE
+            connection.inverse_predicate = self.TREAT_INV_PREDICATE
+            if approval_attr is None:
+                approval_attr = self.Attribute(
+                    name='clinical_approval_status',
+                    value='approved_for_condition',
+                    type='biolink:clinical_approval_status', 
+                    url=None
+                )
+                connection.attributes.append(approval_attr)
+        # reference
+        attr_value = row['ref_id']
+        if row['ref_type'] == 'DailyMed' or row['ref_type'] == 'FDA':
+            attr_value = row['ref_url']
+        if row['ref_type'] == 'ClinicalTrials':
+            attr_value = ['clinicaltrials:'+nct for nct in attr_value.split(',') if nct.startswith('NCT')]
+        if row['ref_type'] != 'ATC':
+            connection.attributes.append(self.Attribute(
+                name=row['ref_type'],
+                value=attr_value,
+                type='biolink:publications' if isinstance(attr_value, list) else 'biolink:Publication',
+                url=row['ref_url']
+            ))
 
 
 ##############################################################################
@@ -372,13 +412,16 @@ class ChemblActivitiesTransformer(Transformer):
     def __init__(self):
         super().__init__(self.variables, definition_file='info/activities_transformer_info.json')
         self.target_class_dict = self.get_target_class_dict()
+        with open('conf/chembl_qualifiers.json') as json_file:
+            self.qualifier_map = json.load(json_file)
+
 
     ##########################################################################
     # This function reads & converts into a dictionary where the columns are:
     # target_type	|	molepro_semantic_type
     def get_target_class_dict(self):
             classDict = {}
-            tsv_file = open("info/chembl_molepro_map.txt")
+            tsv_file = open("conf/chembl_molepro_map.txt")
             for line in csv.DictReader(tsv_file, delimiter="\t"):
                 classDict[line['target_type']] = line['molepro_semantic_type']
             return classDict
@@ -388,14 +431,13 @@ class ChemblActivitiesTransformer(Transformer):
         targets = {}
         for element in collection:
             identifiers = element.identifiers
+            ids = []
             if 'chembl' in identifiers and identifiers['chembl'] is not None:
-                curie = identifiers['chembl']
-                if curie is not None:
-                    id = self.de_prefix('chembl', identifiers['chembl'])
+                ids = self.get_identifiers(element, 'chembl', de_prefix=True)
             elif 'inchikey' in identifiers and identifiers['inchikey'] is not None:
-                for compound in get_compound_by_inchikey(identifiers['inchikey']):
-                    id = compound['chembl_id']
-            if id is not None:
+                ids = [compound['chembl_id'] for compound in get_compound_by_inchikey(identifiers['inchikey'])]
+
+            for id in ids:
                 for row in get_activities(id):
                     if row['target_type'] not in ('UNCHECKED', 'NON-MOLECULAR','NO TARGET'):
                         target = self.get_or_create_target(row, targets, target_list)
@@ -451,22 +493,47 @@ class ChemblActivitiesTransformer(Transformer):
     def add_connection(self,source_element_id, id, target, row):
         connection = None
         source_element_id = source_element_id
-        #source_element_id = CHEMBL+id
-        for c in target.connections:
-            if c.source_element_id == source_element_id:
+        assay_tax_id = ''
+        qualifiers = []
+        if row['assay_tax_id'] is not None:
+            assay_tax_id = self.add_prefix('ncbi_taxon', row['assay_tax_id'],'OrganismEntity')
+            qualifiers.append(self.Qualifier('species_context_qualifier',assay_tax_id))
+        
+        if row['action_type'] is None or row['action_type'] not in self.qualifier_map:
+            for c in target.connections:
+                if c.source_element_id == source_element_id:
+                    qualifier_tax_id = ''
+                    for qualifier in c.qualifiers:
+                        if qualifier.qualifier_type_id == 'species_context_qualifier':
+                            qualifier_tax_id = qualifier.qualifier_value
+                    if assay_tax_id == qualifier_tax_id:
+                        return  # do not add to connections the same source_element_id
 
-            #   connection = c
-                return  # do not add to connections the same source_element_id
         if connection is None:
             infores = self.Attribute('biolink:primary_knowledge_source','infores:chembl')
             infores.attribute_source = 'infores:molepro'
+            level = self.Attribute('biolink:knowledge_level',self.KNOWLEDGE_LEVEL)
+            level.attribute_source = 'infores:molepro'
+            agent = self.Attribute('biolink:agent_type',self.AGENT_TYPE)
+            agent.attribute_source = 'infores:molepro'
+            if row['curated_by'] in {'Expert','Intermediate'}:
+                agent = self.Attribute('biolink:agent_type','manual_validation_of_experimental_agent')
+                agent.attribute_source = 'infores:molepro'
+            if row['action_type'] in self.qualifier_map:
+                agent = self.Attribute('biolink:agent_type','manual_agent')
+                agent.attribute_source = 'infores:molepro'
+                for qualifier in self.qualifier_map[row['action_type']].get('qualifiers', []):
+                    qualifiers.append(self.Qualifier(qualifier['qualifier_type_id'],qualifier['qualifier_value']))
+
             connection = self.Connection(
                 source_element_id = source_element_id,
                 predicate = self.PREDICATE,
                 inv_predicate = self.INVERSE_PREDICATE,
-                attributes=[infores]
+                qualifiers = qualifiers,
+                attributes = [infores, level, agent]
             )
 
+        add_attribute(self,None,connection,row,'action_type')
         add_attribute(self,None,connection,row,'data_validity_comment')
         potential_duplicate_attribute = add_attribute(self,None,connection,row,'potential_duplicate')
         assay_attribute = add_attribute(self,None,connection,row,'assay_chembl_id')
@@ -523,11 +590,7 @@ class ChemblActivitiesTransformer(Transformer):
         tissue_attribute = add_attribute(self,None,connection,row,'assay_tissue_chembl_id')
         if tissue_attribute is not None:
             subattributes=[]
-            subattributes.append(self.Attribute(
-                name='assay_tissue_name',
-                value=row["assay_tissue_name"],
-                type='assay_tissue_name', url=None) 
-            )
+            tissue_attribute.description = row["assay_tissue_name"]
         assay_organism_attribute = add_attribute(self,None,connection,row,'assay_tax_id')
         if assay_organism_attribute is not None:
             assay_organism_attribute.description = row["assay_organism"] 
@@ -606,48 +669,37 @@ class ChemblActivitiesTransformer(Transformer):
                     type='ligand_efficiency_SEI', url=None) 
                 ) 
         reference = None
-        if row["document_chembl_id"] is not None:
-            reference = add_attribute(self,None,connection,row,'document_chembl_id')
-            reference.type = 'biolink:publication' 
-            reference.value = self.add_prefix('chembl', reference.value, reference.type)
-        elif row["pubmed_id"] is not None:
+        if row["pubmed_id"] is not None:
             reference = add_attribute(self,None,connection,row,'pubmed_id')
-            reference.value = add_ref_prefix('PubMed', reference.value)
+            reference.value = get_ref_value('PubMed', reference.value, None)
+        elif row["doi"] is not None:
+            reference = add_attribute(self,None,connection,row,'doi')
+            reference.value = get_ref_value('DOI', reference.value, None)
+        elif row["document_chembl_id"] is not None:
+            reference = add_attribute(self,None,connection,row,'document_chembl_id')
+            reference.value = DOC_URL + row['document_chembl_id']
         if reference is not None:
             subattributes=[]
-            reference.type = 'biolink:publication'
-            reference.value_url = DOC_URL + reference.value
-            reference.attribute_type_id = 'biolink:publication'
+            reference.type = 'biolink:Publication'
+            reference.value_url = DOC_URL + row['document_chembl_id']
+            reference.attribute_type_id = 'biolink:Publication'
+            reference.attributes = subattributes
+            description = ''
             if row["source_description"] is not None:
                 subattributes.append(self.Attribute(
-                    name='publication',
+                    name='source_description',
                     value=row["source_description"],
                     type='source_description', url=None) 
                 )             
-            if row["journal"] is not None:
-                subattributes.append(self.Attribute(
-                    name='publication',
-                    value=row["journal"],
-                    type='journal', url=None) 
-                )
-            if row["title"] is not None:
-                subattributes.append(self.Attribute(
-                    name='publication',
-                    value=row["title"],
-                    type='title', url=None) 
-                )      
-            if row["year"] is not None:
-                subattributes.append(self.Attribute(
-                    name='publication',
-                    value=row["year"],
-                    type='year', url=None) 
-                )  
             if row["authors"] is not None:
-                subattributes.append(self.Attribute(
-                    name='publication',
-                    value=row["authors"],
-                    type='authors', url=None) 
-                )  
+                description = description + row["authors"] + ': ' 
+            if row["title"] is not None:
+                description = description + row["title"]
+            if row["journal"] is not None:
+                description = description + row["journal"] + ' '
+            if row["year"] is not None:
+                description = description + str(row["year"])
+            reference.description = description.strip()
         target.connections.append(connection)
 
 
@@ -668,13 +720,16 @@ class ChemblMechanismTransformer(Transformer):
             super().__init__(self.variables, definition_file)
 
         self.target_class_dict = self.get_target_class_dict()
+        with open('conf/chembl_qualifiers.json') as json_file:
+            self.qualifier_map = json.load(json_file)
+
 
     ##########################################################################
     # This function reads & converts into a dictionary where the columns are:
     # target_type	|	molepro_semantic_type
     def get_target_class_dict(self):
             classDict = {}
-            tsv_file = open("info/chembl_molepro_map.txt")
+            tsv_file = open("conf/chembl_molepro_map.txt")
             for line in csv.DictReader(tsv_file, delimiter="\t"):
                 classDict[line['target_type']] = line['molepro_semantic_type']
             return classDict
@@ -684,19 +739,20 @@ class ChemblMechanismTransformer(Transformer):
         mechanisms = {}         # Dictionary of all the elements
         for element in collection:
             identifiers = element.identifiers
+            ids = []
             if 'chembl' in identifiers and identifiers['chembl'] is not None:
-                curie = identifiers['chembl']
-                if curie is not None:
-                   id = self.de_prefix('chembl', identifiers['chembl'])
+                ids = self.get_identifiers(element, 'chembl', de_prefix=True)
             elif 'inchikey' in identifiers and identifiers['inchikey'] is not None:
-                for compound in get_compound_by_inchikey(identifiers['inchikey']):
-                    id = compound['chembl_id']
+                ids = [compound['chembl_id'] for compound in get_compound_by_inchikey(identifiers['inchikey'])]
 
-            if id is not None:
+            for id in ids:
+                mech_ids = set()
                 for row in get_mechanisms(id):
-                    mechanism = self.get_or_create_mechanism(row, mechanisms, mechanism_list)
-                    if mechanism is not None:
-                        self.add_connection(element.id, id, mechanism, row)
+                    if row['mec_id'] not in mech_ids:
+                        mechanism = self.get_or_create_mechanism(row, mechanisms, mechanism_list)
+                        if mechanism is not None:
+                            self.add_connection(element.id, mechanism, row)
+                            mech_ids.add(row['mec_id'])
         return mechanism_list
 
 
@@ -724,8 +780,8 @@ class ChemblMechanismTransformer(Transformer):
         add_attribute(self, None, mechanism,row,'target_type')
         add_attribute(self, None, mechanism,row,'target_organism')
         add_attribute(self, None, mechanism,row,'component_type')
-        add_attribute(self, None, mechanism,row,'description')
-        tax_id = add_attribute(self, None, mechanism,row,'tax_id')
+        add_attribute(self, None, mechanism,row,'description', 'biolink:description')
+        tax_id = add_attribute(self, None, mechanism,row,'tax_id', 'biolink:in_taxon')
         if tax_id is not None:
             tax_id.value = self.add_prefix('ncbi_taxon', tax_id.value, 'OrganismEntity')
         add_attribute(self, None, mechanism,row,'organism')        
@@ -766,14 +822,31 @@ class ChemblMechanismTransformer(Transformer):
                 )
         return names_synonyms
 
-    def add_connection(self, source_element_id, id, mechanism, row):
+    def add_connection(self, source_element_id, mechanism, row):
         infores = self.Attribute('biolink:primary_knowledge_source','infores:chembl')
         infores.attribute_source = 'infores:molepro'
+        level = self.Attribute('biolink:knowledge_level',self.KNOWLEDGE_LEVEL)
+        level.attribute_source = 'infores:molepro'
+        agent = self.Attribute('biolink:agent_type',self.AGENT_TYPE)
+        agent.attribute_source = 'infores:molepro'
+        predicate=self.PREDICATE
+        inv_predicate=self.INVERSE_PREDICATE
+        qualifiers = []
+        if row['action_type'] in self.qualifier_map:
+            predicate = self.qualifier_map[row['action_type']].get('predicate', predicate)
+            inv_predicate = self.qualifier_map[row['action_type']].get('inv_predicate', inv_predicate)
+            for qualifier in self.qualifier_map[row['action_type']].get('qualifiers', []):
+                qualifiers.append(qualifier)
+        if row['tax_id'] is not None and row['tax_id'] != '':
+            tax_id = self.add_prefix('ncbi_taxon', row['tax_id'], 'OrganismEntity')
+            species_qualifier = self.Qualifier('species_context_qualifier',tax_id)
+            qualifiers.append(species_qualifier)
         connection = self.Connection(
             source_element_id=source_element_id,
-            predicate=self.PREDICATE,
-            inv_predicate=self.INVERSE_PREDICATE,
-            attributes=[infores]
+            predicate=predicate,
+            inv_predicate=inv_predicate,
+            attributes=[infores, level, agent],
+            qualifiers=qualifiers
         )
         add_attribute(self,None,connection,row,'action_type')
         add_attribute(self,None,connection,row,'direct_interaction')
@@ -801,9 +874,9 @@ class ChemblMechanismTransformer(Transformer):
         if row['document_chembl_id'] is not None:
             reference=add_attribute(self, None, connection,row,'document_chembl_id')
             if reference is not None and reference.value is not None:
-                reference.name = 'publication'
+                reference.name = 'document_chembl_id'
                 reference.url = DOC_URL + reference.value
-                reference.type = 'biolink:publication'
+                reference.type = 'biolink:Publication'
                 reference.value = self.add_prefix('chembl', reference.value, reference.type)
             #   sub-attribute source_description
                 subattributes = []
@@ -847,19 +920,17 @@ class ChemblGeneTargetTransformer(ChemblMechanismTransformer):
         genes = {}         # Dictionary of all the elements
         for element in collection:
             identifiers = element.identifiers
+            ids = []
             if 'chembl' in identifiers and identifiers['chembl'] is not None:
-                curie = identifiers['chembl']
-                if curie is not None:
-                   id = self.de_prefix('chembl', identifiers['chembl'])
+                ids = self.get_identifiers(element, 'chembl', de_prefix=True)
             elif 'inchikey' in identifiers and identifiers['inchikey'] is not None:
-                for compound in get_compound_by_inchikey(identifiers['inchikey']):
-                    id = compound['chembl_id']
-            if id is not None:
+                ids = [compound['chembl_id'] for compound in get_compound_by_inchikey(identifiers['inchikey'])]
+            for id in ids:
                 for target in get_mechanisms(id):
-                    for gene_id in target_xref(target['component_id']):
+                    for gene_id in target_xref(target['accession']):
                         gene_target = self.get_or_create_gene_target(target, gene_id, genes, gene_list)
                         if gene_target is not None:
-                            self.add_connection(element.id, id, gene_target, target)
+                            self.add_connection(element.id, gene_target, target)
         return gene_list
 
 
@@ -885,8 +956,8 @@ class ChemblGeneTargetTransformer(ChemblMechanismTransformer):
                             attributes=[]
                         )
             add_attribute(self, None, gene_target,row,'target_organism')
-            add_attribute(self, None, gene_target,row,'description')
-            tax_id = add_attribute(self, None, gene_target,row,'tax_id')
+            add_attribute(self, None, gene_target,row,'description', 'biolink:description')
+            tax_id = add_attribute(self, None, gene_target,row,'tax_id', 'biolink:in_taxon')
             if tax_id is not None:
                 tax_id.value = self.add_prefix('ncbi_taxon', tax_id.value, 'OrganismEntity')
             add_attribute(self, None, gene_target,row,'organism')
@@ -939,14 +1010,12 @@ class ChemblMetaboliteTransformer(Transformer):
         metabolites = {}
         for element in collection:
             identifiers = element.identifiers
+            ids = []
             if 'chembl' in identifiers and identifiers['chembl'] is not None:
-                curie = identifiers['chembl']
-                if curie is not None:
-                   id = self.de_prefix('chembl', identifiers['chembl'])
+                ids = self.get_identifiers(element, 'chembl', de_prefix=True)
             elif 'inchikey' in identifiers and identifiers['inchikey'] is not None:
-                for compound in get_compound_by_inchikey(identifiers['inchikey']):
-                    id = compound['chembl_id']            
-            if id is not None:
+                ids = [compound['chembl_id'] for compound in get_compound_by_inchikey(identifiers['inchikey'])]
+            for id in ids:
                 for row in get_direct_metabolites(id):
                     metabolite = self.get_or_create_metabolite(row, metabolites, metabolite_list)
                     self.add_connection(element.id, id, metabolite, row)
@@ -979,11 +1048,15 @@ class ChemblMetaboliteTransformer(Transformer):
     def add_connection(self, source_element_id, id, metabolite, row):
         infores = self.Attribute('biolink:primary_knowledge_source','infores:chembl')
         infores.attribute_source = 'infores:molepro'
+        level = self.Attribute('biolink:knowledge_level',self.KNOWLEDGE_LEVEL)
+        level.attribute_source = 'infores:molepro'
+        agent = self.Attribute('biolink:agent_type',self.AGENT_TYPE)
+        agent.attribute_source = 'infores:molepro'
         connection = self.Connection(
             source_element_id=source_element_id,
             predicate=self.PREDICATE,
             inv_predicate=self.INVERSE_PREDICATE,
-            attributes=[infores]
+            attributes=[infores, level, agent]
         )
 
         add_attribute(self,None,connection,row,'enzyme_name')
@@ -1002,12 +1075,12 @@ class ChemblMetaboliteTransformer(Transformer):
 
 ################################ Common functions ###################################################
 
-def add_attribute(self, transformer, element, row, name):
-    if row[name] is not None:
+def add_attribute(self, transformer, element, row, name, type = None):
+    if row[name] is not None and row[name] != '':
         attribute = self.Attribute(
                 name=name,
                 value=str(row[name]),
-                type=name,
+                type= type if type is not None else name ,
                 url=None
             )
         element.attributes.append(attribute)
@@ -1023,21 +1096,23 @@ def add_references(self, connection, ref_table, id_column, ref_id):
             connection.attributes.append(
                 self.Attribute(
                     name=reference['ref_type'],
-                    value=add_ref_prefix(reference['ref_type'], reference['ref_id']),
-                    type='biolink:publication',
+                    value=get_ref_value(reference['ref_type'], reference['ref_id'], reference['ref_url']),
+                    type='biolink:Publication',
                     url=reference['ref_url']
                 )
             )
 
 
-def add_ref_prefix(ref_type, ref_id):
-    prefix_map = {'PMID':'PMID:', 'DOI':'DOI:', 'ISBN': 'ISBN:', 'PubMed':'PMID:'}
+def get_ref_value(ref_type, ref_id, ref_url):
+    prefix_map = {'PMID':'PMID:', 'DOI':'doi:', 'ISBN': 'ISBN:', 'PubMed':'PMID:'}
     if ref_type in prefix_map:
         return prefix_map[ref_type]+ref_id
+    if ref_url is not None:
+        return ref_url
     return ref_id
 
 
-connection = sqlite3.connect("database/ChEMBL.sqlite", check_same_thread=False)
+connection = sqlite3.connect("data/ChEMBL.sqlite", check_same_thread=False)
 connection.row_factory = sqlite3.Row
 
 
@@ -1101,10 +1176,6 @@ def get_compound(join, where, name):
             molecule_dictionary.usan_stem_definition,
             molecule_dictionary.indication_class,
             molecule_dictionary.withdrawn_flag,
-            molecule_dictionary.withdrawn_year,
-            molecule_dictionary.withdrawn_country,
-            molecule_dictionary.withdrawn_reason,
-            molecule_dictionary.withdrawn_class,
             compound_structures.standard_inchi,
             compound_structures.standard_inchi_key,
             compound_structures.canonical_smiles
@@ -1164,7 +1235,7 @@ def get_indications(chembl_id):
           indication_refs.ref_url
         FROM drug_indication
         JOIN molecule_dictionary ON (molecule_dictionary.molregno = drug_indication.molregno)
-        JOIN indication_refs ON (indication_refs.drugind_id = drug_indication.drugind_id)
+        LEFT JOIN indication_refs ON (indication_refs.drugind_id = drug_indication.drugind_id)
         WHERE molecule_dictionary.chembl_id = ?
     """
     cur = connection.cursor()
@@ -1187,6 +1258,7 @@ def get_activities(chembl_id):
             activities.standard_upper_value,
             activities.uo_units,
             activities.potential_duplicate,
+            activities.action_type,
             assays.chembl_id AS assay_chembl_id,
             assays.description AS assay_description,
             assays.assay_organism,
@@ -1233,6 +1305,7 @@ def get_activities(chembl_id):
             docs.year,
             docs.authors,
             docs.pubmed_id,
+            docs.doi,
             relationship_type.relationship_desc AS relationship_description,
             confidence_score_lookup.description AS confidence_score_description,
             confidence_score_lookup.target_mapping,
@@ -1359,10 +1432,7 @@ def get_drug_warning(molregno):
             molecule_dictionary.molregno, 
             warning_id, 
             pref_name, 
-            withdrawn_year, 
-            withdrawn_country, 
-            withdrawn_reason,
-            withdrawn_class, 
+            withdrawn_flag,
             warning_type, 
             warning_class, 
             warning_description, 
@@ -1439,28 +1509,28 @@ def get_refs(ref_table, id_column, ref_id):
     return cur.fetchall()
 
 
-target_xref_con = sqlite3.connect("database/ChEMBL.target.xref.sqlite", check_same_thread=False)
+target_xref_con = sqlite3.connect("data/UniProt.sqlite", check_same_thread=False)
 target_xref_con.row_factory = sqlite3.Row
 
 target_xrefs = {}
 
 
-def target_xref(component_id):
-    if component_id not in target_xrefs:
-        target_xrefs[component_id] = get_target_xrefs(component_id)
-    return target_xrefs[component_id]
+def target_xref(accession):
+    if accession not in target_xrefs:
+        target_xrefs[accession] = get_target_xrefs(accession)
+    return target_xrefs[accession]
 
 
-def get_target_xrefs(component_id):
+def get_target_xrefs(accession):
     query = """
-        SELECT xref_id
-        FROM component_xref
-        WHERE component_xref.xref_src_db = 'EnsemblGene'
-        AND component_id = ?
+        SELECT XREF
+        FROM XREF
+        WHERE XREF_TYPE = 'Ensembl'
+        AND UNIPROT_AC = ?
     """
     xrefs = []
     cur = target_xref_con.cursor()
-    cur.execute(query,(component_id,))
+    cur.execute(query,(accession,))
     for xref in cur.fetchall():
-        xrefs.append(xref['xref_id'])
+        xrefs.append(xref['XREF'])
     return xrefs

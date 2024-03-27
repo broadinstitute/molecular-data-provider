@@ -2,7 +2,7 @@
     "name": "ChEMBL compound-list producer",
     "label": "ChEMBL",
     "description": "Compound-list producer based on ChEMBL (https://www.ebi.ac.uk/chembl/).",
-    "version": "2.4.0",
+    "version": "2.5.0",
     "function": "producer",
     "knowledge_map": {
         "input_class": "none",
@@ -17,10 +17,8 @@
         "edges": []
     },
     "properties": {
-        "list_predicate": "related_to",
-        "member_predicate": "related_to",
         "source_url": "https://www.ebi.ac.uk/chembl/",
-        "source_version": "30 (2022-03-09)",
+        "source_version": "33 (2024-02-02)",
         "terms_of_service": "https://www.ebi.ac.uk/about/terms-of-use/"
     },
     "parameters": [
@@ -30,7 +28,7 @@
             "type": "string",
             "required": true,
             "multivalued": true,
-            "suggested_values": "comma-separated list of compound values (either compound names or ChEMBL IDs)"
+            "description": "compound name, InChi key, or ChEMBL ID"
         }
     ]
 }

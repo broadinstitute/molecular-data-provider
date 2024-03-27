@@ -1,8 +1,9 @@
 {
     "name": "ChEMBL mechanism transformer",
     "label": "ChEMBL",
+    "infores": "infores:chembl",
     "description": "Mechanism transformer based on ChEMBL mechanism information (https://www.ebi.ac.uk/chembl/).",
-    "version": "2.4.0",
+    "version": "2.5.0",
     "function": "transformer",
     "knowledge_map": {
         "input_class": "compound",
@@ -86,19 +87,21 @@
         },
         "edges": [
             {
-                "subject": "Compound",
-                "predicate": "affects",
-                "inverse_predicate": "affected_by",
+                "subject": "SmallMolecule",
+                "predicate": "biolink:affects",
+                "inverse_predicate": "biolink:affected_by",
                 "object": "Protein",
                 "source": "CHEMBL",
                 "count": -1,
+                "knowledge_level": "knowledge_assertion",
+                "agent_type": "manual_agent",
                 "attributes": []
             }
         ]
     },
     "properties": {
         "source_url": "https://www.ebi.ac.uk/chembl/",
-        "source_version": "30 (2022-03-09)",
+        "source_version": "33 (2024-02-02)",
         "terms_of_service": "https://www.ebi.ac.uk/about/terms-of-use/"
     },
     "parameters": []

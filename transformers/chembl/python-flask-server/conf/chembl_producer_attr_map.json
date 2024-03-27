@@ -1,0 +1,66 @@
+[
+    {
+        "attribute_type_id": "biolink:highest_FDA_approval_status",
+        "original_attribute_name": "max_phase",
+        "value_type_id": "String",
+        "value_map": {
+            "0.5": "preclinical_research_phase",
+            "1": "fda_clinical_research_phase_1",
+            "2": "fda_clinical_research_phase_2",
+            "3": "fda_clinical_research_phase_3",
+            "4": "regular_fda_approval"
+        }
+    },
+    {
+        "attribute_type_id": "biolink:highest_FDA_approval_status",
+        "original_attribute_name": "withdrawn_flag",
+        "value_type_id": "String",
+        "value_map": {
+            "1": "post_approval_withdrawal"
+        }
+    },
+    {
+        "attribute_type_id": "chirality",
+        "original_attribute_name": "chirality",
+        "value_type_id": "String",
+        "value_map": {
+            "0": "racemic mixture",
+            "1": "single stereoisomer",
+            "2": "achiral molecule"
+        }
+    },
+    {
+        "attribute_type_id": "availability_type",
+        "original_attribute_name": "availability_type",
+        "value_type_id": "String",
+        "value_map": {
+            "0": "discontinued",
+            "1": "prescription only",
+            "2": "over the counter"
+        }
+    },
+    {
+        "attribute_type_id": "biolink:routes_of_delivery",
+        "original_attribute_name": "oral",
+        "value_type_id": "String",
+        "value_map": {
+            "1": "oral"
+        }
+    },
+    {
+        "attribute_type_id": "biolink:routes_of_delivery",
+        "original_attribute_name": "parenteral",
+        "value_type_id": "String",
+        "value_map": {
+            "1": "parenteral"
+        }
+    },
+    {
+        "attribute_type_id": "biolink:routes_of_delivery",
+        "original_attribute_name": "topical",
+        "value_type_id": "String",
+        "value_map": {
+            "1": "topical"
+        }
+    }
+]
