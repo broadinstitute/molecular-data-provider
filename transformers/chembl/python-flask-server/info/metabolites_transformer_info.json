@@ -1,8 +1,9 @@
 {
     "name": "ChEMBL metabolite transformer",
     "label": "ChEMBL",
+    "infores": "infores:chembl",
     "description": "Metabolites transformer based on ChEMBL metabolites information (https://www.ebi.ac.uk/chembl/).",
-    "version": "2.4.0",
+    "version": "2.5.0",
     "function": "transformer",
     "knowledge_map": {
         "input_class": "compound",
@@ -17,11 +18,13 @@
         "edges": [
             {
                 "subject": "SmallMolecule",
-                "predicate": "has_metabolite",
-                "inverse_predicate": "is_metabolite_of",
+                "predicate": "biolink:has_metabolite",
+                "inverse_predicate": "biolink:is_metabolite_of",
                 "object": "SmallMolecule",
                 "source": "CHEMBL",
                 "count": -1,
+                "knowledge_level": "knowledge_assertion",
+                "agent_type": "manual_agent",
                 "attributes": []
             }
         ]
@@ -31,7 +34,7 @@
         "member_predicate": "has_metabolite",
         "source_url": "https://www.ebi.ac.uk/chembl/",
         "terms_of_service": "https://www.ebi.ac.uk/about/terms-of-use/",
-        "source_version": "30 (2022-03-09)"
+        "source_version": "33 (2024-02-02)"
     },
     "parameters": []
 }
