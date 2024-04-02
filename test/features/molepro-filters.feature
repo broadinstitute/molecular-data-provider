@@ -101,7 +101,7 @@ Feature: Check MolePro filters
         | id   | CHEBI:4167       |
         and we call "Element attribute filter" transformer with the following parameters:
         | id              | name    | operator | value |
-        | natural_product | natural_product | == | yes |
+        | biolink:routes_of_delivery | biolink:routes_of_delivery | == | oral |
         then the length of the collection should be 1
 
 
@@ -115,7 +115,7 @@ Feature: Check MolePro filters
         and we call "MoleProDB connections transformer" transformer with the following parameters:
         | biolink_class |
         | Gene          |
-        then the length of the collection should be 314
+        then the length of the collection should be 312
 
 
     Scenario: Check connections filter
@@ -151,5 +151,5 @@ Feature: Check MolePro filters
         | not      | true                             |
         | operator | ==                               |
         | value    | infores:drugbank                 |
-        then the length of the collection should be 300
+        then the length of the collection should be 298
 
