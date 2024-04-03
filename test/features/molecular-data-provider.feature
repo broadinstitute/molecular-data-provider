@@ -107,7 +107,7 @@ Feature: Check MolePro
         and we call "CMAP compound-to-gene transformer" transformer with the following parameters:
         | score threshold | maximum number |
         | 99.5            | 0              |
-        then the length of the collection should be 86
+        then the length of the collection should be 60
         and the value of "element_class" should be "gene"
         and the value of "source" should be "CMAP compound-to-gene transformer"
 
@@ -118,7 +118,7 @@ Feature: Check MolePro
         | compound |
         | aspirin  |
         and we call "ChEMBL indication transformer" transformer with no parameters
-        then the length of the collection should be 142
+        then the length of the collection should be 146
         and the value of "element_class" should be "disease"
         and the value of "source" should be "ChEMBL indication transformer"
 
@@ -145,7 +145,7 @@ Feature: Check MolePro
         and we call "CMAP gene-to-gene expander" transformer with the following parameters:
         | score threshold | maximum number |
         | 99.0            | 2              |
-        then the length of the collection should be 3
+        then the length of the collection should be 4
         and the value of "element_class" should be "gene"
         and the value of "source" should be "CMAP gene-to-gene expander"
 
@@ -159,7 +159,7 @@ Feature: Check MolePro
         and we call "CMAP compound-to-gene transformer" transformer with the following parameters:
         | score threshold | maximum number |
         | 99.0            | 2              |
-        then the length of the collection should be 20
+        then the length of the collection should be 18
         and the value of "element_class" should be "gene"
         and the value of "source" should be "CMAP compound-to-gene transformer"
 
@@ -190,7 +190,7 @@ Feature: Check MolePro
         and we call "Gene-list network enrichment analysis" transformer with the following parameters:
         | network          | gene-set collection    | maximum p-value |
         | STRING-human-700 | H - hallmark gene sets | 0.05            |
-        then the length of the collection should be 6
+        then the length of the collection should be 7
         and the value of "element_class" should be "pathway"
         and the value of "source" should be "Gene-list network enrichment analysis"
 
@@ -208,26 +208,32 @@ Feature: Check MolePro
         and the value of "source" should be "STITCH link transformer"
 
 
-    Scenario: Check Repurposing Hub targets transformer
+    Scenario: Check Drug Repurposing Hub targets transformer
         Given the Molecular Data Provider
-        when we call "Repurposing Hub compound-list producer" transformer with the following parameters:
-        | compounds                                                             |
-        | aspirin; bortezomib;GXJABQQUPOEUTA-RDJZCZTQSA-N; allopurinol-riboside |
-        and we call "Repurposing Hub target transformer" transformer with no parameters
+        when we call "Drug Repurposing Hub compound-list producer" transformer with the following parameters:
+        | name     | value                       |
+        | compound | aspirin                     |
+        | compound | bortezomib                  |
+        | compound | GXJABQQUPOEUTA-RDJZCZTQSA-N |
+        | compound | allopurinol-riboside        |
+        and we call "Drug Repurposing Hub target transformer" transformer with no parameters
         then the length of the collection should be 41
         and the value of "element_class" should be "gene"
-        and the value of "source" should be "Repurposing Hub target transformer"
+        and the value of "source" should be "Drug Repurposing Hub target transformer"
 
 
-    Scenario: Check Repurposing Hub indications transformer
+    Scenario: Check Drug Repurposing Hub indications transformer
         Given the Molecular Data Provider
-        when we call "Repurposing Hub compound-list producer" transformer with the following parameters:
-        | compounds                                                             |
-        | aspirin; bortezomib;GXJABQQUPOEUTA-RDJZCZTQSA-N; allopurinol-riboside |
-        and we call "Repurposing Hub indication transformer" transformer with no parameters
+        when we call "Drug Repurposing Hub compound-list producer" transformer with the following parameters:
+        | name     | value                       |
+        | compound | aspirin                     |
+        | compound | bortezomib                  |
+        | compound | GXJABQQUPOEUTA-RDJZCZTQSA-N |
+        | compound | allopurinol-riboside        |
+        and we call "Drug Repurposing Hub indication transformer" transformer with no parameters
         then the length of the collection should be 6
         and the value of "element_class" should be "DiseaseOrPhenotypicFeature"
-        and the value of "source" should be "Repurposing Hub indication transformer"
+        and the value of "source" should be "Drug Repurposing Hub indication transformer"
 
 
     Scenario: Check union
@@ -236,7 +242,7 @@ Feature: Check MolePro
         and another compound list "aspirin;bortezomib;naproxen"
         when we call aggregator "union"
         then the value of "source" should be "union"
-        and the length of the collection should be 6
+        and the length of the collection should be 4
         and the value of "element_class" should be "compound"
 
 
@@ -266,7 +272,7 @@ Feature: Check MolePro
         and another compound list "aspirin;bortezomib;naproxen"
         when we call aggregator "symmetric difference"
         then the value of "source" should be "symmetric difference"
-        and the length of the collection should be 4
+        and the length of the collection should be 2
         and the value of "element_class" should be "compound"
 
 
@@ -287,7 +293,7 @@ Feature: Check MolePro
             ["aspirin","bortezomib","Velcade","ibuprofen"]
         """
         then the size of "attributes" should be 4
-        and the int value of "size" should be 5
+        and the int value of "size" should be 4
 
 
     Scenario: Check batch element list by id
@@ -307,4 +313,4 @@ Feature: Check MolePro
             ["aspirin","bortezomib","Velcade","ibuprofen"]
         """
         then the size of "attributes" should be 0
-        and the int value of "size" should be 6
+        and the int value of "size" should be 5
