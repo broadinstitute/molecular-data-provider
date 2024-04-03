@@ -4,7 +4,7 @@ info:
     email: translator@broadinstitute.org
   termsOfService: https://github.com/broadinstitute/molecular-data-provider/blob/master/terms_of_service.md
   title: Transformer API for MolePro database
-  version: 2.5.1
+  version: 2.5.2
 servers:
 - url: https://translator.broadinstitute.org/moleprodb
 tags:
