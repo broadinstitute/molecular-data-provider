@@ -1,28 +1,15 @@
 import sqlite3
 import re
 
-from transformers.transformer import Transformer
+from transformers.transformer import Transformer, Producer
 
-from openapi_server.models.names import Names
-from openapi_server.models.attribute import Attribute
-from openapi_server.models.element import Element
-from openapi_server.models.connection import Connection
-
-# Data Source
-SOURCE= 'Drug Repurposing Hub'
-
-# CURIE prefixes
-PUBCHEM = 'CID:'
-
-# Biolink class
-GENE = 'gene'
 
 connection = sqlite3.connect("data/RepurposingHub.sqlite", check_same_thread=False)
 connection.row_factory = sqlite3.Row
 
-class RepurposingHubProducer(Transformer):
+class RepurposingHubProducer(Producer):
 
-    variables = ['compounds']
+    variables = ['compound']
 
     def __init__(self):
         super().__init__(self.variables, definition_file='info/compounds_transformer_info.json')
@@ -31,34 +18,34 @@ class RepurposingHubProducer(Transformer):
     inchikey_regex = re.compile('[A-Z]{14}-[A-Z]{10}-[A-Z]')
 
 
-    def produce(self, controls):
-        compound_list = []
-        # compounds = {}
-        names = controls['compounds'].split(';')
-        for name in names:
-            name = name.strip()
-            if name.upper().startswith('CID:'):
-                name= name[4:]
-                compound_list.extend(self.find_compound_by_pubchem_cid(name))
-            elif self.inchikey_regex.match(name) != None:
-                compound_list.extend(self.find_compound_by_inchi_key(name))
-            elif name.upper().startswith('BRD-'):
-                compound_list.extend(self.find_compound_by_broad_cpd_id(name))
-            else: 
-                compound_list.extend(self.find_compound_by_name(name))
-        return compound_list
+    def find_names(self, name):
+        if self.has_prefix('pubchem', name, self.OUTPUT_CLASS):
+            cid = self.de_prefix('pubchem', name, self.OUTPUT_CLASS)
+            return self.find_compound_by_pubchem_cid(cid)
+        if self.inchikey_regex.match(name) is not None:
+            return self.find_compound_by_inchi_key(name)
+        if name.upper().startswith('BRD-'):
+            return self.find_compound_by_broad_cpd_id(name)
+        return self.find_compound_by_name(name)
+
+
+    def create_element(self, sample_id):
+        sample = self.get_sample(sample_id)
+        if sample is not None:
+            return self.get_element(sample)
+        return None
+
 
     def find_compound_by_name(self, name):
-        compounds=[]
         query = """
-            SELECT DISTINCT DRUG_ID FROM DRUG
+            SELECT DISTINCT SAMPLE_ID 
+            FROM DRUG
+            JOIN SAMPLE ON SAMPLE.DRUG_ID = DRUG.DRUG_ID
             WHERE PERT_INAME = ?
         """
         cur = connection.cursor()
         cur.execute(query,(name,))
-        for row in cur.fetchall():
-            for sample in self.get_samples(row['DRUG_ID']):
-                self.add_element(sample,compounds)
+        compounds = [row['SAMPLE_ID'] for row in cur.fetchall()]
         # if not found by name, try synonyms
         if len(compounds)==0:
             return self.find_compound_by_synonym(name)
@@ -66,67 +53,66 @@ class RepurposingHubProducer(Transformer):
 
 
     def find_compound_by_synonym(self, synonym):
-        compounds = []
         query = """
-            SELECT DISTINCT DRUG_ID FROM NAME
+            SELECT DISTINCT SAMPLE.SAMPLE_ID 
+            FROM NAME
+            JOIN SAMPLE ON SAMPLE.SAMPLE_ID = NAME.SAMPLE_ID
             WHERE NAME = ?
         """
         cur = connection.cursor()
         cur.execute(query,(synonym,))
-        for row in cur.fetchall():
-            for sample in self.get_samples(row['DRUG_ID']):
-                self.add_element(sample,compounds)
-        return compounds
+        return [row['SAMPLE_ID'] for row in cur.fetchall()]
+
 
     def find_compound_by_pubchem_cid(self, id):
-        compounds = []
         query = """
-            SELECT DISTINCT DRUG_ID, SAMPLE_ID, BROAD_CPD_ID, SMILES, INCHIKEY, PUBCHEMCID FROM SAMPLE
+            SELECT DISTINCT SAMPLE_ID
+            FROM SAMPLE
             WHERE PUBCHEMCID = ?
         """
         cur = connection.cursor()
         cur.execute(query,(id,))
-        for row in cur.fetchall():
-            self.add_element(row, compounds)
-        return compounds
+        return [row['SAMPLE_ID'] for row in cur.fetchall()]
 
 
     def find_compound_by_inchi_key(self, inchi_key):
-        compounds = []
         query = """
-            SELECT DISTINCT DRUG_ID, SAMPLE_ID, BROAD_CPD_ID, SMILES, INCHIKEY, PUBCHEMCID FROM SAMPLE
+            SELECT DISTINCT SAMPLE_ID
+            FROM SAMPLE
             WHERE INCHIKEY = ?
         """
         cur = connection.cursor()
         cur.execute(query,(inchi_key,))
-        for row in cur.fetchall():
-            self.add_element(row, compounds)
-        return compounds
+        return [row['SAMPLE_ID'] for row in cur.fetchall()]
+
 
     def find_compound_by_broad_cpd_id(self, broad_id):
-        compounds = []
         query = """
-            SELECT DRUG_ID, SAMPLE_ID, BROAD_CPD_ID, SMILES, INCHIKEY, PUBCHEMCID FROM SAMPLE
+            SELECT DISTINCT SAMPLE_ID
+            FROM SAMPLE
             WHERE BROAD_CPD_ID = ?
         """
         cur = connection.cursor()
         cur.execute(query,(broad_id,))
-        for row in cur.fetchall():
-            self.add_element(row, compounds)
-        return compounds
+        return [row['SAMPLE_ID'] for row in cur.fetchall()]
+
 
     # helper function to connect names to samples through drug id 
-    def get_samples(self, drug_id):
+    def get_sample(self, sample_id):
         query = """
-            SELECT DRUG_ID, SAMPLE_ID, BROAD_CPD_ID, SMILES, INCHIKEY, PUBCHEMCID FROM SAMPLE
-            WHERE DRUG_ID = ?
+            SELECT DRUG_ID, SAMPLE_ID, BROAD_CPD_ID, SMILES, INCHIKEY, PUBCHEMCID 
+            FROM SAMPLE
+            WHERE SAMPLE_ID = ?
         """
         cur = connection.cursor()
-        cur.execute(query,(drug_id,))
-        return cur.fetchall()
+        cur.execute(query,(sample_id,))
+        for row in cur.fetchall():
+            return row
+        return None
+
 
     # creates element for compound
-    def add_element(self, row, compounds):
+    def get_element(self, row):
         identifiers= {}
         if row['PUBCHEMCID'] is not None and row['PUBCHEMCID'] != '':
             identifiers['pubchem']= 'CID:'+str(row['PUBCHEMCID'])
@@ -144,22 +130,36 @@ class RepurposingHubProducer(Transformer):
         for synonym in self.get_synonyms(row['SAMPLE_ID']):
             synonyms.append(synonym['NAME'])
         
-        names= Names(name=name,synonyms=synonyms, source=SOURCE)
+        names= self.Names(name=name,synonyms=synonyms)
 
-        compound = Element(
+        compound = self.Element(
                     id = row['BROAD_CPD_ID'],
                     biolink_class='ChemicalSubstance',
                     identifiers = identifiers,
-                    names_synonyms = [names],
-                    attributes= [
-                    ],
-                    connections=[],
-                    source=self.info.name
+                    names_synonyms = [names]
                 )
         self.add_attributes(row, compound)
 
-        compounds.append(compound)
+        return compound
 
+
+    clinical_phase_map = {
+        'Launched': 'regular_fda_approval',
+        'Phase 1': 'fda_clinical_research_phase_1',
+        'Phase 1/Phase 2': 'fda_clinical_research_phase_1',
+        'Phase 2': 'fda_clinical_research_phase_2',
+        'Phase 2/Phase 3': 'fda_clinical_research_phase_2',
+        'Phase 3': 'fda_clinical_research_phase_3',
+        'Preclinical': 'preclinical_research_phase',
+        'Withdrawn': 'post_approval_withdrawal'
+    }
+
+    feature_type_map = {
+        'moa': 'biolink:mechanism_of_action',
+        'disease_area': 'disease_area',
+        'clinical_phase': 'biolink:highest_FDA_approval_status'
+    }
+    
     # add attribute object to element using drug_id obtained from previous queries
     def add_attributes (self, row, compound):
         drug_id= row['DRUG_ID']
@@ -171,12 +171,14 @@ class RepurposingHubProducer(Transformer):
         cur = connection.cursor()
         cur.execute(query,(drug_id,))
         for feature_row in cur.fetchall():
-            compound.attributes.append(Attribute(
+            value= feature_row['FEATURE_NAME']
+            if feature_row['FEATURE_TYPE'] == 'clinical_phase':
+                value= self.clinical_phase_map.get(value, value)
+            compound.attributes.append(self.Attribute(
                 name= feature_row['FEATURE_TYPE'],
-                value= feature_row['FEATURE_NAME'],
-                provided_by=self.info.name,
-                type= feature_row['FEATURE_TYPE'],
-                source= SOURCE
+                value= value,
+                type= self.feature_type_map[feature_row['FEATURE_TYPE']],
+                value_type = 'String'
                 )
             )
 
@@ -199,6 +201,7 @@ class RepurposingHubProducer(Transformer):
         cur.execute(query,(sample_id,))
         return cur.fetchall()
 
+
 class FeaturesTransformer(Transformer):
 
     variables = []
@@ -213,8 +216,8 @@ class FeaturesTransformer(Transformer):
         output = {}
         for compound in compound_list:
             # find drug_id using inchikey identifier 
-            if compound.identifiers.get('inchikey') is not None:
-                drug_id= self.get_drug_id(compound)
+            for inchikey in self.get_identifiers(compound, 'inchikey', de_prefix=False):
+                drug_id= self.get_drug_id(inchikey)
                 # find feature_name information using drug_id 
                 feature_type= self.get_feature_type(drug_id)
                 for feature_row in feature_type:
@@ -222,28 +225,29 @@ class FeaturesTransformer(Transformer):
                     if feature_name not in output:
                         feature= self.add_element(feature_row, output_list)[-1]
                         # add connection object after building feature element
-                        self.add_connections(feature_row, feature, compound)
+                        self.add_connections(drug_id, feature_row, feature, compound)
                         output[feature_name]= feature
                     else:
                         # create new connection to a gene or disease already in the dictionary
                         feature= output[feature_name]
-                        self.add_connections(feature_row, feature, compound)
+                        self.add_connections(drug_id, feature_row, feature, compound)
         return output_list
 
 
-    def get_feature_type(self, drug_id):
+    def get_feature_type(self, drug_id, feature_type = None):
+        if feature_type is None:
+            feature_type = self.feature_type
         query = """
             SELECT FEATURE_NAME, FEATURE_XREF, PRIMARY_NAME, FEATURE_ACTION FROM FEATURE
             INNER JOIN FEATURE_MAP ON FEATURE.FEATURE_ID = FEATURE_MAP.FEATURE_ID
             WHERE FEATURE_TYPE = ? AND FEATURE_MAP.DRUG_ID = ?
         """
         cur = connection.cursor()
-        cur.execute(query,(self.feature_type, drug_id,))
+        cur.execute(query,(feature_type, drug_id,))
         return cur.fetchall()
 
     # Takes compound and returns drug_id 
-    def get_drug_id(self, compound):
-        inchikey= compound.identifiers['inchikey']
+    def get_drug_id(self, inchikey):
         query= """
             SELECT DISTINCT DRUG_ID FROM SAMPLE 
             WHERE INCHIKEY = ?
@@ -257,9 +261,9 @@ class FeaturesTransformer(Transformer):
     def get_names(self, row):
         names= []
         synonyms= []
-        names.append(Names(name=row['FEATURE_NAME'],synonyms=synonyms, source=SOURCE))
+        names.append(self.Names(name=row['FEATURE_NAME'],synonyms=synonyms))
         if row['PRIMARY_NAME'] is not None and row['PRIMARY_NAME'] != '':
-            names.append(Names(name=row['PRIMARY_NAME'],synonyms=synonyms, source='molepro'))
+            names.append(self.Names(name=row['PRIMARY_NAME'],synonyms=synonyms))
         return names
 
 
@@ -269,38 +273,53 @@ class FeaturesTransformer(Transformer):
         if row['FEATURE_XREF'] is not None: 
             # fix identifiers for each transformer
             names= self.get_names(row)
-            Element()
-            output_element = Element(
+            output_element = self.Element(
                         id = row['FEATURE_XREF'],
                         biolink_class= self.biolink_class,
                         identifiers = self.identifiers(row),
-                        names_synonyms = names,
-                        attributes= [],
-                        connections=[],
-                        source=self.info.name
+                        names_synonyms = names
                     )       
             output_list.append(output_element) 
             return output_list
 
-    def add_connections (self, row, element, compound):
-        connection= Connection(
+    def add_connections (self, drug_id, row, element, compound):
+        (predicate, inv_predicate) = self.get_predicates(drug_id, row['FEATURE_ACTION'])
+        connection= self.Connection(
             source_element_id= compound.id,
-            type= self.info.knowledge_map.predicates[0].predicate,
-            source= SOURCE,
-            provided_by=self.info.name,
-            attributes= []
+            predicate= predicate, 
+            inv_predicate= inv_predicate
         )
-        # add attribute
+        # add attributes
         if  row['FEATURE_ACTION'] is not None and row['FEATURE_ACTION'] != '':
-            connection.attributes.append(Attribute(
+            connection.attributes.append(self.Attribute(
             name= 'FEATURE_ACTION',
             value= row['FEATURE_ACTION'],
-            provided_by=self.info.name, 
             type= 'FEATURE_ACTION',
-            source= SOURCE
+            value_type = 'String'
             )
             )
-            connection.relation = row['FEATURE_ACTION']
+        connection.attributes.append(self.Attribute(
+            name = 'biolink:primary_knowledge_source',
+            value = 'infores:drug-repurposing-hub',
+            type = 'biolink:primary_knowledge_source',
+            url = 'https://repo-hub.broadinstitute.org/repurposing-app',
+            value_type = 'biolink:InformationResource'
+            )
+        )
+        connection.attributes.append(self.Attribute(
+            name = 'biolink:knowledge_level',
+            value = self.KNOWLEDGE_LEVEL,
+            type = 'biolink:knowledge_level',
+            value_type = 'String'
+            )
+        )
+        connection.attributes.append(self.Attribute(
+            name = 'biolink:agent_type',
+            value = self.AGENT_TYPE,
+            type = 'biolink:agent_type',
+            value_type = 'String'
+            )
+        )
         element.connections.append(connection)
     
 
@@ -311,16 +330,42 @@ class TargetsTransformer(FeaturesTransformer):
         super().__init__('info/targets_transformer_info.json')
         self.feature_type= 'target'
         self.biolink_class= 'Gene'
+
     def identifiers (self, row):
         identifiers= {}
         identifiers['hgnc']= row['FEATURE_XREF']
         return identifiers
-    
+
+    def get_predicates(self, drug_id, feature_action):
+        return (self.PREDICATE, self.INVERSE_PREDICATE)
+
+
 class IndicationsTransformer(FeaturesTransformer):
+
+    clinical_phases = [
+        ['Launched', 'Withdrawn'],
+        ['Phase 1','Phase 3','Phase 2','Phase 1/Phase 2','Phase 2/Phase 3','Phase 2/Phase 3'],
+        ['Preclinical']
+    ]
+
+    feature_map = {
+        'agent for': ('biolink:affects', 'biolink:affected_by'),
+        'aid for': ('biolink:ameliorates_condition', 'biolink:condition_ameliorated_by'),
+        'control for': ('biolink:treats', 'biolink:treated_by'),
+        'diagnostic for': ('biolink:diagnoses', 'biolink:is_diagnosed_by'),
+        'reversal for': ('biolink:disrupts', 'biolink:disrupted_by'),
+        'support for': ('biolink:ameliorates_condition', 'biolink:condition_ameliorated_by')
+    }
+
     def __init__(self):
         super().__init__('info/indications_transformer_info.json')
         self.feature_type= 'indication'
         self.biolink_class= 'DiseaseOrPhenotypicFeature'
+        self.clinical_phase_map = {}
+        for i, cp in enumerate(self.clinical_phases):
+            for phase in cp:
+                self.clinical_phase_map[phase] = i
+
     def identifiers (self, row):
         identifiers= {}
         disease_id= row['FEATURE_XREF']
@@ -342,4 +387,13 @@ class IndicationsTransformer(FeaturesTransformer):
         identifiers['rephub']= row['FEATURE_XREF']
         return identifiers
 
-   
+    def get_predicates(self,drug_id, feature_action):
+        if feature_action == 'indication for':
+            for row in self.get_feature_type(drug_id, 'clinical_phase'):
+                phase = row['FEATURE_NAME']
+                index = self.clinical_phase_map.get(phase,1)
+                edge = self.info.knowledge_map.edges[index]
+                return (edge.predicate, edge.inverse_predicate)
+        if feature_action in self.feature_map:
+            return self.feature_map[feature_action]
+        return (self.PREDICATE, self.INVERSE_PREDICATE)
