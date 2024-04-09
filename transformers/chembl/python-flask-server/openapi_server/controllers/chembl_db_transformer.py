@@ -1112,7 +1112,7 @@ def get_ref_value(ref_type, ref_id, ref_url):
     return ref_id
 
 
-connection = sqlite3.connect("data/ChEMBL.sqlite", check_same_thread=False)
+connection = sqlite3.connect("database/ChEMBL.sqlite", check_same_thread=False)
 connection.row_factory = sqlite3.Row
 
 
