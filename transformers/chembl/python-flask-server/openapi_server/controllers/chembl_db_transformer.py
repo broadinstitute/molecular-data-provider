@@ -1509,7 +1509,7 @@ def get_refs(ref_table, id_column, ref_id):
     return cur.fetchall()
 
 
-target_xref_con = sqlite3.connect("data/UniProt.sqlite", check_same_thread=False)
+target_xref_con = sqlite3.connect("database/UniProt.sqlite", check_same_thread=False)
 target_xref_con.row_factory = sqlite3.Row
 
 target_xrefs = {}
