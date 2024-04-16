@@ -35,6 +35,8 @@ DrugBank transporter genes transformer	knowledge_assertion	manual_agent
 DrugBank transporter proteins transformer	knowledge_assertion	manual_agent
 DrugBank transporter substrates transformer	knowledge_assertion	manual_agent
 DrugCentral indications transformer	knowledge_assertion	manual_agent
+DrugBank gene interactions transformer	knowledge_assertion	manual_agent
+DrugBank protein interactions transformer	knowledge_assertion	manual_agent
 Gene-list network enrichment analysis	statistical_association	computational_model
 GtoPdb inhibitors transformer	unspecified	unspecified
 GtoPdb target transformer	unspecified	unspecified
@@ -53,8 +55,8 @@ Pharos target genes transformer	unspecified	unspecified
 ProbeMiner chemical interactions transformer	statistical_association	data_analysis_pipeline
 ProbeMiner protein interactions transformer	statistical_association	data_analysis_pipeline
 PubChem chemical similarity transformer	statistical_association	data_analysis_pipeline
-Repurposing Hub indication transformer	knowledge_assertion	manual_agent
-Repurposing Hub target transformer	knowledge_assertion	manual_agent
+Drug Repurposing Hub indication transformer	knowledge_assertion	manual_agent
+Drug Repurposing Hub target transformer	knowledge_assertion	manual_agent
 RxNorm active ingredient transformer	logical_entailment	manual_agent
 RxNorm components transformer	knowledge_assertion	manual_agent
 RxNorm drug relation info	knowledge_assertion	manual_agent

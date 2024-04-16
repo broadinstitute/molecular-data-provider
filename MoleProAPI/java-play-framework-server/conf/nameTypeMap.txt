@@ -1,74 +1,74 @@
-srcType	srcSource	mappedType	mappedSource
-ChEMBL	ChEBI		ChEMBL
-ChemIDplus	ChEBI		ChemIDplus
-IUPAC	ChEBI	IUPAC	ChEBI
-Chemical Ontology	ChEBI	Chemical Ontology	ChEBI
-DrugBank	ChEBI		DrugBank
-DrugCentral	ChEBI		DrugCentral
-HMDB	ChEBI		HMDB
-KEGG COMPOUND	ChEBI		KEGG
-KEGG DRUG	ChEBI		KEGG
-LINCS	ChEBI		LINCS
-MolBase	ChEBI		MolBase
-NIST Chemistry WebBook	ChEBI	NIST Chemistry WebBook	ChEBI
-PDBeChem	ChEBI		PDBeChem
-SUBMITTER	ChEBI	submitted name	ChEBI
-WHO MedNet	ChEBI	WHO MedNet	ChEBI
-	ChEBI		ChEBI
-ATC	ChEMBL	ATC	ChEMBL
-BAN	ChEMBL	BAN	ChEMBL
-BNF	ChEMBL	BNF	ChEMBL
-DCF	ChEMBL	DCF	ChEMBL
-FDA	ChEMBL	FDA	ChEMBL
-INN	ChEMBL	INN	ChEMBL
-JAN	ChEMBL	JAN	ChEMBL
-MERCK_INDEX	ChEMBL	Merck index	ChEMBL
-OTHER	ChEMBL		ChEMBL
-RESEARCH_CODE	ChEMBL	research code	ChEMBL
-SYSTEMATIC	ChEMBL	chemical name	ChEMBL
-TRADE_NAME	ChEMBL	brand name	ChEMBL
-USAN	ChEMBL	USAN	ChEMBL
-USP	ChEMBL	USP	ChEMBL
-	ChEMBL		ChEMBL
-BAN	ChemBank	BAN	ChemBank
-JAN	ChemBank	JAN	ChemBank
-MeSH	ChemBank	MeSH	ChemBank
-NSC	ChemBank	NSC	ChemBank
-USAN	ChemBank	USAN	ChemBank
-USP	ChemBank	USP	ChemBank
-Virtual_ID	ChemBank	ChemBank virtual id	ChemBank
-brand-name	ChemBank	brand name	ChemBank
-chemical-name	ChemBank	chemical name	ChemBank
-source-name	ChemBank	submitted name	ChemBank
-vendor	ChemBank	vendor name	ChemBank
-	ChemBank		ChemBank
-inn	DrugBank	INN	DrugBank
-international-brand	DrugBank	brand name	DrugBank
-usan	DrugBank	USAN	DrugBank
-ban	DrugBank	BAN	DrugBank
-dcf	DrugBank	DCF	DrugBank
-dcit	DrugBank	DCIT	DrugBank
-usp	DrugBank	USP	DrugBank
-iupac	DrugBank	IUPAC	DrugBank
-jan	DrugBank	JAN	DrugBank
-	DrugBank		DrugBank
-	GtoPdb		GtoPdb
-	HMDB		HMDB
-Brand Name	Inxight:Drugs	brand name	Inxight:Drugs
-Code	Inxight:Drugs	research code	Inxight:Drugs
-Common Name	Inxight:Drugs	common name	Inxight:Drugs
-Official Name	Inxight:Drugs	primary name	Inxight:Drugs
-Systematic Name	Inxight:Drugs	chemical name	Inxight:Drugs
-	Inxight:Drugs		Inxight:Drugs
-IENECS	PubChem	IENECS	PubChem
-INN	PubChem	INN	PubChem
-IUPAC	PubChem	IUPAC	PubChem
-NCS	PubChem	NCS	PubChem
-depositor	PubChem	submitted name	PubChem
-id	PubChem	identifier	PubChem
-tradeName	PubChem	brand name	PubChem
-	PubChem		PubChem
-	Drug Repurposing Hub	primary name	Drug Repurposing Hub
-ingredient	RxNorm	primary name	RxNorm
-	RxNorm		RxNorm
-	STITCH		STITCH
+srcType	srcSource	mappedType	namePriority	mappedSource
+ChEMBL	ChEBI			ChEMBL
+ChemIDplus	ChEBI			ChemIDplus
+IUPAC	ChEBI	IUPAC	150	ChEBI
+Chemical Ontology	ChEBI	Chemical Ontology	100	ChEBI
+DrugBank	ChEBI			DrugBank
+DrugCentral	ChEBI			DrugCentral
+HMDB	ChEBI			HMDB
+KEGG COMPOUND	ChEBI			KEGG
+KEGG DRUG	ChEBI			KEGG
+LINCS	ChEBI			LINCS
+MolBase	ChEBI			MolBase
+NIST Chemistry WebBook	ChEBI	NIST Chemistry WebBook	100	ChEBI
+PDBeChem	ChEBI			PDBeChem
+SUBMITTER	ChEBI	submitted name	110	ChEBI
+WHO MedNet	ChEBI	WHO MedNet	100	ChEBI
+	ChEBI			ChEBI
+ATC	ChEMBL	ATC	90	ChEMBL
+BAN	ChEMBL	BAN	90	ChEMBL
+BNF	ChEMBL	BNF	100	ChEMBL
+DCF	ChEMBL	DCF	100	ChEMBL
+FDA	ChEMBL	FDA	100	ChEMBL
+INN	ChEMBL	INN	10	ChEMBL
+JAN	ChEMBL	JAN	90	ChEMBL
+MERCK_INDEX	ChEMBL	Merck index	100	ChEMBL
+OTHER	ChEMBL			ChEMBL
+RESEARCH_CODE	ChEMBL	research code	90	ChEMBL
+SYSTEMATIC	ChEMBL	chemical name	150	ChEMBL
+TRADE_NAME	ChEMBL	brand name	100	ChEMBL
+USAN	ChEMBL	USAN	90	ChEMBL
+USP	ChEMBL	USP	100	ChEMBL
+	ChEMBL			ChEMBL
+BAN	ChemBank	BAN	90	ChemBank
+JAN	ChemBank	JAN	90	ChemBank
+MeSH	ChemBank	MeSH	90	ChemBank
+NSC	ChemBank	NSC	90	ChemBank
+USAN	ChemBank	USAN	90	ChemBank
+USP	ChemBank	USP	100	ChemBank
+Virtual_ID	ChemBank	ChemBank virtual id	160	ChemBank
+brand-name	ChemBank	brand name	100	ChemBank
+chemical-name	ChemBank	chemical name	150	ChemBank
+source-name	ChemBank	submitted name	110	ChemBank
+vendor	ChemBank	vendor name	110	ChemBank
+	ChemBank			ChemBank
+inn	DrugBank	INN	10	DrugBank
+international-brand	DrugBank	brand name	100	DrugBank
+usan	DrugBank	USAN	90	DrugBank
+ban	DrugBank	BAN	90	DrugBank
+dcf	DrugBank	DCF	100	DrugBank
+dcit	DrugBank	DCIT	100	DrugBank
+usp	DrugBank	USP	100	DrugBank
+iupac	DrugBank	IUPAC	150	DrugBank
+jan	DrugBank	JAN	90	DrugBank
+	DrugBank			DrugBank
+	GtoPdb			GtoPdb
+	HMDB			HMDB
+Brand Name	Inxight:Drugs	brand name	100	Inxight:Drugs
+Code	Inxight:Drugs	research code	90	Inxight:Drugs
+Common Name	Inxight:Drugs	common name	90	Inxight:Drugs
+Official Name	Inxight:Drugs	primary name	20	Inxight:Drugs
+Systematic Name	Inxight:Drugs	chemical name	150	Inxight:Drugs
+	Inxight:Drugs			Inxight:Drugs
+IENECS	PubChem	IENECS	100	PubChem
+INN	PubChem	INN	10	PubChem
+IUPAC	PubChem	IUPAC	150	PubChem
+NCS	PubChem	NCS	90	PubChem
+depositor	PubChem	submitted name	110	PubChem
+id	PubChem	identifier	100	PubChem
+tradeName	PubChem	brand name	100	PubChem
+	PubChem			PubChem
+	Drug Repurposing Hub	primary name	20	Drug Repurposing Hub
+ingredient	RxNorm	primary name	20	RxNorm
+	RxNorm			RxNorm
+	STITCH			STITCH

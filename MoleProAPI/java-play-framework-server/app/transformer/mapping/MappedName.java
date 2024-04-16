@@ -18,10 +18,12 @@ public class MappedName extends Names {
 
 	private static HashMap<String,MappedType> nameTypeMap = new HashMap<>();
 
+	private static HashMap<String,Integer> nameTypePriorityMap = new HashMap<>();
+
 
 	public MappedName(Names src, String transformerName, String transformerLabel) {
 		final String source = src.getSource() != null ? src.getSource() : transformerLabel;
-		final MappedType mappedType = mapNameType(src.getNameType(), source);
+		final MappedType mappedType = mapNameType(src.getNameType(), source, transformerLabel);
 		this.setName(src.getName());
 		this.setSynonyms(src.getSynonyms());
 		this.setNameType(mappedType.nameType);
@@ -31,7 +33,7 @@ public class MappedName extends Names {
 	}
 
 
-	private MappedType mapNameType(final String srcNameType, final String srcSource) {
+	private MappedType mapNameType(final String srcNameType, final String srcSource, final String transformerLabel) {
 		String nameType = (srcNameType == null) ? "" : srcNameType;
 		String source = srcSource;
 		if (nameType.length() == 0 && srcSource.indexOf('@') >= 0) {
@@ -44,7 +46,11 @@ public class MappedName extends Names {
 			}
 		}
 		// map name type
-		final String key = key(nameType, source);
+		String key = key(nameType, source);
+		if (nameTypeMap.containsKey(key)) {
+			return nameTypeMap.get(key);
+		}
+		key = key(nameType, transformerLabel);
 		if (nameTypeMap.containsKey(key)) {
 			return nameTypeMap.get(key);
 		}
@@ -84,24 +90,37 @@ public class MappedName extends Names {
 	}
 
 
+	public static Integer getNameTypePriority(String nameType) {
+		return nameTypePriorityMap.get(nameType);
+	}
+
+
 	private static String key(final String nameType, final String nameSource) {
 		return "(" + nameType.toLowerCase() + "@" + nameSource.toLowerCase() + ")";
 	}
 
 
 	public static void loadMapping() {
-		final HashMap<String,MappedType> map = new HashMap<>();
+		final HashMap<String,MappedType> nameMap = new HashMap<>();
+		final HashMap<String,Integer> priorityMap = new HashMap<>();
 		try {
 			final BufferedReader mapFile = new BufferedReader(new FileReader("conf/nameTypeMap.txt"));
+			mapFile.readLine(); //header line
 			for (String line = mapFile.readLine(); line != null; line = mapFile.readLine()) {
-				final String[] row = line.split("\t", 4);
-				map.put(key(row[0], row[1]), new MappedType(row[2].length() > 0 ? row[2] : null, row[3]));
+				final String[] row = line.split("\t", 5);
+				final Integer nameTypePriority = row[3].length() > 0 ? Integer.parseInt(row[3]) : null;
+				final String mappedType = row[2].length() > 0 ? row[2] : null;
+				nameMap.put(key(row[0], row[1]), new MappedType(mappedType, row[4]));
+				if (mappedType != null && !priorityMap.containsKey(mappedType)) {
+					priorityMap.put(mappedType, nameTypePriority);
+				}
 			}
 			mapFile.close();
-			nameTypeMap = map;
+			nameTypeMap = nameMap;
+			nameTypePriorityMap = priorityMap;
 		}
 		catch (Exception e) {
-			log.warn("Failed to load attribute mapping", e);
+			log.warn("Failed to load name-type mapping", e);
 		}
 	}
 

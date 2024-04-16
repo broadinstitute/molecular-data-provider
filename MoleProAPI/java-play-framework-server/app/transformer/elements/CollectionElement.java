@@ -165,7 +165,7 @@ public class CollectionElement {
 
 	@SuppressWarnings("unchecked")
 	public static String bestId(Element element) {
-		for (String key : Config.getConfig().getIdentifierPriority()) {
+		for (String key : Config.getConfig().getIdentifierPriority(element.getBiolinkClass())) {
 			if (element.getIdentifiers().containsKey(key)) {
 				Object value = element.getIdentifiers().get(key);
 				if (value instanceof String) {
