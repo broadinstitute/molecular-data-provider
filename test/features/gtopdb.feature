@@ -2,12 +2,33 @@ Feature: Check GtoPdb transformer
 
     Background: Specify transformer API
         Given a transformer at "https://molepro-gtopdb-transformer.transltr.io/gtopdb"
-        
+
+
     Scenario: Check transformer info
         Given the transformer
         when we fire "/molecules/transformer_info" query
-        then the value of "knowledge_map.input_class" should be "none"
-        and the value of "knowledge_map.output_class" should be "compound"
+        then the value of "name" should be "GtoPdb compound-list producer"
+        and the value of "label" should be "GtoPdb"
+        and the value of "version" should be "2.5.0"
+        and the value of "function" should be "producer"
+        and the value of "knowledge_map.input_class" should be "none"
+        and the value of "knowledge_map.output_class" should be "ChemicalEntity"
+        and the value of "properties.source_version" should be "2023.2 (2023-08-07)"
+        and the size of "parameters" should be 1
+
+
+    Scenario: Check transformer info
+        Given the transformer
+        when we fire "/targets/transformer_info" query
+        then the value of "name" should be "GtoPdb target transformer"
+        and the value of "label" should be "GtoPdb"
+        and the value of "version" should be "2.5.0"
+        and the value of "function" should be "transformer"
+        and the value of "knowledge_map.input_class" should be "compound"
+        and the value of "knowledge_map.output_class" should be "gene"
+        and the value of "properties.source_version" should be "2023.2 (2023-08-07)"
+        and the size of "parameters" should be 0
+
 
     Scenario: Check GtoPdb compound-list producer with name
         Given the transformer
@@ -16,7 +37,7 @@ Feature: Check GtoPdb transformer
         {
             "controls": [
                 {
-                    "name": "compounds",
+                    "name": "compound",
                     "value": "aspirin"
                 }
             ]
@@ -38,7 +59,7 @@ Feature: Check GtoPdb transformer
         {
             "controls": [
                 {
-                    "name": "compounds",
+                    "name": "compound",
                     "value": "CID:2244"
                 }
             ]
@@ -60,7 +81,7 @@ Feature: Check GtoPdb transformer
         {
             "controls": [
                 {
-                    "name": "compounds",
+                    "name": "compound",
                     "value": "GtoPdb:4829"
                 }
             ]
@@ -82,8 +103,12 @@ Feature: Check GtoPdb transformer
         {
             "controls": [
                 {
-                    "name": "compounds",
-                    "value": "bortezomib; aspirin"
+                    "name": "compound",
+                    "value": "bortezomib"
+                },
+                {
+                    "name": "compound",
+                    "value": "aspirin"
                 }
             ]
         }
@@ -109,8 +134,16 @@ Feature: Check GtoPdb transformer
         {
             "controls": [
                 {
-                    "name": "compounds",
-                    "value": "bortezomib; CID:2244; GTOPDB:4050"
+                    "name": "compound",
+                    "value": "bortezomib"
+                },
+                {   
+                    "name": "compound",
+                    "value": "CID:2244"
+                },
+                {   
+                    "name": "compound",
+                    "value": "GTOPDB:4050"
                 }
             ]
         }
@@ -136,6 +169,9 @@ Feature: Check GtoPdb transformer
             "controls": [],
             "collection": [
                 {
+                    "biolink_class":"ChemicalSubstance",
+                    "provided_by": "inxight_drugs",
+                    "source": "inxight_drugs",
                     "id": "CID:2244",
                     "identifiers": {
                         "drugbank": "DrugBank:DB00945",
@@ -165,17 +201,42 @@ Feature: Check GtoPdb transformer
         {
             "controls": [],
             "collection": [
-                {
-                    "id": "DrugBank:DB00945",
-                    "identifiers": {
-                        "drugbank": "DrugBank:DB00945",
-                        "chembl": "ChEMBL:CHEMBL25"
-                    }
-                }
+        	{
+            	  "biolink_class": "ChemicalSubstance",
+            	  "provided_by": "inxight_drugs",
+            	  "source": "inxight_drugs",
+            	  "id": "DrugBank:DB00945",
+            	  "identifiers":{
+                      "drugbank": "DrugBank:DB00945",
+                      "chembl": "ChEMBL:CHEMBL25"
+                  }
+                }   
             ]
         }
         """
         then the size of the response is 0
+
+
+    Scenario: Check GtoPdb targets transformer
+        Given the transformer
+        when we fire "/targets/transform" query with the following body:
+        """
+        {
+            "controls": [],
+            "collection": [
+        	{
+            	  "biolink_class": "ChemicalSubstance",
+            	  "provided_by": "inxight_drugs",
+            	  "source": "inxight_drugs",
+            	  "id": "GTOPDB:9736",
+            	  "identifiers":{
+                      "gtopdb": "GTOPDB:9736"
+                  }
+                }   
+            ]
+        }
+        """
+        then the size of the response is 1
 
 
     Scenario: Check GtoPdb inhibitors transformer
@@ -185,7 +246,10 @@ Feature: Check GtoPdb transformer
         {
             "controls": [],
             "collection": [
-                {
+                {   
+                    "biolink_class":"ChemicalSubstance",
+                    "provided_by": "inxight_drugs",
+                    "source": "inxight_drugs",
                     "id": "HGNC:3538",
                     "identifiers": {
                         "hgnc": "HGNC:3538"
@@ -194,4 +258,4 @@ Feature: Check GtoPdb transformer
             ]
         }
         """
-        then the size of the response is 19
+        then the size of the response is 23
