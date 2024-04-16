@@ -1,36 +1,28 @@
 source	attributeType	srcValue	mappedValue
-ChEMBL	max phase for indication	0	
-ChEMBL	max phase for indication	1	FDA Clinical Research Phase 1
-ChEMBL	max phase for indication	2	FDA Clinical Research Phase 2
-ChEMBL	max phase for indication	3	FDA Clinical Research Phase 3
-ChEMBL	max phase for indication	4	FDA Approval
-ChEMBL	max_phase	0	
-ChEMBL	max_phase	1	FDA Clinical Research Phase 1
-ChEMBL	max_phase	2	FDA Clinical Research Phase 2
-ChEMBL	max_phase	3	FDA Clinical Research Phase 3
-ChEMBL	max_phase	4	FDA Approval
-ChEMBL	oral	yes	oral
-ChEMBL	parenteral	yes	parenteral
-ChEMBL	topical	yes	topical
-Pharos	biolink:primary_knowledge_source	ChEMBL	infores:chembl
-Pharos	biolink:primary_knowledge_source	Guide to Pharmacology	infores:gtopdb
-Pharos	biolink:primary_knowledge_source	TCRD	infores:tcrd
-Drug Repurposing Hub	clinical_phase	Launched	FDA Approval
-Drug Repurposing Hub	clinical_phase	Phase 1	FDA Clinical Research Phase 1
-Drug Repurposing Hub	clinical_phase	Phase 3	FDA Clinical Research Phase 3
-Drug Repurposing Hub	clinical_phase	Preclinical	Preclinical Research Phase
-Drug Repurposing Hub	clinical_phase	Phase 2	FDA Clinical Research Phase 2
-Drug Repurposing Hub	clinical_phase	Phase 1/Phase 2	FDA Clinical Research Phase 1/2
-Drug Repurposing Hub	clinical_phase	Phase 2/Phase 3	FDA Clinical Research Phase 2/3
-Drug Repurposing Hub	clinical_phase	Withdrawn	post-approval withdrawal
-DrugBank	group	approved	FDA Approval
-DrugBank	group	experimental	Preclinical Research Phase
-DrugBank	group	investigational	FDA Clinical Research Phase
-DrugBank	group	withdrawn	post-approval withdrawal
-GtoPdb	APPROVED	yes	FDA Approval
+ChEMBL	max_phase	FDA Approval	regular_fda_approval
+ChEMBL	max_phase	FDA Clinical Research Phase 1	fda_clinical_research_phase_1
+ChEMBL	max_phase	FDA Clinical Research Phase 2	fda_clinical_research_phase_2
+ChEMBL	max_phase	FDA Clinical Research Phase 3	fda_clinical_research_phase_3
+Drug Repurposing Hub	clinical_phase	Launched	regular_fda_approval
+Drug Repurposing Hub	clinical_phase	Phase 1	fda_clinical_research_phase_1
+Drug Repurposing Hub	clinical_phase	Phase 3	fda_clinical_research_phase_3
+Drug Repurposing Hub	clinical_phase	Preclinical	preclinical_research_phase
+Drug Repurposing Hub	clinical_phase	Phase 2	fda_clinical_research_phase_2
+Drug Repurposing Hub	clinical_phase	Phase 1/Phase 2	fda_clinical_research_phase_2
+Drug Repurposing Hub	clinical_phase	Phase 2/Phase 3	fda_clinical_research_phase_3
+Drug Repurposing Hub	clinical_phase	Withdrawn	post_approval_withdrawal
+DrugBank	group	approved	regular_fda_approval
+DrugBank	group	experimental	preclinical_research_phase
+DrugBank	group	investigational	fda_clinical_research_phase
+DrugBank	group	withdrawn	post_approval_withdrawal
+GtoPdb	APPROVED	yes	regular_fda_approval
+GtoPdb	APPROVED	fda_approved_for_condition	regular_fda_approval
 MSigDB	biolink:primary_knowledge_source	wikipathways	infores:wikipathways
 MSigDB	biolink:primary_knowledge_source	kegg	infores:kegg
 MSigDB	biolink:primary_knowledge_source	hpo	infores:hpo
 MSigDB	biolink:primary_knowledge_source	go	infores:go
 MSigDB	biolink:primary_knowledge_source	reactome	infores:reactome
 MSigDB	biolink:primary_knowledge_source	biocarta	infores:biocarta
+Pharos	biolink:primary_knowledge_source	ChEMBL	infores:chembl
+Pharos	biolink:primary_knowledge_source	Guide to Pharmacology	infores:gtopdb
+Pharos	biolink:primary_knowledge_source	TCRD	infores:tcrd

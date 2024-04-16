@@ -6,6 +6,7 @@ BiGG Model	BiGG gene_reaction transformer	infores:bigg-models	biolink:primary_kn
 BindingBD	BindingBD binding transformer	infores:bindingdb	biolink:primary_knowledge_source
 BindingBD	BindingBD ligand producer	infores:bindingdb	biolink:primary_knowledge_source
 ChEBI	ChEBI compound-list producer	infores:chebi	biolink:primary_knowledge_source
+ChEBI	ChEBI relations transformer	infores:chebi	biolink:primary_knowledge_source
 ChemBank	ChemBank compound-list producer	infores:chembank	biolink:primary_knowledge_source
 ChEMBL	ChEMBL compound-list producer	infores:chembl	biolink:primary_knowledge_source
 ChEMBL	ChEMBL gene target transformer	infores:chembl	biolink:primary_knowledge_source
@@ -43,6 +44,8 @@ DrugBank	DrugBank target proteins transformer	infores:drugbank	biolink:primary_k
 DrugBank	DrugBank enzyme proteins transformer	infores:drugbank	biolink:primary_knowledge_source
 DrugBank	DrugBank transporter proteins transformer	infores:drugbank	biolink:primary_knowledge_source
 DrugBank	DrugBank carrier proteins transformer	infores:drugbank	biolink:primary_knowledge_source
+DrugBank	DrugBank gene interactions transformer	infores:drugbank	biolink:primary_knowledge_source
+DrugBank	DrugBank protein interactions transformer	infores:drugbank	biolink:primary_knowledge_source
 DrugCentral	DrugCentral compounds producer	infores:drugcentral	biolink:primary_knowledge_source
 DrugCentral	DrugCentral disease producer	infores:drugcentral	biolink:primary_knowledge_source
 DrugCentral	DrugCentral indications transformer	infores:drugcentral	biolink:primary_knowledge_source

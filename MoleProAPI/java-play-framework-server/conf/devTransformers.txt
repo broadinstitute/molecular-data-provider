@@ -120,6 +120,7 @@ https://translator.broadinstitute.org/gelinea/enrichment
 #
 # protein-protein interactions
 https://translator.broadinstitute.org/string/links
+https://translator.broadinstitute.org/string/physical_links
 # node normalizer
 https://translator.broadinstitute.org/node/normalizer
 # MolePro DB

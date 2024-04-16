@@ -120,6 +120,7 @@ https://molepro-gelinea-transformer.test.transltr.io/gelinea/enrichment
 #
 # protein-protein interactions
 https://molepro-string-transformer.test.transltr.io/string/links
+https://molepro-string-transformer.test.transltr.io/string/physical_links
 # node normalizer
 https://molepro-node-normalizer-transformer.test.transltr.io/node/normalizer
 # MolePro DB
