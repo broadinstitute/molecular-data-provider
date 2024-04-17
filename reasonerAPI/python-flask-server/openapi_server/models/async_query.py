@@ -6,14 +6,14 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from openapi_server.models.base_model_ import Model
-from openapi_server.models.message import Message
 from openapi_server.models.query_log_level import QueryLogLevel
+from openapi_server.models.query_message import QueryMessage
 from openapi_server.models.query_workflow import QueryWorkflow
 import re
 from openapi_server import util
 
-from openapi_server.models.message import Message  # noqa: E501
 from openapi_server.models.query_log_level import QueryLogLevel  # noqa: E501
+from openapi_server.models.query_message import QueryMessage  # noqa: E501
 from openapi_server.models.query_workflow import QueryWorkflow  # noqa: E501
 import re  # noqa: E501
 
@@ -23,26 +23,29 @@ class AsyncQuery(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, callback=None, message=None, log_level=None, workflow=None, submitter=None):  # noqa: E501
+    def __init__(self, callback=None, message=None, log_level=None, workflow=None, submitter=None, bypass_cache=False):  # noqa: E501
         """AsyncQuery - a model defined in OpenAPI
 
         :param callback: The callback of this AsyncQuery.  # noqa: E501
         :type callback: str
         :param message: The message of this AsyncQuery.  # noqa: E501
-        :type message: Message
+        :type message: QueryMessage
         :param log_level: The log_level of this AsyncQuery.  # noqa: E501
         :type log_level: QueryLogLevel
         :param workflow: The workflow of this AsyncQuery.  # noqa: E501
         :type workflow: QueryWorkflow
         :param submitter: The submitter of this AsyncQuery.  # noqa: E501
         :type submitter: str
+        :param bypass_cache: The bypass_cache of this AsyncQuery.  # noqa: E501
+        :type bypass_cache: bool
         """
         self.openapi_types = {
             'callback': str,
-            'message': Message,
+            'message': QueryMessage,
             'log_level': QueryLogLevel,
             'workflow': QueryWorkflow,
-            'submitter': str
+            'submitter': str,
+            'bypass_cache': bool
         }
 
         self.attribute_map = {
@@ -50,7 +53,8 @@ class AsyncQuery(Model):
             'message': 'message',
             'log_level': 'log_level',
             'workflow': 'workflow',
-            'submitter': 'submitter'
+            'submitter': 'submitter',
+            'bypass_cache': 'bypass_cache'
         }
 
         self._callback = callback
@@ -58,6 +62,7 @@ class AsyncQuery(Model):
         self._log_level = log_level
         self._workflow = workflow
         self._submitter = submitter
+        self._bypass_cache = bypass_cache
 
     @classmethod
     def from_dict(cls, dikt) -> 'AsyncQuery':
@@ -103,7 +108,7 @@ class AsyncQuery(Model):
 
 
         :return: The message of this AsyncQuery.
-        :rtype: Message
+        :rtype: QueryMessage
         """
         return self._message
 
@@ -113,7 +118,7 @@ class AsyncQuery(Model):
 
 
         :param message: The message of this AsyncQuery.
-        :type message: Message
+        :type message: QueryMessage
         """
         if message is None:
             raise ValueError("Invalid value for `message`, must not be `None`")  # noqa: E501
@@ -184,3 +189,26 @@ class AsyncQuery(Model):
         """
 
         self._submitter = submitter
+
+    @property
+    def bypass_cache(self):
+        """Gets the bypass_cache of this AsyncQuery.
+
+        Set to true in order to request that the agent obtain fresh information from its sources in all cases where it has a viable choice between requesting fresh information in real time and using cached information. The agent receiving this flag MUST also include it in TRAPI sent to downstream sources (e.g., ARS -> ARAs -> KPs -> NodeNorm).  # noqa: E501
+
+        :return: The bypass_cache of this AsyncQuery.
+        :rtype: bool
+        """
+        return self._bypass_cache
+
+    @bypass_cache.setter
+    def bypass_cache(self, bypass_cache):
+        """Sets the bypass_cache of this AsyncQuery.
+
+        Set to true in order to request that the agent obtain fresh information from its sources in all cases where it has a viable choice between requesting fresh information in real time and using cached information. The agent receiving this flag MUST also include it in TRAPI sent to downstream sources (e.g., ARS -> ARAs -> KPs -> NodeNorm).  # noqa: E501
+
+        :param bypass_cache: The bypass_cache of this AsyncQuery.
+        :type bypass_cache: bool
+        """
+
+        self._bypass_cache = bypass_cache

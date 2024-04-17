@@ -67,10 +67,15 @@ class KnowledgeMap:
         }
 
     def build_meta_attribute(self, transformer_attribute):
-        ''' simple method to build and return a trapi meta attribute '''
+        ''' 
+        simple method to build and return a trapi meta attribute 
+        '''
+        list_original_names = []
+        if transformer_attribute.get("names"):
+            list_original_names = transformer_attribute.get("names")
         meta_attribute = MetaAttribute(attribute_type_id=transformer_attribute.get("attribute_type_id"), 
             attribute_source=transformer_attribute.get("source"), 
-            original_attribute_names=transformer_attribute.get("names"))
+            original_attribute_names=list_original_names)
 
         # return
         return meta_attribute
@@ -114,7 +119,11 @@ class KnowledgeMap:
                             if map_nodes.get(biolink_key):
                                 map_nodes.get(biolink_key).id_prefixes.extend(value.get('id_prefixes'))
                             else:
-                                map_nodes[biolink_key] = MetaNode(id_prefixes=value.get('id_prefixes'))
+                                list_ids = []
+                                if value.get('id_prefixes'):
+                                    list_ids = value.get('id_prefixes')
+
+                                map_nodes[biolink_key] = MetaNode(id_prefixes=list_ids, attributes=[])
 
                         # add in nodes
                         if value.get("attributes"):
