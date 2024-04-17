@@ -91,6 +91,8 @@ class Analysis(Model):
         :param resource_id: The resource_id of this Analysis.
         :type resource_id: str
         """
+        if resource_id is None:
+            raise ValueError("Invalid value for `resource_id`, must not be `None`")  # noqa: E501
 
         self._resource_id = resource_id
 

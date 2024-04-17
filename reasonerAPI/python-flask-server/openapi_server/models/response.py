@@ -7,12 +7,12 @@ from typing import List, Dict  # noqa: F401
 
 from openapi_server.models.base_model_ import Model
 from openapi_server.models.log_entry import LogEntry
-from openapi_server.models.message import Message
+from openapi_server.models.response_message import ResponseMessage
 from openapi_server.models.response_workflow import ResponseWorkflow
 from openapi_server import util
 
 from openapi_server.models.log_entry import LogEntry  # noqa: E501
-from openapi_server.models.message import Message  # noqa: E501
+from openapi_server.models.response_message import ResponseMessage  # noqa: E501
 from openapi_server.models.response_workflow import ResponseWorkflow  # noqa: E501
 
 class Response(Model):
@@ -25,7 +25,7 @@ class Response(Model):
         """Response - a model defined in OpenAPI
 
         :param message: The message of this Response.  # noqa: E501
-        :type message: Message
+        :type message: ResponseMessage
         :param status: The status of this Response.  # noqa: E501
         :type status: str
         :param description: The description of this Response.  # noqa: E501
@@ -40,7 +40,7 @@ class Response(Model):
         :type biolink_version: str
         """
         self.openapi_types = {
-            'message': Message,
+            'message': ResponseMessage,
             'status': str,
             'description': str,
             'logs': List[LogEntry],
@@ -84,7 +84,7 @@ class Response(Model):
 
 
         :return: The message of this Response.
-        :rtype: Message
+        :rtype: ResponseMessage
         """
         return self._message
 
@@ -94,7 +94,7 @@ class Response(Model):
 
 
         :param message: The message of this Response.
-        :type message: Message
+        :type message: ResponseMessage
         """
         if message is None:
             raise ValueError("Invalid value for `message`, must not be `None`")  # noqa: E501
@@ -167,6 +167,8 @@ class Response(Model):
         :param logs: The logs of this Response.
         :type logs: List[LogEntry]
         """
+        if logs is not None and len(logs) < 0:
+            raise ValueError("Invalid value for `logs`, number of items must be greater than or equal to `0`")  # noqa: E501
 
         self._logs = logs
 

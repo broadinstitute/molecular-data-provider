@@ -10,19 +10,19 @@ info:
     url: https://github.com/broadinstitute/molecular-data-provider/blob/master/LICENSE
   termsOfService: https://github.com/broadinstitute/molecular-data-provider/blob/master/terms_of_service.md
   title: MolePro
-  version: 1.4.0.4
+  version: 1.5.0.0
   x-translator:
     component: KP
     team:
     - Molecular Data Provider
-    biolink-version: 3.2.0
+    biolink-version: 4.1.6
     infores: infores:molepro
     externalDocs:
       description: The values for component and team are restricted according to this
         external JSON schema. See schema and examples at url
       url: https://github.com/NCATSTranslator/translator_extensions/blob/\ production/x-translator/
   x-trapi:
-    version: 1.4.0
+    version: 1.5.0
     asyncquery: false
     operations:
     - lookup
@@ -38,7 +38,7 @@ externalDocs:
   url: https://github.com/NCATSTranslator/ReasonerAPI
 servers:
 - description: TRAPI production service for MolePro
-  url: https://translator.broadinstitute.org/molepro/trapi/v1.4
+  url: https://translator.broadinstitute.org/molepro/trapi/v1.5
   x-maturity: development
 tags:
 - description: "Retrieve the meta knowledge graph representation of this TRAPI web\
@@ -255,7 +255,7 @@ components:
                 - biolink:Gene
       properties:
         message:
-          $ref: '#/components/schemas/Message'
+          $ref: '#/components/schemas/Query_message'
         log_level:
           $ref: '#/components/schemas/Query_log_level'
         workflow:
@@ -266,6 +266,14 @@ components:
             of queries for development and issue resolution.
           nullable: true
           type: string
+        bypass_cache:
+          default: false
+          description: "Set to true in order to request that the agent obtain fresh\
+            \ information from its sources in all cases where it has a viable choice\
+            \ between requesting fresh information in real time and using cached information.\
+            \ The agent receiving this flag MUST also include it in TRAPI sent to\
+            \ downstream sources (e.g., ARS -> ARAs -> KPs -> NodeNorm)."
+          type: boolean
       required:
       - message
       title: Query
@@ -285,10 +293,11 @@ components:
             \ to the callback URL does not succeed, the server SHOULD retry the POST\
             \ at least once."
           format: uri
+          nullable: false
           pattern: ^https?://
           type: string
         message:
-          $ref: '#/components/schemas/Message'
+          $ref: '#/components/schemas/Query_message'
         log_level:
           $ref: '#/components/schemas/Query_log_level'
         workflow:
@@ -299,6 +308,14 @@ components:
             of queries for development and issue resolution.
           nullable: true
           type: string
+        bypass_cache:
+          default: false
+          description: "Set to true in order to request that the agent obtain fresh\
+            \ information from its sources in all cases where it has a viable choice\
+            \ between requesting fresh information in real time and using cached information.\
+            \ The agent receiving this flag MUST also include it in TRAPI sent to\
+            \ downstream sources (e.g., ARS -> ARAs -> KPs -> NodeNorm)."
+          type: boolean
       required:
       - callback
       - message
@@ -373,6 +390,7 @@ components:
             \ against the current time to see if there is still activity."
           items:
             $ref: '#/components/schemas/LogEntry'
+          minItems: 1
           nullable: false
           type: array
         response_url:
@@ -399,402 +417,7 @@ components:
         workflow: null
         biolink_version: 3.1.2
         description: Success. 42 results found.
-        message:
-          knowledge_graph: null
-          auxiliary_graphs:
-            key: "{}"
-          results:
-          - analyses:
-            - scoring_method: scoring_method
-              score: 163.233
-              edge_bindings:
-                key:
-                - attributes:
-                  - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                    attribute_source: UniProtKB
-                    value_type_id: EDAM:data_1187
-                    description: Assertion Authored By Dr. Trans L. Ator
-                    attribute_type_id: attribute_type_id
-                    attributes:
-                    - null
-                    - null
-                    original_attribute_name: p-value
-                    value: 0.000153
-                  - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                    attribute_source: UniProtKB
-                    value_type_id: EDAM:data_1187
-                    description: Assertion Authored By Dr. Trans L. Ator
-                    attribute_type_id: attribute_type_id
-                    attributes:
-                    - null
-                    - null
-                    original_attribute_name: p-value
-                    value: 0.000153
-                  id: id
-                - attributes:
-                  - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                    attribute_source: UniProtKB
-                    value_type_id: EDAM:data_1187
-                    description: Assertion Authored By Dr. Trans L. Ator
-                    attribute_type_id: attribute_type_id
-                    attributes:
-                    - null
-                    - null
-                    original_attribute_name: p-value
-                    value: 0.000153
-                  - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                    attribute_source: UniProtKB
-                    value_type_id: EDAM:data_1187
-                    description: Assertion Authored By Dr. Trans L. Ator
-                    attribute_type_id: attribute_type_id
-                    attributes:
-                    - null
-                    - null
-                    original_attribute_name: p-value
-                    value: 0.000153
-                  id: id
-              resource_id: resource_id
-              attributes:
-              - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                attribute_source: UniProtKB
-                value_type_id: EDAM:data_1187
-                description: Assertion Authored By Dr. Trans L. Ator
-                attribute_type_id: attribute_type_id
-                attributes:
-                - null
-                - null
-                original_attribute_name: p-value
-                value: 0.000153
-              - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                attribute_source: UniProtKB
-                value_type_id: EDAM:data_1187
-                description: Assertion Authored By Dr. Trans L. Ator
-                attribute_type_id: attribute_type_id
-                attributes:
-                - null
-                - null
-                original_attribute_name: p-value
-                value: 0.000153
-              support_graphs:
-              - support_graphs
-              - support_graphs
-            - scoring_method: scoring_method
-              score: 163.233
-              edge_bindings:
-                key:
-                - attributes:
-                  - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                    attribute_source: UniProtKB
-                    value_type_id: EDAM:data_1187
-                    description: Assertion Authored By Dr. Trans L. Ator
-                    attribute_type_id: attribute_type_id
-                    attributes:
-                    - null
-                    - null
-                    original_attribute_name: p-value
-                    value: 0.000153
-                  - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                    attribute_source: UniProtKB
-                    value_type_id: EDAM:data_1187
-                    description: Assertion Authored By Dr. Trans L. Ator
-                    attribute_type_id: attribute_type_id
-                    attributes:
-                    - null
-                    - null
-                    original_attribute_name: p-value
-                    value: 0.000153
-                  id: id
-                - attributes:
-                  - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                    attribute_source: UniProtKB
-                    value_type_id: EDAM:data_1187
-                    description: Assertion Authored By Dr. Trans L. Ator
-                    attribute_type_id: attribute_type_id
-                    attributes:
-                    - null
-                    - null
-                    original_attribute_name: p-value
-                    value: 0.000153
-                  - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                    attribute_source: UniProtKB
-                    value_type_id: EDAM:data_1187
-                    description: Assertion Authored By Dr. Trans L. Ator
-                    attribute_type_id: attribute_type_id
-                    attributes:
-                    - null
-                    - null
-                    original_attribute_name: p-value
-                    value: 0.000153
-                  id: id
-              resource_id: resource_id
-              attributes:
-              - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                attribute_source: UniProtKB
-                value_type_id: EDAM:data_1187
-                description: Assertion Authored By Dr. Trans L. Ator
-                attribute_type_id: attribute_type_id
-                attributes:
-                - null
-                - null
-                original_attribute_name: p-value
-                value: 0.000153
-              - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                attribute_source: UniProtKB
-                value_type_id: EDAM:data_1187
-                description: Assertion Authored By Dr. Trans L. Ator
-                attribute_type_id: attribute_type_id
-                attributes:
-                - null
-                - null
-                original_attribute_name: p-value
-                value: 0.000153
-              support_graphs:
-              - support_graphs
-              - support_graphs
-            node_bindings:
-              key:
-              - query_id: null
-                attributes:
-                - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                  attribute_source: UniProtKB
-                  value_type_id: EDAM:data_1187
-                  description: Assertion Authored By Dr. Trans L. Ator
-                  attribute_type_id: attribute_type_id
-                  attributes:
-                  - null
-                  - null
-                  original_attribute_name: p-value
-                  value: 0.000153
-                - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                  attribute_source: UniProtKB
-                  value_type_id: EDAM:data_1187
-                  description: Assertion Authored By Dr. Trans L. Ator
-                  attribute_type_id: attribute_type_id
-                  attributes:
-                  - null
-                  - null
-                  original_attribute_name: p-value
-                  value: 0.000153
-                id: id
-              - query_id: null
-                attributes:
-                - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                  attribute_source: UniProtKB
-                  value_type_id: EDAM:data_1187
-                  description: Assertion Authored By Dr. Trans L. Ator
-                  attribute_type_id: attribute_type_id
-                  attributes:
-                  - null
-                  - null
-                  original_attribute_name: p-value
-                  value: 0.000153
-                - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                  attribute_source: UniProtKB
-                  value_type_id: EDAM:data_1187
-                  description: Assertion Authored By Dr. Trans L. Ator
-                  attribute_type_id: attribute_type_id
-                  attributes:
-                  - null
-                  - null
-                  original_attribute_name: p-value
-                  value: 0.000153
-                id: id
-          - analyses:
-            - scoring_method: scoring_method
-              score: 163.233
-              edge_bindings:
-                key:
-                - attributes:
-                  - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                    attribute_source: UniProtKB
-                    value_type_id: EDAM:data_1187
-                    description: Assertion Authored By Dr. Trans L. Ator
-                    attribute_type_id: attribute_type_id
-                    attributes:
-                    - null
-                    - null
-                    original_attribute_name: p-value
-                    value: 0.000153
-                  - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                    attribute_source: UniProtKB
-                    value_type_id: EDAM:data_1187
-                    description: Assertion Authored By Dr. Trans L. Ator
-                    attribute_type_id: attribute_type_id
-                    attributes:
-                    - null
-                    - null
-                    original_attribute_name: p-value
-                    value: 0.000153
-                  id: id
-                - attributes:
-                  - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                    attribute_source: UniProtKB
-                    value_type_id: EDAM:data_1187
-                    description: Assertion Authored By Dr. Trans L. Ator
-                    attribute_type_id: attribute_type_id
-                    attributes:
-                    - null
-                    - null
-                    original_attribute_name: p-value
-                    value: 0.000153
-                  - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                    attribute_source: UniProtKB
-                    value_type_id: EDAM:data_1187
-                    description: Assertion Authored By Dr. Trans L. Ator
-                    attribute_type_id: attribute_type_id
-                    attributes:
-                    - null
-                    - null
-                    original_attribute_name: p-value
-                    value: 0.000153
-                  id: id
-              resource_id: resource_id
-              attributes:
-              - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                attribute_source: UniProtKB
-                value_type_id: EDAM:data_1187
-                description: Assertion Authored By Dr. Trans L. Ator
-                attribute_type_id: attribute_type_id
-                attributes:
-                - null
-                - null
-                original_attribute_name: p-value
-                value: 0.000153
-              - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                attribute_source: UniProtKB
-                value_type_id: EDAM:data_1187
-                description: Assertion Authored By Dr. Trans L. Ator
-                attribute_type_id: attribute_type_id
-                attributes:
-                - null
-                - null
-                original_attribute_name: p-value
-                value: 0.000153
-              support_graphs:
-              - support_graphs
-              - support_graphs
-            - scoring_method: scoring_method
-              score: 163.233
-              edge_bindings:
-                key:
-                - attributes:
-                  - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                    attribute_source: UniProtKB
-                    value_type_id: EDAM:data_1187
-                    description: Assertion Authored By Dr. Trans L. Ator
-                    attribute_type_id: attribute_type_id
-                    attributes:
-                    - null
-                    - null
-                    original_attribute_name: p-value
-                    value: 0.000153
-                  - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                    attribute_source: UniProtKB
-                    value_type_id: EDAM:data_1187
-                    description: Assertion Authored By Dr. Trans L. Ator
-                    attribute_type_id: attribute_type_id
-                    attributes:
-                    - null
-                    - null
-                    original_attribute_name: p-value
-                    value: 0.000153
-                  id: id
-                - attributes:
-                  - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                    attribute_source: UniProtKB
-                    value_type_id: EDAM:data_1187
-                    description: Assertion Authored By Dr. Trans L. Ator
-                    attribute_type_id: attribute_type_id
-                    attributes:
-                    - null
-                    - null
-                    original_attribute_name: p-value
-                    value: 0.000153
-                  - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                    attribute_source: UniProtKB
-                    value_type_id: EDAM:data_1187
-                    description: Assertion Authored By Dr. Trans L. Ator
-                    attribute_type_id: attribute_type_id
-                    attributes:
-                    - null
-                    - null
-                    original_attribute_name: p-value
-                    value: 0.000153
-                  id: id
-              resource_id: resource_id
-              attributes:
-              - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                attribute_source: UniProtKB
-                value_type_id: EDAM:data_1187
-                description: Assertion Authored By Dr. Trans L. Ator
-                attribute_type_id: attribute_type_id
-                attributes:
-                - null
-                - null
-                original_attribute_name: p-value
-                value: 0.000153
-              - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                attribute_source: UniProtKB
-                value_type_id: EDAM:data_1187
-                description: Assertion Authored By Dr. Trans L. Ator
-                attribute_type_id: attribute_type_id
-                attributes:
-                - null
-                - null
-                original_attribute_name: p-value
-                value: 0.000153
-              support_graphs:
-              - support_graphs
-              - support_graphs
-            node_bindings:
-              key:
-              - query_id: null
-                attributes:
-                - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                  attribute_source: UniProtKB
-                  value_type_id: EDAM:data_1187
-                  description: Assertion Authored By Dr. Trans L. Ator
-                  attribute_type_id: attribute_type_id
-                  attributes:
-                  - null
-                  - null
-                  original_attribute_name: p-value
-                  value: 0.000153
-                - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                  attribute_source: UniProtKB
-                  value_type_id: EDAM:data_1187
-                  description: Assertion Authored By Dr. Trans L. Ator
-                  attribute_type_id: attribute_type_id
-                  attributes:
-                  - null
-                  - null
-                  original_attribute_name: p-value
-                  value: 0.000153
-                id: id
-              - query_id: null
-                attributes:
-                - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                  attribute_source: UniProtKB
-                  value_type_id: EDAM:data_1187
-                  description: Assertion Authored By Dr. Trans L. Ator
-                  attribute_type_id: attribute_type_id
-                  attributes:
-                  - null
-                  - null
-                  original_attribute_name: p-value
-                  value: 0.000153
-                - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                  attribute_source: UniProtKB
-                  value_type_id: EDAM:data_1187
-                  description: Assertion Authored By Dr. Trans L. Ator
-                  attribute_type_id: attribute_type_id
-                  attributes:
-                  - null
-                  - null
-                  original_attribute_name: p-value
-                  value: 0.000153
-                id: id
-          query_graph: null
+        message: null
         logs:
         - code: code
           level: null
@@ -807,7 +430,7 @@ components:
         status: Success
       properties:
         message:
-          $ref: '#/components/schemas/Message'
+          $ref: '#/components/schemas/Response_message'
         status:
           description: "One of a standardized set of short codes, e.g. Success, QueryNotTraversable,\
             \ KPsNotAvailable"
@@ -825,17 +448,20 @@ components:
             \ first."
           items:
             $ref: '#/components/schemas/LogEntry'
-          nullable: true
+          minItems: 0
+          nullable: false
           type: array
         workflow:
           $ref: '#/components/schemas/Response_workflow'
         schema_version:
           description: Version label of the TRAPI schema used in this document
           example: 1.4.0
+          nullable: true
           type: string
         biolink_version:
           description: Version label of the Biolink model used in this document
           example: 3.1.2
+          nullable: true
           type: string
       required:
       - message
@@ -850,409 +476,17 @@ components:
         \ contains lists of edges and nodes in the thought graph corresponding to\
         \ this message. The content of these properties is context-dependent to the\
         \ encompassing object and the TRAPI operation requested."
-      example:
-        knowledge_graph: null
-        auxiliary_graphs:
-          key: "{}"
-        results:
-        - analyses:
-          - scoring_method: scoring_method
-            score: 163.233
-            edge_bindings:
-              key:
-              - attributes:
-                - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                  attribute_source: UniProtKB
-                  value_type_id: EDAM:data_1187
-                  description: Assertion Authored By Dr. Trans L. Ator
-                  attribute_type_id: attribute_type_id
-                  attributes:
-                  - null
-                  - null
-                  original_attribute_name: p-value
-                  value: 0.000153
-                - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                  attribute_source: UniProtKB
-                  value_type_id: EDAM:data_1187
-                  description: Assertion Authored By Dr. Trans L. Ator
-                  attribute_type_id: attribute_type_id
-                  attributes:
-                  - null
-                  - null
-                  original_attribute_name: p-value
-                  value: 0.000153
-                id: id
-              - attributes:
-                - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                  attribute_source: UniProtKB
-                  value_type_id: EDAM:data_1187
-                  description: Assertion Authored By Dr. Trans L. Ator
-                  attribute_type_id: attribute_type_id
-                  attributes:
-                  - null
-                  - null
-                  original_attribute_name: p-value
-                  value: 0.000153
-                - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                  attribute_source: UniProtKB
-                  value_type_id: EDAM:data_1187
-                  description: Assertion Authored By Dr. Trans L. Ator
-                  attribute_type_id: attribute_type_id
-                  attributes:
-                  - null
-                  - null
-                  original_attribute_name: p-value
-                  value: 0.000153
-                id: id
-            resource_id: resource_id
-            attributes:
-            - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-              attribute_source: UniProtKB
-              value_type_id: EDAM:data_1187
-              description: Assertion Authored By Dr. Trans L. Ator
-              attribute_type_id: attribute_type_id
-              attributes:
-              - null
-              - null
-              original_attribute_name: p-value
-              value: 0.000153
-            - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-              attribute_source: UniProtKB
-              value_type_id: EDAM:data_1187
-              description: Assertion Authored By Dr. Trans L. Ator
-              attribute_type_id: attribute_type_id
-              attributes:
-              - null
-              - null
-              original_attribute_name: p-value
-              value: 0.000153
-            support_graphs:
-            - support_graphs
-            - support_graphs
-          - scoring_method: scoring_method
-            score: 163.233
-            edge_bindings:
-              key:
-              - attributes:
-                - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                  attribute_source: UniProtKB
-                  value_type_id: EDAM:data_1187
-                  description: Assertion Authored By Dr. Trans L. Ator
-                  attribute_type_id: attribute_type_id
-                  attributes:
-                  - null
-                  - null
-                  original_attribute_name: p-value
-                  value: 0.000153
-                - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                  attribute_source: UniProtKB
-                  value_type_id: EDAM:data_1187
-                  description: Assertion Authored By Dr. Trans L. Ator
-                  attribute_type_id: attribute_type_id
-                  attributes:
-                  - null
-                  - null
-                  original_attribute_name: p-value
-                  value: 0.000153
-                id: id
-              - attributes:
-                - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                  attribute_source: UniProtKB
-                  value_type_id: EDAM:data_1187
-                  description: Assertion Authored By Dr. Trans L. Ator
-                  attribute_type_id: attribute_type_id
-                  attributes:
-                  - null
-                  - null
-                  original_attribute_name: p-value
-                  value: 0.000153
-                - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                  attribute_source: UniProtKB
-                  value_type_id: EDAM:data_1187
-                  description: Assertion Authored By Dr. Trans L. Ator
-                  attribute_type_id: attribute_type_id
-                  attributes:
-                  - null
-                  - null
-                  original_attribute_name: p-value
-                  value: 0.000153
-                id: id
-            resource_id: resource_id
-            attributes:
-            - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-              attribute_source: UniProtKB
-              value_type_id: EDAM:data_1187
-              description: Assertion Authored By Dr. Trans L. Ator
-              attribute_type_id: attribute_type_id
-              attributes:
-              - null
-              - null
-              original_attribute_name: p-value
-              value: 0.000153
-            - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-              attribute_source: UniProtKB
-              value_type_id: EDAM:data_1187
-              description: Assertion Authored By Dr. Trans L. Ator
-              attribute_type_id: attribute_type_id
-              attributes:
-              - null
-              - null
-              original_attribute_name: p-value
-              value: 0.000153
-            support_graphs:
-            - support_graphs
-            - support_graphs
-          node_bindings:
-            key:
-            - query_id: null
-              attributes:
-              - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                attribute_source: UniProtKB
-                value_type_id: EDAM:data_1187
-                description: Assertion Authored By Dr. Trans L. Ator
-                attribute_type_id: attribute_type_id
-                attributes:
-                - null
-                - null
-                original_attribute_name: p-value
-                value: 0.000153
-              - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                attribute_source: UniProtKB
-                value_type_id: EDAM:data_1187
-                description: Assertion Authored By Dr. Trans L. Ator
-                attribute_type_id: attribute_type_id
-                attributes:
-                - null
-                - null
-                original_attribute_name: p-value
-                value: 0.000153
-              id: id
-            - query_id: null
-              attributes:
-              - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                attribute_source: UniProtKB
-                value_type_id: EDAM:data_1187
-                description: Assertion Authored By Dr. Trans L. Ator
-                attribute_type_id: attribute_type_id
-                attributes:
-                - null
-                - null
-                original_attribute_name: p-value
-                value: 0.000153
-              - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                attribute_source: UniProtKB
-                value_type_id: EDAM:data_1187
-                description: Assertion Authored By Dr. Trans L. Ator
-                attribute_type_id: attribute_type_id
-                attributes:
-                - null
-                - null
-                original_attribute_name: p-value
-                value: 0.000153
-              id: id
-        - analyses:
-          - scoring_method: scoring_method
-            score: 163.233
-            edge_bindings:
-              key:
-              - attributes:
-                - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                  attribute_source: UniProtKB
-                  value_type_id: EDAM:data_1187
-                  description: Assertion Authored By Dr. Trans L. Ator
-                  attribute_type_id: attribute_type_id
-                  attributes:
-                  - null
-                  - null
-                  original_attribute_name: p-value
-                  value: 0.000153
-                - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                  attribute_source: UniProtKB
-                  value_type_id: EDAM:data_1187
-                  description: Assertion Authored By Dr. Trans L. Ator
-                  attribute_type_id: attribute_type_id
-                  attributes:
-                  - null
-                  - null
-                  original_attribute_name: p-value
-                  value: 0.000153
-                id: id
-              - attributes:
-                - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                  attribute_source: UniProtKB
-                  value_type_id: EDAM:data_1187
-                  description: Assertion Authored By Dr. Trans L. Ator
-                  attribute_type_id: attribute_type_id
-                  attributes:
-                  - null
-                  - null
-                  original_attribute_name: p-value
-                  value: 0.000153
-                - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                  attribute_source: UniProtKB
-                  value_type_id: EDAM:data_1187
-                  description: Assertion Authored By Dr. Trans L. Ator
-                  attribute_type_id: attribute_type_id
-                  attributes:
-                  - null
-                  - null
-                  original_attribute_name: p-value
-                  value: 0.000153
-                id: id
-            resource_id: resource_id
-            attributes:
-            - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-              attribute_source: UniProtKB
-              value_type_id: EDAM:data_1187
-              description: Assertion Authored By Dr. Trans L. Ator
-              attribute_type_id: attribute_type_id
-              attributes:
-              - null
-              - null
-              original_attribute_name: p-value
-              value: 0.000153
-            - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-              attribute_source: UniProtKB
-              value_type_id: EDAM:data_1187
-              description: Assertion Authored By Dr. Trans L. Ator
-              attribute_type_id: attribute_type_id
-              attributes:
-              - null
-              - null
-              original_attribute_name: p-value
-              value: 0.000153
-            support_graphs:
-            - support_graphs
-            - support_graphs
-          - scoring_method: scoring_method
-            score: 163.233
-            edge_bindings:
-              key:
-              - attributes:
-                - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                  attribute_source: UniProtKB
-                  value_type_id: EDAM:data_1187
-                  description: Assertion Authored By Dr. Trans L. Ator
-                  attribute_type_id: attribute_type_id
-                  attributes:
-                  - null
-                  - null
-                  original_attribute_name: p-value
-                  value: 0.000153
-                - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                  attribute_source: UniProtKB
-                  value_type_id: EDAM:data_1187
-                  description: Assertion Authored By Dr. Trans L. Ator
-                  attribute_type_id: attribute_type_id
-                  attributes:
-                  - null
-                  - null
-                  original_attribute_name: p-value
-                  value: 0.000153
-                id: id
-              - attributes:
-                - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                  attribute_source: UniProtKB
-                  value_type_id: EDAM:data_1187
-                  description: Assertion Authored By Dr. Trans L. Ator
-                  attribute_type_id: attribute_type_id
-                  attributes:
-                  - null
-                  - null
-                  original_attribute_name: p-value
-                  value: 0.000153
-                - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                  attribute_source: UniProtKB
-                  value_type_id: EDAM:data_1187
-                  description: Assertion Authored By Dr. Trans L. Ator
-                  attribute_type_id: attribute_type_id
-                  attributes:
-                  - null
-                  - null
-                  original_attribute_name: p-value
-                  value: 0.000153
-                id: id
-            resource_id: resource_id
-            attributes:
-            - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-              attribute_source: UniProtKB
-              value_type_id: EDAM:data_1187
-              description: Assertion Authored By Dr. Trans L. Ator
-              attribute_type_id: attribute_type_id
-              attributes:
-              - null
-              - null
-              original_attribute_name: p-value
-              value: 0.000153
-            - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-              attribute_source: UniProtKB
-              value_type_id: EDAM:data_1187
-              description: Assertion Authored By Dr. Trans L. Ator
-              attribute_type_id: attribute_type_id
-              attributes:
-              - null
-              - null
-              original_attribute_name: p-value
-              value: 0.000153
-            support_graphs:
-            - support_graphs
-            - support_graphs
-          node_bindings:
-            key:
-            - query_id: null
-              attributes:
-              - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                attribute_source: UniProtKB
-                value_type_id: EDAM:data_1187
-                description: Assertion Authored By Dr. Trans L. Ator
-                attribute_type_id: attribute_type_id
-                attributes:
-                - null
-                - null
-                original_attribute_name: p-value
-                value: 0.000153
-              - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                attribute_source: UniProtKB
-                value_type_id: EDAM:data_1187
-                description: Assertion Authored By Dr. Trans L. Ator
-                attribute_type_id: attribute_type_id
-                attributes:
-                - null
-                - null
-                original_attribute_name: p-value
-                value: 0.000153
-              id: id
-            - query_id: null
-              attributes:
-              - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                attribute_source: UniProtKB
-                value_type_id: EDAM:data_1187
-                description: Assertion Authored By Dr. Trans L. Ator
-                attribute_type_id: attribute_type_id
-                attributes:
-                - null
-                - null
-                original_attribute_name: p-value
-                value: 0.000153
-              - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                attribute_source: UniProtKB
-                value_type_id: EDAM:data_1187
-                description: Assertion Authored By Dr. Trans L. Ator
-                attribute_type_id: attribute_type_id
-                attributes:
-                - null
-                - null
-                original_attribute_name: p-value
-                value: 0.000153
-              id: id
-        query_graph: null
       properties:
         results:
-          description: |-
-            List of all returned Result objects for the query posed. The list SHOULD NOT be assumed to be ordered. The 'score' property,
-             if present, MAY be used to infer result rankings.
+          description: "List of all returned Result objects for the query posed. The\
+            \ list SHOULD NOT be assumed to be ordered. The 'score' property, if present,\
+            \ MAY be used to infer result rankings. If Results are not expected (such\
+            \ as for a query Message), this property SHOULD be null or absent. If\
+            \ Results are expected (such as for a response Message) and no Results\
+            \ are available, this property SHOULD be an array with 0 Results in it."
           items:
             $ref: '#/components/schemas/Result'
+          minItems: 0
           nullable: true
           title: results
           type: array
@@ -1262,10 +496,11 @@ components:
           $ref: '#/components/schemas/Message_knowledge_graph'
         auxiliary_graphs:
           additionalProperties:
-            $ref: '#components/schemas/AuxiliaryGraph'
+            $ref: '#/components/schemas/AuxiliaryGraph'
           description: Dictionary of AuxiliaryGraph instances that are used by Knowledge
             Graph Edges and Result Analyses. These are referenced elsewhere by the
             dictionary key.
+          nullable: true
           title: auxiliary_graphs
           type: object
       title: Message
@@ -1324,209 +559,13 @@ components:
       description: A Result object specifies the nodes and edges in the knowledge
         graph that satisfy the structure or conditions of a user-submitted query graph.
         It must contain a NodeBindings object (list of query graph node to knowledge
-        graph node mappings) and an EdgeBindings object (list of query graph edge
-        to knowledge graph edge mappings).
-      example:
-        analyses:
-        - scoring_method: scoring_method
-          score: 163.233
-          edge_bindings:
-            key:
-            - attributes:
-              - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                attribute_source: UniProtKB
-                value_type_id: EDAM:data_1187
-                description: Assertion Authored By Dr. Trans L. Ator
-                attribute_type_id: attribute_type_id
-                attributes:
-                - null
-                - null
-                original_attribute_name: p-value
-                value: 0.000153
-              - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                attribute_source: UniProtKB
-                value_type_id: EDAM:data_1187
-                description: Assertion Authored By Dr. Trans L. Ator
-                attribute_type_id: attribute_type_id
-                attributes:
-                - null
-                - null
-                original_attribute_name: p-value
-                value: 0.000153
-              id: id
-            - attributes:
-              - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                attribute_source: UniProtKB
-                value_type_id: EDAM:data_1187
-                description: Assertion Authored By Dr. Trans L. Ator
-                attribute_type_id: attribute_type_id
-                attributes:
-                - null
-                - null
-                original_attribute_name: p-value
-                value: 0.000153
-              - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                attribute_source: UniProtKB
-                value_type_id: EDAM:data_1187
-                description: Assertion Authored By Dr. Trans L. Ator
-                attribute_type_id: attribute_type_id
-                attributes:
-                - null
-                - null
-                original_attribute_name: p-value
-                value: 0.000153
-              id: id
-          resource_id: resource_id
-          attributes:
-          - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-            attribute_source: UniProtKB
-            value_type_id: EDAM:data_1187
-            description: Assertion Authored By Dr. Trans L. Ator
-            attribute_type_id: attribute_type_id
-            attributes:
-            - null
-            - null
-            original_attribute_name: p-value
-            value: 0.000153
-          - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-            attribute_source: UniProtKB
-            value_type_id: EDAM:data_1187
-            description: Assertion Authored By Dr. Trans L. Ator
-            attribute_type_id: attribute_type_id
-            attributes:
-            - null
-            - null
-            original_attribute_name: p-value
-            value: 0.000153
-          support_graphs:
-          - support_graphs
-          - support_graphs
-        - scoring_method: scoring_method
-          score: 163.233
-          edge_bindings:
-            key:
-            - attributes:
-              - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                attribute_source: UniProtKB
-                value_type_id: EDAM:data_1187
-                description: Assertion Authored By Dr. Trans L. Ator
-                attribute_type_id: attribute_type_id
-                attributes:
-                - null
-                - null
-                original_attribute_name: p-value
-                value: 0.000153
-              - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                attribute_source: UniProtKB
-                value_type_id: EDAM:data_1187
-                description: Assertion Authored By Dr. Trans L. Ator
-                attribute_type_id: attribute_type_id
-                attributes:
-                - null
-                - null
-                original_attribute_name: p-value
-                value: 0.000153
-              id: id
-            - attributes:
-              - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                attribute_source: UniProtKB
-                value_type_id: EDAM:data_1187
-                description: Assertion Authored By Dr. Trans L. Ator
-                attribute_type_id: attribute_type_id
-                attributes:
-                - null
-                - null
-                original_attribute_name: p-value
-                value: 0.000153
-              - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-                attribute_source: UniProtKB
-                value_type_id: EDAM:data_1187
-                description: Assertion Authored By Dr. Trans L. Ator
-                attribute_type_id: attribute_type_id
-                attributes:
-                - null
-                - null
-                original_attribute_name: p-value
-                value: 0.000153
-              id: id
-          resource_id: resource_id
-          attributes:
-          - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-            attribute_source: UniProtKB
-            value_type_id: EDAM:data_1187
-            description: Assertion Authored By Dr. Trans L. Ator
-            attribute_type_id: attribute_type_id
-            attributes:
-            - null
-            - null
-            original_attribute_name: p-value
-            value: 0.000153
-          - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-            attribute_source: UniProtKB
-            value_type_id: EDAM:data_1187
-            description: Assertion Authored By Dr. Trans L. Ator
-            attribute_type_id: attribute_type_id
-            attributes:
-            - null
-            - null
-            original_attribute_name: p-value
-            value: 0.000153
-          support_graphs:
-          - support_graphs
-          - support_graphs
-        node_bindings:
-          key:
-          - query_id: null
-            attributes:
-            - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-              attribute_source: UniProtKB
-              value_type_id: EDAM:data_1187
-              description: Assertion Authored By Dr. Trans L. Ator
-              attribute_type_id: attribute_type_id
-              attributes:
-              - null
-              - null
-              original_attribute_name: p-value
-              value: 0.000153
-            - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-              attribute_source: UniProtKB
-              value_type_id: EDAM:data_1187
-              description: Assertion Authored By Dr. Trans L. Ator
-              attribute_type_id: attribute_type_id
-              attributes:
-              - null
-              - null
-              original_attribute_name: p-value
-              value: 0.000153
-            id: id
-          - query_id: null
-            attributes:
-            - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-              attribute_source: UniProtKB
-              value_type_id: EDAM:data_1187
-              description: Assertion Authored By Dr. Trans L. Ator
-              attribute_type_id: attribute_type_id
-              attributes:
-              - null
-              - null
-              original_attribute_name: p-value
-              value: 0.000153
-            - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-              attribute_source: UniProtKB
-              value_type_id: EDAM:data_1187
-              description: Assertion Authored By Dr. Trans L. Ator
-              attribute_type_id: attribute_type_id
-              attributes:
-              - null
-              - null
-              original_attribute_name: p-value
-              value: 0.000153
-            id: id
+        graph node mappings) and a list of Analysis objects.
       properties:
         node_bindings:
           additionalProperties:
             items:
               $ref: '#/components/schemas/NodeBinding'
+            minItems: 1
             type: array
           description: The dictionary of Input Query Graph to Result Knowledge Graph
             node bindings where the dictionary keys are the key identifiers of the
@@ -1534,12 +573,15 @@ components:
             of NodeBinding schema type (see below). This value is an array of NodeBindings
             since a given query node may have multiple knowledge graph Node bindings
             in the result.
+          nullable: false
           type: object
         analyses:
           description: The list of all Analysis components that contribute to the
             result. See below for Analysis components.
           items:
             $ref: '#/components/schemas/Analysis'
+          minItems: 0
+          nullable: false
           type: array
       required:
       - analyses
@@ -1554,40 +596,9 @@ components:
         \ in the form of additional properties. (such annotation is not yet fully\
         \ standardized). Each Node Binding must bind directly to node in the original\
         \ Query Graph."
-      example:
-        query_id: null
-        attributes:
-        - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-          attribute_source: UniProtKB
-          value_type_id: EDAM:data_1187
-          description: Assertion Authored By Dr. Trans L. Ator
-          attribute_type_id: attribute_type_id
-          attributes:
-          - null
-          - null
-          original_attribute_name: p-value
-          value: 0.000153
-        - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-          attribute_source: UniProtKB
-          value_type_id: EDAM:data_1187
-          description: Assertion Authored By Dr. Trans L. Ator
-          attribute_type_id: attribute_type_id
-          attributes:
-          - null
-          - null
-          original_attribute_name: p-value
-          value: 0.000153
-        id: id
       properties:
         id:
-          description: "A Compact URI, consisting of a prefix and a reference separated\
-            \ by a colon, such as UniProtKB:P00738. Via an external context definition,\
-            \ the CURIE prefix and colon may be replaced by a URI prefix, such as\
-            \ http://identifiers.org/uniprot/, to form a full URI."
-          externalDocs:
-            url: https://www.w3.org/TR/2010/NOTE-curie-20101216/
-          title: CURIE
-          type: string
+          $ref: '#/components/schemas/NodeBinding_id'
         query_id:
           $ref: '#/components/schemas/NodeBinding_query_id'
         attributes:
@@ -1596,9 +607,11 @@ components:
             only be used for properties that vary from result to result.
           items:
             $ref: '#/components/schemas/Attribute'
-          nullable: true
+          minItems: 0
+          nullable: false
           type: array
       required:
+      - attributes
       - id
       title: NodeBinding
       type: object
@@ -1610,80 +623,6 @@ components:
         \ reasoner on a particular Result (e.g. a result score), along with provenance\
         \ information supporting the analysis (e.g. method or data that supported\
         \ generation of the score)."
-      example:
-        scoring_method: scoring_method
-        score: 163.233
-        edge_bindings:
-          key:
-          - attributes:
-            - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-              attribute_source: UniProtKB
-              value_type_id: EDAM:data_1187
-              description: Assertion Authored By Dr. Trans L. Ator
-              attribute_type_id: attribute_type_id
-              attributes:
-              - null
-              - null
-              original_attribute_name: p-value
-              value: 0.000153
-            - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-              attribute_source: UniProtKB
-              value_type_id: EDAM:data_1187
-              description: Assertion Authored By Dr. Trans L. Ator
-              attribute_type_id: attribute_type_id
-              attributes:
-              - null
-              - null
-              original_attribute_name: p-value
-              value: 0.000153
-            id: id
-          - attributes:
-            - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-              attribute_source: UniProtKB
-              value_type_id: EDAM:data_1187
-              description: Assertion Authored By Dr. Trans L. Ator
-              attribute_type_id: attribute_type_id
-              attributes:
-              - null
-              - null
-              original_attribute_name: p-value
-              value: 0.000153
-            - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-              attribute_source: UniProtKB
-              value_type_id: EDAM:data_1187
-              description: Assertion Authored By Dr. Trans L. Ator
-              attribute_type_id: attribute_type_id
-              attributes:
-              - null
-              - null
-              original_attribute_name: p-value
-              value: 0.000153
-            id: id
-        resource_id: resource_id
-        attributes:
-        - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-          attribute_source: UniProtKB
-          value_type_id: EDAM:data_1187
-          description: Assertion Authored By Dr. Trans L. Ator
-          attribute_type_id: attribute_type_id
-          attributes:
-          - null
-          - null
-          original_attribute_name: p-value
-          value: 0.000153
-        - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-          attribute_source: UniProtKB
-          value_type_id: EDAM:data_1187
-          description: Assertion Authored By Dr. Trans L. Ator
-          attribute_type_id: attribute_type_id
-          attributes:
-          - null
-          - null
-          original_attribute_name: p-value
-          value: 0.000153
-        support_graphs:
-        - support_graphs
-        - support_graphs
       properties:
         resource_id:
           description: "A Compact URI, consisting of a prefix and a reference separated\
@@ -1745,32 +684,10 @@ components:
         \ (such annotation is not yet fully standardized). Edge bindings are captured\
         \ within a specific reasoner's Analysis object because the Edges in the Knowledge\
         \ Graph that get bound to the input Query Graph may differ between reasoners."
-      example:
-        attributes:
-        - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-          attribute_source: UniProtKB
-          value_type_id: EDAM:data_1187
-          description: Assertion Authored By Dr. Trans L. Ator
-          attribute_type_id: attribute_type_id
-          attributes:
-          - null
-          - null
-          original_attribute_name: p-value
-          value: 0.000153
-        - value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-          attribute_source: UniProtKB
-          value_type_id: EDAM:data_1187
-          description: Assertion Authored By Dr. Trans L. Ator
-          attribute_type_id: attribute_type_id
-          attributes:
-          - null
-          - null
-          original_attribute_name: p-value
-          value: 0.000153
-        id: id
       properties:
         id:
           description: The key identifier of a specific KnowledgeGraph Edge.
+          nullable: false
           type: string
         attributes:
           description: A list of attributes providing further information about the
@@ -1778,9 +695,11 @@ components:
             only be used for properties that vary from result to result.
           items:
             $ref: '#/components/schemas/Attribute'
-          nullable: true
+          minItems: 0
+          nullable: false
           type: array
       required:
+      - attributes
       - id
       title: EdgeBinding
       type: object
@@ -1806,10 +725,13 @@ components:
           description: Attributes of the Auxiliary Graph
           items:
             $ref: '#/components/schemas/Attribute'
-          nullable: true
+          minItems: 0
+          nullable: false
           type: array
       required:
+      - attributes
       - edges
+      title: AuxiliaryGraph
       type: object
     KnowledgeGraph:
       additionalProperties: true
@@ -1885,18 +807,20 @@ components:
           minItems: 1
           nullable: true
           type: array
-        is_set:
-          default: false
-          description: "Boolean that if set to true, indicates that this QNode MAY\
-            \ have multiple KnowledgeGraph Nodes bound to it within each Result. The\
-            \ nodes in a set should be considered as a set of independent nodes, rather\
-            \ than a set of dependent nodes, i.e., the answer would still be valid\
-            \ if the nodes in the set were instead returned individually. Multiple\
-            \ QNodes may have is_set=True. If a QNode (n1) with is_set=True is connected\
-            \ to a QNode (n2) with is_set=False, each n1 must be connected to n2.\
-            \ If a QNode (n1) with is_set=True is connected to a QNode (n2) with is_set=True,\
-            \ each n1 must be connected to at least one n2."
-          type: boolean
+        set_interpretation:
+          description: "Indicates how multiple CURIEs in the ids property MUST be\
+            \ interpreted. BATCH indicates that the query is intended to be a batch\
+            \ query and each CURIE is treated independently. ALL means that all specified\
+            \ CURIES MUST appear in each Result. MANY means that member CURIEs MUST\
+            \ form one or more sets in the Results, and sets with more members are\
+            \ generally considered more desirable that sets with fewer members. If\
+            \ this property is missing or null, the default is BATCH."
+          enum:
+          - BATCH
+          - ALL
+          - MANY
+          nullable: true
+          type: string
         constraints:
           default: []
           description: "A list of constraints applied to a query node. If there are\
@@ -1988,16 +912,27 @@ components:
             should also be avoided.
           items:
             $ref: '#/components/schemas/BiolinkEntity'
-          nullable: true
+          minItems: 1
+          nullable: false
           title: categories
           type: array
         attributes:
           description: A list of attributes describing the node
           items:
             $ref: '#/components/schemas/Attribute'
-          nullable: true
+          minItems: 0
+          nullable: false
           title: attributes
           type: array
+        is_set:
+          description: "Indicates that the node represents a set of entities. If this\
+            \ property is missing or null, it is assumed to be false."
+          nullable: true
+          title: is_set
+          type: boolean
+      required:
+      - attributes
+      - categories
       title: Node
       type: object
     Attribute:
@@ -2009,17 +944,6 @@ components:
         \ its semantic type, or a url providing additional information about it. An\
         \ attribute may be further qualified with sub-attributes (for example to provide\
         \ confidence intervals on a value)."
-      example:
-        value_url: https://pubmed.ncbi.nlm.nih.gov/32529952
-        attribute_source: UniProtKB
-        value_type_id: EDAM:data_1187
-        description: Assertion Authored By Dr. Trans L. Ator
-        attribute_type_id: attribute_type_id
-        attributes:
-        - null
-        - null
-        original_attribute_name: p-value
-        value: 0.000153
       properties:
         attribute_type_id:
           description: "A Compact URI, consisting of a prefix and a reference separated\
@@ -2666,6 +1590,7 @@ components:
           - infores:molepro
           items:
             $ref: '#/components/schemas/CURIE'
+          nullable: true
           type: array
         source_record_urls:
           description: "A URL linking to a specific web page or document provided\
@@ -2679,6 +1604,7 @@ components:
           example: "[https://db.idrblab.net/ttd/data/drug/details/d0az3c,  https://db.idrblab.net/ttd/data/target/details/t57700]"
           items:
             type: string
+          nullable: true
           type: array
       required:
       - resource_id
@@ -2745,10 +1671,50 @@ components:
         parameters:
           title: parameters
         runner_parameters:
-          $ref: '#/components/schemas/OperationAnnotate_runner_parameters'
+          $ref: '#/components/schemas/RunnerParameters'
       required:
       - id
       title: OperationAnnotate
+      type: object
+    RunnerParameters:
+      oneOf:
+      - $ref: '#/components/schemas/AllowList'
+      - $ref: '#/components/schemas/DenyList'
+      title: RunnerParameters
+      type: object
+    AllowList:
+      additionalProperties: false
+      properties:
+        allowlist:
+          description: List of operation providers (by infores ID) that may be used
+            to complete operation. No others will be used. A full list of operation
+            providers for each operation with infores ID's is available through the
+            '/services' endpoint of the workflow runner.
+          example:
+          - infores:aragorn
+          items:
+            type: string
+          minLength: 1
+          title: allowlist
+          type: array
+      title: AllowList
+      type: object
+    DenyList:
+      additionalProperties: false
+      properties:
+        denylist:
+          description: List of operation providers (by infores ID) that may not be
+            used to complete operation. All others will be used. A full list of operation
+            providers for each operation with infores ID's is available through the
+            '/services' endpoint of the worflow runner.
+          example:
+          - infores:aragorn
+          items:
+            type: string
+          minLength: 1
+          title: denylist
+          type: array
+      title: DenyList
       type: object
     OperationAnnotateEdges:
       additionalProperties: false
@@ -2762,7 +1728,7 @@ components:
         parameters:
           $ref: '#/components/schemas/OperationAnnotateEdges_parameters'
         runner_parameters:
-          $ref: '#/components/schemas/OperationAnnotate_runner_parameters'
+          $ref: '#/components/schemas/RunnerParameters'
       required:
       - id
       title: OperationAnnotateEdges
@@ -2779,7 +1745,7 @@ components:
         parameters:
           $ref: '#/components/schemas/OperationAnnotateNodes_parameters'
         runner_parameters:
-          $ref: '#/components/schemas/OperationAnnotate_runner_parameters'
+          $ref: '#/components/schemas/RunnerParameters'
       required:
       - id
       title: OperationAnnotateNodes
@@ -2796,7 +1762,7 @@ components:
         parameters:
           title: parameters
         runner_parameters:
-          $ref: '#/components/schemas/OperationAnnotate_runner_parameters'
+          $ref: '#/components/schemas/RunnerParameters'
       required:
       - id
       title: OperationBind
@@ -2813,7 +1779,7 @@ components:
         parameters:
           title: parameters
         runner_parameters:
-          $ref: '#/components/schemas/OperationAnnotate_runner_parameters'
+          $ref: '#/components/schemas/RunnerParameters'
       required:
       - id
       title: OperationCompleteResults
@@ -2833,7 +1799,7 @@ components:
         parameters:
           $ref: '#/components/schemas/OperationEnrichResults_parameters'
         runner_parameters:
-          $ref: '#/components/schemas/OperationAnnotate_runner_parameters'
+          $ref: '#/components/schemas/RunnerParameters'
       required:
       - id
       title: OperationEnrichResults
@@ -2851,7 +1817,7 @@ components:
         parameters:
           $ref: '#/components/schemas/OperationFill_parameters'
         runner_parameters:
-          $ref: '#/components/schemas/OperationAnnotate_runner_parameters'
+          $ref: '#/components/schemas/RunnerParameters'
       required:
       - id
       title: OperationFill
@@ -2868,7 +1834,7 @@ components:
         parameters:
           title: parameters
         runner_parameters:
-          $ref: '#/components/schemas/OperationAnnotate_runner_parameters'
+          $ref: '#/components/schemas/RunnerParameters'
       required:
       - id
       title: OperationFilterKgraph
@@ -2886,7 +1852,7 @@ components:
         parameters:
           $ref: '#/components/schemas/OperationFilterKgraphContinuousKedgeAttribute_parameters'
         runner_parameters:
-          $ref: '#/components/schemas/OperationAnnotate_runner_parameters'
+          $ref: '#/components/schemas/RunnerParameters'
       required:
       - id
       - parameters
@@ -2906,7 +1872,7 @@ components:
         parameters:
           $ref: '#/components/schemas/OperationFilterKgraphDiscreteKedgeAttribute_parameters'
         runner_parameters:
-          $ref: '#/components/schemas/OperationAnnotate_runner_parameters'
+          $ref: '#/components/schemas/RunnerParameters'
       required:
       - id
       - parameters
@@ -2928,7 +1894,7 @@ components:
         parameters:
           $ref: '#/components/schemas/OperationFilterKgraphDiscreteKnodeAttribute_parameters'
         runner_parameters:
-          $ref: '#/components/schemas/OperationAnnotate_runner_parameters'
+          $ref: '#/components/schemas/RunnerParameters'
       required:
       - id
       - parameters
@@ -2947,7 +1913,7 @@ components:
         parameters:
           title: parameters
         runner_parameters:
-          $ref: '#/components/schemas/OperationAnnotate_runner_parameters'
+          $ref: '#/components/schemas/RunnerParameters'
       required:
       - id
       title: OperationFilterKgraphOrphans
@@ -2965,7 +1931,7 @@ components:
         parameters:
           $ref: '#/components/schemas/OperationFilterKgraphPercentile_parameters'
         runner_parameters:
-          $ref: '#/components/schemas/OperationAnnotate_runner_parameters'
+          $ref: '#/components/schemas/RunnerParameters'
       required:
       - id
       - parameters
@@ -2984,7 +1950,7 @@ components:
         parameters:
           $ref: '#/components/schemas/OperationFilterKgraphStdDev_parameters'
         runner_parameters:
-          $ref: '#/components/schemas/OperationAnnotate_runner_parameters'
+          $ref: '#/components/schemas/RunnerParameters'
       required:
       - id
       - parameters
@@ -3003,7 +1969,7 @@ components:
         parameters:
           $ref: '#/components/schemas/OperationFilterKgraphTopN_parameters'
         runner_parameters:
-          $ref: '#/components/schemas/OperationAnnotate_runner_parameters'
+          $ref: '#/components/schemas/RunnerParameters'
       required:
       - id
       - parameters
@@ -3022,7 +1988,7 @@ components:
         parameters:
           title: parameters
         runner_parameters:
-          $ref: '#/components/schemas/OperationAnnotate_runner_parameters'
+          $ref: '#/components/schemas/RunnerParameters'
       required:
       - id
       title: OperationFilterResults
@@ -3040,7 +2006,7 @@ components:
         parameters:
           $ref: '#/components/schemas/OperationFilterResultsTopN_parameters'
         runner_parameters:
-          $ref: '#/components/schemas/OperationAnnotate_runner_parameters'
+          $ref: '#/components/schemas/RunnerParameters'
       required:
       - id
       - parameters
@@ -3060,7 +2026,7 @@ components:
         parameters:
           title: parameters
         runner_parameters:
-          $ref: '#/components/schemas/OperationAnnotate_runner_parameters'
+          $ref: '#/components/schemas/RunnerParameters'
       required:
       - id
       title: OperationLookup
@@ -3080,7 +2046,7 @@ components:
         parameters:
           title: parameters
         runner_parameters:
-          $ref: '#/components/schemas/OperationAnnotate_runner_parameters'
+          $ref: '#/components/schemas/RunnerParameters'
       required:
       - id
       title: OperationLookupAndScore
@@ -3098,7 +2064,7 @@ components:
         parameters:
           title: parameters
         runner_parameters:
-          $ref: '#/components/schemas/OperationAnnotate_runner_parameters'
+          $ref: '#/components/schemas/RunnerParameters'
       required:
       - id
       title: OperationOverlay
@@ -3123,7 +2089,7 @@ components:
         parameters:
           $ref: '#/components/schemas/OperationOverlayComputeJaccard_parameters'
         runner_parameters:
-          $ref: '#/components/schemas/OperationAnnotate_runner_parameters'
+          $ref: '#/components/schemas/RunnerParameters'
       required:
       - id
       - parameters
@@ -3144,7 +2110,7 @@ components:
         parameters:
           $ref: '#/components/schemas/OperationOverlayComputeNgd_parameters'
         runner_parameters:
-          $ref: '#/components/schemas/OperationAnnotate_runner_parameters'
+          $ref: '#/components/schemas/RunnerParameters'
       required:
       - id
       - parameters
@@ -3167,7 +2133,7 @@ components:
         parameters:
           title: parameters
         runner_parameters:
-          $ref: '#/components/schemas/OperationAnnotate_runner_parameters'
+          $ref: '#/components/schemas/RunnerParameters'
       required:
       - id
       title: OperationOverlayConnectKnodes
@@ -3192,7 +2158,7 @@ components:
         parameters:
           $ref: '#/components/schemas/OperationOverlayFisherExactTest_parameters'
         runner_parameters:
-          $ref: '#/components/schemas/OperationAnnotate_runner_parameters'
+          $ref: '#/components/schemas/RunnerParameters'
       required:
       - id
       - parameters
@@ -3210,7 +2176,7 @@ components:
         parameters:
           title: parameters
         runner_parameters:
-          $ref: '#/components/schemas/OperationAnnotate_runner_parameters'
+          $ref: '#/components/schemas/RunnerParameters'
       required:
       - id
       title: OperationRestate
@@ -3227,7 +2193,7 @@ components:
         parameters:
           title: parameters
         runner_parameters:
-          $ref: '#/components/schemas/OperationAnnotate_runner_parameters'
+          $ref: '#/components/schemas/RunnerParameters'
       required:
       - id
       title: OperationScore
@@ -3245,7 +2211,7 @@ components:
         parameters:
           title: parameters
         runner_parameters:
-          $ref: '#/components/schemas/OperationAnnotate_runner_parameters'
+          $ref: '#/components/schemas/RunnerParameters'
       required:
       - id
       title: OperationSortResults
@@ -3267,12 +2233,20 @@ components:
         parameters:
           $ref: '#/components/schemas/OperationSortResultsEdgeAttribute_parameters'
         runner_parameters:
-          $ref: '#/components/schemas/OperationAnnotate_runner_parameters'
+          $ref: '#/components/schemas/RunnerParameters'
       required:
       - id
       - parameters
       title: OperationSortResultsEdgeAttribute
       type: object
+    AscendingOrDescending:
+      description: Indicates whether results should be sorted in ascending or descending
+        order.
+      enum:
+      - ascending
+      - descending
+      title: AscendingOrDescending
+      type: string
     OperationSortResultsNodeAttribute:
       additionalProperties: false
       description: "This operation sorts the results by the given node attribute.\
@@ -3290,7 +2264,7 @@ components:
         parameters:
           $ref: '#/components/schemas/OperationSortResultsNodeAttribute_parameters'
         runner_parameters:
-          $ref: '#/components/schemas/OperationAnnotate_runner_parameters'
+          $ref: '#/components/schemas/RunnerParameters'
       required:
       - id
       - parameters
@@ -3309,12 +2283,22 @@ components:
         parameters:
           $ref: '#/components/schemas/OperationSortResultsScore_parameters'
         runner_parameters:
-          $ref: '#/components/schemas/OperationAnnotate_runner_parameters'
+          $ref: '#/components/schemas/RunnerParameters'
       required:
       - id
       - parameters
       title: OperationSortResultsScore
       type: object
+    Query_message:
+      description: "The query Message is a serialization of the user request. Content\
+        \ of the Message object depends on the intended TRAPI operation. For example,\
+        \ the fill operation requires a non-empty query_graph field as part of the\
+        \ Message, whereas other operations, e.g. overlay, require non-empty results\
+        \ and knowledge_graph fields."
+      nullable: false
+      oneOf:
+      - $ref: '#/components/schemas/Message'
+      title: Query_message
     Query_log_level:
       description: The least critical level of logs to return
       nullable: true
@@ -3327,6 +2311,13 @@ components:
       oneOf:
       - $ref: '#/components/schemas/schema'
       title: Query_workflow
+    Response_message:
+      description: "Contains the knowledge of the response (query graph, knowledge\
+        \ graph, and results)."
+      nullable: false
+      oneOf:
+      - $ref: '#/components/schemas/Message'
+      title: Response_message
     Response_workflow:
       description: List of workflow steps that were executed.
       nullable: true
@@ -3352,6 +2343,12 @@ components:
       oneOf:
       - $ref: '#/components/schemas/LogLevel'
       title: LogEntry_level
+    NodeBinding_id:
+      description: The CURIE of a Node within the Knowledge Graph.
+      nullable: false
+      oneOf:
+      - $ref: '#/components/schemas/CURIE'
+      title: NodeBinding_id
     NodeBinding_query_id:
       description: "An optional property to provide the CURIE in the QueryGraph to\
         \ which this binding applies. If the bound QNode does not have an an 'id'\
@@ -3411,42 +2408,6 @@ components:
       oneOf:
       - $ref: '#/components/schemas/CURIE'
       title: AttributeConstraint_id
-    OperationAnnotate_runner_parameters_oneOf:
-      properties:
-        allowlist:
-          description: List of operation providers (by infores ID) that may be used
-            to complete operation. No others will be used. A full list of operation
-            providers for each operation with infores ID's is available through the
-            '/services' endpoint of the workflow runner.
-          example:
-          - infores:aragorn
-          items:
-            type: string
-          minLength: 1
-          title: allowlist
-          type: array
-      title: OperationAnnotate_runner_parameters_oneOf
-    OperationAnnotate_runner_parameters_oneOf_1:
-      properties:
-        denylist:
-          description: List of operation providers (by infores ID) that may not be
-            used to complete operation. All others will be used. A full list of operation
-            providers for each operation with infores ID's is available through the
-            '/services' endpoint of the worflow runner.
-          example:
-          - infores:aragorn
-          items:
-            type: string
-          minLength: 1
-          title: denylist
-          type: array
-      title: OperationAnnotate_runner_parameters_oneOf_1
-    OperationAnnotate_runner_parameters:
-      oneOf:
-      - $ref: '#/components/schemas/OperationAnnotate_runner_parameters_oneOf'
-      - $ref: '#/components/schemas/OperationAnnotate_runner_parameters_oneOf_1'
-      title: OperationAnnotate_runner_parameters
-      type: object
     OperationAnnotateEdges_parameters:
       properties:
         attributes:
@@ -3915,13 +2876,7 @@ components:
           title: edge_attribute
           type: string
         ascending_or_descending:
-          description: Indicates whether results should be sorted in ascending or
-            descending order.
-          enum:
-          - ascending
-          - descending
-          title: ascending_or_descending
-          type: string
+          $ref: '#/components/schemas/AscendingOrDescending'
         qedge_keys:
           description: "This indicates if you only want to consider edges with specific\
             \ edge_keys. If not provided or empty, all edges will be looked at."
@@ -3944,13 +2899,7 @@ components:
           title: node_attribute
           type: string
         ascending_or_descending:
-          description: Indicates whether results should be sorted in ascending or
-            descending order.
-          enum:
-          - ascending
-          - descending
-          title: ascending_or_descending
-          type: string
+          $ref: '#/components/schemas/AscendingOrDescending'
         qnode_keys:
           description: "This indicates if you only want to consider nodes with specific\
             \ node_keys. If not provided or empty, all nodes will be looked at."
@@ -3968,13 +2917,7 @@ components:
     OperationSortResultsScore_parameters:
       properties:
         ascending_or_descending:
-          description: Indicates whether results should be sorted in ascending or
-            descending order.
-          enum:
-          - ascending
-          - descending
-          title: ascending_or_descending
-          type: string
+          $ref: '#/components/schemas/AscendingOrDescending'
       required:
       - ascending_or_descending
       title: OperationSortResultsScore_parameters
