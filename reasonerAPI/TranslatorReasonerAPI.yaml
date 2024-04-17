@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   description: Molecular Data Provider for NCATS Biomedical Translator
-  version: 1.4.0.0
+  version: 1.5.0.0
   title: MolePro
   contact:
     email: translator@broadinstitute.org
@@ -15,7 +15,7 @@ info:
     component: KP
     team:
       - Molecular Data Provider
-    biolink-version: 2.4.7
+    biolink-version: 4.1.6
     infores: "infores:molepro"
     externalDocs:
       description: >-
@@ -38,7 +38,7 @@ info:
       url: https://github.com/NCATSTranslator/translator_extensions/blob/\
         production/x-trapi/
 servers:
-  - url: https://translator.broadinstitute.org/molepro/trapi/v1.4
+  - url: https://translator.broadinstitute.org/molepro/trapi/v1.5
     description: TRAPI production service for MolePro
     x-maturity: development
 externalDocs:
