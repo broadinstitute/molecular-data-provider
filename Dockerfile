@@ -1,14 +1,15 @@
 #stage for sbt packaging 
-FROM bpatters/docker-java8-sbt AS packaging-image
-RUN mkdir -p /usr/src/base
-COPY MoleProAPI/java-play-framework-server /usr/src/base
-WORKDIR /usr/src/base
-RUN sbt universal:packageZipTarball
+#FROM bpatters/docker-java8-sbt AS packaging-image
+#RUN mkdir -p /usr/src/base
+#COPY MoleProAPI/java-play-framework-server /usr/src/base
+#WORKDIR /usr/src/base
+#RUN sbt universal:packageZipTarball
 #stage for installing transformers on server
 FROM adoptopenjdk/openjdk8:latest AS runtime-image
 RUN mkdir -p /usr/src/target
 WORKDIR /usr/src/target
-COPY --from=packaging-image /usr/src/base/target/universal/molecular-data-provider-2.5.2.tgz /usr/src/target
+#COPY --from=packaging-image /usr/src/base/target/universal/molecular-data-provider-2.5.2.tgz /usr/src/target
+ADD https://translator.broadinstitute.org/db/molecular-data-provider-2.5.2.tgz /usr/src/target
 RUN gunzip molecular-data-provider-2.5.2.tgz
 RUN tar xf molecular-data-provider-2.5.2.tar
 WORKDIR /usr/src/target/molecular-data-provider-2.5.2
