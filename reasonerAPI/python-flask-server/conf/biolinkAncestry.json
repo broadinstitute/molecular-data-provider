@@ -1,5 +1,10 @@
 {
+    "BiologicalProcessOrActivity": [
+        "BiologicalProcessOrActivity"
+    ],
     "all": [
+        "BiologicalProcessOrActivity",
+        "biolik:related_to_at_instance_level",
         "biolink:AnatomicalEntity",
         "biolink:Behavior",
         "biolink:BiologicalProcess",
@@ -13,12 +18,10 @@
         "biolink:DiseaseOrPhenotypicFeature",
         "biolink:Drug",
         "biolink:Gene",
-        "biolink:GeneticInheritance",
         "biolink:GrossAnatomicalStructure",
         "biolink:InformationContentEntity",
         "biolink:MacromolecularComplexMixin",
         "biolink:MolecularActivity",
-        "biolink:MolecularEntity",
         "biolink:MolecularMixture",
         "biolink:NucleicAcidEntity",
         "biolink:Organism",
@@ -36,18 +39,26 @@
         "biolink:SmallMolecule",
         "biolink:affected_by",
         "biolink:affects",
-        "biolink:ameliorates",
+        "biolink:ameliorates_condition",
+        "biolink:assess",
         "biolink:assesses",
         "biolink:associated_with",
         "biolink:binds",
         "biolink:biomarker_for",
         "biolink:chemically_similar_to",
+        "biolink:condition_ameliorated_by",
         "biolink:correlated_with",
+        "biolink:derives_from",
+        "biolink:derives_into",
+        "biolink:diagnoses",
         "biolink:directly_physically_interacts_with",
         "biolink:disrupted_by",
         "biolink:disrupts",
+        "biolink:expressed_in",
+        "biolink:expresses",
         "biolink:gene_product_of",
         "biolink:has_active_ingredient",
+        "biolink:has_active_metabolite",
         "biolink:has_biomarker",
         "biolink:has_gene_product",
         "biolink:has_input",
@@ -55,28 +66,46 @@
         "biolink:has_output",
         "biolink:has_part",
         "biolink:has_participant",
+        "biolink:has_sequence_variant",
         "biolink:has_side_effect",
         "biolink:has_substrate",
+        "biolink:has_variant",
+        "biolink:in_clinical_trials_for",
+        "biolink:in_preclinical_trials_for",
         "biolink:interacts_with",
         "biolink:is_active_ingredient_of",
+        "biolink:is_active_metabolite_of",
         "biolink:is_assessed_by",
-        "biolink:is_input_of",
+        "biolink:is_diagnosed_by",
+        "biolink:is_input",
         "biolink:is_metabolite_of",
-        "biolink:is_output_of",
+        "biolink:is_output",
+        "biolink:is_sequence_variant_of",
         "biolink:is_side_effect_of",
         "biolink:is_substrate_of",
+        "biolink:is_variant_of",
         "biolink:located_in",
         "biolink:location_of",
+        "biolink:orthologous_to",
+        "biolink:output_of",
         "biolink:part_of",
         "biolink:participates_in",
         "biolink:physically_interacts_with",
         "biolink:regulated_by",
         "biolink:regulates",
         "biolink:related_to",
+        "biolink:related_to_at_instance_level",
+        "biolink:same_as",
+        "biolink:similar_to",
         "biolink:subclass_of",
         "biolink:superclass_of",
+        "biolink:tested_by_clinical_trials_of",
+        "biolink:tested_by_preclinical_trials_of",
         "biolink:treated_by",
         "biolink:treats"
+    ],
+    "biolik:related_to_at_instance_level": [
+        "biolik:related_to_at_instance_level"
     ],
     "biolink:ActivityAndBehavior": [
         "biolink:Behavior",
@@ -98,6 +127,7 @@
         "biolink:Behavior"
     ],
     "biolink:BiologicalEntity": [
+        "BiologicalProcessOrActivity",
         "biolink:AnatomicalEntity",
         "biolink:Behavior",
         "biolink:BiologicalProcess",
@@ -108,7 +138,6 @@
         "biolink:Disease",
         "biolink:DiseaseOrPhenotypicFeature",
         "biolink:Gene",
-        "biolink:GeneticInheritance",
         "biolink:GrossAnatomicalStructure",
         "biolink:MolecularActivity",
         "biolink:Pathway",
@@ -143,7 +172,6 @@
     "biolink:ChemicalEntity": [
         "biolink:ChemicalEntity",
         "biolink:Drug",
-        "biolink:MolecularEntity",
         "biolink:MolecularMixture",
         "biolink:NucleicAcidEntity",
         "biolink:SmallMolecule"
@@ -152,7 +180,6 @@
         "biolink:ChemicalEntity",
         "biolink:Drug",
         "biolink:Gene",
-        "biolink:MolecularEntity",
         "biolink:MolecularMixture",
         "biolink:NucleicAcidEntity",
         "biolink:Protein",
@@ -162,7 +189,6 @@
     "biolink:ChemicalEntityOrProteinOrPolypeptide": [
         "biolink:ChemicalEntity",
         "biolink:Drug",
-        "biolink:MolecularEntity",
         "biolink:MolecularMixture",
         "biolink:NucleicAcidEntity",
         "biolink:Protein",
@@ -175,7 +201,6 @@
     "biolink:ChemicalOrDrugOrTreatment": [
         "biolink:ChemicalEntity",
         "biolink:Drug",
-        "biolink:MolecularEntity",
         "biolink:MolecularMixture",
         "biolink:NucleicAcidEntity",
         "biolink:SmallMolecule"
@@ -198,6 +223,7 @@
         "biolink:Drug"
     ],
     "biolink:Entity": [
+        "BiologicalProcessOrActivity",
         "biolink:AnatomicalEntity",
         "biolink:Behavior",
         "biolink:BiologicalProcess",
@@ -211,11 +237,9 @@
         "biolink:DiseaseOrPhenotypicFeature",
         "biolink:Drug",
         "biolink:Gene",
-        "biolink:GeneticInheritance",
         "biolink:GrossAnatomicalStructure",
         "biolink:InformationContentEntity",
         "biolink:MolecularActivity",
-        "biolink:MolecularEntity",
         "biolink:MolecularMixture",
         "biolink:NucleicAcidEntity",
         "biolink:OrganismTaxon",
@@ -246,9 +270,6 @@
     "biolink:GeneToGeneAssociation": [
         "biolink:PairwiseGeneToGeneInteraction"
     ],
-    "biolink:GeneticInheritance": [
-        "biolink:GeneticInheritance"
-    ],
     "biolink:GenomicEntity": [
         "biolink:Gene",
         "biolink:NucleicAcidEntity"
@@ -270,7 +291,6 @@
         "biolink:MolecularActivity"
     ],
     "biolink:MolecularEntity": [
-        "biolink:MolecularEntity",
         "biolink:NucleicAcidEntity",
         "biolink:SmallMolecule"
     ],
@@ -279,6 +299,7 @@
         "biolink:MolecularMixture"
     ],
     "biolink:NamedThing": [
+        "BiologicalProcessOrActivity",
         "biolink:AnatomicalEntity",
         "biolink:Behavior",
         "biolink:BiologicalProcess",
@@ -292,11 +313,9 @@
         "biolink:DiseaseOrPhenotypicFeature",
         "biolink:Drug",
         "biolink:Gene",
-        "biolink:GeneticInheritance",
         "biolink:GrossAnatomicalStructure",
         "biolink:InformationContentEntity",
         "biolink:MolecularActivity",
-        "biolink:MolecularEntity",
         "biolink:MolecularMixture",
         "biolink:NucleicAcidEntity",
         "biolink:OrganismTaxon",
@@ -314,6 +333,7 @@
         "biolink:NucleicAcidEntity"
     ],
     "biolink:Occurrent": [
+        "BiologicalProcessOrActivity",
         "biolink:Behavior",
         "biolink:BiologicalProcess",
         "biolink:MolecularActivity",
@@ -323,6 +343,7 @@
         "biolink:Procedure"
     ],
     "biolink:OntologyClass": [
+        "BiologicalProcessOrActivity",
         "biolink:Behavior",
         "biolink:BiologicalProcess",
         "biolink:ClinicalAttribute",
@@ -368,12 +389,12 @@
         "biolink:Drug",
         "biolink:Gene",
         "biolink:GrossAnatomicalStructure",
-        "biolink:MolecularEntity",
         "biolink:MolecularMixture",
         "biolink:NucleicAcidEntity",
         "biolink:SmallMolecule"
     ],
     "biolink:PhysicalEssenceOrOccurrent": [
+        "BiologicalProcessOrActivity",
         "biolink:AnatomicalEntity",
         "biolink:Behavior",
         "biolink:BiologicalProcess",
@@ -384,7 +405,6 @@
         "biolink:Gene",
         "biolink:GrossAnatomicalStructure",
         "biolink:MolecularActivity",
-        "biolink:MolecularEntity",
         "biolink:MolecularMixture",
         "biolink:NucleicAcidEntity",
         "biolink:Pathway",
@@ -431,6 +451,7 @@
         "biolink:PopulationOfIndividualOrganisms"
     ],
     "biolink:ThingWithTaxon": [
+        "BiologicalProcessOrActivity",
         "biolink:AnatomicalEntity",
         "biolink:Behavior",
         "biolink:BiologicalProcess",
@@ -441,7 +462,6 @@
         "biolink:Disease",
         "biolink:DiseaseOrPhenotypicFeature",
         "biolink:Gene",
-        "biolink:GeneticInheritance",
         "biolink:GrossAnatomicalStructure",
         "biolink:MolecularActivity",
         "biolink:NucleicAcidEntity",
@@ -454,22 +474,23 @@
     ],
     "biolink:affected_by": [
         "biolink:affected_by",
+        "biolink:condition_ameliorated_by",
         "biolink:disrupted_by",
         "biolink:is_side_effect_of",
-        "biolink:regulated_by",
-        "biolink:treated_by"
+        "biolink:regulated_by"
     ],
     "biolink:affects": [
         "biolink:affects",
-        "biolink:ameliorates",
+        "biolink:ameliorates_condition",
         "biolink:disrupts",
         "biolink:has_side_effect",
-        "biolink:regulates",
-        "biolink:treats"
+        "biolink:regulates"
     ],
-    "biolink:ameliorates": [
-        "biolink:ameliorates",
-        "biolink:treats"
+    "biolink:ameliorates_condition": [
+        "biolink:ameliorates_condition"
+    ],
+    "biolink:assess": [
+        "biolink:assess"
     ],
     "biolink:assesses": [
         "biolink:assesses"
@@ -489,16 +510,27 @@
     "biolink:chemically_similar_to": [
         "biolink:chemically_similar_to"
     ],
+    "biolink:close_match": [
+        "biolink:same_as"
+    ],
+    "biolink:condition_ameliorated_by": [
+        "biolink:condition_ameliorated_by"
+    ],
     "biolink:correlated_with": [
         "biolink:biomarker_for",
         "biolink:correlated_with",
         "biolink:has_biomarker"
     ],
     "biolink:derives_from": [
+        "biolink:derives_from",
         "biolink:is_metabolite_of"
     ],
     "biolink:derives_into": [
+        "biolink:derives_into",
         "biolink:has_metabolite"
+    ],
+    "biolink:diagnoses": [
+        "biolink:diagnoses"
     ],
     "biolink:directly_physically_interacts_with": [
         "biolink:binds",
@@ -510,11 +542,23 @@
     "biolink:disrupts": [
         "biolink:disrupts"
     ],
+    "biolink:exact_match": [
+        "biolink:same_as"
+    ],
+    "biolink:expressed_in": [
+        "biolink:expressed_in"
+    ],
+    "biolink:expresses": [
+        "biolink:expresses"
+    ],
     "biolink:gene_product_of": [
         "biolink:gene_product_of"
     ],
     "biolink:has_active_ingredient": [
         "biolink:has_active_ingredient"
+    ],
+    "biolink:has_active_metabolite": [
+        "biolink:has_active_metabolite"
     ],
     "biolink:has_biomarker": [
         "biolink:has_biomarker"
@@ -541,11 +585,26 @@
         "biolink:has_participant",
         "biolink:has_substrate"
     ],
+    "biolink:has_sequence_variant": [
+        "biolink:has_sequence_variant"
+    ],
     "biolink:has_side_effect": [
         "biolink:has_side_effect"
     ],
     "biolink:has_substrate": [
         "biolink:has_substrate"
+    ],
+    "biolink:has_variant": [
+        "biolink:has_variant"
+    ],
+    "biolink:homologous_to": [
+        "biolink:orthologous_to"
+    ],
+    "biolink:in_clinical_trials_for": [
+        "biolink:in_clinical_trials_for"
+    ],
+    "biolink:in_preclinical_trials_for": [
+        "biolink:in_preclinical_trials_for"
     ],
     "biolink:interacts_with": [
         "biolink:binds",
@@ -557,20 +616,26 @@
     "biolink:is_active_ingredient_of": [
         "biolink:is_active_ingredient_of"
     ],
-    "biolink:is_ameliorated_by": [
-        "biolink:treated_by"
+    "biolink:is_active_metabolite_of": [
+        "biolink:is_active_metabolite_of"
     ],
     "biolink:is_assessed_by": [
         "biolink:is_assessed_by"
     ],
-    "biolink:is_input_of": [
-        "biolink:is_input_of"
+    "biolink:is_diagnosed_by": [
+        "biolink:is_diagnosed_by"
+    ],
+    "biolink:is_input": [
+        "biolink:is_input"
     ],
     "biolink:is_metabolite_of": [
         "biolink:is_metabolite_of"
     ],
-    "biolink:is_output_of": [
-        "biolink:is_output_of"
+    "biolink:is_output": [
+        "biolink:is_output"
+    ],
+    "biolink:is_sequence_variant_of": [
+        "biolink:is_sequence_variant_of"
     ],
     "biolink:is_side_effect_of": [
         "biolink:is_side_effect_of"
@@ -578,11 +643,22 @@
     "biolink:is_substrate_of": [
         "biolink:is_substrate_of"
     ],
+    "biolink:is_variant_of": [
+        "biolink:is_variant_of"
+    ],
     "biolink:located_in": [
+        "biolink:expressed_in",
         "biolink:located_in"
     ],
     "biolink:location_of": [
+        "biolink:expresses",
         "biolink:location_of"
+    ],
+    "biolink:orthologous_to": [
+        "biolink:orthologous_to"
+    ],
+    "biolink:output_of": [
+        "biolink:output_of"
     ],
     "biolink:overlaps": [
         "biolink:has_active_ingredient",
@@ -595,8 +671,6 @@
         "biolink:part_of"
     ],
     "biolink:participates_in": [
-        "biolink:is_input_of",
-        "biolink:is_output_of",
         "biolink:is_substrate_of",
         "biolink:participates_in"
     ],
@@ -612,18 +686,25 @@
         "biolink:regulates"
     ],
     "biolink:related_to": [
+        "biolik:related_to_at_instance_level",
         "biolink:affected_by",
         "biolink:affects",
-        "biolink:ameliorates",
+        "biolink:ameliorates_condition",
         "biolink:assesses",
         "biolink:associated_with",
         "biolink:binds",
         "biolink:biomarker_for",
         "biolink:chemically_similar_to",
+        "biolink:condition_ameliorated_by",
         "biolink:correlated_with",
+        "biolink:derives_from",
+        "biolink:derives_into",
+        "biolink:diagnoses",
         "biolink:directly_physically_interacts_with",
         "biolink:disrupted_by",
         "biolink:disrupts",
+        "biolink:expressed_in",
+        "biolink:expresses",
         "biolink:gene_product_of",
         "biolink:has_active_ingredient",
         "biolink:has_biomarker",
@@ -633,46 +714,58 @@
         "biolink:has_output",
         "biolink:has_part",
         "biolink:has_participant",
+        "biolink:has_sequence_variant",
         "biolink:has_side_effect",
         "biolink:has_substrate",
+        "biolink:in_clinical_trials_for",
+        "biolink:in_preclinical_trials_for",
         "biolink:interacts_with",
         "biolink:is_active_ingredient_of",
         "biolink:is_assessed_by",
-        "biolink:is_input_of",
+        "biolink:is_diagnosed_by",
         "biolink:is_metabolite_of",
-        "biolink:is_output_of",
+        "biolink:is_sequence_variant_of",
         "biolink:is_side_effect_of",
         "biolink:is_substrate_of",
         "biolink:located_in",
         "biolink:location_of",
+        "biolink:orthologous_to",
         "biolink:part_of",
         "biolink:participates_in",
         "biolink:physically_interacts_with",
         "biolink:regulated_by",
         "biolink:regulates",
         "biolink:related_to",
+        "biolink:related_to_at_instance_level",
+        "biolink:same_as",
+        "biolink:similar_to",
         "biolink:subclass_of",
-        "biolink:superclass_of",
-        "biolink:treated_by",
-        "biolink:treats"
+        "biolink:superclass_of"
     ],
     "biolink:related_to_at_concept_level": [
+        "biolink:same_as",
         "biolink:subclass_of",
         "biolink:superclass_of"
     ],
     "biolink:related_to_at_instance_level": [
         "biolink:affected_by",
         "biolink:affects",
-        "biolink:ameliorates",
+        "biolink:ameliorates_condition",
         "biolink:assesses",
         "biolink:associated_with",
         "biolink:binds",
         "biolink:biomarker_for",
         "biolink:chemically_similar_to",
+        "biolink:condition_ameliorated_by",
         "biolink:correlated_with",
+        "biolink:derives_from",
+        "biolink:derives_into",
+        "biolink:diagnoses",
         "biolink:directly_physically_interacts_with",
         "biolink:disrupted_by",
         "biolink:disrupts",
+        "biolink:expressed_in",
+        "biolink:expresses",
         "biolink:gene_product_of",
         "biolink:has_active_ingredient",
         "biolink:has_biomarker",
@@ -682,28 +775,41 @@
         "biolink:has_output",
         "biolink:has_part",
         "biolink:has_participant",
+        "biolink:has_sequence_variant",
         "biolink:has_side_effect",
         "biolink:has_substrate",
+        "biolink:in_clinical_trials_for",
+        "biolink:in_preclinical_trials_for",
         "biolink:interacts_with",
         "biolink:is_active_ingredient_of",
         "biolink:is_assessed_by",
-        "biolink:is_input_of",
+        "biolink:is_diagnosed_by",
         "biolink:is_metabolite_of",
-        "biolink:is_output_of",
+        "biolink:is_sequence_variant_of",
         "biolink:is_side_effect_of",
         "biolink:is_substrate_of",
         "biolink:located_in",
         "biolink:location_of",
+        "biolink:orthologous_to",
         "biolink:part_of",
         "biolink:participates_in",
         "biolink:physically_interacts_with",
         "biolink:regulated_by",
         "biolink:regulates",
-        "biolink:treated_by",
-        "biolink:treats"
+        "biolink:related_to_at_instance_level",
+        "biolink:similar_to"
+    ],
+    "biolink:same_as": [
+        "biolink:same_as"
     ],
     "biolink:similar_to": [
-        "biolink:chemically_similar_to"
+        "biolink:chemically_similar_to",
+        "biolink:orthologous_to",
+        "biolink:similar_to"
+    ],
+    "biolink:studied_to_treat": [
+        "biolink:in_clinical_trials_for",
+        "biolink:in_preclinical_trials_for"
     ],
     "biolink:subclass_of": [
         "biolink:subclass_of"
@@ -711,10 +817,23 @@
     "biolink:superclass_of": [
         "biolink:superclass_of"
     ],
+    "biolink:tested_by_clinical_trials_of": [
+        "biolink:tested_by_clinical_trials_of"
+    ],
+    "biolink:tested_by_preclinical_trials_of": [
+        "biolink:tested_by_preclinical_trials_of"
+    ],
     "biolink:treated_by": [
         "biolink:treated_by"
     ],
     "biolink:treats": [
+        "biolink:ameliorates_condition",
+        "biolink:treats"
+    ],
+    "biolink:treats_or_applied_or_studied_to_treat": [
+        "biolink:ameliorates_condition",
+        "biolink:in_clinical_trials_for",
+        "biolink:in_preclinical_trials_for",
         "biolink:treats"
     ]
 }

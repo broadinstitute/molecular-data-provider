@@ -4,6 +4,9 @@ import json
 import requests 
 from contextlib import closing
 import os
+import yaml
+
+from openapi_server.controllers.utils import get_logger
 
 # environment variables
 MOLEPRO_URL_BIOLINK = os.environ.get('MOLEPRO_URL_BIOLINK')
@@ -23,6 +26,26 @@ if MOLEPRO_URL_BIOLINK:
     url_node_normalizer = MOLEPRO_URL_BIOLINK + "/bl/{}/ancestors?version={}"
 # url_molepro_predicates = 'https://translator.broadinstitute.org/molepro/trapi/v1.0/predicates'
 
+
+# read trapi and biolink versions
+logger = get_logger("biolink_utils")
+VERSION_BIOLINK = 0.1
+VERSION_TRAPI = 1.0
+with open("./openapi_server/openapi/openapi.yaml", "r") as stream:
+    try:
+        map_openapi = yaml.safe_load(stream)
+        VERSION_BIOLINK = map_openapi.get('info').get('x-translator').get('biolink-version')
+        VERSION_TRAPI = map_openapi.get('info').get('x-trapi').get('version')
+        # print(yaml.safe_load(stream))
+    except yaml.YAMLError as exc:
+        print(exc)
+logger.info("Using biolink version: {} and trapi version: {}".format(VERSION_BIOLINK, VERSION_TRAPI))
+
+def get_biolink_version():
+    return VERSION_BIOLINK
+
+def get_trapi_version():
+    return VERSION_TRAPI
 
 # singleton class to keep translations in memory, avoid repeated file reading
 # see https://www.geeksforgeeks.org/singleton-method-python-design-patterns/
