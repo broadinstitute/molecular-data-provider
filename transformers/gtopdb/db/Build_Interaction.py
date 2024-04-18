@@ -1,18 +1,33 @@
 import sys
 import sqlite3
 
-# connection = sqlite3.connect("C:/Users/michelle/PycharmProjects/GuideToPharmacology/Ligands.db",
-#                              check_same_thread=False)
-
-connection = sqlite3.connect("C:/Users/michelle/Documents/GitHub/scb-kp-dev/transformers/gtopdb/python-flask-server/data/GtoPdb.db",
-                             check_same_thread=False)
+connection = sqlite3.connect("data/GtoPdb.sqlite", detect_types=sqlite3.PARSE_DECLTYPES, check_same_thread=False)
 
 INTERACTION_TABLE = """
     CREATE TABLE INTERACTION (
-        INTERACTION_ID                  INT     PRIMARY_KEY,
+        INTERACTION_ID                  INT     NOT NULL,
+        TARGET                          TEXT    NOT NULL,
         TARGET_ID                       INT     NOT NULL, 
+        TARGET_SUBUNIT_ID               INT     NOT NULL,
+        TARGET_GENE_SYMBOL              TEXT    NOT NULL,
+        TARGET_UNIPROT_ID               INT     NOT NULL,
+        TARGET_ENSEMBL_GENE_ID          TEXT    NOT NULL,
+       -- TARGET_LIGAND                   TEXT    NOT NULL,
+       -- TARGET_LIGAND_ID                INT     NOT NULL,
+       -- TARGET_LIGAND_SUBUNIT_ID        INT     NOT NULL,
+       -- TARGET_LIGAND_GENE_SYMBOL       TEXT    NOT NULL,
+       -- TARGET_LIGAND_UNIPROT_ID        TEXT    NOT NULL,
+       -- TARGET_LIGAND_ENSEMBL_GENE_ID   TEXT    NOT NULL,
+        TARGET_LIGAND_PUBCHEM_SID       TEXT    NOT NULL,
         TARGET_SPECIES                  TEXT    NOT NULL, 
         LIGAND_ID                       INT     NOT NULL,
+        LIGAND                          TEXT    NOT NULL,
+        LIGAND_TYPE                     TEXT    NOT NULL,
+        LIGAND_SUBUNIT_ID               INT     NOT NULL,
+        LIGAND_GENE_SYMBOL              TEXT    NOT NULL,
+        LIGAND_SPECIES                  TEXT    NOT NULL,
+        LIGAND_PUBCHEM_SID              TEXT    NOT NULL,
+        APPROVED                        TEXT    NOT NULL,
         TYPE                            TEXT    NOT NULL, 
         ACTION                          TEXT    NOT NULL, 
         ACTION_COMMENT                  TEXT    NOT NULL, 
@@ -44,26 +59,25 @@ def create_tables():
     connection.commit()
 
 
-def insert_interaction(cur, interaction_id, target_id, target_species, ligand_id, type, action,
-                       action_comment, selectivity, endogenous, primary_target, concentration_range, affinity_units,
+def insert_interaction(cur, interaction_id, target, target_id, target_subunit_id, target_gene_symbol, target_uniprot_id, target_ensembl_gene_id, target_ligand_pubchem_sid, target_species, 
+                    ligand_id, ligand, ligand_type, ligand_subunit_id, ligand_gene_symbol, ligand_species, ligand_pubchem_sid, approved, type, action,
+                    action_comment, selectivity, endogenous, primary_target, concentration_range, affinity_units,
                        affinity_high, affinity_median, affinity_low, original_affinity_units, original_affinity_low_nm,
                        original_affinity_median_nm, original_affinity_high_nm, original_affinity_relation,
                        assay_description, receptor_site, ligand_context, pubmed_id):
     statement = """
-        INSERT INTO INTERACTION (INTERACTION_ID,TARGET_ID, TARGET_SPECIES, LIGAND_ID, TYPE, ACTION, ACTION_COMMENT, 
-        SELECTIVITY, ENDOGENOUS, PRIMARY_TARGET, CONCENTRATION_RANGE, AFFINITY_UNITS, AFFINITY_HIGH, AFFINITY_MEDIAN, 
-        AFFINITY_LOW, ORIGINAL_AFFINITY_UNITS, ORIGINAL_AFFINITY_LOW_NM, ORIGINAL_AFFINITY_MEDIAN_NM, 
-        ORIGINAL_AFFINITY_HIGH_NM, ORIGINAL_AFFINITY_RELATION, ASSAY_DESCRIPTION, RECEPTOR_SITE, LIGAND_CONTEXT, 
-        PUBMED_ID)
-        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+        INSERT INTO INTERACTION (INTERACTION_ID, TARGET, TARGET_ID, TARGET_SUBUNIT_ID, TARGET_GENE_SYMBOL, TARGET_UNIPROT_ID,
+        TARGET_ENSEMBL_GENE_ID, TARGET_LIGAND_PUBCHEM_SID, TARGET_SPECIES, LIGAND_ID, LIGAND, LIGAND_TYPE, LIGAND_SUBUNIT_ID, LIGAND_GENE_SYMBOL, LIGAND_SPECIES, LIGAND_PUBCHEM_SID, APPROVED,
+        TYPE, ACTION, ACTION_COMMENT, SELECTIVITY, ENDOGENOUS, PRIMARY_TARGET, CONCENTRATION_RANGE, AFFINITY_UNITS, AFFINITY_HIGH, AFFINITY_MEDIAN, AFFINITY_LOW, ORIGINAL_AFFINITY_UNITS, ORIGINAL_AFFINITY_LOW_NM, ORIGINAL_AFFINITY_MEDIAN_NM, ORIGINAL_AFFINITY_HIGH_NM, ORIGINAL_AFFINITY_RELATION, ASSAY_DESCRIPTION, RECEPTOR_SITE, 
+        LIGAND_CONTEXT, PUBMED_ID)
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
     """
-    cur.execute(statement, (interaction_id, target_id, target_species, ligand_id, type, action,
-                            action_comment, selectivity, endogenous, primary_target, concentration_range,
-                            affinity_units,
-                            affinity_high, affinity_median, affinity_low, original_affinity_units,
-                            original_affinity_low_nm,
-                            original_affinity_median_nm, original_affinity_high_nm, original_affinity_relation,
-                            assay_description, receptor_site, ligand_context, pubmed_id))
+    cur.execute(statement, (interaction_id, target, target_id, target_subunit_id, target_gene_symbol, target_uniprot_id, target_ensembl_gene_id, target_ligand_pubchem_sid, target_species, 
+                    ligand_id, ligand, ligand_type, ligand_subunit_id, ligand_gene_symbol, ligand_species, ligand_pubchem_sid, approved, type, action,
+                    action_comment, selectivity, endogenous, primary_target, concentration_range, affinity_units,
+                    affinity_high, affinity_median, affinity_low, original_affinity_units, original_affinity_low_nm,
+                    original_affinity_median_nm, original_affinity_high_nm, original_affinity_relation,
+                    assay_description, receptor_site, ligand_context, pubmed_id))
 
 
 def create_index(cur, table, column):
@@ -84,84 +98,82 @@ def create_indexes():
 
 
 def parse_ligands(filename):
-    # Are there any dictionaries I should make?
     cur = connection.cursor()
-    # had to add errors='ignore' when switching laptops, not sure why this error happened
     with open(filename, 'r', errors='ignore') as f:
-        count = 1
-        # missing_info = 0
+        count = 0
         interaction_id = 0
         for line in f:
-            # if line.rstrip() != '"Ligand id"\t"Name"\t"Species"\t"Type"\t"Approved"\t"Withdrawn"\t"Labelled"\t' \
-            #                     '"Radioactive"\t"PubChem SID"\t"PubChem CID"\t"UniProt id"\t"IUPAC ' \
-            #                     'name"\t"INN"\t"Synonyms"\t"SMILES"\t"InChIKey"\t"InChI"\t"GtoImmuPdb"\t"GtoMPdb"':
-            #     print('ERROR: wrong ligand-file format')
-            #     return
             row = line.split('\t')
-            if count == 1:
+            if count == 0 or count == 1:
                 count += 1
-            # elif not (len(row) == 37):
-            #     missing_info += 1
             else:
                 for i in range(len(row)):
                     row[i] = row[i].strip('"')
                     row[i] = row[i].strip('\n')
-                # print(row)
-                # print(len(row))
-                if len(row) == 37:
+                if len(row) == 42 and (len(row[0]) > 0 or len(row[6]) > 0):
                     interaction_id += 1
-                    target_id = row[1]
-                    target_species = row[11]
-                    ligand_id = row[13]
-                    type = row[17]
-                    action = row[18]
-                    action_comment = row[19]
-                    selectivity = row[20]
-                    endogenous = row[21]
-                    primary_target = row[22]
-                    concentration_range = row[23]
-                    affinity_units = row[24]
-                    affinity_high = row[25]
-                    affinity_median = row[26]
-                    affinity_low = row[27]
-                    original_affinity_units = row[28]
-                    original_affinity_low_nm = row[29]
-                    original_affinity_median_nm = row[30]
-                    original_affinity_high_nm = row[31]
-                    original_affinity_relation = row[32]
-                    assay_description = row[33]
-                    receptor_site = row[34]
-                    ligand_context = row[35]
-                    pubmed_id = row[36]
-                    split_pubmed_id = row[36].split('|')[0]
+                    target             = {len(row[0]) > 0: row[0], len(row[6]) > 0: row[6]}.get(True, '') 
+                    target_id          = {len(row[1]) > 0: row[1], len(row[7]) > 0: row[7]}.get(True, '') 
+                    target_subunit_id  = {len(row[2]) > 0: row[2], len(row[8]) > 0: row[8]}.get(True, '') 
+                    target_gene_symbol = {len(row[3]) > 0: row[3], len(row[9]) > 0: row[9]}.get(True, '') 
+                    target_uniprot_id  = {len(row[4]) > 0: row[4], len(row[10]) > 0: row[10]}.get(True, '')
+                    target_ensembl_gene_id = {len(row[5]) > 0: row[5], len(row[11]) > 0: row[11]}.get(True, '')
+                    target_ligand_pubchem_sid = row[12] 
+                    target_species = row[13]
+                    ligand_id = row[14] 
+                    ligand = row[15] 
+                    ligand_type = row[16] 
+                    ligand_subunit_id = row[17] 
+                    ligand_gene_symbol = row[18] 
+                    ligand_species = row[19] 
+                    ligand_pubchem_sid = row[20]
+                    approved = row[21]
+                    type = row[22]
+                    action = row[23]
+                    action_comment = row[24]
+                    selectivity = row[25]
+                    endogenous = row[26]
+                    primary_target = row[27]
+                    concentration_range = row[28]
+                    affinity_units = row[29]
+                    affinity_high = row[30]
+                    affinity_median = row[31]
+                    affinity_low = row[32]
+                    original_affinity_units = row[33]
+                    original_affinity_low_nm = row[34]
+                    original_affinity_median_nm = row[35]
+                    original_affinity_high_nm = row[36]
+                    original_affinity_relation = row[37]
+                    assay_description = row[38]
+                    receptor_site = row[39]
+                    ligand_context = row[40]
+                    pubmed_id = row[41].strip('"')
+                    split_pubmed_id = row[41].split('|')[0]
                     if not (ligand_id == '' or target_id == ''):
-                        insert_interaction(cur, interaction_id, target_id, target_species, ligand_id, type, action,
-                                           action_comment, selectivity, endogenous, primary_target,
-                                           concentration_range, affinity_units,
-                                           affinity_high, affinity_median, affinity_low, original_affinity_units,
-                                           original_affinity_low_nm,
-                                           original_affinity_median_nm, original_affinity_high_nm,
-                                           original_affinity_relation,
-                                           assay_description, receptor_site, ligand_context, pubmed_id)
-                        if pubmed_id == '':
-                            pass
-                        elif not (isinstance(int(ligand_id), int) and isinstance(int(target_id), int) and
-                                  isinstance(int(split_pubmed_id), int)):
-                            print('Error: Parsing of data is incorrect')
-                            print(row)
-                            if not isinstance(int(ligand_id), int):
-                                print('Ligand id is not an integer')
-                            elif not isinstance(int(target_id), int):
-                                print('Target id is not an integer')
-                            elif not isinstance(int(split_pubmed_id), int):
-                                print('Pubmed id is not an integer')
+                        insert_interaction(cur, interaction_id, target, target_id, target_subunit_id, target_gene_symbol, target_uniprot_id, target_ensembl_gene_id, target_ligand_pubchem_sid, target_species, 
+                                ligand_id, ligand, ligand_type, ligand_subunit_id, ligand_gene_symbol, ligand_species, ligand_pubchem_sid, approved, type, action,
+                                action_comment, selectivity, endogenous, primary_target, concentration_range, affinity_units,
+                                affinity_high, affinity_median, affinity_low, original_affinity_units, original_affinity_low_nm,
+                                original_affinity_median_nm, original_affinity_high_nm, original_affinity_relation,
+                                assay_description, receptor_site, ligand_context, pubmed_id)
+                        # print(ligand_id)
+                        # if pubmed_id == '':
+                        #     pass
+                        # elif not (isinstance(int(ligand_id), int) and isinstance(int(target_id), int) and
+                        #           isinstance(int(split_pubmed_id), int)):
+                        #     print('Error: Parsing of data is incorrect')
+                        #     print(row)
+                        #     if not isinstance(int(ligand_id), int):
+                        #         print('Ligand id is not an integer')
+                        #     elif not isinstance(int(target_id), int):
+                        #         print('Target id is not an integer')
+                        #     elif not isinstance(int(split_pubmed_id), int):
+                        #         print('Pubmed id is not an integer')
 
-    # print(missing_info)
-    # print(odd)
     cur.close()
     connection.commit()
 
 
 create_tables()
 create_indexes()
-parse_ligands('C:/Users/michelle/PycharmProjects/GuideToPharmacology/interactions.tsv')
+parse_ligands("data/interactions.tsv")

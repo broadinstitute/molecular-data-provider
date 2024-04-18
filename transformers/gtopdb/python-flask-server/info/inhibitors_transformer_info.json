@@ -2,24 +2,69 @@
     "name": "GtoPdb inhibitors transformer",
     "label": "GtoPdb",
     "description": "Gene-list transformer based on GtoPdb target information (https://www.guidetopharmacology.org/).",
-    "version": "2.1.1",
+    "version": "2.5.0",
     "function": "transformer",
     "knowledge_map": {
-        "input_class": "gene",
-        "output_class": "compound",
-        "predicates": [
+        "input_class": "compound",
+        "output_class": "gene",
+        "edges": [
             {
-                "subject": "Gene",
-                "predicate": "is_affected_by",
-                "object": "ChemicalSubstance"
+                "subject": "ChemicalSubstance",
+                "predicate": "inhibits",
+                "inverse_predicate": "inhibited_by",
+                "object": "Gene",
+                "knowledge_level":"knowledge_assertion",	
+                "agent_type":"manual_agent",
+                "source": "GtoPdb",
+                "count": -1,
+                "attributes": [
+                    {
+                        "attribute_type_id": "biolink:primary_knowledge_source",
+                        "source": "MolePro"
+                    },
+                    {
+                        "attribute_type_id": "association",
+                        "source": "GtoPdb",
+                        "names": [
+                            "association"
+                        ]
+                        
+                    },
+                    {
+                        "attribute_type_id": "biolink:publication",
+                        "source": "GtoPdb",
+                        "names": [
+                            "PMIDs"
+                        ]
+                    },
+                    {
+                        "attribute_type_id": "variant_reference_sequence",
+                        "source": "GtoPdb",
+                        "names": [
+                            "variant_reference_sequence"
+                        ]
+                    }                         
+                ],
+                "qualifiers": [
+                    {
+                        "qualifier_type_id": "object_form_or_variant_qualifier"
+                    },
+                    {
+                        "qualifier_type_id": "disease_or_phenotypic_feature_context_qualifier"
+                    },
+                    {
+                        "qualifier_type_id": "causal_mechanism_qualifier"
+                    }
+                ] 
             }
         ]
     },
     "properties": {
-        "list_predicate": "related_to",
-        "member_predicate": "related_to",
         "source_url": "https://www.guidetopharmacology.org/",
-        "terms_of_service": "https://www.guidetopharmacology.org/citing.jsp"
+        "terms_of_service": "https://www.guidetopharmacology.org/citing.jsp",
+        "source_version": "2023.2 (2023-08-07)"
     },
-    "parameters": []
+    "parameters": [
+        
+    ]
 }
