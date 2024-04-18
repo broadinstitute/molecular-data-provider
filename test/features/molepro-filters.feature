@@ -131,7 +131,7 @@ Feature: Check MolePro filters
         and we call "Connection attribute filter" transformer with the following parameters:
         | id      | name    | operator | value |
         | action_type | biolink:relation |  ==  | INHIBITOR |
-        then the length of the collection should be 7
+        then the length of the collection should be 56
 
 
     Scenario: Check negated connections filter
