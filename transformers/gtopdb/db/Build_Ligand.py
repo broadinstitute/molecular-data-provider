@@ -1,40 +1,42 @@
 import sys
 import sqlite3
 
-# connection = sqlite3.connect("C:/Users/michelle/PycharmProjects/GuideToPharmacology/Ligands.db",
-#                              check_same_thread=False)
-
-connection = sqlite3.connect("C:/Users/michelle/Documents/GitHub/scb-kp-dev/transformers/gtopdb/python-flask-server/data/GtoPdb.db",
-                             check_same_thread=False)
-
-# place holder for file directory, what does check_same_thread do?
-# Need to remove quotation marks most likely
+connection = sqlite3.connect("data/GtoPdb.sqlite", check_same_thread=False)
 
 LIGAND_TABLE = """
     CREATE TABLE LIGAND (
-        LIGAND_ID   INT     PRIMARY_KEY, 
-        NAME        TEXT    NOT NULL, 
-        SPECIES     TEXT    NOT NULL, 
-        TYPE        TEXT    NOT NULL, 
-        APPROVED    TEXT    NOT NULL, 
-        WITHDRAWN   TEXT    NOT NULL, 
-        LABELLED    TEXT    NOT NULL, 
-        RADIOACTIVE TEXT    NOT NULL, 
-        PUBCHEMSID  INT     NOT NULL, 
-        PUBCHEMCID  INT     NOT NULL, 
-        UNIPROT_ID  TEXT    NOT NULL, 
-        IUPAC       TEXT    NOT NULL, 
-        INN         TEXT    NOT NULL, 
-        SMILES      TEXT    NOT NULL, 
-        INCHIKEY    TEXT    NOT NULL, 
-        INCHI       TEXT    NOT NULL
+        LIGAND_ID                   INT     PRIMARY_KEY, 
+        NAME                        TEXT    NOT NULL, 
+        SPECIES                     TEXT    NOT NULL, 
+        TYPE                        TEXT    NOT NULL, 
+        APPROVED                    TEXT    NOT NULL, 
+        WITHDRAWN                   TEXT    NOT NULL, 
+        LABELLED                    TEXT    NOT NULL, 
+        RADIOACTIVE                 TEXT    NOT NULL, 
+        PUBCHEM_SID                 INT     NOT NULL, 
+        PUBCHEM_CID                 INT     NOT NULL, 
+        UNIPROT_ID                  TEXT    NOT NULL,
+        ENSEMBL_ID                  TEXT    NOT NULL,
+        LIGAND_SUBUNIT_ID           TEXT    NOT NULL,
+        LIGAND_SUBUNIT_NAME         TEXT    NOT NULL,
+        LIGAND_SUBUNIT_UNIPROT_ID   TEXT    NOT NULL,
+        LIGAND_SUBUNIT_ENSEMBL_ID   TEXT    NOT NULL,
+        IUPAC_NAME                  TEXT    NOT NULL, 
+        INN                         TEXT    NOT NULL, 
+        SMILES                      TEXT    NOT NULL, 
+        INCHIKEY                    TEXT    NOT NULL, 
+        INCHI                       TEXT    NOT NULL, 
+        GTOIMMUPDB                  TEXT    NOT NULL,
+        GTOMPDB                     TEXT    NOT NULL,
+        ANTIBACTERIAL               TEXT    NOT NULL
     );
 """
-# Is the synonym id the primary key?
+
 LIGAND_SYNONYM_TABLE = """
     CREATE TABLE LIGAND_SYNONYM (
         SYNONYM_ID      INT     PRIMARY_KEY,
         SYNONYM_NAME    TEXT    NOT NULL,
+        NAME_TYPE       TEXT    NOT NULL,
         LIGAND_ID       INT     REFERENCES LIGAND(LIGAND_ID)
     );
 """
@@ -49,22 +51,24 @@ def create_tables():
 
 
 def insert_ligand(cur, ligand_id, name, species, type, approved, withdrawn, labelled, radioactive, pubchem_sid,
-                  pubchem_cid, uniprot_id, iupac_name, inn, smiles, inchikey, inchi):
-    # Double check format of statement
+                  pubchem_cid, uniprot_id, ensembl_id, ligand_subunit_id, ligand_subunit_name, ligand_subunit_uniprot_id, 
+                  ligand_subunit_ensembl_id, iupac_name, inn, smiles, inchikey, inchi, gtoimmupdb, gtompdb, antibacterial):
     statement = """
-        INSERT INTO LIGAND (LIGAND_ID, NAME, SPECIES, TYPE, APPROVED, WITHDRAWN, LABELLED, RADIOACTIVE, PUBCHEMSID,
-        PUBCHEMCID, UNIPROT_ID, IUPAC, INN, SMILES, INCHIKEY, INCHI)
-        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+        INSERT INTO LIGAND (LIGAND_ID, NAME, SPECIES, TYPE, APPROVED, WITHDRAWN, LABELLED, RADIOACTIVE, PUBCHEM_SID,
+        PUBCHEM_CID, UNIPROT_ID, ENSEMBL_ID, LIGAND_SUBUNIT_ID, LIGAND_SUBUNIT_NAME, LIGAND_SUBUNIT_UNIPROT_ID,
+        LIGAND_SUBUNIT_ENSEMBL_ID, IUPAC_NAME, INN, SMILES, INCHIKEY, INCHI, GTOIMMUPDB, GTOMPDB, ANTIBACTERIAL)
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
     """
     cur.execute(statement, (ligand_id, name, species, type, approved, withdrawn, labelled, radioactive, pubchem_sid,
-                            pubchem_cid, uniprot_id, iupac_name, inn, smiles, inchikey, inchi))
+                  pubchem_cid, uniprot_id, ensembl_id, ligand_subunit_id, ligand_subunit_name, ligand_subunit_uniprot_id, 
+                  ligand_subunit_ensembl_id, iupac_name, inn, smiles, inchikey, inchi, gtoimmupdb, gtompdb, antibacterial))
 
 
-def insert_ligand_synonym(cur, synonym_id, synonym_name, ligand_id):
+def insert_ligand_synonym(cur, synonym_id, synonym_name, ligand_id, name_type):
     statement = """
-        INSERT INTO LIGAND_SYNONYM (SYNONYM_ID, SYNONYM_NAME, LIGAND_ID) VALUES (?,?,?)
+        INSERT INTO LIGAND_SYNONYM (SYNONYM_ID, SYNONYM_NAME, LIGAND_ID, NAME_TYPE) VALUES (?,?,?,?)
     """
-    cur.execute(statement, (synonym_id, synonym_name, ligand_id))
+    cur.execute(statement, (synonym_id, synonym_name, ligand_id, name_type))
 
 
 def create_index(cur, table, column):
@@ -78,10 +82,10 @@ def create_indexes():
     cur = connection.cursor()
     create_index(cur, 'LIGAND', 'NAME')
     create_index(cur, 'LIGAND', 'LIGAND_ID')
-    create_index(cur, 'LIGAND', 'PUBCHEMSID')
-    create_index(cur, 'LIGAND', 'PUBCHEMCID')
+    create_index(cur, 'LIGAND', 'PUBCHEM_SID')
+    create_index(cur, 'LIGAND', 'PUBCHEM_CID')
     create_index(cur, 'LIGAND', 'UNIPROT_ID')
-    create_index(cur, 'LIGAND', 'IUPAC')
+    create_index(cur, 'LIGAND', 'IUPAC_NAME')
     create_index(cur, 'LIGAND', 'INN')
     create_index(cur, 'LIGAND', 'INCHIKEY')
     create_index(cur, 'LIGAND', 'INCHI')
@@ -96,17 +100,10 @@ def parse_ligands(filename):
     ligand_synonyms = {}
     synonym_id = 0
     cur = connection.cursor()
-    # would we have an our own numbers to refer to the ligands other than ligand_id
-    # had to add errors='ignore' when switching laptops, not sure why this error happened
     with open(filename, 'r', errors='ignore') as f:
-        count = 1
+        count = 0
         for line in f:
-            # if line.rstrip() != '"Ligand id"\t"Name"\t"Species"\t"Type"\t"Approved"\t"Withdrawn"\t"Labelled"\t' \
-            #                     '"Radioactive"\t"PubChem SID"\t"PubChem CID"\t"UniProt id"\t"IUPAC ' \
-            #                     'name"\t"INN"\t"Synonyms"\t"SMILES"\t"InChIKey"\t"InChI"\t"GtoImmuPdb"\t"GtoMPdb"':
-            #     print('ERROR: wrong ligand-file format')
-            #     return
-            if count == 1:
+            if count <=1:   # we want to skip the first two lines of header in the tsv file
                 count += 1
             else:
                 row = line.split('\t')
@@ -123,26 +120,32 @@ def parse_ligands(filename):
                 pubchem_sid = row[8]
                 pubchem_cid = row[9]
                 uniprot_id = row[10]
-                iupac_name = row[11]
-                inn = row[12]
-                synonym = row[13]
-                smiles = row[14]
-                inchikey = row[15]
-                inchi = row[16]
-                insert_ligand(cur, ligand_id, name, species, type, approved, withdrawn, labelled, radioactive,
-                              pubchem_sid, pubchem_cid, uniprot_id, iupac_name, inn, smiles, inchikey, inchi)
-                # not sure if this the correct structure for the dictionary we want in this case,
-                # are there other dictionaries that are needed? one to get synonyms?
+                ensembl_id = row[11]
+                ligand_subunit_id = row[12]
+                ligand_subunit_name = row[13] 
+                ligand_subunit_uniprot_id = row[14] 
+                ligand_subunit_ensembl_id = row[15]
+                iupac_name = row[16]
+                inn = row[17]
+                synonym = row[18]
+                smiles = row[19]
+                inchikey = row[20]
+                inchi = row[21]
+                gtoimmupdb = row[22]
+                gtompdb = row[23]
+                antibacterial = row[24][:-2]
+                insert_ligand(cur, ligand_id, name, species, type, approved, withdrawn, labelled, radioactive, pubchem_sid,
+                  pubchem_cid, uniprot_id, ensembl_id, ligand_subunit_id, ligand_subunit_name, ligand_subunit_uniprot_id, 
+                  ligand_subunit_ensembl_id, iupac_name, inn, smiles, inchikey, inchi, gtoimmupdb, gtompdb, antibacterial)
                 ligands[name] = ligand_id
                 ligand_synonyms[ligand_id] = synonym.split('|')
                 for syn_name in synonym.split('|'):
                     if syn_name != '':
                         synonym_id += 1
-                        insert_ligand_synonym(cur, synonym_id, syn_name, ligand_id)
+                        insert_ligand_synonym(cur, synonym_id, syn_name, ligand_id, 'Common Name')
 
                 # Create code that checks that the parsing function separated columns correctly by double checking that
                 # ligand id, pubchem SID, and pubchem CID are all integers and InchI is in the proper format
-                # Ask why if works with inch in the elif
                 if ligand_id == '':
                     print(row)
                 elif pubchem_cid == '' or pubchem_sid == '' or inchi == '':
@@ -158,14 +161,45 @@ def parse_ligands(filename):
                         print('Pubchem sid is not an integer:', pubchem_sid)
                     else:
                         print('InChI not in proper format:', inchi)
+    
+    parse_ligand_id_mapping('data/ligand_id_mapping.tsv', synonym_id)
 
-    # Is it okay for pubchem cid and sid to be blank? What should we do about the last two columns that appear in the
-    # spreadsheet but not in the documentation?
+    cur.close()
+    connection.commit()
+
+def parse_ligand_id_mapping(filename, synonym_id):
+    cur = connection.cursor()
+    with open(filename, 'r', errors='ignore') as f:
+        count = 0
+
+
+        for line in f:
+            if count <=1:   # we want to skip the first two lines of header in the tsv file
+                count += 1
+            else:
+                row = line.split('\t')
+                for i in range(len(row)):
+                    row[i] = row[i].strip('"')
+                ligand_id = row[0]
+                name = row[1]
+                iupac = row[10]
+                inn   = row[11]
+                if iupac != '':
+                    synonym_id += 1
+                    insert_ligand_synonym(cur, synonym_id, iupac, ligand_id, 'IUPAC')
+                if inn != '':
+                    synonym_id += 1
+                    insert_ligand_synonym(cur, synonym_id, inn, ligand_id, 'INN')
+
+
 
     cur.close()
     connection.commit()
 
 
+
+
 create_tables()
 create_indexes()
-parse_ligands('C:/Users/michelle/PycharmProjects/GuideToPharmacology/ligands.tsv')
+parse_ligands('data/ligands.tsv')
+

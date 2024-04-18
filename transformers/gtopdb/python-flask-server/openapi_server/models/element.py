@@ -21,7 +21,7 @@ class Element(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, biolink_class=None, identifiers=None, alternative_identifiers=None, names_synonyms=None, attributes=None, connections=None, source=None):  # noqa: E501
+    def __init__(self, id=None, biolink_class=None, identifiers=None, alternative_identifiers=None, names_synonyms=None, attributes=None, connections=None, source=None, provided_by=None):  # noqa: E501
         """Element - a model defined in OpenAPI
 
         :param id: The id of this Element.  # noqa: E501
@@ -40,6 +40,8 @@ class Element(Model):
         :type connections: List[Connection]
         :param source: The source of this Element.  # noqa: E501
         :type source: str
+        :param provided_by: The provided_by of this Element.  # noqa: E501
+        :type provided_by: str
         """
         self.openapi_types = {
             'id': str,
@@ -49,7 +51,8 @@ class Element(Model):
             'names_synonyms': List[Names],
             'attributes': List[Attribute],
             'connections': List[Connection],
-            'source': str
+            'source': str,
+            'provided_by': str
         }
 
         self.attribute_map = {
@@ -60,7 +63,8 @@ class Element(Model):
             'names_synonyms': 'names_synonyms',
             'attributes': 'attributes',
             'connections': 'connections',
-            'source': 'source'
+            'source': 'source',
+            'provided_by': 'provided_by'
         }
 
         self._id = id
@@ -71,6 +75,7 @@ class Element(Model):
         self._attributes = attributes
         self._connections = connections
         self._source = source
+        self._provided_by = provided_by
 
     @classmethod
     def from_dict(cls, dikt) -> 'Element':
@@ -128,6 +133,8 @@ class Element(Model):
         :param biolink_class: The biolink_class of this Element.
         :type biolink_class: str
         """
+        if biolink_class is None:
+            raise ValueError("Invalid value for `biolink_class`, must not be `None`")  # noqa: E501
 
         self._biolink_class = biolink_class
 
@@ -151,6 +158,8 @@ class Element(Model):
         :param identifiers: The identifiers of this Element.
         :type identifiers: Dict[str, object]
         """
+        if identifiers is None:
+            raise ValueError("Invalid value for `identifiers`, must not be `None`")  # noqa: E501
 
         self._identifiers = identifiers
 
@@ -250,7 +259,7 @@ class Element(Model):
     def source(self):
         """Gets the source of this Element.
 
-        Name of a transformer that added the element to the collection.  # noqa: E501
+        Source of the element  # noqa: E501
 
         :return: The source of this Element.
         :rtype: str
@@ -261,10 +270,37 @@ class Element(Model):
     def source(self, source):
         """Sets the source of this Element.
 
-        Name of a transformer that added the element to the collection.  # noqa: E501
+        Source of the element  # noqa: E501
 
         :param source: The source of this Element.
         :type source: str
         """
+        if source is None:
+            raise ValueError("Invalid value for `source`, must not be `None`")  # noqa: E501
 
         self._source = source
+
+    @property
+    def provided_by(self):
+        """Gets the provided_by of this Element.
+
+        Name of a transformer that added the element to the collection.  # noqa: E501
+
+        :return: The provided_by of this Element.
+        :rtype: str
+        """
+        return self._provided_by
+
+    @provided_by.setter
+    def provided_by(self, provided_by):
+        """Sets the provided_by of this Element.
+
+        Name of a transformer that added the element to the collection.  # noqa: E501
+
+        :param provided_by: The provided_by of this Element.
+        :type provided_by: str
+        """
+        if provided_by is None:
+            raise ValueError("Invalid value for `provided_by`, must not be `None`")  # noqa: E501
+
+        self._provided_by = provided_by
