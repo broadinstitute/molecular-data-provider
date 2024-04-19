@@ -146,9 +146,9 @@ class PharmgkbRelationsTransformer(Transformer):
         relations_list = []     # List of all the elements to be in the knowledge graph
         var_drug_data = []          # List of retrieved variant relationship data
         variant_gene_set = set()
-        for chemical_element in collection:
+        for source_element in collection:
             pharmgkb_id = ''
-            identifiers = chemical_element.identifiers
+            identifiers = source_element.identifiers
             if 'pharmgkb' in identifiers and identifiers['pharmgkb'] is not None:
                 curie = identifiers['pharmgkb']
                 if curie is not None:
@@ -171,8 +171,8 @@ class PharmgkbRelationsTransformer(Transformer):
                         if gene_identifier is not None:
                             if gene_identifier in relationDict:    # add a new connection for that existing drug_gene element
                                 drug_gene_element = relationDict[gene_identifier]
-                                self.add_connection(chemical_element.id, drug_gene_element, connection_tuple, 'infores:pharmgkb')
-                            else:                                       # create and add new drug_gene element to the dictionary
+                                self.add_connection(source_element.id, drug_gene_element, connection_tuple, 'infores:pharmgkb')
+                            else:                                  # create and add new drug_gene element to the dictionary
                                 drug_gene_element = self.Element(
                                     id=gene_identifier,
                                     biolink_class='Gene',
@@ -184,7 +184,7 @@ class PharmgkbRelationsTransformer(Transformer):
                                 add_attribute(self, drug_gene_element, var_drug_data['Gene_Symbol'], 'biolink:symbol', 'Gene.Symbol') 
                             # Get clinical annotations
                             # Then create a connection for each clinical annotation found                         
-                                self.add_connection(chemical_element.id, drug_gene_element, connection_tuple, 'infores:pharmgkb')
+                                self.add_connection(source_element.id, drug_gene_element, connection_tuple, 'infores:pharmgkb')
                                 relationDict[gene_identifier] = drug_gene_element   
                 # Collect all the unique elements for drug-gene or variant-drug relationships
                 for drug_gene_element in relationDict:
@@ -267,7 +267,7 @@ class PharmgkbRelationsTransformer(Transformer):
             for publication in pmids.split(';'):
                 if publication != 'None':
                     list_of_publications.append('PMID:'+ publication)
-                    reference = add_attribute(self, connection, list_of_publications, 'biolink:publications', 'PMIDs')
+            add_attribute(self, connection, list_of_publications, 'biolink:publications', 'PMIDs')
 
       # Variant attribute and variant location subattribute
         variant_attribute = add_attribute(self, connection, 'DBSNP:' + ref_sequence, 'variant_reference_sequence', 'variant_reference_sequence')
