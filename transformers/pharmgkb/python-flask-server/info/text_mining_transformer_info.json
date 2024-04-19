@@ -3,7 +3,7 @@
     "label": "PharmGKB",
     "infores": "infores:pharmgkb",    
     "description": "Text mining transformer based on PharmGKB relation information (https://www.pharmgkb.org/).",
-    "version": "2.5.0",
+    "version": "2.5.1",
     "function": "transformer",
     "knowledge_map": {
         "input_class": "compound",
@@ -13,7 +13,7 @@
                 "id_prefixes": ["PHARMGKB.CHEMICAL"],
                 "count": -1
             },
-            "ChemicalEntity" : {
+            "MolecularEntity" : {
                 "id_prefixes": ["PHARMGKB.CHEMICAL"],
                 "count": -1
             },

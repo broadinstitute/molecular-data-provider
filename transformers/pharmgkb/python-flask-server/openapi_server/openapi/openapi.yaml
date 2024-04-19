@@ -4,7 +4,7 @@ info:
     email: translator@broadinstitute.org
   termsOfService: https://www.pharmgkb.org/page/dataUsagePolicy
   title: Transformer API for PharmGKB
-  version: 2.5.0
+  version: 2.5.1
 servers:
 - url: https://translator.broadinstitute.org/pharmgkb
 tags:

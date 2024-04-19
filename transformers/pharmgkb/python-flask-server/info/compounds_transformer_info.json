@@ -3,7 +3,7 @@
     "label": "PharmGKB",
     "description": "Compound-list producer based on PharmGKB (https://www.pharmgkb.org/).",
     "infores": "infores:pharmgkb",
-    "version": "2.5.0",
+    "version": "2.5.1",
     "function": "producer",
     "knowledge_map": {
         "input_class": "none",
