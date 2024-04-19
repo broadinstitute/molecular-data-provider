@@ -1,5 +1,8 @@
 import connexion
 import six
+from typing import Dict
+from typing import Tuple
+from typing import Union
 
 from openapi_server.models.element import Element  # noqa: E501
 from openapi_server.models.error_msg import ErrorMsg  # noqa: E501
@@ -8,9 +11,11 @@ from openapi_server.models.transformer_query import TransformerQuery  # noqa: E5
 from openapi_server import util
 
 from openapi_server.controllers.string_transformer import StringTransformer
+from openapi_server.controllers.string_transformer import StringPhysicalLinkTransformer
 
 transformer = {
-    'links': StringTransformer()
+    'links': StringTransformer(),
+    'physical_links': StringPhysicalLinkTransformer()
 }
 
 def service_transform_post(service, body, cache=None):  # noqa: E501
@@ -25,7 +30,7 @@ def service_transform_post(service, body, cache=None):  # noqa: E501
     :param cache: Directive for handling caching, can be &#39;yes&#39; (default), &#39;no&#39;, &#39;bypass&#39; or &#39;remove&#39;
     :type cache: str
 
-    :rtype: List[Element]
+    :rtype: Union[List[Element], Tuple[List[Element], int], Tuple[List[Element], int, Dict[str, str]]
     """
     if connexion.request.is_json:
         transformer_query = TransformerQuery.from_dict(connexion.request.get_json())  # noqa: E501
@@ -42,6 +47,6 @@ def service_transformer_info_get(service, cache=None):  # noqa: E501
     :param cache: Directive for handling caching, can be &#39;yes&#39; (default), &#39;no&#39;, &#39;bypass&#39; or &#39;remove&#39;
     :type cache: str
 
-    :rtype: TransformerInfo
+    :rtype: Union[TransformerInfo, Tuple[TransformerInfo, int], Tuple[TransformerInfo, int, Dict[str, str]]
     """
     return transformer[service].transformer_info(cache)

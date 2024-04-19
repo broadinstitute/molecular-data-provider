@@ -3,6 +3,7 @@ from openapi_server.models.element import Element
 from openapi_server.models.names import Names
 from openapi_server.models.attribute import Attribute
 from openapi_server.models.connection import Connection
+from openapi_server.models.qualifier import Qualifier
 
 import json
 import csv
@@ -48,7 +49,7 @@ class Transformer:
                     msg = "required parameter '{}' not specified".format(parameter.name)
                     return ({ "status": 400, "title": "Bad Request", "detail": msg, "type": "about:blank" }, 400 )
                 else:
-                    controls[variable] = parameter.default
+                    controls[variable] = Transformer.get_control(parameter.default, parameter)
         
         if self.info.function == 'producer':
             return self.produce(controls)
@@ -137,19 +138,23 @@ class Transformer:
     #
     def transformer_info(self, cache):
         if cache=='bypass':
+            self.prefix_map = self.get_prefix_mapping()
+            self.class_dict = self.get_class_dict()
             with open(self.definition_file,'r') as f:
                 self.info = TransformerInfo.from_dict(json.loads(f.read()))
                 self.parameters = dict(zip(self.variables, self.info.parameters))
                 self.update_transformer_info(self.info) 
-            self.prefix_map = self.get_prefix_mapping()
-            self.class_dict = self.get_class_dict()
             self.SOURCE = self.info.label
             self.PROVIDED_BY  = self.info.name
             self.OUTPUT_CLASS = self.info.knowledge_map.output_class
             self.INPUT_CLASS  = self.info.knowledge_map.input_class
+            self.AGENT_TYPE   = 'unspecified'
+            self.KNOWLEDGE_LEVEL = 'unspecified'
             if self.info.knowledge_map.edges is not None and len(self.info.knowledge_map.edges) > 0:
-                self.PREDICATE    = self.info.knowledge_map.edges[0].predicate
-                self.INVERSE_PREDICATE    = self.info.knowledge_map.edges[0].inverse_predicate 
+                self.PREDICATE = self.info.knowledge_map.edges[0].predicate
+                self.INVERSE_PREDICATE = self.info.knowledge_map.edges[0].inverse_predicate
+                self.AGENT_TYPE = self.info.knowledge_map.edges[0].agent_type
+                self.KNOWLEDGE_LEVEL = self.info.knowledge_map.edges[0].knowledge_level
         return self.info
 
 
@@ -162,15 +167,36 @@ class Transformer:
         pass
 
 
+    #######################################################################################################
+    #
+    # Support for fields with multiple identifiers.
+    #
+    def get_identifiers(self, compound: Element, field_name: str, de_prefix = True):
+        if field_name in compound.identifiers and compound.identifiers[field_name] is not None:
+            identifiers = compound.identifiers[field_name]
+            if isinstance(identifiers, str):
+                identifiers = [identifiers]
+            if isinstance(identifiers, list):
+                if de_prefix:
+                    identifiers = [self.de_prefix(field_name, id) for id in identifiers]
+                return [id for id in identifiers if id is not None]
+        return []
+
+
     ########################################################################################################
     # Lookup the required CURIE Prefix corresponding to parameters:
     # (1) the MolePro field name of an identifier. e.g., field name "chembl" gets MolePro CURIE prefix "ChEMBL:"
     # (2) the MolePro class e.g., MolePro class determines the Biolink CURIE prefix for the field name "chembl"
     #
-    def get_prefix(self,fieldname,molepro_class=None):
+    def get_prefix(self,fieldname,molepro_class=None, soure = 'molepro_prefix'):
         if molepro_class == None:
             molepro_class = self.OUTPUT_CLASS 
-        return self.prefix_map[self.class_dict[molepro_class]][fieldname]['molepro_prefix']
+        biolink_class = self.biolink_class(molepro_class)
+        if biolink_class not in self.prefix_map:
+            return None
+        if fieldname not in self.prefix_map[biolink_class]:
+            return None
+        return self.prefix_map[biolink_class][fieldname][soure]
 
 
     #######################################################################################################
@@ -187,8 +213,14 @@ class Transformer:
     # 
     def has_prefix(self, fieldname, identifier, molepro_class=None):
         if molepro_class is None:
-            molepro_class = self.INPUT_CLASS     
-        if identifier.upper().find(self.prefix_map[self.biolink_class(molepro_class)][fieldname]['molepro_prefix'].upper()) == 0:
+            molepro_class = self.INPUT_CLASS
+        prefix = self.get_prefix(fieldname, molepro_class)
+        if identifier is None or prefix is None:
+            return None
+        if str(identifier).upper().find(prefix.upper()) == 0:
+            return True
+        prefix = self.get_prefix(fieldname, molepro_class, 'biolink_prefix')
+        if str(identifier).upper().find(prefix.upper()) == 0:
             return True
         else:
             return False
@@ -203,12 +235,23 @@ class Transformer:
     #  * molepro_class: such as "compound", as specified by input_class or output_class in the 
     #    xxx_transformer_info.json file
     #
-    #  This method was made case-insenstive with respect to the "identifier" argument.
+    #  This method was made case-insenstive with respect to the prefix (e.g., "ChEMBL:") in the "identifier" argument.
+    #  The prefix to be removed from the identifier is determined by the fieldname and the molepro_class
+    #  (i.e., fieldname "chembl" & molepro_class "ChemicalSubstance" means the prefix should be "ChEMBL:")
     #  
     def de_prefix(self, fieldname, identifier, molepro_class=None):
+        if identifier is None:
+            return None
         if molepro_class is None:
-            molepro_class = self.INPUT_CLASS 
-        return identifier.upper().split(self.prefix_map[self.biolink_class(molepro_class)][fieldname]['molepro_prefix'].upper() ,1)[1] 
+            molepro_class = self.INPUT_CLASS
+
+        prefix = self.get_prefix(fieldname, molepro_class)
+        if prefix is not None and prefix != '' and str(identifier).upper().find(prefix.upper()) == 0: 
+            return identifier[len(prefix):]
+        prefix = self.get_prefix(fieldname, molepro_class, 'biolink_prefix')
+        if prefix is not None and prefix != '' and str(identifier).upper().find(prefix.upper()) == 0: 
+            return identifier[len(prefix)+1:]
+        return identifier
 
 
     #######################################################################################################
@@ -222,8 +265,10 @@ class Transformer:
     def add_prefix(self, fieldname, identifier, molepro_class=None):
         if molepro_class == None:
             molepro_class = self.OUTPUT_CLASS   
+        if self.has_prefix(fieldname, identifier, molepro_class) is None:
+            return identifier
         if not self.has_prefix(fieldname, identifier, molepro_class):
-            return self.get_prefix(fieldname,molepro_class) + identifier
+            return self.get_prefix(fieldname, molepro_class) + str(identifier)
         else:
             return identifier
 
@@ -235,15 +280,17 @@ class Transformer:
     #  * molepro_class: such as "compound", as specified by input_class or output_class in the 
     #    xxx_transformer_info.json file
     #
-    def biolink_class(self, molepro_class):      
-        return self.class_dict[molepro_class]
+    def biolink_class(self, molepro_class):
+        if molepro_class.startswith('biolink:'):
+            molepro_class = molepro_class[len('biolink:'):]
+        return self.class_dict.get(molepro_class, molepro_class)
 
 
     #######################################################################################################
     #
     #  convenience method to create attribute
     #
-    def Attribute(self, name, value, type=None, value_type = None, url=None, description=None):
+    def Attribute(self, name, value, type=None, value_type = None, url=None, description=None, attributes=None):
         if type == None:
             type = name
         return Attribute(
@@ -254,6 +301,7 @@ class Transformer:
             attribute_source = self.SOURCE, 
             value_url = url, 
             description = description, 
+            attributes = attributes,
             provided_by = self.PROVIDED_BY
         )
 
@@ -279,22 +327,22 @@ class Transformer:
     #
     #  convenience method to create names
     #
-    def Names(self, name, synonyms=None, type=None, language = None):
+    def Names(self, name, synonyms=None, type=None, language = None, name_source = None):
         return Names(
             name=name, 
             synonyms=synonyms if synonyms is not None else [], 
             name_type=type, 
-            source=self.SOURCE, 
+            source=name_source if name_source is not None else self.SOURCE, 
             provided_by=self.PROVIDED_BY, 
-            language=None
+            language=language
         )
 
 
     #######################################################################################################
     #
-    #  convenience method to create names
+    #  convenience method to create connection
     #
-    def Connection(self, source_element_id, predicate, inv_predicate, relation=None, inv_relation=None, attributes = None):
+    def Connection(self, source_element_id, predicate, inv_predicate, relation=None, inv_relation=None, qualifiers = None, attributes = None):
         return Connection(
             source_element_id=source_element_id, 
             biolink_predicate=predicate, 
@@ -303,8 +351,17 @@ class Transformer:
             inverse_relation=inv_relation, 
             source=self.SOURCE, 
             provided_by=self.PROVIDED_BY, 
+            qualifiers=qualifiers if qualifiers is not None else [],
             attributes=attributes if attributes is not None else []
         )
+
+
+    #######################################################################################################
+    #
+    #  convenience method to create qualifier
+    #
+    def Qualifier(self, qualifier_type_id, qualifier_value):
+        return Qualifier(qualifier_type_id, qualifier_value)
 
 
     @staticmethod
@@ -342,6 +399,8 @@ class TransformerUtility:
                         else:
                             prefix["molepro_prefix"] = line['MolePro CURIE prefix']
                         prefix["biolink_prefix"] = line['Biolink CURIE prefix']
+                        if line['infores'] != '':
+                            prefix['infores'] = line['infores']
                         prefixMap[line['Biolink class']][line['MolePro field name']]= prefix
                         
 #       Save as a JSON file
