@@ -1,5 +1,5 @@
 {
-    "name": "STRING protein-protein links transformer",
+    "name": "STRING protein-protein physical links transformer",
     "label": "STRING",
     "infores": "infores:string",
     "description": "Gene-list expander based on STRING protein-protein functional interactions (https://string-db.org/).",
@@ -15,8 +15,8 @@
         },
         "edges": [{
             "subject": "Gene",
-            "predicate": "biolink:associated_with",
-            "inverse_predicate": "biolink:associated_with",
+            "predicate": "biolink:physically_interacts_with",
+            "inverse_predicate": "biolink:physically_interacts_with",
             "object": "Gene",
             "knowledge_level":"statistical_association",
             "agent_type":"automated_agent",
@@ -32,15 +32,15 @@
     "parameters": [
         {
             "default": "0.7",
-            "description": "lower threshold for STRING combined score",
             "name": "minimum combined score",
             "type": "double",
             "required": false,
             "multivalued": false,
             "allowed_range": [
-                0, 1
+                0,
+                1
             ],
-            "suggested_values": "from 0.4 to 1.0"
+            "suggested_values": "from 0.7 to 1.0"
         },
         {
             "default": "0",
