@@ -63,6 +63,11 @@ class MolePro:
         self.edges = {}
         self.logs = []
         self.query_transformers = set()
+        self.cache_name_map = {}
+
+    def add_to_ancestry_names_map(self, map_ancestry, log=False):
+        for map_item in map_ancestry.values():
+            self.cache_name_map.update(map_item)
 
     def get_results(self):
         message = Message(results=self.results, query_graph=self.query_graph, knowledge_graph=self.knowledge_graph)
@@ -459,6 +464,10 @@ class MolePro:
 
         # map type
         category=translate_type(type, False)
+
+        # get the name from the cache if none given
+        if not name:
+            name = self.cache_name_map.get(id)
 
         # translate the curie from molepro to biolink
         translated_curie = translate_curie(id, category, False)
