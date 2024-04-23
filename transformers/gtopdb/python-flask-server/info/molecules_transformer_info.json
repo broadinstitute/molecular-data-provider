@@ -1,0 +1,28 @@
+{
+    "name": "GtoPdb compound-list producer",
+    "label": "GtoPdb",
+    "description": "Compound-list producer based on GtoPdb (https://www.guidetopharmacology.org/).",
+    "version": "2.5.0",
+    "function": "producer",
+    "knowledge_map": {
+        "input_class": "none",
+        "output_class": "ChemicalEntity",
+        "predicates": []
+    },
+    "properties": {
+        "source_url": "https://www.guidetopharmacology.org/",
+        "terms_of_service": "https://www.guidetopharmacology.org/citing.jsp",
+        "source_version": "2023.2 (2023-08-07)"
+    },
+    "parameters": [
+        {
+            "example": "aspirin",
+            "name": "compound",
+            "description": "Name or identifier of compound",
+            "multivalued": true,
+            "required": true,
+            "type": "string"
+        }
+
+    ]
+}

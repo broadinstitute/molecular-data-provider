@@ -1,0 +1,6 @@
+{
+    "Tclin": "Tclin - clinically validated target",
+    "Tchem": "Tchem - chemically validated target",
+    "Tbio": "Tbio - biologically validated target",
+    "Tdark": "Tdark - There is the least knowledge and the lowest number of molecular probes available."
+}

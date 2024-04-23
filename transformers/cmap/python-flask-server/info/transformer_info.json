@@ -1,0 +1,75 @@
+{
+    "name": "CMAP ",
+    "label": "CMAP",
+    "infores": "infores:cmap",
+    "description": "Transformer based on CMAP (https://clue.io/).",
+    "version": "2.5.0",
+    "function": "expander",
+    "knowledge_map": {
+        "input_class": "any",
+        "output_class": "any",
+        "nodes": {
+            "Gene":{
+                "id_prefixes": ["NCBIGene"],
+                "count": -1,
+                "attributes": []
+            },
+            "SmallMolecule":{
+                "id_prefixes": ["CID"],
+                "count": -1,
+                "attributes": [
+                    {
+                        "attribute_type_id": "biolink:symbol",
+                        "description": "gene symbol",
+                        "source": "CMAP"
+                    }
+                ]
+            }
+        },
+        "edges": [
+            {
+                "subject": "any",
+                "predicate": "biolink:correlated_with",
+                "inverse_predicate": "biolink:correlated_with",
+                "object": "any",
+                "source": "CMAP",
+                "count": -1,
+                "knowledge_level": "statistical_association",
+                "agent_type": "data_analysis_pipeline",
+                "attributes": [
+                    {
+                        "attribute_type_id": "CMAP:similarity_score",
+                        "description": "CMAP similarity score",
+                        "source": "CMAP"
+                    }
+                ]
+            }
+        ]
+    },
+    "properties": {
+        "source_url": "https://clue.io/",
+        "source_version": "2021-11-23",
+        "terms_of_service": "https://clue.io/terms"
+    },
+    "parameters": [
+        {
+            "name": "score threshold",
+            "type": "double",
+            "required": false,
+            "multivalued": false,
+            "default": "95",
+            "suggested_values": "above 90 and below 100",
+            "allowed_range": [
+                90,
+                100
+            ]
+        },
+        {
+            "name": "maximum number",
+            "type": "int",
+            "required": false,
+            "multivalued": false,
+            "default": "0"
+        }
+    ]
+}

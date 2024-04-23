@@ -1,0 +1,23 @@
+{
+    "name": "DGIdb target transformer",
+    "label": "DGIdb",
+    "description": "Gene-list transformer based on DGIdb target information (http://dgidb.org/).",
+    "version": "2.1.1",
+    "function": "transformer",
+    "knowledge_map": {
+        "input_class": "compound",
+        "output_class": "gene",
+        "predicates": [{
+            "subject": "ChemicalSubstance",
+            "predicate": "affects",
+            "object": "Gene"
+        }]
+    },
+    "properties": {
+        "list_predicate": "related_to",
+        "member_predicate": "related_to",
+        "source_url": "http://dgidb.org/",
+        "terms_of_service": "http://www.dgidb.org/getting_started"
+    },
+    "parameters": []
+}

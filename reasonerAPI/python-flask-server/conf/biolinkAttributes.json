@@ -1,0 +1,48 @@
+{
+    "node_attributes": [
+        "ATC",
+        "biolink:highest_FDA_approval_status",
+        "biolink:OrganismTaxon",
+        "biolink:Publication",
+        "biolink:symbol",
+        "data:1249"
+    ],
+    "edge_attributes": [
+        "biolink:agent_type",
+        "biolink:aggregator_knowledge_source",
+        "biolink:FDA_approval_status",
+        "biolink:FDA_APPROVAL_STATUS",
+        "biolink:knowledge_level",
+        "biolink:OrganismAttribute",
+        "biolink:OrganismTaxon",
+        "biolink:original_knowledge_source",
+        "biolink:primary_knowledge_source",
+        "biolink:publication",
+        "biolink:Publication",
+        "biolink:relation",
+        "qualifier:qualified_predicate",
+        "qualifier:object_aspect",
+        "qualifier:object_direction",
+        "qualifier:mechanism_qualifier",
+        "CMAP:similarity_score",
+        "NCIT:C68741",
+        "NCIT:C53190",
+        "OBI:0200163",
+        "SIO:000811",
+        "SIO:000653",
+        "SIO:000923"
+    ],
+    "hidden_attributes": [
+        "actions",
+        "action_type",
+        "ChEMBL:action_type",
+        "ChEMBL:mechanism_of_action",
+        "compartment",
+        "FEATURE_ACTION",
+        "mode",
+        "rela",
+        "Relation",
+        "Specific Action of the Ligand",
+        "TYPE"
+    ]
+}

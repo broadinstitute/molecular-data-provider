@@ -1,0 +1,13 @@
+python -u script/extract_ids.py script/components/bigg.sql
+sbt 'run data/bigg/MolePro.BiGG.sqlite exec ../schema/MoleProSchema.sql'
+sbt 'run data/bigg/MolePro.BiGG.sqlite exec ../schema/MoleProPreLoadIndexes.sql'
+sbt 'run data/bigg/MolePro.BiGG.sqlite load-transformers'
+sbt 'run data/bigg/MolePro.BiGG.sqlite load-prefixes'
+sbt -mem 4096 'run data/bigg/MolePro.BiGG.sqlite load-structures "BiGG compound-list producer" data/bigg/BiGG-metabolite_id.tsv'
+sbt -mem 4096 'run data/bigg/MolePro.BiGG.sqlite load-structures "Pubchem compound-list producer" data/bigg/BiGG-inchikey.tsv'
+sbt -mem 4096 'run data/bigg/MolePro.BiGG.sqlite load-compounds'
+sbt -mem 4096 'run data/bigg/MolePro.BiGG.sqlite load-elements "SRI node normalizer producer" data/bigg/BiGG-entrez.tsv entrez'
+sbt -mem 4096 'run data/bigg/MolePro.BiGG.sqlite add-connections bigg data/bigg/BiGG-metabolite_id.tsv "BiGG genes transformer" entrez'
+sbt -mem 4096 'run data/bigg/MolePro.BiGG.sqlite load-connections bigg data/bigg/BiGG-metabolite_id.tsv "BiGG reactions transformer" rhea,kegg,bigg'
+sbt -mem 4096 'run data/bigg/MolePro.BiGG.sqlite load-connections entrez data/bigg/BiGG-entrez.tsv "BiGG gene_reaction transformer" rhea,kegg,bigg'
+sbt 'run data/bigg/MolePro.BiGG.sqlite exec ../schema/MoleProPostLoadIndexes.sql'

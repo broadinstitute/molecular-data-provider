@@ -1,0 +1,8 @@
+{
+    "affects": "affected_by",
+    "affected_by": "affects",
+    "binds": "binds",
+    "causes": "caused_by",
+    "related_to": "related_to",
+    "treats": "treated_by"
+}

@@ -1,0 +1,34 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+GET     /api                        controllers.ApiDocController.api
+GET     /molecular_data_provider/api                        controllers.ApiDocController.api
+GET     /molecular_data_provider/status                        controllers.ApiDocController.status
+
+#Functions for Collections API
+POST     /molecular_data_provider/aggregate                     controllers.CollectionsApiController.aggregatePost(request: Request)
+GET     /molecular_data_provider/collection/:collectionId                     controllers.CollectionsApiController.collectionCollectionIdGet(request: Request, collectionId: String)
+POST     /molecular_data_provider/compare                     controllers.CollectionsApiController.comparePost(request: Request)
+
+#Functions for Compounds API
+GET     /molecular_data_provider/compound/by_id/*compoundId                     controllers.CompoundsApiController.compoundByIdCompoundIdGet(request: Request, compoundId: String)
+POST     /molecular_data_provider/compound/by_id                     controllers.CompoundsApiController.compoundByIdPost(request: Request)
+GET     /molecular_data_provider/compound/by_name/*name                     controllers.CompoundsApiController.compoundByNameNameGet(request: Request, name: String)
+POST     /molecular_data_provider/compound/by_name                     controllers.CompoundsApiController.compoundByNamePost(request: Request)
+POST     /molecular_data_provider/compound/by_structure                     controllers.CompoundsApiController.compoundByStructurePost(request: Request)
+
+#Functions for Elements API
+GET     /molecular_data_provider/element/by_id/:compoundId                     controllers.ElementsApiController.elementByIdCompoundIdGet(request: Request, compoundId: String)
+POST     /molecular_data_provider/element/by_id                     controllers.ElementsApiController.elementByIdPost(request: Request)
+GET     /molecular_data_provider/element/by_name/:name                     controllers.ElementsApiController.elementByNameNameGet(request: Request, name: String)
+POST     /molecular_data_provider/element/by_name                     controllers.ElementsApiController.elementByNamePost(request: Request)
+
+#Functions for Transformers API
+POST     /molecular_data_provider/transform                     controllers.TransformersApiController.transformPost(request: Request)
+GET     /molecular_data_provider/transformers                     controllers.TransformersApiController.transformersGet(request: Request)
+
+# Map static resources from the /public folder to the /assets URL path
+GET /assets/*file           controllers.Assets.at(file)
+GET /versionedAssets/*file  controllers.Assets.versioned(file)
+GET /molecular_data_provider/assets/*file           controllers.Assets.at(file)

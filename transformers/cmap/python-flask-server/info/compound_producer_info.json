@@ -1,0 +1,35 @@
+{
+    "name": "CMAP compound-list producer",
+    "label": "CMAP",
+    "infores": "infores:cmap",
+    "description": "Compound-list producer based on CMAP (https://clue.io/).",
+    "version": "2.5.0",
+    "function": "producer",
+    "knowledge_map": {
+        "input_class": "none",
+        "output_class": "compound",
+        "nodes": {
+            "SmallMolecule" : {
+                "id_prefixes": ["CID"],
+                "count": -1,
+                "attributes": []
+            }
+        },
+        "edges": []
+    },
+    "properties": {
+        "source_url": "https://clue.io/",
+        "source_version": "2021-11-23",
+        "terms_of_service": "https://clue.io/terms"
+    },
+    "parameters": [
+        {
+            "example": "aspirin",
+            "name": "compound",
+            "type": "string",
+            "required": true,
+            "multivalued": true,
+            "description": "compound name, PubChem CID, or InChiKey"
+        }
+    ]
+}

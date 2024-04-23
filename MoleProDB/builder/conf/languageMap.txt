@@ -1,0 +1,10 @@
+czech	czech
+dutch	dutch
+english	english
+french	french
+german	german
+italian	italian
+latin	latin
+polish	polish
+russian	russian
+spanish	spanish

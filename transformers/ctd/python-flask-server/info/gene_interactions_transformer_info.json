@@ -1,0 +1,911 @@
+{
+    "name": "CTD gene interactions transformer",
+    "label": "CTD",
+    "infores": "infores:ctd",
+    "description": "Transformer based on Comparative Toxicogenomics Database (http://ctdbase.org/).",
+    "version": "2.5.0",
+    "function": "transformer",
+    "knowledge_map": {
+        "input_class": "compound",
+        "output_class": "gene",
+        "nodes": {
+            "SmallMolecule": {
+                "id_prefixes": [
+                    "CID",
+                    "MeSH"
+                ],
+                "count": 1
+            },
+            "ChemicalEntity": {
+                "id_prefixes": [
+                    "CID",
+                    "MeSH"
+                ],
+                "count": 1
+            },
+            "Gene": {
+                "id_prefixes": [
+                    "NCBIGene"
+                ]
+            }
+        },
+        "edges": [
+            {
+                "subject": "SmallMolecule",
+                "predicate": "affects",
+                "inverse_predicate": "affected_by",
+                "object": "Gene",
+                "source": "CTD",
+                "count": 1302697,
+                "knowledge_level": "knowledge_assertion",
+                "agent_type": "manual_agent",
+                "qualifiers": [
+                    {
+                        "qualifier_type_id": "qualified_predicate",
+                        "applicable_values": [
+                            "causes"
+                        ]
+                    },
+                    {
+                        "qualifier_type_id": "object_direction_qualifier",
+                        "applicable_values": [
+                            "decreased",
+                            "increased"
+                        ]
+                    },
+                    {
+                        "qualifier_type_id": "object_aspect_qualifier",
+                        "applicable_values": [
+                            "ADP-ribosylation",
+                            "abundance",
+                            "acetylation",
+                            "activity",
+                            "acylation",
+                            "alkylation",
+                            "carbamoylation",
+                            "carboxylation",
+                            "cleavage",
+                            "degradation",
+                            "export",
+                            "expression",
+                            "farnesylation",
+                            "folding",
+                            "geranoylation",
+                            "glutathionylation",
+                            "glycation",
+                            "glycosylation",
+                            "hydrolysis",
+                            "hydroxylation",
+                            "import",
+                            "lipidation",
+                            "localization",
+                            "metabolic_processing",
+                            "methylation",
+                            "mutation_rate",
+                            "n_linked_glycosylation",
+                            "nitrosation",
+                            "o_linked_glycosylation",
+                            "oxidation",
+                            "palmitoylation",
+                            "phosphorylation",
+                            "prenylation",
+                            "reduction",
+                            "ribosylation",
+                            "secretion",
+                            "splicing",
+                            "stability",
+                            "sulfation",
+                            "sumoylation",
+                            "susceptibility",
+                            "synthesis",
+                            "transport",
+                            "ubiquitination",
+                            "uptake"
+                        ]
+                    },
+                    {
+                        "qualifier_type_id": "object_part_qualifier",
+                        "applicable_values": [
+                            "3_prime_utr",
+                            "5_prime_utr",
+                            "enhancer",
+                            "exon",
+                            "intron",
+                            "polya_tail",
+                            "promoter"
+                        ]
+                    },
+                    {
+                        "qualifier_type_id": "subject_form_or_variant_qualifier",
+                        "applicable_values": [
+                            "analog"
+                        ]
+                    },
+                    {
+                        "qualifier_type_id": "subject_aspect_qualifier",
+                        "applicable_values": [
+                            "abundance"
+                        ]
+                    },
+                    {
+                        "qualifier_type_id": "subject_direction_qualifier",
+                        "applicable_values": [
+                            "decreased"
+                        ]
+                    },
+                    {
+                        "qualifier_type_id": "object_form_or_variant_qualifier",
+                        "applicable_values": [
+                            "alternative_form",
+                            "genetic_variant_form",
+                            "modified_form",
+                            "polymorphic_form",
+                            "snp_form"
+                        ]
+                    },
+                    {
+                        "qualifier_type_id": "subject_derivative_qualifier",
+                        "applicable_values": [
+                            "metabolite"
+                        ]
+                    }
+                ],
+                "attributes": [
+                    {
+                        "attribute_type_id": "biolink:primary_knowledge_source",
+                        "source": "MolePro"
+                    },
+                    {
+                        "attribute_type_id": "biolink:OrganismTaxon",
+                        "source": "CTD",
+                        "names": [
+                            "TaxonID"
+                        ]
+                    },
+                    {
+                        "attribute_type_id": "biolink:Publication",
+                        "source": "CTD",
+                        "names": [
+                            "ReferencePMIDs"
+                        ]
+                    },
+                    {
+                        "attribute_type_id": "ChemicalPosition",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "ChemicalForm",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "ChemicalFormQualifier",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "GeneForm",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "GeneFormQualifier",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "GeneSeqID",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "AxnCode",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "AxnDegreeCode",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "AxnPosition",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "AxnName",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "biolink:knowledge_level",
+                        "source": "MolePro"
+                    },
+                    {
+                        "attribute_type_id": "biolink:agent_type",
+                        "source": "MolePro"
+                    }
+                ]
+            },
+            {
+                "subject": "SmallMolecule",
+                "predicate": "affected_by",
+                "inverse_predicate": "affects",
+                "object": "Gene",
+                "source": "CTD",
+                "count": 30866,
+                "knowledge_level": "knowledge_assertion",
+                "agent_type": "manual_agent",
+                "qualifiers": [
+                    {
+                        "qualifier_type_id": "qualified_predicate",
+                        "applicable_values": [
+                            "caused_by"
+                        ]
+                    },
+                    {
+                        "qualifier_type_id": "subject_direction_qualifier",
+                        "applicable_values": [
+                            "decreased",
+                            "increased"
+                        ]
+                    },
+                    {
+                        "qualifier_type_id": "subject_aspect_qualifier",
+                        "applicable_values": [
+                            "abundance",
+                            "acetylation",
+                            "activity",
+                            "acylation",
+                            "alkylation",
+                            "amination",
+                            "carbamoylation",
+                            "carboxylation",
+                            "cleavage",
+                            "degradation",
+                            "ethylation",
+                            "export",
+                            "glucuronidation",
+                            "glutathionylation",
+                            "glycosylation",
+                            "hydrolysis",
+                            "hydroxylation",
+                            "import",
+                            "localization",
+                            "metabolic_processing",
+                            "methylation",
+                            "nitrosation",
+                            "oxidation",
+                            "phosphorylation",
+                            "reduction",
+                            "secretion",
+                            "stability",
+                            "sulfation",
+                            "susceptibility",
+                            "synthesis",
+                            "transport",
+                            "uptake"
+                        ]
+                    },
+                    {
+                        "qualifier_type_id": "object_form_or_variant_qualifier",
+                        "applicable_values": [
+                            "alternative_form",
+                            "genetic_variant_form",
+                            "modified_form",
+                            "polymorphic_form",
+                            "snp_form"
+                        ]
+                    },
+                    {
+                        "qualifier_type_id": "object_part_qualifier",
+                        "applicable_values": [
+                            "3_prime_utr",
+                            "5_prime_utr",
+                            "enhancer",
+                            "exon",
+                            "intron",
+                            "polya_tail",
+                            "promoter"
+                        ]
+                    },
+                    {
+                        "qualifier_type_id": "subject_derivative_qualifier",
+                        "applicable_values": [
+                            "metabolite"
+                        ]
+                    },
+                    {
+                        "qualifier_type_id": "subject_form_or_variant_qualifier",
+                        "applicable_values": [
+                            "analog"
+                        ]
+                    }
+                ],
+                "attributes": [
+                    {
+                        "attribute_type_id": "biolink:primary_knowledge_source",
+                        "source": "MolePro"
+                    },
+                    {
+                        "attribute_type_id": "biolink:OrganismTaxon",
+                        "source": "CTD",
+                        "names": [
+                            "TaxonID"
+                        ]
+                    },
+                    {
+                        "attribute_type_id": "biolink:Publication",
+                        "source": "CTD",
+                        "names": [
+                            "ReferencePMIDs"
+                        ]
+                    },
+                    {
+                        "attribute_type_id": "ChemicalPosition",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "ChemicalForm",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "ChemicalFormQualifier",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "GeneForm",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "GeneFormQualifier",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "GeneSeqID",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "AxnCode",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "AxnDegreeCode",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "AxnPosition",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "AxnName",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "biolink:knowledge_level",
+                        "source": "MolePro"
+                    },
+                    {
+                        "attribute_type_id": "biolink:agent_type",
+                        "source": "MolePro"
+                    }
+                ]
+            },
+            {
+                "subject": "SmallMolecule",
+                "predicate": "binds",
+                "inverse_predicate": "binds",
+                "object": "Gene",
+                "source": "CTD",
+                "count": 12988,
+                "knowledge_level": "knowledge_assertion",
+                "agent_type": "manual_agent",
+                "qualifiers": [
+                    {
+                        "qualifier_type_id": "subject_derivative_qualifier",
+                        "applicable_values": [
+                            "metabolite"
+                        ]
+                    },
+                    {
+                        "qualifier_type_id": "subject_form_or_variant_qualifier",
+                        "applicable_values": [
+                            "analog"
+                        ]
+                    },
+                    {
+                        "qualifier_type_id": "object_form_or_variant_qualifier",
+                        "applicable_values": [
+                            "alternative_form",
+                            "genetic_variant_form",
+                            "modified_form",
+                            "polymorphic_form",
+                            "snp_form"
+                        ]
+                    },
+                    {
+                        "qualifier_type_id": "object_part_qualifier",
+                        "applicable_values": [
+                            "5_prime_utr",
+                            "enhancer",
+                            "promoter"
+                        ]
+                    }
+                ],
+                "attributes": [
+                    {
+                        "attribute_type_id": "biolink:primary_knowledge_source",
+                        "source": "MolePro"
+                    },
+                    {
+                        "attribute_type_id": "biolink:OrganismTaxon",
+                        "source": "CTD",
+                        "names": [
+                            "TaxonID"
+                        ]
+                    },
+                    {
+                        "attribute_type_id": "biolink:Publication",
+                        "source": "CTD",
+                        "names": [
+                            "ReferencePMIDs"
+                        ]
+                    },
+                    {
+                        "attribute_type_id": "ChemicalPosition",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "ChemicalForm",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "ChemicalFormQualifier",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "GeneForm",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "GeneFormQualifier",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "GeneSeqID",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "AxnCode",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "AxnDegreeCode",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "AxnPosition",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "AxnName",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "biolink:knowledge_level",
+                        "source": "MolePro"
+                    },
+                    {
+                        "attribute_type_id": "biolink:agent_type",
+                        "source": "MolePro"
+                    }
+                ]
+            },
+            {
+                "subject": "ChemicalEntity",
+                "predicate": "affects",
+                "inverse_predicate": "affected_by",
+                "object": "Gene",
+                "source": "CTD",
+                "count": 102310,
+                "knowledge_level": "knowledge_assertion",
+                "agent_type": "manual_agent",
+                "qualifiers": [
+                    {
+                        "qualifier_type_id": "qualified_predicate",
+                        "applicable_values": [
+                            "causes"
+                        ]
+                    },
+                    {
+                        "qualifier_type_id": "object_direction_qualifier",
+                        "applicable_values": [
+                            "decreased",
+                            "increased"
+                        ]
+                    },
+                    {
+                        "qualifier_type_id": "object_aspect_qualifier",
+                        "applicable_values": [
+                            "ADP-ribosylation",
+                            "abundance",
+                            "acetylation",
+                            "activity",
+                            "acylation",
+                            "alkylation",
+                            "cleavage",
+                            "degradation",
+                            "export",
+                            "expression",
+                            "farnesylation",
+                            "folding",
+                            "geranoylation",
+                            "glutathionylation",
+                            "glycation",
+                            "glycosylation",
+                            "hydrolysis",
+                            "hydroxylation",
+                            "lipidation",
+                            "localization",
+                            "metabolic_processing",
+                            "methylation",
+                            "mutation_rate",
+                            "nitrosation",
+                            "oxidation",
+                            "phosphorylation",
+                            "secretion",
+                            "splicing",
+                            "stability",
+                            "susceptibility",
+                            "synthesis",
+                            "transport",
+                            "ubiquitination",
+                            "uptake"
+                        ]
+                    },
+                    {
+                        "qualifier_type_id": "subject_form_or_variant_qualifier",
+                        "applicable_values": [
+                            "analog"
+                        ]
+                    },
+                    {
+                        "qualifier_type_id": "object_form_or_variant_qualifier",
+                        "applicable_values": [
+                            "alternative_form",
+                            "genetic_variant_form",
+                            "modified_form",
+                            "polymorphic_form"
+                        ]
+                    },
+                    {
+                        "qualifier_type_id": "subject_derivative_qualifier",
+                        "applicable_values": [
+                            "metabolite"
+                        ]
+                    },
+                    {
+                        "qualifier_type_id": "subject_aspect_qualifier",
+                        "applicable_values": [
+                            "abundance"
+                        ]
+                    },
+                    {
+                        "qualifier_type_id": "subject_direction_qualifier",
+                        "applicable_values": [
+                            "decreased"
+                        ]
+                    },
+                    {
+                        "qualifier_type_id": "object_part_qualifier",
+                        "applicable_values": [
+                            "3_prime_utr",
+                            "5_prime_utr",
+                            "enhancer",
+                            "exon",
+                            "intron",
+                            "promoter"
+                        ]
+                    }
+                ],
+                "attributes": [
+                    {
+                        "attribute_type_id": "biolink:primary_knowledge_source",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "biolink:OrganismTaxon",
+                        "source": "CTD",
+                        "names": [
+                            "TaxonID"
+                        ]
+                    },
+                    {
+                        "attribute_type_id": "biolink:Publication",
+                        "source": "CTD",
+                        "names": [
+                            "ReferencePMIDs"
+                        ]
+                    },
+                    {
+                        "attribute_type_id": "ChemicalPosition",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "ChemicalForm",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "ChemicalFormQualifier",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "GeneForm",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "GeneFormQualifier",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "GeneSeqID",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "AxnCode",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "AxnDegreeCode",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "AxnPosition",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "AxnName",
+                        "source": "CTD"
+                    }
+                ]
+            },
+            {
+                "subject": "ChemicalEntity",
+                "predicate": "affected_by",
+                "inverse_predicate": "affects",
+                "object": "Gene",
+                "source": "CTD",
+                "count": 1824,
+                "knowledge_level": "knowledge_assertion",
+                "agent_type": "manual_agent",
+                "qualifiers": [
+                    {
+                        "qualifier_type_id": "subject_aspect_qualifier",
+                        "applicable_values": [
+                            "abundance",
+                            "acetylation",
+                            "activity",
+                            "alkylation",
+                            "carbamoylation",
+                            "cleavage",
+                            "degradation",
+                            "export",
+                            "expression",
+                            "glucuronidation",
+                            "glutathionylation",
+                            "hydrolysis",
+                            "hydroxylation",
+                            "import",
+                            "localization",
+                            "metabolic_processing",
+                            "methylation",
+                            "oxidation",
+                            "reduction",
+                            "secretion",
+                            "sulfation",
+                            "susceptibility",
+                            "synthesis",
+                            "transport",
+                            "uptake"
+                        ]
+                    },
+                    {
+                        "qualifier_type_id": "object_form_or_variant_qualifier",
+                        "applicable_values": [
+                            "alternative_form",
+                            "genetic_variant_form",
+                            "modified_form",
+                            "polymorphic_form",
+                            "snp_form"
+                        ]
+                    },
+                    {
+                        "qualifier_type_id": "qualified_predicate",
+                        "applicable_values": [
+                            "caused_by"
+                        ]
+                    },
+                    {
+                        "qualifier_type_id": "subject_direction_qualifier",
+                        "applicable_values": [
+                            "decreased",
+                            "increased"
+                        ]
+                    },
+                    {
+                        "qualifier_type_id": "subject_form_or_variant_qualifier",
+                        "applicable_values": [
+                            "analog"
+                        ]
+                    },
+                    {
+                        "qualifier_type_id": "subject_derivative_qualifier",
+                        "applicable_values": [
+                            "metabolite"
+                        ]
+                    },
+                    {
+                        "qualifier_type_id": "object_part_qualifier",
+                        "applicable_values": [
+                            "3_prime_utr",
+                            "5_prime_utr",
+                            "exon",
+                            "intron",
+                            "promoter"
+                        ]
+                    }
+                ],
+                "attributes": [
+                    {
+                        "attribute_type_id": "biolink:primary_knowledge_source",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "biolink:OrganismTaxon",
+                        "source": "CTD",
+                        "names": [
+                            "TaxonID"
+                        ]
+                    },
+                    {
+                        "attribute_type_id": "biolink:Publication",
+                        "source": "CTD",
+                        "names": [
+                            "ReferencePMIDs"
+                        ]
+                    },
+                    {
+                        "attribute_type_id": "ChemicalPosition",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "ChemicalForm",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "ChemicalFormQualifier",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "GeneForm",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "GeneFormQualifier",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "GeneSeqID",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "AxnCode",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "AxnDegreeCode",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "AxnPosition",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "AxnName",
+                        "source": "CTD"
+                    }
+                ]
+            },
+            {
+                "subject": "ChemicalEntity",
+                "predicate": "binds",
+                "inverse_predicate": "binds",
+                "object": "Gene",
+                "source": "CTD",
+                "count": 2704,
+                "knowledge_level": "knowledge_assertion",
+                "agent_type": "manual_agent",
+                "qualifiers": [
+                    {
+                        "qualifier_type_id": "object_form_or_variant_qualifier",
+                        "applicable_values": [
+                            "alternative_form",
+                            "genetic_variant_form",
+                            "modified_form"
+                        ]
+                    },
+                    {
+                        "qualifier_type_id": "subject_form_or_variant_qualifier",
+                        "applicable_values": [
+                            "analog"
+                        ]
+                    },
+                    {
+                        "qualifier_type_id": "subject_derivative_qualifier",
+                        "applicable_values": [
+                            "metabolite"
+                        ]
+                    }
+                ],
+                "attributes": [
+                    {
+                        "attribute_type_id": "biolink:primary_knowledge_source",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "biolink:OrganismTaxon",
+                        "source": "CTD",
+                        "names": [
+                            "TaxonID"
+                        ]
+                    },
+                    {
+                        "attribute_type_id": "biolink:Publication",
+                        "source": "CTD",
+                        "names": [
+                            "ReferencePMIDs"
+                        ]
+                    },
+                    {
+                        "attribute_type_id": "ChemicalPosition",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "ChemicalForm",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "ChemicalFormQualifier",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "GeneForm",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "GeneFormQualifier",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "GeneSeqID",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "AxnCode",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "AxnDegreeCode",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "AxnPosition",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "AxnName",
+                        "source": "CTD"
+                    }
+                ]
+            }
+        ]
+    },
+    "properties": {
+        "source_url": "http://ctdbase.org/",
+        "source_version": "April 2023 (2023-05-20)",
+        "terms_of_service": "http://ctdbase.org/about/legal.jsp"
+    },
+    "parameters": []
+}

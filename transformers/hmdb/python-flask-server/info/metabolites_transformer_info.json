@@ -1,0 +1,37 @@
+{
+    "name": "HMDB metabolite producer",
+    "label": "HMDB",
+    "description": "Compound-list producer based on the Human Metabolome Database information (https://www.hmdb.ca/).",
+    "version": "2.4.0",
+    "function": "producer",
+    "knowledge_map": {
+        "input_class": "none",
+        "output_class": "compound",
+        "nodes": {
+            "SmallMolecule": {
+                "id_prefixes": [
+                    "HMDB",
+                    "INCHIKEY"
+                ],
+                "count": -1,
+                "attributes": []
+            }
+        },
+        "predicates": []
+    },
+    "properties": {
+        "source_url": "https://www.hmdb.ca/",
+        "source_version": "5.0 (2021-11-17)",
+        "terms_of_service": "http://www.hmdb.ca/about"
+    },
+    "parameters": [
+        {
+            "name": "compound",
+            "type": "string",
+            "required": true,
+            "multivalued": true,
+            "example": "aspirin",
+            "suggested_values": "compound name, HMDB ID, or InChiKey"
+        }
+    ]
+}

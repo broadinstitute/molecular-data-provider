@@ -1,0 +1,119 @@
+{
+    "name": "CTD phenotype interactions transformer",
+    "label": "CTD",
+    "infores": "infores:ctd",
+    "description": "Transformer based on Comparative Toxicogenomics Database (http://ctdbase.org/).",
+    "version": "2.5.0",
+    "function": "transformer",
+    "knowledge_map": {
+        "input_class": "compound",
+        "output_class": "BiologicalProcessOrActivity",
+        "nodes": {
+            "ChemicalEntity": {
+                "id_prefixes": [
+                    "CID",
+                    "MeSH"
+                ]
+            },
+            "BiologicalProcessOrActivity": {
+                "id_prefixes": [
+                    "GO"
+                ]
+            }
+        },
+        "edges": [
+            {
+                "subject": "ChemicalEntity",
+                "predicate": "affects",
+                "inverse_predicate": "affected_by",
+                "object": "BiologicalProcessOrActivity",
+                "source": "CTD",
+                "count": -1,
+                "knowledge_level": "knowledge_assertion",
+                "agent_type": "manual_agent",
+                "qualifiers": [
+                    {
+                        "qualifier_type_id": "qualified_predicate",
+                        "applicable_values": [
+                            "causes"
+                        ]
+                    },
+                    {
+                        "qualifier_type_id": "object_direction_qualifier",
+                        "applicable_values": [
+                            "increased",
+                            "decreased"
+                        ]
+                    },
+                    {
+                        "qualifier_type_id": "species_context_qualifier"
+                    },
+                    {
+                        "qualifier_type_id": "anatomical_context_qualifier"
+                    },
+                    {
+                        "qualifier_type_id": "context_qualifier"
+                    }
+                ],
+                "attributes": [
+                    {
+                        "attribute_type_id": "biolink:primary_knowledge_source",
+                        "source": "MolePro"
+                    },
+                    {
+                        "attribute_type_id": "biolink:OrganismTaxon",
+                        "source": "CTD",
+                        "names": [
+                            "organismid"
+                        ]
+                    },
+                    {
+                        "attribute_type_id": "comentionedterms",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "biolink:description",
+                        "source": "CTD",
+                        "names": [
+                            "interaction"
+                        ]
+                    },
+                    {
+                        "attribute_type_id": "interactionactions",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "anatomyterms",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "inferencegenesymbols",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "biolink:Publication",
+                        "source": "CTD",
+                        "names": [
+                            "pubmedids"
+                        ]
+                    },
+                    {
+                        "attribute_type_id": "biolink:knowledge_level",
+                        "source": "MolePro"
+                    },
+                    {
+                        "attribute_type_id": "biolink:agent_type",
+                        "source": "MolePro"
+                    }
+                ]
+            }
+        ]
+    },
+    "properties": {
+        "source_url": "http://ctdbase.org/",
+        "source_version": "April 2023 (2023-05-20)",
+        "terms_of_service": "http://ctdbase.org/about/legal.jsp"
+    },
+    "parameters": [
+    ]
+}

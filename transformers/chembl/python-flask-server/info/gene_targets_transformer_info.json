@@ -1,0 +1,105 @@
+{
+    "name": "ChEMBL gene target transformer",
+    "label": "ChEMBL",
+    "description": "Gene target transformer based on ChEMBL mechanism information (https://www.ebi.ac.uk/chembl/).",
+    "version": "2.4.0",
+    "function": "transformer",
+    "knowledge_map": {
+        "input_class": "compound",
+        "output_class": "gene",
+        "nodes": {
+            "SmallMolecule" : {
+                "id_prefixes": ["CHEMBL"],
+                "count": -1,
+                "attributes": []
+            },
+            "Protein" : {
+                "id_prefixes": ["CHEMBL"],
+                "count": -1,
+                "attributes": []
+            },
+            "Cell" : {
+                "id_prefixes": ["CHEMBL"],
+                "count": -1,
+                "attributes": []
+            },
+            "CellLine" : {
+                "id_prefixes": ["CHEMBL"],
+                "count": -1,
+                "attributes": []
+            },
+            "ProteinComplex" : {
+                "id_prefixes": ["CHEMBL"],
+                "count": -1,
+                "attributes": []
+            },
+            "MolecularEntity" : {
+                "id_prefixes": ["CHEMBL"],
+                "count": -1,
+                "attributes": []
+            },
+            "NucleicAcid" : {
+                "id_prefixes": ["CHEMBL"],
+                "count": -1,
+                "attributes": []
+            },            
+            "Organism" : {
+                "id_prefixes": ["CHEMBL"],
+                "count": -1,
+                "attributes": []
+            },
+            "PhenotypicFeature" : {
+                "id_prefixes": ["CHEMBL"],
+                "count": -1,
+                "attributes": []
+            },
+            "ProteinFamily" : {
+                "id_prefixes": ["CHEMBL"],
+                "count": -1,
+                "attributes": []
+            },
+            "MacromolecularComplexMixin" : {
+                "id_prefixes": ["CHEMBL"],
+                "count": -1,
+                "attributes": []
+            },
+            "PairwiseGeneToGeneInteraction" : {
+                "id_prefixes": ["CHEMBL"],
+                "count": -1,
+                "attributes": []
+            },
+            "CellularComponent" : {
+                "id_prefixes": ["CHEMBL"],
+                "count": -1,
+                "attributes": []
+            },
+            "AnatomicalEntity" : {
+                "id_prefixes": ["CHEMBL"],
+                "count": -1,
+                "attributes": []
+            },          
+            "ChemicalEntity" : {
+                "id_prefixes": ["CHEMBL"],
+                "count": -1,
+                "attributes": []
+            } 
+        },
+        "edges": [
+            {
+                "subject": "Compound",
+                "predicate": "affects",
+                "inverse_predicate": "affected_by",
+                "object": "Protein",
+                "source": "CHEMBL",
+                "count": -1,
+                "attributes": []
+            }
+        ]
+    },
+    "properties": {
+        "source_url": "https://www.ebi.ac.uk/chembl/",
+        "source_version": "30 (2022-03-09)",
+        "terms_of_service": "https://www.ebi.ac.uk/about/terms-of-use/"
+    },
+    "parameters": []
+}

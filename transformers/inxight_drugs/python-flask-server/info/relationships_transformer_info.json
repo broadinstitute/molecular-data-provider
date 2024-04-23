@@ -1,0 +1,54 @@
+{
+    "name": "Inxight:Drugs relationship transformer",
+    "label": "Inxight:Drugs",
+    "infores": "inxight-drugs",
+    "description": "Relationships-list transformer based on Inxight:Drugs relationships information (https://drugs.ncats.io/).",
+    "version": "2.5.0",
+    "function": "transformer",
+    "knowledge_map": {
+        "input_class": "ChemicalEntity",
+        "output_class": "ChemicalEntity",
+        "nodes": {
+            "ChemicalEntity": {
+                "attributes": [
+                    {
+                        "attribute_type_id": "substanceClass",
+                        "description": "",
+                        "names": [
+                            "substanceClass"
+                        ],
+                        "source": "infores:inxight_drugs"
+                    },
+                    {
+                        "attribute_type_id": "NCBI",
+                        "description": "",
+                        "names": [
+                            "NCBI"
+                        ],
+                        "source": "infores:inxight_drugs"
+                    }
+                ],
+                "count": -1,
+                "id_prefixes": [
+                    "UNII"
+                ]
+            }
+        },
+        "edges": [
+            {
+                "subject": "ChemicalEntity",
+                "predicate": "related_to",
+                "inverse_predicate": "related_to",
+                "object": "ChemicalEntity",
+                "knowledge_level":"knowledge_assertion",
+                "agent_type":"manual_agent"
+            }
+        ]
+    },
+    "properties": {
+        "source_url": "https://drugs.ncats.io/",
+        "source_version": "2023-10-25",
+        "terms_of_service": "https://ncats.nih.gov/disclaimer"
+    },
+    "parameters": []
+}

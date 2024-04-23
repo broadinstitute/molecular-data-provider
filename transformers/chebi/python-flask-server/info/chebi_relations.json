@@ -1,0 +1,42 @@
+{
+    "is_a": {
+        "biolink_predicate": "subclass_of",
+        "inverse_predicate": "superclass_of"
+    },
+    "has_role": {
+        "biolink_predicate": "subclass_of",
+        "inverse_predicate": "superclass_of"
+    },
+    "has_part": {
+        "biolink_predicate": "has_part",
+        "inverse_predicate": "part_of"
+    },
+    "has_functional_parent": {
+        "biolink_predicate": "chemically_similar_to",
+        "inverse_predicate": "chemically_similar_to"
+    },
+    "is_conjugate_base_of": {
+        "biolink_predicate": "chemically_similar_to",
+        "inverse_predicate": "chemically_similar_to"
+    },
+    "is_conjugate_acid_of": {
+        "biolink_predicate": "chemically_similar_to",
+        "inverse_predicate": "chemically_similar_to"
+    },
+    "is_tautomer_of": {
+        "biolink_predicate": "chemically_similar_to",
+        "inverse_predicate": "chemically_similar_to"
+    },
+    "has_parent_hydride": {
+        "biolink_predicate": "chemically_similar_to",
+        "inverse_predicate": "chemically_similar_to"
+    },
+    "is_enantiomer_of": {
+        "biolink_predicate": "chemically_similar_to",
+        "inverse_predicate": "chemically_similar_to"
+    },
+    "is_substituent_group_from": {
+        "biolink_predicate": "part_of",
+        "inverse_predicate": "has_part"
+    }
+}

@@ -1,0 +1,75 @@
+{
+    "name": "PubChem chemical similarity transformer",
+    "label": "PubChem",
+    "description": "Compound chemical-similarity transformer based on PubChem (https://pubchem.ncbi.nlm.nih.gov/).",
+    "version": "2.4.0",
+    "function": "transformer",
+    "knowledge_map": {
+        "input_class": "compound",
+        "output_class": "compound",
+        "nodes": {
+            "SmallMolecule": {
+                "id_prefixes": [
+                    "CID",
+                    "PUBCHEM.COMPOUND",
+                    "inchikey"
+                ],
+                "count": "-1",
+                "attributes": [
+                    {
+                        "type": "HBA_COUNT",
+                        "source": "PubChem",
+                        "names": ["HBA_COUNT"]
+                    },
+                    {
+                        "type": "HBD_COUNT",
+                        "source": "PubChem",
+                        "names": ["HBD_COUNT"]
+                    },
+                    {
+                        "type": "ROTATABLE_BOND_COUNT",
+                        "source": "PubChem",
+                        "names": ["ROTATABLE_BOND_COUNT"]
+                    },
+                    {
+                        "type": "PSA",
+                        "source": "PubChem",
+                        "names": ["PSA"]
+                    },
+                    {
+                        "type": "MONOISOTOPIC_WEIGHT",
+                        "source": "PubChem",
+                        "names": ["MONOISOTOPIC_WEIGHT"]
+                    },
+                    {
+                        "type": "MOLECULAR_WEIGHT",
+                        "source": "PubChem",
+                        "names": ["MOLECULAR_WEIGHT"]
+                    },
+                    {
+                        "type": "MOLECULAR_FORMULA",
+                        "source": "PubChem",
+                        "names": ["MOLECULAR_FORMULA"]
+                    }
+                ]
+            }
+        },
+        "edges": [
+            {
+                "subject": "SmallMolecule",
+                "predicate": "biolink:chemically_similar_to",
+                "inverse_predicate": "biolink:chemically_similar_to",
+                "object": "SmallMolecule",
+                "source": "PubChem",
+                "count": -1,
+                "attributes": []
+            }
+        ]
+    },
+    "properties": {
+        "source_url": "https://pubchem.ncbi.nlm.nih.gov/",
+        "source_version": "2022-05-11",
+        "terms_of_service": "https://www.ncbi.nlm.nih.gov/home/about/policies/"
+    },
+    "parameters": []
+}

@@ -1,0 +1,20 @@
+source
+Repurposing
+DrugBank
+GtoPdb
+Inxight:Drugs
+DrugCentral
+ChEMBL
+RxNorm
+DGIdb
+STITCH
+PubChem
+ChEBI
+HMDB
+CTD
+ChemBank
+KINOMEscan
+BiGG
+ProbeMiner
+BindingBD
+SRI node normalizer

@@ -1,0 +1,36 @@
+{
+    "name": "SIDER drug producer",
+    "label": "SIDER",
+    "description": "contains information on marketed drugs (http://sideeffects.embl.de/).",
+    "version": "2.4.0",
+    "function": "producer",
+    "knowledge_map": {
+        "input_class": "none",
+        "output_class": "compound",
+        "nodes": {
+            "SmallMolecule": {
+                "id_prefixes": [
+                    "CID"
+                ],
+                "count": -1,
+                "attributes": []
+            }
+        },
+        "edges": []
+    },
+    "properties": {
+        "source_url": "http://sideeffects.embl.de/",
+        "source_version": "4.1 (2015-10-21)",
+        "terms_of_service": "http://sideeffects.embl.de/about/"
+    },
+    "parameters": [
+        {
+            "example": "aspirin",
+            "name": "drug",
+            "type": "string",
+            "required": true,
+            "multivalued": true,
+            "suggested_values": "drugs name or side effect"
+        }
+    ]
+}

@@ -1,0 +1,449 @@
+# This workflow will install Python dependencies, run tests and lint with a single version of Python
+# This workflow was programmed to:
+#   1. be triggered manually (on: workflow_dispatch:), see https://docs.github.com/en/actions/managing-workflow-runs/manually-running-a-workflow
+#   2. be triggered by cron scheduling (on: schedule:) to run at midnight UTC
+#
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
+
+name: Daily ITRB CI Translator testing
+
+# Controls when the workflow will run
+on:
+# Triggers the workflow on cron event but only for the CI branch
+  workflow_dispatch:
+  schedule:
+#   - cron: '00 00 * * *'   # midnight UTC
+    - cron: '20 08 * * *'   # 8:20AM UTC
+jobs:
+# This workflow contains a multiple jobs to test each transformer
+
+  bigg_models:
+    runs-on: ubuntu-latest
+    steps:    
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-ci }          
+ 
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/bigg_models.feature
+
+  bindingdb:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-ci }
+
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/bindingdb.feature 
+          
+  chebi:
+    runs-on: ubuntu-latest
+    steps:    
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-ci } 
+ 
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/chebi.feature
+
+  chembank:
+    runs-on: ubuntu-latest
+    steps:    
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-ci }     
+
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/chembank.feature
+
+  chembl:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-ci }    
+ 
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/chembl.feature
+
+  cmap:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-ci }
+     
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/cmap.feature
+
+  ctd:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-ci } 
+    
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/ctd.feature
+          
+          
+  ctrp:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-ci }
+     
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/ctrp.feature
+          
+  depmap:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-ci } 
+    
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/depmap.feature
+
+  dgidb:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-ci }    
+ 
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/dgidb.feature
+
+  drugbank:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-ci } 
+    
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/drugbank.feature
+
+  drugcentral:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-ci }    
+ 
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/drugcentral.feature
+          
+  gelinea:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-ci }  
+    
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/gelinea.feature
+          
+  gtopdb:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-ci } 
+    
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/gtopdb.feature
+
+  gwas:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-ci }
+
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/gwas.feature
+
+  hgnc:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-ci }
+
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/hgnc.feature
+          
+  hmdb:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-ci } 
+    
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/hmdb.feature
+
+  inxight_drugs:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-ci }    
+ 
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/inxight_drugs.feature
+
+  kinomescan:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-ci }    
+ 
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/kinomescan.feature
+          
+  molecular_data_provider:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-ci } 
+    
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/molecular-data-provider.feature
+
+  molepro-filters:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-ci }
+        
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/molepro-filters.feature
+
+  moleprodb:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-ci } 
+    
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/moleprodb.feature
+    
+  node-normalizer:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-ci } 
+    
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/node-normalizer.feature
+
+  pharmgkb:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-ci } 
+    
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/pharmgkb.feature
+
+  pharos:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-ci } 
+    
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/pharos.feature
+
+  pubchem:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-ci } 
+    
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/pubchem.feature
+
+  repurpose_hub:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-ci } 
+    
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/repurposing.feature
+
+  rxnorm:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-ci } 
+    
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/rxnorm.feature
+          
+  sider:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-ci }
+
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/sider.feature
+ 
+  stitch:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-ci } 
+    
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/stitch.feature
+
+  string:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-ci } 
+    
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/string.feature
+          
+  trapi:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-ci } 
+    
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/trapi.feature
+
+
+  uniprot:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-ci }
+          
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/uniprot.feature

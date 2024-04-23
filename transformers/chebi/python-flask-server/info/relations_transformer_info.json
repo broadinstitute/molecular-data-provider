@@ -1,0 +1,90 @@
+{
+    "name": "ChEBI relations transformer",
+    "label": "ChEBI",
+    "description": "Relations transformer based on ChEBI relation information (https://www.ebi.ac.uk/chebi/).",
+    "version": "2.4.0",
+    "function": "transformer",
+    "knowledge_map": {
+        "input_class": "compound",
+        "output_class": "compound",
+        "nodes": {
+            "ChemicalEntity" : {
+                "id_prefixes": ["CHEBI"],
+                "count": -1,
+                "attributes": []
+            } 
+        },
+        "edges": [
+            {
+                "subject": "Compound",
+                "predicate": "subclass_of",
+                "inverse_predicate": "superclass_of",
+                "object": "Compound",
+                "source": "CHEBI",
+                "relations":[
+                    "is_a",
+                    "has_role"
+                ],
+                "count": -1,
+                "attributes": []
+            },
+            {
+                "subject": "Compound",
+                "predicate": "has_part",
+                "inverse_predicate": "part_of",
+                "object": "Compound",
+                "source": "CHEBI",
+                "relations":[
+                    "has_part"
+                ],
+                "count": -1,
+                "attributes": []
+            },
+            {
+                "subject": "Compound",
+                "predicate": "chemically_similar_to",
+                "inverse_predicate": "chemically_similar_to",
+                "object": "Compound",
+                "source": "CHEBI",
+                "relations":[
+                    "has_functional_parent",
+                    "is_conjugate_base_of",
+                    "is_conjugate_acid_of",
+                    "is_tautomer_of",
+                    "has_parent_hydride",
+                    "is_enantiomer_of"
+                ],
+                "count": -1,
+                "attributes": []
+            },
+            {
+                "subject": "Compound",
+                "predicate": "part_of",
+                "inverse_predicate": "has_part",
+                "object": "Compound",
+                "source": "CHEBI",
+                "relations":[
+                    "is_substituent_group_from"
+                ],
+                "count": -1,
+                "attributes": []
+            }
+        ]
+    },
+    "properties": {
+        "source_url": "https://www.ebi.ac.uk/chebi",
+        "terms_of_service": "https://www.ebi.ac.uk/about/terms-of-use/",
+        "source_version": "rel213 (2022-09-09)"
+    },
+    "parameters": [
+        {
+            "name": "direction",
+            "type": "string",
+            "required": false,
+            "multivalued": false,
+            "default": "both",
+            "allowed_values": ["up", "down", "both"],
+            "suggested_values": "hierarchy traversal direction"
+        }
+    ]
+}

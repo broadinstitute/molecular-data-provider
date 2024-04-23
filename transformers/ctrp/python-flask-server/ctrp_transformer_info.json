@@ -1,0 +1,84 @@
+{
+    "name": "CTRP compound-list expander",
+    "label": "CTRP",
+    "description": "Compound-list expander based on CTRP (http://portals.broadinstitute.org/ctrp/).",
+    "version": "2.2.0",
+    "function": "expander",
+    "knowledge_map": {
+        "input_class": "compound",
+        "output_class": "compound",
+        "nodes": {
+            "ChemicalSubstance" : {
+                "id_prefixes": ["CID","inchikey"],
+                "count": -1,
+                "attributes": []
+            }
+        },
+        "predicates": [
+            {
+                "subject": "ChemicalSubstance",
+                "predicate": "correlated_with",
+                "object": "ChemicalSubstance",
+                "source": "CTRP",
+                "relations": ["biolink:correlated_with"],
+                "attributes": [
+                    {
+                        "type": "correlation",
+                        "source": "CTRP",
+                        "names": ["correlation"]
+                    },
+                    {
+                        "type": "z-score",
+                        "source": "CTRP",
+                        "names": ["z-score"]
+                    },
+                    {
+                        "type": "FDR",
+                        "source": "CTRP",
+                        "names": ["FDR"]
+                    },
+                    {
+                        "type": "sample size",
+                        "source": "CTRP",
+                        "names": ["sample size"]
+                    },
+                    {
+                        "type": "reference",
+                        "source": "CTRP",
+                        "names": ["reference"]
+                    }
+                ]
+            }
+        ]
+    },
+    "properties": {
+        "source_url": "http://portals.broadinstitute.org/ctrp/",
+        "terms_of_service": "https://ocg.cancer.gov/programs/ctd2/ctd2-publication-guidelines",
+        "method": "correlation"
+    },
+    "parameters": [
+        {
+            "default": "0.05",
+            "name": "maximum FDR",
+            "type": "double",
+            "allowed_range": [
+                0,
+                0.5
+            ],
+            "suggested_values": "<0.01"
+        },
+        {
+            "default": "pan-cancer (all lines)",
+            "name": "disease context",
+            "type": "string",
+            "allowed_values": [
+                "pan-cancer (all lines)"
+            ]
+        },
+        {
+            "default": "0",
+            "name": "maximum number",
+            "type": "int"
+        }
+    ]
+}

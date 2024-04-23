@@ -1,0 +1,30 @@
+{
+    "name": "MoleProDB node producer",
+    "label": "MolePro",
+    "infores": "infores:molepro",
+    "description": "MoleProDB node producer",
+    "version": "2.5.1",
+    "function": "producer",
+    "knowledge_map": {
+        "input_class": "none",
+        "output_class": "any",
+        "nodes": {
+        },
+        "edges": []
+    },
+    "properties": {
+        "source_url": "https://translator.broadinstitute.org/molecular_data_provider/",
+        "source_version": "2.5.1 (2023-12-15)",
+        "terms_of_service": "https://github.com/broadinstitute/molecular-data-provider/blob/master/terms_of_service.md"
+    },
+    "parameters": [
+        {
+            "name": "id",
+            "type": "string",
+            "required": true,
+            "multivalued": true,
+            "example": "MONDO:0005148",
+            "description": "entity ids"
+        }
+    ]
+}

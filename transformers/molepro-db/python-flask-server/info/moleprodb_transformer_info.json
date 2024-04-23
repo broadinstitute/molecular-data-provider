@@ -1,0 +1,81 @@
+{
+    "name": "MoleProDB connections transformer",
+    "label": "MolePro",
+    "infores": "infores:molepro",
+    "description": "MoleProDB connections transformer",
+    "version": "2.5.1",
+    "function": "transformer",
+    "knowledge_map": {
+        "input_class": "any",
+        "output_class": "any",
+        "nodes": {},
+        "edges": []
+    },
+    "properties": {
+        "source_url": "https://translator.broadinstitute.org/molecular_data_provider/",
+        "source_version": "2.5.1 (2023-12-15)",
+        "terms_of_service": "https://github.com/broadinstitute/molecular-data-provider/blob/master/terms_of_service.md"
+    },
+    "parameters": [
+        {
+            "name": "predicate",
+            "type": "string",
+            "required": false,
+            "multivalued": true,
+            "example": "biolink:related_to",
+            "description": "constrain connections according to a predicate"
+        },
+        {
+            "name": "qualifier_constraint",
+            "type": "string",
+            "required": false,
+            "multivalued": true,
+            "description": "constrain connections according to a qualifier"
+        },
+        {
+            "name": "biolink_class",
+            "type": "string",
+            "required": false,
+            "multivalued": true,
+            "example": "Gene",
+            "description": "constrain connections according to a Biolink class"
+        },
+        {
+            "name": "id",
+            "type": "string",
+            "required": false,
+            "multivalued": true,
+            "example": "",
+            "description": "constrain connections by an object id (curie)"
+        },
+        {
+            "name": "name_source",
+            "type": "string",
+            "required": false,
+            "multivalued": true,
+            "description": "restrict names to a given source"
+        },
+        {
+            "name": "element_attribute",
+            "type": "string",
+            "required": false,
+            "multivalued": true,
+            "description": "restrict element attributes to a given type"
+        },
+        {
+            "name": "connection_attribute",
+            "type": "string",
+            "required": false,
+            "multivalued": true,
+            "description": "restrict connection attributes to a given type"
+        },
+        {
+            "name": "limit",
+            "type": "int",
+            "default": "0",
+            "required": false,
+            "multivalued": false,
+            "description": "maximum number of connected elements per source transformer, 0 if no maximum"
+        }
+    ]
+}

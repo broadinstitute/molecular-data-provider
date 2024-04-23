@@ -1,0 +1,54 @@
+{
+    "name": "HMDB disorders transformer",
+    "label": "HMDB",
+    "description": "Disease/phenotype transformer based on the Human Metabolome Database target information (https://www.hmdb.ca/).",
+    "version": "2.4.0",
+    "function": "transformer",
+    "knowledge_map": {
+        "input_class": "compound",
+        "output_class": "disease",
+        "nodes": {
+            "SmallMolecule": {
+                "id_prefixes": [
+                    "HMDB",
+                    "inchikey"
+                ],
+                "count": -1,
+                "attributes": []
+            },
+            "DiseaseOrPhenotypicFeature": {
+                "id_prefixes": [
+                    "EFO",
+                    "OMIM",
+                    "UMLS",
+                    "NCIT",
+                    "HP",
+                    "OMIM"
+                ],
+                "count": -1,
+                "attributes": []
+            }
+        },
+        "edges": [
+            {
+                "subject": "SmallMolecule",
+                "predicate": "related_to",
+                "inverse_predicate": "related_to",
+                "object": "DiseaseOrPhenotypicFeature",
+                "source": "HMDB",
+                "count": -1,
+                "attributes": [{
+                    "type": "reference",
+                    "source": "HMDB",
+                    "names": ["reference"]
+                }]
+            }
+        ]
+    },
+    "properties": {
+        "source_url": "https://www.hmdb.ca/",
+        "source_version": "5.0 (2021-11-17)",
+        "terms_of_service": "http://www.hmdb.ca/about"
+    },
+    "parameters": []
+}

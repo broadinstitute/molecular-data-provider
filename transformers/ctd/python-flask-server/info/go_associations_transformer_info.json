@@ -1,0 +1,240 @@
+{
+    "name": "CTD go associations transformer",
+    "label": "CTD",
+    "infores": "infores:ctd",
+    "description": "Transformer based on Comparative Toxicogenomics Database (http://ctdbase.org/).",
+    "version": "2.5.0",
+    "function": "transformer",
+    "knowledge_map": {
+        "input_class": "compound",
+        "output_class": "BiologicalEntity",
+        "nodes": {
+            "ChemicalEntity": {
+                "id_prefixes": [
+                    "CID",
+                    "MeSH"
+                ]
+            },
+            "MolecularActivity": {
+                "id_prefixes": [
+                    "GO"
+                ],
+                "attributes": [
+                    {
+                        "attribute_type_id": "Ontology",
+                        "description": "The ontology to which the GO term belongs (BP = Biological Process; CC = Cellular Component; MF = Molecular Function). ",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "HighestGOLevel",
+                        "description": "The highest level to which the GO term is assigned within the GO hierarchical ontology.",
+                        "source": "CTD"
+                    }
+                ]
+            },
+            "BiologicalProcess": {
+                "id_prefixes": [
+                    "GO"
+                ],
+                "attributes": [
+                    {
+                        "attribute_type_id": "Ontology",
+                        "description": "The ontology to which the GO term belongs (BP = Biological Process; CC = Cellular Component; MF = Molecular Function). ",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "HighestGOLevel",
+                        "description": "The highest level to which the GO term is assigned within the GO hierarchical ontology.",
+                        "source": "CTD"
+                    }
+                ]
+            },
+            "CellularComponent": {
+                "id_prefixes": [
+                    "GO"
+                ],
+                "attributes": [
+                    {
+                        "attribute_type_id": "Ontology",
+                        "description": "The ontology to which the GO term belongs (BP = Biological Process; CC = Cellular Component; MF = Molecular Function). ",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "HighestGOLevel",
+                        "description": "The highest level to which the GO term is assigned within the GO hierarchical ontology.",
+                        "source": "CTD"
+                    }
+                ]
+            }
+        },
+        "edges": [
+            {
+                "subject": "SmallMolecule",
+                "predicate": "associated_with",
+                "inverse_predicate": "associated_with",
+                "object": "MolecularActivity",
+                "source": "CTD",
+                "count": -1,
+                "knowledge_level": "statistical_association",
+                "agent_type": "data_analysis_pipeline",
+                "qualifiers": [],
+                "attributes": [
+                    {
+                        "attribute_type_id": "biolink:primary_knowledge_source",
+                        "source": "MolePro"
+                    },
+                    {
+                        "attribute_type_id": "PValue",
+                        "description": "The raw p-value",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "CorrectedPValue",
+                        "description": "The corrected p-value calculated using the Bonferroni multiple testing adjustment",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "TargetMatchQty",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "TargetTotalQty",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "BackgroundMatchQty",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "BackgroundTotalQty",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "biolink:knowledge_level",
+                        "source": "MolePro"
+                    },
+                    {
+                        "attribute_type_id": "biolink:agent_type",
+                        "source": "MolePro"
+                    }
+                ]
+            },
+            {
+                "subject": "SmallMolecule",
+                "predicate": "associated_with",
+                "inverse_predicate": "associated_with",
+                "object": "BiologicalProcess",
+                "source": "CTD",
+                "count": -1,
+                "knowledge_level": "statistical_association",
+                "agent_type": "data_analysis_pipeline",
+                "qualifiers": [],
+                "attributes": [
+                    {
+                        "attribute_type_id": "biolink:primary_knowledge_source",
+                        "source": "MolePro"
+                    },
+                    {
+                        "attribute_type_id": "PValue",
+                        "description": "The raw p-value",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "CorrectedPValue",
+                        "description": "The corrected p-value calculated using the Bonferroni multiple testing adjustment",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "TargetMatchQty",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "TargetTotalQty",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "BackgroundMatchQty",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "BackgroundTotalQty",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "biolink:knowledge_level",
+                        "source": "MolePro"
+                    },
+                    {
+                        "attribute_type_id": "biolink:agent_type",
+                        "source": "MolePro"
+                    }
+                ]
+            },
+            {
+                "subject": "SmallMolecule",
+                "predicate": "associated_with",
+                "inverse_predicate": "associated_with",
+                "object": "CellularComponent",
+                "source": "CTD",
+                "count": -1,
+                "knowledge_level": "statistical_association",
+                "agent_type": "data_analysis_pipeline",
+                "qualifiers": [],
+                "attributes": [
+                    {
+                        "attribute_type_id": "biolink:primary_knowledge_source",
+                        "source": "MolePro"
+                    },
+                    {
+                        "attribute_type_id": "PValue",
+                        "description": "The raw p-value",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "CorrectedPValue",
+                        "description": "The corrected p-value calculated using the Bonferroni multiple testing adjustment",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "TargetMatchQty",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "TargetTotalQty",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "BackgroundMatchQty",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "BackgroundTotalQty",
+                        "source": "CTD"
+                    },
+                    {
+                        "attribute_type_id": "biolink:knowledge_level",
+                        "source": "MolePro"
+                    },
+                    {
+                        "attribute_type_id": "biolink:agent_type",
+                        "source": "MolePro"
+                    }
+                ]
+            }
+        ]
+    },
+    "properties": {
+        "source_url": "http://ctdbase.org/",
+        "source_version": "April 2023 (2023-05-20)",
+        "terms_of_service": "http://ctdbase.org/about/legal.jsp"
+    },
+    "parameters": [
+        {
+            "default": "0",
+            "required": false,
+            "name": "limit",
+            "type": "int",
+            "description": "maximum number of go terms to return"
+        }
+    ]
+}

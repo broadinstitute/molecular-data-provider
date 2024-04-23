@@ -1,0 +1,105 @@
+source	name	srcType	mappedAttrType	mappedValueType
+CMAP	CMAP similarity score	CMAP similarity score	CMAP:similarity_score	Double
+CMAP	reference	reference	biolink:Publication	biolink:Publication
+CMAP	about CMAP	about CMAP	SIO:000811	Uri
+CMAP	CMAP touchstone data version	CMAP touchstone data version	SIO:000653	String
+ChEMBL	enzyme_name	enzyme_name	OBI:0000427	String
+ChEMBL	met_conversion	met_conversion	metabolic conversion	String
+ChEMBL	met_comment	met_comment	metabolic conversion comment	String
+ChEMBL	DOI	publication	biolink:Publication	Uriorcurie
+ChEMBL	ISBN	publication	biolink:Publication	Uriorcurie
+ChEMBL	organism	organism	biolink:in_taxon	String
+ChEMBL	tax_id	tax_id	biolink:in_taxon	String
+ChEMBL	enzyme_type	enzyme_type	OBI:0000427	String
+ChEMBL	max phase for indication	OPMI:0000367	biolink:FDA_approval_status	biolink:FDA_approval_status_enum
+ChEMBL	max phase for indication	biolink:FDA_APPROVAL_STATUS	biolink:FDA_approval_status	biolink:FDA_approval_status_enum
+ChEMBL	ClinicalTrials	reference	biolink:Publication	String
+ChEMBL	max_phase	max_phase	biolink:highest_FDA_approval_status	biolink:FDA_approval_status_enum
+ChEMBL	action_type	action_type	biolink:relation	String
+ChEMBL	mechanism_of_action	mechanism_of_action	biolink:mechanism_of_action	String
+ChEMBL	mechanism_comment	mechanism_comment	ChEMBL:mechanism_comment	String
+ChEMBL	selectivity_comment	selectivity_comment	ChEMBL:selectivity_comment	String
+ChEMBL	target_chembl_id	target_chembl_id	ChEMBL:target_chembl_id	String
+ChEMBL	site_name	site_name	ChEMBL:site_name	String
+ChEMBL	binding_site_comment	binding_site_comment	ChEMBL:binding_site_comment	String
+ChEMBL	source_description	source_description	ChEMBL:source_description	String
+ChEMBL	document_chembl_id	document_chembl_id	ChEMBL:document_chembl_id	String
+ChEMBL	publication	publication	biolink:Publication	String
+ChEMBL	PubMed	publication	biolink:Publication	String
+ChEMBL	Wikipedia	publication	biolink:Publication	String
+ChEMBL	atc_classification	atc_classification	ChEMBL:atc_classification	String
+ChEMBL	target_name	target_name	ChEMBL:target_name	String
+ChEMBL	target_type	target_type	ChEMBL:target_type	String
+ChEMBL	target_organism	target_organism	biolink:in_taxon	String
+ChEMBL	oral	oral	biolink:routes_of_delivery	String
+ChEMBL	parenteral	parenteral	biolink:routes_of_delivery	String
+ChEMBL	topical	topical	biolink:routes_of_delivery	String
+ChEMBL	PMID	biolink:publication	biolink:Publication	String
+ChEMBL	ISBN	biolink:publication	biolink:Publication	String
+ChEMBL	FDA	biolink:publication	biolink:Publication	String
+ChEMBL	DOI	biolink:publication	biolink:Publication	String
+ChEMBL	DAILYMED	biolink:publication	biolink:Publication	String
+ChEMBL	OTHER	biolink:publication	biolink:Publication	String
+ChEMBL	DailyMed	biolink:publication	biolink:Publication	String
+ChEMBL	PubMed	biolink:publication	biolink:Publication	String
+ChEMBL	Wikipedia	biolink:publication	biolink:Publication	String
+ChEMBL	Other	biolink:publication	biolink:Publication	String
+ChEMBL	Expert	biolink:publication	biolink:Publication	String
+ChEMBL	ClinicalTrials	biolink:publication	biolink:Publication	String
+ChEMBL	KEGG	biolink:publication	biolink:Publication	String
+ChEMBL	IUPHAR	biolink:publication	biolink:Publication	String
+ChEMBL	PMC	biolink:publication	biolink:Publication	String
+ChEMBL	InterPro	biolink:publication	biolink:Publication	String
+ChEMBL	EMA	biolink:publication	biolink:Publication	String
+ChEMBL	PMDA	biolink:publication	biolink:Publication	String
+ChEMBL	HMA	biolink:publication	biolink:Publication	String
+ChEMBL	Patent	biolink:publication	biolink:Publication	String
+ChEMBL	BNF	biolink:publication	biolink:Publication	String
+ChEMBL	PubChem	biolink:publication	biolink:Publication	String
+ChEMBL	UniProt	biolink:publication	biolink:Publication	String
+ChEMBL	ATC	biolink:publication	biolink:Publication	String
+ChEMBL	document_chembl_id	biolink:publication	biolink:Publication	String
+HMDB	reference	biolink:publication	biolink:Publication	Uriorcurie
+HMDB	general_references	biolink:publication	biolink:Publication	Uriorcurie
+HMDB	synthesis_reference	biolink:publication	biolink:Publication	Uriorcurie
+HMDB	chemical_formula	chemical_formula	biolink:has_chemical_formula	String
+HMDB	biolink:primary_knowledge_source	biolink:primary_knowledge_source	biolink:primary_knowledge_source	biolink:InformationResource
+MSigDB	PMID	biolink:publication	biolink:Publication	Uriorcurie
+CTD	pubmedids	biolink:Publication	biolink:Publication	Uriorcurie
+CTD	ReferencePMIDs	biolink:Publication	biolink:Publication	Uriorcurie
+CTD	biolink:Publication	biolink:Publication	biolink:Publication	Uriorcurie
+CTD	Relation	Relation	biolink:relation	String
+CTD	PValue	biolink:p_value	biolink:p_value	Double
+CTD	CorrectedPValue	biolink:adjusted_p_value	biolink:adjusted_p_value	Double
+CTD	organismid	biolink:OrganismTaxon	biolink:in_taxon	Uriorcurie
+CTRP	correlation	correlation	SIO:000923	Double
+CTRP	z-score	z-score	NCIT:C68741	Double
+CTRP	FDR	FDR	OBI:0200163	Double
+CTRP	sample size	sample size	NCIT:C53190	Integer
+CTRP	reference	reference	biolink:Publication	biolink:Publication
+GtoPdb	TARGET_ID	TARGET_ID		
+GtoPdb	TARGET_SPECIES	TARGET_SPECIES	biolink:in_taxon	String
+GtoPdb	LIGAND_ID	LIGAND_ID		
+GtoPdb	TYPE	TYPE	TYPE	String
+GtoPdb	ACTION	ACTION	ACTION	String
+GtoPdb	ACTION_COMMENT	ACTION_COMMENT	ACTION_COMMENT	String
+GtoPdb	SELECTIVITY	SELECTIVITY	SELECTIVITY	String
+GtoPdb	ENDOGENOUS	ENDOGENOUS	ENDOGENOUS	String
+GtoPdb	AFFINITY_UNITS	AFFINITY_UNITS	AFFINITY_UNITS	String
+GtoPdb	AFFINITY_MEDIAN	AFFINITY_MEDIAN	AFFINITY_MEDIAN	String
+GtoPdb	PUBMED_ID	PUBMED_ID	biolink:Publication	Uriorcurie
+GtoPdb	ORIGINAL_AFFINITY_UNITS	ORIGINAL_AFFINITY_UNITS	ORIGINAL_AFFINITY_UNITS	String
+GtoPdb	APPROVED	APPROVED	biolink:highest_FDA_approval_status	biolink:FDA_approval_status_enum
+DGIdb	publication	IAO:0000311	biolink:Publication	Uriorcurie
+Drug Repurposing Hub	clinical_phase	clinical_phase	biolink:highest_FDA_approval_status	biolink:FDA_approval_status_enum
+Drug Repurposing Hub	moa	moa	biolink:mechanism_of_action	String
+DrugBank	group	group	biolink:highest_FDA_approval_status	biolink:FDA_approval_status_enum
+DrugBank	calculated-properties/Molecular Formula	calculated-properties/Molecular Formula	biolink:has_chemical_formula	String
+DrugBank	experimental-properties/Molecular Formula	experimental-properties/Molecular Formula	biolink:has_chemical_formula	String
+DrugBank	attachment	biolink:Publication	biolink:Publication	Uriorcurie
+DrugBank	link	biolink:Publication	biolink:Publication	Uriorcurie
+Pharos	publication	biolink:publication	biolink:Publication	Uriorcurie
+Pharos	symbol	symbol	biolink:symbol	String
+ProbeMiner	aggregator_knowledge_source	biolink:aggregator_knowledge_source	biolink:primary_knowledge_source	biolink:InformationResource
+PubChem	MOLECULAR_FORMULA	MOLECULAR_FORMULA	biolink:has_chemical_formula	String
+infores:molepro	aggregator_knowledge_source	biolink:aggregator_knowledge_source	biolink:primary_knowledge_source	biolink:InformationResource

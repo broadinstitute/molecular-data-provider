@@ -1,0 +1,707 @@
+source	predicate	relation	attributeName	attributeValue	biolinkPredicate	inversePredicate	qualifiedPredicate	qualifier_1	qualifier_2	qualifier_3	qualifier_4
+BiGG Model	biolink:participates_in		compartment	BIGG.COMPARTMENT:c	biolink:participates_in	biolink:has_participant		anatomical_context_qualifier:cytosol			
+BiGG Model	biolink:participates_in		compartment	BIGG.COMPARTMENT:e	biolink:participates_in	biolink:has_participant		anatomical_context_qualifier:extracellular_space			
+BiGG Model	biolink:participates_in		compartment	BIGG.COMPARTMENT:m	biolink:participates_in	biolink:has_participant		anatomical_context_qualifier:mitochondria			
+BiGG Model	biolink:participates_in		compartment	BIGG.COMPARTMENT:x	biolink:participates_in	biolink:has_participant		anatomical_context_qualifier:peroxisome/glyoxysome			
+BiGG Model	biolink:participates_in		compartment	BIGG.COMPARTMENT:g	biolink:participates_in	biolink:has_participant		anatomical_context_qualifier:golgi_apparatus			
+BiGG Model	biolink:participates_in		compartment	BIGG.COMPARTMENT:r	biolink:participates_in	biolink:has_participant		anatomical_context_qualifier:endoplasmic_reticulum			
+BiGG Model	biolink:participates_in		compartment	BIGG.COMPARTMENT:n	biolink:participates_in	biolink:has_participant		anatomical_context_qualifier:nucleus			
+BiGG Model	biolink:participates_in		compartment	BIGG.COMPARTMENT:l	biolink:participates_in	biolink:has_participant		anatomical_context_qualifier:lysosome			
+BiGG Model	biolink:is_input		compartment	BIGG.COMPARTMENT:c	biolink:is_input	biolink:has_input		anatomical_context_qualifier:cytosol			
+BiGG Model	biolink:is_output		compartment	BIGG.COMPARTMENT:l	biolink:is_output	biolink:has_output		anatomical_context_qualifier:lysosome			
+BiGG Model	biolink:is_output		compartment	BIGG.COMPARTMENT:m	biolink:is_output	biolink:has_output		anatomical_context_qualifier:mitochondria			
+BiGG Model	biolink:is_input		compartment	BIGG.COMPARTMENT:m	biolink:is_input	biolink:has_input		anatomical_context_qualifier:mitochondria			
+BiGG Model	biolink:is_output		compartment	BIGG.COMPARTMENT:c	biolink:is_output	biolink:has_output		anatomical_context_qualifier:cytosol			
+BiGG Model	biolink:is_input		compartment	BIGG.COMPARTMENT:e	biolink:is_input	biolink:has_input		anatomical_context_qualifier:extracellular_space			
+BiGG Model	biolink:is_output		compartment	BIGG.COMPARTMENT:x	biolink:is_output	biolink:has_output		anatomical_context_qualifier:peroxisome/glyoxysome			
+BiGG Model	biolink:is_input		compartment	BIGG.COMPARTMENT:r	biolink:is_input	biolink:has_input		anatomical_context_qualifier:endoplasmic_reticulum			
+BiGG Model	biolink:is_output		compartment	BIGG.COMPARTMENT:r	biolink:is_output	biolink:has_output		anatomical_context_qualifier:endoplasmic_reticulum			
+BiGG Model	biolink:is_input		compartment	BIGG.COMPARTMENT:x	biolink:is_input	biolink:has_input		anatomical_context_qualifier:peroxisome/glyoxysome			
+BiGG Model	biolink:is_input		compartment	BIGG.COMPARTMENT:l	biolink:is_input	biolink:has_input		anatomical_context_qualifier:lysosome			
+BiGG Model	biolink:is_output		compartment	BIGG.COMPARTMENT:e	biolink:is_output	biolink:has_output		anatomical_context_qualifier:extracellular_space			
+BiGG Model	biolink:is_input		compartment	BIGG.COMPARTMENT:g	biolink:is_input	biolink:has_input		anatomical_context_qualifier:golgi_apparatus			
+BiGG Model	biolink:is_output		compartment	BIGG.COMPARTMENT:g	biolink:is_output	biolink:has_output		anatomical_context_qualifier:golgi_apparatus			
+BiGG Model	biolink:is_input		compartment	BIGG.COMPARTMENT:n	biolink:is_input	biolink:has_input		anatomical_context_qualifier:nucleus			
+BiGG Model	biolink:is_output		compartment	BIGG.COMPARTMENT:n	biolink:is_output	biolink:has_output		anatomical_context_qualifier:nucleus			
+BiGG Model	participates_in		compartment	BIGG.COMPARTMENT:c	biolink:participates_in	biolink:has_participant		anatomical_context_qualifier:cytosol			
+BiGG Model	participates_in		compartment	BIGG.COMPARTMENT:e	biolink:participates_in	biolink:has_participant		anatomical_context_qualifier:extracellular_space			
+BiGG Model	participates_in		compartment	BIGG.COMPARTMENT:m	biolink:participates_in	biolink:has_participant		anatomical_context_qualifier:mitochondria			
+BiGG Model	participates_in		compartment	BIGG.COMPARTMENT:x	biolink:participates_in	biolink:has_participant		anatomical_context_qualifier:peroxisome/glyoxysome			
+BiGG Model	participates_in		compartment	BIGG.COMPARTMENT:g	biolink:participates_in	biolink:has_participant		anatomical_context_qualifier:golgi_apparatus			
+BiGG Model	participates_in		compartment	BIGG.COMPARTMENT:r	biolink:participates_in	biolink:has_participant		anatomical_context_qualifier:endoplasmic_reticulum			
+BiGG Model	participates_in		compartment	BIGG.COMPARTMENT:n	biolink:participates_in	biolink:has_participant		anatomical_context_qualifier:nucleus			
+BiGG Model	participates_in		compartment	BIGG.COMPARTMENT:l	biolink:participates_in	biolink:has_participant		anatomical_context_qualifier:lysosome			
+BiGG Model	is_input		compartment	BIGG.COMPARTMENT:c	biolink:is_input	biolink:has_input		anatomical_context_qualifier:cytosol			
+BiGG Model	is_output		compartment	BIGG.COMPARTMENT:l	biolink:is_output	biolink:has_output		anatomical_context_qualifier:lysosome			
+BiGG Model	is_output		compartment	BIGG.COMPARTMENT:m	biolink:is_output	biolink:has_output		anatomical_context_qualifier:mitochondria			
+BiGG Model	is_input		compartment	BIGG.COMPARTMENT:m	biolink:is_input	biolink:has_input		anatomical_context_qualifier:mitochondria			
+BiGG Model	is_output		compartment	BIGG.COMPARTMENT:c	biolink:is_output	biolink:has_output		anatomical_context_qualifier:cytosol			
+BiGG Model	is_input		compartment	BIGG.COMPARTMENT:e	biolink:is_input	biolink:has_input		anatomical_context_qualifier:extracellular_space			
+BiGG Model	is_output		compartment	BIGG.COMPARTMENT:x	biolink:is_output	biolink:has_output		anatomical_context_qualifier:peroxisome/glyoxysome			
+BiGG Model	is_input		compartment	BIGG.COMPARTMENT:r	biolink:is_input	biolink:has_input		anatomical_context_qualifier:endoplasmic_reticulum			
+BiGG Model	is_output		compartment	BIGG.COMPARTMENT:r	biolink:is_output	biolink:has_output		anatomical_context_qualifier:endoplasmic_reticulum			
+BiGG Model	is_input		compartment	BIGG.COMPARTMENT:x	biolink:is_input	biolink:has_input		anatomical_context_qualifier:peroxisome/glyoxysome			
+BiGG Model	is_input		compartment	BIGG.COMPARTMENT:l	biolink:is_input	biolink:has_input		anatomical_context_qualifier:lysosome			
+BiGG Model	is_output		compartment	BIGG.COMPARTMENT:e	biolink:is_output	biolink:has_output		anatomical_context_qualifier:extracellular_space			
+BiGG Model	is_input		compartment	BIGG.COMPARTMENT:g	biolink:is_input	biolink:has_input		anatomical_context_qualifier:golgi_apparatus			
+BiGG Model	is_output		compartment	BIGG.COMPARTMENT:g	biolink:is_output	biolink:has_output		anatomical_context_qualifier:golgi_apparatus			
+BiGG Model	is_input		compartment	BIGG.COMPARTMENT:n	biolink:is_input	biolink:has_input		anatomical_context_qualifier:nucleus			
+BiGG Model	is_output		compartment	BIGG.COMPARTMENT:n	biolink:is_output	biolink:has_output		anatomical_context_qualifier:nucleus			
+BiGG Model	biolink:participates_in				biolink:participates_in	biolink:has_participant					
+BiGG Model	biolink:is_input				biolink:is_input	biolink:has_input					
+BiGG Model	biolink:is_output				biolink:is_output	biolink:has_output					
+BiGG Model	biolink:has_input				biolink:has_input	biolink:is_input					
+BiGG Model	biolink:has_output				biolink:has_output	biolink:is_output					
+BiGG Model	biolink:has_participant				biolink:has_participant	biolink:participates_in					
+BiGG Model	participates_in				biolink:participates_in	biolink:has_participant					
+BiGG Model	is_input				biolink:is_input	biolink:has_input					
+BiGG Model	is_output				biolink:is_output	biolink:has_output					
+BiGG Model	has_input				biolink:has_input	biolink:is_input					
+BiGG Model	has_output				biolink:has_output	biolink:is_output					
+BiGG Model	has_participant				biolink:has_participant	biolink:participates_in					
+BiGG Model	affected_by				biolink:affected_by	biolink:affects					
+CMAP	biolink:correlated_with				biolink:correlated_with	biolink:correlated_with					
+CMAP	correlated_with				biolink:correlated_with	biolink:correlated_with					
+CTD	affected_by				biolink:affected_by	biolink:affects					
+CTD	affects				biolink:affects	biolink:affected_by					
+CTD	associated_with				biolink:associated_with	biolink:associated_with					
+CTD	binds				biolink:binds	biolink:binds					
+CTD	biomarker_for				biolink:biomarker_for	biolink:has_biomarker					
+CTD	treats				biolink:treats	biolink:treated_by					
+CTRP	biolink:correlated_with				biolink:correlated_with	biolink:correlated_with					
+CTRP	correlated_with				biolink:correlated_with	biolink:correlated_with					
+ChEBI	related_to		relation	has_functional_parent	biolink:chemically_similar_to	biolink:chemically_similar_to					
+ChEBI	related_to		relation	has_parent_hydride	biolink:chemically_similar_to	biolink:chemically_similar_to					
+ChEBI	related_to		relation	is_conjugate_base_of	biolink:chemically_similar_to	biolink:chemically_similar_to		derivative_qualifier:conjugate_base			
+ChEBI	related_to		relation	is_conjugate_acid_of	biolink:chemically_similar_to	biolink:chemically_similar_to		derivative_qualifier:conjugate_acid			
+ChEBI	related_to		relation	is_enantiomer_of	biolink:chemically_similar_to	biolink:chemically_similar_to		subject_aspect_qualifier:enantiomer			
+ChEBI	related_to		relation	is_substituent_group_from	biolink:part_of	biolink:has_part		subject_part_qualifier:substitutent			
+ChEBI	related_to		relation	is_tautomer_of	biolink:chemically_similar_to	biolink:chemically_similar_to		subject_aspect_qualifier:tautomer			
+ChEBI	subclass_of	is_a			biolink:subclass_of	biolink:superclass_of					
+ChEBI	has_part	has_part			biolink:has_part	biolink:part_of					
+ChEBI	chemically_similar_to	is_conjugate_base_of			biolink:chemically_similar_to	biolink:chemically_similar_to		derivative_qualifier:conjugate_base			
+ChEBI	chemically_similar_to	has_functional_parent			biolink:chemically_similar_to	biolink:chemically_similar_to					
+ChEBI	chemically_similar_to	is_conjugate_acid_of			biolink:chemically_similar_to	biolink:chemically_similar_to		derivative_qualifier:conjugate_acid			
+ChEBI	subclass_of	has_role			biolink:subclass_of	biolink:superclass_of					
+ChEBI	chemically_similar_to	has_parent_hydride			biolink:chemically_similar_to	biolink:chemically_similar_to					
+ChEBI	chemically_similar_to	is_tautomer_of			biolink:chemically_similar_to	biolink:chemically_similar_to		subject_aspect_qualifier:tautomer			
+ChEBI	chemically_similar_to	is_enantiomer_of			biolink:chemically_similar_to	biolink:chemically_similar_to		subject_aspect_qualifier:enantiomer			
+ChEBI	part_of	is_substituent_group_from			biolink:part_of	biolink:has_part		subject_part_qualifier:substitutent			
+ChEBI	subclass_of				biolink:subclass_of	biolink:superclass_of					
+ChEBI	has_part				biolink:has_part	biolink:part_of					
+ChEBI	chemically_similar_to				biolink:chemically_similar_to	biolink:chemically_similar_to					
+ChEBI	part_of				biolink:part_of	biolink:has_part					
+ChEBI	superclass_of				biolink:superclass_of	biolink:subclass_of					
+ChEMBL	biolink:increases_activity_of		action_type	ACTIVATOR	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:activation	
+ChEMBL	biolink:increases_activity_of		action_type	AGONIST	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:agonism	
+ChEMBL	biolink:decreases_activity_of		action_type	ALLOSTERIC ANTAGONIST	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:allosteric_antagonism	
+ChEMBL	biolink:decreases_activity_of		action_type	ANTAGONIST	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:antagonism	
+ChEMBL	biolink:decreases_expression_of		action_type	ANTISENSE INHIBITOR	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:expression	object_direction_qualifier:decreased	causal_mechanism_qualifier:antisense_inhibition	
+ChEMBL	biolink:physically_interacts_with		action_type	BINDING AGENT	biolink:directly_physically_interacts_with	biolink:directly_physically_interacts_with					
+ChEMBL	biolink:decreases_activity_of		action_type	BLOCKER	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:molecular_channel_blockage	
+ChEMBL	biolink:physically_interacts_with		action_type	CHELATING AGENT	biolink:directly_physically_interacts_with	biolink:directly_physically_interacts_with		causal_mechanism_qualifier:chelation			
+ChEMBL	biolink:physically_interacts_with		action_type	CROSS-LINKING AGENT	biolink:directly_physically_interacts_with	biolink:directly_physically_interacts_with		causal_mechanism_qualifier:crosslinking			
+ChEMBL	biolink:increases_degradation_of		action_type	DEGRADER	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:degradation	object_direction_qualifier:increased		
+ChEMBL	biolink:disrupts		action_type	DISRUPTING AGENT	biolink:disrupts	biolink:disrupted_by		object_aspect_qualifier:disruption			
+ChEMBL	biolink:increases_degradation_of		action_type	HYDROLYTIC ENZYME	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:hydrolysis	object_direction_qualifier:increased		
+ChEMBL	biolink:decreases_activity_of		action_type	INHIBITOR	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:inhibition	
+ChEMBL	biolink:decreases_activity_of		action_type	INVERSE AGONIST	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:inverse_agonism	
+ChEMBL	biolink:affects_activity_of		action_type	MODULATOR	biolink:affects	biolink:affected_by		object_aspect_qualifier:activity	causal_mechanism_qualifier:modulation		
+ChEMBL	biolink:decreases_activity_of		action_type	NEGATIVE ALLOSTERIC MODULATOR	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:negative_allosteric_modulation	
+ChEMBL	biolink:decreases_activity_of		action_type	NEGATIVE MODULATOR	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:negative_modulation	
+ChEMBL	biolink:increases_activity_of		action_type	OPENER	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:opening	
+ChEMBL	biolink:affects		action_type	OTHER	biolink:affects	biolink:affected_by		object_aspect_qualifier:activity			
+ChEMBL	biolink:physically_interacts_with		action_type	OXIDATIVE ENZYME	biolink:directly_physically_interacts_with	biolink:directly_physically_interacts_with		object_aspect_qualifier:oxidation			
+ChEMBL	biolink:increases_activity_of		action_type	PARTIAL AGONIST	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:partial_agonism	
+ChEMBL	biolink:increases_activity_of		action_type	POSITIVE ALLOSTERIC MODULATOR	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:positive_allosteric_modulation	
+ChEMBL	biolink:increases_activity_of		action_type	POSITIVE MODULATOR	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:positive_modulation	
+ChEMBL	biolink:increases_degradation_of		action_type	PROTEOLYTIC ENZYME	biolink:affects	biolink:affected_by		object_aspect_qualifier:proteolysis			
+ChEMBL	biolink:physically_interacts_with		action_type	REDUCING AGENT	biolink:affects	biolink:affected_by		object_aspect_qualifier:metabolic_processing	causal_mechanism_qualifier:reducing_agent		
+ChEMBL	biolink:increases_expression_of		action_type	RELEASING AGENT	biolink:affects	biolink:affected_by		object_aspect_qualifier:transport	causal_mechanism_qualifier:releasing_agent		
+ChEMBL	biolink:entity_negatively_regulates_entity		action_type	RNAI INHIBITOR	biolink:regulates	biolink:regulated_by	biolink:causes	subject_form_or_variant_qualifier:RNAi	object_direction_qualifier:decreased	object_aspect_qualifier:expression	causal_mechanism_qualifier:inhibition
+ChEMBL	biolink:physically_interacts_with		action_type	SEQUESTERING AGENT	biolink:directly_physically_interacts_with	biolink:directly_physically_interacts_with		causal_mechanism_qualifier:sequestering			
+ChEMBL	biolink:increases_stability_of		action_type	STABILISER	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:stability	object_direction_qualifier:increased		
+ChEMBL	biolink:is_substrate_of		action_type	SUBSTRATE	biolink:is_substrate_of	biolink:has_substrate					
+ChEMBL	biolink:affects		action_type	VACCINE ANTIGEN	biolink:affects	biolink:affected_by		causal_mechanism_qualifier:vaccine_antigen			
+ChEMBL	biolink:activity_increased_by		action_type	ACTIVATOR	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:increased	causal_mechanism_qualifier:activation	
+ChEMBL	biolink:activity_increased_by		action_type	AGONIST	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:increased	causal_mechanism_qualifier:agonism	
+ChEMBL	biolink:activity_decreased_by		action_type	ALLOSTERIC ANTAGONIST	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:decreased	causal_mechanism_qualifier:allosteric_antagonism	
+ChEMBL	biolink:activity_decreased_by		action_type	ANTAGONIST	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:decreased	causal_mechanism_qualifier:antagonism	
+ChEMBL	biolink:expression_decreased_by		action_type	ANTISENSE INHIBITOR	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:expression	subject_direction_qualifier:decreased	causal_mechanism_qualifier:antisense_inhibition	
+ChEMBL	biolink:activity_decreased_by		action_type	BLOCKER	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:decreased	causal_mechanism_qualifier:molecular_channel_blockage	
+ChEMBL	biolink:degradation_increased_by		action_type	DEGRADER	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:degradation	subject_direction_qualifier:increased		
+ChEMBL	biolink:disrupted_by		action_type	DISRUPTING AGENT	biolink:disrupted_by	biolink:disrupts		subject_aspect_qualifier:disruption			
+ChEMBL	biolink:degradation_increased_by		action_type	HYDROLYTIC ENZYME	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:hydrolysis	subject_direction_qualifier:increased		
+ChEMBL	biolink:activity_decreased_by		action_type	INHIBITOR	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:decreased	causal_mechanism_qualifier:inhibition	
+ChEMBL	biolink:activity_decreased_by		action_type	INVERSE AGONIST	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:decreased	causal_mechanism_qualifier:inverse_agonism	
+ChEMBL	biolink:activity_affected_by		action_type	MODULATOR	biolink:affected_by	biolink:affects		subject_aspect_qualifier:activity	causal_mechanism_qualifier:modulation		
+ChEMBL	biolink:activity_decreased_by		action_type	NEGATIVE ALLOSTERIC MODULATOR	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:decreased	causal_mechanism_qualifier:negative_allosteric_modulation	
+ChEMBL	biolink:activity_decreased_by		action_type	NEGATIVE MODULATOR	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:decreased	causal_mechanism_qualifier:negative_modulation	
+ChEMBL	biolink:activity_increased_by		action_type	OPENER	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:increased	causal_mechanism_qualifier:opening	
+ChEMBL	biolink:affected_by		action_type	OTHER	biolink:affected_by	biolink:affects		subject_aspect_qualifier:activity			
+ChEMBL	biolink:activity_increased_by		action_type	PARTIAL AGONIST	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:increased	causal_mechanism_qualifier:partial_agonism	
+ChEMBL	biolink:activity_increased_by		action_type	POSITIVE ALLOSTERIC MODULATOR	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:increased	causal_mechanism_qualifier:positive_allosteric_modulation	
+ChEMBL	biolink:activity_increased_by		action_type	POSITIVE MODULATOR	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:increased	causal_mechanism_qualifier:positive_modulation	
+ChEMBL	biolink:degradation_increased_by		action_type	PROTEOLYTIC ENZYME	biolink:affected_by	biolink:affects		subject_aspect_qualifier:proteolysis			
+ChEMBL	biolink:expression_increased_by		action_type	RELEASING AGENT	biolink:affected_by	biolink:affects		subject_aspect_qualifier:transport	causal_mechanism_qualifier:releasing_agent		
+ChEMBL	biolink:entity_negatively_regulated_by_entity		action_type	RNAI INHIBITOR	biolink:regulated_by	biolink:regulates	biolink:caused_by	object_form_or_variant_qualifier:RNAi	subject_direction_qualifier:decreased	subject_aspect_qualifier:expression	causal_mechanism_qualifier:inhibition
+ChEMBL	biolink:stability_increased_by		action_type	STABILISER	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:stability	subject_direction_qualifier:increased		
+ChEMBL	biolink:has_substrate		action_type	SUBSTRATE	biolink:has_substrate	biolink:is_substrate_of					
+ChEMBL	biolink:affected_by		action_type	VACCINE ANTIGEN	biolink:affected_by	biolink:affects		causal_mechanism_qualifier:vaccine_antigen			
+ChEMBL	biolink:assesses				biolink:assesses	biolink:is_assessed_by					
+ChEMBL	assesses				biolink:assesses	biolink:is_assessed_by					
+ChEMBL	biolink:affects				biolink:affects	biolink:affected_by					
+ChEMBL	biolink:affects_activity_of				biolink:affects	biolink:affected_by		object_aspect_qualifier:activity			
+ChEMBL	biolink:decreases_activity_of				biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:antagonism	
+ChEMBL	biolink:decreases_expression_of				biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:expression	object_direction_qualifier:decreased		
+ChEMBL	biolink:disrupts				biolink:disrupts	biolink:disrupted_by					
+ChEMBL	biolink:entity_negatively_regulates_entity				biolink:regulates	biolink:regulated_by		subject_direction_qualifier:negative			
+ChEMBL	biolink:increases_activity_of				biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased		
+ChEMBL	biolink:increases_degradation_of				biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:degradation	object_direction_qualifier:increased		
+ChEMBL	biolink:increases_expression_of				biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:expression	object_direction_qualifier:increased		
+ChEMBL	biolink:increases_stability_of				biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:stability	object_direction_qualifier:increased		
+ChEMBL	biolink:is_substrate_of				biolink:is_substrate_of	biolink:has_substrate					
+ChEMBL	biolink:physically_interacts_with				biolink:directly_physically_interacts_with	biolink:directly_physically_interacts_with					
+ChEMBL	biolink:treats				biolink:treats	biolink:treated_by					
+ChEMBL	biolink:has_metabolite				biolink:has_metabolite	biolink:is_metabolite_of					
+ChEMBL	biolink:disrupted_by				biolink:disrupted_by	biolink:disrupts					
+ChEMBL	biolink:entity_negatively_regulated_by_entity				biolink:regulated_by	biolink:regulates		subject_direction_qualifier:negative			
+ChEMBL	biolink:expression_decreased_by				biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:expression	subject_direction_qualifier:decreased		
+ChEMBL	biolink:expression_increased_by				biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:expression	subject_direction_qualifier:increased		
+ChEMBL	biolink:has_substrate				biolink:has_substrate	biolink:is_substrate_of					
+ChEMBL	biolink:is_assessed_by				biolink:is_assessed_by	biolink:assesses					
+ChEMBL	biolink:is_metabolite_of				biolink:is_metabolite_of	biolink:has_metabolite					
+ChEMBL	biolink:stability_increased_by				biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:stability	subject_direction_qualifier:increased		
+ChEMBL	affects		action_type	ACTIVATOR	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:activation	
+ChEMBL	affects		action_type	AGONIST	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:agonism	
+ChEMBL	affects		action_type	ALLOSTERIC ANTAGONIST	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:allosteric_antagonism	
+ChEMBL	affects		action_type	ANTAGONIST	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:antagonism	
+ChEMBL	affects		action_type	ANTISENSE INHIBITOR	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:expression	object_direction_qualifier:decreased	causal_mechanism_qualifier:antisense_inhibition	
+ChEMBL	affects		action_type	BINDING AGENT	biolink:binds	biolink:binds					
+ChEMBL	affects		action_type	BLOCKER	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:molecular_channel_blockage	
+ChEMBL	affects		action_type	CHELATING AGENT	biolink:directly_physically_interacts_with	biolink:directly_physically_interacts_with		causal_mechanism_qualifier:chelation			
+ChEMBL	affects		action_type	CROSS-LINKING AGENT	biolink:directly_physically_interacts_with	biolink:directly_physically_interacts_with		causal_mechanism_qualifier:crosslinking			
+ChEMBL	affects		action_type	DEGRADER	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:degradation	object_direction_qualifier:increased		
+ChEMBL	affects		action_type	DISRUPTING AGENT	biolink:disrupts	biolink:disrupted_by					
+ChEMBL	affects		action_type	HYDROLYTIC ENZYME	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:hydrolysis	object_direction_qualifier:increased		
+ChEMBL	affects		action_type	INHIBITOR	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:inhibition	
+ChEMBL	affects		action_type	INVERSE AGONIST	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:inverse_agonism	
+ChEMBL	affects		action_type	METHYLATING AGENT	biolink:affects	biolink:affected_by		object_aspect_qualifier:methylation			
+ChEMBL	affects		action_type	MODULATOR	biolink:affects	biolink:affected_by		object_aspect_qualifier:activity	causal_mechanism_qualifier:modulation		
+ChEMBL	affects		action_type	NEGATIVE ALLOSTERIC MODULATOR	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:negative_allosteric_modulation	
+ChEMBL	affects		action_type	NEGATIVE MODULATOR	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:negative_modulation	
+ChEMBL	affects		action_type	OPENER	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:opening	
+ChEMBL	affects		action_type	OTHER	biolink:affects	biolink:affected_by		object_aspect_qualifier:activity			
+ChEMBL	affects		action_type	OXIDATIVE ENZYME	biolink:directly_physically_interacts_with	biolink:directly_physically_interacts_with		object_aspect_qualifier:oxidation			
+ChEMBL	affects		action_type	PARTIAL AGONIST	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:partial_agonism	
+ChEMBL	affects		action_type	POSITIVE ALLOSTERIC MODULATOR	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:positive_allosteric_modulation	
+ChEMBL	affects		action_type	POSITIVE MODULATOR	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:positive_modulation	
+ChEMBL	affects		action_type	PROTEOLYTIC ENZYME	biolink:affects	biolink:affected_by		object_aspect_qualifier:proteolysis			
+ChEMBL	affects		action_type	REDUCING AGENT	biolink:affects	biolink:affected_by		object_aspect_qualifier:metabolic_processing	causal_mechanism_qualifier:reducing_agent		
+ChEMBL	affects		action_type	RELEASING AGENT	biolink:affects	biolink:affected_by		object_aspect_qualifier:transport	causal_mechanism_qualifier:releasing_agent		
+ChEMBL	affects		action_type	RNAI INHIBITOR	biolink:regulates	biolink:regulated_by		subject_form_or_variant_qualifier:RNAi	object_direction_qualifier:negative	object_aspect_qualifier:expression	causal_mechanism_qualifier:RNAi_inhibition
+ChEMBL	affects		action_type	SEQUESTERING AGENT	biolink:directly_physically_interacts_with	biolink:directly_physically_interacts_with		causal_mechanism_qualifier:sequestering			
+ChEMBL	affects		action_type	STABILISER	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:stability	object_direction_qualifier:increased		
+ChEMBL	affects		action_type	SUBSTRATE	biolink:is_substrate_of	biolink:has_substrate					
+ChEMBL	affects		action_type	VACCINE ANTIGEN	biolink:affects	biolink:affected_by					
+ChEMBL	affects				biolink:affects	biolink:affected_by					
+ChEMBL	affected_by				biolink:affected_by	biolink:affects					
+ChEMBL	has_evidence				biolink:assesses	biolink:is_assessed_by					
+ChEMBL	has_metabolite				biolink:has_metabolite	biolink:is_metabolite_of					
+ChEMBL	treats				biolink:treats	biolink:treated_by					
+DGIdb	biolink:increases_activity_of		Specific Action of the Ligand	Activation	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:activation	
+DGIdb	biolink:increases_activity_of		Specific Action of the Ligand	Agonist	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:agonism	
+DGIdb	biolink:decreases_activity_of		Specific Action of the Ligand	Antagonist	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:antagonism	
+DGIdb	biolink:increases_activity_of		Specific Action of the Ligand	Antagonist	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:antagonism	
+DGIdb	biolink:affects		Specific Action of the Ligand	Antagonist	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:antagonism	
+DGIdb	biolink:increases_activity_of		Specific Action of the Ligand	Biased agonist	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:biased_agonism	
+DGIdb	biolink:directly_interacts_with		Specific Action of the Ligand	Binding	biolink:directly_physically_interacts_with	biolink:directly_physically_interacts_with		causal_mechanism_qualifier:binding			
+DGIdb	biolink:affects_activity_of		Specific Action of the Ligand	Competitive	biolink:directly_physically_interacts_with	biolink:directly_physically_interacts_with		causal_mechanism_qualifier:competition			
+DGIdb	biolink:affects_activity_of		Specific Action of the Ligand	Feedback inhibition	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:feedback_inhibition	
+DGIdb	biolink:increases_activity_of		Specific Action of the Ligand	Full agonist	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:full_agonism	
+DGIdb	biolink:decreases_activity_of		Specific Action of the Ligand	Full agonist	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:full_agonism	
+DGIdb	biolink:decreases_activity_of		Specific Action of the Ligand	Inhibition	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:inhibition	
+DGIdb	biolink:directly_interacts_with		Specific Action of the Ligand	Inhibition	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:inhibition	
+DGIdb	biolink:decreases_activity_of		Specific Action of the Ligand	Inverse agonist	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:inverse_agonism	
+DGIdb	biolink:increases_activity_of		Specific Action of the Ligand	Irreversible agonist	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:irreversible_agonism	
+DGIdb	biolink:decreases_activity_of		Specific Action of the Ligand	Irreversible inhibition	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:irreversible_inhibition	
+DGIdb	biolink:affects_activity_of		Specific Action of the Ligand	Mixed	biolink:affects	biolink:affected_by		object_aspect_qualifier:activity			
+DGIdb	biolink:decreases_activity_of		Specific Action of the Ligand	Negative	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased		
+DGIdb	biolink:increases_activity_of		Specific Action of the Ligand	Negative	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased		
+DGIdb	biolink:affects		Specific Action of the Ligand	Neutral	biolink:directly_physically_interacts_with	biolink:directly_physically_interacts_with					
+DGIdb	biolink:decreases_activity_of		Specific Action of the Ligand	Neutral	biolink:directly_physically_interacts_with	biolink:directly_physically_interacts_with					
+DGIdb	biolink:affects		Specific Action of the Ligand	None	biolink:directly_physically_interacts_with	biolink:directly_physically_interacts_with					
+DGIdb	biolink:decreases_activity_of		Specific Action of the Ligand	None	biolink:directly_physically_interacts_with	biolink:directly_physically_interacts_with					
+DGIdb	biolink:increases_activity_of		Specific Action of the Ligand	Partial agonist	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:partial_agonism	
+DGIdb	biolink:decreases_activity_of		Specific Action of the Ligand	Pore blocker	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:molecular_channel_blockage	
+DGIdb	biolink:affects		Specific Action of the Ligand	Pore blocker	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:molecular_channel_blockage	
+DGIdb	biolink:increases_activity_of		Specific Action of the Ligand	Positive	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased		
+DGIdb	biolink:decreases_activity_of		Specific Action of the Ligand	Positive	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased		
+DGIdb	biolink:affects		Specific Action of the Ligand	Positive	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased		
+DGIdb	biolink:decreases_activity_of		Specific Action of the Ligand	Potentiation	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:potentiation	
+DGIdb	biolink:increases_activity_of		Specific Action of the Ligand	Potentiation	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:potentiation	
+DGIdb	biolink:decreases_activity_of		Specific Action of the Ligand	Slows inactivation	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:molecular_channel_inactivation	
+DGIdb	biolink:activity_increased_by		Specific Action of the Ligand	Activation	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:increased	causal_mechanism_qualifier:activation	
+DGIdb	biolink:activity_increased_by		Specific Action of the Ligand	Agonist	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:increased	causal_mechanism_qualifier:agonism	
+DGIdb	biolink:activity_decreased_by		Specific Action of the Ligand	Antagonist	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:decreased	causal_mechanism_qualifier:antagonism	
+DGIdb	biolink:activity_increased_by		Specific Action of the Ligand	Antagonist	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:decreased	causal_mechanism_qualifier:antagonism	
+DGIdb	biolink:affected_by		Specific Action of the Ligand	Antagonist	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:decreased	causal_mechanism_qualifier:antagonism	
+DGIdb	biolink:activity_increased_by		Specific Action of the Ligand	Biased agonist	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:increased	causal_mechanism_qualifier:biased_agonism	
+DGIdb	biolink:activity_affected_by		Specific Action of the Ligand	Competitive	biolink:directly_physically_interacts_with	biolink:directly_physically_interacts_with		causal_mechanism_qualifier:competition			
+DGIdb	biolink:activity_affected_by		Specific Action of the Ligand	Feedback inhibition	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:decreased	causal_mechanism_qualifier:feedback_inhibition	
+DGIdb	biolink:activity_increased_by		Specific Action of the Ligand	Full agonist	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:increased	causal_mechanism_qualifier:full_agonism	
+DGIdb	biolink:activity_decreased_by		Specific Action of the Ligand	Full agonist	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:increased	causal_mechanism_qualifier:full_agonism	
+DGIdb	biolink:activity_decreased_by		Specific Action of the Ligand	Inhibition	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:decreased	causal_mechanism_qualifier:inhibition	
+DGIdb	biolink:activity_decreased_by		Specific Action of the Ligand	Inverse agonist	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:decreased	causal_mechanism_qualifier:inverse_agonism	
+DGIdb	biolink:activity_increased_by		Specific Action of the Ligand	Irreversible agonist	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:increased	causal_mechanism_qualifier:irreversible_agonism	
+DGIdb	biolink:activity_decreased_by		Specific Action of the Ligand	Irreversible inhibition	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:decreased	causal_mechanism_qualifier:irreversible_inhibition	
+DGIdb	biolink:activity_affected_by		Specific Action of the Ligand	Mixed	biolink:affected_by	biolink:affects		subject_aspect_qualifier:activity			
+DGIdb	biolink:activity_decreased_by		Specific Action of the Ligand	Negative	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:decreased		
+DGIdb	biolink:activity_increased_by		Specific Action of the Ligand	Negative	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:decreased		
+DGIdb	biolink:affected_by		Specific Action of the Ligand	Neutral	biolink:directly_physically_interacts_with	biolink:directly_physically_interacts_with					
+DGIdb	biolink:activity_decreased_by		Specific Action of the Ligand	Neutral	biolink:directly_physically_interacts_with	biolink:directly_physically_interacts_with					
+DGIdb	biolink:affected_by		Specific Action of the Ligand	None	biolink:directly_physically_interacts_with	biolink:directly_physically_interacts_with					
+DGIdb	biolink:activity_decreased_by		Specific Action of the Ligand	None	biolink:directly_physically_interacts_with	biolink:directly_physically_interacts_with					
+DGIdb	biolink:activity_increased_by		Specific Action of the Ligand	Partial agonist	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:increased	causal_mechanism_qualifier:partial_agonism	
+DGIdb	biolink:activity_decreased_by		Specific Action of the Ligand	Pore blocker	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:decreased	causal_mechanism_qualifier:molecular_channel_blockage	
+DGIdb	biolink:affected_by		Specific Action of the Ligand	Pore blocker	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:decreased	causal_mechanism_qualifier:molecular_channel_blockage	
+DGIdb	biolink:activity_increased_by		Specific Action of the Ligand	Positive	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:increased		
+DGIdb	biolink:activity_decreased_by		Specific Action of the Ligand	Positive	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:increased		
+DGIdb	biolink:affected_by		Specific Action of the Ligand	Positive	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:increased		
+DGIdb	biolink:activity_decreased_by		Specific Action of the Ligand	Potentiation	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:increased	causal_mechanism_qualifier:potentiation	
+DGIdb	biolink:activity_increased_by		Specific Action of the Ligand	Potentiation	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:increased	causal_mechanism_qualifier:potentiation	
+DGIdb	biolink:activity_decreased_by		Specific Action of the Ligand	Slows inactivation	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:decreased	causal_mechanism_qualifier:molecular_channel_inactivation	
+DGIdb	biolink:affects				biolink:affects	biolink:affected_by					
+DGIdb	biolink:affects_activity_of				biolink:affects	biolink:affected_by		object_aspect_qualifier:activity			
+DGIdb	biolink:decreases_activity_of				biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased		
+DGIdb	biolink:directly_interacts_with				biolink:directly_physically_interacts_with	biolink:directly_physically_interacts_with					
+DGIdb	biolink:increases_activity_of				biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased		
+DGIdb	affects		Specific Action of the Ligand	Inhibition	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:inhibition	
+DGIdb	affects		Specific Action of the Ligand	Potentiation	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:potentiation	
+DGIdb	affects		Specific Action of the Ligand	Agonist	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:agonism	
+DGIdb	affects		Specific Action of the Ligand	Antagonist	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:antagonism	
+DGIdb	affects		Specific Action of the Ligand	Binding	biolink:binds	biolink:binds					
+DGIdb	affects		Specific Action of the Ligand	Full agonist	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:full_agonism	
+DGIdb	affects		Specific Action of the Ligand	Negative	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased		
+DGIdb	affects		Specific Action of the Ligand	Inverse agonist	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:inverse_agonism	
+DGIdb	affects		Specific Action of the Ligand	Partial agonist	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:partial_agonism	
+DGIdb	affects		Specific Action of the Ligand	Activation	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:activation	
+DGIdb	affects		Specific Action of the Ligand	Mixed	biolink:affects	biolink:affected_by		object_aspect_qualifier:activity			
+DGIdb	affects		Specific Action of the Ligand	Irreversible inhibition	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:irreversible_inhibition	
+DGIdb	affects		Specific Action of the Ligand	None	biolink:directly_physically_interacts_with	biolink:directly_physically_interacts_with					
+DGIdb	affects		Specific Action of the Ligand	Competitive	biolink:directly_physically_interacts_with	biolink:directly_physically_interacts_with		causal_mechanism_qualifier:competition			
+DGIdb	affects		Specific Action of the Ligand	Positive	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased		
+DGIdb	affects		Specific Action of the Ligand	Biased agonist	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:biased_agonism	
+DGIdb	affects		Specific Action of the Ligand	Pore blocker	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:molecular_channel_blockage	
+DGIdb	affects		Specific Action of the Ligand	Irreversible agonist	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:irreversible_agonism	
+DGIdb	affects		Specific Action of the Ligand	Feedback inhibition	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:feedback_inhibition	
+DGIdb	affects		Specific Action of the Ligand	Neutral	biolink:directly_physically_interacts_with	biolink:directly_physically_interacts_with					
+DGIdb	affects		Specific Action of the Ligand	Slows inactivation	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:molecular_channel_inactivation	
+DGIdb	affected_by				biolink:affected_by	biolink:affects					
+DGIdb	is_affected_by				biolink:affected_by	biolink:affects					
+DGIdb	affects				biolink:affects	biolink:affected_by					
+DrugBank	affects		actions	inhibitor	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:inhibition	
+DrugBank	affects		actions	agonist	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:agonism	
+DrugBank	affects		actions	antagonist	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:antagonism	
+DrugBank	affects		actions	binder	biolink:binds	biolink:binds		subject_aspect_qualifier:binder			
+DrugBank	affects		actions	inhibitor;binder	biolink:affects	biolink:affects	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:inhibition	
+DrugBank	affects		actions	cofactor	biolink:directly_physically_interacts_with	biolink:directly_physically_interacts_with		subject_aspect_qualifier:cofactor	object_aspect_qualifier:activity		
+DrugBank	affects		actions	activator	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:activation	
+DrugBank	affects		actions	substrate	biolink:is_substrate_of	biolink:has_substrate					
+DrugBank	affects		actions	product of	biolink:output_of	biolink:has_output					
+DrugBank	affects		actions	chaperone	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:stability	object_direction_qualifier:increased		
+DrugBank	affects		actions	ligand	biolink:directly_physically_interacts_with	biolink:directly_physically_interacts_with		subject_aspect_qualifier:ligand			
+DrugBank	affects		actions	antagonist;substrate	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:substrate	object_direction_qualifier:decreased	causal_mechanism_qualifier:antagonism	
+DrugBank	affects		actions	antagonist;inhibitory allosteric modulator	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:inhibitory_allosteric_antagonism	
+DrugBank	affects		actions	substrate;product of	biolink:is_substrate_of	biolink:has_substrate					
+DrugBank	affects		actions	inducer	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:induction	
+DrugBank	affects		actions	negative modulator	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:negative_modulation	
+DrugBank	affects		actions	stimulator	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:stability	object_direction_qualifier:increased	causal_mechanism_qualifier:stimulation	
+DrugBank	affects		actions	positive allosteric modulator	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:positive_allosteric_modulation	
+DrugBank	affects		actions	inverse agonist	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	causal_mechanism_qualifier:inverse_agonism		
+DrugBank	affects		actions	other/unknown	biolink:affects	biolink:affected_by		object_aspect_qualifier:activity			
+DrugBank	affects		actions	other	biolink:affects	biolink:affected_by		object_aspect_qualifier:activity			
+DrugBank	affects		actions	antagonist;multitarget	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:antagonism	
+DrugBank	affects		actions	partial agonist	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:partial_agonism	
+DrugBank	affects		actions	inhibitory allosteric modulator	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:inhibitory_allosteric_modulation	
+DrugBank	affects		actions	potentiator	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:potentiation	
+DrugBank	affects		actions	inhibitor;activator	biolink:affects	biolink:affected_by		object_aspect_qualifier:activity	causal_mechanism_qualifier:inhibition	causal_mechanism_qualifier:activation	
+DrugBank	affects		actions	inhibitor;stimulator	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	causal_mechanism_qualifier:inhibition	causal_mechanism_qualifier:stimulation	
+DrugBank	affects		actions	unknown	biolink:affects	biolink:affected_by					
+DrugBank	affects		actions	cleavage	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:cleavage			
+DrugBank	affects		actions	blocker	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:molecular_channel_blockage	
+DrugBank	affects		actions	inhibitor;inducer	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	causal_mechanism_qualifier:inhibition	causal_mechanism_qualifier:induction	
+DrugBank	affects		actions	antagonist;agonist	biolink:affects	biolink:affected_by		object_aspect_qualifier:activity	causal_mechanism_qualifier:antagonism	causal_mechanism_qualifier:agonism	
+DrugBank	affects		actions	agonist;activator	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:agonism	causal_mechanism_qualifier:activation
+DrugBank	affects		actions	antagonist;inhibitor	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:antagonism	causal_mechanism_qualifier:inhibition
+DrugBank	affects		actions	inducer;activator	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:induction	causal_mechanism_qualifier:activation
+DrugBank	affects		actions	antagonist;weak inhibitor	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:antagonism	causal_mechanism_qualifier:weak_inhibition
+DrugBank	affects		actions	agonist;inducer	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:induction	causal_mechanism_qualifier:agonism
+DrugBank	affects		actions	binder;protector	biolink:affects	biolink:affected_by	biolink:causes	subject_aspect_qualifier:binder	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:protection
+DrugBank	affects		actions	modulator	biolink:affects	biolink:affected_by		object_aspect_qualifier:activity	object_aspect_qualifier:modulation		
+DrugBank	affects		actions	activator;modulator	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:activation	causal_mechanism_qualifier:modulation
+DrugBank	affects		actions	agonist;inhibitor;downregulator	biolink:affects	biolink:affected_by		object_aspect_qualifier:activity	causal_mechanism_qualifier:inhibition	causal_mechanism_qualifier:agonism	causal_mechanism_qualifier:down_regulation
+DrugBank	affects		actions	substrate;inhibitor	biolink:is_substrate_of	biolink:has_substrate	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:inhibition	
+DrugBank	affects		actions	activator;potentiator	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:activation	causal_mechanism_qualifier:potentiation
+DrugBank	affects		actions	agonist;potentiator	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:potentiation	causal_mechanism_qualifier:agonism
+DrugBank	affects		actions	binder;potentiator	biolink:affects	biolink:affected_by	biolink:causes	subject_aspect_qualifier:binder	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:potentiation
+DrugBank	affects		actions	agonist;downregulator	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	causal_mechanism_qualifier:agonism	object_direction_qualifier:decreased	
+DrugBank	affects		actions	binding	biolink:binds	biolink:binds					
+DrugBank	affects		actions	antagonist;binder	biolink:directly_physically_interacts_with	biolink:directly_physically_interacts_with	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:antagonism	
+DrugBank	affects		actions	antagonist;downregulator	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:antagonism	causal_mechanism_qualifier:down_regulation
+DrugBank	affects		actions	agonist;inhibitor	biolink:affects	biolink:affected_by		object_aspect_qualifier:activity	causal_mechanism_qualifier:inhibition	causal_mechanism_qualifier:agonism	
+DrugBank	affects		actions	antagonist;inducer	biolink:affects	biolink:affected_by		object_aspect_qualifier:activity	causal_mechanism_qualifier:antagonism	causal_mechanism_qualifier:induction	
+DrugBank	affects		actions	adduct	biolink:directly_physically_interacts_with	biolink:directly_physically_interacts_with		object_aspect_qualifier:adduct			
+DrugBank	affects		actions	partial antagonist	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:partial_agonism	
+DrugBank	affects		actions	suppressor	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:suppression	
+DrugBank	affects		actions	blocker;inactivator	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:molecular_channel_blockage	causal_mechanism_qualifier:inactivation
+DrugBank	affects		actions	antagonist;partial agonist	biolink:affects	biolink:affected_by		object_aspect_qualifier:activity	causal_mechanism_qualifier:partial_agonism	causal_mechanism_qualifier:antagonism	
+DrugBank	affects		actions	positive modulator	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:positive_modulation	
+DrugBank	affects		actions	allosteric modulator	biolink:affects	biolink:affected_by		object_aspect_qualifier:activity	causal_mechanism_qualifier:allosteric_modulation		
+DrugBank	affects		actions	desensitize the target	biolink:affects	biolink:affected_by		object_aspect_qualifier:response	object_direction_qualifier:decreased	causal_mechanism_qualifier: target_desensitization	
+DrugBank	affects		actions	downregulator	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:down_regulation	
+DrugBank	affects		actions	agonist;partial agonist	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:partial_agonism	causal_mechanism_qualifier:agonism
+DrugBank	affects		actions	inducer;acetylation	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:acetylation	object_direction_qualifier:increased	causal_mechanism_qualifier:induction	
+DrugBank	affects		actions	inhibitor;downregulator	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:inhibition	causal_mechanism_qualifier:down_regulation
+DrugBank	affects		actions	multitarget	biolink:affects	biolink:affected_by					
+DrugBank	affects		actions	inhibitor;binder;downregulator	biolink:affects	biolink:affected_by	biolink:causes	subject_aspect_qualifier:binder	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:inhibition
+DrugBank	affects		actions	antagonist;potentiator	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:antagonism	causal_mechanism_qualifier:potentiation
+DrugBank	affects		actions	antagonist;other/unknown	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:antagonism	
+DrugBank	affects		actions	antagonist;partial agonist;ligand	biolink:affects	biolink:affected_by		object_aspect_qualifier:activity	subject_aspect_qualifier:ligand	causal_mechanism_qualifier:antagonism	causal_mechanism_qualifier:partial_agonism
+DrugBank	affects		actions	antagonist;ligand	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:antagonism	subject_aspect_qualifier:ligand
+DrugBank	affects		actions	agonist;modulator	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:modulator	causal_mechanism_qualifier:agonism
+DrugBank	affects		actions	antagonist;agonist;negative modulator	biolink:affects	biolink:affected_by		object_aspect_qualifier:activity	causal_mechanism_qualifier:antagonism	causal_mechanism_qualifier:agonism	causal_mechanism_qualifier:modulation
+DrugBank	affects		actions	antagonist;blocker	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:antagonism	causal_mechanism_qualifier:molecular_channel_blockage
+DrugBank	affects		actions	binder;activator	biolink:affects	biolink:affected_by	biolink:causes	subject_aspect_qualifier:binder	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:activation
+DrugBank	affects		actions	weak inhibitor	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:weak_inhibition	
+DrugBank	affects		actions	agonist;stimulator	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:stimulation	causal_mechanism_qualifier:agonism
+DrugBank	affects		actions	antagonist;modulator	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:antagonism	causal_mechanism_qualifier:modulation
+DrugBank	affects		actions	oxidizer	biolink:affects	biolink:affected_by		object_aspect_qualifier:oxidation	object_direction_qualifier:increased		
+DrugBank	affects		actions	agonist;positive allosteric modulator	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:positive_allosteric_modulation	
+DrugBank	affects		actions	aggregation inhibitor	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:aggregation	object_direction_qualifier:increased	causal_mechanism_qualifier:inhibition	
+DrugBank	affects		actions	inactivator	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	causal_mechanism_qualifier:inactivation	object_direction_qualifier:decreased	
+DrugBank	affects		actions	deoxidizer	biolink:affects	biolink:affected_by		object_aspect_qualifier:deoxidation			
+DrugBank	affects		actions	antagonist;inverse agonist	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:antagonism	causal_mechanism_qualifier:inverse_agonism
+DrugBank	affects		actions	inhibition of synthesis	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:synthesis	object_direction_qualifier:decreased	causal_mechanism_qualifier:inhibition	
+DrugBank	affects		actions	translocation inhibitor	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:translocation	object_direction_qualifier:decreased	causal_mechanism_qualifier:inhibition	
+DrugBank	affects		actions	regulator	biolink:affects	biolink:affected_by		causal_mechanism_qualifier:regulation			
+DrugBank	affects		actions	stabilization	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:stability	object_direction_qualifier:increased		
+DrugBank	affects		actions	inactivator;regulator	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:inactivation	causal_mechanism_qualifier:regulation
+DrugBank	affects		actions	chelator	biolink:affects	biolink:affected_by		subject_aspect_qualifier:chelator	object_aspect_qualifier:activity		
+DrugBank	affects		actions	inducer;ligand	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:induction	subject_aspect_qualifier:ligand
+DrugBank	affects		actions	inhibitor;ligand	biolink:affects	biolink:affected_by	biolink:causes	subject_aspect_qualifier:ligand	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:inhibition
+DrugBank	affects		actions	modulator;ligand	biolink:affects	biolink:affected_by		subject_aspect_qualifier:ligand	object_aspect_qualifier:activity	object_aspect_qualifier:modulation	
+DrugBank	affects		actions	component of	biolink:part_of	biolink:has_part					
+DrugBank	affects		actions	cofactor;chelator	biolink:directly_physically_interacts_with	biolink:directly_physically_interacts_with		subject_aspect_qualifier:cofactor	subject_aspect_qualifier:chelator	object_aspect_qualifier:activity	
+DrugBank	affected_by		actions	inhibitor	biolink:affects	biolink:affected_by	biolink:causes	subject_aspect_qualifier:activity	subject_direction_qualifier:decreased	causal_mechanism_qualifier:inhibition	
+DrugBank	affected_by		actions	inducer	biolink:affects	biolink:affected_by	biolink:causes	subject_aspect_qualifier:activity	subject_direction_qualifier:increased	causal_mechanism_qualifier:induction	
+DrugBank	affected_by		actions	substrate	biolink:has_substrate	biolink:is_substrate_of					
+DrugBank	affected_by		actions	substrate;inhibitor	biolink:is_substrate_of	biolink:has_substrate	biolink:causes	subject_aspect_qualifier:activity	subject_direction_qualifier:decreased	causal_mechanism_qualifier:inhibition	
+DrugBank	affected_by		actions	cofactor	biolink:affects	biolink:affected_by		subject_aspect_qualifier:cofactor	object_aspect_qualifier:activity		
+DrugBank	affected_by		actions	product of	biolink:has_output	biolink:output_of					
+DrugBank	affected_by		actions	substrate;inducer	biolink:is_substrate_of	biolink:has_substrate	biolink:causes	subject_aspect_qualifier:activity	subject_direction_qualifier:increased	causal_mechanism_qualifier:induction	
+DrugBank	affected_by		actions	substrate;activator	biolink:has_substrate	biolink:is_substrate_of	biolink:causes	subject_aspect_qualifier:activity	subject_direction_qualifier:increased	causal_mechanism_qualifier:activation	
+DrugBank	affected_by		actions	inhibitor;inducer	biolink:affects	biolink:affected_by	biolink:causes	subject_aspect_qualifier:activity	causal_mechanism_qualifier:inhibition	causal_mechanism_qualifier:induction	
+DrugBank	affected_by		actions	substrate;inhibitor;inducer	biolink:is_substrate_of	biolink:has_substrate	biolink:causes	subject_aspect_qualifier:activity	causal_mechanism_qualifier:inhibition	causal_mechanism_qualifier:induction	
+DrugBank	affected_by		actions	regulator	biolink:affected_by	biolink:affects		causal_mechanism_qualifier:regulation			
+DrugBank	affected_by		actions	potentiator	biolink:affects	biolink:affected_by	biolink:causes	subject_aspect_qualifier:activity	subject_direction_qualifier:increased	causal_mechanism_qualifier:potentiation	
+DrugBank	affected_by		actions	activator	biolink:affected_by	biolink:affects	biolink:causes	subject_aspect_qualifier:activity	subject_direction_qualifier:increased		
+DrugBank	affected_by		actions	modulator	biolink:affects	biolink:affected_by		subject_aspect_qualifier:activity	subject_aspect_qualifier:modulation		
+DrugBank	affected_by		actions	conversion inhibitor	biolink:affects	biolink:affected_by	biolink:causes	subject_aspect_qualifier:catalysis	object_direction_qualifier:decreased	object_aspect_qualifier:metabolite	
+DrugBank	affected_by		actions	substrate;inhibitor;inactivator	biolink:is_substrate_of	biolink:has_substrate	biolink:causes	subject_aspect_qualifier:activity	subject_direction_qualifier:decreased	causal_mechanism_qualifier:inactivation	
+DrugBank	affected_by		actions	downregulator	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:down_regulation	
+DrugBank	affected_by		actions	binder	biolink:binds	biolink:binds		object_aspect_qualifier:binder			
+DrugBank	affected_by		actions	inhibitor;binder	biolink:affects	biolink:affected_by	biolink:causes	subject_aspect_qualifier:binder	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:inhibition
+DrugBank	affected_by		actions	ligand	biolink:directly_physically_interacts_with	biolink:directly_physically_interacts_with		object_aspect_qualifier:ligand			
+DrugBank	affected_by		actions	inhibitor;downregulator	biolink:affects	biolink:affected_by	biolink:causes	subject_aspect_qualifier:activity	subject_direction_qualifier:decreased	causal_mechanism_qualifier:inhibition	causal_mechanism_qualifier:down_regulation
+DrugBank	affected_by		actions	catalytic activity	biolink:catalyzes	biolink:has_catalyst					
+DrugBank	affected_by		actions	substrate;cofactor	biolink:has_substrate	biolink:is_substrate_of		subject_aspect_qualifier:cofactor			
+DrugBank	affected_by		actions	substrate;inhibitor;downregulator	biolink:is_substrate_of	biolink:has_substrate	biolink:causes	subject_aspect_qualifier:activity	subject_direction_qualifier:decreased	causal_mechanism_qualifier:downregulation	
+DrugBank	affected_by		actions	inhibitor;ligand	biolink:directly_physically_interacts_with	biolink:directly_physically_interacts_with	biolink:causes	object_aspect_qualifier:ligand	subject_aspect_qualifier:activity	subject_direction_qualifier:decreased	causal_mechanism_qualifier:inhibition
+DrugBank	affected_by		actions	metabolizer	biolink:affects	biolink:affected_by		subject_aspect_qualifier:activity	object_aspect_qualifier:metabolizer		
+DrugBank	transport_affected_by		actions	substrate;inhibitor	biolink:is_substrate_of	biolink:has_substrate	biolink:causes	object_aspect_qualifier:transport	object_direction_qualifier:decreased	causal_mechanism_qualifier:inhibition	
+DrugBank	transport_affected_by		actions	substrate	biolink:affects	biolink:affected_by		subject_aspect_qualifier:substrate	object_aspect_qualifier:transport		
+DrugBank	transport_affected_by		actions	inhibitor	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:transport	object_direction_qualifier:decreased	causal_mechanism_qualifier:inhibition	
+DrugBank	transport_affected_by		actions	ligand	biolink:directly_physically_interacts_with	biolink:directly_physically_interacts_with		subject_aspect_qualifier:ligand	object_aspect_qualifier:transport		
+DrugBank	transport_affected_by		actions	transporter	biolink:affected_by	biolink:affects		object_aspect_qualifier:transport			
+DrugBank	transport_affected_by		actions	substrate;inhibitor;inducer	biolink:is_substrate_of	biolink:has_substrate	biolink:causes	object_aspect_qualifier:transport	causal_mechanism_qualifier:induction	causal_mechanism_qualifier:inhibition	
+DrugBank	transport_affected_by		actions	other	biolink:affects	biolink:affected_by		object_aspect_qualifier:transport			
+DrugBank	transport_affected_by		actions	inducer	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:transport	object_direction_qualifier:increased	causal_mechanism_qualifier:induction	
+DrugBank	transport_affected_by		actions	inhibitor;inducer	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:transport	causal_mechanism_qualifier:inhibition	causal_mechanism_qualifier:induction	
+DrugBank	transport_affected_by		actions	substrate;inducer	biolink:is_substrate_of	biolink:has_substrate	biolink:causes	object_aspect_qualifier:transport	object_direction_qualifier:increased	causal_mechanism_qualifier:induction	
+DrugBank	transport_affected_by		actions	substrate;inhibitor;modulator	biolink:is_substrate_of	biolink:has_substrate	biolink:causes	object_aspect_qualifier:transport	object_direction_qualifier:decreased	causal_mechanism_qualifier:inhibition	causal_mechanism_qualifier:modulation
+DrugBank	transport_affected_by		actions	antagonist	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:transport	object_direction_qualifier:decreased	causal_mechanism_qualifier:antagonism	
+DrugBank	transport_affected_by		actions	agonist	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:transport	object_direction_qualifier:increased	causal_mechanism_qualifier:agonism	
+DrugBank	transport_affected_by		actions	substrate;downregulator;regulator	biolink:is_substrate_of	biolink:has_substrate	biolink:causes	object_aspect_qualifier:transport	object_direction_qualifier:decreased	causal_mechanism_qualifier:downregulation	
+DrugBank	transport_affected_by		actions	inhibitor;downregulator	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:transport	object_direction_qualifier:decreased	causal_mechanism_qualifier:inhibition	causal_mechanism_qualifier:down_regulation
+DrugBank	transport_affected_by		actions	binder	biolink:binds	biolink:binds		subject_aspect_qualifier:binder	object_aspect_qualifier:transport		
+DrugBank	transport_affected_by		actions	substrate;inducer;modulator	biolink:is_substrate_of	biolink:has_substrate	biolink:causes	object_aspect_qualifier:transport	object_direction_qualifier:increased	causal_mechanism_qualifier:induction	causal_mechanism_qualifier:modulation
+DrugBank	transport_affected_by		actions	downregulator	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:down_regulation	
+DrugBank	transport_affected_by		actions	substrate;weak inhibitor	biolink:is_substrate_of	biolink:has_substrate	biolink:causes	object_aspect_qualifier:transport	subject_direction_qualifier:decreased	causal_mechanism_qualifier:weak_inhibition	
+DrugBank	transport_affected_by		actions	weak inhibitor	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:transport	object_direction_qualifier:decreased	causal_mechanism_qualifier:weak_inhibition	
+DrugBank	transport_affected_by		actions	storage	biolink:affects	biolink:affected_by		object_aspect_qualifier:storage			
+DrugBank	transport_affected_by		actions	substrate;other	biolink:is_substrate_of	biolink:has_substrate		object_aspect_qualifier:transport			
+DrugBank	transport_affected_by		actions	substrate;transporter	biolink:is_substrate_of	biolink:has_substrate		object_aspect_qualifier:transport			
+DrugBank	transport_affected_by		actions	inhibitor;transporter	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:transport	object_direction_qualifier:decreased	causal_mechanism_qualifier:inhibition	subject_aspect_qualifier:transporter
+DrugBank	transport_affected_by		actions	modulator	biolink:affects	biolink:affected_by		object_aspect_qualifier:transport	object_aspect_qualifier:modulation		
+DrugBank	transport_affected_by		actions	carrier	biolink:affected_by	biolink:affects		object_aspect_qualifier:transport	causal_mechanism_qualifier:carrier		
+DrugBank	transport_affected_by		actions	other/unknown	biolink:affects	biolink:affected_by		object_aspect_qualifier:transport			
+DrugBank	affected_by				biolink:affected_by	biolink:affects					
+DrugBank	affects				biolink:affects	biolink:affected_by					
+DrugBank	transport_affected_by				biolink:affects	biolink:affected_by		object_aspect_qualifier:transport			
+DrugBank	affects_transport_of				biolink:affects	biolink:affected_by		object_aspect_qualifier:transport			
+DrugCentral	biolink:treated_by				biolink:treated_by	biolink:treats					
+DrugCentral	treated_by				biolink:treated_by	biolink:treats					
+GtoPdb	biolink:increases_activity_of		TYPE	Activator	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:activation	
+GtoPdb	biolink:increases_activity_of		TYPE	Agonist	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:agonism	
+GtoPdb	biolink:affects_activity_of		TYPE	Allosteric modulator	biolink:affects	biolink:affected_by		object_aspect_qualifier:activity	causal_mechanism_qualifier:allosteric_modulation		
+GtoPdb	biolink:decreases_activity_of		TYPE	Antagonist	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:antagonism	
+GtoPdb	biolink:decreases_activity_of		TYPE	Channel blocker	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:molecular_channel_blockage	
+GtoPdb	biolink:decreases_activity_of		TYPE	Gating inhibitor	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:gating_inhibition	
+GtoPdb	biolink:decreases_activity_of		TYPE	Inhibitor	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:inhibition	
+GtoPdb	biolink:affects_activity_of		TYPE	None	biolink:affects	biolink:affected_by					
+GtoPdb	biolink:activity_increased_by		TYPE	Activator	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:increased	causal_mechanism_qualifier:activation	
+GtoPdb	biolink:activity_increased_by		TYPE	Agonist	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:increased	causal_mechanism_qualifier:agonism	
+GtoPdb	biolink:activity_affected_by		TYPE	Allosteric modulator	biolink:affected_by	biolink:affects		subject_aspect_qualifier:activity	causal_mechanism_qualifier:allosteric_modulation		
+GtoPdb	biolink:activity_decreased_by		TYPE	Antagonist	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:decreased	causal_mechanism_qualifier:antagonism	
+GtoPdb	biolink:activity_decreased_by		TYPE	Channel blocker	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:decreased	causal_mechanism_qualifier:molecular_channel_blockage	
+GtoPdb	biolink:activity_decreased_by		TYPE	Gating inhibitor	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:decreased	causal_mechanism_qualifier:gating_inhibition	
+GtoPdb	biolink:activity_decreased_by		TYPE	Inhibitor	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:decreased	causal_mechanism_qualifier:inhibition	
+GtoPdb	biolink:activity_affected_by		TYPE	None	biolink:affected_by	biolink:affects					
+GtoPdb	biolink:affects_activity_of				biolink:affects	biolink:affected_by		object_aspect_qualifier:activity			
+GtoPdb	biolink:decreases_activity_of				biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased		
+GtoPdb	biolink:increases_activity_of				biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased		
+GtoPdb	affects		TYPE	Agonist	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:agonism	
+GtoPdb	affects		TYPE	Inhibitor	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:inhibition	
+GtoPdb	affects		TYPE	Antagonist	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:antagonism	
+GtoPdb	affects		TYPE	Channel blocker	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:molecular_channel_blockage	
+GtoPdb	affects		TYPE	Allosteric modulator	biolink:affects	biolink:affected_by		object_aspect_qualifier:activity	causal_mechanism_qualifier:allosteric_modulation		
+GtoPdb	affects		TYPE	Activator	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:activation	
+GtoPdb	affects		TYPE	None	biolink:affects	biolink:affected_by					
+GtoPdb	affects		TYPE	Antibody	biolink:directly_physically_interacts_with	biolink:directly_physically_interacts_with		subject_aspect_qualifier:antibody			
+GtoPdb	affects		TYPE	Gating inhibitor	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:gating_inhibition	
+GtoPdb	affects		TYPE	Subunit-specific	biolink:affects	biolink:affected_by		object_aspect_qualifier:activity	causal_mechanism_qualifier:subunit-specific		
+GtoPdb	affected_by				biolink:affected_by	biolink:affects					
+GtoPdb	is_affected_by				biolink:affected_by	biolink:affects					
+GtoPdb	affects				biolink:affects	biolink:affected_by					
+HMDB	biolink:related_to				biolink:related_to	biolink:related_to					
+HMDB	biolink:located_in				biolink:located_in	biolink:location_of					
+HMDB	biolink:participates_in				biolink:participates_in	biolink:has_participant					
+HMDB	biolink:interacts_with				biolink:interacts_with	biolink:interacts_with					
+HMDB	related_to				biolink:related_to	biolink:related_to					
+HMDB	located_in				biolink:located_in	biolink:location_of					
+HMDB	participates_in				biolink:participates_in	biolink:has_participant					
+HMDB	interacts_with				biolink:interacts_with	biolink:interacts_with					
+HMDB	biolink:has_participant				biolink:has_participant	biolink:participates_in					
+HMDB	biolink:location of				biolink:location of	biolink:located_in					
+MSigDB	biolink:has_participant				biolink:has_participant	biolink:participates_in					
+MSigDB	biolink:participates_in				biolink:participates_in	biolink:has_participant					
+MSigDB	participates_in				biolink:participates_in	biolink:has_participant					
+Inxight:Drugs	ACTIVE MOIETY				biolink:has_active_ingredient	biolink:is_active_ingredient_of					
+Inxight:Drugs	has_active_ingredient				biolink:has_active_ingredient	biolink:is_active_ingredient_of					
+Pharos	biolink:increases_activity_of		action_type	ACTIVATOR	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:activation	
+Pharos	biolink:increases_activity_of		action_type	AGONIST	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:agonism	
+Pharos	biolink:decreases_activity_of		action_type	ALLOSTERIC ANTAGONIST	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:allosteric_antagonism	
+Pharos	biolink:affects_activity_of		action_type	ALLOSTERIC MODULATOR	biolink:affects	biolink:affected_by		object_aspect_qualifier:activity	causal_mechanism_qualifier:allosteric_modulation		
+Pharos	biolink:decreases_activity_of		action_type	ANTAGONIST	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:antagonism	
+Pharos	biolink:directly_interacts_with		action_type	BINDING AGENT	biolink:directly_physically_interacts_with	biolink:directly_physically_interacts_with		subject_aspect_qualifier:binding_agent			
+Pharos	biolink:decreases_activity_of		action_type	BLOCKER	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:molecular_channel_blockage	
+Pharos	biolink:decreases_activity_of		action_type	GATING INHIBITOR	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:gating_inhibition	
+Pharos	biolink:decreases_activity_of		action_type	INHIBITOR	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:inhibition	
+Pharos	biolink:decreases_activity_of		action_type	INVERSE AGONIST	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:inverse_agonism	
+Pharos	biolink:affects_activity_of		action_type	MODULATOR	biolink:affects	biolink:affected_by		object_aspect_qualifier:activity	causal_mechanism_qualifier:modulation		
+Pharos	biolink:decreases_activity_of		action_type	NEGATIVE ALLOSTERIC MODULATOR	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:negative_allosteric_modulation	
+Pharos	biolink:increases_activity_of		action_type	OPENER	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	causal_mechanism_qualifier:molecular_channel_opening	object_direction_qualifier:increased	
+Pharos	biolink:increases_activity_of		action_type	PARTIAL AGONIST	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:partial_agonism	
+Pharos	biolink:affects_activity_of		action_type	PHARMACOLOGICAL CHAPERONE	biolink:affects	biolink:affected_by		object_aspect_qualifier:stability			
+Pharos	biolink:increases_activity_of		action_type	POSITIVE ALLOSTERIC MODULATOR	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:positive_allosteric_modulation	
+Pharos	biolink:increases_activity_of		action_type	POSITIVE MODULATOR	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:positive_modulation	
+Pharos	biolink:decreases_activity_of		action_type	RELEASING AGENT	biolink:affects	biolink:affected_by		object_aspect_qualifier:transport	causal_mechanism_qualifier:releasing_agent		
+Pharos	biolink:activity_increased_by		action_type	ACTIVATOR	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:increased	causal_mechanism_qualifier:activation	
+Pharos	biolink:activity_increased_by		action_type	AGONIST	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:increased	causal_mechanism_qualifier:agonism	
+Pharos	biolink:activity_decreased_by		action_type	ALLOSTERIC ANTAGONIST	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:decreased	causal_mechanism_qualifier:allosteric_antagonism	
+Pharos	biolink:activity_affected_by		action_type	ALLOSTERIC MODULATOR	biolink:affected_by	biolink:affects		subject_aspect_qualifier:activity	causal_mechanism_qualifier:allosteric_modulation		
+Pharos	biolink:activity_decreased_by		action_type	ANTAGONIST	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:decreased	causal_mechanism_qualifier:antagonism	
+Pharos	biolink:activity_decreased_by		action_type	BLOCKER	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:decreased	causal_mechanism_qualifier:molecular_channel_blockage	
+Pharos	biolink:activity_decreased_by		action_type	GATING INHIBITOR	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:decreased	causal_mechanism_qualifier:gating_inhibition	
+Pharos	biolink:activity_decreased_by		action_type	INHIBITOR	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:decreased	causal_mechanism_qualifier:inhibition	
+Pharos	biolink:activity_decreased_by		action_type	INVERSE AGONIST	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:decreased	causal_mechanism_qualifier:inverse_agonism	
+Pharos	biolink:activity_affected_by		action_type	MODULATOR	biolink:affected_by	biolink:affects		subject_aspect_qualifier:activity	causal_mechanism_qualifier:modulation		
+Pharos	biolink:activity_decreased_by		action_type	NEGATIVE ALLOSTERIC MODULATOR	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:decreased	causal_mechanism_qualifier:negative_allosteric_modulation	
+Pharos	biolink:activity_increased_by		action_type	OPENER	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	causal_mechanism_qualifier:molecular_channel_opening	subject_direction_qualifier:increased	
+Pharos	biolink:activity_increased_by		action_type	PARTIAL AGONIST	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:increased	causal_mechanism_qualifier:partial_agonism	
+Pharos	biolink:activity_affected_by		action_type	PHARMACOLOGICAL CHAPERONE	biolink:affected_by	biolink:affects		subject_aspect_qualifier:stability			
+Pharos	biolink:activity_increased_by		action_type	POSITIVE ALLOSTERIC MODULATOR	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:increased	causal_mechanism_qualifier:positive_allosteric_modulation	
+Pharos	biolink:activity_increased_by		action_type	POSITIVE MODULATOR	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:increased	causal_mechanism_qualifier:positive_modulation	
+Pharos	biolink:activity_decreased_by		action_type	RELEASING AGENT	biolink:affected_by	biolink:affects		subject_aspect_qualifier:transport	causal_mechanism_qualifier:releasing_agent		
+Pharos	biolink:affects_activity_of				biolink:affects	biolink:affected_by		object_aspect_qualifier:activity			
+Pharos	biolink:decreases_activity_of				biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased		
+Pharos	biolink:directly_interacts_with				biolink:directly_physically_interacts_with	biolink:directly_physically_interacts_with					
+Pharos	biolink:increases_activity_of				biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased		
+Pharos	affects		action_type	ANTAGONIST	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:antagonism	
+Pharos	affects		action_type	ALLOSTERIC ANTAGONIST	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:allosteric_antagonism	
+Pharos	affects		action_type	INVERSE AGONIST	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	causal_mechanism_qualifier:inverse_agonism		
+Pharos	affects		action_type	PHARMACOLOGICAL CHAPERONE	biolink:affects	biolink:affected_by		object_aspect_qualifier:stability			
+Pharos	affects		action_type	ANTISENSE INHIBITOR	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:expression	object_direction_qualifier:decreased	causal_mechanism_qualifier:antisense_inhibition	
+Pharos	affects		action_type	AGONIST	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:agonism	
+Pharos	affects		action_type	POSITIVE ALLOSTERIC MODULATOR	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:positive_allosteric_modulation	
+Pharos	affects		action_type	OPENER	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	causal_mechanism_qualifier:molecular_channel_opening	object_direction_qualifier:increased	
+Pharos	affects		action_type	PARTIAL AGONIST	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:partial_agonism	
+Pharos	affects		action_type	RELEASING AGENT	biolink:affects	biolink:affected_by		object_aspect_qualifier:transport	causal_mechanism_qualifier:releasing_agent		
+Pharos	affects		action_type	INHIBITOR	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:inhibition	
+Pharos	affects		action_type	GATING INHIBITOR	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:gating_inhibition	
+Pharos	affects		action_type	BLOCKER	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:molecular_channel_blockage	
+Pharos	affects		action_type	NEGATIVE ALLOSTERIC MODULATOR	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:negative_allosteric_modulation	
+Pharos	affects		action_type	ANTIBODY BINDING	biolink:directly_physically_interacts_with	biolink:directly_physically_interacts_with		subject_aspect_qualifier:antibody			
+Pharos	affects		action_type	BINDING AGENT	biolink:binds	biolink:binds		subject_aspect_qualifier:binding_agent			
+Pharos	affects		action_type	SUBSTRATE	biolink:is_substrate_of	biolink:has_substrate					
+Pharos	affects		action_type	ACTIVATOR	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:activation	
+Pharos	affects		action_type	POSITIVE MODULATOR	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:positive_modulation	
+Pharos	affects		action_type	MODULATOR	biolink:affects	biolink:affected_by		object_aspect_qualifier:activity	causal_mechanism_qualifier:modulation		
+Pharos	affects		action_type	ALLOSTERIC MODULATOR	biolink:affects	biolink:affected_by		object_aspect_qualifier:activity	causal_mechanism_qualifier:allosteric_modulation		
+Pharos	affects				biolink:affects	biolink:affected_by					
+PharmGKB	associated_with				biolink:associated_with	biolink:associated_with					
+PharmGKB	related_to_at_instance_level				biolink:related_to_at_instance_level	biolink:related_to_at_instance_level					
+ProbeMiner	biolink:related_to				biolink:related_to	biolink:related_to					
+ProbeMiner	related_to				biolink:related_to	biolink:related_to					
+Repurposing	biolink:affects		FEATURE_ACTION	affects	biolink:affects	biolink:affected_by					
+Repurposing	biolink:ameliorates		FEATURE_ACTION	agent for	biolink:ameliorates	biolink:ameliorates		context_qualifier:agent_for			
+Repurposing	biolink:ameliorates		FEATURE_ACTION	aid for	biolink:ameliorates	biolink:ameliorates		context_qualifier:aid_for			
+Repurposing	biolink:related_to		FEATURE_ACTION	control for	biolink:related_to	biolink:related_to		context_qualifier:control_for			
+Repurposing	biolink:related_to		FEATURE_ACTION	diagnostic for	biolink:related_to	biolink:related_to		context_qualifier:diagnostic_for			
+Repurposing	biolink:treats		FEATURE_ACTION	indication for	biolink:treats	biolink:treated_by					
+Repurposing	biolink:ameliorates		FEATURE_ACTION	reversal for	biolink:ameliorates	biolink:ameliorates		context_qualifier:reversal_for			
+Repurposing	biolink:ameliorates		FEATURE_ACTION	support for	biolink:ameliorates	biolink:ameliorates		context_qualifier:support_for			
+Repurposing	affects		FEATURE_ACTION	affects	biolink:affects	biolink:affected_by					
+Repurposing	affects		FEATURE_ACTION	indication for	biolink:treats	biolink:treated_by					
+Repurposing	affects		FEATURE_ACTION	reversal for	biolink:ameliorates	biolink:ameliorates		context_qualifier:reversal_for			
+Repurposing	affects		FEATURE_ACTION	diagnostic for	biolink:related_to	biolink:related_to		context_qualifier:diagnostic_for			
+Repurposing	affects		FEATURE_ACTION	control for	biolink:related_to	biolink:related_to		context_qualifier:control_for			
+Repurposing	affects		FEATURE_ACTION	agent for	biolink:ameliorates	biolink:ameliorates		context_qualifier:agent_for			
+Repurposing	affects		FEATURE_ACTION	support for	biolink:ameliorates	biolink:ameliorates		context_qualifier:support_for			
+Repurposing	affects		FEATURE_ACTION	aid for	biolink:ameliorates	biolink:ameliorates		context_qualifier:aid_for			
+Drug Repurposing Hub	biolink:affects		FEATURE_ACTION	affects	biolink:affects	biolink:affected_by					
+Drug Repurposing Hub	biolink:ameliorates		FEATURE_ACTION	agent for	biolink:ameliorates	biolink:ameliorates		context_qualifier:agent_for			
+Drug Repurposing Hub	biolink:ameliorates		FEATURE_ACTION	aid for	biolink:ameliorates	biolink:ameliorates		context_qualifier:aid_for			
+Drug Repurposing Hub	biolink:related_to		FEATURE_ACTION	control for	biolink:related_to	biolink:related_to		context_qualifier:control_for			
+Drug Repurposing Hub	biolink:related_to		FEATURE_ACTION	diagnostic for	biolink:related_to	biolink:related_to		context_qualifier:diagnostic_for			
+Drug Repurposing Hub	biolink:treats		FEATURE_ACTION	indication for	biolink:treats	biolink:treated_by					
+Drug Repurposing Hub	biolink:ameliorates		FEATURE_ACTION	reversal for	biolink:ameliorates	biolink:ameliorates		context_qualifier:reversal_for			
+Drug Repurposing Hub	biolink:ameliorates		FEATURE_ACTION	support for	biolink:ameliorates	biolink:ameliorates		context_qualifier:support_for			
+Drug Repurposing Hub	affects		FEATURE_ACTION	affects	biolink:affects	biolink:affected_by					
+Drug Repurposing Hub	affects		FEATURE_ACTION	indication for	biolink:treats	biolink:treated_by					
+Drug Repurposing Hub	affects		FEATURE_ACTION	reversal for	biolink:ameliorates	biolink:ameliorates		context_qualifier:reversal_for			
+Drug Repurposing Hub	affects		FEATURE_ACTION	diagnostic for	biolink:related_to	biolink:related_to		context_qualifier:diagnostic_for			
+Drug Repurposing Hub	affects		FEATURE_ACTION	control for	biolink:related_to	biolink:related_to		context_qualifier:control_for			
+Drug Repurposing Hub	affects		FEATURE_ACTION	agent for	biolink:ameliorates	biolink:ameliorates		context_qualifier:agent_for			
+Drug Repurposing Hub	affects		FEATURE_ACTION	support for	biolink:ameliorates	biolink:ameliorates		context_qualifier:support_for			
+Drug Repurposing Hub	affects		FEATURE_ACTION	aid for	biolink:ameliorates	biolink:ameliorates		context_qualifier:aid_for			
+Repurposing	affects				biolink:affects	biolink:affected_by					
+Drug Repurposing Hub	affects				biolink:affects	biolink:affected_by					
+RxNorm	biolink:is_active_ingredient_of				biolink:is_active_ingredient_of	biolink:has_active_ingredient					
+RxNorm	biolink:part_of				biolink:part_of	biolink:has_part					
+RxNorm	related_to		rela	form_of	biolink:part_of	biolink:has_part					
+RxNorm	related_to		rela	has_dose_form	biolink:has_part	biolink:part_of					
+RxNorm	related_to		rela	has_form	biolink:has_part	biolink:part_of					
+RxNorm	related_to		rela	has_ingredient	biolink:has_active_ingredient	biolink:is_active_ingredient_of					
+RxNorm	related_to		rela	has_part	biolink:has_part	biolink:part_of					
+RxNorm	related_to		rela	has_precise_ingredient	biolink:has_active_ingredient	biolink:is_active_ingredient_of					
+RxNorm	related_to		rela	ingredient_of	biolink:is_active_ingredient_of	biolink:has_active_ingredient					
+RxNorm	related_to		rela	ingredients_of	biolink:is_active_ingredient_of	biolink:has_active_ingredient					
+RxNorm	related_to		rela	inverse_isa	biolink:same_as	biolink:same_as					
+RxNorm	related_to		rela	isa	biolink:same_as	biolink:same_as					
+RxNorm	related_to		rela	part_of	biolink:part_of	biolink:has_part					
+RxNorm	related_to		rela	precise_ingredient_of	biolink:is_active_ingredient_of	biolink:has_active_ingredient					
+RxNorm	related_to				biolink:related_to	biolink:related_to					
+RxNorm	biolink:has_active_ingredient				biolink:has_active_ingredient	biolink:is_active_ingredient_of					
+RxNorm	biolink:has_part				biolink:has_part	biolink:part_of					
+SIDER	biolink:treats				biolink:treats	biolink:treated_by					
+SIDER	biolink:has_side_effect				biolink:has_side_effect	biolink:is_side_effect_of					
+SIDER	biolink:is_side_effect_of				biolink:is_side_effect_of	biolink:has_side_effect					
+SIDER	treats				biolink:treats	biolink:treated_by					
+SIDER	has_side_effect				biolink:has_side_effect	biolink:is_side_effect_of					
+STITCH	biolink:affects		mode	binding	biolink:physically_interacts_with	biolink:physically_interacts_with					
+STITCH	biolink:affects_expression_of		mode	binding	biolink:physically_interacts_with	biolink:physically_interacts_with					
+STITCH	biolink:decreases_activity_of		mode	binding	biolink:physically_interacts_with	biolink:physically_interacts_with					
+STITCH	biolink:increases_activity_of		mode	binding	biolink:physically_interacts_with	biolink:physically_interacts_with					
+STITCH	biolink:interacts_with		mode	binding	biolink:physically_interacts_with	biolink:physically_interacts_with					
+STITCH	biolink:physically_interacts_with		mode	binding	biolink:physically_interacts_with	biolink:physically_interacts_with					
+STITCH	biolink:affects		mode	reaction	biolink:affects	biolink:affected_by		object_aspect_qualifier:reaction			
+STITCH	biolink:affects_expression_of		mode	reaction	biolink:affects	biolink:affected_by		object_aspect_qualifier:reaction			
+STITCH	biolink:physically_interacts_with		mode	reaction	biolink:affects	biolink:affected_by		object_aspect_qualifier:reaction			
+STITCH	biolink:affects		mode	inhibition	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:inhibition	
+STITCH	biolink:affects_expression_of		mode	inhibition	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:inhibition	
+STITCH	biolink:decreases_activity_of		mode	inhibition	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:inhibition	
+STITCH	biolink:increases_activity_of		mode	inhibition	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:inhibition	
+STITCH	biolink:interacts_with		mode	inhibition	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:inhibition	
+STITCH	biolink:physically_interacts_with		mode	inhibition	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:inhibition	
+STITCH	biolink:affects		mode	activation	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:activation	
+STITCH	biolink:affects_expression_of		mode	activation	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:activation	
+STITCH	biolink:decreases_activity_of		mode	activation	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:activation	
+STITCH	biolink:increases_activity_of		mode	activation	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:activation	
+STITCH	biolink:interacts_with		mode	activation	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:activation	
+STITCH	biolink:physically_interacts_with		mode	activation	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:activation	
+STITCH	biolink:affects		mode	catalysis	biolink:affects	biolink:affected_by		object_aspect_qualifier:catalysis			
+STITCH	biolink:affects_expression_of		mode	catalysis	biolink:affects	biolink:affected_by		object_aspect_qualifier:catalysis			
+STITCH	biolink:decreases_activity_of		mode	catalysis	biolink:affects	biolink:affected_by		object_aspect_qualifier:catalysis			
+STITCH	biolink:increases_activity_of		mode	catalysis	biolink:affects	biolink:affected_by		object_aspect_qualifier:catalysis			
+STITCH	biolink:interacts_with		mode	catalysis	biolink:affects	biolink:affected_by		object_aspect_qualifier:catalysis			
+STITCH	biolink:physically_interacts_with		mode	catalysis	biolink:affects	biolink:affected_by		object_aspect_qualifier:catalysis			
+STITCH	biolink:affects		mode	expression	biolink:affects	biolink:affected_by		object_aspect_qualifier:expression			
+STITCH	biolink:affects_expression_of		mode	expression	biolink:affects	biolink:affected_by		object_aspect_qualifier:expression			
+STITCH	biolink:decreases_activity_of		mode	expression	biolink:affects	biolink:affected_by		object_aspect_qualifier:expression			
+STITCH	biolink:increases_activity_of		mode	expression	biolink:affects	biolink:affected_by		object_aspect_qualifier:expression			
+STITCH	biolink:interacts_with		mode	expression	biolink:affects	biolink:affected_by		object_aspect_qualifier:expression			
+STITCH	biolink:physically_interacts_with		mode	expression	biolink:affects	biolink:affected_by		object_aspect_qualifier:expression			
+STITCH	biolink:affects		mode	pred_bind	biolink:physically_interacts_with	biolink:physically_interacts_with		causal_mechanism_qualifier:predicted_binding			
+STITCH	biolink:affects_expression_of		mode	pred_bind	biolink:physically_interacts_with	biolink:physically_interacts_with		causal_mechanism_qualifier:predicted_binding			
+STITCH	biolink:decreases_activity_of		mode	pred_bind	biolink:physically_interacts_with	biolink:physically_interacts_with		causal_mechanism_qualifier:predicted_binding			
+STITCH	biolink:increases_activity_of		mode	pred_bind	biolink:physically_interacts_with	biolink:physically_interacts_with		causal_mechanism_qualifier:predicted_binding			
+STITCH	biolink:interacts_with		mode	pred_bind	biolink:physically_interacts_with	biolink:physically_interacts_with		causal_mechanism_qualifier:predicted_binding			
+STITCH	biolink:physically_interacts_with		mode	pred_bind	biolink:physically_interacts_with	biolink:physically_interacts_with		causal_mechanism_qualifier:predicted_binding			
+STITCH	biolink:activity_increased_by		mode	activation	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:increased	causal_mechanism_qualifier:activation	
+STITCH	biolink:expression_affected_by		mode	activation	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:increased	causal_mechanism_qualifier:activation	
+STITCH	biolink:affected_by		mode	activation	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:increased	causal_mechanism_qualifier:activation	
+STITCH	biolink:activity_decreased_by		mode	activation	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:increased	causal_mechanism_qualifier:activation	
+STITCH	biolink:affected_by		mode	binding	biolink:physically_interacts_with	biolink:physically_interacts_with					
+STITCH	biolink:activity_increased_by		mode	binding	biolink:physically_interacts_with	biolink:physically_interacts_with					
+STITCH	biolink:activity_decreased_by		mode	binding	biolink:physically_interacts_with	biolink:physically_interacts_with					
+STITCH	biolink:expression_affected_by		mode	binding	biolink:physically_interacts_with	biolink:physically_interacts_with					
+STITCH	biolink:affected_by		mode	catalysis	biolink:affected_by	biolink:affects		subject_aspect_qualifier:catalysis			
+STITCH	biolink:activity_increased_by		mode	catalysis	biolink:affected_by	biolink:affects		subject_aspect_qualifier:catalysis			
+STITCH	biolink:activity_decreased_by		mode	catalysis	biolink:affected_by	biolink:affects		subject_aspect_qualifier:catalysis			
+STITCH	biolink:expression_affected_by		mode	catalysis	biolink:affected_by	biolink:affects		subject_aspect_qualifier:catalysis			
+STITCH	biolink:expression_affected_by		mode	expression	biolink:affected_by	biolink:affects		subject_aspect_qualifier:expression			
+STITCH	biolink:affected_by		mode	expression	biolink:affected_by	biolink:affects		subject_aspect_qualifier:expression			
+STITCH	biolink:activity_increased_by		mode	expression	biolink:affected_by	biolink:affects		subject_aspect_qualifier:expression			
+STITCH	biolink:activity_decreased_by		mode	expression	biolink:affected_by	biolink:affects		subject_aspect_qualifier:expression			
+STITCH	biolink:activity_decreased_by		mode	inhibition	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:decreased	causal_mechanism_qualifier:inhibition	
+STITCH	biolink:expression_affected_by		mode	inhibition	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:decreased	causal_mechanism_qualifier:inhibition	
+STITCH	biolink:activity_increased_by		mode	inhibition	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:decreased	causal_mechanism_qualifier:inhibition	
+STITCH	biolink:affected_by		mode	inhibition	biolink:affected_by	biolink:affects	biolink:caused_by	subject_aspect_qualifier:activity	subject_direction_qualifier:decreased	causal_mechanism_qualifier:inhibition	
+STITCH	biolink:activity_increased_by		mode	pred_bind	biolink:physically_interacts_with	biolink:physically_interacts_with		causal_mechanism_qualifier:predicted_binding			
+STITCH	biolink:activity_decreased_by		mode	pred_bind	biolink:physically_interacts_with	biolink:physically_interacts_with		causal_mechanism_qualifier:predicted_binding			
+STITCH	biolink:affected_by		mode	pred_bind	biolink:physically_interacts_with	biolink:physically_interacts_with		causal_mechanism_qualifier:predicted_binding			
+STITCH	biolink:expression_affected_by		mode	pred_bind	biolink:physically_interacts_with	biolink:physically_interacts_with		causal_mechanism_qualifier:predicted_binding			
+STITCH	biolink:affected_by		mode	reaction	biolink:affected_by	biolink:affects		subject_aspect_qualifier:reaction			
+STITCH	biolink:expression_affected_by		mode	reaction	biolink:affected_by	biolink:affects		subject_aspect_qualifier:reaction			
+STITCH	biolink:physically_interacts_with				biolink:physically_interacts_with	biolink:physically_interacts_with					
+STITCH	biolink:affects				biolink:affects	biolink:affected_by					
+STITCH	biolink:decreases_activity_of				biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased		
+STITCH	biolink:increases_activity_of				biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased		
+STITCH	biolink:interacts_with				biolink:interacts_with	biolink:interacts_with					
+STITCH	biolink:affects_expression_of				biolink:affects	biolink:affected_by		object_aspect_qualifier:expression			
+STITCH	biolink:related_to				biolink:related_to	biolink:related_to					
+STITCH	related_to		mode	expression	biolink:affects	biolink:affected_by		object_aspect_qualifier:expression			
+STITCH	related_to		mode	binding	biolink:binds	biolink:binds					
+STITCH	related_to		mode	pred_bind	biolink:binds	biolink:binds		causal_mechanism_qualifier:predicted_binding			
+STITCH	related_to		mode	reaction	biolink:affects	biolink:affected_by		object_aspect_qualifier:reaction			
+STITCH	related_to		mode	catalysis	biolink:affects	biolink:affected_by		object_aspect_qualifier:catalysis			
+STITCH	related_to		mode	inhibition	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:decreased	causal_mechanism_qualifier:inhibition	
+STITCH	related_to		mode	activation	biolink:affects	biolink:affected_by	biolink:causes	object_aspect_qualifier:activity	object_direction_qualifier:increased	causal_mechanism_qualifier:activation	
+STITCH	related_to				biolink:related_to	biolink:related_to					
+STITCH	interacts_with				biolink:interacts_with	biolink:interacts_with					
+STITCH	biolink:expression_affected_by				biolink:affected_by	biolink:affects		subject_aspect_qualifier:expression			
+STRING	related_to				biolink:related_to	biolink:related_to					
+UniProt	gene_product_of				biolink:gene_product_of	biolink:has_gene_product					
+UniProt	has_gene_product				biolink:has_gene_product	biolink:gene_product_of					

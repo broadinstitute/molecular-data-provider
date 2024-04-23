@@ -1,0 +1,94 @@
+{
+    "description": "Drug ingredient transformer based on Inxight:Drugs substances information (https://drugs.ncats.io/).",
+    "function": "transformer",
+    "knowledge_map": {
+        "edges": [
+            {
+                "inverse_predicate": "is_active_ingredient_of",
+                "object": "ChemicalSubstance",
+                "knowledge_level":"knowledge_assertion",	
+                "agent_type":"manual_agent",
+                "predicate": "has_active_ingredient",
+                "relations": [
+                    "ACTIVE ENANTIOMER->RACEMATE",
+                    "ACTIVE ISOMER->PARENT",
+                    "ACTIVE MOIETY",
+                    "ACTIVE MOIETY (FOR EXCLUSIVITY)",
+                    "LESS ACTIVE ISOMER->PARENT",
+                    "METABOLITE REACTIVE TYPE->PARENT",
+                    "MORE ACTIVE ISOMER->PARENT"
+                ],
+                "subject": "Drug"
+            }
+        ],
+        "input_class": "drug",
+        "nodes": {
+            "ChemicalSubstance": {
+                "attributes": [
+                    {
+                        "attribute_type_id": "average IC50 (MICROMOLAR)",
+                        "description": "The mean concentration to acheive half-maximal inhibitory concentration (IC50), drug's potency",
+                        "names": [
+                            "average"
+                        ],
+                        "source": "infores:inxight_drugs"
+                    },
+                    {
+                        "attribute_type_id": "low IC50 (MICROMOLAR)",
+                        "description": "The minimum concentration to acheive half-maximal inhibitory concentration (IC50), drug's potency",
+                        "names": [
+                            "low"
+                        ],
+                        "source": "infores:inxight_drugs"
+                    },
+                    {
+                        "attribute_type_id": "high IC50 (MICROMOLAR)",
+                        "description": "The maximum concentration to acheive half-maximal inhibitory concentration (IC50), drug's potency",
+                        "names": [
+                            "high"
+                        ],
+                        "source": "infores:inxight_drugs"
+                    }
+                ],
+                "count": -1,
+                "id_prefixes": [
+                    "UNII",
+                    "RXCUI",
+                    "INCHIKEY",
+                    "CID"
+                ]
+            },
+            "Drug": {
+                "attributes": [],
+                "count": 15643,
+                "id_prefixes": [
+                    "RXCUI"
+                ]
+            }
+        },
+        "output_class": "drug"
+    },
+    "label": "Inxight:Drugs",
+    "name": "Inxight:Drugs active ingredients transformer",
+    "parameters": [
+        {
+            "example": "associated",
+            "name": "association level",
+            "type": "string",
+            "required": false,
+            "multivalued": false,
+            "default": "associated",
+            "allowed_values":["associated", 
+                              "associated_and_ambiguous", 
+                              "all"],
+            "description": "indication of association between drug and active ingredients, returned by the transformer"
+        }],
+    "properties": {
+        "list_predicate": "related_to",
+        "member_predicate": "related_to",
+        "source_url": "https://drugs.ncats.io/",
+        "source_version": "2023-03-15",
+        "terms_of_service": "https://ncats.nih.gov/disclaimer"
+    },
+    "version": "2.5.0"
+}

@@ -1,0 +1,32 @@
+{
+    "name": "ProbeMiner compound-list producer",
+    "label": "ProbeMiner",
+    "description": "Compound-list producer based on ProbeMiner (https://probeminer.icr.ac.uk/#/).",
+    "version": "2.4.0",
+    "function": "producer",
+    "knowledge_map": {
+        "input_class": "none",
+        "output_class": "compound",
+        "nodes": {
+            "SmallMolecule": {
+                "id_prefixes": ["canSAR","inchikey"]
+            }
+        },
+        "edges": []
+    },
+    "properties": {
+        "source_url": "https://probeminer.icr.ac.uk/#/",
+        "source_version": "02_26_2021",
+        "terms_of_service": "https://probeminer.icr.ac.uk/#/download"
+    },
+    "parameters": [
+        {
+            "example": "aspirin",
+            "multivalued": true,
+            "required": true,
+            "name": "compound",
+            "type": "string",
+            "suggested_values": "compound names, canSAR IDs, other identifiers"
+        }
+    ]
+}

@@ -1,0 +1,11 @@
+python -u script/extract_ids.py script/components/pharos.sql 
+sbt 'run data/pharos/MolePro.Pharos.sqlite exec ../schema/MoleProSchema.sql'
+sbt 'run data/pharos/MolePro.Pharos.sqlite exec ../schema/MoleProPreLoadIndexes.sql'
+sbt 'run data/pharos/MolePro.Pharos.sqlite load-transformers'
+sbt 'run data/pharos/MolePro.Pharos.sqlite load-prefixes'
+sbt -mem 4096 'run data/pharos/MolePro.Pharos.sqlite load-structures "Pubchem compound-list producer" data/pharos/Pharos-CID.tsv'
+sbt -mem 4096 'run data/pharos/MolePro.Pharos.sqlite load-structures "ChEMBL compound-list producer" data/pharos/Pharos-ChEMBL_ID.tsv'
+sbt -mem 4096 'run data/pharos/MolePro.Pharos.sqlite load-compounds'
+sbt -mem 4096 'run data/pharos/MolePro.Pharos.sqlite load-connections pubchem data/pharos/Pharos-CID.tsv "Pharos target genes transformer" id'
+sbt -mem 4096 'run data/pharos/MolePro.Pharos.sqlite load-connections chembl data/pharos/Pharos-ChEMBL_ID-only.tsv "Pharos target genes transformer" id'
+sbt 'run data/pharos/MolePro.Pharos.sqlite exec ../schema/MoleProPostLoadIndexes.sql'

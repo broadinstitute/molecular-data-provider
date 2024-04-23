@@ -1,0 +1,62 @@
+{
+    "url": "https://translator.broadinstitute.org/molepro/trapi/v1.4",
+    "TRAPI": true,
+    "edges": [
+        {
+            "subject_category": "biolink:SmallMolecule",
+            "object_category": "biolink:Disease",
+            "predicate": "biolink:treats",
+            "subject_id": "CHEBI:3002",
+            "object_id": "MESH:D001249"
+        },
+        {
+            "subject_category": "biolink:SmallMolecule",
+            "object_category": "biolink:SmallMolecule",
+            "predicate": "biolink:has_metabolite",
+            "subject_id": "CHEBI:16914",
+            "object_id": "CHEMBL.COMPOUND:CHEMBL3544526"
+        },
+        {
+            "subject_category": "biolink:SmallMolecule",
+            "object_category": "biolink:Protein",
+            "predicate": "biolink:assesses",
+            "subject_id": "CHEBI:52717",
+            "object_id": "UniProtKB:P08246"
+        },
+        {
+            "subject_category": "biolink:SmallMolecule",
+            "object_category": "biolink:SmallMolecule",
+            "predicate": "biolink:correlated_with",
+            "subject_id": "CHEBI:52717",
+            "object_id": "CHEBI:90942"
+        },
+        {
+            "subject_category": "biolink:SmallMolecule",
+            "object_category": "biolink:Disease",
+            "predicate": "biolink:related_to",
+            "subject_id": "CHEBI:4167",
+            "object_id": "OMIM:125853"
+        },
+        {
+            "subject_category": "biolink:Disease",
+            "object_category": "biolink:SmallMolecule",
+            "predicate": "biolink:treated_by",
+            "subject_id": "MONDO:0004981",
+            "object_id": "CHEBI:4551"
+        },
+        {
+            "subject_category": "biolink:SmallMolecule",
+            "object_category": "biolink:Gene",
+            "predicate": "biolink:affects",
+            "subject_id": "PUBCHEM.COMPOUND:4091",
+            "object_id": "NCBIGene:2475",
+            "association": "biolink:ChemicalGeneInteractionAssociation",
+            "qualifiers": [
+                {
+                    "qualifier_type_id": "biolink:causal_mechanism_qualifier",
+                    "qualifier_value": "inhibition"
+                }
+            ]
+        }
+    ]
+}

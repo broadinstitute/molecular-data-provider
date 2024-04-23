@@ -1,0 +1,589 @@
+openapi: 3.0.0
+info:
+  title: PubChem compound-list producer
+  termsOfService: https://www.ncbi.nlm.nih.gov/home/about/policies/
+
+  version: 2.4.1
+  
+  contact:
+    email: translator@broadinstitute.org
+  
+servers:
+- url: https://translator.broadinstitute.org/pubchem
+
+tags:
+  - name: transformers
+
+paths:
+  /{service}/transformer_info:
+    get:
+      tags:
+      - transformers
+      summary: Retrieve transformer info
+      description: Provides information about the transformer.
+      parameters:
+      - name: service
+        in: path
+        description: Service provided by this transformer.
+        required: true
+        schema:
+          type: string
+          enum: [compounds, neighbors]
+      - name: cache
+        in: query
+        description: >-
+          Directive for handling caching, can be 'yes' (default), 'no', 'bypass'
+          or 'remove'
+        required: false
+        schema:
+          type: string
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/transformer_info'
+
+  /{service}/transform:
+    post:
+      tags:
+      - transformers
+      summary: Transform a list of genes or compounds
+      description: Depending on the function of a transformer, creates, expands, or
+        filters a list.
+      parameters:
+      - name: service
+        in: path
+        description: Service provided by this transformer.
+        required: true
+        schema:
+          type: string
+          enum: [compounds, neighbors]
+      - name: cache
+        in: query
+        description: >-
+          Directive for handling caching, can be 'yes' (default), 'no', 'bypass'
+          or 'remove'
+        required: false
+        schema:
+          type: string
+      requestBody:
+        description: transformer query
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/transformer_query'
+        required: true
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/element'
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_msg'
+        404:
+          description: not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_msg'
+        500:
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_msg'
+
+
+components:
+  schemas:
+
+    transformer_info:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the transformer.
+        label:
+          type: string
+          description: Short label for GUI display.
+        description:
+          type: string
+          description: Description of the transformer.
+        version:
+          type: string
+          description: Transformer's version.
+        function:
+          type: string
+          description: Function of the transformer, one of 'producer', 'expander',
+            'filter', 'transformer', 'exporter', or 'aggregator'.
+          enum:
+          - producer
+          - expander
+          - filter
+          - transformer
+          - exporter
+          - aggregator
+        knowledge_map:
+          $ref: '#/components/schemas/knowledge_map'
+        properties:
+          type: object
+          properties:
+            source_url:
+              type: string
+              description: URL for underlying data or a wrapped service.
+            source_version:
+              type: string
+              description: Version of the underlying source or data.
+            terms_of_service:
+              type: string
+              description: Link to the page that describes the terms of service for the transformer.
+            method:
+              type: string
+              description: A method used to generate output lists.
+            method_url:
+              type: string
+              description: Link to a description of a method used to generate output lists.
+          description: Additional metadata for the transformer.
+        parameters:
+          type: array
+          description: Parameters used to control the transformer.
+          items:
+            $ref: '#/components/schemas/parameter'
+      description: Definition of the transformer.
+      required: 
+      - name
+      - label
+      - function
+      - version
+      - knowledge_map
+
+    parameter:
+      required:
+      - name
+      - type
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the parameter.
+        type:
+          type: string
+          description: Type of the parameter, one of 'Boolean', 'int', 'double', 'string'.
+          enum:
+          - Boolean
+          - int
+          - double
+          - string
+        required:
+          type: boolean
+          description: Indicates whether the parameter is required(default true). 
+        multivalued:
+          type: boolean
+          description: Indicates whether multiple occurences of the parameter are allowed (default false).
+        default:
+          type: string
+          description: Default value of the parameter.
+        example:
+          type: string
+          description: Example value of the parameter.
+        allowed_values:
+          type: array
+          description: Allowed values for the parameter.
+          items:
+            type: string
+        allowed_range:
+          maxItems: 2
+          minItems: 2
+          type: array
+          description: Allowed range for values of the parameter.
+          items:
+            type: number
+        suggested_values:
+          type: string
+          description: Suggested value range for the parameter.
+
+    knowledge_map:
+      type: object
+      description: Knowledge-graph representation of the transformer.
+      properties:
+        input_class:
+          type: string
+          description: BioLink class for the members of the input list. 
+        output_class:
+          type: string
+          description: BioLink class for the members of the output list.
+        nodes:
+          type: object
+          description: List of semantic types in the KnowledgeMap.
+          additionalProperties:
+            $ref: '#/components/schemas/node'
+        edges:
+          type: array
+          description: Predicates describing relationships between subjects and objects.
+          items:
+            $ref: '#/components/schemas/predicate'
+        predicates:
+          deprecated: true
+          type: array
+          description: Predicates describing relationships between subjects and objects.
+          items:
+            $ref: '#/components/schemas/predicate'
+      required:
+      - input_class
+      - output_class
+
+    node:
+      type: object
+      description: >-
+        Description of semantic types provided by this knowledge source.
+      properties:
+        id_prefixes:
+          type: array
+          description: >-
+            List of CURIE prefixes that this knowledge source understands and
+            accepts on the input.
+          items: 
+            type: string
+          example: ['ChEMBL:','inchikey:']
+        count:
+          type: integer
+          description: >-
+            Number of node instances known to this knowledge source
+        attributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/km_attribute'
+      required:
+        - id_prefixes
+      additionalProperties: false
+
+    predicate:
+      type: object
+      description: Predicate describing relationship between a subject and an object.
+      properties:
+        subject:
+          type: string
+        predicate:
+          type: string
+        inverse_predicate:
+          type: string
+        object:
+          type: string
+        source: 
+          type: string
+          description: Source of the relationship.
+          example: ChEMBL
+        relations: 
+          type: array
+          description: Low-level relations from the underlying source.
+          items:
+            type: string
+          example: [binds_to]
+        inverse_relations: 
+          type: array
+          description: Inverse low-level relations from the underlying source.
+          items:
+            type: string
+        count:
+          type: integer
+          description: >-
+            Number of edge instances known to this knowledge source
+        attributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/km_attribute'
+      required:
+      - subject
+      - predicate
+      - inverse_predicate
+      - object
+      additionalProperties: false
+
+    km_attribute:
+      type: object
+      description: >-
+        Description of attribute types provided by this knowledge source.
+      properties:
+        type:
+          deprecated: true
+          type: string
+          description: >-
+            CURIE of the semantic type of the attribute, from the EDAM ontology
+            if possible. If a suitable identifier does not exist, enter a
+            descriptive phrase here and submit the new type for consideration
+            by the appropriate authority.
+          example: EDAM:data_1187
+        attribute_type_id:
+          type: string
+          description: >-
+            CURIE of the semantic type of the attribute, from the EDAM ontology
+            if possible. If a suitable identifier does not exist, enter a
+            descriptive phrase here and submit the new type for consideration
+            by the appropriate authority.
+          example: EDAM:data_1187
+        source:
+          type: string
+          description: Source of the attribute, as a CURIE prefix.
+          example: UniProtKB
+        names:
+          type: array
+          description: >-
+            Human-readable names or labels for the attribute for attributes of 
+            given type.
+          items:
+            type: string
+          example: [PubMed Identifier]
+      required:
+        - attribute_type_id
+      additionalProperties: false
+
+    transformer_query:
+      type: object
+      properties:
+        collection:
+          type: array
+          items:
+            $ref: '#/components/schemas/element'
+          description: >-
+            List of elements that will be transformed. Required for all transformers except producers.
+        controls:
+          type: array
+          items:
+            $ref: '#/components/schemas/property'
+          description: >-
+            Values that control the behavior of the transformer. Names of the controls must match the names
+            specified in the transformer's definition and values must match types (and possibly 
+            allowed_values) specified in the transformer's definition.
+      required: 
+      - controls
+
+    property:
+      required:
+      - name
+      - value
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: string
+
+    element:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Primary identifier of the element.
+        biolink_class:
+          type: string
+          description: BioLink class of the element.
+        identifiers:
+          type: object
+          description: identifiers of the element.
+          additionalProperties: true
+        alternative_identifiers:
+          type: array
+          description: identifiers of additional chemical structures associated with chemical substance.
+          items:
+            type: object
+            additionalProperties: true
+        names_synonyms:
+          type: array
+          items:
+            $ref: '#/components/schemas/names'
+          description: Names and synonyms of the element.
+        attributes:
+          type: array
+          description: Additional information about the element and provenance about
+            collection membership. 
+          items:
+            $ref: '#/components/schemas/attribute'
+        connections:
+          type: array
+          description: connections to elements of the input collection. 
+          items:
+            $ref: '#/components/schemas/connection'
+        source:
+          type: string
+          description: Source of the element
+        provided_by:
+          type: string
+          description: Name of a transformer that added the element to the collection.
+      required:
+      - id
+      - biolink_class
+      - identifiers
+      - source
+      - provided_by
+
+    attribute:
+      type: object
+      description: >-
+        Generic attribute for a node or an edge that expands the key-value
+        pair concept by including fields for additional metadata. These fields
+        can be used to describe the source of the statement made in key-value
+        pair of the attribute object, or describe the attribute's value itself
+        including its semantic type, or a url providing additional information
+        about it.
+      properties:
+        attribute_type_id:
+          type: string
+          description: >-
+            The 'key' of the attribute object, holding a CURIE of an ontology
+            property defining the attribute (preferably the CURIE of a
+            Biolink association slot). This property captures the relationship
+            asserted to hold between the value of the attribute, and the node
+            or edge from  which it hangs. For example, that a value of
+            '0.000153' represents a p-value supporting an edge, or that
+            a value of 'ChEMBL' represents the original source of the knowledge
+            expressed in the edge.
+          example: Biolink:has_p-value_evidence, Biolink:has_original_source
+        original_attribute_name:
+          type: string
+          description: >-
+            The term used by the original source of an attribute to describe
+            the meaning or significance of the value it captures. This may be
+            a column name in a source tsv file, or a key in a source json
+            document for the field in the data that held the attribute's
+            value. Capturing this information  where possible lets us preserve
+            what the original source said. Note that the data type is string'
+            but the contents of the field could also be a CURIE of a third
+            party ontology term.
+          example: p-value
+          nullable: true
+        value:
+          description: >-
+            Value of the attribute. May be any data type, including a list.
+          example: 0.000153
+        value_type_id:
+          type: string
+          description: >-
+            CURIE describing the semantic type of an  attribute's value. Use
+            a Biolink class if possible, otherwise a term from an external
+            ontology. If a suitable CURIE/identifier does not exist, enter a
+            descriptive phrase here and submit the new type for consideration
+            by the appropriate authority.
+          example: EDAM:data_1187
+        attribute_source:
+          type: string
+          description: >-
+            The source of the core assertion made by the key-value pair of an
+            attribute object. Use a CURIE or namespace designator for this
+            resource where possible.
+          example: UniProtKB
+          nullable: true
+        value_url:
+          type: string
+          description: >-
+            Human-consumable URL linking to a web document that provides
+            additional information about an  attribute's value (not the node
+            or the edge fom which it hangs).
+          example: https://pubmed.ncbi.nlm.nih.gov/32529952
+          nullable: true
+        description:
+          type: string
+          description: >-
+            Human-readable description for the attribute and its value.
+          example: Assertion Authored By Dr. Trans L. Ator
+          nullable: true
+        attributes:
+          type: array
+          description: >-
+            A list of attributes providing further information about the
+            parent attribute. 
+          items:
+            $ref: '#/components/schemas/attribute'
+        provided_by:
+          type: string
+          description: Transformer that produced the attribute's value.
+      required:
+      - original_attribute_name
+      - attribute_type_id
+      - attribute_source
+      - value
+
+    names:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the compound.
+        synonyms:
+          type: array
+          items:
+            type: string
+          description: Name of the compound.
+        name_type:
+          type: string
+          description: Type of names and synonyms, e.g. inn, trademarked name.
+        source:
+          type: string
+          description: Primary source of names and synonyms.
+        provided_by:
+          type: string
+          description: Transformer that produced the names and synonyms.
+        language:
+          type: string
+          description: Language of names and synonyms.
+      required:
+      - name_type
+      - source
+      - provided_by
+
+    connection:
+      type: object
+      properties:
+        source_element_id:
+          type: string
+          description: Id (CURIE) of the connected query node.
+        biolink_predicate:
+          type: string
+          description: Biolink predicate.
+        inverse_predicate:
+          type: string
+          description: Inverse Biolink predicate.
+        relation:
+          type: string
+          description: Lower-level relationship type of this connection.
+        inverse_relation:
+          type: string
+          description: Inverse lower-level relationship type of this connection.
+        source:
+          type: string
+          description: Source of the connection, as a CURIE prefix.
+        provided_by:
+          type: string
+          description: Transformer that produced the connection.
+        attributes:
+          type: array
+          description: Additional information and provenance about the connection. 
+          items:
+            $ref: '#/components/schemas/attribute'
+      required:
+      - source_element_id
+      - biolink_predicate
+      - inverse_predicate
+      - source
+      - provided_by
+        
+    error_msg:
+      type: object
+      properties:
+        status:
+          type: integer
+        title:
+          type: string
+        detail:
+          type: string
+        type:
+          type: string

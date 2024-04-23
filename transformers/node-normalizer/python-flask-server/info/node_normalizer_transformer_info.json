@@ -1,0 +1,29 @@
+{
+    "name": "SRI node normalizer producer",
+    "label": "SRI node normalizer",
+    "description": "Entity producer based on SRI node normalizer (https://nodenormalization-sri.renci.org).",
+    "version": "2.3.0",
+    "function": "producer",
+    "knowledge_map": {
+        "input_class": "none",
+        "output_class": "any",
+        "nodes": {
+        },
+        "edges": []
+    },
+    "properties": {
+        "source_url": "https://nodenormalization-sri.renci.org",
+        "source_version": "1.1",
+        "terms_of_service": "http://robokop.renci.org:7055/tos?service_long=Node+Normalization&provider_long=the+Translator+Consortium"
+    },
+    "parameters": [
+        {
+            "name": "id",
+            "type": "string",
+            "required": "true",
+            "multivalued": "true",
+            "example": "MONDO:0005148",
+            "suggested_values": "entity ids"
+        }
+    ]
+}
