@@ -1,24 +1,68 @@
 {
     "name": "Gene-list network enrichment analysis",
     "label": "GeLiNEA",
-    "version": "2.0.0",
+    "infores": "infores:gelinea",
+    "version": "2.5.0",
     "function": "exporter",
     "description": "Gene-list exporter based on STRING network enrichment analysis.",
     "knowledge_map": {
         "input_class": "gene",
         "output_class": "pathway",
-        "predicates": [
+        "nodes": {
+            "biolink:Gene": {
+                "id_prefixes": ["NCBIGENE"],
+                "count": -1,
+                "attributes": []
+            },
+            "biolink:Pathway": {
+                "id_prefixes": ["MSigDB"],
+                "count": -1,
+                "attributes": [
+                    {
+                        "type": "url",
+                        "source": "GeLiNEA",
+                        "names": ["url"]
+                    }
+                ]
+            }
+        },
+        "edges": [
             {
-                "object": "gene[]",
-                "subject": "pathway",
-                "predicate": "related to"
+                "object": "Pathway",
+                "subject": "Gene",
+                "predicate": "biolink:enriched_in",
+                "inverse_predicate": "biolink:has_enrichment",
+                "source": "GeLiNEA",
+                "knowledge_level":"statistical_association",
+                "agent_type":"computational_model",
+                "count": -1,
+                "attributes": [
+                    {
+                        "attribute_type_id": "gene-list overlap",
+                        "source": "GeLiNEA",
+                        "description": "number of genes common to a gene list and a gene set",
+                        "names": ["gene-list overlap"]
+                    },
+                    {
+                        "attribute_type_id": "gene-list connections",
+                        "source": "GeLiNEA",
+                        "description": "number of commections between the gene list and the gene set in the network",
+                        "names": ["gene-list connections"]
+                    },
+                    {
+                        "attribute_type_id": "p-value",
+                        "source": "GeLiNEA",
+                        "description": "significance of connections between the gene list and the gene set in the network under a null model of degree-preserving random gene lists",
+                        "names": ["GeLiNEA p-value"]
+                    }
+                ]
             }
         ]
     },
     "properties": {
-        "list_predicate": "related_to",
-        "member_predicate": "related_to",
-        "method": "enrichment"
+        "source_url": "https://github.com/broadinstitute/GeLiNEA",
+        "source_version": "1.0.0",
+        "terms_of_service": "https://github.com/broadinstitute/GeLiNEA/blob/master/LICENSE"
     },
     "parameters": [
         {
@@ -26,6 +70,9 @@
             "name": "maximum p-value",
             "type": "double",
             "suggested_values": "<0.05; p-value not corrected for multiple testing",
+            "description": "",
+            "required": false,
+            "multivalued": false,
             "allowed_range": [
                 0,
                 1
@@ -35,6 +82,9 @@
             "default": "STRING-human-700",
             "name": "network",
             "type": "string",
+            "description": "network used for the analysis",
+            "required": false,
+            "multivalued": false,
             "allowed_values": [
                 "STRING-human-700",
                 "STRING-human-400"
@@ -44,14 +94,14 @@
             "default": "H - hallmark gene sets",
             "name": "gene-set collection",
             "type": "string",
+            "description": "collection of gene-sets used for the analysis",
+            "required": false,
+            "multivalued": true,
             "allowed_values": [
                 "H - hallmark gene sets",
                 "C2 - curated gene sets",
                 "C5 - GO gene sets"
             ]
         }
-    ],
-    "required_attributes": [
-        "identifiers.entrez"
     ]
 }

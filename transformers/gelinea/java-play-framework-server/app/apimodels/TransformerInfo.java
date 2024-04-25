@@ -3,6 +3,7 @@ package apimodels;
 import apimodels.KnowledgeMap;
 import apimodels.Parameter;
 import apimodels.TransformerInfoProperties;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.*;
@@ -13,20 +14,30 @@ import javax.validation.constraints.*;
 /**
  * Definition of the transformer.
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", date = "2020-02-27T16:03:08.782-05:00[America/New_York]")
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class TransformerInfo   {
   @JsonProperty("name")
+  @NotNull
+
   private String name;
 
   @JsonProperty("label")
+  @NotNull
+
   private String label;
 
+  @JsonProperty("infores")
+  
+  private String infores;
+
   @JsonProperty("description")
+  
   private String description;
 
   @JsonProperty("version")
+  @NotNull
+
   private String version;
 
   /**
@@ -69,15 +80,24 @@ public class TransformerInfo   {
   }
 
   @JsonProperty("function")
+  @NotNull
+
   private FunctionEnum function;
 
   @JsonProperty("knowledge_map")
+  @NotNull
+@Valid
+
   private KnowledgeMap knowledgeMap;
 
   @JsonProperty("properties")
+  @Valid
+
   private TransformerInfoProperties properties;
 
   @JsonProperty("parameters")
+  @Valid
+
   private List<Parameter> parameters = null;
 
   public TransformerInfo name(String name) {
@@ -89,7 +109,6 @@ public class TransformerInfo   {
    * Name of the transformer.
    * @return name
   **/
-  @NotNull
   public String getName() {
     return name;
   }
@@ -107,12 +126,29 @@ public class TransformerInfo   {
    * Short label for GUI display.
    * @return label
   **/
-    public String getLabel() {
+  public String getLabel() {
     return label;
   }
 
   public void setLabel(String label) {
     this.label = label;
+  }
+
+  public TransformerInfo infores(String infores) {
+    this.infores = infores;
+    return this;
+  }
+
+   /**
+   * Information resource identifier.
+   * @return infores
+  **/
+  public String getInfores() {
+    return infores;
+  }
+
+  public void setInfores(String infores) {
+    this.infores = infores;
   }
 
   public TransformerInfo description(String description) {
@@ -124,7 +160,7 @@ public class TransformerInfo   {
    * Description of the transformer.
    * @return description
   **/
-    public String getDescription() {
+  public String getDescription() {
     return description;
   }
 
@@ -141,7 +177,7 @@ public class TransformerInfo   {
    * Transformer's version.
    * @return version
   **/
-    public String getVersion() {
+  public String getVersion() {
     return version;
   }
 
@@ -158,7 +194,6 @@ public class TransformerInfo   {
    * Function of the transformer, one of 'producer', 'expander', 'filter', 'transformer', 'exporter', or 'aggregator'.
    * @return function
   **/
-  @NotNull
   public FunctionEnum getFunction() {
     return function;
   }
@@ -176,7 +211,6 @@ public class TransformerInfo   {
    * Get knowledgeMap
    * @return knowledgeMap
   **/
-  @Valid
   public KnowledgeMap getKnowledgeMap() {
     return knowledgeMap;
   }
@@ -194,7 +228,6 @@ public class TransformerInfo   {
    * Get properties
    * @return properties
   **/
-  @Valid
   public TransformerInfoProperties getProperties() {
     return properties;
   }
@@ -220,7 +253,6 @@ public class TransformerInfo   {
    * Parameters used to control the transformer.
    * @return parameters
   **/
-  @Valid
   public List<Parameter> getParameters() {
     return parameters;
   }
@@ -231,7 +263,7 @@ public class TransformerInfo   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -241,6 +273,7 @@ public class TransformerInfo   {
     TransformerInfo transformerInfo = (TransformerInfo) o;
     return Objects.equals(name, transformerInfo.name) &&
         Objects.equals(label, transformerInfo.label) &&
+        Objects.equals(infores, transformerInfo.infores) &&
         Objects.equals(description, transformerInfo.description) &&
         Objects.equals(version, transformerInfo.version) &&
         Objects.equals(function, transformerInfo.function) &&
@@ -251,7 +284,7 @@ public class TransformerInfo   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, label, description, version, function, knowledgeMap, properties, parameters);
+    return Objects.hash(name, label, infores, description, version, function, knowledgeMap, properties, parameters);
   }
 
   @SuppressWarnings("StringBufferReplaceableByString")
@@ -262,6 +295,7 @@ public class TransformerInfo   {
     
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    label: ").append(toIndentedString(label)).append("\n");
+    sb.append("    infores: ").append(toIndentedString(infores)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    version: ").append(toIndentedString(version)).append("\n");
     sb.append("    function: ").append(toIndentedString(function)).append("\n");
@@ -276,7 +310,7 @@ public class TransformerInfo   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

@@ -1,7 +1,9 @@
 package apimodels;
 
 import apimodels.Attribute;
+import apimodels.Connection;
 import apimodels.Names;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,27 +16,53 @@ import javax.validation.constraints.*;
 /**
  * Element
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", date = "2020-02-27T16:03:08.782-05:00[America/New_York]")
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Element   {
   @JsonProperty("id")
+  @NotNull
+
   private String id;
 
   @JsonProperty("biolink_class")
+  @NotNull
+
   private String biolinkClass;
 
   @JsonProperty("identifiers")
-  private Map<String, Object> identifiers = null;
+  @NotNull
+
+  private Map<String, Object> identifiers = new HashMap<>();
+
+  @JsonProperty("alternative_identifiers")
+  @Valid
+
+  private List<Map<String, Object>> alternativeIdentifiers = null;
 
   @JsonProperty("names_synonyms")
+  @Valid
+
   private List<Names> namesSynonyms = null;
 
   @JsonProperty("attributes")
+  @Valid
+
   private List<Attribute> attributes = null;
 
+  @JsonProperty("connections")
+  @Valid
+
+  private List<Connection> connections = null;
+
   @JsonProperty("source")
+  @NotNull
+
   private String source;
+
+  @JsonProperty("provided_by")
+  @NotNull
+
+  private String providedBy;
 
   public Element id(String id) {
     this.id = id;
@@ -42,10 +70,9 @@ public class Element   {
   }
 
    /**
-   * Id of the gene.
+   * Primary identifier of the element.
    * @return id
   **/
-  @NotNull
   public String getId() {
     return id;
   }
@@ -63,7 +90,7 @@ public class Element   {
    * BioLink class of the element.
    * @return biolinkClass
   **/
-    public String getBiolinkClass() {
+  public String getBiolinkClass() {
     return biolinkClass;
   }
 
@@ -77,23 +104,45 @@ public class Element   {
   }
 
   public Element putIdentifiersItem(String key, Object identifiersItem) {
-    if (this.identifiers == null) {
-      this.identifiers = new HashMap<>();
-    }
     this.identifiers.put(key, identifiersItem);
     return this;
   }
 
    /**
-   * Get identifiers
+   * identifiers of the element.
    * @return identifiers
   **/
-    public Map<String, Object> getIdentifiers() {
+  public Map<String, Object> getIdentifiers() {
     return identifiers;
   }
 
   public void setIdentifiers(Map<String, Object> identifiers) {
     this.identifiers = identifiers;
+  }
+
+  public Element alternativeIdentifiers(List<Map<String, Object>> alternativeIdentifiers) {
+    this.alternativeIdentifiers = alternativeIdentifiers;
+    return this;
+  }
+
+  public Element addAlternativeIdentifiersItem(Map<String, Object> alternativeIdentifiersItem) {
+    if (alternativeIdentifiers == null) {
+      alternativeIdentifiers = new ArrayList<>();
+    }
+    alternativeIdentifiers.add(alternativeIdentifiersItem);
+    return this;
+  }
+
+   /**
+   * identifiers of additional chemical structures associated with chemical substance.
+   * @return alternativeIdentifiers
+  **/
+  public List<Map<String, Object>> getAlternativeIdentifiers() {
+    return alternativeIdentifiers;
+  }
+
+  public void setAlternativeIdentifiers(List<Map<String, Object>> alternativeIdentifiers) {
+    this.alternativeIdentifiers = alternativeIdentifiers;
   }
 
   public Element namesSynonyms(List<Names> namesSynonyms) {
@@ -113,7 +162,6 @@ public class Element   {
    * Names and synonyms of the element.
    * @return namesSynonyms
   **/
-  @Valid
   public List<Names> getNamesSynonyms() {
     return namesSynonyms;
   }
@@ -139,7 +187,6 @@ public class Element   {
    * Additional information about the element and provenance about collection membership.
    * @return attributes
   **/
-  @Valid
   public List<Attribute> getAttributes() {
     return attributes;
   }
@@ -148,16 +195,41 @@ public class Element   {
     this.attributes = attributes;
   }
 
+  public Element connections(List<Connection> connections) {
+    this.connections = connections;
+    return this;
+  }
+
+  public Element addConnectionsItem(Connection connectionsItem) {
+    if (connections == null) {
+      connections = new ArrayList<>();
+    }
+    connections.add(connectionsItem);
+    return this;
+  }
+
+   /**
+   * connections to elements of the input collection.
+   * @return connections
+  **/
+  public List<Connection> getConnections() {
+    return connections;
+  }
+
+  public void setConnections(List<Connection> connections) {
+    this.connections = connections;
+  }
+
   public Element source(String source) {
     this.source = source;
     return this;
   }
 
    /**
-   * Name of a transformer that added the element to the collection.
+   * Source of the element
    * @return source
   **/
-    public String getSource() {
+  public String getSource() {
     return source;
   }
 
@@ -165,9 +237,26 @@ public class Element   {
     this.source = source;
   }
 
+  public Element providedBy(String providedBy) {
+    this.providedBy = providedBy;
+    return this;
+  }
+
+   /**
+   * Name of a transformer that added the element to the collection.
+   * @return providedBy
+  **/
+  public String getProvidedBy() {
+    return providedBy;
+  }
+
+  public void setProvidedBy(String providedBy) {
+    this.providedBy = providedBy;
+  }
+
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -178,14 +267,17 @@ public class Element   {
     return Objects.equals(id, element.id) &&
         Objects.equals(biolinkClass, element.biolinkClass) &&
         Objects.equals(identifiers, element.identifiers) &&
+        Objects.equals(alternativeIdentifiers, element.alternativeIdentifiers) &&
         Objects.equals(namesSynonyms, element.namesSynonyms) &&
         Objects.equals(attributes, element.attributes) &&
-        Objects.equals(source, element.source);
+        Objects.equals(connections, element.connections) &&
+        Objects.equals(source, element.source) &&
+        Objects.equals(providedBy, element.providedBy);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, biolinkClass, identifiers, namesSynonyms, attributes, source);
+    return Objects.hash(id, biolinkClass, identifiers, alternativeIdentifiers, namesSynonyms, attributes, connections, source, providedBy);
   }
 
   @SuppressWarnings("StringBufferReplaceableByString")
@@ -197,9 +289,12 @@ public class Element   {
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    biolinkClass: ").append(toIndentedString(biolinkClass)).append("\n");
     sb.append("    identifiers: ").append(toIndentedString(identifiers)).append("\n");
+    sb.append("    alternativeIdentifiers: ").append(toIndentedString(alternativeIdentifiers)).append("\n");
     sb.append("    namesSynonyms: ").append(toIndentedString(namesSynonyms)).append("\n");
     sb.append("    attributes: ").append(toIndentedString(attributes)).append("\n");
+    sb.append("    connections: ").append(toIndentedString(connections)).append("\n");
     sb.append("    source: ").append(toIndentedString(source)).append("\n");
+    sb.append("    providedBy: ").append(toIndentedString(providedBy)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -208,7 +303,7 @@ public class Element   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }
