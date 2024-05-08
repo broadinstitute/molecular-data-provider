@@ -11,8 +11,8 @@ Feature: Check ChEMBL transformer
         and the value of "function" should be "producer"
         and the value of "knowledge_map.input_class" should be "none"
         and the value of "knowledge_map.output_class" should be "compound"
-        and the value of "version" should be "2.4.0"
-        and the value of "properties.source_version" should be "30 (2022-03-09)"
+        and the value of "version" should be "2.5.0"
+        and the value of "properties.source_version" should be "33 (2024-02-02)"
         and the size of "parameters" should be 1
 
 
@@ -23,8 +23,8 @@ Feature: Check ChEMBL transformer
         and the value of "function" should be "transformer"
         and the value of "knowledge_map.input_class" should be "compound"
         and the value of "knowledge_map.output_class" should be "gene"
-        and the value of "version" should be "2.4.0"
-        and the value of "properties.source_version" should be "30 (2022-03-09)"
+        and the value of "version" should be "2.5.0"
+        and the value of "properties.source_version" should be "33 (2024-02-02)"
         and the size of "parameters" should be 0
 
 
@@ -35,8 +35,8 @@ Feature: Check ChEMBL transformer
         and the value of "function" should be "transformer"
         and the value of "knowledge_map.input_class" should be "compound"
         and the value of "knowledge_map.output_class" should be "compound"
-        and the value of "version" should be "2.4.0"
-        and the value of "properties.source_version" should be "30 (2022-03-09)"
+        and the value of "version" should be "2.5.0"
+        and the value of "properties.source_version" should be "33 (2024-02-02)"
         and the value of "knowledge_map.edges[0]['subject']" should be "SmallMolecule"
         and the size of "knowledge_map.nodes" should be 1
         and the size of "parameters" should be 0
@@ -49,9 +49,10 @@ Feature: Check ChEMBL transformer
         and the value of "function" should be "transformer"
         and the value of "knowledge_map.input_class" should be "compound"
         and the value of "knowledge_map.output_class" should be "disease"
-        and the value of "version" should be "2.4.0"
-        and the value of "properties.source_version" should be "30 (2022-03-09)"
+        and the value of "version" should be "2.5.0"
+        and the value of "properties.source_version" should be "33 (2024-02-02)"
         and the size of "parameters" should be 0
+
 
     Scenario: Check ChEMBL mechanism transformer info
         Given the transformer
@@ -60,9 +61,10 @@ Feature: Check ChEMBL transformer
         and the value of "function" should be "transformer"
         and the value of "knowledge_map.input_class" should be "compound"
         and the value of "knowledge_map.output_class" should be "target"
-        and the value of "version" should be "2.4.0"
-        and the value of "properties.source_version" should be "30 (2022-03-09)"
+        and the value of "version" should be "2.5.0"
+        and the value of "properties.source_version" should be "33 (2024-02-02)"
         and the size of "parameters" should be 0
+
 
     Scenario: Check ChEMBL compound-list producer
         Given the transformer
@@ -181,6 +183,7 @@ Feature: Check ChEMBL transformer
             | Prostaglandin G/H synthase 1 |
             | Prostaglandin G/H synthase 2 |
 
+
     Scenario: Check ChEMBL targets transformer on structure input
         Given the transformer
         when we fire "/targets/transform" query with the following body:
@@ -201,11 +204,6 @@ Feature: Check ChEMBL transformer
         }
         """
         then the size of the response is 2
-
-
-
-
-
 
 
     Scenario: Check ChEMBL mechanism transformer on ID input
@@ -283,12 +281,6 @@ Feature: Check ChEMBL transformer
         }
         """
         then the size of the response is 1
-
-
-
-
-
-
 
 
     Scenario: Check ChEMBL activities transformer on ID input
@@ -447,7 +439,7 @@ Feature: Check ChEMBL transformer
             ]
         }
         """
-        then the size of the response is 142
+        then the size of the response is 146
         and the response contains the following entries in "biolink_class"
             | biolink_class              |
             | DiseaseOrPhenotypicFeature |
@@ -467,11 +459,13 @@ Feature: Check ChEMBL transformer
             | source |
             | ChEMBL |
         and the response contains the following entries in "biolink_predicate" of "connections" array
-            | biolink_predicate |
-            | treats            |
+            | biolink_predicate              |
+            | biolink:treats                 |
+            | biolink:in_clinical_trials_for |
         and the response only contains the following entries in "biolink_predicate" of "connections" array
-            | biolink_predicate |
-            | treats            |
+            | biolink_predicate              |
+            | biolink:treats                 |
+            | biolink:in_clinical_trials_for |
         and the response contains the following entries in "provided_by"
             | provided_by                   |
             | ChEMBL indication transformer |
@@ -526,11 +520,11 @@ Feature: Check ChEMBL transformer
             | source |
             | ChEMBL |
         and the response contains the following entries in "biolink_predicate" of "connections" array
-            | biolink_predicate |
-            | has_metabolite    |
+            | biolink_predicate         |
+            | biolink:has_metabolite    |
         and the response only contains the following entries in "biolink_predicate" of "connections" array
-            | biolink_predicate |
-            | has_metabolite    |
+            | biolink_predicate         |
+            | biolink:has_metabolite    |
         and the response contains the following entries in "provided_by"
             | provided_by                   |
             | ChEMBL metabolite transformer |
