@@ -47,6 +47,7 @@ openapi_server/models/meta_node.py
 openapi_server/models/meta_qualifier.py
 openapi_server/models/node.py
 openapi_server/models/node_binding.py
+openapi_server/models/node_binding_id.py
 openapi_server/models/node_binding_query_id.py
 openapi_server/models/operation_annotate.py
 openapi_server/models/operation_annotate_edges.py
@@ -104,9 +105,11 @@ openapi_server/models/qualifier_constraint.py
 openapi_server/models/query.py
 openapi_server/models/query_graph.py
 openapi_server/models/query_log_level.py
+openapi_server/models/query_message.py
 openapi_server/models/query_workflow.py
 openapi_server/models/resource_role_enum.py
 openapi_server/models/response.py
+openapi_server/models/response_message.py
 openapi_server/models/response_workflow.py
 openapi_server/models/result.py
 openapi_server/models/retrieval_source.py

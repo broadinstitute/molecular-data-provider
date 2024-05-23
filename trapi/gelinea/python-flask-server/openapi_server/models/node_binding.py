@@ -7,10 +7,12 @@ from typing import List, Dict  # noqa: F401
 
 from openapi_server.models.base_model_ import Model
 from openapi_server.models.attribute import Attribute
+from openapi_server.models.node_binding_id import NodeBindingId
 from openapi_server.models.node_binding_query_id import NodeBindingQueryId
 from openapi_server import util
 
 from openapi_server.models.attribute import Attribute  # noqa: E501
+from openapi_server.models.node_binding_id import NodeBindingId  # noqa: E501
 from openapi_server.models.node_binding_query_id import NodeBindingQueryId  # noqa: E501
 
 class NodeBinding(Model):
@@ -23,14 +25,14 @@ class NodeBinding(Model):
         """NodeBinding - a model defined in OpenAPI
 
         :param id: The id of this NodeBinding.  # noqa: E501
-        :type id: str
+        :type id: NodeBindingId
         :param query_id: The query_id of this NodeBinding.  # noqa: E501
         :type query_id: NodeBindingQueryId
         :param attributes: The attributes of this NodeBinding.  # noqa: E501
         :type attributes: List[Attribute]
         """
         self.openapi_types = {
-            'id': str,
+            'id': NodeBindingId,
             'query_id': NodeBindingQueryId,
             'attributes': List[Attribute]
         }
@@ -60,10 +62,9 @@ class NodeBinding(Model):
     def id(self):
         """Gets the id of this NodeBinding.
 
-        A Compact URI, consisting of a prefix and a reference separated by a colon, such as UniProtKB:P00738. Via an external context definition, the CURIE prefix and colon may be replaced by a URI prefix, such as http://identifiers.org/uniprot/, to form a full URI.  # noqa: E501
 
         :return: The id of this NodeBinding.
-        :rtype: str
+        :rtype: NodeBindingId
         """
         return self._id
 
@@ -71,10 +72,9 @@ class NodeBinding(Model):
     def id(self, id):
         """Sets the id of this NodeBinding.
 
-        A Compact URI, consisting of a prefix and a reference separated by a colon, such as UniProtKB:P00738. Via an external context definition, the CURIE prefix and colon may be replaced by a URI prefix, such as http://identifiers.org/uniprot/, to form a full URI.  # noqa: E501
 
         :param id: The id of this NodeBinding.
-        :type id: str
+        :type id: NodeBindingId
         """
         if id is None:
             raise ValueError("Invalid value for `id`, must not be `None`")  # noqa: E501
@@ -122,5 +122,9 @@ class NodeBinding(Model):
         :param attributes: The attributes of this NodeBinding.
         :type attributes: List[Attribute]
         """
+        if attributes is None:
+            raise ValueError("Invalid value for `attributes`, must not be `None`")  # noqa: E501
+        if attributes is not None and len(attributes) < 0:
+            raise ValueError("Invalid value for `attributes`, number of items must be greater than or equal to `0`")  # noqa: E501
 
         self._attributes = attributes

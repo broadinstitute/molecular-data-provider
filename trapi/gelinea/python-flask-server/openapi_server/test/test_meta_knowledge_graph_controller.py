@@ -22,7 +22,7 @@ class TestMetaKnowledgeGraphController(BaseTestCase):
             'Accept': 'application/json',
         }
         response = self.client.open(
-            '/gelinea-trapi/v1.4/meta_knowledge_graph',
+            '/gelinea-trapi/v1.5/meta_knowledge_graph',
             method='GET',
             headers=headers)
         self.assert200(response,
