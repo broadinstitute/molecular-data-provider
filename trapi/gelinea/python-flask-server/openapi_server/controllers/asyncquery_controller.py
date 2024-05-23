@@ -19,4 +19,4 @@ def asyncquery_post(request_body):  # noqa: E501
 
     :rtype: Union[AsyncQueryResponse, Tuple[AsyncQueryResponse, int], Tuple[AsyncQueryResponse, int, Dict[str, str]]
     """
-    return 'do some magic!'
+    return ({"status": 501, "title": "Not Implemented", "detail": "asyncronous queries not yet implemented", "type": "about:blank" }, 501)

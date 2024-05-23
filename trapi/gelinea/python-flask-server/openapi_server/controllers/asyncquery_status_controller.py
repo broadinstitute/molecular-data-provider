@@ -18,4 +18,4 @@ def asyncquery_status(job_id):  # noqa: E501
 
     :rtype: Union[AsyncQueryStatusResponse, Tuple[AsyncQueryStatusResponse, int], Tuple[AsyncQueryStatusResponse, int, Dict[str, str]]
     """
-    return 'do some magic!'
+    return ({"status": 501, "title": "Not Implemented", "detail": "asyncronous queries not yet implemented", "type": "about:blank" }, 501)

@@ -6,7 +6,7 @@ from typing import Union
 
 from openapi_server.models.meta_knowledge_graph import MetaKnowledgeGraph  # noqa: E501
 from openapi_server import util
-
+from openapi_server.controllers.gelinea_controler import meta_knowledge_graph
 
 def meta_knowledge_graph_get():  # noqa: E501
     """Meta knowledge graph representation of this TRAPI web service.
@@ -16,4 +16,4 @@ def meta_knowledge_graph_get():  # noqa: E501
 
     :rtype: Union[MetaKnowledgeGraph, Tuple[MetaKnowledgeGraph, int], Tuple[MetaKnowledgeGraph, int, Dict[str, str]]
     """
-    return 'do some magic!'
+    return meta_knowledge_graph()

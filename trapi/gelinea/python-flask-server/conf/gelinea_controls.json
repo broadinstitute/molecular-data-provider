@@ -1,0 +1,10 @@
+[
+    {
+        "name": "network",
+        "value": "STRING-human-700"
+    },
+    {
+        "name": "gene-set collection",
+        "value": "H - hallmark gene sets"
+    }
+]

@@ -8,6 +8,7 @@ from openapi_server.models.query import Query  # noqa: E501
 from openapi_server.models.response import Response  # noqa: E501
 from openapi_server import util
 
+from openapi_server.controllers.gelinea_controler import run_workflow
 
 def query_post(request_body):  # noqa: E501
     """Initiate a query and wait to receive a Response
@@ -19,4 +20,6 @@ def query_post(request_body):  # noqa: E501
 
     :rtype: Union[Response, Tuple[Response, int], Tuple[Response, int, Dict[str, str]]
     """
-    return 'do some magic!'
+    if connexion.request.is_json:
+        query = Query.from_dict(connexion.request.get_json())
+    return run_workflow(query)
