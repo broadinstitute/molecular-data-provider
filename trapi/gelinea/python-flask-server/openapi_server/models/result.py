@@ -98,5 +98,7 @@ class Result(Model):
         """
         if analyses is None:
             raise ValueError("Invalid value for `analyses`, must not be `None`")  # noqa: E501
+        if analyses is not None and len(analyses) < 0:
+            raise ValueError("Invalid value for `analyses`, number of items must be greater than or equal to `0`")  # noqa: E501
 
         self._analyses = analyses

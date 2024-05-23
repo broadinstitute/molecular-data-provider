@@ -25,7 +25,7 @@ class TestQueryController(BaseTestCase):
             'Content-Type': 'application/json',
         }
         response = self.client.open(
-            '/gelinea-trapi/v1.4/query',
+            '/gelinea-trapi/v1.5/query',
             method='POST',
             headers=headers,
             data=json.dumps(request_body),

@@ -22,7 +22,7 @@ class TestAsyncqueryStatusController(BaseTestCase):
             'Accept': 'application/json',
         }
         response = self.client.open(
-            '/gelinea-trapi/v1.4/asyncquery_status/{job_id}'.format(job_id='rXEOAosN3L'),
+            '/gelinea-trapi/v1.5/asyncquery_status/{job_id}'.format(job_id='rXEOAosN3L'),
             method='GET',
             headers=headers)
         self.assert200(response,
