@@ -6,7 +6,7 @@ from typing import Union
 
 from openapi_server.models.async_query_status_response import AsyncQueryStatusResponse  # noqa: E501
 from openapi_server import util
-
+from openapi_server.controllers.gelinea_controler import async_query_status
 
 def asyncquery_status(job_id):  # noqa: E501
     """Retrieve the current status of a previously submitted asyncquery given its job_id
@@ -18,4 +18,4 @@ def asyncquery_status(job_id):  # noqa: E501
 
     :rtype: Union[AsyncQueryStatusResponse, Tuple[AsyncQueryStatusResponse, int], Tuple[AsyncQueryStatusResponse, int, Dict[str, str]]
     """
-    return ({"status": 501, "title": "Not Implemented", "detail": "asyncronous queries not yet implemented", "type": "about:blank" }, 501)
+    return async_query_status(job_id)
