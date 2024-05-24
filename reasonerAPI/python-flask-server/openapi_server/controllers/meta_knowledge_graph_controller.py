@@ -31,7 +31,7 @@ def meta_knowledge_graph_get():  # noqa: E501
         if map_edge_attributes.get((subject, target, predicate)):
             list_attributes = map_edge_attributes.get((subject, target, predicate))
 
-        meta_edges.append(MetaEdge(subject=subject, object=target, predicate=predicate, attributes=list_attributes, knowledge_types=[], qualifiers=[]))
+        meta_edges.append(MetaEdge(subject=subject, object=target, predicate=predicate, attributes=list_attributes, knowledge_types=['lookup'], qualifiers=[]))
 
     # for key, values in nodes.items():
     #     meta_nodes[key] = MetaNode(id_prefixes=values)
