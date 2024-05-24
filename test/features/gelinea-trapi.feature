@@ -1,7 +1,7 @@
 Feature: Check reasoner API
 
     Background: Specify Reasoner API
-        Given a TRAPI at "https://translator.broadinstitute.org//gelinea-trapi/v1.4"
+        Given a TRAPI at "https://translator.broadinstitute.org/gelinea-trapi/v1.5"
 
 
     Scenario: Check targets
@@ -18,10 +18,9 @@ Feature: Check reasoner API
                             ]
                         },
                         "gene": {
-                            "categories": [
-                                "biolink:Gene"
-                            ],
-                            "ids": [
+                            "set_interpretation": "MANY",
+                            "ids": ["UUID:1231-2353"],
+                            "member_ids": [
                                 "HGNC:18017",
                                 "HGNC:12017",
                                 "HGNC:25525",
