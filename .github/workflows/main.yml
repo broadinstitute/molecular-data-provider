@@ -187,7 +187,6 @@ jobs:
         - name: Start the BDD testing of the checked out feature file
           run: behave test/features/gelinea.feature
 
-
   gelinea-trapi:
     runs-on: ubuntu-latest
     steps:
@@ -201,7 +200,6 @@ jobs:
         - name: Start the BDD testing of the checked out feature file
           run: behave test/features/gelinea-trapi.feature
 
-  
   gtopdb:
     runs-on: ubuntu-latest
     steps:
