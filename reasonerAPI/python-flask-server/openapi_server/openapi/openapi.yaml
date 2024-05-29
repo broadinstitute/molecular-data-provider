@@ -37,6 +37,15 @@ externalDocs:
   description: Documentation for the NCATS Biomedical Translator Reasoners web services
   url: https://github.com/NCATSTranslator/ReasonerAPI
 servers:
+  - url: https://molepro-trapi.transltr.io/molepro/trapi/v1.5
+    description: TRAPI production service for MolePro
+    x-maturity: production
+  - url: https://molepro-trapi.test.transltr.io/molepro/trapi/v1.5
+    description: TRAPI test service for MolePro
+    x-maturity: testing
+  - url: https://molepro-trapi.ci.transltr.io/molepro/trapi/v1.5
+    description: TRAPI staging service for MolePro
+    x-maturity: staging
 - description: TRAPI production service for MolePro
   url: https://translator.broadinstitute.org/molepro/trapi/v1.5
   x-maturity: development
