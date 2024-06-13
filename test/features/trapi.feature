@@ -1,3 +1,4 @@
+
 Feature: Check reasoner API
 
     Background: Specify Reasoner API
@@ -193,9 +194,9 @@ Feature: Check reasoner API
           "submitter": "behave test"
         }
         """
-        then the size of "message.results" should be 1688
-        and the size of "message.knowledge_graph.edges" should be 1688
-        and the size of "message.knowledge_graph.nodes" should be 908
+        then the size of "message.results" should be 1718
+        and the size of "message.knowledge_graph.edges" should be 1718
+        and the size of "message.knowledge_graph.nodes" should be 911
 
 
     Scenario: Check query with ChemicalEntity instead of SmallMolecule
@@ -231,9 +232,9 @@ Feature: Check reasoner API
             "submitter": "behave test"
         }
         """
-        then the size of "message.results" should be 333
-        and the size of "message.knowledge_graph.edges" should be 333
-        and the size of "message.knowledge_graph.nodes" should be 219
+        then the size of "message.results" should be 154
+        and the size of "message.knowledge_graph.edges" should be 154
+        and the size of "message.knowledge_graph.nodes" should be 152
 
 
     Scenario: Check query with unknown predicate
@@ -308,9 +309,9 @@ Feature: Check reasoner API
             "submitter": "behave test"
         }
         """
-        then the size of "message.results" should be 360
-        and the size of "message.knowledge_graph.edges" should be 360
-        and the size of "message.knowledge_graph.nodes" should be 248
+        then the size of "message.results" should be 361
+        and the size of "message.knowledge_graph.edges" should be 361
+        and the size of "message.knowledge_graph.nodes" should be 249
 
 
     Scenario: Check query with node constraints
@@ -347,7 +348,7 @@ Feature: Check reasoner API
                                     "id": "biolink:highest_FDA_approval_status",
                                     "name": "highest FDA approval status",
                                     "operator": "==",
-                                    "value": ["FDA Approval","FDA Clinical Research Phase 2"]
+                                    "value": ["regular_fda_approval","fda_clinical_research_phase_2"]
                                 }
                             ]
                         }
@@ -357,9 +358,9 @@ Feature: Check reasoner API
             "submitter": "behave test"
         }
         """
-        then the size of "message.results" should be 73
-        and the size of "message.knowledge_graph.edges" should be 73
-        and the size of "message.knowledge_graph.nodes" should be 30
+        then the size of "message.results" should be 102
+        and the size of "message.knowledge_graph.edges" should be 102
+        and the size of "message.knowledge_graph.nodes" should be 45
 
 
     Scenario: Check query with edge constraints
@@ -684,5 +685,5 @@ Feature: Check reasoner API
         """
         then the size of "message.results" should be 117
         and the size of "message.knowledge_graph.edges" should be 117
-        and the size of "message.knowledge_graph.nodes" should be 115
+        and the size of "message.knowledge_graph.nodes" should be 116
 

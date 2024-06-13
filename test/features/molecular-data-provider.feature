@@ -17,28 +17,28 @@ Feature: Check MolePro
 
     Scenario: Check get compound by id
         Given the Molecular Data Provider
-        when we fire "/compound/by_id/CHEBI:52717" query
-        then the value of "id" should be "CID:387447"
+        when we fire "/compound/by_id/CID:387447" query
+        then the value of "id" should be "CHEBI:52717"
 
 
     Scenario: Check get element by id
         Given the Molecular Data Provider
         when we fire "/element/by_id/CHEBI:52717" query
-        then the value of "elements[0].id" should be "CID:387447"
+        then the value of "elements[0].id" should be "CHEBI:52717"
 
 
     Scenario: Check get compound by name
         Given the Molecular Data Provider
         when we fire "/compound/by_name/bortezomib" query
         then the length of the collection should be 1
-        and the value of "elements[0].id" should be "CID:387447"
+        and the value of "elements[0].id" should be "CHEBI:52717"
 
 
     Scenario: Check get element by name
         Given the Molecular Data Provider
         when we fire "/element/by_name/bortezomib" query
         then the length of the collection should be 1
-        and the value of "elements[0].id" should be "CID:387447"
+        and the value of "elements[0].id" should be "CHEBI:52717"
 
 
     Scenario: Check HGNC producer
