@@ -1,14 +1,15 @@
 {
     "name": "ChemBank compound-list producer",
     "label": "ChemBank",
+    "infores": "infores:chembank",
     "description": "Compound-list producer based on ChemBank (http://chembank.broadinstitute.org/).",
-    "version": "2.3.0",
+    "version": "2.5.0",
     "function": "producer",
     "knowledge_map": {
         "input_class": "none",
         "output_class": "compound",
         "nodes": {
-            "ChemicalSubstance": {
+            "SmallMolecule": {
                 "count": 24867,
                 "id_prefixes":[
                     "CAS",
@@ -21,16 +22,16 @@
     },
     "properties": {
         "source_url": "http://chembank.broadinstitute.org/",
-        "source_version": "2"
+        "source_version": "2 (2019-05-01)"
     },
     "parameters": [
         {
             "example": "aspirin",
-            "name": "compounds",
+            "name": "compound",
             "type": "string",
             "required": true,
             "multivalued": true,
-            "suggested_values": "semicolon-separated list of compound names or ChemBank IDs"
+            "description": "compound name or ChemBank ID"
         }
     ]
 }
