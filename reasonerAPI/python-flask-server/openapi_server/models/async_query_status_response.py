@@ -131,6 +131,8 @@ class AsyncQueryStatusResponse(Model):
         """
         if logs is None:
             raise ValueError("Invalid value for `logs`, must not be `None`")  # noqa: E501
+        if logs is not None and len(logs) < 1:
+            raise ValueError("Invalid value for `logs`, number of items must be greater than or equal to `1`")  # noqa: E501
 
         self._logs = logs
 

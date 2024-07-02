@@ -96,5 +96,9 @@ class AuxiliaryGraph(Model):
         :param attributes: The attributes of this AuxiliaryGraph.
         :type attributes: List[Attribute]
         """
+        if attributes is None:
+            raise ValueError("Invalid value for `attributes`, must not be `None`")  # noqa: E501
+        if attributes is not None and len(attributes) < 0:
+            raise ValueError("Invalid value for `attributes`, number of items must be greater than or equal to `0`")  # noqa: E501
 
         self._attributes = attributes

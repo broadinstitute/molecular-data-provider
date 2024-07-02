@@ -17,7 +17,7 @@ class Node(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name=None, categories=None, attributes=None):  # noqa: E501
+    def __init__(self, name=None, categories=None, attributes=None, is_set=None):  # noqa: E501
         """Node - a model defined in OpenAPI
 
         :param name: The name of this Node.  # noqa: E501
@@ -26,22 +26,27 @@ class Node(Model):
         :type categories: List[str]
         :param attributes: The attributes of this Node.  # noqa: E501
         :type attributes: List[Attribute]
+        :param is_set: The is_set of this Node.  # noqa: E501
+        :type is_set: bool
         """
         self.openapi_types = {
             'name': str,
             'categories': List[str],
-            'attributes': List[Attribute]
+            'attributes': List[Attribute],
+            'is_set': bool
         }
 
         self.attribute_map = {
             'name': 'name',
             'categories': 'categories',
-            'attributes': 'attributes'
+            'attributes': 'attributes',
+            'is_set': 'is_set'
         }
 
         self._name = name
         self._categories = categories
         self._attributes = attributes
+        self._is_set = is_set
 
     @classmethod
     def from_dict(cls, dikt) -> 'Node':
@@ -97,6 +102,10 @@ class Node(Model):
         :param categories: The categories of this Node.
         :type categories: List[str]
         """
+        if categories is None:
+            raise ValueError("Invalid value for `categories`, must not be `None`")  # noqa: E501
+        if categories is not None and len(categories) < 1:
+            raise ValueError("Invalid value for `categories`, number of items must be greater than or equal to `1`")  # noqa: E501
 
         self._categories = categories
 
@@ -120,5 +129,32 @@ class Node(Model):
         :param attributes: The attributes of this Node.
         :type attributes: List[Attribute]
         """
+        if attributes is None:
+            raise ValueError("Invalid value for `attributes`, must not be `None`")  # noqa: E501
+        if attributes is not None and len(attributes) < 0:
+            raise ValueError("Invalid value for `attributes`, number of items must be greater than or equal to `0`")  # noqa: E501
 
         self._attributes = attributes
+
+    @property
+    def is_set(self):
+        """Gets the is_set of this Node.
+
+        Indicates that the node represents a set of entities. If this property is missing or null, it is assumed to be false.  # noqa: E501
+
+        :return: The is_set of this Node.
+        :rtype: bool
+        """
+        return self._is_set
+
+    @is_set.setter
+    def is_set(self, is_set):
+        """Sets the is_set of this Node.
+
+        Indicates that the node represents a set of entities. If this property is missing or null, it is assumed to be false.  # noqa: E501
+
+        :param is_set: The is_set of this Node.
+        :type is_set: bool
+        """
+
+        self._is_set = is_set
