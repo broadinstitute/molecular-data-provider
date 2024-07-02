@@ -302,16 +302,16 @@ class MolePro:
 
                         # updated for trapi v1.0.0
                         source_original_id = map_original_query_id.get(source_node.id) if source_node.id else None
-                        source_binding = NodeBinding(id=source_node.id, query_id=source_original_id)
-                        edge_binding = EdgeBinding(id=edge.id)
+                        source_binding = NodeBinding(id=source_node.id, query_id=source_original_id, attributes=[])
+                        edge_binding = EdgeBinding(id=edge.id, attributes=[])
                         target_original_id = map_original_query_id.get(target_node.id) if target_node.id else None
-                        target_binding = NodeBinding(id=target_node.id, query_id=target_original_id)
+                        target_binding = NodeBinding(id=target_node.id, query_id=target_original_id, attributes=[])
 
                         edge_map = {mole_edge.edge_key: [edge_binding]}
                         nodes_map = {mole_edge.source_key: [source_binding], mole_edge.target_key: [target_binding]}
 
                         # trapi1.4 - add analyses element
-                        analysis = Analysis(resource_id=infores_molepro, edge_bindings=edge_map)
+                        analysis = Analysis(resource_id=infores_molepro, edge_bindings=edge_map, support_graphs=[], attributes=[])
 
                         # trapi 1.0 changes for the result formating (from list of nodes/edges to map of nodes/edges)
                         result = Result(node_bindings=nodes_map, analyses=[analysis])
@@ -378,7 +378,7 @@ class MolePro:
                         resource_role = attribute.get('attribute_type_id')
                         if resource_role.startswith('biolink:'):
                             resource_role = resource_role[8:]
-                        source_temp = RetrievalSource(resource_id=attribute.get('value'), resource_role=resource_role)
+                        source_temp = RetrievalSource(resource_id=attribute.get('value'), resource_role=resource_role, upstream_resource_ids=[], source_record_urls=[])
                         if ResourceRoleEnum.AGGREGATOR_KNOWLEDGE_SOURCE in attribute.get('attribute_type_id'):
                             source_aggregator = source_temp
                         else:
@@ -434,9 +434,10 @@ class MolePro:
         # TODO - pull out sources from attributes
         # create the aggregator source if not present
         if not source_aggregator:
-            source_aggregator = RetrievalSource(resource_id=infores_molepro, resource_role=ResourceRoleEnum.AGGREGATOR_KNOWLEDGE_SOURCE)
+            source_aggregator = RetrievalSource(resource_id=infores_molepro, resource_role=ResourceRoleEnum.AGGREGATOR_KNOWLEDGE_SOURCE, upstream_resource_ids=[], source_record_urls=[])
 
         # add the reference sources to the aggregator source
+        # TODO - why is source_node never asigned a value?
         source_node: RetrievalSource = None
         source_aggregator.upstream_resource_ids = []
         for source_node in list_sources:
@@ -458,7 +459,7 @@ class MolePro:
         return list_attributes, list_qualifiers, list_sources
 
 
-    def add_node(self, id, name, type, attributes=None):
+    def add_node(self, id, name, type, attributes=[]):
         """ adds a node to the knwledge graph of the response
             updated for trapi v1.0.0 """
 

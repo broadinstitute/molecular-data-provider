@@ -15,7 +15,7 @@ from openapi_server.models.response import Response
 from openapi_server.controllers.knowledge_map import knowledge_map
 from openapi_server.controllers.molepro import MolePro
 from openapi_server.controllers.molepro_edge import MoleproEdgeModel
-from openapi_server.controllers.biolink_utils import BiolinkAncestrySingleton
+from openapi_server.controllers.biolink_utils import BiolinkAncestrySingleton, get_biolink_version, get_trapi_version
 
 from openapi_server.utils.query_utils import reverse_query, reverse_response, filter_by_object_id
 from openapi_server.controllers.utils import translate_type
@@ -33,21 +33,21 @@ if MOLEPRO_QUERY_LIMIT:
 logger = get_logger("query_interpreter")
 logger.info("Using query curie limit of: {}".format(limit_query_curie_size))
 
-# read trapi and biolink versions
-VERSION_BIOLINK = 0.1
-VERSION_TRAPI = 1.0
-with open("./openapi_server/openapi/openapi.yaml", "r") as stream:
-    try:
-        map_openapi = yaml.safe_load(stream)
-        VERSION_BIOLINK = map_openapi.get('info').get('x-translator').get('biolink-version')
-        VERSION_TRAPI = map_openapi.get('info').get('x-trapi').get('version')
-        # print(yaml.safe_load(stream))
-    except yaml.YAMLError as exc:
-        print(exc)
-logger.info("Using biolink version: {} and trapi version: {}".format(VERSION_BIOLINK, VERSION_TRAPI))
+# # read trapi and biolink versions
+# VERSION_BIOLINK = 0.1
+# VERSION_TRAPI = 1.0
+# with open("./openapi_server/openapi/openapi.yaml", "r") as stream:
+#     try:
+#         map_openapi = yaml.safe_load(stream)
+#         VERSION_BIOLINK = map_openapi.get('info').get('x-translator').get('biolink-version')
+#         VERSION_TRAPI = map_openapi.get('info').get('x-trapi').get('version')
+#         # print(yaml.safe_load(stream))
+#     except yaml.YAMLError as exc:
+#         print(exc)
+# logger.info("Using biolink version: {} and trapi version: {}".format(get_biolink_version(), get_trapi_version()))
 
-# print("biolink: {}".format(self.version_biolink))
-# print("trapi: {}".format(self.version_trapi))
+# # print("biolink: {}".format(self.version_biolink))
+# # print("trapi: {}".format(self.version_trapi))
 
 def execute_query(query: Query, debug = False):
     if query.workflow is None:
@@ -92,7 +92,7 @@ def execute_query(query: Query, debug = False):
                 if response.logs is not None:
                     logs.extend(response.logs)
                 
-        return Response(message=message, logs=logs, workflow=workflow, schema_version=VERSION_TRAPI, biolink_version=VERSION_BIOLINK)
+        return Response(message=message, logs=logs, workflow=workflow, schema_version=get_trapi_version(), biolink_version=get_biolink_version())
     else:
         return ({"status": 400, "title": "Bad Request", "detail": "Wrong workflow format", "type": "about:blank" }, 400)
 
