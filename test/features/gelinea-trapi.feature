@@ -1,7 +1,7 @@
 Feature: Check reasoner API
 
     Background: Specify Reasoner API
-        Given a TRAPI at "https://translator.broadinstitute.org/gelinea-trapi/v1.5"
+        Given a TRAPI at "https://molepro-gelinea-trapi.test.transltr.io/gelinea-trapi/v1.5"
 
 
     Scenario: Check targets
