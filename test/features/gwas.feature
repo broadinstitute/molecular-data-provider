@@ -11,8 +11,8 @@ Feature: Check GWAS transformer
         and the value of "function" should be "transformer"
         and the value of "knowledge_map.input_class" should be "gene"
         and the value of "knowledge_map.output_class" should be "disease"
-        and the value of "version" should be "2.5.0"
-        and the value of "properties.source_version" should be "v1.4"
+        and the value of "version" should be "2.5.1"
+        and the value of "properties.source_version" should be "v1.5"
         and the size of "parameters" should be 0
 
 
@@ -23,8 +23,8 @@ Feature: Check GWAS transformer
         and the value of "function" should be "transformer"
         and the value of "knowledge_map.input_class" should be "disease"
         and the value of "knowledge_map.output_class" should be "gene"
-        and the value of "version" should be "2.5.0"
-        and the value of "properties.source_version" should be "v1.4"
+        and the value of "version" should be "2.5.1"
+        and the value of "properties.source_version" should be "v1.5"
         and the size of "parameters" should be 0
 
 
