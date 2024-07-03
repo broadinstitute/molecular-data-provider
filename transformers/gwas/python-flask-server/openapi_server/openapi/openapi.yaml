@@ -3,7 +3,7 @@ info:
   contact:
     email: translator@broadinstitute.org
   title: Transformer API for GWAS disease-gene associations from Genetics Data Provider
-  version: 2.5.0
+  version: 2.5.1
 servers:
 - url: https://translator.broadinstitute.org/gwas
 tags:
