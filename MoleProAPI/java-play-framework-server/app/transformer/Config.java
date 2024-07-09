@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.type.TypeReference;
 
 import transformer.exception.InternalServerError;
 import transformer.util.JSON;
@@ -20,6 +21,8 @@ public class Config {
 	final static Logger log = LoggerFactory.getLogger(Config.class);
 
 	public static final Config config = loadConfig();
+
+	private static final Map<String,BiolinkClassMap> biolinkClassMap = loadBiolinkClassMap();
 
 
 	private static Config loadConfig() {
@@ -40,6 +43,22 @@ public class Config {
 	}
 
 
+	private static Map<String,BiolinkClassMap> loadBiolinkClassMap() {
+		try {
+			String json = new String(Files.readAllBytes(Paths.get("conf/biolink_class_map.json")));
+			final TypeReference<Map<String,BiolinkClassMap>> typeReference = new TypeReference<Map<String,BiolinkClassMap>>() {
+			};
+			Map<String,BiolinkClassMap> biolinkClassMap = JSON.mapper.readValue(json, typeReference);
+			log.info("Loaded config from conf/biolink_class_map.json");
+			return biolinkClassMap;
+		}
+		catch (IOException e) {
+			log.error("Unable to load BiolinkClassMap file", e);
+			throw new InternalServerError("Unable to load BiolinkClassMap file");
+		}
+	}
+
+
 	public String transformersFileName() {
 		return transformersFileName;
 	}
@@ -47,6 +66,10 @@ public class Config {
 
 	public static Config getConfig() {
 		return config;
+	}
+
+	public static BiolinkClassMap getBiolinkClassMap(String biolinkClass) {
+		return biolinkClassMap.get(biolinkClass);
 	}
 
 	private URL url;
@@ -167,8 +190,12 @@ public class Config {
 	}
 
 
-	public String[] getIdentifierPriority() {
-		return identifierPriority;
+	public String[] getIdentifierPriority(String biolinkClass) {
+		BiolinkClassMap map = config.getBiolinkClassMap(biolinkClass);
+		if (map == null) {
+			return identifierPriority;
+		}
+		return map.getIdentifierPriority();
 	}
 
 

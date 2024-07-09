@@ -14,7 +14,7 @@
             "smiles": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/smiles/cids/JSON",
             "inchi": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/inchi/cids/JSON"
         },
-        "automat.hierarchy":"https://automat.transltr.io/ontological-hierarchy/1.3/query"
+        "automat.hierarchy": "https://automat.renci.org/ubergraph/1.4/query"
     },
     "curies": {
         "nbcigene": {
@@ -70,7 +70,7 @@
         "PUBCHEM:":"CID:"
     },
     "timeouts":{
-        "transformer_info": 1000
+        "transformer_info": 5000
     },
     "expirationTimes": {
         "collections": "2h",
