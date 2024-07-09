@@ -87,7 +87,7 @@ public class MoleProDB {
 			return element;
 		}
 		final ArrayList<String> ids = new ArrayList<String>();
-		for (String field : Config.config.getIdentifierPriority()) {
+		for (String field : Config.config.getIdentifierPriority(srcElement.getBiolinkClass())) {
 			if (srcElement.getIdentifiers().containsKey(field)) {
 				for (String id : identifierValues(srcElement.getIdentifiers().get(field))) {
 					ids.add(id);
@@ -169,7 +169,7 @@ public class MoleProDB {
 			return cachedElement;
 		}
 		if (cachedElement == null) {
-			for (String field : Config.config.getIdentifierPriority()) {
+			for (String field : Config.config.getIdentifierPriority(srcElement.getBiolinkClass())) {
 				if (srcElement.getIdentifiers().containsKey(field)) {
 					for (String id : identifierValues(srcElement.getIdentifiers().get(field))) {
 						cachedElement = moleProDBCache.get(field, id);
@@ -245,7 +245,7 @@ public class MoleProDB {
 
 		public MoleProDBCache(final long expirationTime) {
 			super(expirationTime);
-			for (String field : Config.config.getIdentifierPriority()) {
+			for (String field : Config.config.getIdentifierPriority("")) {
 				addKeySet(field);
 			}
 		}
