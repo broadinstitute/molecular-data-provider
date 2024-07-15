@@ -1,8 +1,9 @@
 {
     "name": "ChEMBL activities transformer",
     "label": "ChEMBL",
+    "infores": "infores:chembl",
     "description": "Activities transformer based on ChEMBL activities information (https://www.ebi.ac.uk/chembl/).",
-    "version": "2.4.0",
+    "version": "2.5.0",
     "function": "transformer",
     "knowledge_map": {
         "input_class": "compound",
@@ -52,11 +53,13 @@
         "edges": [
             {
                 "subject": "SmallMolecule",
-                "predicate": "assesses",
-                "inverse_predicate": "is_assessed_by",
+                "predicate": "biolink:assesses",
+                "inverse_predicate": "biolink:is_assessed_by",
                 "object": "Target",
                 "source": "CHEMBL",
                 "count": -1,
+                "knowledge_level": "observation",
+                "agent_type": "experimental_agent",
                 "attributes": []
             }
         ]
@@ -66,7 +69,7 @@
         "member_predicate": "has_experimental_evidence",
         "source_url": "https://www.ebi.ac.uk/chembl/",
         "terms_of_service": "https://www.ebi.ac.uk/about/terms-of-use/",
-        "source_version": "30 (2022-03-09)"
+        "source_version": "33 (2024-02-02)"
     },
     "parameters": []
 }
