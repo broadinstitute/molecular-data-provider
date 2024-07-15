@@ -1,0 +1,522 @@
+{
+    "ACTIVATOR": {
+        "inv_predicate": "biolink:affected_by",
+        "predicate": "biolink:affects",
+        "qualifiers": [
+            {
+                "qualifier_type_id": "qualified_predicate",
+                "qualifier_value": "biolink:causes"
+            },
+            {
+                "qualifier_type_id": "object_aspect_qualifier",
+                "qualifier_value": "activity"
+            },
+            {
+                "qualifier_type_id": "object_direction_qualifier",
+                "qualifier_value": "increased"
+            },
+            {
+                "qualifier_type_id": "causal_mechanism_qualifier",
+                "qualifier_value": "activation"
+            }
+        ]
+    },
+    "AGONIST": {
+        "inv_predicate": "biolink:affected_by",
+        "predicate": "biolink:affects",
+        "qualifiers": [
+            {
+                "qualifier_type_id": "qualified_predicate",
+                "qualifier_value": "biolink:causes"
+            },
+            {
+                "qualifier_type_id": "object_aspect_qualifier",
+                "qualifier_value": "activity"
+            },
+            {
+                "qualifier_type_id": "object_direction_qualifier",
+                "qualifier_value": "increased"
+            },
+            {
+                "qualifier_type_id": "causal_mechanism_qualifier",
+                "qualifier_value": "agonism"
+            }
+        ]
+    },
+    "ALLOSTERIC ANTAGONIST": {
+        "inv_predicate": "biolink:affected_by",
+        "predicate": "biolink:affects",
+        "qualifiers": [
+            {
+                "qualifier_type_id": "qualified_predicate",
+                "qualifier_value": "biolink:causes"
+            },
+            {
+                "qualifier_type_id": "object_aspect_qualifier",
+                "qualifier_value": "activity"
+            },
+            {
+                "qualifier_type_id": "object_direction_qualifier",
+                "qualifier_value": "decreased"
+            },
+            {
+                "qualifier_type_id": "causal_mechanism_qualifier",
+                "qualifier_value": "allosteric_antagonism"
+            }
+        ]
+    },
+    "ANTAGONIST": {
+        "inv_predicate": "biolink:affected_by",
+        "predicate": "biolink:affects",
+        "qualifiers": [
+            {
+                "qualifier_type_id": "qualified_predicate",
+                "qualifier_value": "biolink:causes"
+            },
+            {
+                "qualifier_type_id": "object_aspect_qualifier",
+                "qualifier_value": "activity"
+            },
+            {
+                "qualifier_type_id": "object_direction_qualifier",
+                "qualifier_value": "decreased"
+            },
+            {
+                "qualifier_type_id": "causal_mechanism_qualifier",
+                "qualifier_value": "antagonism"
+            }
+        ]
+    },
+    "ANTISENSE INHIBITOR": {
+        "inv_predicate": "biolink:affected_by",
+        "predicate": "biolink:affects",
+        "qualifiers": [
+            {
+                "qualifier_type_id": "qualified_predicate",
+                "qualifier_value": "biolink:causes"
+            },
+            {
+                "qualifier_type_id": "object_aspect_qualifier",
+                "qualifier_value": "expression"
+            },
+            {
+                "qualifier_type_id": "object_direction_qualifier",
+                "qualifier_value": "decreased"
+            },
+            {
+                "qualifier_type_id": "causal_mechanism_qualifier",
+                "qualifier_value": "antisense_inhibition"
+            }
+        ]
+    },
+    "BINDING AGENT": {
+        "inv_predicate": "biolink:directly_physically_interacts_with",
+        "predicate": "biolink:directly_physically_interacts_with",
+        "qualifiers": []
+    },
+    "BLOCKER": {
+        "inv_predicate": "biolink:affected_by",
+        "predicate": "biolink:affects",
+        "qualifiers": [
+            {
+                "qualifier_type_id": "qualified_predicate",
+                "qualifier_value": "biolink:causes"
+            },
+            {
+                "qualifier_type_id": "object_aspect_qualifier",
+                "qualifier_value": "activity"
+            },
+            {
+                "qualifier_type_id": "object_direction_qualifier",
+                "qualifier_value": "decreased"
+            },
+            {
+                "qualifier_type_id": "causal_mechanism_qualifier",
+                "qualifier_value": "molecular_channel_blockage"
+            }
+        ]
+    },
+    "CHELATING AGENT": {
+        "inv_predicate": "biolink:directly_physically_interacts_with",
+        "predicate": "biolink:directly_physically_interacts_with",
+        "qualifiers": [
+            {
+                "qualifier_type_id": "causal_mechanism_qualifier",
+                "qualifier_value": "chelation"
+            }
+        ]
+    },
+    "CROSS-LINKING AGENT": {
+        "inv_predicate": "biolink:directly_physically_interacts_with",
+        "predicate": "biolink:directly_physically_interacts_with",
+        "qualifiers": [
+            {
+                "qualifier_type_id": "causal_mechanism_qualifier",
+                "qualifier_value": "crosslinking"
+            }
+        ]
+    },
+    "DEGRADER": {
+        "inv_predicate": "biolink:affected_by",
+        "predicate": "biolink:affects",
+        "qualifiers": [
+            {
+                "qualifier_type_id": "qualified_predicate",
+                "qualifier_value": "biolink:causes"
+            },
+            {
+                "qualifier_type_id": "object_aspect_qualifier",
+                "qualifier_value": "degradation"
+            },
+            {
+                "qualifier_type_id": "object_direction_qualifier",
+                "qualifier_value": "increased"
+            }
+        ]
+    },
+    "DISRUPTING AGENT": {
+        "inv_predicate": "biolink:disrupted_by",
+        "predicate": "biolink:disrupts",
+        "qualifiers": [
+            {
+                "qualifier_type_id": "object_aspect_qualifier",
+                "qualifier_value": "disruption"
+            }
+        ]
+    },
+    "HYDROLYTIC ENZYME": {
+        "inv_predicate": "biolink:affected_by",
+        "predicate": "biolink:affects",
+        "qualifiers": [
+            {
+                "qualifier_type_id": "qualified_predicate",
+                "qualifier_value": "biolink:causes"
+            },
+            {
+                "qualifier_type_id": "object_aspect_qualifier",
+                "qualifier_value": "hydrolysis"
+            },
+            {
+                "qualifier_type_id": "object_direction_qualifier",
+                "qualifier_value": "increased"
+            }
+        ]
+    },
+    "INHIBITOR": {
+        "inv_predicate": "biolink:affected_by",
+        "predicate": "biolink:affects",
+        "qualifiers": [
+            {
+                "qualifier_type_id": "qualified_predicate",
+                "qualifier_value": "biolink:causes"
+            },
+            {
+                "qualifier_type_id": "object_aspect_qualifier",
+                "qualifier_value": "activity"
+            },
+            {
+                "qualifier_type_id": "object_direction_qualifier",
+                "qualifier_value": "decreased"
+            },
+            {
+                "qualifier_type_id": "causal_mechanism_qualifier",
+                "qualifier_value": "inhibition"
+            }
+        ]
+    },
+    "INVERSE AGONIST": {
+        "inv_predicate": "biolink:affected_by",
+        "predicate": "biolink:affects",
+        "qualifiers": [
+            {
+                "qualifier_type_id": "qualified_predicate",
+                "qualifier_value": "biolink:causes"
+            },
+            {
+                "qualifier_type_id": "object_aspect_qualifier",
+                "qualifier_value": "activity"
+            },
+            {
+                "qualifier_type_id": "object_direction_qualifier",
+                "qualifier_value": "decreased"
+            },
+            {
+                "qualifier_type_id": "causal_mechanism_qualifier",
+                "qualifier_value": "inverse_agonism"
+            }
+        ]
+    },
+    "MODULATOR": {
+        "inv_predicate": "biolink:affected_by",
+        "predicate": "biolink:affects",
+        "qualifiers": [
+            {
+                "qualifier_type_id": "object_aspect_qualifier",
+                "qualifier_value": "activity"
+            },
+            {
+                "qualifier_type_id": "causal_mechanism_qualifier",
+                "qualifier_value": "modulation"
+            }
+        ]
+    },
+    "NEGATIVE ALLOSTERIC MODULATOR": {
+        "inv_predicate": "biolink:affected_by",
+        "predicate": "biolink:affects",
+        "qualifiers": [
+            {
+                "qualifier_type_id": "qualified_predicate",
+                "qualifier_value": "biolink:causes"
+            },
+            {
+                "qualifier_type_id": "object_aspect_qualifier",
+                "qualifier_value": "activity"
+            },
+            {
+                "qualifier_type_id": "object_direction_qualifier",
+                "qualifier_value": "decreased"
+            },
+            {
+                "qualifier_type_id": "causal_mechanism_qualifier",
+                "qualifier_value": "negative_allosteric_modulation"
+            }
+        ]
+    },
+    "NEGATIVE MODULATOR": {
+        "inv_predicate": "biolink:affected_by",
+        "predicate": "biolink:affects",
+        "qualifiers": [
+            {
+                "qualifier_type_id": "qualified_predicate",
+                "qualifier_value": "biolink:causes"
+            },
+            {
+                "qualifier_type_id": "object_aspect_qualifier",
+                "qualifier_value": "activity"
+            },
+            {
+                "qualifier_type_id": "object_direction_qualifier",
+                "qualifier_value": "decreased"
+            },
+            {
+                "qualifier_type_id": "causal_mechanism_qualifier",
+                "qualifier_value": "negative_modulation"
+            }
+        ]
+    },
+    "OPENER": {
+        "inv_predicate": "biolink:affected_by",
+        "predicate": "biolink:affects",
+        "qualifiers": [
+            {
+                "qualifier_type_id": "qualified_predicate",
+                "qualifier_value": "biolink:causes"
+            },
+            {
+                "qualifier_type_id": "object_aspect_qualifier",
+                "qualifier_value": "activity"
+            },
+            {
+                "qualifier_type_id": "object_direction_qualifier",
+                "qualifier_value": "increased"
+            },
+            {
+                "qualifier_type_id": "causal_mechanism_qualifier",
+                "qualifier_value": "opening"
+            }
+        ]
+    },
+    "OTHER": {
+        "inv_predicate": "biolink:affected_by",
+        "predicate": "biolink:affects",
+        "qualifiers": [
+            {
+                "qualifier_type_id": "object_aspect_qualifier",
+                "qualifier_value": "activity"
+            }
+        ]
+    },
+    "OXIDATIVE ENZYME": {
+        "inv_predicate": "biolink:directly_physically_interacts_with",
+        "predicate": "biolink:directly_physically_interacts_with",
+        "qualifiers": [
+            {
+                "qualifier_type_id": "causal_mechanism_qualifier",
+                "qualifier_value": "oxidation"
+            }
+        ]
+    },
+    "PARTIAL AGONIST": {
+        "inv_predicate": "biolink:affected_by",
+        "predicate": "biolink:affects",
+        "qualifiers": [
+            {
+                "qualifier_type_id": "qualified_predicate",
+                "qualifier_value": "biolink:causes"
+            },
+            {
+                "qualifier_type_id": "object_aspect_qualifier",
+                "qualifier_value": "activity"
+            },
+            {
+                "qualifier_type_id": "object_direction_qualifier",
+                "qualifier_value": "increased"
+            },
+            {
+                "qualifier_type_id": "causal_mechanism_qualifier",
+                "qualifier_value": "partial_agonism"
+            }
+        ]
+    },
+    "POSITIVE ALLOSTERIC MODULATOR": {
+        "inv_predicate": "biolink:affected_by",
+        "predicate": "biolink:affects",
+        "qualifiers": [
+            {
+                "qualifier_type_id": "qualified_predicate",
+                "qualifier_value": "biolink:causes"
+            },
+            {
+                "qualifier_type_id": "object_aspect_qualifier",
+                "qualifier_value": "activity"
+            },
+            {
+                "qualifier_type_id": "object_direction_qualifier",
+                "qualifier_value": "increased"
+            },
+            {
+                "qualifier_type_id": "causal_mechanism_qualifier",
+                "qualifier_value": "positive_allosteric_modulation"
+            }
+        ]
+    },
+    "POSITIVE MODULATOR": {
+        "inv_predicate": "biolink:affected_by",
+        "predicate": "biolink:affects",
+        "qualifiers": [
+            {
+                "qualifier_type_id": "qualified_predicate",
+                "qualifier_value": "biolink:causes"
+            },
+            {
+                "qualifier_type_id": "object_aspect_qualifier",
+                "qualifier_value": "activity"
+            },
+            {
+                "qualifier_type_id": "object_direction_qualifier",
+                "qualifier_value": "increased"
+            },
+            {
+                "qualifier_type_id": "causal_mechanism_qualifier",
+                "qualifier_value": "positive_modulation"
+            }
+        ]
+    },
+    "PROTEOLYTIC ENZYME": {
+        "inv_predicate": "biolink:affected_by",
+        "predicate": "biolink:affects",
+        "qualifiers": [
+            {
+                "qualifier_type_id": "object_aspect_qualifier",
+                "qualifier_value": "proteolysis"
+            }
+        ]
+    },
+    "REDUCING AGENT": {
+        "inv_predicate": "biolink:affected_by",
+        "predicate": "biolink:affects",
+        "qualifiers": [
+            {
+                "qualifier_type_id": "object_aspect_qualifier",
+                "qualifier_value": "metabolic_processing"
+            },
+            {
+                "qualifier_type_id": "causal_mechanism_qualifier",
+                "qualifier_value": "reducing_agent"
+            }
+        ]
+    },
+    "RELEASING AGENT": {
+        "inv_predicate": "biolink:affected_by",
+        "predicate": "biolink:affects",
+        "qualifiers": [
+            {
+                "qualifier_type_id": "object_aspect_qualifier",
+                "qualifier_value": "transport"
+            },
+            {
+                "qualifier_type_id": "causal_mechanism_qualifier",
+                "qualifier_value": "releasing_agent"
+            }
+        ]
+    },
+    "RNAI INHIBITOR": {
+        "inv_predicate": "biolink:regulated_by",
+        "predicate": "biolink:regulates",
+        "qualifiers": [
+            {
+                "qualifier_type_id": "qualified_predicate",
+                "qualifier_value": "biolink:causes"
+            },
+            {
+                "qualifier_type_id": "subject_form_or_variant_qualifier",
+                "qualifier_value": "RNAi"
+            },
+            {
+                "qualifier_type_id": "object_direction_qualifier",
+                "qualifier_value": "decreased"
+            },
+            {
+                "qualifier_type_id": "object_aspect_qualifier",
+                "qualifier_value": "expression"
+            },
+            {
+                "qualifier_type_id": "causal_mechanism_qualifier",
+                "qualifier_value": "inhibition"
+            }
+        ]
+    },
+    "SEQUESTERING AGENT": {
+        "inv_predicate": "biolink:directly_physically_interacts_with",
+        "predicate": "biolink:directly_physically_interacts_with",
+        "qualifiers": [
+            {
+                "qualifier_type_id": "causal_mechanism_qualifier",
+                "qualifier_value": "sequestering"
+            }
+        ]
+    },
+    "STABILISER": {
+        "inv_predicate": "biolink:affected_by",
+        "predicate": "biolink:affects",
+        "qualifiers": [
+            {
+                "qualifier_type_id": "qualified_predicate",
+                "qualifier_value": "biolink:causes"
+            },
+            {
+                "qualifier_type_id": "object_aspect_qualifier",
+                "qualifier_value": "stability"
+            },
+            {
+                "qualifier_type_id": "object_direction_qualifier",
+                "qualifier_value": "increased"
+            }
+        ]
+    },
+    "SUBSTRATE": {
+        "inv_predicate": "biolink:has_substrate",
+        "predicate": "biolink:is_substrate_of",
+        "qualifiers": []
+    },
+    "VACCINE ANTIGEN": {
+        "inv_predicate": "biolink:affected_by",
+        "predicate": "biolink:affects",
+        "qualifiers": [
+            {
+                "qualifier_type_id": "causal_mechanism_qualifier",
+                "qualifier_value": "vaccine_antigen"
+            }
+        ]
+    }
+}

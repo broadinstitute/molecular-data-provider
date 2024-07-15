@@ -1,8 +1,9 @@
 {
     "name": "ChEMBL indication transformer",
     "label": "ChEMBL",
+    "infores": "infores:chembl",
     "description": "Disease exporter based on ChEMBL indications information (https://www.ebi.ac.uk/chembl/).",
-    "version": "2.4.0",
+    "version": "2.5.0",
     "function": "transformer",
     "knowledge_map": {
         "input_class": "compound",
@@ -21,12 +22,25 @@
         },
         "edges": [
             {
-                "subject": "Compound",
-                "predicate": "treats",
-                "inverse_predicate": "treated_by",
+                "subject": "SmallMolecule",
+                "predicate": "biolink:in_clinical_trials_for",
+                "inverse_predicate": "biolink:in_clinical_trials_with",
                 "object": "DiseaseOrPhenotypicFeature",
                 "source": "CHEMBL",
                 "count": -1,
+                "knowledge_level": "knowledge_assertion",
+                "agent_type": "manual_agent",
+                "attributes": []
+            },
+            {
+                "subject": "SmallMolecule",
+                "predicate": "biolink:treats",
+                "inverse_predicate": "biolink:treated_by",
+                "object": "DiseaseOrPhenotypicFeature",
+                "source": "CHEMBL",
+                "count": -1,
+                "knowledge_level": "knowledge_assertion",
+                "agent_type": "manual_agent",
                 "attributes": []
             }
         ]
@@ -36,7 +50,7 @@
         "member_predicate": "treats",
         "source_url": "https://www.ebi.ac.uk/chembl/",
         "terms_of_service": "https://www.ebi.ac.uk/about/terms-of-use/",
-        "source_version": "30 (2022-03-09)"
+        "source_version": "33 (2024-02-02)"
     },
     "parameters": []
 }
