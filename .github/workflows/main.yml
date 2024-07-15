@@ -257,7 +257,7 @@ jobs:
     steps:
         - name: Git checkout
           uses: actions/checkout@v2
-          with: { ref: test-ci }    
+          with: { ref: test-dev }    
  
         - name: download all the required python modules
           run: pip install -r test/requirements.txt
