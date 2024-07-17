@@ -5,7 +5,7 @@
 #
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
 
-name: Daily ITRB CI Translator testing
+name: Debug 2 ITRB CI Translator testing
 
 # Controls when the workflow will run
 on:
@@ -13,7 +13,7 @@ on:
   workflow_dispatch:
   schedule:
 #   - cron: '00 00 * * *'   # midnight UTC
-    - cron: '20 08 * * *'   # 8:20AM UTC
+#    - cron: '20 08 * * *'   # 8:20AM UTC
 jobs:
 # This workflow contains a multiple jobs to test each transformer
 
@@ -30,15 +30,3 @@ jobs:
         - name: Start the BDD testing of the checked out feature file
           run: behave test/features/bigg_models.feature
 
-  bindingdb:
-    runs-on: ubuntu-latest
-    steps:
-        - name: Git checkout
-          uses: actions/checkout@v2
-          with: { ref: test-ci }
-
-        - name: download all the required python modules
-          run: pip install -r test/requirements.txt
-
-        - name: Start the BDD testing of the checked out feature file
-          run: behave test/features/bindingdb.feature 
