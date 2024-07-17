@@ -17,15 +17,15 @@ on:
 jobs:
 # This workflow contains a multiple jobs to test each transformer
 
-  bigg_models:
+  trapi:
     runs-on: ubuntu-latest
-    steps:    
+    steps:
         - name: Git checkout
           uses: actions/checkout@v2
-          with: { ref: test-ci }          
- 
+          with: { ref: test-ci } 
+    
         - name: download all the required python modules
           run: pip install -r test/requirements.txt
           
         - name: Start the BDD testing of the checked out feature file
-          run: behave test/features/bigg_models.feature
+          run: behave test/features/trapi.feature
