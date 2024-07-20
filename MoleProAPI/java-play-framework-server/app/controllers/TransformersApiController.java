@@ -1,7 +1,10 @@
 package controllers;
 
+import apimodels.ChainQuery;
+import apimodels.Collection;
 import apimodels.CollectionInfo;
 import apimodels.ErrorMsg;
+import java.util.List;
 import apimodels.MoleProQuery;
 import apimodels.TransformerInfo;
 
@@ -37,6 +40,30 @@ public class TransformersApiController extends Controller {
         this.imp = imp;
         mapper = new ObjectMapper();
         this.configuration = configuration;
+    }
+
+    @ApiAction
+    public Result transformChainPost(Http.Request request) throws Exception {
+        JsonNode nodechainQuery = request.body().asJson();
+        List<ChainQuery> chainQuery;
+        if (nodechainQuery != null) {
+            chainQuery = mapper.readValue(nodechainQuery.toString(), new TypeReference<List<ChainQuery>>(){});
+            if (configuration.getBoolean("useInputBeanValidation")) {
+                for (ChainQuery curItem : chainQuery) {
+                    OpenAPIUtils.validate(curItem);
+                }
+            }
+        } else {
+            throw new IllegalArgumentException("'ChainQuery' parameter is required");
+        }
+        String valuecache = request.getQueryString("cache");
+        String cache;
+        if (valuecache != null) {
+            cache = valuecache;
+        } else {
+            cache = null;
+        }
+        return imp.transformChainPostHttp(request, chainQuery, cache);
     }
 
     @ApiAction

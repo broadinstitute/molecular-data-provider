@@ -29,8 +29,8 @@ public abstract class ElementsApiControllerImpInterface {
     @Inject private SecurityAPIUtils securityAPIUtils;
     private ObjectMapper mapper = new ObjectMapper();
 
-    public Result elementByIdCompoundIdGetHttp(Http.Request request, String compoundId, String cache) throws Exception {
-        Collection obj = elementByIdCompoundIdGet(request, compoundId, cache);
+    public Result elementByIdElementIdGetHttp(Http.Request request, String elementId, String cache) throws Exception {
+        Collection obj = elementByIdElementIdGet(request, elementId, cache);
 
         if (configuration.getBoolean("useOutputBeanValidation")) {
             OpenAPIUtils.validate(obj);
@@ -42,7 +42,7 @@ public abstract class ElementsApiControllerImpInterface {
 
     }
 
-    public abstract Collection elementByIdCompoundIdGet(Http.Request request, String compoundId, String cache) throws Exception;
+    public abstract Collection elementByIdElementIdGet(Http.Request request, String elementId, String cache) throws Exception;
 
     public Result elementByIdPostHttp(Http.Request request, List<String> requestBody, String cache) throws Exception {
         CollectionInfo obj = elementByIdPost(request, requestBody, cache);

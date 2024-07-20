@@ -20,6 +20,10 @@ public class TransformerInfoProperties   {
   
   private String sourceVersion;
 
+  @JsonProperty("source_date")
+  
+  private String sourceDate;
+
   @JsonProperty("terms_of_service")
   
   private String termsOfService;
@@ -64,6 +68,23 @@ public class TransformerInfoProperties   {
 
   public void setSourceVersion(String sourceVersion) {
     this.sourceVersion = sourceVersion;
+  }
+
+  public TransformerInfoProperties sourceDate(String sourceDate) {
+    this.sourceDate = sourceDate;
+    return this;
+  }
+
+   /**
+   * Date of injest of underlying data or a wrapped service.
+   * @return sourceDate
+  **/
+  public String getSourceDate() {
+    return sourceDate;
+  }
+
+  public void setSourceDate(String sourceDate) {
+    this.sourceDate = sourceDate;
   }
 
   public TransformerInfoProperties termsOfService(String termsOfService) {
@@ -129,6 +150,7 @@ public class TransformerInfoProperties   {
     TransformerInfoProperties transformerInfoProperties = (TransformerInfoProperties) o;
     return Objects.equals(sourceUrl, transformerInfoProperties.sourceUrl) &&
         Objects.equals(sourceVersion, transformerInfoProperties.sourceVersion) &&
+        Objects.equals(sourceDate, transformerInfoProperties.sourceDate) &&
         Objects.equals(termsOfService, transformerInfoProperties.termsOfService) &&
         Objects.equals(method, transformerInfoProperties.method) &&
         Objects.equals(methodUrl, transformerInfoProperties.methodUrl);
@@ -136,7 +158,7 @@ public class TransformerInfoProperties   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(sourceUrl, sourceVersion, termsOfService, method, methodUrl);
+    return Objects.hash(sourceUrl, sourceVersion, sourceDate, termsOfService, method, methodUrl);
   }
 
   @SuppressWarnings("StringBufferReplaceableByString")
@@ -147,6 +169,7 @@ public class TransformerInfoProperties   {
     
     sb.append("    sourceUrl: ").append(toIndentedString(sourceUrl)).append("\n");
     sb.append("    sourceVersion: ").append(toIndentedString(sourceVersion)).append("\n");
+    sb.append("    sourceDate: ").append(toIndentedString(sourceDate)).append("\n");
     sb.append("    termsOfService: ").append(toIndentedString(termsOfService)).append("\n");
     sb.append("    method: ").append(toIndentedString(method)).append("\n");
     sb.append("    methodUrl: ").append(toIndentedString(methodUrl)).append("\n");
