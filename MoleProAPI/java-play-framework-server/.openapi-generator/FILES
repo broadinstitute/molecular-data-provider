@@ -4,6 +4,7 @@ README
 app/Module.java
 app/apimodels/AggregationQuery.java
 app/apimodels/Attribute.java
+app/apimodels/ChainQuery.java
 app/apimodels/Collection.java
 app/apimodels/CollectionAllOf.java
 app/apimodels/CollectionInfo.java

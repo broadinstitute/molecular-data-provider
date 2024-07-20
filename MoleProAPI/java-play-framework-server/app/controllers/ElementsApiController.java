@@ -40,7 +40,7 @@ public class ElementsApiController extends Controller {
     }
 
     @ApiAction
-    public Result elementByIdCompoundIdGet(Http.Request request, String compoundId) throws Exception {
+    public Result elementByIdElementIdGet(Http.Request request, String elementId) throws Exception {
         String valuecache = request.getQueryString("cache");
         String cache;
         if (valuecache != null) {
@@ -48,7 +48,7 @@ public class ElementsApiController extends Controller {
         } else {
             cache = null;
         }
-        return imp.elementByIdCompoundIdGetHttp(request, compoundId, cache);
+        return imp.elementByIdElementIdGetHttp(request, elementId, cache);
     }
 
     @ApiAction
