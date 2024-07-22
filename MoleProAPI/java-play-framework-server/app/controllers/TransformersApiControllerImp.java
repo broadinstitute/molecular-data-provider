@@ -23,8 +23,7 @@ import javax.validation.constraints.*;
 public class TransformersApiControllerImp extends TransformersApiControllerImpInterface {
     @Override
     public Collection transformChainPost(Http.Request request, List<ChainQuery> chainQuery, String cache) throws Exception {
-        //Do your magic!!!
-        return new Collection();
+        return Transformers.getChainTransformer(chainQuery).transform(cache);
     }
 
     @Override

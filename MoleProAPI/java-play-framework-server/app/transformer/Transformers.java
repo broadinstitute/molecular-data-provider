@@ -2,6 +2,8 @@ package transformer;
 
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -11,8 +13,10 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import apimodels.ChainQuery;
 import apimodels.Parameter;
 import apimodels.TransformerInfo;
+import apimodels.TransformerInfoProperties;
 import transformer.collection.Collections;
 import transformer.InternalTransformer.InternalTransformerInfo;
 import transformer.exception.NotFoundException;
@@ -31,6 +35,9 @@ public class Transformers {
 
 	private static final TransformerInfo.StatusEnum ONLINE = TransformerInfo.StatusEnum.ONLINE;
 	private static final TransformerInfo.StatusEnum OFFLINE = TransformerInfo.StatusEnum.OFFLINE;
+
+	private static final String PATTERN = "[(]\\d{4}[-]\\d\\d[-]\\d\\d[)]$";
+	private static final Pattern DATE_PATTERN = Pattern.compile(PATTERN);
 
 	/**
 	 * Logger
@@ -120,6 +127,14 @@ public class Transformers {
 
 
 	/**
+	 * 
+	 */
+	public static ChainTransformer getChainTransformer(List<ChainQuery> chainQuery) {
+		return new ChainTransformer(chainQuery);
+	}
+
+
+	/**
 	 * Load transformer info for a given base URL, return cached info for offline
 	 * transformers
 	 * 
@@ -142,6 +157,14 @@ public class Transformers {
 				}
 				if (parameter.getMultivalued() == null) {
 					parameter.setMultivalued(false);
+				}
+			}
+			final TransformerInfoProperties properties = info.getProperties();
+			if (properties.getSourceDate() == null && properties.getSourceVersion() != null) {
+				Matcher matcher = DATE_PATTERN.matcher(properties.getSourceVersion());
+				if (matcher.find()) {
+					properties.setSourceDate(matcher.group().substring(1, 11));
+					properties.setSourceVersion(properties.getSourceVersion().split(PATTERN)[0].trim());
 				}
 			}
 		}

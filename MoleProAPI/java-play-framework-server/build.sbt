@@ -1,6 +1,6 @@
 name := """molecular-data-provider"""
 
-version := "2.5.2"
+version := "2.6.0"
 
 lazy val root = (project in file(".")).enablePlugins(PlayJava)
 

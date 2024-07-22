@@ -25,9 +25,6 @@ public class InternalTransformer extends Transformer {
 			info.setName(info.getName().substring(17));
 			return new FilterTransformer.ConnectionFilterTransformer(info);
 		}
-		if (info.chain != null && info.chain.length > 0) {
-			return new ChainTransformer(info);
-		}
 		return new InternalTransformer(info);
 	}
 
