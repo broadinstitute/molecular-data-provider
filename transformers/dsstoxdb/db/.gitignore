@@ -45,9 +45,7 @@ coverage.xml
 *,cover
 .hypothesis/
 venv/
-.venv/
 .python-version
-.pytest_cache
 
 # Translations
 *.mo
@@ -66,4 +64,4 @@ target/
 .ipynb_checkpoints
 
 # data folder
-data/
+data

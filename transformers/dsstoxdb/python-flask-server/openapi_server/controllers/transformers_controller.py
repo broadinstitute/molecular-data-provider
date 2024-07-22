@@ -10,8 +10,13 @@ from openapi_server.models.transformer_info import TransformerInfo  # noqa: E501
 from openapi_server.models.transformer_query import TransformerQuery  # noqa: E501
 from openapi_server import util
 
+from openapi_server.controllers.dsstoxdb_transformer import DSSToxDB_ChemicalProducer
 
-def service_transform_post(service, transformer_query, cache=None):  # noqa: E501
+transformer = {
+    'chemical': DSSToxDB_ChemicalProducer()
+}
+
+def service_transform_post(service, body, cache=None):  # noqa: E501
     """Transform a list of genes or compounds
 
     Depending on the function of a transformer, creates, expands, or filters a list. # noqa: E501
@@ -27,8 +32,8 @@ def service_transform_post(service, transformer_query, cache=None):  # noqa: E50
     """
     if connexion.request.is_json:
         transformer_query = TransformerQuery.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
-
+    #return 'do some magic!'
+    return transformer[service].transform(transformer_query)
 
 def service_transformer_info_get(service, cache=None):  # noqa: E501
     """Retrieve transformer info
@@ -42,4 +47,5 @@ def service_transformer_info_get(service, cache=None):  # noqa: E501
 
     :rtype: Union[TransformerInfo, Tuple[TransformerInfo, int], Tuple[TransformerInfo, int, Dict[str, str]]
     """
-    return 'do some magic!'
+    #return 'do some magic!'
+    return transformer[service].transformer_info(cache)
