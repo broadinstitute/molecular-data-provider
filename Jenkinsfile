@@ -13,7 +13,7 @@ pipeline {
         string(name: 'KUBERNETES_CLUSTER_NAME', defaultValue: 'translator-eks-ci-blue-cluster', description: 'AWS EKS that will host this application')
     }
     environment {
-        TRANSFORMERS = "hgnc"
+        TRANSFORMERS = "dsstoxdb"
     }    
     triggers {
         pollSCM('H/2 * * * *')
@@ -61,7 +61,7 @@ pipeline {
             }
             steps {
                 withEnv([
-                    "IMAGE_NAME=853771734544.dkr.ecr.us-east-1.amazonaws.com/translator-molepro-hgnc",
+                    "IMAGE_NAME=853771734544.dkr.ecr.us-east-1.amazonaws.com/translator-molepro-dsstoxdb",
                     "BUILD_VERSION=" + (params.BUILD_VERSION ?: env.BUILD_VERSION)
                 ]) {
                     script {
@@ -94,7 +94,7 @@ pipeline {
                         sh '''
                         aws --region ${AWS_REGION} eks update-kubeconfig --name ${KUBERNETES_CLUSTER_NAME}
                         /bin/bash prepare.sh
-                        cp translator-ops/ops/molepro/config/transformers/molepro-hgnc.yaml translator-ops/ops/molepro/helm/
+                        cp translator-ops/ops/molepro/config/transformers/molepro-dsstoxdb.yaml translator-ops/ops/molepro/helm/
                         cd translator-ops/ops/molepro/helm/
                         /bin/bash deploy.sh
                         '''
