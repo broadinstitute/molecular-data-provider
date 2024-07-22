@@ -1,6 +1,7 @@
 openapi: 3.0.0
 info:
-  title: Transformer API for Molecular Data Provider
+  title: Transformer API for Distributed Structure-Searchable Toxicity (DSSTox) Database
+  termsOfService: https://www.epa.gov/privacy/privacy-act-laws-policies-and-resources
 
   version: 2.5.0
 
@@ -8,7 +9,7 @@ info:
     email: translator@broadinstitute.org
 
 servers:
-- url: https://translator.broadinstitute.org/<path>
+- url: https://translator.broadinstitute.org/dsstoxdb
 
 tags:
   - name: transformers
@@ -27,7 +28,7 @@ paths:
         required: true
         schema:
           type: string
-          enum: [SERVICE-LIST]
+          enum: [chemical]
       - name: cache
         in: query
         description: >-
@@ -58,7 +59,7 @@ paths:
         required: true
         schema:
           type: string
-          enum: [SERVICE-LIST]
+          enum: [chemical]
       - name: cache
         in: query
         description: >-
