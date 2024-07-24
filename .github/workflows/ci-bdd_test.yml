@@ -173,6 +173,19 @@ jobs:
           
         - name: Start the BDD testing of the checked out feature file
           run: behave test/features/drugcentral.feature
+
+  dsstoxdb:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Git checkout
+          uses: actions/checkout@v2
+          with: { ref: test-ci }    
+ 
+        - name: download all the required python modules
+          run: pip install -r test/requirements.txt
+          
+        - name: Start the BDD testing of the checked out feature file
+          run: behave test/features/dsstoxdb.feature
           
   gelinea:
     runs-on: ubuntu-latest
