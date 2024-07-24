@@ -111,6 +111,29 @@ def step_impl(context, transformer):
             context.response_json = collection.json()
 
 
+@when('we call transformer chain with the following parameters')
+def step_impl(context):
+    """
+    This step launches a transformer
+    """
+    url = context.base_url+'/transform_chain'
+    print(url)
+    chain = []
+    prev_transformer = ''
+    for row in context.table:
+        if row['transformer'] != prev_transformer:
+            controls = []
+            transformer = {'name': row['transformer'], 'controls': controls}
+            chain.append(transformer)
+            prev_transformer = row['transformer']
+        controls.append({'name':row['parameter'],'value':row['value']})
+    print(chain)
+    with closing(requests.post(url, json=chain, stream=False)) as response:
+        context.response = response
+        context.response_json = response.json()
+        print('len =', context.response_json['size'])
+
+
 @then('the length of the collection should be {size}')
 def step_impl(context, size):
     """
