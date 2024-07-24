@@ -30,6 +30,8 @@ def step_impl(context, query):
     url = context.base_url+query
     print('url:',url,'\n')
     with closing(requests.get(url)) as response:
+        if response.status_code != 200:
+            print(response.status_code, response.reason, response.text)
         context.response = response
         context.response_json = response.json()
 
@@ -42,6 +44,8 @@ def step_impl(context, query):
     url = context.base_url+query
     print('url:',url,'\n')
     with closing(requests.post(url, json=json.loads(context.text))) as response:
+        if response.status_code != 200:
+            print(response.status_code, response.reason, response.text)
         context.response = response
         context.response_json = response.json()
 
