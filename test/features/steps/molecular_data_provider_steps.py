@@ -45,6 +45,8 @@ def step_impl(context, compounds):
     url = context.base_url+'/compound/by_name/'+compounds
     print(url)
     with closing(requests.get(url)) as response:
+        if response.status_code != 200:
+            print(response.status_code, response.reason, response.text)
         context.response_json = response.json()
         context.collection_info = response.json()
         print("Collection size ",context.collection_info['size'])
@@ -58,6 +60,8 @@ def step_impl(context, compounds):
     url = context.base_url+'/compound/by_name/'+compounds
     print(url)
     with closing(requests.get(url)) as response:
+        if response.status_code != 200:
+            print(response.status_code, response.reason, response.text)
         context.response_json = response.json()
         context.collection_1 = context.collection_info
         context.collection_2 = response.json()
@@ -74,11 +78,15 @@ def step_impl(context, transformer):
     data = {"name":transformer,"collection_id":context.collection_id, "controls":[]}
     print(data)
     with closing(requests.post(url, json=data, stream=False)) as response:
+        if response.status_code != 200:
+            print(response.status_code, response.reason, response.text)
         context.response = response
         context.collection_info = response.json()
         print(context.collection_info)
         context.collection_id = context.collection_info['id']
         with closing(requests.get(context.collection_info['url'])) as collection:
+            if response.status_code != 200:
+                print(response.status_code, response.reason, response.text)
             context.response = collection
             context.response_json = collection.json()
 
@@ -102,11 +110,15 @@ def step_impl(context, transformer):
     data = {"name":transformer,"collection_id":context.collection_id, "controls":controls}
     print(data)
     with closing(requests.post(url, json=data, stream=False)) as response:
+        if response.status_code != 200:
+            print(response.status_code, response.reason, response.text)
         context.response = response
         context.collection_info = response.json()
         print(context.collection_info)
         context.collection_id = context.collection_info['id']
         with closing(requests.get(context.collection_info['url'])) as collection:
+            if response.status_code != 200:
+                print(response.status_code, response.reason, response.text)
             context.response = collection
             context.response_json = collection.json()
 
@@ -156,10 +168,14 @@ def step_impl(context, aggregator):
     data = {"operation":aggregator,"collection_ids":[context.collection_1['id'],context.collection_2['id']]}
     print(data)
     with closing(requests.post(url, json=data, stream=False)) as response:
+        if response.status_code != 200:
+            print(response.status_code, response.reason, response.text)
         context.collection_info = response.json()
         print(context.collection_info)
         context.collection_id = context.collection_info['id']
         with closing(requests.get(context.collection_info['url'])) as collection:
+            if response.status_code != 200:
+                print(response.status_code, response.reason, response.text)
             context.response = collection
             context.response_json = collection.json()
 
