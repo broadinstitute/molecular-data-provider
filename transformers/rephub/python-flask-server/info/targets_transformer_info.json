@@ -1,25 +1,40 @@
 {
-    "name": "Repurposing Hub target transformer",
+    "name": "Drug Repurposing Hub target transformer",
     "label": "Repurposing",
-    "description": "Compound-list transformer based on the Repurposing Hub (https://clue.io/repurposing).",
-    "version": "2.2.1",
+    "infores": "infores:drug-repurposing-hub",
+    "description": "Compound-list transformer based on the Drug Repurposing Hub (https://clue.io/repurposing).",
+    "version": "2.5.0",
     "function": "transformer",
     "knowledge_map": {
         "input_class": "compound",
         "output_class": "gene",
-        "predicates": [
+        "nodes": {
+            "SmallMolecule" : {
+                "id_prefixes": ["CID"],
+                "count": -1,
+                "attributes": []
+            },
+            "Gene": {
+                "id_prefixes": ["HGNC"],
+                "count": -1,
+                "attributes": []
+            }
+        },
+        "edges": [
             {
-                "subject": "ChemicalSubstance",
-                "predicate": "affects",
+                "subject": "SmallMolecule",
+                "predicate": "biolink:affects",
+                "inverse_predicate": "biolink:affected_by",
                 "object": "Gene",
-                "source": "Drug Repurposing Hub",
-                "relations": ["affects"]
+                "source": "Repurposing",
+                "knowledge_level": "knowledge_assertion",
+                "agent_type": "manual_agent"
             }
         ]
     },
    "properties": {
         "source_url": "https://clue.io/repurposing",
-        "source_version": "3/24/2020",
+        "source_version": "2020-03-24",
         "terms_of_service": "https://clue.io/repurposing#about"
     },
     "parameters": []
