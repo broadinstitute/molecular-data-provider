@@ -1,0 +1,17 @@
+{
+    "biolink_class_parents": {
+        "biolink:Pathway": [
+            "biolink:BiologicalProcess",
+            "biolink:BiologicalProcessOrActivity",
+            "biolink:BiologicalEntity",
+            "biolink:NamedThing",
+            "biolink:Entity"
+        ]
+    },
+    "biolink_predicate_parents": {
+        "biolink:enriched_in": [
+            "biolink:related_to",
+            "biolink:related_to_at_instance_level"
+        ]
+    }
+}
