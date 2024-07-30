@@ -3,19 +3,14 @@ from collections import defaultdict
 
 from transformers.transformer import Transformer
 
-from openapi_server.models.names import Names
-from openapi_server.models.attribute import Attribute
-from openapi_server.models.element import Element
-from openapi_server.models.connection import Connection
 
 connection = sqlite3.connect("data/ChemBank.sqlite", check_same_thread=False)
 connection.row_factory = sqlite3.Row
 
 
-
 class ChemBankProducer(Transformer):
 
-    variables = ['compounds']
+    variables = ['compound']
 
     def __init__(self):
         super().__init__(self.variables, definition_file='info/compounds_transformer_info.json')
@@ -25,20 +20,16 @@ class ChemBankProducer(Transformer):
         element_list = []
         elements = {}
         names  = controls[self.variables[0]]
-        if len(names) == 1 and ';' in names[0]:
-            names  = names[0].split(';')
         for name in names:
             name = name.strip()
             for element in self.find_compound_by_name(name):
                 if element.id not in elements:
                     elements[element.id] = element
                     element_list.append(element)
-                elements[element.id].attributes.append(Attribute(
-                    original_attribute_name= 'query name',
+                elements[element.id].attributes.append(self.Attribute(
+                    name= 'query name',
                     value= name,
-                    attribute_type_id= 'query name',
-                    attribute_source= self.SOURCE,
-                    provided_by= self.PROVIDED_BY
+                    type=''
                 ))
         return element_list
 
@@ -67,15 +58,11 @@ class ChemBankProducer(Transformer):
                 identifiers['pubchem'] = self.add_prefix('pubchem', str(names['PubChem'][0]))
             if 'CAS' in names:
                 identifiers['cas'] = self.add_prefix('cas', names['CAS'][0])
-            element = Element(
+            element = self.Element(
                 id= compound_id,
                 biolink_class= self.biolink_class('ChemicalSubstance'),
                 identifiers= identifiers,
-                names_synonyms= self.get_names_synonyms(names),
-                attributes= [],
-                connections= [],
-                provided_by= self.PROVIDED_BY,
-                source= self.SOURCE
+                names_synonyms= self.get_names_synonyms(names)
             )
             compound_list.append(element)
         return compound_list
@@ -98,46 +85,37 @@ class ChemBankProducer(Transformer):
         names_synonyms = []
         if 'primary-common' in names or 'common' in names:
             names_synonyms.append(
-                Names(
+                self.Names(
                     name = names['primary-common'][0] if 'primary-common' in names else None,
-                    synonyms = names['common'] if 'common' in names else None,
-                    source = self.SOURCE,
-                    name_type= "",
-                    provided_by= self.PROVIDED_BY
+                    synonyms = names['common'] if 'common' in names else None
                 )
             )
 
         if 'primary-brand' in names or 'brand' in names:
             names_synonyms.append(
-                Names(
+                self.Names(
                     name = names['primary-brand'][0] if 'primary-brand' in names else None,
                     synonyms = names['brand'] if 'brand' in names else None,
-                    source = self.SOURCE,
-                    provided_by= self.PROVIDED_BY,
-                    name_type= 'brand name'
+                    type= 'brand name'
                 )
             )
 
         if 'primary-chemical' in names or 'chemical' in names:
             names_synonyms.append(
-                Names(
+                self.Names(
                     name = names['primary-chemical'][0] if 'primary-chemical' in names else None,
                     synonyms = names['chemical'] if 'chemical' in names else None,
-                    source = self.SOURCE,
-                    provided_by= self.PROVIDED_BY,
-                    name_type= 'chemical name'
+                    type= 'chemical name'
                 )
             )
 
         for name_type, name_list in names.items():
             if name_type not in {'DrugBank','PubChem','CAS','primary-common','common','primary-brand','brand','primary-chemical','chemical'}:
                 names_synonyms.append(
-                    Names(
+                    self.Names(
                         name = name_list[0] if len(name_list) == 1 else  None,
                         synonyms = name_list if len(name_list) > 1 else  None,
-                        source= self.SOURCE,
-                        provided_by= self.PROVIDED_BY,
-                        name_type= name_type if name_type != 'ChemBank' else 'ChemBank ID'
+                        type= name_type if name_type != 'ChemBank' else 'ChemBank ID'
                     )
                 )
         return names_synonyms
