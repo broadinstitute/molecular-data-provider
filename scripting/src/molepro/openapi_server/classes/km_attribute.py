@@ -15,13 +15,15 @@ class KmAttribute(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, type=None, attribute_type_id=None, source=None, names=None):  # noqa: E501
+    def __init__(self, type=None, attribute_type_id=None, description=None, source=None, names=None):  # noqa: E501
         """KmAttribute - a model defined in OpenAPI
 
         :param type: The type of this KmAttribute.  # noqa: E501
         :type type: str
         :param attribute_type_id: The attribute_type_id of this KmAttribute.  # noqa: E501
         :type attribute_type_id: str
+        :param description: The description of this KmAttribute.  # noqa: E501
+        :type description: str
         :param source: The source of this KmAttribute.  # noqa: E501
         :type source: str
         :param names: The names of this KmAttribute.  # noqa: E501
@@ -30,6 +32,7 @@ class KmAttribute(Model):
         self.openapi_types = {
             'type': str,
             'attribute_type_id': str,
+            'description': str,
             'source': str,
             'names': List[str]
         }
@@ -37,12 +40,14 @@ class KmAttribute(Model):
         self.attribute_map = {
             'type': 'type',
             'attribute_type_id': 'attribute_type_id',
+            'description': 'description',
             'source': 'source',
             'names': 'names'
         }
 
         self._type = type
         self._attribute_type_id = attribute_type_id
+        self._description = description
         self._source = source
         self._names = names
 
@@ -100,10 +105,31 @@ class KmAttribute(Model):
         :param attribute_type_id: The attribute_type_id of this KmAttribute.
         :type attribute_type_id: str
         """
-        if attribute_type_id is None:
-            raise ValueError("Invalid value for `attribute_type_id`, must not be `None`")  # noqa: E501
 
         self._attribute_type_id = attribute_type_id
+
+    @property
+    def description(self):
+        """Gets the description of this KmAttribute.
+
+        Description of the attribute.  # noqa: E501
+
+        :return: The description of this KmAttribute.
+        :rtype: str
+        """
+        return self._description
+
+    @description.setter
+    def description(self, description):
+        """Sets the description of this KmAttribute.
+
+        Description of the attribute.  # noqa: E501
+
+        :param description: The description of this KmAttribute.
+        :type description: str
+        """
+
+        self._description = description
 
     @property
     def source(self):

@@ -15,7 +15,7 @@ class Parameter(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name=None, type=None, required=None, multivalued=None, default=None, example=None, allowed_values=None, allowed_range=None, suggested_values=None):  # noqa: E501
+    def __init__(self, name=None, type=None, required=None, multivalued=None, default=None, example=None, allowed_values=None, allowed_range=None, description=None, suggested_values=None):  # noqa: E501
         """Parameter - a model defined in OpenAPI
 
         :param name: The name of this Parameter.  # noqa: E501
@@ -34,6 +34,8 @@ class Parameter(Model):
         :type allowed_values: List[str]
         :param allowed_range: The allowed_range of this Parameter.  # noqa: E501
         :type allowed_range: List[float]
+        :param description: The description of this Parameter.  # noqa: E501
+        :type description: str
         :param suggested_values: The suggested_values of this Parameter.  # noqa: E501
         :type suggested_values: str
         """
@@ -46,6 +48,7 @@ class Parameter(Model):
             'example': str,
             'allowed_values': List[str],
             'allowed_range': List[float],
+            'description': str,
             'suggested_values': str
         }
 
@@ -58,6 +61,7 @@ class Parameter(Model):
             'example': 'example',
             'allowed_values': 'allowed_values',
             'allowed_range': 'allowed_range',
+            'description': 'description',
             'suggested_values': 'suggested_values'
         }
 
@@ -69,6 +73,7 @@ class Parameter(Model):
         self._example = example
         self._allowed_values = allowed_values
         self._allowed_range = allowed_range
+        self._description = description
         self._suggested_values = suggested_values
 
     @classmethod
@@ -277,6 +282,29 @@ class Parameter(Model):
             raise ValueError("Invalid value for `allowed_range`, number of items must be greater than or equal to `2`")  # noqa: E501
 
         self._allowed_range = allowed_range
+
+    @property
+    def description(self):
+        """Gets the description of this Parameter.
+
+        Description of the parameter.  # noqa: E501
+
+        :return: The description of this Parameter.
+        :rtype: str
+        """
+        return self._description
+
+    @description.setter
+    def description(self, description):
+        """Sets the description of this Parameter.
+
+        Description of the parameter.  # noqa: E501
+
+        :param description: The description of this Parameter.
+        :type description: str
+        """
+
+        self._description = description
 
     @property
     def suggested_values(self):
