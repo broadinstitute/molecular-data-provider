@@ -1,4 +1,5 @@
 import requests
+import sys
 from collections import defaultdict
 
 from molepro.openapi_server.classes.transformer_info import TransformerInfo
@@ -63,7 +64,7 @@ def name_to_function_name(name: str):
 
 
 def parameter_to_variable(parameter: str, space='_', dash='_'):
-    variable = parameter.lower().replace(' ',space).replace('-',dash)
+    variable = parameter.replace(' ',space).replace('-',dash)
     if parameter in ['not']:
         variable = '_'+variable
     return variable
@@ -76,7 +77,8 @@ def get_variable_list(transformer: TransformerInfo):
             variable_list = variable_list + ', '+parameter_to_variable(parameter.name)
     for parameter in transformer.parameters:
         if parameter.required is not None and parameter.required == False:
-            variable_list = variable_list + ', '+parameter_to_variable(parameter.name) + "='" + str(parameter.default)+"'"
+            parameter_default = "'" + str(parameter.default) + "'" if parameter.default is not None else 'None'
+            variable_list = variable_list + ', '+parameter_to_variable(parameter.name) + "=" + parameter_default
     return variable_list
 
 
@@ -132,7 +134,7 @@ def generate_transformer_group(input_class, output_class, transformers):
 
 
 def main():
-    response = requests.get(url)
+    response = requests.get(sys.argv[1] if len(sys.argv) > 1 else url)
     transformers = [TransformerInfo.from_dict(transformer) for transformer in response.json()]
     generate_transformers(transformers)
     generate_transformer_groups(transformers)

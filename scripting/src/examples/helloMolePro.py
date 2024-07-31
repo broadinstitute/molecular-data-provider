@@ -3,7 +3,7 @@ from molepro.server import elements
 import molepro.save as save
 
 x = pubchem_compound_list_producer(compound=['bortezomib','aspirin'])
-y = drugbank_target_genes_transformer(x)
+y = pharos_target_genes_transformer(x)
 z = cmap_compound_to_gene_transformer(x, score_threshold = 99, maximum_number = 10)
 w = union(y,z)
 
