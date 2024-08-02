@@ -4,7 +4,7 @@ import sys
 from setuptools import setup, find_packages
 
 NAME = "gwas-transformer"
-VERSION = "2.5.0"
+VERSION = "2.5.1"
 
 # To install the library, run the following
 #
