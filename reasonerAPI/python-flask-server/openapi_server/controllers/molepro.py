@@ -110,10 +110,32 @@ class MolePro:
 
         # for each element in a collection response, add an edge and associated nodes
         collection = self.getCollection(collection_info, cache='no')
+        collection = self.filter_results(collection, 'ChEMBL indication transformer')
         collection_id = collection.get('id')
         if collection.get('elements') is not None:
             for element in collection['elements']:
                 self.add_result(source_node, mole_edge, element, collection_id, map_original_query_id)
+
+
+    def filter_results(self, collection, provided_by):
+        filtered_results = []
+        filetered_out_count = 0
+        for element in collection['elements']:
+            filtered_element = None
+            for connection in element['connections']:
+                if connection['provided_by'] != provided_by:
+                    if filtered_element is None:
+                        filtered_element = element
+                        filtered_element['connections'] = []
+                    filtered_element['connections'].append(connection)
+            if filtered_element is not None:
+                filtered_results.append(filtered_element)
+            else:
+                filetered_out_count += 1
+        if filetered_out_count > 0:
+            logger.info('Filtered out {} elements with connections from {}'.format(filetered_out_count, provided_by))
+        collection['elements'] = filtered_results
+        return collection
 
 
     def get_logs(self, collection_attributes):
