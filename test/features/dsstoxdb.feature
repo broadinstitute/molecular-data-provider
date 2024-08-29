@@ -1,6 +1,6 @@
 Feature: Check DSSToxDB transformer
     Background: Specify transformer API
-        Given a transformer at "https://translator.broadinstitute.org/dsstoxdb"
+        Given a transformer at "https://molepro-dsstoxdb-transformer.transltr.io/dsstoxdb"
 
 
     Scenario: Check DSSToxDB chemical producer info
