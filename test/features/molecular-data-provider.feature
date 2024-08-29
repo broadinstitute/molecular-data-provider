@@ -236,6 +236,21 @@ Feature: Check MolePro
         and the value of "source" should be "Drug Repurposing Hub indication transformer"
 
 
+    Scenario: Check transformer chain
+        Given the Molecular Data Provider
+        when we call transformer chain with the following parameters:
+        | transformer                       | parameter            | value                               |
+        | MoleProDB node producer           | id                   | MONDO:0005247                       |
+        | MoleProDB hierarchy transformer   | name_source          | MolePro                             |
+        | MoleProDB hierarchy transformer   | element_attribute    | biolink:description                 |
+        | MoleProDB connections transformer | biolink_class        | SmallMolecule                       |
+        | MoleProDB connections transformer | name_source          | MolePro                             |
+        | MoleProDB connections transformer | element_attribute    | biolink:highest_FDA_approval_status |
+        | MoleProDB connections transformer | connection_attribute | biolink:primary_knowledge_source    |
+        | MoleProDB connections transformer | connection_attribute | biolink:aggregator_knowledge_source |
+        then the length of the collection should be 547
+
+
     Scenario: Check union
         Given the Molecular Data Provider
         and a compound list "aspirin;bortezomib;acetaminophen"
