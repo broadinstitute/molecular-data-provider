@@ -39,7 +39,6 @@ public class BiolinkClassMap {
 			identifierPriority.add(prefix.field_name);
 		}
 		this.identifierPriority = identifierPriority.toArray(new String[0]);
-		System.out.println("loaded "+identifierPriority.size()+" prefixes");
 	}
 
 

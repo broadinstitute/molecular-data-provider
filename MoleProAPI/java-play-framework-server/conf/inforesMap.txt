@@ -97,6 +97,7 @@ union	union	infores:molepro	biolink:aggregator_knowledge_source
 UniProt	UniProt protein-list producer	infores:uniprot	biolink:primary_knowledge_source
 UniProt	UniProt protein to gene transformer	infores:uniprot	biolink:primary_knowledge_source
 UniProt	UniProt gene to protein transformer	infores:uniprot	biolink:primary_knowledge_source
+MolePro	MoleProDB hierarchy transformer	infores:automat-ubergraph	biolink:primary_knowledge_source
 MolePro	MolePro	infores:molepro	biolink:aggregator_knowledge_source
 infores:molepro_kp	infores:molepro_kp	infores:molepro	biolink:aggregator_knowledge_source
 myGene.info	myGene.info	infores:mygene-info	biolink:aggregator_knowledge_source

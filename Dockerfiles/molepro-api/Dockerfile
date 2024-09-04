@@ -9,9 +9,9 @@ FROM adoptopenjdk/openjdk8:latest AS runtime-image
 RUN mkdir -p /usr/src/target
 WORKDIR /usr/src/target
 #COPY --from=packaging-image /usr/src/base/target/universal/molecular-data-provider-2.5.2.tgz /usr/src/target
-ADD https://translator.broadinstitute.org/db/molecular-data-provider-2.5.2.tgz /usr/src/target
-RUN gunzip molecular-data-provider-2.5.2.tgz
-RUN tar xf molecular-data-provider-2.5.2.tar
-WORKDIR /usr/src/target/molecular-data-provider-2.5.2
+ADD https://translator.broadinstitute.org/db/molecular-data-provider-2.6.0.tgz /usr/src/target
+RUN gunzip molecular-data-provider-2.6.0.tgz
+RUN tar xf molecular-data-provider-2.6.0.tar
+WORKDIR /usr/src/target/molecular-data-provider-2.6.0
 EXPOSE 9200
 CMD ["./bin/molecular-data-provider", "-J-Xmx4096m", "-Dplay.http.secret.key='{passrowd}'", "-Dhttp.port=9200"]

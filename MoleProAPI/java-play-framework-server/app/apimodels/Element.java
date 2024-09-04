@@ -29,6 +29,10 @@ public class Element   {
 
   private String biolinkClass;
 
+  @JsonProperty("is_set")
+  
+  private Boolean isSet;
+
   @JsonProperty("identifiers")
   @NotNull
 
@@ -96,6 +100,23 @@ public class Element   {
 
   public void setBiolinkClass(String biolinkClass) {
     this.biolinkClass = biolinkClass;
+  }
+
+  public Element isSet(Boolean isSet) {
+    this.isSet = isSet;
+    return this;
+  }
+
+   /**
+   * Indicates whether the element represents a set.
+   * @return isSet
+  **/
+  public Boolean getIsSet() {
+    return isSet;
+  }
+
+  public void setIsSet(Boolean isSet) {
+    this.isSet = isSet;
   }
 
   public Element identifiers(Map<String, Object> identifiers) {
@@ -266,6 +287,7 @@ public class Element   {
     Element element = (Element) o;
     return Objects.equals(id, element.id) &&
         Objects.equals(biolinkClass, element.biolinkClass) &&
+        Objects.equals(isSet, element.isSet) &&
         Objects.equals(identifiers, element.identifiers) &&
         Objects.equals(alternativeIdentifiers, element.alternativeIdentifiers) &&
         Objects.equals(namesSynonyms, element.namesSynonyms) &&
@@ -277,7 +299,7 @@ public class Element   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, biolinkClass, identifiers, alternativeIdentifiers, namesSynonyms, attributes, connections, source, providedBy);
+    return Objects.hash(id, biolinkClass, isSet, identifiers, alternativeIdentifiers, namesSynonyms, attributes, connections, source, providedBy);
   }
 
   @SuppressWarnings("StringBufferReplaceableByString")
@@ -288,6 +310,7 @@ public class Element   {
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    biolinkClass: ").append(toIndentedString(biolinkClass)).append("\n");
+    sb.append("    isSet: ").append(toIndentedString(isSet)).append("\n");
     sb.append("    identifiers: ").append(toIndentedString(identifiers)).append("\n");
     sb.append("    alternativeIdentifiers: ").append(toIndentedString(alternativeIdentifiers)).append("\n");
     sb.append("    namesSynonyms: ").append(toIndentedString(namesSynonyms)).append("\n");

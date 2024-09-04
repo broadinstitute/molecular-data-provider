@@ -19,12 +19,13 @@ POST     /molecular_data_provider/compound/by_name                     controlle
 POST     /molecular_data_provider/compound/by_structure                     controllers.CompoundsApiController.compoundByStructurePost(request: Request)
 
 #Functions for Elements API
-GET     /molecular_data_provider/element/by_id/:compoundId                     controllers.ElementsApiController.elementByIdCompoundIdGet(request: Request, compoundId: String)
+GET     /molecular_data_provider/element/by_id/:elementId                     controllers.ElementsApiController.elementByIdElementIdGet(request: Request, elementId: String)
 POST     /molecular_data_provider/element/by_id                     controllers.ElementsApiController.elementByIdPost(request: Request)
 GET     /molecular_data_provider/element/by_name/:name                     controllers.ElementsApiController.elementByNameNameGet(request: Request, name: String)
 POST     /molecular_data_provider/element/by_name                     controllers.ElementsApiController.elementByNamePost(request: Request)
 
 #Functions for Transformers API
+POST     /molecular_data_provider/transform_chain                     controllers.TransformersApiController.transformChainPost(request: Request)
 POST     /molecular_data_provider/transform                     controllers.TransformersApiController.transformPost(request: Request)
 GET     /molecular_data_provider/transformers                     controllers.TransformersApiController.transformersGet(request: Request)
 

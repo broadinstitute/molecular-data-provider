@@ -194,6 +194,27 @@
             "molepro_prefix": "XChem:"
         }
     },
+    "ChemicalMixture": {
+        "chembl": {
+            "biolink_prefix": "CHEMBL.COMPOUND",
+            "infores": "infores:chembl",
+            "molepro_prefix": "ChEMBL:"
+        },
+        "kegg": {
+            "biolink_prefix": "KEGG.COMPOUND",
+            "infores": "infores:kegg",
+            "molepro_prefix": "KEGG.COMPOUND:"
+        },
+        "pubchem": {
+            "biolink_prefix": "PUBCHEM.COMPOUND",
+            "infores": "infores:pubchem",
+            "molepro_prefix": "CID:"
+        },
+        "pubchem-sid": {
+            "biolink_prefix": "PUBCHEM.SUBSTANCE",
+            "molepro_prefix": "SID:"
+        }
+    },
     "Disease": {
         "disease_ontology": {
             "biolink_prefix": "DOID",
@@ -622,6 +643,27 @@
         "xchem": {
             "biolink_prefix": "XChem",
             "molepro_prefix": "XChem:"
+        }
+    },
+    "NucleicAcidEntity": {
+        "chembl": {
+            "biolink_prefix": "CHEMBL.COMPOUND",
+            "infores": "infores:chembl",
+            "molepro_prefix": "ChEMBL:"
+        },
+        "kegg": {
+            "biolink_prefix": "KEGG.COMPOUND",
+            "infores": "infores:kegg",
+            "molepro_prefix": "KEGG.COMPOUND:"
+        },
+        "pubchem": {
+            "biolink_prefix": "PUBCHEM.COMPOUND",
+            "infores": "infores:pubchem",
+            "molepro_prefix": "CID:"
+        },
+        "pubchem-sid": {
+            "biolink_prefix": "PUBCHEM.SUBSTANCE",
+            "molepro_prefix": "SID:"
         }
     },
     "OrganismEntity": {
