@@ -5,7 +5,7 @@
       "email" : "translator@broadinstitute.org"
     },
     "title" : "Molecular Data Provider",
-    "version" : "2.5.2"
+    "version" : "2.6.0"
   },
   "servers" : [ {
     "url" : "https://translator.broadinstitute.org/molecular_data_provider"
@@ -439,6 +439,82 @@
         "x-accepts" : "application/json"
       }
     },
+    "/transform_chain" : {
+      "post" : {
+        "description" : "Depending on the function of a transformer, creates, expands, or filters a list.",
+        "parameters" : [ {
+          "description" : "Directive for handling caching, can be 'yes' (default), 'no', 'bypass' or 'remove'",
+          "explode" : true,
+          "in" : "query",
+          "name" : "cache",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "form"
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "items" : {
+                  "$ref" : "#/components/schemas/chain_query"
+                },
+                "type" : "array"
+              }
+            }
+          },
+          "description" : "transformer chain query",
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/collection"
+                }
+              }
+            },
+            "description" : "successful operation"
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error_msg"
+                }
+              }
+            },
+            "description" : "bad request"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error_msg"
+                }
+              }
+            },
+            "description" : "not found"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error_msg"
+                }
+              }
+            },
+            "description" : "internal server error"
+          }
+        },
+        "summary" : "Transform a list of elements using a chain of transformers",
+        "tags" : [ "transformers" ],
+        "x-content-type" : "application/json",
+        "x-accepts" : "application/json"
+      }
+    },
     "/collection/{collection_id}" : {
       "get" : {
         "description" : "Retrieves a collection for a given collection id.",
@@ -711,13 +787,13 @@
         "x-accepts" : "application/json"
       }
     },
-    "/element/by_id/{compound_id}" : {
+    "/element/by_id/{element_id}" : {
       "get" : {
         "parameters" : [ {
           "description" : "Id of a element (CURIE).",
           "explode" : false,
           "in" : "path",
-          "name" : "compound_id",
+          "name" : "element_id",
           "required" : true,
           "schema" : {
             "type" : "string"
@@ -1026,7 +1102,8 @@
             "method" : "method",
             "terms_of_service" : "terms_of_service",
             "method_url" : "method_url",
-            "source_url" : "source_url"
+            "source_url" : "source_url",
+            "source_date" : "source_date"
           },
           "status" : "online"
         },
@@ -1578,6 +1655,23 @@
         "required" : [ "name", "value" ],
         "type" : "object"
       },
+      "chain_query" : {
+        "properties" : {
+          "name" : {
+            "description" : "Name of the transformer that will be executed.",
+            "type" : "string"
+          },
+          "controls" : {
+            "description" : "Values that control the behavior of the transformer. Names of the controls must match the names specified in the transformer's definition and values must match types (and possibly  allowed_values) specified in the transformer's definition.",
+            "items" : {
+              "$ref" : "#/components/schemas/property"
+            },
+            "type" : "array"
+          }
+        },
+        "required" : [ "controls", "name" ],
+        "type" : "object"
+      },
       "collection_info" : {
         "example" : {
           "size" : 0,
@@ -1649,6 +1743,7 @@
       "element" : {
         "example" : {
           "biolink_class" : "biolink_class",
+          "is_set" : true,
           "identifiers" : {
             "key" : ""
           },
@@ -1780,6 +1875,10 @@
           "biolink_class" : {
             "description" : "BioLink class of the element.",
             "type" : "string"
+          },
+          "is_set" : {
+            "description" : "Indicates whether the element represents a set.",
+            "type" : "boolean"
           },
           "identifiers" : {
             "additionalProperties" : true,
@@ -2138,7 +2237,8 @@
           "method" : "method",
           "terms_of_service" : "terms_of_service",
           "method_url" : "method_url",
-          "source_url" : "source_url"
+          "source_url" : "source_url",
+          "source_date" : "source_date"
         },
         "properties" : {
           "source_url" : {
@@ -2149,15 +2249,21 @@
             "description" : "Version of the underlying source or data.",
             "type" : "string"
           },
+          "source_date" : {
+            "description" : "Date of injest of underlying data or a wrapped service.",
+            "type" : "string"
+          },
           "terms_of_service" : {
             "description" : "Link to the page that describes the terms of service for the transformer.",
             "type" : "string"
           },
           "method" : {
+            "deprecated" : true,
             "description" : "A method used to generate output lists.",
             "type" : "string"
           },
           "method_url" : {
+            "deprecated" : true,
             "description" : "Link to a description of a method used to generate output lists.",
             "type" : "string"
           }

@@ -69,6 +69,43 @@
             }
         ]
     },
+    "Association": {
+        "alias": [],
+        "id_prefixes": []
+    },
+    "Attribute": {
+        "alias": [],
+        "id_prefixes": [
+            {
+                "biolink_prefix": "EDAM-DATA",
+                "field_name": "edam-data",
+                "molepro_prefix": "EDAM-DATA:"
+            },
+            {
+                "biolink_prefix": "EDAM-FORMAT",
+                "field_name": "edam-format",
+                "molepro_prefix": "EDAM-FORMAT:"
+            },
+            {
+                "biolink_prefix": "EDAM-OPERATION",
+                "field_name": "edam-operation",
+                "molepro_prefix": "EDAM-OPERATION:"
+            },
+            {
+                "biolink_prefix": "EDAM-TOPIC",
+                "field_name": "edam-topic",
+                "molepro_prefix": "EDAM-TOPIC:"
+            }
+        ],
+        "parent": "NamedThing"
+    },
+    "Behavior": {
+        "alias": [
+            "Behavior"
+        ],
+        "id_prefixes": [],
+        "parent": "BiologicalProcess"
+    },
     "BiologicalEntity": {
         "alias": [
             "BiologicalEntity"
@@ -191,6 +228,19 @@
             }
         ],
         "parent": "AnatomicalEntity"
+    },
+    "CellLine": {
+        "alias": [
+            "CellLine"
+        ],
+        "id_prefixes": [
+            {
+                "biolink_prefix": "CLO",
+                "field_name": "clo",
+                "molepro_prefix": "CLO:"
+            }
+        ],
+        "parent": "OrganismalEntity"
     },
     "CellularComponent": {
         "alias": [
@@ -453,13 +503,15 @@
         "id_prefixes": [
             {
                 "biolink_prefix": "PUBCHEM.COMPOUND",
-                "field_name": "pubchem.compound",
-                "molepro_prefix": "PUBCHEM.COMPOUND:"
+                "field_name": "pubchem",
+                "infores": "infores:pubchem",
+                "molepro_prefix": "CID:"
             },
             {
                 "biolink_prefix": "CHEMBL.COMPOUND",
-                "field_name": "chembl.compound",
-                "molepro_prefix": "CHEMBL.COMPOUND:"
+                "field_name": "chembl",
+                "infores": "infores:chembl",
+                "molepro_prefix": "ChEMBL:"
             },
             {
                 "biolink_prefix": "UNII",
@@ -502,9 +554,9 @@
                 "molepro_prefix": "HMDB:"
             },
             {
-                "biolink_prefix": "KEGG.COMPOUND",
-                "field_name": "kegg.compound",
-                "molepro_prefix": "KEGG.COMPOUND:"
+                "biolink_prefix": "KEGG",
+                "field_name": "kegg",
+                "molepro_prefix": "KEGG:"
             },
             {
                 "biolink_prefix": "ChemBank",
@@ -513,8 +565,9 @@
             },
             {
                 "biolink_prefix": "PUBCHEM.SUBSTANCE",
-                "field_name": "pubchem.substance",
-                "molepro_prefix": "PUBCHEM.SUBSTANCE:"
+                "field_name": "pubchem-sid",
+                "infores": null,
+                "molepro_prefix": "SID:"
             },
             {
                 "biolink_prefix": "SIDER.DRUG",
@@ -542,11 +595,6 @@
                 "molepro_prefix": "KEGG.DRUG:"
             },
             {
-                "biolink_prefix": "KEGG",
-                "field_name": "kegg",
-                "molepro_prefix": "KEGG:"
-            },
-            {
                 "biolink_prefix": "KEGG.ENVIRON",
                 "field_name": "kegg.environ",
                 "molepro_prefix": "KEGG.ENVIRON:"
@@ -558,6 +606,20 @@
             }
         ],
         "parent": "ChemicalEntity"
+    },
+    "ClinicalAttribute": {
+        "alias": [
+            "ClinicalAttribute"
+        ],
+        "id_prefixes": [],
+        "parent": "Attribute"
+    },
+    "Cohort": {
+        "alias": [
+            "Cohort"
+        ],
+        "id_prefixes": [],
+        "parent": "StudyPopulation"
     },
     "Disease": {
         "alias": [
@@ -925,6 +987,49 @@
         ],
         "parent": "BiologicalEntity"
     },
+    "GeneToGeneAssociation": {
+        "alias": [],
+        "id_prefixes": [],
+        "parent": "Association"
+    },
+    "GrossAnatomicalStructure": {
+        "alias": [
+            "GrossAnatomicalStructure"
+        ],
+        "id_prefixes": [
+            {
+                "biolink_prefix": "UBERON",
+                "field_name": "uberon",
+                "molepro_prefix": "UBERON:"
+            },
+            {
+                "biolink_prefix": "UMLS",
+                "field_name": "umls",
+                "molepro_prefix": "UMLS:"
+            },
+            {
+                "biolink_prefix": "MESH",
+                "field_name": "mesh",
+                "molepro_prefix": "MESH:"
+            },
+            {
+                "biolink_prefix": "NCIT",
+                "field_name": "ncit",
+                "molepro_prefix": "NCIT:"
+            },
+            {
+                "biolink_prefix": "PO",
+                "field_name": "po",
+                "molepro_prefix": "PO:"
+            },
+            {
+                "biolink_prefix": "FAO",
+                "field_name": "fao",
+                "molepro_prefix": "FAO:"
+            }
+        ],
+        "parent": "AnatomicalEntity"
+    },
     "InformationContentEntity": {
         "alias": [],
         "id_prefixes": [
@@ -935,6 +1040,12 @@
             }
         ],
         "parent": "NamedThing"
+    },
+    "MacromolecularComplexMixin": {
+        "alias": [
+            "MacromolecularComplexMixin"
+        ],
+        "id_prefixes": []
     },
     "MolecularActivity": {
         "alias": [
@@ -1442,13 +1553,15 @@
         "id_prefixes": [
             {
                 "biolink_prefix": "PUBCHEM.COMPOUND",
-                "field_name": "pubchem.compound",
-                "molepro_prefix": "PUBCHEM.COMPOUND:"
+                "field_name": "pubchem",
+                "infores": "infores:pubchem",
+                "molepro_prefix": "CID:"
             },
             {
                 "biolink_prefix": "CHEMBL.COMPOUND",
-                "field_name": "chembl.compound",
-                "molepro_prefix": "CHEMBL.COMPOUND:"
+                "field_name": "chembl",
+                "infores": "infores:chembl",
+                "molepro_prefix": "ChEMBL:"
             },
             {
                 "biolink_prefix": "UNII",
@@ -1481,13 +1594,9 @@
                 "molepro_prefix": "HMDB:"
             },
             {
-                "biolink_prefix": "KEGG",
-                "field_name": "kegg",
-                "molepro_prefix": "KEGG:"
-            },
-            {
                 "biolink_prefix": "KEGG.COMPOUND",
-                "field_name": "kegg.compound",
+                "field_name": "kegg",
+                "infores": "infores:kegg",
                 "molepro_prefix": "KEGG.COMPOUND:"
             },
             {
@@ -1497,8 +1606,9 @@
             },
             {
                 "biolink_prefix": "PUBCHEM.SUBSTANCE",
-                "field_name": "pubchem.substance",
-                "molepro_prefix": "PUBCHEM.SUBSTANCE:"
+                "field_name": "pubchem-sid",
+                "infores": null,
+                "molepro_prefix": "SID:"
             },
             {
                 "biolink_prefix": "INCHI",
@@ -1543,10 +1653,58 @@
         ],
         "parent": "MolecularEntity"
     },
+    "Organism": {
+        "alias": [
+            "Organism"
+        ],
+        "id_prefixes": []
+    },
+    "OrganismEntity": {
+        "alias": [
+            "OrganismEntity"
+        ],
+        "id_prefixes": [
+            {
+                "biolink_prefix": "NCBITaxon",
+                "field_name": "ncbi_taxon",
+                "molepro_prefix": "NCBITaxon:"
+            }
+        ]
+    },
+    "OrganismTaxon": {
+        "alias": [
+            "OrganismTaxon"
+        ],
+        "id_prefixes": [
+            {
+                "biolink_prefix": "NCBITaxon",
+                "field_name": "ncbitaxon",
+                "molepro_prefix": "NCBITaxon:"
+            },
+            {
+                "biolink_prefix": "MESH",
+                "field_name": "mesh",
+                "molepro_prefix": "MESH:"
+            },
+            {
+                "biolink_prefix": "UMLS",
+                "field_name": "umls",
+                "molepro_prefix": "UMLS:"
+            }
+        ],
+        "parent": "NamedThing"
+    },
     "OrganismalEntity": {
         "alias": [],
         "id_prefixes": [],
         "parent": "BiologicalEntity"
+    },
+    "PairwiseGeneToGeneInteraction": {
+        "alias": [
+            "PairwiseGeneToGeneInteraction"
+        ],
+        "id_prefixes": [],
+        "parent": "GeneToGeneAssociation"
     },
     "Pathway": {
         "alias": [
@@ -1611,6 +1769,13 @@
             }
         ],
         "parent": "BiologicalProcess"
+    },
+    "Phenomenon": {
+        "alias": [
+            "Phenomenon"
+        ],
+        "id_prefixes": [],
+        "parent": "NamedThing"
     },
     "PhenotypicFeature": {
         "alias": [
@@ -1700,6 +1865,24 @@
         ],
         "parent": "DiseaseOrPhenotypicFeature"
     },
+    "PhysiologicalProcess": {
+        "alias": [
+            "PhysiologicalProcess"
+        ],
+        "id_prefixes": [
+            {
+                "biolink_prefix": "GO",
+                "field_name": "go",
+                "molepro_prefix": "GO:"
+            },
+            {
+                "biolink_prefix": "REACT",
+                "field_name": "react",
+                "molepro_prefix": "REACT:"
+            }
+        ],
+        "parent": "BiologicalProcess"
+    },
     "Polypeptide": {
         "alias": [],
         "id_prefixes": [
@@ -1730,6 +1913,32 @@
             }
         ],
         "parent": "BiologicalEntity"
+    },
+    "PopulationOfIndividualOrganisms": {
+        "alias": [
+            "PopulationOfIndividualOrganisms"
+        ],
+        "id_prefixes": [
+            {
+                "biolink_prefix": "HANCESTRO",
+                "field_name": "hancestro",
+                "molepro_prefix": "HANCESTRO:"
+            }
+        ],
+        "parent": "OrganismalEntity"
+    },
+    "Procedure": {
+        "alias": [
+            "Procedure"
+        ],
+        "id_prefixes": [
+            {
+                "biolink_prefix": "CPT",
+                "field_name": "cpt",
+                "molepro_prefix": "CPT:"
+            }
+        ],
+        "parent": "NamedThing"
     },
     "Protein": {
         "alias": [
@@ -1783,6 +1992,19 @@
             }
         ],
         "parent": "Polypeptide"
+    },
+    "ProteinComplex": {
+        "alias": [
+            "ProteinComplex"
+        ],
+        "id_prefixes": []
+    },
+    "ProteinFamily": {
+        "alias": [
+            "ProteinFamily"
+        ],
+        "id_prefixes": [],
+        "parent": "BiologicalEntity"
     },
     "Publication": {
         "alias": [
@@ -2033,6 +2255,11 @@
             }
         ],
         "parent": "MolecularEntity"
+    },
+    "StudyPopulation": {
+        "alias": [],
+        "id_prefixes": [],
+        "parent": "PopulationOfIndividualOrganisms"
     },
     "Target": {
         "alias": [

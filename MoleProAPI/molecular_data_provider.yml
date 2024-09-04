@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Molecular Data Provider
-  version: 2.5.2
+  version: 2.6.0
   contact:
     email: translator@broadinstitute.org
   
@@ -303,6 +303,59 @@ paths:
                 $ref: '#/components/schemas/error_msg'
 
 
+  /transform_chain:
+    post:
+      tags:
+      - transformers
+      summary: Transform a list of elements using a chain of transformers
+      description: >-
+        Depending on the function of a transformer, creates, expands, or
+        filters a list.
+      parameters:
+      - name: cache
+        in: query
+        description: >-
+          Directive for handling caching, can be 'yes' (default), 'no', 'bypass'
+          or 'remove'
+        required: false
+        schema:
+          type: string
+      requestBody:
+        description: transformer chain query
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/chain_query'
+        required: true
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/collection'
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_msg'
+        404:
+          description: not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_msg'
+        500:
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_msg'
+
+
   /collection/{collection_id}:
     get:
       tags:
@@ -490,13 +543,13 @@ paths:
                 $ref: '#/components/schemas/error_msg'
 
 
-  /element/by_id/{compound_id}:
+  /element/by_id/{element_id}:
     get:
       tags:
       - elements
       summary: Retrieve a element by an id
       parameters:
-      - name: compound_id
+      - name: element_id
         in: path
         description: Id of a element (CURIE).
         required: true
@@ -627,15 +680,20 @@ components:
             source_version:
               type: string
               description: Version of the underlying source or data.
+            source_date:
+              type: string
+              description: Date of injest of underlying data or a wrapped service.
             terms_of_service:
               type: string
               description: Link to the page that describes the terms of service for the transformer.
             method:
               type: string
               description: A method used to generate output lists.
+              deprecated: true
             method_url:
               type: string
               description: Link to a description of a method used to generate output lists.
+              deprecated: true
           description: Additional metadata for the transformer.
         parameters:
           type: array
@@ -917,6 +975,24 @@ components:
         value:
           type: string
 
+    chain_query:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the transformer that will be executed.
+        controls:
+          type: array
+          items:
+            $ref: '#/components/schemas/property'
+          description: >-
+            Values that control the behavior of the transformer. Names of the controls must match the names
+            specified in the transformer's definition and values must match types (and possibly 
+            allowed_values) specified in the transformer's definition.
+      required:
+      - controls
+      - name
+
     collection_info:
       type: object
       properties:
@@ -966,6 +1042,9 @@ components:
         biolink_class:
           type: string
           description: BioLink class of the element.
+        is_set:
+          type: boolean
+          description: Indicates whether the element represents a set.
         identifiers:
           type: object
           description: identifiers of the element.

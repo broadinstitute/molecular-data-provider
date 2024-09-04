@@ -23,15 +23,7 @@ public class TransformerQuery {
 		if (hasInput) {
 			final String collectionId = query.getCollectionId();
 			final CollectionsEntry collection = Collections.getCollection(collectionId, cache);
-			for (CollectionElement srcElement : collection.getElements()) {
-				Element element = new Element();
-				element.id(srcElement.getElement().getId());
-				element.biolinkClass(srcElement.getElement().getBiolinkClass());
-				element.identifiers(srcElement.getElement().getIdentifiers());
-				element.source(srcElement.getElement().getSource());
-				element.providedBy(srcElement.getElement().getProvidedBy());
-				this.collection.add(element);
-			}
+			getElements(collection);
 		}
 	}
 
@@ -39,9 +31,7 @@ public class TransformerQuery {
 	public TransformerQuery(final List<Property> controls, CollectionsEntry collection) {
 		this.controls = controls;
 		if (collection != null) {
-			for (CollectionElement element : collection.getElements()) {
-				this.collection.add(element.getElement());
-			}
+			getElements(collection);
 		}
 	}
 
@@ -52,6 +42,19 @@ public class TransformerQuery {
 			for (Element element : collection) {
 				this.collection.add(element);
 			}
+		}
+	}
+
+
+	private void getElements(final CollectionsEntry collection) {
+		for (CollectionElement srcElement : collection.getElements()) {
+			Element element = new Element();
+			element.id(srcElement.getElement().getId());
+			element.biolinkClass(srcElement.getElement().getBiolinkClass());
+			element.identifiers(srcElement.getElement().getIdentifiers());
+			element.source(srcElement.getElement().getSource());
+			element.providedBy(srcElement.getElement().getProvidedBy());
+			this.collection.add(element);
 		}
 	}
 
