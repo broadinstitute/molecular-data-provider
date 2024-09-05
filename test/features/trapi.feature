@@ -97,7 +97,7 @@ Feature: Check reasoner API
             "submitter": "behave test"
         }
         """
-        then the size of "message.results" should be 24
+        then the size of "message.results" should be 23
 
 
     Scenario: Check indications with a different category
@@ -128,7 +128,7 @@ Feature: Check reasoner API
             "submitter": "behave test"
         }
         """
-        then the size of "message.results" should be 29
+        then the size of "message.results" should be 26
 
 
     Scenario: Check indications with a object id
@@ -159,7 +159,7 @@ Feature: Check reasoner API
             "submitter": "behave test"
         }
         """
-        then the size of "message.results" should be 24
+        then the size of "message.results" should be 23
 
 
     Scenario: Check indications with no predicate
@@ -194,9 +194,9 @@ Feature: Check reasoner API
           "submitter": "behave test"
         }
         """
-        then the size of "message.results" should be 1718
-        and the size of "message.knowledge_graph.edges" should be 1718
-        and the size of "message.knowledge_graph.nodes" should be 911
+        then the size of "message.results" should be 1683
+        and the size of "message.knowledge_graph.edges" should be 1683
+        and the size of "message.knowledge_graph.nodes" should be 907
 
 
     Scenario: Check query with ChemicalEntity instead of SmallMolecule
@@ -232,9 +232,9 @@ Feature: Check reasoner API
             "submitter": "behave test"
         }
         """
-        then the size of "message.results" should be 154
-        and the size of "message.knowledge_graph.edges" should be 154
-        and the size of "message.knowledge_graph.nodes" should be 152
+        then the size of "message.results" should be 71
+        and the size of "message.knowledge_graph.edges" should be 71
+        and the size of "message.knowledge_graph.nodes" should be 72
 
 
     Scenario: Check query with unknown predicate
