@@ -13,7 +13,7 @@ Feature: Check DSSToxDB transformer
         and the value of "knowledge_map.input_class" should be "none"
         and the value of "knowledge_map.output_class" should be "ChemicalEntity"
         and the size of "parameters" should be 1
-        and the value of "version" should be "2.5.0"
+        and the value of "version" should be "2.5.1"
         and the value of "properties.source_version" should be "7 (2024-04-10)"
        
 
