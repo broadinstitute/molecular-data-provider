@@ -3,7 +3,7 @@ info:
   title: Transformer API for Distributed Structure-Searchable Toxicity (DSSTox) Database
   termsOfService: https://www.epa.gov/privacy/privacy-act-laws-policies-and-resources
 
-  version: 2.5.0
+  version: 2.5.1
 
   contact:
     email: translator@broadinstitute.org
