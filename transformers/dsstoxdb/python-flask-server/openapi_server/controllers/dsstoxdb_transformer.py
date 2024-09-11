@@ -40,9 +40,13 @@ class DSSToxDB_ChemicalProducer(Producer):
     #    select id, name, source, parent_id, pharmgkb_accession,
     #    status, definition, star, modified_on, created_by
     def create_element(self, compound_id):
+        if compound_id is None:
+            return None
         identifiers = {}
         compound_name = None
+        iupac_name = None        
         attribute_list = []
+        comptox_id = 'comptox:' + compound_id
         for chemical_identifiers in self.get_identifiers(compound_id):
             if chemical_identifiers['dtxsid'] is not None:
                 identifiers['comptox'] = 'comptox:' + chemical_identifiers['dtxsid']
@@ -53,7 +57,7 @@ class DSSToxDB_ChemicalProducer(Producer):
             if chemical_identifiers['inchikey'] is not None:
                 identifiers['inchikey'] = chemical_identifiers['inchikey']
             if chemical_identifiers['iupac_name'] is not None:
-                identifiers['iupac'] = chemical_identifiers['iupac_name']
+                iupac_name = chemical_identifiers['iupac_name']
             if chemical_identifiers['smiles'] is not None:
                 identifiers['smiles'] = chemical_identifiers['smiles']
             if chemical_identifiers['unii'] is not None:
@@ -77,16 +81,16 @@ class DSSToxDB_ChemicalProducer(Producer):
                     type = 'monoisotopic_mass'
                 ))
         # Gather the name & synonyms
-        names_synonyms = self.get_synonyms(compound_name, compound_id)
+        names_synonyms = self.get_synonyms(compound_name, iupac_name, compound_id)
         biolink_class = self.biolink_class('ChemicalEntity')
-        element = self.Element(compound_id, biolink_class, identifiers, names_synonyms)
+        element = self.Element(comptox_id, biolink_class, identifiers, names_synonyms)
         self.get_attributes(compound_id, attribute_list, element)
         return element
 
 
     #################################################################
     #
-    def get_synonyms(self, primary_name, compound_id):
+    def get_synonyms(self, primary_name, iupac_name, compound_id):
         name_set = set()
         names_synonyms = []  # list of the element's various names & synonyms
         query = """
@@ -104,7 +108,14 @@ class DSSToxDB_ChemicalProducer(Producer):
             name = primary_name,
             type = 'primary name',
             synonyms =  list(name_set) )
-        ) 
+        )
+        if iupac_name is not None:
+            names_synonyms.append(
+                self.Names(
+                    name = iupac_name,
+                    type = 'IUPAC',
+                    synonyms = [] )
+            )
         return names_synonyms
 
 

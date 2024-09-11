@@ -3,7 +3,7 @@
     "label": "DSSToxDB",
     "infores":"infores:dsstoxdb",
     "description": "Chemical producer based on DSSToxDB (https://www.epa.gov/comptox-tools/distributed-structure-searchable-toxicity-dsstox-database).",
-    "version": "2.5.0",
+    "version": "2.5.1",
     "function": "producer",
     "knowledge_map": {
         "input_class": "none",
