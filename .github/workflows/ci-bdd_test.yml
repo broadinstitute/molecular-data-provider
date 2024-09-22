@@ -31,9 +31,9 @@ jobs:
         - name: Start the BDD testing of the checked out feature file
           uses: nick-fields/retry@v3
           with:
-            max_attempts: 3
+            max_attempts: 8
             retry_on: error
-            timeout_seconds: 10
+            timeout_seconds: 5
             command: behave test/features/bigg_models.feature 
             
 
