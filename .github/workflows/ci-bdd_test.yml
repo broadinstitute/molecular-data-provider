@@ -34,7 +34,12 @@ jobs:
             max_attempts: 8 # This will retry the job 7 additional times after the first failure
             retry_on: error
             timeout_minutes: 25 # specifies how long the GitHub Actions job should wait before retrying the command or step. 
-            run: behave test/features/bigg_models.feature
+            command: behave test/features/bigg_models.feature
+            retry_on_exit_code: behave test/features/bigg_models.feature
+# valid inputs are ['timeout_minutes', 'timeout_seconds', 'max_attempts', 
+# 'command', 'retry_wait_seconds', 'shell', 'polling_interval_seconds', 
+# 'retry_on', 'warning_on_retry', 'on_retry_command', 'continue_on_error', 
+# 'new_command_on_retry', 'retry_on_exit_code']
 
   bindingdb:
     runs-on: ubuntu-latest
