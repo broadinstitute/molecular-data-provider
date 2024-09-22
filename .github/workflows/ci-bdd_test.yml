@@ -29,11 +29,17 @@ jobs:
           run: pip install -r test/requirements.txt
           
         - name: Start the BDD testing of the checked out feature file
-          uses: nick-fields/retry@v3
-          with:
-            timeout_seconds: 20
-            max_attempts: 5
-            command: behave test/features/bigg_models.feature
+          run: |
+            for i in {1..3}; do
+              echo "Attempt $i"
+              command: behave test/features/bigg_models.feature
+              if [$? -eq 0]; then
+                break
+              elif [$i -eq 3]; then
+                echo "Job failed after 3 attempts."
+                exit 1
+              fi
+            done
 
   bindingdb:
     runs-on: ubuntu-latest
