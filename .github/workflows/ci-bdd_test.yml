@@ -32,7 +32,7 @@ jobs:
           uses: nick-fields/retry@v3
           with:
             max_attempts: 20 # This will retry the job 19 additional times after the first failure
-            retry_on: error
+            retry_on: exit
             timeout_minutes: 25 # specifies how long the GitHub Actions job should wait before retrying the command or step. 
             command: behave test/features/bigg_models.feature
             retry_on_exit_code: 1
