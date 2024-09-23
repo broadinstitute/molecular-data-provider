@@ -43,7 +43,7 @@ jobs:
                 success=true
                 break
               else
-                echo "Attempt $((retry_count+1)) failed.""
+                echo "Attempt $((retry_count+1)) failed."
                 retry_count=$((retry+1))
                 sleep 20
               fi
