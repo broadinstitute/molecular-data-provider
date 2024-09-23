@@ -41,6 +41,7 @@ jobs:
 
               if [ $? = 0 ]; then  # $? is a special variable in Bash that holds the exit status of the most recently executed command
                 success=true
+                echo "Success with behave test"
                 break
               else
                 echo "Attempt $((retry_count+1)) failed."
