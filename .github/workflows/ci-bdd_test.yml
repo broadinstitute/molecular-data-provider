@@ -41,10 +41,10 @@ jobs:
               output=$(behave test/features/bigg_models.feature)
               
               # Check if the output contains a specific string
-              if [[ "$output" == *"403"* ]]; then
+              if [ $output == *"403"* ]; then
                 echo "Output contains 403. Failure!"
  #             echo "behave test ran?"
- #             if [ $? = 0 ]; then  # $? is a special variable in Bash that holds the exit status of the most recently executed command
+ #             if [ $? == 0 ]; then  # $? is a special variable in Bash that holds the exit status of the most recently executed command
  #               success=true
  #               echo "Success with behave test"
  #               break
