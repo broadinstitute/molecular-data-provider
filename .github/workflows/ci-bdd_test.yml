@@ -28,16 +28,21 @@ jobs:
         - name: download all the required python modules
           run: pip install -r test/requirements.txt
 
-#        - name: Run a step with retry on failure
-#          run: |
-#            max_retries=10
-#            retry_count=0
-#            success=false
-#            while [ $retry_count -lt $max_retries ]; do
-#              echo "Attempt $((retry_count+1)) of $max_retries"
+        - name: Run a step with retry on failure
+          run: |
+            max_retries=10
+            retry_count=0
+            success=false
+            while [ $retry_count -lt $max_retries ]; do
+              echo "Attempt $((retry_count+1)) of $max_retries"
 
               #command
-              #behave test/features/bigg_models.feature
+              # Capture command output
+              output=$(behave test/features/bigg_models.feature)
+              
+              # Check if the output contains a specific string
+              if [[ "$output" == *"403"* ]]; then
+                echo "Output contains '403'. Failure!"
  #             echo "behave test ran?"
  #             if [ $? = 0 ]; then  # $? is a special variable in Bash that holds the exit status of the most recently executed command
  #               success=true
@@ -56,16 +61,16 @@ jobs:
  #           fi
            
           
-        - name: Start the BDD testing of the checked out feature file
-          uses: nick-fields/retry@v3
-          with:
-            max_attempts: 20 # This will retry the job 19 additional times after the first failure
-            retry_on: exit
-            timeout_minutes: 25 # specifies how long the GitHub Actions job should wait before retrying the command or step. 
-            command: |
-              behave test/features/bigg_models.feature
-              sleep 60
-            retry_on_exit_code: 1
+ #       - name: Start the BDD testing of the checked out feature file
+ #         uses: nick-fields/retry@v3
+ #         with:
+ #           max_attempts: 20 # This will retry the job 19 additional times after the first failure
+ #           retry_on: exit
+ #           timeout_minutes: 25 # specifies how long the GitHub Actions job should wait before retrying the command or step. 
+ #           command: |
+ #             behave test/features/bigg_models.feature
+ #             sleep 60
+ #           retry_on_exit_code: 1
 # valid inputs are ['timeout_minutes', 'timeout_seconds', 'max_attempts', 
 # 'command', 'retry_wait_seconds', 'shell', 'polling_interval_seconds', 
 # 'retry_on', 'warning_on_retry', 'on_retry_command', 'continue_on_error', 
