@@ -37,7 +37,7 @@ jobs:
               echo "Attempt $((retry_count+1)) of $max_retries"
 
               #command
-              command: behave test/features/bigg_models.feature
+              behave test/features/bigg_models.feature
 
               if [ $? -eq 0 ]; then
                 success=true
