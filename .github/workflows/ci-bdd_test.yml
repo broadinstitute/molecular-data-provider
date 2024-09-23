@@ -67,7 +67,8 @@ jobs:
               sleep 60
               behave test/features/bigg_models.feature
               end= date +%s
-              echo "Execution time was $end - $start seconds."
+              diff = $end - $start
+              echo "Execution time was $diff seconds."
             retry_on_exit_code: 1
 # valid inputs are ['timeout_minutes', 'timeout_seconds', 'max_attempts', 
 # 'command', 'retry_wait_seconds', 'shell', 'polling_interval_seconds', 
