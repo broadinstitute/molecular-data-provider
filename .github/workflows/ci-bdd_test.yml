@@ -39,7 +39,7 @@ jobs:
               #command
               behave test/features/bigg_models.feature
 
-              if [ $? -eq 0 ]; then
+              if [ $? = 0 ]; then  # $? is a special variable in Bash that holds the exit status of the most recently executed command
                 success=true
                 break
               else
