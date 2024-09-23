@@ -41,7 +41,7 @@ jobs:
               output=$(behave test/features/bigg_models.feature)
               
               # Check if the output contains a specific string
-              if [ $output == *"403"* ]; then
+              if [ "$output" == *"403"* ]; then
                 echo "Output contains 403. Failure!"
               fi
  #             echo "behave test ran?"
