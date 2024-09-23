@@ -63,8 +63,11 @@ jobs:
             retry_on: exit
             timeout_minutes: 25 # specifies how long the GitHub Actions job should wait before retrying the command or step. 
             command: |
-              sleep 20
+              start= date +%s
+              sleep 60
               behave test/features/bigg_models.feature
+              end= date +%s
+              echo "Execution time was $end - $start seconds."
             retry_on_exit_code: 1
 # valid inputs are ['timeout_minutes', 'timeout_seconds', 'max_attempts', 
 # 'command', 'retry_wait_seconds', 'shell', 'polling_interval_seconds', 
