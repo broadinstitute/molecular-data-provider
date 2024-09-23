@@ -59,32 +59,6 @@ jobs:
 
 
 
-              
-              #command
-              # Capture command output
- #             output=$(behave test/features/bigg_models.feature)
- #             echo "$output"
-              # Check if the output contains a specific string
- #             if [ "$output" == *"403"* ]; then
- #               echo "Output contains 403. Failure!"
- #             fi
- #           done
- #             echo "behave test ran?"
- #             if [ $? == 0 ]; then  # $? is a special variable in Bash that holds the exit status of the most recently executed command
- #               success=true
- #               echo "Success with behave test"
- #               break
- #             else
- #               echo "Attempt $((retry_count+1)) failed."
- #               retry_count=$((retry+1))
- #               sleep 20
- #             fi
- #           done
-
- #           if ["$success" = false ]; then
- #             echo "Command failed after $max_retries attempts."
- #             exit 1
- #           fi
            
           
  #       - name: Start the BDD testing of the checked out feature file
