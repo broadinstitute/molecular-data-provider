@@ -43,6 +43,7 @@ jobs:
               # Check if the output contains a specific string
               if [ $output == *"403"* ]; then
                 echo "Output contains 403. Failure!"
+              fi
  #             echo "behave test ran?"
  #             if [ $? == 0 ]; then  # $? is a special variable in Bash that holds the exit status of the most recently executed command
  #               success=true
