@@ -35,16 +35,40 @@ jobs:
             success=false
             while [ $retry_count -lt $max_retries ]; do
               echo "Attempt $((retry_count+1)) of $max_retries"
+              
+              # Start a child process in the background
 
-              #command
-              # Capture command output
-              output=$(behave test/features/bigg_models.feature)
-              echo "$output"
-              # Check if the output contains a specific string
-              if [ "$output" == *"403"* ]; then
-                echo "Output contains 403. Failure!"
+               (
+                 echo "Running some background task..."
+                 behave test/features/bigg_models.feature &  # Child process
+                 wait $!  # Wait for the child process to complete
+               )
+               child_exit_status=$?
+
+               # Check the child process's exit status
+               if [ $child_exit_status -eq 0 ]; then
+                 echo "Child process succeeded!"
+                 success=true
+                 break
+               else
+                 echo "Child process failed with exit status $child_exit_status. Retrying..."
+                 retry_count=$((retry_count+1))
               fi
             done
+
+
+
+
+              
+              #command
+              # Capture command output
+ #             output=$(behave test/features/bigg_models.feature)
+ #             echo "$output"
+              # Check if the output contains a specific string
+ #             if [ "$output" == *"403"* ]; then
+ #               echo "Output contains 403. Failure!"
+ #             fi
+ #           done
  #             echo "behave test ran?"
  #             if [ $? == 0 ]; then  # $? is a special variable in Bash that holds the exit status of the most recently executed command
  #               success=true
