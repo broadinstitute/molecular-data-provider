@@ -39,7 +39,7 @@ jobs:
               #command
               # Capture command output
               output=$(behave test/features/bigg_models.feature)
-              
+              echo "$output"
               # Check if the output contains a specific string
               if [ "$output" == *"403"* ]; then
                 echo "Output contains 403. Failure!"
