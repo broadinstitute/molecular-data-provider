@@ -26,51 +26,18 @@ jobs:
           with: { ref: test-ci }          
  
         - name: download all the required python modules
-          run: pip install -r test/requirements.txt
-
-        - name: Run a step with retry on failure
-          run: |
-            max_retries=10
-            retry_count=0
-            success=false
-            while [ $retry_count -lt $max_retries ]; do
-              echo "Attempt $((retry_count+1)) of $max_retries"
-              
-              # Start a child process in the background
-
-               (
-                 echo "Running some background task..."
-                 behave test/features/bigg_models.feature &  # Child process
-                 wait $!  # Wait for the child process to complete
-               )
-               child_exit_status=$?
-
-               # Check the child process's exit status
-               if [ $child_exit_status -eq 0 ]; then
-                 echo "Child process succeeded!"
-                 success=true
-                 break
-               else
-                 echo "Child process failed with exit status $child_exit_status. Retrying..."
-                 retry_count=$((retry_count+1))
-              fi
-            done
-
-
-
-
-           
+          run: pip install -r test/requirements.txt     
           
- #       - name: Start the BDD testing of the checked out feature file
- #         uses: nick-fields/retry@v3
- #         with:
- #           max_attempts: 20 # This will retry the job 19 additional times after the first failure
- #           retry_on: exit
- #           timeout_minutes: 25 # specifies how long the GitHub Actions job should wait before retrying the command or step. 
- #           command: |
- #             behave test/features/bigg_models.feature
- #             sleep 60
- #           retry_on_exit_code: 1
+        - name: Start the BDD testing of the checked out feature file
+          uses: nick-fields/retry@v3
+          with:
+            max_attempts: 20 # This will retry the job 19 additional times after the first failure
+            retry_on: exit
+            timeout_minutes: 5 # specifies how long the GitHub Actions job should wait before retrying the command or step. 
+            command: |
+              behave test/features/bigg_models.feature &
+              wait $!  # Wait for the child process to complete
+            retry_on_exit_code: 1
 # valid inputs are ['timeout_minutes', 'timeout_seconds', 'max_attempts', 
 # 'command', 'retry_wait_seconds', 'shell', 'polling_interval_seconds', 
 # 'retry_on', 'warning_on_retry', 'on_retry_command', 'continue_on_error', 
