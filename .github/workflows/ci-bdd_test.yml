@@ -37,6 +37,7 @@ jobs:
             command: |
               behave test/features/bigg_models.feature &
               wait $!  # Wait for the child process to complete
+              sleep 60
             retry_on_exit_code: 1
 # valid inputs are ['timeout_minutes', 'timeout_seconds', 'max_attempts', 
 # 'command', 'retry_wait_seconds', 'shell', 'polling_interval_seconds', 
