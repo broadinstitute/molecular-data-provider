@@ -33,11 +33,10 @@ jobs:
           with:
             max_attempts: 20 # This will retry the job 19 additional times after the first failure
             retry_on: exit
-            timeout_minutes: 5 # specifies how long the GitHub Actions job should wait before retrying the command or step. 
+            timeout_minutes: 50 # specifies how long the GitHub Actions job should wait before retrying the command or step. 
             command: |
               behave test/features/bigg_models.feature &
               wait $!  # Wait for the child process to complete
-              sleep 60
             retry_on_exit_code: 1
 # valid inputs are ['timeout_minutes', 'timeout_seconds', 'max_attempts', 
 # 'command', 'retry_wait_seconds', 'shell', 'polling_interval_seconds', 
