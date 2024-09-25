@@ -31,10 +31,10 @@ jobs:
         - name: Start the BDD testing of the checked out feature file
           uses: nick-fields/retry@v3
           with:
-            max_attempts: 200 # This will retry the job 19 additional times after the first failure
+            max_attempts: 20 # This will retry the job 19 additional times after the first failure
             retry_on: exit
-            retry_wait_seconds: 360
-            timeout_minutes: 50 # specifies how long the GitHub Actions job should wait before retrying the command or step. 
+            retry_wait_seconds: 3600 # wait 1 hour to retry
+  #          timeout_minutes: 50 # specifies how long the GitHub Actions job should wait before retrying the command or step. 
             command: |
               behave test/features/bigg_models.feature &
               wait $!  # Wait for the child process to complete
