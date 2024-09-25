@@ -3,6 +3,7 @@ FROM python:3-alpine AS packaging-image
 RUN mkdir -p /usr/src/base
 COPY util/python/transformers-2.5 /usr/src/base
 WORKDIR /usr/src/base
+RUN pip install -U pip setuptools
 RUN python setup.py bdist_wheel
 RUN mkdir -p /usr/src/dsstoxdb
 COPY transformers/dsstoxdb/python-flask-server /usr/src/dsstoxdb
