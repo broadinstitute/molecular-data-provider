@@ -13,7 +13,8 @@ on:
   workflow_dispatch:
   schedule:
 #   - cron: '00 00 * * *'   # midnight UTC
-    - cron: '20 08 * * *'   # 8:20AM UTC
+#    - cron: '20 08 * * *'   # 8:20AM UTC
+     - cron: '08 11 * * *'   # 11:20AM UTC  (7:08AM ET)
 jobs:
 # This workflow contains a multiple jobs to test each transformer
 
