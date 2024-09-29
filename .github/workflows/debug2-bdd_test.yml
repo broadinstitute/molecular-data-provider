@@ -26,6 +26,19 @@ jobs:
  
         - name: download all the required python modules
           run: pip install -r test/requirements.txt
-          
+
+
         - name: Start the BDD testing of the checked out feature file
-          run: behave test/features/chembl.feature
+          uses: nick-fields/retry@v3
+          with:
+            max_attempts: 20 # This will retry the job 19 additional times after the first failure
+            retry_on: exit
+            retry_wait_seconds: 4200 # wait 1 hour and 10 minutes to retry (TRAPI Production test waits 1 hour)
+            timeout_minutes: 5 # specifies how long the GitHub Actions job should wait before retrying the command or step. 
+            command: |
+              behave test/features/chembl.feature &
+              wait $!  # Wait for the child process to complete
+            retry_on_exit_code: 1
+          
+#        - name: Start the BDD testing of the checked out feature file
+#          run: behave test/features/chembl.feature
