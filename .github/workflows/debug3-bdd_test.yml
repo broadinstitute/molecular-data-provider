@@ -39,6 +39,6 @@ jobs:
               
               ),
             });
-            console.log(response);
+            console.log(::debug::response);
           #  const result = await response.json();
           #  console.log(result);
