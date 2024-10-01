@@ -1,6 +1,7 @@
 openapi: 3.0.0
 info:
-  title: Transformer API for Molecular Data Provider
+  title: Transformer API for Reactome
+  termsOfService: https://reactome.org/license
 
   version: 2.5.0
 
@@ -8,7 +9,7 @@ info:
     email: translator@broadinstitute.org
 
 servers:
-- url: https://translator.broadinstitute.org/<path>
+- url: https://translator.broadinstitute.org/reactome
 
 tags:
   - name: transformers
@@ -27,7 +28,7 @@ paths:
         required: true
         schema:
           type: string
-          enum: [SERVICE-LIST]
+          enum: [entity-producer, reaction-producer, pathway-producer, complex-producer, interaction, reaction, pathway, complex]
       - name: cache
         in: query
         description: >-
@@ -58,7 +59,7 @@ paths:
         required: true
         schema:
           type: string
-          enum: [SERVICE-LIST]
+          enum: [entity-producer, reaction-producer, pathway-producer, complex-producer, interaction, reaction, pathway, complex]
       - name: cache
         in: query
         description: >-
