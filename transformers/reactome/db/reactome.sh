@@ -1,0 +1,10 @@
+echo etl_reactions.py
+python etl_reactions.py
+echo etl_interactions.py
+python etl_interactions.py
+echo etl_complex.py
+python etl_complex.py
+echo etl_reactome.py
+python etl_reactome.py
+echo reactome_pathways.py
+python reactome_pathways.py
