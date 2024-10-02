@@ -3,6 +3,7 @@ FROM python:3-alpine AS packaging-image
 RUN mkdir -p /usr/src/base
 COPY util/python/transformers-2.5 /usr/src/base
 WORKDIR /usr/src/base
+RUN pip install -U pip setuptools
 RUN python setup.py bdist_wheel
 RUN mkdir -p /usr/src/reactome
 COPY transformers/reactome/python-flask-server /usr/src/reactome
@@ -22,7 +23,7 @@ COPY transformers/reactome/python-flask-server/config /usr/src/app/config
 ADD https://translator.broadinstitute.org/db/reactome.sqlite /usr/src/app/data
 WORKDIR /usr/src/app
 COPY --from=packaging-image /usr/src/base/dist .
-COPY --from=packaging-image /usr/src/gtopdb/dist .
+COPY --from=packaging-image /usr/src/reactome/dist .
 RUN pip3 install -I reactome_transformer-2.5.0-py3-none-any.whl
 RUN pip3 install -I base_transformer-2.5.1-py3-none-any.whl
 COPY transformers/reactome/python-flask-server/requirements.txt .
