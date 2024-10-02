@@ -1,0 +1,9 @@
+﻿Source,Biolink_Class,Identifiers,Action
+uniprot,Protein,exclude other non-Reactome identifiers,display
+ChEBI,SmallMolecule,include other identifiers,display
+gtopdb,SmallMolecule,include other identifiers,display
+miRBase,NucleicAcidEntity,exclude other non-Reactome identifiers,if no UniProt then display
+entrez,Gene,exclude other non-Reactome identifiers,if no other identifiers then display
+ensembl,Gene,include other identifiers,if no other identifiers then display
+reactome,PhysicalEntity,include other identifiers,display
+refseq,NucleicAcidEntity,include other identifiers,if no other identifiers then display

@@ -1,0 +1,65 @@
+{
+    "name": "Reactome pathway transformer",
+    "label": "Reactome",
+    "infores":"infores:reactome", 
+    "description": "Pathway transformer based on Reactome (https://reactome.org/).",
+    "version": "2.5.0",
+    "function": "transformer",
+    "knowledge_map": {
+        "input_class": "MacromolecularComplex",
+        "output_class": "Pathway",
+        "nodes": {
+            "MacromolecularComplex" : {
+                "id_prefixes": ["reactome"],
+                "count": -1,
+                "attributes": []
+            }
+        },
+        "edges": [
+            {
+                "subject": "biolink:MacromolecularComplex",
+                "predicate": "biolink:participates_in",
+                "inverse_predicate": "biolink:participates_in",
+                "object": "biolink:Pathway",
+                "knowledge_level":"knowledge_assertion",	
+                "agent_type":"manual_agent",
+                "source": "Reactome",
+                "count": -1,
+                "attributes": [
+                    {
+                        "attribute_type_id": "biolink:primary_knowledge_source",
+                        "source": "MolePro"
+                    },
+                    {
+                        "attribute_type_id": "association",
+                        "source": "Reactome",
+                        "names": [
+                            "association"
+                        ]
+                        
+                    },
+                    {
+                        "attribute_type_id": "biolink:publication",
+                        "source": "Reactome",
+                        "names": [
+                            "PMIDs"
+                        ]
+                    }                      
+                ],
+                "qualifiers": [
+                    {
+                        "qualifier_type_id": "species_context_qualifier"
+                    }
+                ]                
+            }
+        ]
+    },
+    "properties": {
+        "list_predicate": "related_to",
+        "member_predicate": "related_to",
+        "source_url": "https://reactome.org/",
+        "terms_of_service": "https://reactome.org/license",
+        "source_version": "v89 (2024-06-09)"
+    },
+    "parameters": []
+}
