@@ -21,7 +21,7 @@ ADD https://translator.broadinstitute.org/db/MSigDB.sqlite /usr/src/app/data
 WORKDIR /usr/src/app
 COPY --from=packaging-image /usr/src/base/dist .
 COPY --from=packaging-image /usr/src/msigdb/dist .
-RUN pip3 install -I msigdb_transfromer-2.3.0-py3-none-any.whl
+RUN pip3 install -I msigdb_transformer-2.3.0-py3-none-any.whl
 RUN pip3 install -I base_transformer-2.0.0-py3-none-any.whl
 COPY transformers/msigdb/python-flask-server/requirements.txt .
 RUN apk update \
