@@ -23,7 +23,7 @@ paths:
         required: true
         schema:
           enum:
-          - enrichment
+          - pathway-producer
           - pathways
           - genes
           type: string
@@ -87,7 +87,7 @@ paths:
         required: true
         schema:
           enum:
-          - enrichment
+          - pathway-producer
           - pathways
           - genes
           type: string

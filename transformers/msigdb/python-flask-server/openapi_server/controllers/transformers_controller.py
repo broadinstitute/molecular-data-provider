@@ -10,12 +10,11 @@ from openapi_server.models.transformer_info import TransformerInfo  # noqa: E501
 from openapi_server.models.transformer_query import TransformerQuery  # noqa: E501
 from openapi_server import util
 
-from openapi_server.controllers.msigdb_exporter import MSigDBEnrichment
+from openapi_server.controllers.msigdb_exporter import MSigDBPathwayProducer
 from openapi_server.controllers.msigdb_exporter import MSigDBPathwayTransformer # put 
 from openapi_server.controllers.msigdb_exporter import MSigDBGeneTransformer # put 
 
-transformer = { 'enrichment': MSigDBEnrichment(), ## to update
-                'pathways': MSigDBPathwayTransformer(), # gene -> pathway
+transformer = { 'pathway-producer': MSigDBPathwayProducer(), 'pathways': MSigDBPathwayTransformer(), # gene -> pathway
                 'genes': MSigDBGeneTransformer()# pathway -> gene
 }
 
