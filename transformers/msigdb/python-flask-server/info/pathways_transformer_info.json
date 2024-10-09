@@ -1,7 +1,8 @@
 {
     "name": "MSigDB pathways transformer",
     "label": "MSigDB",
-    "version": "2.3.0",
+    "infores": "infores:msigdb",
+    "version": "2.6.0",
     "function": "exporter",
     "description": "Gene-list transformer to query MSigDB gene sets (http://software.broadinstitute.org/gsea/index.jsp).",
     "knowledge_map": {
@@ -11,14 +12,35 @@
             {
                 "object": "Pathway",
                 "subject": "Gene",
-                "predicate": "participates_in",
-                "inverse_predicate":"has_participant"
+                "predicate": "biolink:participates_in",
+                "inverse_predicate":"biolink:has_participant",
+                "knowledge_level":"knowledge_assertion",	
+                "agent_type":"manual_agent",
+                "attributes": [
+                    {
+                        "attribute_type_id": "biolink:primary_knowledge_source",
+                        "source": "MolePro"
+                    },
+                    {
+                        "attribute_type_id": "biolink:publication",
+                        "source": "MSigDB",
+                        "names": [
+                            "PMID"
+                        ]
+                    }   
+                ],
+                "qualifiers": [
+                    {
+                        "qualifier_type_id": "species_context_qualifier"
+                    }
+                ]  
             }
         ]
     },
     "properties": {
         "source_url": "http://www.gsea-msigdb.org/gsea/msigdb/index.jsp",
-        "source_version": "7.4 (2021-03)",
+        "source_version": "msigdb_v2024.1.Hs",
+        "source_date": "2024-08-09",
         "terms_of_service": "http://www.gsea-msigdb.org/gsea/msigdb_license_terms.jsp"
     },
     "parameters": []
