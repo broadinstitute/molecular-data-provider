@@ -1,4 +1,6 @@
 source	name	srcType	mappedAttrType	mappedValueType
+BiGG	MOLECULAR_FORMULA	MOLECULAR_FORMULA	biolink:has_chemical_formula	String
+BiGG Model	name	name	biolink:symbol	String
 CMAP	CMAP similarity score	CMAP similarity score	CMAP:similarity_score	Double
 CMAP	reference	reference	biolink:Publication	biolink:Publication
 CMAP	about CMAP	about CMAP	SIO:000811	Uri

@@ -97,7 +97,8 @@
 	    "aggregator source": "biolink:aggregator_knowledge_source",
 	    "upstream resource": "biolink:upstream_resource_id",
 	    "knowledge level": "biolink:knowledge_level",
-	    "agent type": "biolink:agent_type"
+	    "agent type": "biolink:agent_type",
+        "unspecified KLAT": "not_provided"
 	},
     "identifier priority": [
         "pubchem",
