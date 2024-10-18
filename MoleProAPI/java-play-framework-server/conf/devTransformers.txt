@@ -10,6 +10,7 @@ https://translator.broadinstitute.org/gtopdb/molecules
 https://translator.broadinstitute.org/hmdb/metabolites
 https://translator.broadinstitute.org/drugcentral/compounds
 https://translator.broadinstitute.org/inxight_drugs/substances
+https://translator.broadinstitute.org/cmap/compound/producer
 https://translator.broadinstitute.org/stitch/chemicals
 https://translator.broadinstitute.org/rxnorm/molecules
 https://translator.broadinstitute.org/bigg/metabolites
@@ -18,6 +19,7 @@ https://translator.broadinstitute.org/probeminer/chemicals
 https://translator.broadinstitute.org/bindingdb/ligands
 https://translator.broadinstitute.org/pharmgkb/chemicals
 https://translator.broadinstitute.org/kinomescan/compounds
+https://translator.broadinstitute.org/dsstoxdb/chemical
 # drugs
 https://translator.broadinstitute.org/inxight_drugs/drugs
 https://translator.broadinstitute.org/inxight_drugs/relationships
@@ -98,13 +100,21 @@ https://translator.broadinstitute.org/depmap/correlation
 https://translator.broadinstitute.org/bigg/reactions
 https://translator.broadinstitute.org/bigg/genes
 https://translator.broadinstitute.org/bigg/gene-reactions
+https://translator.broadinstitute.org/reactome/entity-producer
+https://translator.broadinstitute.org/reactome/reaction-producer
+https://translator.broadinstitute.org/reactome/complex-producer
+https://translator.broadinstitute.org/reactome/reaction
+https://translator.broadinstitute.org/reactome/complex
 # pathways
 https://translator.broadinstitute.org/ctdbase/go-associations
 https://translator.broadinstitute.org/ctdbase/pathway-associations
 https://translator.broadinstitute.org/ctdbase/phenotype-interactions
 https://translator.broadinstitute.org/hmdb/pathways
+https://translator.broadinstitute.org/msigdb/pathway-producer
 https://translator.broadinstitute.org/msigdb/genes
 https://translator.broadinstitute.org/msigdb/pathways
+https://translator.broadinstitute.org/reactome/pathway-producer
+https://translator.broadinstitute.org/reactome/pathway
 # locations
 https://translator.broadinstitute.org/hmdb/locations
 # exporters
@@ -121,6 +131,7 @@ https://translator.broadinstitute.org/gelinea/enrichment
 # protein-protein interactions
 https://translator.broadinstitute.org/string/links
 https://translator.broadinstitute.org/string/physical_links
+https://translator.broadinstitute.org/reactome/interaction
 # node normalizer
 https://translator.broadinstitute.org/node/normalizer
 # MolePro DB
