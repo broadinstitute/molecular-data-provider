@@ -3,7 +3,7 @@ info:
   title: Transformer API for MolePro database
   termsOfService: https://github.com/broadinstitute/molecular-data-provider/blob/master/terms_of_service.md
 
-  version: 2.5.0
+  version: 2.6.0
 
   contact:
     email: translator@broadinstitute.org
@@ -147,15 +147,20 @@ components:
             source_version:
               type: string
               description: Version of the underlying source or data.
+            source_date:
+              type: string
+              description: Date of injest of underlying data or a wrapped service.
             terms_of_service:
               type: string
               description: Link to the page that describes the terms of service for the transformer.
             method:
               type: string
               description: A method used to generate output lists.
+              deprecated: true
             method_url:
               type: string
               description: Link to a description of a method used to generate output lists.
+              deprecated: true
           description: Additional metadata for the transformer.
         parameters:
           type: array
@@ -428,6 +433,9 @@ components:
         biolink_class:
           type: string
           description: BioLink class of the element.
+        is_set:
+          type: boolean
+          description: Indicates whether the element represents a set.
         identifiers:
           type: object
           description: identifiers of the element.
