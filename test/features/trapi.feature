@@ -194,9 +194,9 @@ Feature: Check reasoner API
           "submitter": "behave test"
         }
         """
-        then the size of "message.results" should be 1683
-        and the size of "message.knowledge_graph.edges" should be 1683
-        and the size of "message.knowledge_graph.nodes" should be 907
+        then the size of "message.results" should be 2103
+        and the size of "message.knowledge_graph.edges" should be 2103
+        and the size of "message.knowledge_graph.nodes" should be 1056
 
 
     Scenario: Check query with ChemicalEntity instead of SmallMolecule
@@ -232,9 +232,9 @@ Feature: Check reasoner API
             "submitter": "behave test"
         }
         """
-        then the size of "message.results" should be 71
-        and the size of "message.knowledge_graph.edges" should be 71
-        and the size of "message.knowledge_graph.nodes" should be 72
+        then the size of "message.results" should be 279
+        and the size of "message.knowledge_graph.edges" should be 279
+        and the size of "message.knowledge_graph.nodes" should be 216
 
 
     Scenario: Check query with unknown predicate
@@ -309,9 +309,9 @@ Feature: Check reasoner API
             "submitter": "behave test"
         }
         """
-        then the size of "message.results" should be 361
-        and the size of "message.knowledge_graph.edges" should be 361
-        and the size of "message.knowledge_graph.nodes" should be 249
+        then the size of "message.results" should be 374
+        and the size of "message.knowledge_graph.edges" should be 374
+        and the size of "message.knowledge_graph.nodes" should be 247
 
 
     Scenario: Check query with node constraints
@@ -358,8 +358,8 @@ Feature: Check reasoner API
             "submitter": "behave test"
         }
         """
-        then the size of "message.results" should be 102
-        and the size of "message.knowledge_graph.edges" should be 102
+        then the size of "message.results" should be 111
+        and the size of "message.knowledge_graph.edges" should be 111
         and the size of "message.knowledge_graph.nodes" should be 45
 
 
@@ -407,8 +407,8 @@ Feature: Check reasoner API
             "submitter": "behave test"
         }
         """
-        then the size of "message.results" should be 213
-        and the size of "message.knowledge_graph.edges" should be 213
+        then the size of "message.results" should be 218
+        and the size of "message.knowledge_graph.edges" should be 218
         and the size of "message.knowledge_graph.nodes" should be 199
 
 
