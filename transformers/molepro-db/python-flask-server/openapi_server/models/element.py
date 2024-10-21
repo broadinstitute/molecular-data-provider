@@ -21,13 +21,15 @@ class Element(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, biolink_class=None, identifiers=None, alternative_identifiers=None, names_synonyms=None, attributes=None, connections=None, source=None, provided_by=None):  # noqa: E501
+    def __init__(self, id=None, biolink_class=None, is_set=None, identifiers=None, alternative_identifiers=None, names_synonyms=None, attributes=None, connections=None, source=None, provided_by=None):  # noqa: E501
         """Element - a model defined in OpenAPI
 
         :param id: The id of this Element.  # noqa: E501
         :type id: str
         :param biolink_class: The biolink_class of this Element.  # noqa: E501
         :type biolink_class: str
+        :param is_set: The is_set of this Element.  # noqa: E501
+        :type is_set: bool
         :param identifiers: The identifiers of this Element.  # noqa: E501
         :type identifiers: Dict[str, object]
         :param alternative_identifiers: The alternative_identifiers of this Element.  # noqa: E501
@@ -46,6 +48,7 @@ class Element(Model):
         self.openapi_types = {
             'id': str,
             'biolink_class': str,
+            'is_set': bool,
             'identifiers': Dict[str, object],
             'alternative_identifiers': List[Dict[str, object]],
             'names_synonyms': List[Names],
@@ -58,6 +61,7 @@ class Element(Model):
         self.attribute_map = {
             'id': 'id',
             'biolink_class': 'biolink_class',
+            'is_set': 'is_set',
             'identifiers': 'identifiers',
             'alternative_identifiers': 'alternative_identifiers',
             'names_synonyms': 'names_synonyms',
@@ -69,6 +73,7 @@ class Element(Model):
 
         self._id = id
         self._biolink_class = biolink_class
+        self._is_set = is_set
         self._identifiers = identifiers
         self._alternative_identifiers = alternative_identifiers
         self._names_synonyms = names_synonyms
@@ -137,6 +142,29 @@ class Element(Model):
             raise ValueError("Invalid value for `biolink_class`, must not be `None`")  # noqa: E501
 
         self._biolink_class = biolink_class
+
+    @property
+    def is_set(self):
+        """Gets the is_set of this Element.
+
+        Indicates whether the element represents a set.  # noqa: E501
+
+        :return: The is_set of this Element.
+        :rtype: bool
+        """
+        return self._is_set
+
+    @is_set.setter
+    def is_set(self, is_set):
+        """Sets the is_set of this Element.
+
+        Indicates whether the element represents a set.  # noqa: E501
+
+        :param is_set: The is_set of this Element.
+        :type is_set: bool
+        """
+
+        self._is_set = is_set
 
     @property
     def identifiers(self):
