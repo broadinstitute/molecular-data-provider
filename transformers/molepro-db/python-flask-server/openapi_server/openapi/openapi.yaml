@@ -4,7 +4,7 @@ info:
     email: translator@broadinstitute.org
   termsOfService: https://github.com/broadinstitute/molecular-data-provider/blob/master/terms_of_service.md
   title: Transformer API for MolePro database
-  version: 2.5.2
+  version: 2.6.0
 servers:
 - url: https://translator.broadinstitute.org/moleprodb
 tags:
@@ -239,6 +239,7 @@ components:
           terms_of_service: terms_of_service
           method_url: method_url
           source_url: source_url
+          source_date: source_date
       properties:
         name:
           description: Name of the transformer.
@@ -723,6 +724,7 @@ components:
     element:
       example:
         biolink_class: biolink_class
+        is_set: true
         identifiers:
           key: ""
         provided_by: provided_by
@@ -853,6 +855,10 @@ components:
           description: BioLink class of the element.
           title: biolink_class
           type: string
+        is_set:
+          description: Indicates whether the element represents a set.
+          title: is_set
+          type: boolean
         identifiers:
           additionalProperties: true
           description: identifiers of the element.
@@ -1177,6 +1183,7 @@ components:
         terms_of_service: terms_of_service
         method_url: method_url
         source_url: source_url
+        source_date: source_date
       properties:
         source_url:
           description: URL for underlying data or a wrapped service.
@@ -1186,16 +1193,22 @@ components:
           description: Version of the underlying source or data.
           title: source_version
           type: string
+        source_date:
+          description: Date of injest of underlying data or a wrapped service.
+          title: source_date
+          type: string
         terms_of_service:
           description: Link to the page that describes the terms of service for the
             transformer.
           title: terms_of_service
           type: string
         method:
+          deprecated: true
           description: A method used to generate output lists.
           title: method
           type: string
         method_url:
+          deprecated: true
           description: Link to a description of a method used to generate output lists.
           title: method_url
           type: string
