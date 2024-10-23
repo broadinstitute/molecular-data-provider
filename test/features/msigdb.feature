@@ -1,6 +1,6 @@
 Feature: Check MSigDB transformer
     Background: Specify transformer API
-        Given a transformer at "https://translator.broadinstitute.org/msigdb"
+        Given a transformer at "https://molepro-msigdb-transformer.test.transltr.io/msigdb"
 
     Scenario: Check MSigDB pathway transformer transformer info
         Given the transformer
