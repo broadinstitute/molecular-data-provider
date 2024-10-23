@@ -1,5 +1,6 @@
 {
     "description": "Drug ingredient transformer based on Inxight:Drugs substances information (https://drugs.ncats.io/).",
+    "infores": "infores:inxight-drugs",
     "function": "transformer",
     "knowledge_map": {
         "edges": [

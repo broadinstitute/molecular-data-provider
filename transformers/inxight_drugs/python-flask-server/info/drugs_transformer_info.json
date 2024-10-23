@@ -1,6 +1,7 @@
 {
     "name": "Inxight:Drugs drug producer",
-    "label": "Inxight_Drugs",
+    "label": "Inxight:Drugs",
+    "infores": "infores:inxight-drugs",
     "description": "Drug-list producer based on Inxight:Drugs information (https://drugs.ncats.io/).",
     "version": "2.5.0",
     "function": "producer",
