@@ -288,8 +288,8 @@
         ]
     },
     "ANTICOAGULANT->ANTIDOTE": {
-        "inv_predicate": "biolik:related_to_at_instance_level",
-        "predicate": "biolik:related_to_at_instance_level",
+        "inv_predicate": "biolink:related_to_at_instance_level",
+        "predicate": "biolink:related_to_at_instance_level",
         "qualifiers": [
             {
                 "qualifier_type_id": "subject_aspect_qualifier",

@@ -1,7 +1,7 @@
 {
     "name": "Inxight:Drugs relationship transformer",
     "label": "Inxight:Drugs",
-    "infores": "inxight-drugs",
+    "infores": "infores:inxight-drugs",
     "description": "Relationships-list transformer based on Inxight:Drugs relationships information (https://drugs.ncats.io/).",
     "version": "2.5.0",
     "function": "transformer",
