@@ -1,6 +1,6 @@
 Feature: Check Reactome  transformer
     Background: Specify transformer API
-        Given a transformer at "https://translator.broadinstitute.org/reactome"
+        Given a transformer at "https://molepro-reactome-transformer.test.transltr.io/reactome"
 
 
     Scenario: Check Reactome entity producer info
