@@ -38,7 +38,7 @@ tar xf molecular-data-provider-2.6.0.tar
 * set environment variable MOLEPRO_TRANSFORMERS = conf/dockerTransformers-prod.txt
 
 #### for all environments (CI, Test and Production):
-* cd molecular-data-provider-2.4.1
+* cd molecular-data-provider-2.6.0
 
 * ./bin/molecular-data-provider -J-Xmx4096m -Dplay.http.secret.key='_{password}_' -Dhttp.port=9200
  
