@@ -38,7 +38,7 @@ logging.basicConfig(level=logging.INFO, format='[%(asctime)s] - %(levelname)s - 
 logger = logging.getLogger(__name__)
 
 
-BASE_URL = 'https://molepro.broadinstitute.org/molecular_data_provider'
+BASE_URL = 'https://molepro.transltr.io/molecular_data_provider'
 MOLEPRO_BASE_URL = os.environ.get('GELINEA_MOLEPRO_BASE_URL')
 if MOLEPRO_BASE_URL:
     BASE_URL = MOLEPRO_BASE_URL
@@ -301,12 +301,15 @@ class GeLiNEA_Response:
             element_name = get_element_name(element)
             attributes = [Attribute.from_dict(attribute) for attribute in element.get('attributes')]
             self.add_node(element['id'], element_name, 'biolink:Pathway', attributes)
-            attributes = None
+            attributes = []
             if 'connections' in element and len(element['connections']) > 0:
-                attributes = [Attribute.from_dict(attribute) for attribute in element['connections'][0].get('attributes')]
+                for attribute in element['connections'][0].get('attributes'):
+                    attributes.append(Attribute.from_dict(attribute))
+                    if attribute.get('attribute_type_id') == 'biolink:adjusted_p_value':
+                        pvalue = float(attribute.get('value'))
             edge_id = self.add_edge(gene_set_id, 'biolink:enriched_in', element['id'], attributes)
             if self.query_map:
-                results.append(self.get_result(element, edge_id, gene_set_id))
+                results.append(self.get_result(element, edge_id, gene_set_id, pvalue))
         if self.query_map:
             self.results = results
             self.aux_graphs = {GENE_SET_AUX_GRAPH: aux_graph}
@@ -344,7 +347,7 @@ class GeLiNEA_Response:
         return AuxiliaryGraph(edges=aux_graph, attributes=[])
 
 
-    def get_result(self, element, edge_id, gene_set_id):
+    def get_result(self, element, edge_id, gene_set_id, pvalue):
         node_bindings = { 
             self.query_map['subject_id']: [NodeBinding(id=gene_set_id, attributes=[])],
             self.query_map['object_id']: [NodeBinding(id=element['id'], attributes=[])]
@@ -352,7 +355,8 @@ class GeLiNEA_Response:
         edge_bindings = {
             self.query_map['edge_id']: [EdgeBinding(id=edge_id, attributes=[])]
         }
-        analysis = Analysis(edge_bindings=edge_bindings, resource_id=INFORES_GELINEA, support_graphs=[GENE_SET_AUX_GRAPH])
+        score = 1 - pvalue if pvalue is not None else None
+        analysis = Analysis(resource_id=INFORES_GELINEA, score=score, edge_bindings=edge_bindings, support_graphs=[GENE_SET_AUX_GRAPH],)
         return Result(node_bindings=node_bindings, analyses=[analysis])
 
 

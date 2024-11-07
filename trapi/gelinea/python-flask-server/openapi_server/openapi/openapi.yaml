@@ -10,7 +10,7 @@ info:
     url: https://github.com/broadinstitute/molecular-data-provider/blob/master/LICENSE
   termsOfService: https://github.com/broadinstitute/molecular-data-provider/blob/master/terms_of_service.md
   title: Gene-List Network Enrichment Analysis
-  version: 1.5.0.0
+  version: 1.5.0.1
   x-translator:
     component: KP
     team:
@@ -245,30 +245,39 @@ components:
               NCBIGene:23279:
                 categories:
                 - biolink:Gene
+                attributes: []
               NCBIGene:7175:
                 categories:
                 - biolink:Gene
+                attributes: []
               NCBIGene:55706:
                 categories:
                 - biolink:Gene
+                attributes: []
               NCBIGene:5315:
                 categories:
                 - biolink:Gene
+                attributes: []
               NCBIGene:5566:
                 categories:
                 - biolink:Gene
+                attributes: []
               NCBIGene:2023:
                 categories:
                 - biolink:Gene
+                attributes: []
               NCBIGene:79023:
                 categories:
                 - biolink:Gene
+                attributes: []
               NCBIGene:81929:
                 categories:
                 - biolink:Gene
+                attributes: []
               NCBIGene:8086:
                 categories:
                 - biolink:Gene
+                attributes: []
         workflow:
         - id: enrich_results
           parameters:

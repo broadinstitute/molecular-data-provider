@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   description: TRAPI API for Gene-List Network Enrichment Analysis
-  version: 1.5.0.0
+  version: 1.5.0.1
   title: Gene-List Network Enrichment Analysis
   contact:
     email: translator@broadinstitute.org
