@@ -159,7 +159,7 @@ Feature: Check MolePro
         and we call "CMAP compound-to-gene transformer" transformer with the following parameters:
         | score threshold | maximum number |
         | 99.0            | 2              |
-        then the length of the collection should be 18
+        then the length of the collection should be 20
         and the value of "element_class" should be "gene"
         and the value of "source" should be "CMAP compound-to-gene transformer"
 
@@ -248,13 +248,13 @@ Feature: Check MolePro
         | MoleProDB connections transformer | element_attribute    | biolink:highest_FDA_approval_status |
         | MoleProDB connections transformer | connection_attribute | biolink:primary_knowledge_source    |
         | MoleProDB connections transformer | connection_attribute | biolink:aggregator_knowledge_source |
-        then the length of the collection should be 547
+        then the length of the collection should be 294
 
 
     Scenario: Check union
         Given the Molecular Data Provider
         and a compound list "aspirin;bortezomib;acetaminophen"
-        and another compound list "aspirin;bortezomib;naproxen"
+        and another compound list "aspirin;bortezomib;ibuprofen"
         when we call aggregator "union"
         then the value of "source" should be "union"
         and the length of the collection should be 4
@@ -264,7 +264,7 @@ Feature: Check MolePro
     Scenario: Check intersection
         Given the Molecular Data Provider
         and a compound list "aspirin;bortezomib;acetaminophen"
-        and another compound list "aspirin;bortezomib;naproxen"
+        and another compound list "aspirin;bortezomib;ibuprofen"
         when we call aggregator "intersection"
         then the value of "source" should be "intersection"
         and the length of the collection should be 2
@@ -274,7 +274,7 @@ Feature: Check MolePro
     Scenario: Check difference
         Given the Molecular Data Provider
         and a compound list "aspirin;bortezomib;acetaminophen"
-        and another compound list "aspirin;bortezomib;naproxen"
+        and another compound list "aspirin;bortezomib;ibuprofen"
         when we call aggregator "difference"
         then the value of "source" should be "difference"
         and the length of the collection should be 1
@@ -284,7 +284,7 @@ Feature: Check MolePro
     Scenario: Check symmetric difference
         Given the Molecular Data Provider
         and a compound list "aspirin;bortezomib;acetaminophen"
-        and another compound list "aspirin;bortezomib;naproxen"
+        and another compound list "aspirin;bortezomib;ibuprofen"
         when we call aggregator "symmetric difference"
         then the value of "source" should be "symmetric difference"
         and the length of the collection should be 2
