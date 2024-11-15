@@ -1,0 +1,3950 @@
+{
+  "GO:0000016": {
+    "name": "lactase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0000139": {
+    "name": "Golgi membrane",
+    "aspect": "cellular_component"
+  },
+  "GO:0000149": {
+    "name": "SNARE binding",
+    "aspect": "molecular_function"
+  },
+  "GO:0000170": {
+    "name": "sphingosine hydroxylase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0000179": {
+    "name": "rRNA (adenine-N6,N6-)-dimethyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0000225": {
+    "name": "N-acetylglucosaminylphosphatidylinositol deacetylase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0000250": {
+    "name": "lanosterol synthase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0000334": {
+    "name": "3-hydroxyanthranilate 3,4-dioxygenase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0000421": {
+    "name": "autophagosome membrane",
+    "aspect": "cellular_component"
+  },
+  "GO:0000774": {
+    "name": "adenyl-nucleotide exchange factor activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0000775": {
+    "name": "chromosome, centromeric region",
+    "aspect": "cellular_component"
+  },
+  "GO:0001533": {
+    "name": "cornified envelope",
+    "aspect": "cellular_component"
+  },
+  "GO:0001537": {
+    "name": "N-acetylgalactosamine 4-O-sulfotransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0001652": {
+    "name": "granular component",
+    "aspect": "cellular_component"
+  },
+  "GO:0001664": {
+    "name": "G protein-coupled receptor binding",
+    "aspect": "molecular_function"
+  },
+  "GO:0001671": {
+    "name": "ATPase activator activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0001716": {
+    "name": "L-amino-acid oxidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0001730": {
+    "name": "2'-5'-oligoadenylate synthetase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0001733": {
+    "name": "galactosylceramide sulfotransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0001734": {
+    "name": "mRNA m(6)A methyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0001891": {
+    "name": "phagocytic cup",
+    "aspect": "cellular_component"
+  },
+  "GO:0003678": {
+    "name": "DNA helicase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0003689": {
+    "name": "DNA clamp loader activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0003723": {
+    "name": "RNA binding",
+    "aspect": "molecular_function"
+  },
+  "GO:0003726": {
+    "name": "double-stranded RNA adenosine deaminase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0003743": {
+    "name": "translation initiation factor activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0003755": {
+    "name": "peptidyl-prolyl cis-trans isomerase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0003756": {
+    "name": "protein disulfide isomerase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0003774": {
+    "name": "cytoskeletal motor activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0003777": {
+    "name": "microtubule motor activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0003828": {
+    "name": "alpha-N-acetylneuraminate alpha-2,8-sialyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0003831": {
+    "name": "beta-N-acetylglucosaminylglycopeptide beta-1,4-galactosyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0003834": {
+    "name": "beta-carotene 15,15'-dioxygenase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0003836": {
+    "name": "beta-galactoside (CMP) alpha-2,3-sialyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0003837": {
+    "name": "beta-ureidopropionase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0003839": {
+    "name": "gamma-glutamylcyclotransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0003844": {
+    "name": "1,4-alpha-glucan branching enzyme activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0003847": {
+    "name": "1-alkyl-2-acetylglycerophosphocholine esterase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0003860": {
+    "name": "3-hydroxyisobutyryl-CoA hydrolase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0003868": {
+    "name": "4-hydroxyphenylpyruvate dioxygenase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0003874": {
+    "name": "6-pyruvoyltetrahydropterin synthase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0003876": {
+    "name": "AMP deaminase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0003884": {
+    "name": "D-amino-acid oxidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0003887": {
+    "name": "DNA-directed DNA polymerase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0003899": {
+    "name": "DNA-directed 5'-3' RNA polymerase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0003909": {
+    "name": "DNA ligase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0003923": {
+    "name": "GPI-anchor transamidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0003924": {
+    "name": "GTPase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0003934": {
+    "name": "GTP cyclohydrolase I activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0003937": {
+    "name": "IMP cyclohydrolase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0003940": {
+    "name": "L-iduronidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0003943": {
+    "name": "N-acetylgalactosamine-4-sulfatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0003950": {
+    "name": "NAD+-protein poly-ADP-ribosyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0003953": {
+    "name": "NAD+ nucleosidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0003958": {
+    "name": "NADPH-hemoprotein reductase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0003968": {
+    "name": "RNA-dependent RNA polymerase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0003972": {
+    "name": "RNA ligase (ATP) activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0003973": {
+    "name": "(S)-2-hydroxy-acid oxidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0003978": {
+    "name": "UDP-glucose 4-epimerase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0003980": {
+    "name": "UDP-glucose:glycoprotein glucosyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0003985": {
+    "name": "acetyl-CoA C-acetyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0003986": {
+    "name": "acetyl-CoA hydrolase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0003990": {
+    "name": "acetylcholinesterase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0003993": {
+    "name": "acid phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0003994": {
+    "name": "aconitate hydratase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0003997": {
+    "name": "acyl-CoA oxidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004000": {
+    "name": "adenosine deaminase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004001": {
+    "name": "adenosine kinase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004013": {
+    "name": "adenosylhomocysteinase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004014": {
+    "name": "adenosylmethionine decarboxylase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004016": {
+    "name": "adenylate cyclase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004017": {
+    "name": "adenylate kinase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004022": {
+    "name": "alcohol dehydrogenase (NAD+) activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004029": {
+    "name": "aldehyde dehydrogenase (NAD+) activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004031": {
+    "name": "aldehyde oxidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004033": {
+    "name": "aldo-keto reductase (NADPH) activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004035": {
+    "name": "alkaline phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004046": {
+    "name": "aminoacylase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004047": {
+    "name": "aminomethyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004051": {
+    "name": "arachidonate 5-lipoxygenase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004052": {
+    "name": "arachidonate 12(S)-lipoxygenase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004053": {
+    "name": "arginase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004056": {
+    "name": "argininosuccinate lyase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004058": {
+    "name": "aromatic-L-amino-acid decarboxylase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004060": {
+    "name": "arylamine N-acetyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004061": {
+    "name": "arylformamidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004062": {
+    "name": "aryl sulfotransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004067": {
+    "name": "asparaginase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004081": {
+    "name": "bis(5'-nucleosyl)-tetraphosphatase (asymmetrical) activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004082": {
+    "name": "bisphosphoglycerate mutase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004084": {
+    "name": "branched-chain-amino-acid transaminase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004089": {
+    "name": "carbonate dehydratase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004090": {
+    "name": "carbonyl reductase (NADPH) activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004096": {
+    "name": "catalase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004098": {
+    "name": "cerebroside-sulfatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004109": {
+    "name": "coproporphyrinogen oxidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004114": {
+    "name": "3',5'-cyclic-nucleotide phosphodiesterase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004115": {
+    "name": "3',5'-cyclic-AMP phosphodiesterase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004117": {
+    "name": "calmodulin-activated dual specificity 3',5'-cyclic-GMP, 3',5'-cyclic-AMP phosphodiesterase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004123": {
+    "name": "cystathionine gamma-lyase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004126": {
+    "name": "cytidine deaminase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004128": {
+    "name": "cytochrome-b5 reductase activity, acting on NAD(P)H",
+    "aspect": "molecular_function"
+  },
+  "GO:0004129": {
+    "name": "cytochrome-c oxidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004132": {
+    "name": "dCMP deaminase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004134": {
+    "name": "4-alpha-glucanotransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004135": {
+    "name": "amylo-alpha-1,6-glucosidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004139": {
+    "name": "deoxyribose-phosphate aldolase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004148": {
+    "name": "dihydrolipoyl dehydrogenase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004151": {
+    "name": "dihydroorotase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004157": {
+    "name": "dihydropyrimidinase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004164": {
+    "name": "diphthine synthase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004165": {
+    "name": "delta(3)-delta(2)-enoyl-CoA isomerase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004169": {
+    "name": "dolichyl-phosphate-mannose-protein mannosyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004170": {
+    "name": "dUTP diphosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004174": {
+    "name": "electron-transferring-flavoprotein dehydrogenase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004175": {
+    "name": "endopeptidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004177": {
+    "name": "aminopeptidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004180": {
+    "name": "carboxypeptidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004181": {
+    "name": "metallocarboxypeptidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004185": {
+    "name": "serine-type carboxypeptidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004190": {
+    "name": "aspartic-type endopeptidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004197": {
+    "name": "cysteine-type endopeptidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004198": {
+    "name": "calcium-dependent cysteine-type endopeptidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004222": {
+    "name": "metalloendopeptidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004252": {
+    "name": "serine-type endopeptidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004298": {
+    "name": "threonine-type endopeptidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004300": {
+    "name": "enoyl-CoA hydratase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004301": {
+    "name": "epoxide hydrolase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004303": {
+    "name": "estradiol 17-beta-dehydrogenase [NAD(P)+] activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004308": {
+    "name": "exo-alpha-sialidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004310": {
+    "name": "obsolete farnesyl-diphosphate farnesyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004314": {
+    "name": "[acyl-carrier-protein] S-malonyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004322": {
+    "name": "ferroxidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004331": {
+    "name": "fructose-2,6-bisphosphate 2-phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004332": {
+    "name": "fructose-bisphosphate aldolase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004333": {
+    "name": "fumarate hydratase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004334": {
+    "name": "fumarylacetoacetase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004336": {
+    "name": "galactosylceramidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004337": {
+    "name": "geranyltranstransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004342": {
+    "name": "glucosamine-6-phosphate deaminase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004346": {
+    "name": "glucose-6-phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004347": {
+    "name": "glucose-6-phosphate isomerase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004348": {
+    "name": "glucosylceramidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004351": {
+    "name": "glutamate decarboxylase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004353": {
+    "name": "glutamate dehydrogenase [NAD(P)+] activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004359": {
+    "name": "glutaminase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004364": {
+    "name": "glutathione transferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004373": {
+    "name": "alpha-1,4-glucan glucosyltransferase (UDP-glucose donor) activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004375": {
+    "name": "glycine dehydrogenase (decarboxylating) activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004376": {
+    "name": "glycolipid mannosyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004379": {
+    "name": "glycylpeptide N-tetradecanoyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004383": {
+    "name": "guanylate cyclase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004385": {
+    "name": "guanylate kinase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004386": {
+    "name": "helicase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004397": {
+    "name": "histidine ammonia-lyase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004398": {
+    "name": "histidine decarboxylase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004402": {
+    "name": "histone acetyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004407": {
+    "name": "histone deacetylase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004411": {
+    "name": "homogentisate 1,2-dioxygenase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004415": {
+    "name": "hyalurononglucosaminidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004416": {
+    "name": "hydroxyacylglutathione hydrolase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004418": {
+    "name": "hydroxymethylbilane synthase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004419": {
+    "name": "hydroxymethylglutaryl-CoA lyase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004423": {
+    "name": "iduronate-2-sulfatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004427": {
+    "name": "inorganic diphosphate phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004435": {
+    "name": "phosphatidylinositol phospholipase C activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004438": {
+    "name": "phosphatidylinositol-3-phosphate phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004439": {
+    "name": "phosphatidylinositol-4,5-bisphosphate 5-phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004441": {
+    "name": "inositol-1,4-bisphosphate 1-phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004450": {
+    "name": "isocitrate dehydrogenase (NADP+) activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004452": {
+    "name": "isopentenyl-diphosphate delta-isomerase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004463": {
+    "name": "leukotriene-A4 hydrolase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004465": {
+    "name": "lipoprotein lipase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004467": {
+    "name": "long-chain fatty acid-CoA ligase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004468": {
+    "name": "lysine N-acetyltransferase activity, acting on acetyl phosphate as donor",
+    "aspect": "molecular_function"
+  },
+  "GO:0004473": {
+    "name": "malate dehydrogenase (decarboxylating) (NADP+) activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004476": {
+    "name": "mannose-6-phosphate isomerase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004477": {
+    "name": "methenyltetrahydrofolate cyclohydrolase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004479": {
+    "name": "methionyl-tRNA formyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004482": {
+    "name": "mRNA 5'-cap (guanine-N7-)-methyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004483": {
+    "name": "mRNA (nucleoside-2'-O-)-methyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004484": {
+    "name": "mRNA guanylyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004487": {
+    "name": "methylenetetrahydrofolate dehydrogenase (NAD+) activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004490": {
+    "name": "methylglutaconyl-CoA hydratase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004493": {
+    "name": "methylmalonyl-CoA epimerase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004494": {
+    "name": "methylmalonyl-CoA mutase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004497": {
+    "name": "monooxygenase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004499": {
+    "name": "N,N-dimethylaniline monooxygenase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004512": {
+    "name": "inositol-3-phosphate synthase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004520": {
+    "name": "DNA endonuclease activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004521": {
+    "name": "RNA endonuclease activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004525": {
+    "name": "ribonuclease III activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004534": {
+    "name": "5'-3' RNA exonuclease activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004549": {
+    "name": "tRNA-specific ribonuclease activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004550": {
+    "name": "nucleoside diphosphate kinase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004551": {
+    "name": "dinucleotide phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004553": {
+    "name": "hydrolase activity, hydrolyzing O-glycosyl compounds",
+    "aspect": "molecular_function"
+  },
+  "GO:0004555": {
+    "name": "alpha,alpha-trehalase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004557": {
+    "name": "alpha-galactosidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004558": {
+    "name": "alpha-1,4-glucosidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004559": {
+    "name": "alpha-mannosidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004561": {
+    "name": "alpha-N-acetylglucosaminidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004563": {
+    "name": "beta-N-acetylhexosaminidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004565": {
+    "name": "beta-galactosidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004566": {
+    "name": "beta-glucuronidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004567": {
+    "name": "beta-mannosidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004569": {
+    "name": "glycoprotein endo-alpha-1,2-mannosidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004571": {
+    "name": "mannosyl-oligosaccharide 1,2-alpha-mannosidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004572": {
+    "name": "mannosyl-oligosaccharide 1,3-1,6-alpha-mannosidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004573": {
+    "name": "Glc3Man9GlcNAc2 oligosaccharide glucosidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004575": {
+    "name": "sucrose alpha-glucosidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004579": {
+    "name": "dolichyl-diphosphooligosaccharide-protein glycotransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004586": {
+    "name": "ornithine decarboxylase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004590": {
+    "name": "orotidine-5'-phosphate decarboxylase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004596": {
+    "name": "peptide alpha-N-acetyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004601": {
+    "name": "peroxidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004609": {
+    "name": "phosphatidylserine decarboxylase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004610": {
+    "name": "phosphoacetylglucosamine mutase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004614": {
+    "name": "phosphoglucomutase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004615": {
+    "name": "phosphomannomutase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004619": {
+    "name": "phosphoglycerate mutase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004620": {
+    "name": "phospholipase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004622": {
+    "name": "lysophospholipase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004623": {
+    "name": "phospholipase A2 activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004629": {
+    "name": "phospholipase C activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004630": {
+    "name": "phospholipase D activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004633": {
+    "name": "phosphopantothenoylcysteine decarboxylase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004634": {
+    "name": "phosphopyruvate hydratase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004638": {
+    "name": "phosphoribosylaminoimidazole carboxylase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004649": {
+    "name": "poly(ADP-ribose) glycohydrolase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004653": {
+    "name": "polypeptide N-acetylgalactosaminyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004655": {
+    "name": "porphobilinogen synthase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004656": {
+    "name": "procollagen-proline 4-dioxygenase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004657": {
+    "name": "proline dehydrogenase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004660": {
+    "name": "protein farnesyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004666": {
+    "name": "prostaglandin-endoperoxide synthase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004667": {
+    "name": "prostaglandin-D synthase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004672": {
+    "name": "protein kinase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004674": {
+    "name": "protein serine/threonine kinase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004675": {
+    "name": "transmembrane receptor protein serine/threonine kinase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004676": {
+    "name": "3-phosphoinositide-dependent protein kinase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004679": {
+    "name": "AMP-activated protein kinase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004683": {
+    "name": "calcium/calmodulin-dependent protein kinase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004687": {
+    "name": "myosin light chain kinase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004689": {
+    "name": "phosphorylase kinase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004691": {
+    "name": "cAMP-dependent protein kinase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004692": {
+    "name": "cGMP-dependent protein kinase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004693": {
+    "name": "cyclin-dependent protein serine/threonine kinase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004697": {
+    "name": "diacylglycerol-dependent serine/threonine kinase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004698": {
+    "name": "calcium,diacylglycerol-dependent serine/threonine kinase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004699": {
+    "name": "diacylglycerol-dependent, calcium-independent serine/threonine kinase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004705": {
+    "name": "JUN kinase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004707": {
+    "name": "MAP kinase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004708": {
+    "name": "MAP kinase kinase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004709": {
+    "name": "MAP kinase kinase kinase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004712": {
+    "name": "protein serine/threonine/tyrosine kinase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004713": {
+    "name": "protein tyrosine kinase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004714": {
+    "name": "transmembrane receptor protein tyrosine kinase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004715": {
+    "name": "non-membrane spanning protein tyrosine kinase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004720": {
+    "name": "protein-lysine 6-oxidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004721": {
+    "name": "phosphoprotein phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004722": {
+    "name": "protein serine/threonine phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004725": {
+    "name": "protein tyrosine phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004726": {
+    "name": "non-membrane spanning protein tyrosine phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004729": {
+    "name": "oxygen-dependent protoporphyrinogen oxidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004731": {
+    "name": "purine-nucleoside phosphorylase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004733": {
+    "name": "pyridoxamine phosphate oxidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004740": {
+    "name": "pyruvate dehydrogenase (acetyl-transferring) kinase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004745": {
+    "name": "all-trans-retinol dehydrogenase (NAD+) activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004748": {
+    "name": "ribonucleoside-diphosphate reductase activity, thioredoxin disulfide as acceptor",
+    "aspect": "molecular_function"
+  },
+  "GO:0004750": {
+    "name": "D-ribulose-phosphate 3-epimerase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004751": {
+    "name": "ribose-5-phosphate isomerase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004767": {
+    "name": "sphingomyelin phosphodiesterase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004769": {
+    "name": "steroid delta-isomerase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004771": {
+    "name": "sterol ester esterase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004773": {
+    "name": "steryl-sulfatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004782": {
+    "name": "sulfinoalanine decarboxylase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004784": {
+    "name": "superoxide dismutase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004791": {
+    "name": "thioredoxin-disulfide reductase (NADPH) activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004796": {
+    "name": "thromboxane-A synthase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004806": {
+    "name": "triacylglycerol lipase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004807": {
+    "name": "triose-phosphate isomerase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004813": {
+    "name": "alanine-tRNA ligase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004814": {
+    "name": "arginine-tRNA ligase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004815": {
+    "name": "aspartate-tRNA ligase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004816": {
+    "name": "asparagine-tRNA ligase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004817": {
+    "name": "cysteine-tRNA ligase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004818": {
+    "name": "glutamate-tRNA ligase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004819": {
+    "name": "glutamine-tRNA ligase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004820": {
+    "name": "glycine-tRNA ligase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004821": {
+    "name": "histidine-tRNA ligase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004822": {
+    "name": "isoleucine-tRNA ligase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004823": {
+    "name": "leucine-tRNA ligase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004824": {
+    "name": "lysine-tRNA ligase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004825": {
+    "name": "methionine-tRNA ligase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004826": {
+    "name": "phenylalanine-tRNA ligase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004827": {
+    "name": "proline-tRNA ligase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004828": {
+    "name": "serine-tRNA ligase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004829": {
+    "name": "threonine-tRNA ligase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004830": {
+    "name": "tryptophan-tRNA ligase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004831": {
+    "name": "tyrosine-tRNA ligase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004832": {
+    "name": "valine-tRNA ligase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004833": {
+    "name": "tryptophan 2,3-dioxygenase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004835": {
+    "name": "tubulin-tyrosine ligase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004839": {
+    "name": "ubiquitin activating enzyme activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004842": {
+    "name": "ubiquitin-protein transferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004843": {
+    "name": "cysteine-type deubiquitinase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004849": {
+    "name": "uridine kinase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004850": {
+    "name": "uridine phosphorylase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004852": {
+    "name": "uroporphyrinogen-III synthase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004853": {
+    "name": "uroporphyrinogen decarboxylase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004855": {
+    "name": "xanthine oxidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004861": {
+    "name": "cyclin-dependent protein serine/threonine kinase inhibitor activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004867": {
+    "name": "serine-type endopeptidase inhibitor activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004888": {
+    "name": "transmembrane signaling receptor activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004930": {
+    "name": "G protein-coupled receptor activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004931": {
+    "name": "extracellularly ATP-gated monoatomic cation channel activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0004965": {
+    "name": "G protein-coupled GABA receptor activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0005009": {
+    "name": "insulin receptor activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0005026": {
+    "name": "transforming growth factor beta receptor activity, type II",
+    "aspect": "molecular_function"
+  },
+  "GO:0005041": {
+    "name": "low-density lipoprotein particle receptor activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0005085": {
+    "name": "guanyl-nucleotide exchange factor activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0005096": {
+    "name": "GTPase activator activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0005219": {
+    "name": "ryanodine-sensitive calcium-release channel activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0005225": {
+    "name": "volume-sensitive anion channel activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0005227": {
+    "name": "calcium-activated cation channel activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0005229": {
+    "name": "intracellularly calcium-gated chloride channel activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0005231": {
+    "name": "excitatory extracellular ligand-gated monoatomic ion channel activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0005242": {
+    "name": "inward rectifier potassium channel activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0005243": {
+    "name": "gap junction channel activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0005245": {
+    "name": "voltage-gated calcium channel activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0005247": {
+    "name": "voltage-gated chloride channel activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0005248": {
+    "name": "voltage-gated sodium channel activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0005249": {
+    "name": "voltage-gated potassium channel activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0005250": {
+    "name": "A-type (transient outward) potassium channel activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0005251": {
+    "name": "delayed rectifier potassium channel activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0005254": {
+    "name": "chloride channel activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0005261": {
+    "name": "monoatomic cation channel activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0005262": {
+    "name": "calcium channel activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0005267": {
+    "name": "potassium channel activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0005272": {
+    "name": "sodium channel activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0005277": {
+    "name": "acetylcholine transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0005280": {
+    "name": "amino acid:proton symporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0005313": {
+    "name": "L-glutamate transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0005314": {
+    "name": "high-affinity L-glutamate transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0005319": {
+    "name": "lipid transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0005324": {
+    "name": "long-chain fatty acid transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0005326": {
+    "name": "neurotransmitter transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0005337": {
+    "name": "nucleoside transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0005343": {
+    "name": "organic acid:sodium symporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0005347": {
+    "name": "ATP transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0005353": {
+    "name": "fructose transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0005355": {
+    "name": "obsolete glucose transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0005362": {
+    "name": "low-affinity D-glucose:sodium symporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0005366": {
+    "name": "myo-inositol:proton symporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0005375": {
+    "name": "copper ion transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0005381": {
+    "name": "iron ion transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0005384": {
+    "name": "manganese ion transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0005385": {
+    "name": "zinc ion transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0005388": {
+    "name": "P-type calcium transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0005412": {
+    "name": "D-glucose:sodium symporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0005415": {
+    "name": "nucleoside:sodium symporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0005457": {
+    "name": "GDP-fucose transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0005459": {
+    "name": "UDP-galactose transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0005462": {
+    "name": "UDP-N-acetylglucosamine transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0005464": {
+    "name": "UDP-xylose transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0005524": {
+    "name": "ATP binding",
+    "aspect": "molecular_function"
+  },
+  "GO:0005525": {
+    "name": "GTP binding",
+    "aspect": "molecular_function"
+  },
+  "GO:0005537": {
+    "name": "D-mannose binding",
+    "aspect": "molecular_function"
+  },
+  "GO:0005548": {
+    "name": "phospholipid transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0005576": {
+    "name": "extracellular region",
+    "aspect": "cellular_component"
+  },
+  "GO:0005635": {
+    "name": "nuclear envelope",
+    "aspect": "cellular_component"
+  },
+  "GO:0005654": {
+    "name": "nucleoplasm",
+    "aspect": "cellular_component"
+  },
+  "GO:0005694": {
+    "name": "chromosome",
+    "aspect": "cellular_component"
+  },
+  "GO:0005730": {
+    "name": "nucleolus",
+    "aspect": "cellular_component"
+  },
+  "GO:0005737": {
+    "name": "cytoplasm",
+    "aspect": "cellular_component"
+  },
+  "GO:0005741": {
+    "name": "mitochondrial outer membrane",
+    "aspect": "cellular_component"
+  },
+  "GO:0005743": {
+    "name": "mitochondrial inner membrane",
+    "aspect": "cellular_component"
+  },
+  "GO:0005758": {
+    "name": "mitochondrial intermembrane space",
+    "aspect": "cellular_component"
+  },
+  "GO:0005759": {
+    "name": "mitochondrial matrix",
+    "aspect": "cellular_component"
+  },
+  "GO:0005765": {
+    "name": "lysosomal membrane",
+    "aspect": "cellular_component"
+  },
+  "GO:0005768": {
+    "name": "endosome",
+    "aspect": "cellular_component"
+  },
+  "GO:0005769": {
+    "name": "early endosome",
+    "aspect": "cellular_component"
+  },
+  "GO:0005776": {
+    "name": "autophagosome",
+    "aspect": "cellular_component"
+  },
+  "GO:0005778": {
+    "name": "peroxisomal membrane",
+    "aspect": "cellular_component"
+  },
+  "GO:0005782": {
+    "name": "peroxisomal matrix",
+    "aspect": "cellular_component"
+  },
+  "GO:0005788": {
+    "name": "endoplasmic reticulum lumen",
+    "aspect": "cellular_component"
+  },
+  "GO:0005789": {
+    "name": "endoplasmic reticulum membrane",
+    "aspect": "cellular_component"
+  },
+  "GO:0005790": {
+    "name": "smooth endoplasmic reticulum",
+    "aspect": "cellular_component"
+  },
+  "GO:0005793": {
+    "name": "endoplasmic reticulum-Golgi intermediate compartment",
+    "aspect": "cellular_component"
+  },
+  "GO:0005796": {
+    "name": "Golgi lumen",
+    "aspect": "cellular_component"
+  },
+  "GO:0005811": {
+    "name": "lipid droplet",
+    "aspect": "cellular_component"
+  },
+  "GO:0005815": {
+    "name": "microtubule organizing center",
+    "aspect": "cellular_component"
+  },
+  "GO:0005819": {
+    "name": "spindle",
+    "aspect": "cellular_component"
+  },
+  "GO:0005829": {
+    "name": "cytosol",
+    "aspect": "cellular_component"
+  },
+  "GO:0005886": {
+    "name": "plasma membrane",
+    "aspect": "cellular_component"
+  },
+  "GO:0005902": {
+    "name": "microvillus",
+    "aspect": "cellular_component"
+  },
+  "GO:0005929": {
+    "name": "cilium",
+    "aspect": "cellular_component"
+  },
+  "GO:0008017": {
+    "name": "microtubule binding",
+    "aspect": "molecular_function"
+  },
+  "GO:0008021": {
+    "name": "synaptic vesicle",
+    "aspect": "cellular_component"
+  },
+  "GO:0008080": {
+    "name": "N-acetyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008111": {
+    "name": "alpha-methylacyl-CoA racemase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008113": {
+    "name": "peptide-methionine (S)-S-oxide reductase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008116": {
+    "name": "prostaglandin-I synthase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008117": {
+    "name": "sphinganine-1-phosphate aldolase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008119": {
+    "name": "thiopurine S-methyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008121": {
+    "name": "ubiquinol-cytochrome-c reductase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008124": {
+    "name": "4-alpha-hydroxytetrahydrobiopterin dehydratase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008127": {
+    "name": "quercetin 2,3-dioxygenase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008131": {
+    "name": "primary methylamine oxidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008138": {
+    "name": "protein tyrosine/serine/threonine phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008146": {
+    "name": "sulfotransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008171": {
+    "name": "O-methyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008173": {
+    "name": "RNA methyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008175": {
+    "name": "tRNA methyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008176": {
+    "name": "tRNA (guanine(46)-N7)-methyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008177": {
+    "name": "succinate dehydrogenase (quinone) activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008179": {
+    "name": "adenylate cyclase binding",
+    "aspect": "molecular_function"
+  },
+  "GO:0008184": {
+    "name": "glycogen phosphorylase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008195": {
+    "name": "phosphatidate phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008233": {
+    "name": "peptidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008234": {
+    "name": "cysteine-type peptidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008236": {
+    "name": "serine-type peptidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008237": {
+    "name": "metallopeptidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008253": {
+    "name": "5'-nucleotidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008276": {
+    "name": "protein methyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008294": {
+    "name": "calcium- and calmodulin-responsive adenylate cyclase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008308": {
+    "name": "voltage-gated monoatomic anion channel activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008320": {
+    "name": "protein transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008349": {
+    "name": "MAP kinase kinase kinase kinase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008353": {
+    "name": "RNA polymerase II CTD heptapeptide repeat kinase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008373": {
+    "name": "sialyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008374": {
+    "name": "O-acyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008375": {
+    "name": "acetylglucosaminyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008376": {
+    "name": "acetylgalactosaminyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008379": {
+    "name": "thioredoxin peroxidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008384": {
+    "name": "IkappaB kinase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008386": {
+    "name": "cholesterol monooxygenase (side-chain-cleaving) activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008395": {
+    "name": "steroid hydroxylase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008401": {
+    "name": "retinoic acid 4-hydroxylase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008410": {
+    "name": "CoA-transferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008417": {
+    "name": "fucosyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008441": {
+    "name": "3'(2'),5'-bisphosphate nucleotidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008445": {
+    "name": "D-aspartate oxidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008446": {
+    "name": "GDP-mannose 4,6-dehydratase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008448": {
+    "name": "N-acetylglucosamine-6-phosphate deacetylase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008449": {
+    "name": "N-acetylglucosamine-6-sulfatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008466": {
+    "name": "glycogenin glucosyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008474": {
+    "name": "palmitoyl-(protein) hydrolase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008475": {
+    "name": "procollagen-lysine 5-dioxygenase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008476": {
+    "name": "protein-tyrosine sulfotransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008479": {
+    "name": "tRNA-guanosine(34) queuine transglycosylase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008480": {
+    "name": "sarcosine dehydrogenase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008482": {
+    "name": "sulfite oxidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008488": {
+    "name": "gamma-glutamyl carboxylase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008496": {
+    "name": "mannan endo-1,6-alpha-mannosidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008499": {
+    "name": "UDP-galactose:beta-N-acetylglucosamine beta-1,3-galactosyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008504": {
+    "name": "monoamine transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008514": {
+    "name": "organic anion transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008517": {
+    "name": "folic acid transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008519": {
+    "name": "ammonium channel activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008521": {
+    "name": "acetyl-CoA transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008523": {
+    "name": "sodium-dependent multivitamin transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008526": {
+    "name": "phosphatidylinositol transfer activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008545": {
+    "name": "JUN kinase kinase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008559": {
+    "name": "ABC-type xenobiotic transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008568": {
+    "name": "microtubule severing ATPase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008597": {
+    "name": "calcium-dependent protein serine/threonine phosphatase regulator activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008650": {
+    "name": "rRNA (uridine-2'-O-)-methyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008656": {
+    "name": "cysteine-type endopeptidase activator activity involved in apoptotic process",
+    "aspect": "molecular_function"
+  },
+  "GO:0008700": {
+    "name": "(R,S)-4-hydroxy-2-oxoglutarate aldolase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008705": {
+    "name": "methionine synthase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008721": {
+    "name": "D-serine ammonia-lyase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008747": {
+    "name": "N-acetylneuraminate lyase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008761": {
+    "name": "UDP-N-acetylglucosamine 2-epimerase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008768": {
+    "name": "UDP-sugar diphosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008785": {
+    "name": "alkyl hydroperoxide reductase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008792": {
+    "name": "arginine decarboxylase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008798": {
+    "name": "beta-aspartyl-peptidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008829": {
+    "name": "dCTP deaminase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008889": {
+    "name": "glycerophosphodiester phosphodiesterase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008892": {
+    "name": "guanine deaminase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008897": {
+    "name": "holo-[acyl-carrier-protein] synthase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008934": {
+    "name": "inositol monophosphate 1-phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008941": {
+    "name": "nitric oxide dioxygenase NAD(P)H activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008948": {
+    "name": "oxaloacetate decarboxylase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008962": {
+    "name": "phosphatidylglycerophosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008970": {
+    "name": "phospholipase A1 activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0008973": {
+    "name": "phosphopentomutase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0009000": {
+    "name": "selenocysteine lyase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0009008": {
+    "name": "DNA-methyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0009020": {
+    "name": "obsolete tRNA (guanosine-2'-O-)-methyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0009055": {
+    "name": "electron transfer activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0009274": {
+    "name": "peptidoglycan-based cell wall",
+    "aspect": "cellular_component"
+  },
+  "GO:0009383": {
+    "name": "rRNA (cytosine-C5-)-methyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0009897": {
+    "name": "external side of plasma membrane",
+    "aspect": "cellular_component"
+  },
+  "GO:0009898": {
+    "name": "cytoplasmic side of plasma membrane",
+    "aspect": "cellular_component"
+  },
+  "GO:0009982": {
+    "name": "pseudouridine synthase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0010008": {
+    "name": "endosome membrane",
+    "aspect": "cellular_component"
+  },
+  "GO:0010309": {
+    "name": "acireductone dioxygenase [iron(II)-requiring] activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0010945": {
+    "name": "coenzyme A diphosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0012507": {
+    "name": "ER to Golgi transport vesicle membrane",
+    "aspect": "cellular_component"
+  },
+  "GO:0015020": {
+    "name": "glucuronosyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0015035": {
+    "name": "protein-disulfide reductase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0015036": {
+    "name": "disulfide oxidoreductase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0015038": {
+    "name": "glutathione disulfide oxidoreductase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0015078": {
+    "name": "proton transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0015085": {
+    "name": "calcium ion transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0015093": {
+    "name": "ferrous iron transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0015095": {
+    "name": "magnesium ion transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0015101": {
+    "name": "organic cation transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0015106": {
+    "name": "bicarbonate transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0015111": {
+    "name": "iodide transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0015116": {
+    "name": "sulfate transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0015125": {
+    "name": "bile acid transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0015127": {
+    "name": "bilirubin transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0015129": {
+    "name": "lactate transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0015132": {
+    "name": "prostaglandin transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0015143": {
+    "name": "urate transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0015149": {
+    "name": "hexose transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0015166": {
+    "name": "polyol transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0015171": {
+    "name": "amino acid transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0015174": {
+    "name": "basic amino acid transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0015179": {
+    "name": "L-amino acid transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0015184": {
+    "name": "L-cystine transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0015193": {
+    "name": "L-proline transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0015194": {
+    "name": "L-serine transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0015196": {
+    "name": "L-tryptophan transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0015204": {
+    "name": "urea transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0015220": {
+    "name": "choline transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0015228": {
+    "name": "coenzyme A transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0015232": {
+    "name": "heme transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0015234": {
+    "name": "thiamine transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0015245": {
+    "name": "fatty acid transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0015248": {
+    "name": "obsolete sterol transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0015254": {
+    "name": "glycerol channel activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0015265": {
+    "name": "urea channel activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0015267": {
+    "name": "channel activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0015269": {
+    "name": "calcium-activated potassium channel activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0015276": {
+    "name": "ligand-gated monoatomic ion channel activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0015278": {
+    "name": "intracellularly gated calcium channel activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0015279": {
+    "name": "store-operated calcium channel activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0015280": {
+    "name": "ligand-gated sodium channel activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0015297": {
+    "name": "antiporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0015333": {
+    "name": "peptide:proton symporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0015343": {
+    "name": "siderophore-iron transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0015347": {
+    "name": "sodium-independent organic anion transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0015349": {
+    "name": "thyroid hormone transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0015361": {
+    "name": "low-affinity sodium:dicarboxylate symporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0015369": {
+    "name": "calcium:proton antiporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0015370": {
+    "name": "solute:sodium symporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0015385": {
+    "name": "sodium:proton antiporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0015421": {
+    "name": "ABC-type oligopeptide transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0015432": {
+    "name": "ABC-type bile acid transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0015467": {
+    "name": "G-protein activated inward rectifier potassium channel activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0015495": {
+    "name": "gamma-aminobutyric acid:proton symporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0015538": {
+    "name": "sialic acid:proton symporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0015658": {
+    "name": "branched-chain amino acid transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0016034": {
+    "name": "maleylacetoacetate isomerase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0016153": {
+    "name": "urocanate hydratase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0016174": {
+    "name": "NAD(P)H oxidase H2O2-forming activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0016175": {
+    "name": "superoxide-generating NAD(P)H oxidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0016250": {
+    "name": "N-sulfoglucosamine sulfohydrolase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0016274": {
+    "name": "protein-arginine N-methyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0016278": {
+    "name": "lysine N-methyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0016279": {
+    "name": "protein-lysine N-methyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0016289": {
+    "name": "acyl-CoA hydrolase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0016297": {
+    "name": "fatty acyl-[ACP] hydrolase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0016298": {
+    "name": "lipase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0016301": {
+    "name": "kinase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0016303": {
+    "name": "1-phosphatidylinositol-3-kinase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0016312": {
+    "name": "inositol bisphosphate phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0016314": {
+    "name": "phosphatidylinositol-3,4,5-trisphosphate 3-phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0016316": {
+    "name": "phosphatidylinositol-3,4-bisphosphate 4-phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0016323": {
+    "name": "basolateral plasma membrane",
+    "aspect": "cellular_component"
+  },
+  "GO:0016324": {
+    "name": "apical plasma membrane",
+    "aspect": "cellular_component"
+  },
+  "GO:0016362": {
+    "name": "activin receptor activity, type II",
+    "aspect": "molecular_function"
+  },
+  "GO:0016402": {
+    "name": "pristanoyl-CoA oxidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0016403": {
+    "name": "dimethylargininase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0016404": {
+    "name": "15-hydroxyprostaglandin dehydrogenase (NAD+) activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0016407": {
+    "name": "acetyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0016409": {
+    "name": "palmitoyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0016411": {
+    "name": "acylglycerol O-acyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0016416": {
+    "name": "O-palmitoyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0016428": {
+    "name": "tRNA (cytidine-5-)-methyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0016462": {
+    "name": "pyrophosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0016491": {
+    "name": "oxidoreductase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0016504": {
+    "name": "peptidase activator activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0016616": {
+    "name": "oxidoreductase activity, acting on the CH-OH group of donors, NAD or NADP as acceptor",
+    "aspect": "molecular_function"
+  },
+  "GO:0016627": {
+    "name": "oxidoreductase activity, acting on the CH-CH group of donors",
+    "aspect": "molecular_function"
+  },
+  "GO:0016651": {
+    "name": "oxidoreductase activity, acting on NAD(P)H",
+    "aspect": "molecular_function"
+  },
+  "GO:0016702": {
+    "name": "oxidoreductase activity, acting on single donors with incorporation of molecular oxygen, incorporation of two atoms of oxygen",
+    "aspect": "molecular_function"
+  },
+  "GO:0016706": {
+    "name": "2-oxoglutarate-dependent dioxygenase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0016740": {
+    "name": "transferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0016746": {
+    "name": "acyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0016763": {
+    "name": "pentosyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0016765": {
+    "name": "transferase activity, transferring alkyl or aryl (other than methyl) groups",
+    "aspect": "molecular_function"
+  },
+  "GO:0016773": {
+    "name": "phosphotransferase activity, alcohol group as acceptor",
+    "aspect": "molecular_function"
+  },
+  "GO:0016779": {
+    "name": "nucleotidyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0016780": {
+    "name": "phosphotransferase activity, for other substituted phosphate groups",
+    "aspect": "molecular_function"
+  },
+  "GO:0016783": {
+    "name": "sulfurtransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0016784": {
+    "name": "3-mercaptopyruvate sulfurtransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0016787": {
+    "name": "hydrolase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0016788": {
+    "name": "hydrolase activity, acting on ester bonds",
+    "aspect": "molecular_function"
+  },
+  "GO:0016791": {
+    "name": "phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0016793": {
+    "name": "triphosphoric monoester hydrolase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0016803": {
+    "name": "ether hydrolase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0016805": {
+    "name": "dipeptidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0016811": {
+    "name": "hydrolase activity, acting on carbon-nitrogen (but not peptide) bonds, in linear amides",
+    "aspect": "molecular_function"
+  },
+  "GO:0016812": {
+    "name": "hydrolase activity, acting on carbon-nitrogen (but not peptide) bonds, in cyclic amides",
+    "aspect": "molecular_function"
+  },
+  "GO:0016818": {
+    "name": "hydrolase activity, acting on acid anhydrides, in phosphorus-containing anhydrides",
+    "aspect": "molecular_function"
+  },
+  "GO:0016829": {
+    "name": "lyase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0016830": {
+    "name": "carbon-carbon lyase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0016831": {
+    "name": "carboxy-lyase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0016832": {
+    "name": "aldehyde-lyase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0016836": {
+    "name": "hydro-lyase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0016846": {
+    "name": "carbon-sulfur lyase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0016853": {
+    "name": "isomerase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0016857": {
+    "name": "racemase and epimerase activity, acting on carbohydrates and derivatives",
+    "aspect": "molecular_function"
+  },
+  "GO:0016860": {
+    "name": "intramolecular oxidoreductase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0016887": {
+    "name": "ATP hydrolysis activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0016888": {
+    "name": "endodeoxyribonuclease activity, producing 5'-phosphomonoesters",
+    "aspect": "molecular_function"
+  },
+  "GO:0016896": {
+    "name": "RNA exonuclease activity, producing 5'-phosphomonoesters",
+    "aspect": "molecular_function"
+  },
+  "GO:0016934": {
+    "name": "extracellularly glycine-gated chloride channel activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0016992": {
+    "name": "lipoate synthase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0017018": {
+    "name": "myosin phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0017040": {
+    "name": "N-acylsphingosine amidohydrolase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0017050": {
+    "name": "D-erythro-sphingosine kinase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0017056": {
+    "name": "structural constituent of nuclear pore",
+    "aspect": "molecular_function"
+  },
+  "GO:0017057": {
+    "name": "6-phosphogluconolactonase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0017064": {
+    "name": "fatty acid amide hydrolase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0017089": {
+    "name": "glycolipid transfer activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0017108": {
+    "name": "5'-flap endonuclease activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0017110": {
+    "name": "nucleoside diphosphate phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0017111": {
+    "name": "ribonucleoside triphosphate phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0017125": {
+    "name": "deoxycytidyl transferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0017150": {
+    "name": "tRNA dihydrouridine synthase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0017159": {
+    "name": "pantetheine hydrolase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0017161": {
+    "name": "inositol-1,3,4-trisphosphate 4-phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0017172": {
+    "name": "cysteine dioxygenase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0017178": {
+    "name": "diphthine-ammonia ligase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0018025": {
+    "name": "calmodulin-lysine N-methyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0018271": {
+    "name": "obsolete biotin-protein ligase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0018738": {
+    "name": "S-formylglutathione hydrolase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0018812": {
+    "name": "3-hydroxyacyl-CoA dehydratase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0019001": {
+    "name": "guanyl nucleotide binding",
+    "aspect": "molecular_function"
+  },
+  "GO:0019028": {
+    "name": "viral capsid",
+    "aspect": "cellular_component"
+  },
+  "GO:0019031": {
+    "name": "viral envelope",
+    "aspect": "cellular_component"
+  },
+  "GO:0019033": {
+    "name": "viral tegument",
+    "aspect": "cellular_component"
+  },
+  "GO:0019104": {
+    "name": "DNA N-glycosylase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0019107": {
+    "name": "myristoyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0019135": {
+    "name": "deoxyhypusine monooxygenase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0019136": {
+    "name": "deoxynucleoside kinase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0019166": {
+    "name": "trans-2-enoyl-CoA reductase (NADPH) activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0019200": {
+    "name": "carbohydrate kinase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0019206": {
+    "name": "nucleoside kinase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0019213": {
+    "name": "deacetylase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0019239": {
+    "name": "deaminase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0019706": {
+    "name": "protein-cysteine S-palmitoyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0019784": {
+    "name": "deNEDDylase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0019785": {
+    "name": "ISG15-specific peptidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0019788": {
+    "name": "NEDD8 transferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0019789": {
+    "name": "SUMO transferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0019797": {
+    "name": "procollagen-proline 3-dioxygenase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0019807": {
+    "name": "aspartoacylase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0019948": {
+    "name": "SUMO activating enzyme activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0022803": {
+    "name": "passive transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0022857": {
+    "name": "transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0030054": {
+    "name": "cell junction",
+    "aspect": "cellular_component"
+  },
+  "GO:0030133": {
+    "name": "transport vesicle",
+    "aspect": "cellular_component"
+  },
+  "GO:0030134": {
+    "name": "COPII-coated ER to Golgi transport vesicle",
+    "aspect": "cellular_component"
+  },
+  "GO:0030351": {
+    "name": "inositol-1,3,4,5,6-pentakisphosphate 3-phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0030366": {
+    "name": "molybdopterin synthase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0030378": {
+    "name": "serine racemase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0030429": {
+    "name": "kynureninase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0030504": {
+    "name": "inorganic diphosphate transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0030586": {
+    "name": "[methionine synthase] reductase (NADPH) activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0030658": {
+    "name": "transport vesicle membrane",
+    "aspect": "cellular_component"
+  },
+  "GO:0030659": {
+    "name": "cytoplasmic vesicle membrane",
+    "aspect": "cellular_component"
+  },
+  "GO:0030660": {
+    "name": "Golgi-associated vesicle membrane",
+    "aspect": "cellular_component"
+  },
+  "GO:0030666": {
+    "name": "endocytic vesicle membrane",
+    "aspect": "cellular_component"
+  },
+  "GO:0030667": {
+    "name": "secretory granule membrane",
+    "aspect": "cellular_component"
+  },
+  "GO:0030669": {
+    "name": "clathrin-coated endocytic vesicle membrane",
+    "aspect": "cellular_component"
+  },
+  "GO:0030670": {
+    "name": "phagocytic vesicle membrane",
+    "aspect": "cellular_component"
+  },
+  "GO:0030672": {
+    "name": "synaptic vesicle membrane",
+    "aspect": "cellular_component"
+  },
+  "GO:0031071": {
+    "name": "cysteine desulfurase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0031092": {
+    "name": "platelet alpha granule membrane",
+    "aspect": "cellular_component"
+  },
+  "GO:0031093": {
+    "name": "platelet alpha granule lumen",
+    "aspect": "cellular_component"
+  },
+  "GO:0031095": {
+    "name": "platelet dense tubular network membrane",
+    "aspect": "cellular_component"
+  },
+  "GO:0031528": {
+    "name": "microvillus membrane",
+    "aspect": "cellular_component"
+  },
+  "GO:0031544": {
+    "name": "peptidyl-proline 3-dioxygenase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0031545": {
+    "name": "peptidyl-proline 4-dioxygenase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0031901": {
+    "name": "early endosome membrane",
+    "aspect": "cellular_component"
+  },
+  "GO:0031902": {
+    "name": "late endosome membrane",
+    "aspect": "cellular_component"
+  },
+  "GO:0031904": {
+    "name": "endosome lumen",
+    "aspect": "cellular_component"
+  },
+  "GO:0031905": {
+    "name": "early endosome lumen",
+    "aspect": "cellular_component"
+  },
+  "GO:0031906": {
+    "name": "late endosome lumen",
+    "aspect": "cellular_component"
+  },
+  "GO:0032010": {
+    "name": "phagolysosome",
+    "aspect": "cellular_component"
+  },
+  "GO:0032217": {
+    "name": "riboflavin transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0032452": {
+    "name": "histone demethylase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0032453": {
+    "name": "histone H3K4 demethylase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0032454": {
+    "name": "histone H3K9 demethylase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0032542": {
+    "name": "sulfiredoxin activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0032588": {
+    "name": "trans-Golgi network membrane",
+    "aspect": "cellular_component"
+  },
+  "GO:0033017": {
+    "name": "sarcoplasmic reticulum membrane",
+    "aspect": "cellular_component"
+  },
+  "GO:0033018": {
+    "name": "sarcoplasmic reticulum lumen",
+    "aspect": "cellular_component"
+  },
+  "GO:0033116": {
+    "name": "endoplasmic reticulum-Golgi intermediate compartment membrane",
+    "aspect": "cellular_component"
+  },
+  "GO:0033162": {
+    "name": "melanosome membrane",
+    "aspect": "cellular_component"
+  },
+  "GO:0033192": {
+    "name": "calmodulin-dependent protein phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0033300": {
+    "name": "dehydroascorbic acid transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0033558": {
+    "name": "protein lysine deacetylase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0033678": {
+    "name": "5'-3' DNA/RNA helicase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0033743": {
+    "name": "peptide-methionine (R)-S-oxide reductase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0033764": {
+    "name": "steroid dehydrogenase activity, acting on the CH-OH group of donors, NAD or NADP as acceptor",
+    "aspect": "molecular_function"
+  },
+  "GO:0033787": {
+    "name": "cyanocobalamin reductase (cyanide-eliminating) (NADP+) activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0033819": {
+    "name": "lipoyl(octanoyl) transferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0033823": {
+    "name": "procollagen glucosyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0033829": {
+    "name": "O-fucosylpeptide 3-beta-N-acetylglucosaminyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0033919": {
+    "name": "glucan 1,3-alpha-glucosidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0033961": {
+    "name": "cis-stilbene-oxide hydrolase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0033989": {
+    "name": "3alpha,7alpha,12alpha-trihydroxy-5beta-cholest-24-enoyl-CoA hydratase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0034038": {
+    "name": "deoxyhypusine synthase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0034045": {
+    "name": "phagophore assembly site membrane",
+    "aspect": "cellular_component"
+  },
+  "GO:0034062": {
+    "name": "5'-3' RNA polymerase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0034202": {
+    "name": "glycolipid floppase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0034212": {
+    "name": "peptide N-acetyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0034450": {
+    "name": "ubiquitin-ubiquitin ligase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0034458": {
+    "name": "3'-5' RNA helicase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0034480": {
+    "name": "phosphatidylcholine phospholipase C activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0034485": {
+    "name": "phosphatidylinositol-3,4,5-trisphosphate 5-phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0034493": {
+    "name": "melanosome lumen",
+    "aspect": "cellular_component"
+  },
+  "GO:0034596": {
+    "name": "phosphatidylinositol phosphate 4-phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0034597": {
+    "name": "phosphatidylinositol-4,5-bisphosphate 4-phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0034774": {
+    "name": "secretory granule lumen",
+    "aspect": "cellular_component"
+  },
+  "GO:0034979": {
+    "name": "NAD-dependent protein lysine deacetylase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0035242": {
+    "name": "protein-arginine omega-N asymmetric methyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0035243": {
+    "name": "protein-arginine omega-N symmetric methyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0035251": {
+    "name": "UDP-glucosyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0035539": {
+    "name": "8-oxo-7,8-dihydrodeoxyguanosine triphosphate pyrophosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0035575": {
+    "name": "histone H4K20 demethylase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0035755": {
+    "name": "cardiolipin hydrolase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0035870": {
+    "name": "dITP diphosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0036009": {
+    "name": "protein-glutamine N-methyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0036020": {
+    "name": "endolysosome membrane",
+    "aspect": "cellular_component"
+  },
+  "GO:0036021": {
+    "name": "endolysosome lumen",
+    "aspect": "cellular_component"
+  },
+  "GO:0036126": {
+    "name": "sperm flagellum",
+    "aspect": "cellular_component"
+  },
+  "GO:0036132": {
+    "name": "obsolete 13-prostaglandin reductase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0036134": {
+    "name": "12-hydroxyheptadecatrienoic acid synthase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0036139": {
+    "name": "peptidyl-histidine dioxygenase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0036175": {
+    "name": "ribonucleoside-diphosphate reductase activity, glutaredoxin disulfide as acceptor",
+    "aspect": "molecular_function"
+  },
+  "GO:0036220": {
+    "name": "ITP diphosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0036222": {
+    "name": "XTP diphosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0036374": {
+    "name": "glutathione hydrolase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0036424": {
+    "name": "L-phosphoserine phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0038024": {
+    "name": "cargo receptor activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0042054": {
+    "name": "histone methyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0042132": {
+    "name": "fructose 1,6-bisphosphate 1-phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0042284": {
+    "name": "sphingolipid delta-4 desaturase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0042296": {
+    "name": "ISG15 transferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0042392": {
+    "name": "sphingosine-1-phosphate phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0042500": {
+    "name": "aspartic endopeptidase activity, intramembrane cleaving",
+    "aspect": "molecular_function"
+  },
+  "GO:0042597": {
+    "name": "periplasmic space",
+    "aspect": "cellular_component"
+  },
+  "GO:0042599": {
+    "name": "lamellar body",
+    "aspect": "cellular_component"
+  },
+  "GO:0042622": {
+    "name": "photoreceptor outer segment membrane",
+    "aspect": "cellular_component"
+  },
+  "GO:0042626": {
+    "name": "ATPase-coupled transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0042799": {
+    "name": "histone H4K20 methyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0042800": {
+    "name": "histone H3K4 methyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0042903": {
+    "name": "tubulin deacetylase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0042910": {
+    "name": "xenobiotic transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0043130": {
+    "name": "ubiquitin binding",
+    "aspect": "molecular_function"
+  },
+  "GO:0043136": {
+    "name": "glycerol-3-phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0043138": {
+    "name": "3'-5' DNA helicase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0043202": {
+    "name": "lysosomal lumen",
+    "aspect": "cellular_component"
+  },
+  "GO:0043682": {
+    "name": "P-type divalent copper transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0043734": {
+    "name": "obsolete DNA-N1-methyladenine dioxygenase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0043813": {
+    "name": "phosphatidylinositol-3,5-bisphosphate 5-phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0043874": {
+    "name": "acireductone synthase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0043890": {
+    "name": "N-acetylgalactosamine-6-sulfatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0044183": {
+    "name": "protein folding chaperone",
+    "aspect": "molecular_function"
+  },
+  "GO:0044322": {
+    "name": "endoplasmic reticulum quality control compartment",
+    "aspect": "cellular_component"
+  },
+  "GO:0044600": {
+    "name": "protein guanylyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0044715": {
+    "name": "8-oxo-dGDP phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0044716": {
+    "name": "8-oxo-GDP phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0044717": {
+    "name": "8-hydroxy-dADP phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0044736": {
+    "name": "obsolete acid-sensing ion channel activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0045127": {
+    "name": "N-acetylglucosamine kinase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0045334": {
+    "name": "clathrin-coated endocytic vesicle",
+    "aspect": "cellular_component"
+  },
+  "GO:0045335": {
+    "name": "phagocytic vesicle",
+    "aspect": "cellular_component"
+  },
+  "GO:0046523": {
+    "name": "S-methyl-5-thioribose-1-phosphate isomerase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0046570": {
+    "name": "methylthioribulose 1-phosphate dehydratase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0046624": {
+    "name": "sphingolipid transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0046922": {
+    "name": "peptide-O-fucosyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0046934": {
+    "name": "1-phosphatidylinositol-4,5-bisphosphate 3-kinase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0046964": {
+    "name": "3'-phosphoadenosine 5'-phosphosulfate transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0046969": {
+    "name": "NAD-dependent histone H3K9 deacetylase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0046974": {
+    "name": "histone H3K9 methyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0046976": {
+    "name": "histone H3K27 methyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0047034": {
+    "name": "15-hydroxyicosatetraenoate dehydrogenase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0047057": {
+    "name": "vitamin-K-epoxide reductase (warfarin-sensitive) activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0047173": {
+    "name": "phosphatidylcholine-retinol O-acyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0047223": {
+    "name": "beta-1,3-galactosyl-O-glycosyl-glycoprotein beta-1,3-N-acetylglucosaminyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0047286": {
+    "name": "NAD+-diphthamide ADP-ribosyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0047323": {
+    "name": "[3-methyl-2-oxobutanoate dehydrogenase (acetyl-transferring)] kinase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0047372": {
+    "name": "monoacylglycerol lipase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0047376": {
+    "name": "all-trans-retinyl-palmitate hydrolase, all-trans-retinol forming activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0047389": {
+    "name": "glycerophosphocholine phosphodiesterase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0047390": {
+    "name": "glycerophosphocholine cholinephosphodiesterase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0047395": {
+    "name": "glycerophosphoinositol glycerophosphodiesterase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0047429": {
+    "name": "nucleoside triphosphate diphosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0047498": {
+    "name": "calcium-dependent phospholipase A2 activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0047499": {
+    "name": "calcium-independent phospholipase A2 activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0047555": {
+    "name": "3',5'-cyclic-GMP phosphodiesterase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0047617": {
+    "name": "fatty acyl-CoA hydrolase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0047620": {
+    "name": "acylglycerol kinase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0047631": {
+    "name": "ADP-ribose diphosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0047658": {
+    "name": "alpha-amino-acid esterase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0047696": {
+    "name": "beta-adrenergic receptor kinase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0047708": {
+    "name": "biotinidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0047800": {
+    "name": "cysteamine dioxygenase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0047840": {
+    "name": "dCTP diphosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0047842": {
+    "name": "dehydro-L-gulonate decarboxylase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0047865": {
+    "name": "dimethylglycine dehydrogenase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0047874": {
+    "name": "dolichyldiphosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0047969": {
+    "name": "glyoxylate oxidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0047977": {
+    "name": "hepoxilin-epoxide hydrolase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0047982": {
+    "name": "homocysteine desulfhydrase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0050031": {
+    "name": "L-pipecolate oxidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0050080": {
+    "name": "malonyl-CoA decarboxylase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0050113": {
+    "name": "inositol oxygenase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0050115": {
+    "name": "myosin-light-chain-phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0050121": {
+    "name": "N-acylglucosamine 2-epimerase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0050124": {
+    "name": "N-acylneuraminate-9-phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0050145": {
+    "name": "nucleoside monophosphate kinase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0050146": {
+    "name": "nucleoside phosphotransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0050211": {
+    "name": "procollagen galactosyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0050220": {
+    "name": "prostaglandin-E synthase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0050252": {
+    "name": "retinol O-fatty-acyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0050253": {
+    "name": "retinyl-palmitate esterase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0050254": {
+    "name": "rhodopsin kinase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0050313": {
+    "name": "sulfur dioxygenase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0050333": {
+    "name": "thiamine triphosphate phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0050459": {
+    "name": "ethanolamine-phosphate phospho-lyase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0050473": {
+    "name": "arachidonate 15-lipoxygenase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0050501": {
+    "name": "hyaluronan synthase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0050833": {
+    "name": "pyruvate transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0051082": {
+    "name": "unfolded protein binding",
+    "aspect": "molecular_function"
+  },
+  "GO:0051119": {
+    "name": "sugar transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0051120": {
+    "name": "hepoxilin A3 synthase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0051139": {
+    "name": "metal cation:proton antiporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0051213": {
+    "name": "dioxygenase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0051717": {
+    "name": "inositol-1,3,4,5-tetrakisphosphate 3-phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0051718": {
+    "name": "DNA (cytosine-5-)-methyltransferase activity, acting on CpG substrates",
+    "aspect": "molecular_function"
+  },
+  "GO:0051719": {
+    "name": "DNA (cytosine-5-)-methyltransferase activity, acting on CpN substrates",
+    "aspect": "molecular_function"
+  },
+  "GO:0051723": {
+    "name": "protein methylesterase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0051800": {
+    "name": "phosphatidylinositol-3,4-bisphosphate 3-phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0051920": {
+    "name": "peroxiredoxin activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0052381": {
+    "name": "tRNA dimethylallyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0052598": {
+    "name": "histamine oxidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0052629": {
+    "name": "phosphatidylinositol-3,5-bisphosphate 3-phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0052642": {
+    "name": "lysophosphatidic acid phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0052650": {
+    "name": "all-trans-retinol dehydrogenase (NADP+) activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0052658": {
+    "name": "inositol-1,4,5-trisphosphate 5-phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0052659": {
+    "name": "inositol-1,3,4,5-tetrakisphosphate 5-phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0052665": {
+    "name": "obsolete tRNA (uracil-2'-O-)-methyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0052689": {
+    "name": "carboxylic ester hydrolase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0052731": {
+    "name": "phosphocholine phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0052732": {
+    "name": "phosphoethanolamine phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0052739": {
+    "name": "phosphatidylserine 1-acylhydrolase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0052825": {
+    "name": "inositol-1,3,4,5,6-pentakisphosphate 1-phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0052826": {
+    "name": "inositol hexakisphosphate 2-phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0052828": {
+    "name": "inositol-3,4-bisphosphate 4-phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0052829": {
+    "name": "inositol-1,3,4-trisphosphate 1-phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0052830": {
+    "name": "inositol-1,3,4,6-tetrakisphosphate 6-phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0052831": {
+    "name": "inositol-1,3,4,6-tetrakisphosphate 1-phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0052832": {
+    "name": "inositol monophosphate 3-phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0052833": {
+    "name": "inositol monophosphate 4-phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0052840": {
+    "name": "inositol diphosphate tetrakisphosphate diphosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0052841": {
+    "name": "inositol bisdiphosphate tetrakisphosphate diphosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0052842": {
+    "name": "inositol diphosphate pentakisphosphate diphosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0052857": {
+    "name": "obsolete NADPHX epimerase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0052873": {
+    "name": "FMN reductase (NADPH) activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0052884": {
+    "name": "all-trans-retinyl-palmitate hydrolase, 11-cis retinol forming activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0052901": {
+    "name": "spermine oxidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0052904": {
+    "name": "obsolete N1-acetylspermidine:oxygen oxidoreductase (3-acetamidopropanal-forming) activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0052905": {
+    "name": "tRNA (guanosine(9)-N1)-methyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0052906": {
+    "name": "tRNA (guanine(37)-N1)-methyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0055036": {
+    "name": "virion membrane",
+    "aspect": "cellular_component"
+  },
+  "GO:0055037": {
+    "name": "recycling endosome",
+    "aspect": "cellular_component"
+  },
+  "GO:0055038": {
+    "name": "recycling endosome membrane",
+    "aspect": "cellular_component"
+  },
+  "GO:0055056": {
+    "name": "D-glucose transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0060170": {
+    "name": "ciliary membrane",
+    "aspect": "cellular_component"
+  },
+  "GO:0060202": {
+    "name": "clathrin-sculpted acetylcholine transport vesicle lumen",
+    "aspect": "cellular_component"
+  },
+  "GO:0061200": {
+    "name": "clathrin-sculpted gamma-aminobutyric acid transport vesicle",
+    "aspect": "cellular_component"
+  },
+  "GO:0061201": {
+    "name": "clathrin-sculpted gamma-aminobutyric acid transport vesicle lumen",
+    "aspect": "cellular_component"
+  },
+  "GO:0061202": {
+    "name": "clathrin-sculpted gamma-aminobutyric acid transport vesicle membrane",
+    "aspect": "cellular_component"
+  },
+  "GO:0061547": {
+    "name": "glycogen synthase activity, transferring glucose-1-phosphate",
+    "aspect": "molecular_function"
+  },
+  "GO:0061578": {
+    "name": "K63-linked deubiquitinase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0061609": {
+    "name": "fructose-1-phosphate aldolase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0061630": {
+    "name": "ubiquitin protein ligase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0061665": {
+    "name": "SUMO ligase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0061711": {
+    "name": "N(6)-L-threonylcarbamoyladenine synthase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0061733": {
+    "name": "peptide-lysine-N-acetyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0061810": {
+    "name": "obsolete NAD glycohydrolase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0062101": {
+    "name": "peptidyl-aspartic acid 3-dioxygenase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0062154": {
+    "name": "N6-methyl-AMP deaminase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0062243": {
+    "name": "double membrane vesicle viral factory outer membrane",
+    "aspect": "cellular_component"
+  },
+  "GO:0070037": {
+    "name": "rRNA (pseudouridine) methyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0070039": {
+    "name": "rRNA (guanosine-2'-O-)-methyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0070043": {
+    "name": "rRNA (guanine-N7-)-methyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0070082": {
+    "name": "clathrin-sculpted monoamine transport vesicle lumen",
+    "aspect": "cellular_component"
+  },
+  "GO:0070139": {
+    "name": "SUMO-specific endopeptidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0070224": {
+    "name": "sulfide:quinone oxidoreductase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0070290": {
+    "name": "N-acylphosphatidylethanolamine-specific phospholipase D activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0070524": {
+    "name": "11-beta-hydroxysteroid dehydrogenase (NADP+) activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0070573": {
+    "name": "metallodipeptidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0070579": {
+    "name": "5-methylcytosine dioxygenase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0070626": {
+    "name": "(S)-2-(5-amino-1-(5-phospho-D-ribosyl)imidazole-4-carboxamido) succinate lyase (fumarate-forming) activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0070675": {
+    "name": "hypoxanthine oxidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0070694": {
+    "name": "deoxyribonucleoside 5'-monophosphate N-glycosidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0070735": {
+    "name": "protein-glycine ligase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0070740": {
+    "name": "tubulin-glutamic acid ligase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0070774": {
+    "name": "obsolete phytoceramidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0070780": {
+    "name": "dihydrosphingosine-1-phosphate phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0070815": {
+    "name": "peptidyl-lysine 5-dioxygenase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0071458": {
+    "name": "obsolete integral component of cytoplasmic side of endoplasmic reticulum membrane",
+    "aspect": "cellular_component"
+  },
+  "GO:0071556": {
+    "name": "obsolete integral component of lumenal side of endoplasmic reticulum membrane",
+    "aspect": "cellular_component"
+  },
+  "GO:0071558": {
+    "name": "histone H3K27me2/H3K27me3 demethylase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0071682": {
+    "name": "endocytic vesicle lumen",
+    "aspect": "cellular_component"
+  },
+  "GO:0072345": {
+    "name": "NAADP-sensitive calcium-release channel activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0080132": {
+    "name": "fatty acid 2-hydroxylase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0080146": {
+    "name": "L-cysteine desulfhydrase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0090416": {
+    "name": "nicotinate transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0090422": {
+    "name": "thiamine pyrophosphate transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0090560": {
+    "name": "2-(3-amino-3-carboxypropyl)histidine synthase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0090599": {
+    "name": "alpha-glucosidase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0097013": {
+    "name": "phagocytic vesicle lumen",
+    "aspect": "cellular_component"
+  },
+  "GO:0097232": {
+    "name": "lamellar body membrane",
+    "aspect": "cellular_component"
+  },
+  "GO:0097260": {
+    "name": "eoxin A4 synthase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0097262": {
+    "name": "eoxin D4 synthase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0097263": {
+    "name": "eoxin E4 synthase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0097363": {
+    "name": "protein O-acetylglucosaminyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0097381": {
+    "name": "photoreceptor disc membrane",
+    "aspect": "cellular_component"
+  },
+  "GO:0097383": {
+    "name": "dIDP phosphatase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0097486": {
+    "name": "multivesicular body lumen",
+    "aspect": "cellular_component"
+  },
+  "GO:0097524": {
+    "name": "sperm plasma membrane",
+    "aspect": "cellular_component"
+  },
+  "GO:0097542": {
+    "name": "ciliary tip",
+    "aspect": "cellular_component"
+  },
+  "GO:0097546": {
+    "name": "ciliary base",
+    "aspect": "cellular_component"
+  },
+  "GO:0098599": {
+    "name": "palmitoyl hydrolase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0098600": {
+    "name": "selenomethionine gamma-lyase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0098603": {
+    "name": "selenol Se-methyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0098604": {
+    "name": "adenosylselenohomocysteinase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0098606": {
+    "name": "selenocystathionine gamma-lyase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0098607": {
+    "name": "methylselenocysteine deselenhydrase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0098608": {
+    "name": "methylselenol demethylase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0098618": {
+    "name": "selenomethionine-tRNA ligase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0098619": {
+    "name": "selenocysteine-tRNA ligase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0098620": {
+    "name": "seryl-selenocysteinyl-tRNA kinase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0098621": {
+    "name": "O-phosphoseryl-tRNA(Sec) selenium transferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0099635": {
+    "name": "voltage-gated calcium channel activity involved in positive regulation of presynaptic cytosolic calcium levels",
+    "aspect": "molecular_function"
+  },
+  "GO:0102007": {
+    "name": "acyl-L-homoserine-lactone lactonohydrolase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0106050": {
+    "name": "tRNA 2'-O-methyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0106130": {
+    "name": "purine phosphoribosyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0106155": {
+    "name": "peptidyl-lysine 3-dioxygenase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0106156": {
+    "name": "peptidyl-lysine 4-dioxygenase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0106157": {
+    "name": "peptidyl-arginine 3-dioxygenase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0106274": {
+    "name": "NAD+-protein-arginine ADP-ribosyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0106310": {
+    "name": "protein serine kinase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0106377": {
+    "name": "2-hydroxy-ATP hydrolase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0106378": {
+    "name": "2-hydroxy-dATP hydrolase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0106379": {
+    "name": "8-oxo-(d)RTP hydrolase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0106435": {
+    "name": "carboxylesterase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0120020": {
+    "name": "cholesterol transfer activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0140313": {
+    "name": "molecular sequestering activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0140318": {
+    "name": "protein transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0140355": {
+    "name": "cargo receptor ligand activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0140359": {
+    "name": "ABC-type transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0140938": {
+    "name": "histone H3 methyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0140939": {
+    "name": "histone H4 methyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0160056": {
+    "name": "macropinosome membrane",
+    "aspect": "cellular_component"
+  },
+  "GO:0160102": {
+    "name": "tRNA (guanine(10)-N2)-methyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0160104": {
+    "name": "tRNA (guanine(26)-N2)-dimethyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0160106": {
+    "name": "tRNA (adenine(9)-N1)-methyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:0160107": {
+    "name": "tRNA (adenine(58)-N1)-methyltransferase activity",
+    "aspect": "molecular_function"
+  },
+  "GO:1902388": {
+    "name": "ceramide 1-phosphate transfer activity",
+    "aspect": "molecular_function"
+  },
+  "GO:1902945": {
+    "name": "metalloendopeptidase activity involved in amyloid precursor protein catabolic process",
+    "aspect": "molecular_function"
+  },
+  "GO:1904680": {
+    "name": "peptide transmembrane transporter activity",
+    "aspect": "molecular_function"
+  },
+  "GO:1990003": {
+    "name": "IDP phosphatase activity",
+    "aspect": "molecular_function"
+  }
+}

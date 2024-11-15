@@ -1,0 +1,31 @@
+{
+    "name": "Reactome pathway-list producer",
+    "label": "Reactome",
+    "infores":"infores:reactome", 
+    "description": "Pathway-list producer based on Reactome (https://reactome.org/).",
+    "version": "2.5.0",
+    "function": "producer",
+    "knowledge_map": {
+        "input_class": "none",
+        "output_class": "Pathway",
+        "predicates": []
+    },
+    "properties": {
+        "list_predicate": "related_to",
+        "member_predicate": "related_to",
+        "source_url": "https://reactome.org/",
+        "terms_of_service": "https://reactome.org/license",
+        "source_version": "v89 (2024-06-09)"
+    },
+    "parameters": [
+        {
+            "example": "ABC transporter disorders",
+            "name": "pathway",
+            "description": "Name or identifier of pathway",
+            "multivalued": true,
+            "required": true,
+            "type": "string"
+        }
+
+    ]
+}
