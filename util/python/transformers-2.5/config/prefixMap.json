@@ -1,0 +1,890 @@
+{
+    "Assay": {
+        "chembl": {
+            "biolink_prefix": "CHEMBL.ASSAY",
+            "infores": "infores:chembl",
+            "molepro_prefix": "ChEMBL:"
+        }
+    },
+    "BiologicalProcess": {
+        "go": {
+            "biolink_prefix": "GO",
+            "molepro_prefix": "GO:"
+        }
+    },
+    "BiologicalProcessOrActivity": {
+        "go": {
+            "biolink_prefix": "GO",
+            "molepro_prefix": "GO:"
+        }
+    },
+    "Cell": {
+        "cell_ontology": {
+            "biolink_prefix": "CL",
+            "molepro_prefix": "CL:"
+        },
+        "cellosaurus": {
+            "biolink_prefix": "CELLOSAURUS",
+            "molepro_prefix": "CELLOSAURUS:"
+        },
+        "clo": {
+            "biolink_prefix": "CLO",
+            "molepro_prefix": "CLO:"
+        },
+        "efo": {
+            "biolink_prefix": "EFO",
+            "molepro_prefix": "EFO:"
+        },
+        "lincs": {
+            "biolink_prefix": "LINCS.CELL",
+            "infores": "infores:lincs",
+            "molepro_prefix": "LINCS.CELL:"
+        }
+    },
+    "CellularComponent": {
+        "go": {
+            "biolink_prefix": "GO",
+            "molepro_prefix": "GO:"
+        }
+    },
+    "ChemicalEntity": {
+        "bigg": {
+            "biolink_prefix": "BIGG.METABOLITE",
+            "infores": "infores:bigg-models",
+            "molepro_prefix": "BIGG.METABOLITE:"
+        },
+        "bindingdb": {
+            "biolink_prefix": "BINDINGDB",
+            "infores": "infores:bindingdb",
+            "molepro_prefix": "BINDINGDB:"
+        },
+        "cansar": {
+            "biolink_prefix": "canSAR",
+            "molepro_prefix": "canSAR:"
+        },
+        "cas": {
+            "biolink_prefix": "CAS",
+            "molepro_prefix": "CAS:"
+        },
+        "chebi": {
+            "biolink_prefix": "CHEBI",
+            "infores": "infores:chebi",
+            "molepro_prefix": "CHEBI:"
+        },
+        "chebi-retired": {
+            "biolink_prefix": "CHEBI",
+            "molepro_prefix": "CHEBI:"
+        },
+        "chembank": {
+            "biolink_prefix": "ChemBank",
+            "infores": "infores:chembank",
+            "molepro_prefix": "ChemBank:"
+        },
+        "chembl": {
+            "biolink_prefix": "CHEMBL.COMPOUND",
+            "infores": "infores:chembl",
+            "molepro_prefix": "ChEMBL:"
+        },
+        "drugbank": {
+            "biolink_prefix": "DRUGBANK",
+            "infores": "infores:drugbank",
+            "molepro_prefix": "DrugBank:"
+        },
+        "drugcentral": {
+            "biolink_prefix": "DrugCentral",
+            "infores": "infores:drugcentral",
+            "molepro_prefix": "DrugCentral:"
+        },
+        "drugstore": {
+            "biolink_prefix": "DrugStore",
+            "molepro_prefix": "DrugStore:"
+        },
+        "gtopdb": {
+            "biolink_prefix": "GTOPDB",
+            "infores": "infores:gtopdb",
+            "molepro_prefix": "GTOPDB:"
+        },
+        "hmdb": {
+            "biolink_prefix": "HMDB",
+            "infores": "infores:hmdb",
+            "molepro_prefix": "HMDB:"
+        },
+        "inchi": {
+            "biolink_prefix": "INCHI",
+            "molepro_prefix": ""
+        },
+        "inchikey": {
+            "biolink_prefix": "INCHIKEY",
+            "molepro_prefix": ""
+        },
+        "kegg": {
+            "biolink_prefix": "KEGG.COMPOUND",
+            "infores": "infores:kegg",
+            "molepro_prefix": "KEGG.COMPOUND:"
+        },
+        "kegg-drug": {
+            "biolink_prefix": "KEGG.DRUG",
+            "infores": "infores:kegg",
+            "molepro_prefix": "KEGG.DRUG:"
+        },
+        "kegg-glycan": {
+            "biolink_prefix": "KEGG.GLYCAN",
+            "infores": "infores:kegg",
+            "molepro_prefix": "KEGG.GLYCAN:"
+        },
+        "lincs": {
+            "biolink_prefix": "LINCS.SMALLMOLECULE",
+            "infores": "infores:lincs",
+            "molepro_prefix": "LINCS.SMALLMOLECULE:"
+        },
+        "lipidmaps": {
+            "biolink_prefix": "LIPIDMAPS",
+            "molepro_prefix": "LIPIDMAPS:"
+        },
+        "mesh": {
+            "biolink_prefix": "MESH",
+            "infores": "infores:mesh",
+            "molepro_prefix": "MESH:"
+        },
+        "mychem_info": {
+            "biolink_prefix": "",
+            "molepro_prefix": ""
+        },
+        "nci_thesaurus": {
+            "biolink_prefix": "NCIT",
+            "infores": "infores:ncit",
+            "molepro_prefix": "NCIT:"
+        },
+        "pdb": {
+            "biolink_prefix": "PDB.LIGAND",
+            "molepro_prefix": "PDB.LIGAND:"
+        },
+        "pharmgkb": {
+            "biolink_prefix": "PHARMGKB.CHEMICAL",
+            "infores": "infores:pharmgkb",
+            "molepro_prefix": "PHARMGKB.CHEMICAL:"
+        },
+        "pubchem": {
+            "biolink_prefix": "PUBCHEM.COMPOUND",
+            "infores": "infores:pubchem",
+            "molepro_prefix": "CID:"
+        },
+        "pubchem-retired": {
+            "biolink_prefix": "PUBCHEM.COMPOUND",
+            "molepro_prefix": "CID:"
+        },
+        "pubchem-sid": {
+            "biolink_prefix": "PUBCHEM.SUBSTANCE",
+            "molepro_prefix": "SID:"
+        },
+        "secondary_hmdb": {
+            "biolink_prefix": "HMDB",
+            "molepro_prefix": "HMDB:"
+        },
+        "smiles": {
+            "biolink_prefix": "",
+            "molepro_prefix": ""
+        },
+        "unii": {
+            "biolink_prefix": "UNII",
+            "molepro_prefix": "UNII:"
+        },
+        "xchem": {
+            "biolink_prefix": "XChem",
+            "molepro_prefix": "XChem:"
+        }
+    },
+    "ChemicalMixture": {
+        "chembl": {
+            "biolink_prefix": "CHEMBL.COMPOUND",
+            "infores": "infores:chembl",
+            "molepro_prefix": "ChEMBL:"
+        },
+        "kegg": {
+            "biolink_prefix": "KEGG.COMPOUND",
+            "infores": "infores:kegg",
+            "molepro_prefix": "KEGG.COMPOUND:"
+        },
+        "pubchem": {
+            "biolink_prefix": "PUBCHEM.COMPOUND",
+            "infores": "infores:pubchem",
+            "molepro_prefix": "CID:"
+        },
+        "pubchem-sid": {
+            "biolink_prefix": "PUBCHEM.SUBSTANCE",
+            "molepro_prefix": "SID:"
+        }
+    },
+    "Disease": {
+        "disease_ontology": {
+            "biolink_prefix": "DOID",
+            "infores": "infores:disease-ontology",
+            "molepro_prefix": "DOID:"
+        },
+        "efo": {
+            "biolink_prefix": "EFO",
+            "molepro_prefix": "EFO:"
+        },
+        "hpo": {
+            "biolink_prefix": "HP",
+            "infores": "infores:hpo",
+            "molepro_prefix": "HP:"
+        },
+        "mesh": {
+            "biolink_prefix": "MESH",
+            "infores": "infores:mesh",
+            "molepro_prefix": "MESH:"
+        },
+        "mondo": {
+            "biolink_prefix": "MONDO",
+            "infores": "infores:mondo",
+            "molepro_prefix": "MONDO:"
+        },
+        "nci_thesaurus": {
+            "biolink_prefix": "NCIT",
+            "infores": "infores:ncit",
+            "molepro_prefix": "NCIT:"
+        },
+        "omim": {
+            "biolink_prefix": "OMIM",
+            "infores": "omim",
+            "molepro_prefix": "OMIM:"
+        },
+        "snomed": {
+            "biolink_prefix": "SNOMEDCT",
+            "molepro_prefix": "SNOMEDCT:"
+        },
+        "umls": {
+            "biolink_prefix": "UMLS",
+            "infores": "infores:umls",
+            "molepro_prefix": "UMLS:"
+        }
+    },
+    "DiseaseOrPhenotypicFeature": {
+        "pharmgkb": {
+            "biolink_prefix": "PHARMGKB.DISEASE",
+            "infores": "infores:pharmgkb",
+            "molepro_prefix": "PHARMGKB.DISEASE:"
+        },
+        "snomed": {
+            "biolink_prefix": "SNOMEDCT",
+            "infores": "infores:snomedct",
+            "molepro_prefix": "SNOMEDCT:"
+        },
+        "umls": {
+            "biolink_prefix": "UMLS",
+            "infores": "infores:umls",
+            "molepro_prefix": "UMLS:"
+        }
+    },
+    "Drug": {
+        "rxnorm": {
+            "biolink_prefix": "RXCUI",
+            "infores": "infores:rxnorm",
+            "molepro_prefix": "RXCUI:"
+        }
+    },
+    "Gene": {
+        "ensembl": {
+            "biolink_prefix": "ENSEMBL",
+            "infores": "infores:ensembl-gene",
+            "molepro_prefix": "ENSEMBL:"
+        },
+        "entrez": {
+            "biolink_prefix": "NCBIGene",
+            "infores": "infores:entrez",
+            "molepro_prefix": "NCBIGene:"
+        },
+        "hgnc": {
+            "biolink_prefix": "HGNC",
+            "infores": "infores:hgnc",
+            "molepro_prefix": "HGNC:"
+        },
+        "mim": {
+            "biolink_prefix": "OMIM",
+            "infores": "omim",
+            "molepro_prefix": "OMIM:"
+        },
+        "mygene_info": {
+            "biolink_prefix": "",
+            "molepro_prefix": ""
+        },
+        "pharmgkb": {
+            "biolink_prefix": "PHARMGKB.GENE",
+            "infores": "infores:pharmgkb",
+            "molepro_prefix": "PHARMGKB.GENE:"
+        }
+    },
+    "MolecularActivity": {
+        "bigg": {
+            "biolink_prefix": "BIGG.REACTION",
+            "infores": "infores:bigg-models",
+            "molepro_prefix": "BIGG.REACTION:"
+        },
+        "biocyc": {
+            "biolink_prefix": "MetaCyc",
+            "molepro_prefix": "MetaCyc:"
+        },
+        "ec": {
+            "biolink_prefix": "EC",
+            "molepro_prefix": "EC:"
+        },
+        "go": {
+            "biolink_prefix": "GO",
+            "molepro_prefix": "GO:"
+        },
+        "kegg": {
+            "biolink_prefix": "KEGG.REACTION",
+            "infores": "infores:kegg",
+            "molepro_prefix": "KEGG.REACTION:"
+        },
+        "metanetx": {
+            "biolink_prefix": "METANETX.REACTION",
+            "molepro_prefix": "METANETX.REACTION:"
+        },
+        "rhea": {
+            "biolink_prefix": "RHEA",
+            "molepro_prefix": "RHEA:"
+        },
+        "seed": {
+            "biolink_prefix": "SEED.REACTION",
+            "molepro_prefix": "SEED.REACTION:"
+        }
+    },
+    "MolecularEntity": {
+        "bigg": {
+            "biolink_prefix": "BIGG.METABOLITE",
+            "infores": "infores:bigg-models",
+            "molepro_prefix": "BIGG.METABOLITE:"
+        },
+        "bindingdb": {
+            "biolink_prefix": "BINDINGDB",
+            "infores": "infores:bindingdb",
+            "molepro_prefix": "BINDINGDB:"
+        },
+        "cansar": {
+            "biolink_prefix": "canSAR",
+            "molepro_prefix": "canSAR:"
+        },
+        "cas": {
+            "biolink_prefix": "CAS",
+            "molepro_prefix": "CAS:"
+        },
+        "chebi": {
+            "biolink_prefix": "CHEBI",
+            "infores": "infores:chebi",
+            "molepro_prefix": "CHEBI:"
+        },
+        "chebi-retired": {
+            "biolink_prefix": "CHEBI",
+            "molepro_prefix": "CHEBI:"
+        },
+        "chembank": {
+            "biolink_prefix": "ChemBank",
+            "infores": "infores:chembank",
+            "molepro_prefix": "ChemBank:"
+        },
+        "chembl": {
+            "biolink_prefix": "CHEMBL.COMPOUND",
+            "infores": "infores:chembl",
+            "molepro_prefix": "ChEMBL:"
+        },
+        "drugbank": {
+            "biolink_prefix": "DRUGBANK",
+            "infores": "infores:drugbank",
+            "molepro_prefix": "DrugBank:"
+        },
+        "drugcentral": {
+            "biolink_prefix": "DrugCentral",
+            "infores": "infores:drugcentral",
+            "molepro_prefix": "DrugCentral:"
+        },
+        "drugstore": {
+            "biolink_prefix": "DrugStore",
+            "molepro_prefix": "DrugStore:"
+        },
+        "gtopdb": {
+            "biolink_prefix": "GTOPDB",
+            "infores": "infores:gtopdb",
+            "molepro_prefix": "GTOPDB:"
+        },
+        "hmdb": {
+            "biolink_prefix": "HMDB",
+            "infores": "infores:hmdb",
+            "molepro_prefix": "HMDB:"
+        },
+        "inchi": {
+            "biolink_prefix": "INCHI",
+            "molepro_prefix": ""
+        },
+        "inchikey": {
+            "biolink_prefix": "INCHIKEY",
+            "molepro_prefix": ""
+        },
+        "kegg": {
+            "biolink_prefix": "KEGG.COMPOUND",
+            "infores": "infores:kegg",
+            "molepro_prefix": "KEGG.COMPOUND:"
+        },
+        "kegg-drug": {
+            "biolink_prefix": "KEGG.DRUG",
+            "infores": "infores:kegg",
+            "molepro_prefix": "KEGG.DRUG:"
+        },
+        "kegg-glycan": {
+            "biolink_prefix": "KEGG.GLYCAN",
+            "infores": "infores:kegg",
+            "molepro_prefix": "KEGG.GLYCAN:"
+        },
+        "lincs": {
+            "biolink_prefix": "LINCS.SMALLMOLECULE",
+            "infores": "infores:lincs",
+            "molepro_prefix": "LINCS.SMALLMOLECULE:"
+        },
+        "lipidmaps": {
+            "biolink_prefix": "LIPIDMAPS",
+            "molepro_prefix": "LIPIDMAPS:"
+        },
+        "mesh": {
+            "biolink_prefix": "MESH",
+            "infores": "infores:mesh",
+            "molepro_prefix": "MESH:"
+        },
+        "mychem_info": {
+            "biolink_prefix": "",
+            "molepro_prefix": ""
+        },
+        "nci_thesaurus": {
+            "biolink_prefix": "NCIT",
+            "infores": "infores:ncit",
+            "molepro_prefix": "NCIT:"
+        },
+        "pdb": {
+            "biolink_prefix": "PDB.LIGAND",
+            "molepro_prefix": "PDB.LIGAND:"
+        },
+        "pharmgkb": {
+            "biolink_prefix": "PHARMGKB.CHEMICAL",
+            "infores": "infores:pharmgkb",
+            "molepro_prefix": "PHARMGKB.CHEMICAL:"
+        },
+        "pubchem": {
+            "biolink_prefix": "PUBCHEM.COMPOUND",
+            "infores": "infores:pubchem",
+            "molepro_prefix": "CID:"
+        },
+        "pubchem-retired": {
+            "biolink_prefix": "PUBCHEM.COMPOUND",
+            "molepro_prefix": "CID:"
+        },
+        "pubchem-sid": {
+            "biolink_prefix": "PUBCHEM.SUBSTANCE",
+            "molepro_prefix": "SID:"
+        },
+        "secondary_hmdb": {
+            "biolink_prefix": "HMDB",
+            "molepro_prefix": "HMDB:"
+        },
+        "smiles": {
+            "biolink_prefix": "",
+            "molepro_prefix": ""
+        },
+        "unii": {
+            "biolink_prefix": "UNII",
+            "molepro_prefix": "UNII:"
+        },
+        "xchem": {
+            "biolink_prefix": "XChem",
+            "molepro_prefix": "XChem:"
+        }
+    },
+    "MolecularMixture": {
+        "bigg": {
+            "biolink_prefix": "BIGG.METABOLITE",
+            "infores": "infores:bigg-models",
+            "molepro_prefix": "BIGG.METABOLITE:"
+        },
+        "bindingdb": {
+            "biolink_prefix": "BINDINGDB",
+            "infores": "infores:bindingdb",
+            "molepro_prefix": "BINDINGDB:"
+        },
+        "cansar": {
+            "biolink_prefix": "canSAR",
+            "molepro_prefix": "canSAR:"
+        },
+        "cas": {
+            "biolink_prefix": "CAS",
+            "molepro_prefix": "CAS:"
+        },
+        "chebi": {
+            "biolink_prefix": "CHEBI",
+            "infores": "infores:chebi",
+            "molepro_prefix": "CHEBI:"
+        },
+        "chebi-retired": {
+            "biolink_prefix": "CHEBI",
+            "molepro_prefix": "CHEBI:"
+        },
+        "chembank": {
+            "biolink_prefix": "ChemBank",
+            "infores": "infores:chembank",
+            "molepro_prefix": "ChemBank:"
+        },
+        "chembl": {
+            "biolink_prefix": "CHEMBL.COMPOUND",
+            "infores": "infores:chembl",
+            "molepro_prefix": "ChEMBL:"
+        },
+        "drugbank": {
+            "biolink_prefix": "DRUGBANK",
+            "infores": "infores:drugbank",
+            "molepro_prefix": "DrugBank:"
+        },
+        "drugcentral": {
+            "biolink_prefix": "DrugCentral",
+            "infores": "infores:drugcentral",
+            "molepro_prefix": "DrugCentral:"
+        },
+        "drugstore": {
+            "biolink_prefix": "DrugStore",
+            "molepro_prefix": "DrugStore:"
+        },
+        "gtopdb": {
+            "biolink_prefix": "GTOPDB",
+            "infores": "infores:gtopdb",
+            "molepro_prefix": "GTOPDB:"
+        },
+        "hmdb": {
+            "biolink_prefix": "HMDB",
+            "infores": "infores:hmdb",
+            "molepro_prefix": "HMDB:"
+        },
+        "inchi": {
+            "biolink_prefix": "INCHI",
+            "molepro_prefix": ""
+        },
+        "inchikey": {
+            "biolink_prefix": "INCHIKEY",
+            "molepro_prefix": ""
+        },
+        "kegg": {
+            "biolink_prefix": "KEGG.COMPOUND",
+            "infores": "infores:kegg",
+            "molepro_prefix": "KEGG.COMPOUND:"
+        },
+        "kegg-drug": {
+            "biolink_prefix": "KEGG.DRUG",
+            "infores": "infores:kegg",
+            "molepro_prefix": "KEGG.DRUG:"
+        },
+        "kegg-glycan": {
+            "biolink_prefix": "KEGG.GLYCAN",
+            "infores": "infores:kegg",
+            "molepro_prefix": "KEGG.GLYCAN:"
+        },
+        "lincs": {
+            "biolink_prefix": "LINCS.SMALLMOLECULE",
+            "infores": "infores:lincs",
+            "molepro_prefix": "LINCS.SMALLMOLECULE:"
+        },
+        "lipidmaps": {
+            "biolink_prefix": "LIPIDMAPS",
+            "molepro_prefix": "LIPIDMAPS:"
+        },
+        "mesh": {
+            "biolink_prefix": "MESH",
+            "infores": "infores:mesh",
+            "molepro_prefix": "MESH:"
+        },
+        "mychem_info": {
+            "biolink_prefix": "",
+            "molepro_prefix": ""
+        },
+        "nci_thesaurus": {
+            "biolink_prefix": "NCIT",
+            "infores": "infores:ncit",
+            "molepro_prefix": "NCIT:"
+        },
+        "pdb": {
+            "biolink_prefix": "PDB.LIGAND",
+            "molepro_prefix": "PDB.LIGAND:"
+        },
+        "pharmgkb": {
+            "biolink_prefix": "PHARMGKB.CHEMICAL",
+            "infores": "infores:pharmgkb",
+            "molepro_prefix": "PHARMGKB.CHEMICAL:"
+        },
+        "pubchem": {
+            "biolink_prefix": "PUBCHEM.COMPOUND",
+            "infores": "infores:pubchem",
+            "molepro_prefix": "CID:"
+        },
+        "pubchem-retired": {
+            "biolink_prefix": "PUBCHEM.COMPOUND",
+            "molepro_prefix": "CID:"
+        },
+        "pubchem-sid": {
+            "biolink_prefix": "PUBCHEM.SUBSTANCE",
+            "molepro_prefix": "SID:"
+        },
+        "secondary_hmdb": {
+            "biolink_prefix": "HMDB",
+            "molepro_prefix": "HMDB:"
+        },
+        "smiles": {
+            "biolink_prefix": "",
+            "molepro_prefix": ""
+        },
+        "unii": {
+            "biolink_prefix": "UNII",
+            "molepro_prefix": "UNII:"
+        },
+        "xchem": {
+            "biolink_prefix": "XChem",
+            "molepro_prefix": "XChem:"
+        }
+    },
+    "NucleicAcidEntity": {
+        "chembl": {
+            "biolink_prefix": "CHEMBL.COMPOUND",
+            "infores": "infores:chembl",
+            "molepro_prefix": "ChEMBL:"
+        },
+        "kegg": {
+            "biolink_prefix": "KEGG.COMPOUND",
+            "infores": "infores:kegg",
+            "molepro_prefix": "KEGG.COMPOUND:"
+        },
+        "pubchem": {
+            "biolink_prefix": "PUBCHEM.COMPOUND",
+            "infores": "infores:pubchem",
+            "molepro_prefix": "CID:"
+        },
+        "pubchem-sid": {
+            "biolink_prefix": "PUBCHEM.SUBSTANCE",
+            "molepro_prefix": "SID:"
+        }
+    },
+    "OrganismEntity": {
+        "ncbi_taxon": {
+            "biolink_prefix": "NCBITaxon",
+            "molepro_prefix": "NCBITaxon:"
+        }
+    },
+    "Pathway": {
+        "kegg": {
+            "biolink_prefix": "KEGG.PATHWAY",
+            "infores": "infores:kegg",
+            "molepro_prefix": "KEGG.PATHWAY:"
+        },
+        "msigdb": {
+            "biolink_prefix": "MSigDB",
+            "infores": "infores:msigdb",
+            "molepro_prefix": "MSigDB:"
+        },
+        "reactome": {
+            "biolink_prefix": "Reactome",
+            "infores": "infores:reactome",
+            "molepro_prefix": "Reactome:"
+        },
+        "smpdb": {
+            "biolink_prefix": "SMPDB",
+            "molepro_prefix": "SMPDB:"
+        },
+        "wikipathways": {
+            "biolink_prefix": "WIKIPATHWAYS",
+            "infores": "infores:wikipathways",
+            "molepro_prefix": "WIKIPATHWAYS:"
+        }
+    },
+    "PhysicalEntity": {
+        "reactome": {
+            "biolink_prefix": "Reactome",
+            "infores": "infores:reactome",
+            "molepro_prefix": "Reactome:"
+        }
+    },
+    "Protein": {
+        "ensembl": {
+            "biolink_prefix": "ENSEMBL",
+            "infores": "infores:ensembl-gene",
+            "molepro_prefix": "ENSEMBL:"
+        },
+        "lincs": {
+            "biolink_prefix": "LINCS.PROTEIN",
+            "infores": "infores:lincs",
+            "molepro_prefix": "LINCS.PROTEIN:"
+        },
+        "uniprot": {
+            "biolink_prefix": "UniProtKB",
+            "infores": "infores:uniprot",
+            "molepro_prefix": "UniProtKB:"
+        }
+    },
+    "Publication": {
+        "chembl": {
+            "biolink_prefix": "CHEMBL.DOCUMENT",
+            "infores": "infores:chembl",
+            "molepro_prefix": "CHEMBL.DOCUMENT:"
+        }
+    },
+    "SmallMolecule": {
+        "bigg": {
+            "biolink_prefix": "BIGG.METABOLITE",
+            "infores": "infores:bigg-models",
+            "molepro_prefix": "BIGG.METABOLITE:"
+        },
+        "bindingdb": {
+            "biolink_prefix": "BINDINGDB",
+            "infores": "infores:bindingdb",
+            "molepro_prefix": "BINDINGDB:"
+        },
+        "cansar": {
+            "biolink_prefix": "canSAR",
+            "molepro_prefix": "canSAR:"
+        },
+        "cas": {
+            "biolink_prefix": "CAS",
+            "molepro_prefix": "CAS:"
+        },
+        "chebi": {
+            "biolink_prefix": "CHEBI",
+            "infores": "infores:chebi",
+            "molepro_prefix": "CHEBI:"
+        },
+        "chebi-retired": {
+            "biolink_prefix": "CHEBI",
+            "molepro_prefix": "CHEBI:"
+        },
+        "chembank": {
+            "biolink_prefix": "ChemBank",
+            "infores": "infores:chembank",
+            "molepro_prefix": "ChemBank:"
+        },
+        "chembl": {
+            "biolink_prefix": "CHEMBL.COMPOUND",
+            "infores": "infores:chembl",
+            "molepro_prefix": "ChEMBL:"
+        },
+        "comptox": {
+            "biolink_prefix": "comptox:",
+            "molepro_prefix": "comptox:"
+        },
+        "drugbank": {
+            "biolink_prefix": "DRUGBANK",
+            "infores": "infores:drugbank",
+            "molepro_prefix": "DrugBank:"
+        },
+        "drugcentral": {
+            "biolink_prefix": "DrugCentral",
+            "infores": "infores:drugcentral",
+            "molepro_prefix": "DrugCentral:"
+        },
+        "drugstore": {
+            "biolink_prefix": "DrugStore",
+            "molepro_prefix": "DrugStore:"
+        },
+        "gtopdb": {
+            "biolink_prefix": "GTOPDB",
+            "infores": "infores:gtopdb",
+            "molepro_prefix": "GTOPDB:"
+        },
+        "hmdb": {
+            "biolink_prefix": "HMDB",
+            "infores": "infores:hmdb",
+            "molepro_prefix": "HMDB:"
+        },
+        "inchi": {
+            "biolink_prefix": "INCHI",
+            "molepro_prefix": ""
+        },
+        "inchikey": {
+            "biolink_prefix": "INCHIKEY",
+            "molepro_prefix": ""
+        },
+        "kegg": {
+            "biolink_prefix": "KEGG.COMPOUND",
+            "infores": "infores:kegg",
+            "molepro_prefix": "KEGG.COMPOUND:"
+        },
+        "kegg-drug": {
+            "biolink_prefix": "KEGG.DRUG",
+            "infores": "infores:kegg",
+            "molepro_prefix": "KEGG.DRUG:"
+        },
+        "kegg-glycan": {
+            "biolink_prefix": "KEGG.GLYCAN",
+            "infores": "infores:kegg",
+            "molepro_prefix": "KEGG.GLYCAN:"
+        },
+        "lincs": {
+            "biolink_prefix": "LINCS.SMALLMOLECULE",
+            "infores": "infores:lincs",
+            "molepro_prefix": "LINCS.SMALLMOLECULE:"
+        },
+        "lipidmaps": {
+            "biolink_prefix": "LIPIDMAPS",
+            "molepro_prefix": "LIPIDMAPS:"
+        },
+        "mesh": {
+            "biolink_prefix": "MESH",
+            "infores": "infores:mesh",
+            "molepro_prefix": "MESH:"
+        },
+        "mychem_info": {
+            "biolink_prefix": "",
+            "molepro_prefix": ""
+        },
+        "nci_thesaurus": {
+            "biolink_prefix": "NCIT",
+            "infores": "infores:ncit",
+            "molepro_prefix": "NCIT:"
+        },
+        "pdb": {
+            "biolink_prefix": "PDB.LIGAND",
+            "molepro_prefix": "PDB.LIGAND:"
+        },
+        "pharmgkb": {
+            "biolink_prefix": "PHARMGKB.CHEMICAL",
+            "infores": "infores:pharmgkb",
+            "molepro_prefix": "PHARMGKB.CHEMICAL:"
+        },
+        "pubchem": {
+            "biolink_prefix": "PUBCHEM.COMPOUND",
+            "infores": "infores:pubchem",
+            "molepro_prefix": "CID:"
+        },
+        "pubchem-retired": {
+            "biolink_prefix": "PUBCHEM.COMPOUND",
+            "molepro_prefix": "CID:"
+        },
+        "pubchem-sid": {
+            "biolink_prefix": "PUBCHEM.SUBSTANCE",
+            "molepro_prefix": "SID:"
+        },
+        "secondary_hmdb": {
+            "biolink_prefix": "HMDB",
+            "molepro_prefix": "HMDB:"
+        },
+        "smiles": {
+            "biolink_prefix": "",
+            "molepro_prefix": ""
+        },
+        "unii": {
+            "biolink_prefix": "UNII",
+            "molepro_prefix": "UNII:"
+        },
+        "xchem": {
+            "biolink_prefix": "XChem",
+            "molepro_prefix": "XChem:"
+        }
+    },
+    "Target": {
+        "chembl": {
+            "biolink_prefix": "CHEMBL.TARGET",
+            "infores": "infores:chembl",
+            "molepro_prefix": "CHEMBL.TARGET:"
+        }
+    }
+}

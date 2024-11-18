@@ -1,0 +1,30 @@
+{
+    "name": "MSigDB pathway-list producer",
+    "label": "MSigDB",
+    "infores":"infores:msigdb", 
+    "description": "Pathway-list producer based on MSigDB (https://www.gsea-msigdb.org/gsea/msigdb).",
+    "version": "2.6.0",
+    "function": "producer",
+    "knowledge_map": {
+        "input_class": "none",
+        "output_class": "Pathway",
+        "predicates": []
+    },
+    "properties": {
+        "source_url": "https://www.gsea-msigdb.org/gsea/msigdb/index.jsp",
+        "terms_of_service": "https://www.gsea-msigdb.org/gsea/msigdb_license_terms.jsp",
+        "source_version": "msigdb_v2024.1.Hs",
+        "source_date": "2024-08-09"
+    },
+    "parameters": [
+        {
+            "example": "GSE28726_NAIVE_CD4_TCELL_VS_NAIVE_NKTCELL_DN",
+            "name": "pathway",
+            "description": "Name or identifier of pathway",
+            "multivalued": true,
+            "required": true,
+            "type": "string"
+        }
+
+    ]
+}
