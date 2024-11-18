@@ -1,358 +1,191 @@
 from openapi_server.models.element import Element
 from openapi_server.models.names import Names
 from openapi_server.models.attribute import Attribute
-
-from transformers.transformer import Transformer
-
+from transformers.transformer import Transformer, Producer
 import sqlite3
-import scipy.stats
-import numpy as np
-from numpy import array, empty
+import json
 
-#available at http://software.broadinstitute.org/gsea/downloads.jsp
-msigdb_gmt_files=['dat/c2.all.current.0.entrez.gmt', 'dat/c5.all.current.0.entrez.gmt'] # WE MAY HAVE TO CHANGE THAT AND THE Exporter function
+###########################################################################################################################
+# The Molecular Signatures Database (MSigDB) is a resource of tens of thousands of annotated gene sets for use with GSEA 
+# software, divided into Human and Mouse collections. From this web site, you can. Examine a gene set and its annotations. 
+# See, for example, the HALLMARK_APOPTOSIS human gene set page.
+# ... provides Molecular Signatures Database (MSigDB) gene sets typically used with the 
+# Gene Set Enrichment Analysis (GSEA) software
 
+SOURCE = 'MSigDB'
+database_connection = sqlite3.connect('data/MSigDB.sqlite', check_same_thread=False)
+database_connection.row_factory = sqlite3.Row
 
-SOURCE = 'msigdb_v7.4'
-# CURIE prefix
-DOC_URL = 'https://software.broadinstitute.org/cancer/software/gsea/wiki/index.php/Main_Page'
+class MSigDBPathwayProducer(Producer): # create pathway producer
 
-class MSigDBEnrichment(Transformer): 
-    # NEW version of the exporter -> to change controls    
-    variables = ['maximum p-value', 'maximum q-value','correction method','total genes count','total pathways count']
-
-
-    def __init__(self):
-        super().__init__(self.variables,definition_file='info/enrichment_transformer_info.json')
-
-
-    def export(self,gene_list, controls):
-        # for each of the pathways:
-        #       (1) get overlapping venn table T
-        #       (2) calculate enrichment from Fisher exact test
-        #       (3) correct for multiple testing
-        #       (4) filter according parameters
-        #       (5) fill biolink structure
-
-        # set total number of unique NCBI Entrez gene IDs : this is not perfect due to sequencing of the gene 
-        # sets being done at different time points so potentially slightly different total number of genes.  It does not change a lot the p-values anyway
-        # To get the total number we went to https://www.genenames.org/download/statistics-and-files/ and got the total unique approved symbols 
-        # We've chosen to hard code it to avoid un-necessary/computationnally expensive operations but this number may be revised from time to time when new builds are available.
-        n_tot_genes = int(controls["total genes count"])
-        n_total_pathways = int(controls["total pathways count"])
-
-        # identify genesets
-        genes = [self.de_prefix('entrez',gene.identifiers.get('entrez')) for gene in gene_list if gene.identifiers.get('entrez') is not None]
-        pathway_list = set([pathw['STANDARD_NAME'] for gene in genes for pathw in get_pathways(gene)]) # get all unique pathways that have at least 1 overlapping gene id
-        
-        print('***************************************')
-
-        
-        # variable instantiation:
-        odds_ratio_list = [None] * len(pathway_list)
-        pvalue_list = [None] * len(pathway_list)
-        overlap_list = [None] * len(pathway_list)
-        idx = 0
-        # compute Fisher exact test
-        for pathways in pathway_list: 
-            gene_set = [str(g['MEMBERS_3']) for g in get_genes(pathways)]
-            T,overlap = gene_list_venn(genes,gene_set,n_tot_genes)
-            odds_ratio, pvalue = scipy.stats.fisher_exact(T,alternative='greater')
-            if overlap is not None:
-                overlap_list[idx] = overlap
-            if odds_ratio is not None:
-                odds_ratio_list[idx] = odds_ratio
-            if pvalue is not None:
-                pvalue_list[idx] = pvalue
-            idx = idx + 1
-            if idx % 100 == 0:
-                print(idx)
-
-        #print(len(overlap_list)) 229
-        # padding for non overlapping gene sets:
-        n_pathway_list = int(len(pathway_list))
-        n = n_total_pathways-n_pathway_list
-        pvalue_list.extend([1] * n) # add 1 to remaining 0 overlap pathways to keep baseline comparable
-        qvalue_list = correct_pvalues_for_multiple_testing(pvalue_list, correction_type=controls["correction method"])
-        # filtering:
-        pvalue_list = [p for i,p in enumerate(pvalue_list) if i<n_pathway_list]
-        qvalue_list = [q for i,q in enumerate(qvalue_list) if i<n_pathway_list]
-        qmax = float(controls["maximum q-value"])
-        pmax = float(controls["maximum p-value"])
-        mask = list(np.array([q<=qmax for q in qvalue_list]) & np.array([p<=pmax for p in pvalue_list]))
-        print(qvalue_list)
-        print(mask)
-        #mask[[0,1]] = [True,True] ####### FOR TESTING PURPOSES
-
-        # put values in Element:
-        pathway_list = np.array(list(pathway_list))
-        overlap_list = np.array(overlap_list)
-        odds_ratio_list = np.array(odds_ratio_list)
-        pvalue_list = np.array(pvalue_list)
-        qvalue_list = np.array(qvalue_list)
-        print(pathway_list[mask])
-        p = fill_enriched_pathway_element(self,controls["correction method"],pathway_list[mask],overlap_list[mask],odds_ratio_list[mask],pvalue_list[mask],qvalue_list[mask])
-        
-        #print(p)
-        print('***************************************')
-        if len(p) != 0:
-            pathways = p
-        else:
-            pathways = None
-         
-
-        return pathways
-
-
-
-class MSigDbExporter_old(Transformer):
-
-    variables = ['max p-value', 'max q-value']
-
+    variables = ['pathway']
+    species_map = None
 
     def __init__(self):
-        super().__init__(self.variables,definition_file='info/enrichment_transformer_info.json')
+        super().__init__(self.variables,definition_file='info/pathways_producer_transformer_info.json')
+        get_species_mapping(self)
 
-    def export(self, gene_list, controls):
+    ############################################################################################
+    # Called to determine the gene_set_id corresponding to the GO identifier or Reactome identifier
+    # in the query graph. 
+    # go	GO:0000003
+    # Note that in all cases of tables with an id primary key column, these primary key values 
+    # are generated synthetically and will not be considered stable across different versions 
+    # of MSigDB (and likewise when used as a foreign key). In other words, the id of a particular 
+    # gene set, gene symbol, author, etc. will likely have a different value in the next version 
+    # of MSigDB. While usable within a given database for JOIN queries and so on, these values 
+    # should not be relied upon outside of that context.
+    def find_names(self, query_identifier):
+        search_column = None
+        id_list = list()
+        if query_identifier.upper().startswith('GO:') or query_identifier.lower().startswith('reactome:'):  # a search 
+            search_column = 'exact_source'
+            if query_identifier.lower().startswith('reactome:'):
+                query_identifier = self.de_prefix('reactome', query_identifier,'Pathway')
+        elif query_identifier.lower().startswith('msigdb:'):
+            query_identifier = self.de_prefix('msigdb', query_identifier,'Pathway')
+            search_column = 'primary_name'    # by default, assume a search for gene_set_id by standard_name / primary_name  
+        """
+            Find gene_set_id, if it exists
+        """
+        query = """
+        SELECT gene_set_details.gene_set_id, exact_source, standard_name primary_name,
+                    ( SELECT MSigDB_base_URL FROM MSigDB WHERE version_name = '2024.1.Hs' )
+                        ||'/geneset/'||standard_name URL,
+                publication_id,
+                contributor,
+                contrib_organization contributor_organization,
+                title,
+                PMID,
+                DOI,
+                publication.URL pub_URL
+                FROM gene_set gset
+                JOIN gene_set_details on gset.id = gene_set_details.gene_set_id
+                LEFT JOIN publication on publication_id = publication.id
+                WHERE {} = ?
+        """.format(search_column)
+        if search_column is not None:    
+            cur = database_connection.execute(query, (query_identifier,))
+        #   for each hit (i.e., of the same substance name, an unlikely but possible occurrence)
+            for row in cur.fetchall():
+                id_list.append(row['primary_name'])
+        return id_list
 
-        genes = dict([(entrez_gene_id(gene) if entrez_gene_id(gene) != None else gene.gene_id, None) for gene in gene_list])
+    ###########################################################################
+    # Called by Producer Base Class' produce() method, which was invoked by 
+    # Transformer.transform(query) method because "function":"producer" is 
+    # specified in the openapi.yaml file
+    def create_element(self, element_id):
+        biolink_class = self.biolink_class(self.OUTPUT_CLASS)  # set a default class
+        identifiers = {}        # dict of entity id's various identifiers 
+        names_synonyms = None   # dict of entity id's various names & synonyms 
+        element = self.Element(self.add_prefix('msigdb', element_id, 'Pathway'), 
+                                 biolink_class, 
+                                 identifiers, 
+                                 names_synonyms)
+        self.get_entity_by_id(element_id, element)
+        return element
 
-        #Read in the gene sets
-        gene_set_y_gene_list_y = {}
-        gene_set_y_gene_list_n = {}
-        gene_set_n_gene_list_y = {}
-        gene_set_n_gene_list_n = {}
-        gene_set_k = {}
-        gene_set_N = {}
-        gene_set_gene_ids = {}
-        all_gene_set_gene_ids = set()
-        for msigdb_gmt_file in msigdb_gmt_files:
-            msigdb_gmt_fh = open(msigdb_gmt_file)
-            for line in msigdb_gmt_fh:
-                cols = line.strip().split('\t')
-                if len(cols) < 3:
-                    continue
-                gene_set_id = cols[0]
-                gene_ids = cols[2:len(cols)]
-                overlap = len([x for x in gene_ids if x in genes])
-                if overlap == 0:
-                    continue
-                gene_set_y_gene_list_y[gene_set_id] = overlap
-                gene_set_gene_ids[gene_set_id] = gene_ids
-                gene_set_N[gene_set_id] = len(gene_ids)
 
-                gene_set_y_gene_list_n[gene_set_id] = gene_set_N[gene_set_id] - gene_set_y_gene_list_y[gene_set_id]
-                gene_set_n_gene_list_y[gene_set_id] = len(genes) - gene_set_y_gene_list_y[gene_set_id]
-                for x in gene_ids:
-                    all_gene_set_gene_ids.add(x)
-            msigdb_gmt_fh.close()
-        M = len(all_gene_set_gene_ids)
-
-        gene_set_pvalues = {}
-        gene_set_qvalues = {}
-        gene_set_odds_ratios = {}
-        all_pvalues = []
-        all_gene_set_ids = []
-
-        for gene_set_id in gene_set_y_gene_list_y:
-            gene_set_n_gene_list_n[gene_set_id] = M - gene_set_y_gene_list_y[gene_set_id] - gene_set_y_gene_list_n[gene_set_id] - gene_set_n_gene_list_y[gene_set_id]
-
-            table = [[gene_set_y_gene_list_y[gene_set_id], gene_set_y_gene_list_n[gene_set_id]], [gene_set_n_gene_list_y[gene_set_id], gene_set_n_gene_list_n[gene_set_id]]]
-            odds_ratio, pvalue = scipy.stats.fisher_exact(table)
-
-            all_pvalues.append(pvalue)
-            all_gene_set_ids.append(gene_set_id)
-
-            if pvalue < controls['max p-value']:
-                gene_set_pvalues[gene_set_id] = pvalue
-                gene_set_odds_ratios[gene_set_id] = odds_ratio
-
-        all_qvalues = correct_pvalues_for_multiple_testing(all_pvalues, correction_type="Benjamini-Hochberg")
-        for i, gene_set_id in enumerate(all_gene_set_ids):
-            if gene_set_id in gene_set_pvalues and all_qvalues[i] < controls['max q-value']:
-                gene_set_qvalues[gene_set_id] = all_qvalues[i]
-
-        pathways = []
-        for gene_set_id in sorted(gene_set_qvalues.keys(), key=lambda x: gene_set_qvalues[x]):
-            enriched_gene_set = Element(
-                id = 'MSigDB:'+gene_set_id,
-                biolink_class = 'Pathway',
-                identifiers = {'MSigDB':'MSigDB:'+gene_set_id},
-                names_synonyms = [Names(
-                    name = gene_set_id,
-                    synonyms = [],
-                    source = 'MSigDB',
-                    url = 'http://software.broadinstitute.org/gsea/msigdb/cards/{}.html'.format(gene_set_id)
-                )],
-                attributes = [
-                    Attribute(
-                        name = 'p-value',
-                        value = str(gene_set_pvalues[gene_set_id]),
-                        source = self.info.name
-                    ),
-                    Attribute(
-                        name = 'q-value',
-                        value = str(gene_set_qvalues[gene_set_id]),
-                        source = self.info.name
-                    ),
-                    Attribute(
-                        name = 'odds ratio',
-                        value = str(gene_set_odds_ratios[gene_set_id]),
-                        source = self.info.name
-                    ),
-                ],
-                source = self.info.name
+    ##############################################################
+    # Called by Producer.create_element()
+    # Get element by element_id (unique identifier MSigDB standard_name/primary_name)
+    # e.g., AAGCCAT_MIR135A_MIR135B
+    def get_entity_by_id(self, element_id, element):
+        names_synonyms = []   
+        query = """
+        SELECT gene_set_details.gene_set_id,
+                exact_source, 
+                standard_name primary_name,
+                ( SELECT MSigDB_base_URL FROM MSigDB WHERE version_name = '2024.1.Hs' )
+                    ||'/geneset/'||standard_name 
+                URL,
+                license_code,
+                description_brief,
+                description_full,
+                species_name,
+                SUBSTR(collection_name,1,2) category_code,
+                CASE WHEN INSTR(collection_name, ":") > 0 THEN SUBSTR(collection_name, INSTR(collection_name, ":")+1) ELSE Null END AS subcategory_code,
+                contributor,
+                contrib_organization contributor_organization
+        FROM gene_set gset
+        INNER JOIN gene_set_gene_symbol gsgs on gset.id = gsgs.gene_set_id
+        INNER JOIN gene_symbol gsym on gsym.id = gene_symbol_id
+        JOIN gene_set_details on gsgs.gene_set_id = gene_set_details.gene_set_id
+        JOIN species on source_species_code = species.species_code
+        WHERE primary_name = ?
+        GROUP BY standard_name
+        ORDER BY standard_name ASC
+                """
+        cur = database_connection.execute(query,(element_id,))
+        for row in cur.fetchall():
+            primary_name = self.add_prefix('msigdb', row['primary_name'], 'Pathway')
+            element.identifiers = {'msigdb':primary_name}
+            element.names_synonyms = names_synonyms
+            names_synonyms.append(
+                    self.Names(
+                        name = row['primary_name'],
+                        type = 'primary name')
+            ) 
+            element.attributes.append(self.Attribute(
+                name = 'URL',
+                value= row['URL'],
+                type = 'biolink:url')
             )
-            pathways.append(enriched_gene_set)
-        return pathways
+            element.attributes.append(self.Attribute(
+                name = 'license_code',
+                value=  row['license_code'],
+                type = 'biolink:license')
+            )
+            element.attributes.append(self.Attribute(
+                name = 'species_name',
+                value = self.add_prefix('ncbi_taxon', str(self.species_map[row['species_name']]), 'OrganismEntity'),
+                type = 'biolink:in_taxon'))  
 
-# def entrez_gene_id(gene): # do we need this anymore?
-#     """
-#         Return value of the entrez_gene_id attribute
-#     """
-#     if (gene.identifiers is not None and gene.identifiers.entrez is not None):
-#         if (gene.identifiers.entrez.startswith('NCBIGene:')):
-#             return gene.identifiers.entrez[9:]
-#         else:
-#             return gene.identifiers.entrez
-#     return None
+            if row['description_full'] is not None:
+                element.attributes.append(self.Attribute(
+                                name = 'description_full',
+                                value = row['description_full'],
+                                type = 'biolink:description'))
+                element.attributes.append(self.Attribute('description_brief', row['description_brief']))    
+            elif row['description_brief'] is not None:              
+                element.attributes.append(self.Attribute(
+                                name = 'description_brief',
+                                value = row['description_brief'],
+                                type = 'biolink:description'))   
 
-# def correct_pvalues_for_multiple_testing(pvalues, correction_type = "Benjamini-Hochberg"):
-#     """
-#     consistent with R - print correct_pvalues_for_multiple_testing([0.0, 0.01, 0.029, 0.03, 0.031, 0.05, 0.069, 0.07, 0.071, 0.09, 0.1])
-#     """
-#     pvalues = array(pvalues)
-#     n = int(pvalues.shape[0])
-#     new_pvalues = empty(n)
-#     if correction_type == "Bonferroni":
-#         new_pvalues = n * pvalues
-#     elif correction_type == "Bonferroni-Holm":
-#         values = [ (pvalue, i) for i, pvalue in enumerate(pvalues) ]
-#         values.sort()
-#         for rank, vals in enumerate(values):
-#             pvalue, i = vals
-#             new_pvalues[i] = (n-rank) * pvalue
-#     elif correction_type == "Benjamini-Hochberg":
-#         values = [ (pvalue, i) for i, pvalue in enumerate(pvalues) ]
-#         values.sort()
-#         values.reverse()
-#         new_values = []
-#         for i, vals in enumerate(values):
-#             rank = n - i
-#             pvalue, index = vals
-#             new_values.append((n/rank) * pvalue)
-#         for i in range(0, int(n)-1):
-#             if new_values[i] < new_values[i+1]:
-#                 new_values[i+1] = new_values[i]
-#         for i, vals in enumerate(values):
-#             pvalue, index = vals
-#             new_pvalues[index] = new_values[i]
-#     return new_pvalues
+            attribute_fields = ['category_code','subcategory_code','contributor','contributor_organization']
+            for attr in attribute_fields:
+                if row[attr] is not None:
+                    attribute = self.Attribute(attr, row[attr])
+                    element.attributes.append(attribute)
 
-def gene_list_venn(gene_list1,gene_list2,n_genes_baseline):
-    # function that returns the overlap groups from 2 lists of gene ids. Returns a table (list of lists which columns are [in1in2],[in1out2],[out1in2],[out1out2])
-    gene_set1 = set(gene_list1)
-    gene_set2 = set(gene_list2)
-
-    members_overlap = list(gene_set1.intersection(gene_set2))
-    in1in2 = len(members_overlap)
-    in1out2 = len(gene_set1.difference(gene_set2))
-    out1in2 = len(gene_set2.difference(gene_set1))
-    out1out2 = int(n_genes_baseline) - in1in2 - in1out2 - out1in2
-
-    T_venn = [[in1in2,in1out2],[out1in2,out1out2]]
-    
-    return T_venn,members_overlap
+            identifier = row['exact_source']
+            if identifier is not None:
+                if row['exact_source'].startswith('R-'):
+                    identifier = self.add_prefix('reactome',row['exact_source'], 'Pathway')
+                    element.identifiers['reactome'] = identifier
+                elif row['exact_source'].startswith('GO:'):
+                    element.identifiers['go'] = identifier
+                element.attributes.append(self.Attribute(
+                    name = 'exact_source',
+                    value=  identifier,
+                    type = 'exact_source'
+                    )
+                )
 
 
-def correct_pvalues_for_multiple_testing(pvalues, correction_type = "Benjamini-Hochberg"): # TO MAKE SIMPLER IF POSSIBLE WITH DIFFERENT CONTROLS FOR CORRECTION
-    """
-    consistent with R - print correct_pvalues_for_multiple_testing([0.0, 0.01, 0.029, 0.03, 0.031, 0.05, 0.069, 0.07, 0.071, 0.09, 0.1])
-    """
-
-    pvalues = np.array(pvalues,dtype=float, ndmin=1)
-    n = int(pvalues.shape[0])
-    new_pvalues = empty(n)
-    if correction_type == "Bonferroni":
-        new_pvalues = n * pvalues
-    elif correction_type == "Bonferroni-Holm":
-        values = [ (pvalue, i) for i, pvalue in enumerate(pvalues) ]
-        values.sort(key=lambda x:x[0]) # added this argument in case of repeated number
-        for rank, vals in enumerate(values):
-            pvalue, i = vals
-            new_pvalues[i] = (n-rank) * pvalue
-    elif correction_type == "Benjamini-Hochberg":
-        values = [ (pvalue, i) for i, pvalue in enumerate(pvalues) ]
-        values.sort()
-        values.reverse()
-        new_values = []
-        for i, vals in enumerate(values):
-            rank = n - i
-            pvalue, index = vals
-            new_values.append((n/rank) * pvalue)
-        for i in range(0, int(n)-1):
-            if new_values[i] < new_values[i+1]:
-                new_values[i+1] = new_values[i]
-        for i, vals in enumerate(values):
-            pvalue, index = vals
-            new_pvalues[index] = new_values[i]
-    return new_pvalues
-
-def fill_enriched_pathway_element(Transformer,corr_type,pathway_list,overlap,OR,pvalues,qvalues):
-    pathways_l = []
-    genes_l = []
-    idx_qvalues_sorted = np.argsort(qvalues)
-    for i in idx_qvalues_sorted:
-        pathway_name = pathway_list[i]
-
-        # CREATE ELEMENT BY CALLING SELF.ELEMENT (LOOK AT NEWER TRANSFORMERS like https://github.com/broadinstitute/molecular-data-provider/blob/master/transformers/chebi/python-flask-server/openapi_server/controllers/chebi_transformer.py
-        id = Transformer.add_prefix('msigdb', pathway_name)
-        biolink_class = Transformer.biolink_class('pathway')
-        identifiers = {'msigdb':id}
-        names = []
-        element = Transformer.Element(id, biolink_class, identifiers, names)
-
-        # ADD ATTRIBUTES AND NAMES 
-        if qvalues is not None:
-            ## overlapping genes:
-            gene_id_list = overlap[i]
-            T = MSigDBGeneTransformer()
-            biolink_class = T.biolink_class('gene')
-            for g in gene_id_list:
-                id = T.add_prefix('entrez', str(g))
-                identifiers = {'entrez':id}
-                names = []
-                g_element = T.Element(id, biolink_class, identifiers, names)
-                genes_l.append(g_element)
-
-            attribute = Transformer.Attribute('overlap', genes_l)
-            genes_l = []
-            attribute.description = 'overlapping genes between your gene list and the pathway'
-            element.attributes.append(attribute)
-            attribute = Transformer.Attribute('odds-ratio', OR[i])
-            attribute.description = 'overlap odds-ratio'
-            element.attributes.append(attribute)
-            attribute = Transformer.Attribute('p-value', pvalues[i])
-            attribute.description = 'p-value associated with one-sided hypergeometric (Fisher exact) test'
-            element.attributes.append(attribute)
-            attribute = Transformer.Attribute('q-value', qvalues[i])
-            attribute.description = 'p-value adjusted after multiple testing correction ('  + corr_type + ')'
-            element.attributes.append(attribute)
-
-            # ADD ELEMENT TO PATHWAY LIST
-            pathways_l.append(element)
-    print(pathways_l)
-    return pathways_l
-
+###########################################
+# gene to pathway transformer
 class MSigDBPathwayTransformer(Transformer):
-    # gene to pathway
-
     variables = []
-
+    species_map = None
 
     def __init__(self):
         super().__init__(self.variables,definition_file='info/pathways_transformer_info.json')
 
+    # Dictionary for determining field name in the identifiers
+    # Related to gene_set.collection_name, e.g., C2:CP:BIOCARTA
     sub_categories = {
         'CP:KEGG': 'kegg',
         'CP:WIKIPATHWAYS':'wikipathways',
@@ -364,168 +197,288 @@ class MSigDBPathwayTransformer(Transformer):
         'CP:BIOCARTA': 'biocarta'
     }
 
+    predicate_map = {
+        'CP:KEGG': ('biolink:associated_with','biolink:associated_with'),
+        'HPO': ('biolink:associated_with','biolink:associated_with'),
+        'GO:CC': ('biolink:associated_with','biolink:associated_with'),
+        'CP:BIOCARTA': ('biolink:associated_with','biolink:associated_with')
+    }
+
     def identifier(self, field_name, value):
-        biolink_class = 'pathway'
+        biolink_class = 'pathway'     # i.e., reactome, kegg, wikipathways, biocarta
         if field_name == 'hpo':
             biolink_class = 'disease' 
         if field_name == 'go':
             biolink_class = 'BiologicalProcess' 
         return self.add_prefix(field_name, value, biolink_class)
 
-    def export(self, gene_list, controls):
+
+    def export(self, collection, controls):
+        get_species_mapping(self)
         pathway_list = []
-        pathways = {}
-        for gene in gene_list:
-            gene_id = self.de_prefix('entrez',gene.identifiers.get('entrez'))
-            for row in get_pathways(gene_id):
-                pathway_name = row['STANDARD_NAME']
-                if pathway_name not in pathways:
-                    # CREATE ELEMENT BY CALLING SELF.ELEMENT (LOOK AT NEWER TRANSFORMERS like https://github.com/broadinstitute/scb-kp-dev/blob/master/transformers/chebi/python-flask-server/openapi_server/controllers/chebi_transformer.py
-                    id = self.add_prefix('msigdb', pathway_name)
-                    biolink_class = self.biolink_class('pathway')
-                    identifiers = {'msigdb':id}
-                    sub_category = row['SUB_CATEGORY_CODE']
-                    if sub_category in self.sub_categories and row['EXACT_SOURCE'] is not None:
-                        field_name = self.sub_categories[sub_category]
-                        identifiers[field_name] = self.identifier(field_name, row['EXACT_SOURCE'])
-                    names = []
-                    element = self.Element(id, biolink_class, identifiers, names)
-
-                    # ADD ELEMENT TO PATHWAY LIST
-                    pathway_list.append(element) 
-                    # ADD ELEMENT TO PATHWAY
-                    pathways[pathway_name] = element
-
-                element = pathways[pathway_name]
-                
-                # ADD CONNECTION TO PATHWAY 
-                publication_attribute = None
-                if row['PMID'] is not None:
-                    publication_attribute = self.Attribute('PMID', 'PMID:'  + str(row['PMID']), type='biolink:publication', description=row['AUTHORS'])#description does not show in json from post request
-                
-                connection = self.Connection(gene.id, self.PREDICATE,self.INVERSE_PREDICATE)
-                infores = self.sub_categories.get(row['SUB_CATEGORY_CODE'], 'infores:msigdb')
-                infores_attr = self.Attribute('biolink:primary_knowledge_source', infores, value_type = 'biolink:InformationResource')
-                connection.attributes.append(infores_attr)
-                if sub_category in self.sub_categories:
-                    sub_attr = self.Attribute('biolink:prev_knowledge_source', infores)
-                    infores_attr = self.Attribute('biolink:aggregator_knowledge_source', 'infores:msigdb', value_type = 'biolink:InformationResource')
-                    infores_attr.attributes=[sub_attr]
-                    connection.attributes.append(infores_attr)
-                if publication_attribute is not None:
-                    element.attributes.append(publication_attribute)
-                    connection.attributes.append(publication_attribute)
-                element.connections.append(connection)
-
-                # ADD ATTRIBUTES AND NAMES https://github.com/broadinstitute/scb-kp-dev/blob/master/util/python/transformers/transformer.py
-                attribute_fields = ['ORGANISM','EXACT_SOURCE','GENESET_LISTING_URL', 'EXTERNAL_DETAILS_URL','CATEGORY_CODE','SUB_CATEGORY_CODE','CONTRIBUTOR','CONTRIBUTOR_ORG','DESCRIPTION_BRIEF','DESCRIPTION_FULL','REFINEMENT_DATASETS','VALIDATION_DATASETS','FILTERED_BY_SIMILARITY']
-                for attr in attribute_fields:
-                    if row[attr] is not None:
-                        attribute = self.Attribute(attr, row[attr])
-                        element.attributes.append(attribute)
-                    
-                element.names_synonyms = [self.Names(name=row['STANDARD_NAME'],synonyms=[row['SYSTEMATIC_NAME']])]
-
-
+        for element in collection:
+            identifier_list = self.get_identifiers(element, 'entrez', de_prefix=False)
+            
+            for identifier in identifier_list:
+                self.get_pathways(element.id, identifier, pathway_list)
         return pathway_list
-    
-class MSigDBGeneTransformer(Transformer):
-    # pathway to gene
 
+    ########################################################
+    # Called by MSigDBPathwayTransformer.export()
+    def get_pathways(self, source_element_id, identifier, pathway_list):
+        gene_id = self.de_prefix('entrez',identifier)
+        query = """
+        SELECT gene_set_details.gene_set_id,
+            exact_source, 
+            standard_name primary_name,
+            ( SELECT MSigDB_base_URL FROM MSigDB WHERE version_name = '2024.1.Hs' )
+            ||'/geneset/'||standard_name URL, 
+            description_brief, 
+            description_full,
+            collection_name, 
+            SUBSTR(collection_name,1,2) category_code,
+            CASE WHEN INSTR(collection_name, ":") > 0 THEN SUBSTR(collection_name, INSTR(collection_name, ":")+1) ELSE Null END AS subcategory_code,
+            publication_id,
+            contributor,
+            contrib_organization contributor_organization,
+            description_brief,
+            description_full,
+            title,
+            PMID,
+            DOI,
+            publication.URL pub_URL,
+            species_name,
+            external_details_URL
+        FROM gene_symbol gsym
+        JOIN gene_set_gene_symbol gsetgs on gsym.id = gsetgs.gene_symbol_id
+        JOIN gene_set gset on gsetgs.gene_set_id = gset.id
+        JOIN gene_set_details on gset.id = gene_set_details.gene_set_id
+        LEFT JOIN publication on publication_id = publication.id
+        JOIN species on source_species_code = species.species_code
+        WHERE NCBI_id =  ?;
+        """
+        cur = database_connection.cursor()
+        cur.execute(query,(gene_id,))
+        for row in cur.fetchall():
+            id = self.add_prefix('msigdb', str(row['primary_name']))
+            biolink_class = self.biolink_class(self.OUTPUT_CLASS)  # set a default class
+            identifiers = {'msigdb':id}                            # dict of entity id's various identifiers 
+            sub_category = row['subcategory_code']
+            if sub_category in self.sub_categories and row['exact_source'] is not None:
+                        field_name = self.sub_categories[sub_category]
+                        identifiers[field_name] = self.identifier(field_name, row['exact_source'])
+            names_synonyms = [self.Names(name = str(row['primary_name']))]   # dict of entity id's various names & synonyms 
+            element = self.Element(id, biolink_class, identifiers, names_synonyms)
+            predicate = self.PREDICATE
+            inverse_predicate = self.INVERSE_PREDICATE
+            if sub_category in self.predicate_map:
+                predicate, inverse_predicate = self.predicate_map[sub_category]
+            connection = self.Connection(source_element_id, predicate,inverse_predicate)
+            connection.attributes.append(self.Attribute(
+                            name = 'biolink:knowledge_level',
+                            value = self.KNOWLEDGE_LEVEL,
+                            type = 'biolink:knowledge_level',
+                            value_type = 'String')
+                            )
+            connection.attributes.append(self.Attribute(
+                            name = 'biolink:agent_type',
+                            value = self.AGENT_TYPE,
+                            type = 'biolink:agent_type',
+                            value_type = 'String')
+                            )
+            primary_knowledge_source = self.Attribute(
+                    name= 'biolink:primary_knowledge_source',
+                    value= 'infores:msigdb',
+                    value_type= 'biolink:InformationResource',
+                    type= 'biolink:primary_knowledge_source',
+                    url = row['URL']
+                )
+            primary_knowledge_source.attribute_source = 'infores:molepro'
+            connection.attributes.append(primary_knowledge_source)
+            if row['publication_id'] is not None:
+                if row['pub_URL'] is not None and len(row['pub_URL'].strip()) > 0:
+                    publication_attribute = self.Attribute('PMID', 'PMID:'  + str(row['PMID']), type='biolink:Publication', description=self.get_publication_authors(row['publication_id']),url=row['pub_URL']) 
+                else:
+                    publication_attribute = self.Attribute('PMID', 'PMID:'  + str(row['PMID']), type='biolink:Publication', description=self.get_publication_authors(row['publication_id'])) 
+                element.attributes.append(publication_attribute)
+                connection.attributes.append(publication_attribute)
+            
+            ################################################
+            # Trawl for Reactome or GO identifiers
+            if row['exact_source'] is not None:
+                identifier = row['exact_source']
+                if row['exact_source'].startswith('R-'):
+                    identifier = self.add_prefix('reactome',row['exact_source'], 'Pathway')
+                    element.identifiers['reactome'] = identifier
+                elif row['exact_source'].startswith('GO:'):
+                    element.identifiers['go'] = identifier
+                elif row['exact_source'].startswith('HP:'):
+                    element.identifiers['hpo'] = identifier
+                attribute = self.Attribute('exact_source', identifier)
+                element.attributes.append(attribute)
+
+            if row['description_full'] is not None:
+                element.attributes.append(self.Attribute(
+                                name = 'description_full',
+                                value = row['description_full'],
+                                type = 'biolink:description'))
+                element.attributes.append(self.Attribute('description_brief', row['description_brief']))    
+            elif row['description_brief'] is not None:              
+                element.attributes.append(self.Attribute(
+                                name = 'description_brief',
+                                value = row['description_brief'],
+                                type = 'biolink:description'))   
+
+            if row['external_details_URL'] is not None:
+                element.attributes.append(self.Attribute(
+                        name= 'external_details_URL',
+                        value= row['external_details_URL'],
+                        type= 'biolink:url'))            
+
+            element.attributes.append(self.Attribute(
+                name = 'URL',
+                value= row['URL'],
+                type = 'biolink:url')
+            )
+            #'species_name'
+            element.attributes.append(self.Attribute(
+                name = 'species_name',
+                value = self.add_prefix('ncbi_taxon', str(self.species_map[row['species_name']]), 'OrganismEntity'),
+                type = 'biolink:in_taxon')
+            ) 
+            attribute_fields = ['category_code','subcategory_code','contributor','contributor_organization']
+            for attr in attribute_fields:
+                if row[attr] is not None:
+                    attribute = self.Attribute(attr, row[attr])
+                    element.attributes.append(attribute)
+
+            connection.qualifiers.append(self.Qualifier(
+                        qualifier_type_id= 'species_context_qualifier',
+                        qualifier_value  =  self.add_prefix('ncbi_taxon', str(self.species_map[row['species_name']]), 'OrganismEntity')))
+
+            element.connections.append(connection)
+
+            # ADD ELEMENT TO PATHWAY LIST
+            pathway_list.append(element)
+
+
+    ########################################################
+    # Called by MSigDBPathwayTransformer.get_pathways()
+    def get_publication_authors(self, publication_id):
+        query = """
+            SELECT group_concat(display_name, ',') authors
+            FROM publication_author
+            JOIN author on publication_author.author_id = author.id
+            WHERE publication_id = ?
+            ORDER BY author_order ASC;
+        """
+        cur = database_connection.cursor()
+        cur.execute(query,(publication_id,))
+        for row in cur.fetchall():
+            return row['authors']
+
+
+
+###########################################
+# pathway to gene Transformer
+class MSigDBGeneTransformer(Transformer):
     variables = []
 
     def __init__(self):
         super().__init__(self.variables,definition_file='info/genes_transformer_info.json')
-
-
-    def produce(self,pathway, controls): # need to implement the case for 1 element only (not a collection)
-        gene_list = []
-
     
-    def export(self, pathway_list, controls):  
+    def export(self, collection, controls):  
         gene_list = []
         genes = {}
-        for pathway in pathway_list:
-            pathway_id = self.de_prefix('msigdb',pathway.identifiers.get("msigdb"),"pathway")
-            for row in get_genes(pathway_id):
-                gene_id = row['MEMBERS_3']
-                if gene_id not in genes and gene_id is not None:
-                    id = self.add_prefix('entrez', str(gene_id))
-                    biolink_class = self.biolink_class('gene')
-                    identifiers = {'entrez':id}
-                    names = [self.Names(name = row['MEMBERS_2'])]
-                    element = self.Element(id, biolink_class, identifiers, names_synonyms = names)
 
-                    # ADD ELEMENT TO GENE LIST
-                    gene_list.append(element) 
-                    # ADD ELEMENT TO GENE
-                    genes[gene_id] = element
-
-                
-                element = genes[gene_id]
-
-                connection = self.Connection(pathway.id, self.PREDICATE,self.INVERSE_PREDICATE)
-                element.connections.append(connection)
-
+        for element in collection:
+            #pathway_id = self.de_prefix('msigdb',pathway.identifiers.get("msigdb"),"pathway")
+            identifier_list = self.get_identifiers(element, 'msigdb', de_prefix=False)
+            for identifier in identifier_list:
+                self.get_genes(element.id, identifier, gene_list)
         return gene_list
 
+    ####################################################################
+    # Retrieve all the genes (possibly 100s) in the pathway (gene set)
+    #
+    def get_genes(self, source_element_id, identifier, gene_list):
+        pathway_id = self.de_prefix('msigdb', identifier)
+        query = """
+            SELECT gene_set_details.gene_set_id, 
+            exact_source, 
+            standard_name primary_name, 
+            collection_name,
+                ( SELECT MSigDB_base_URL FROM MSigDB WHERE version_name = '2023.1.Hs' )
+                    ||'/geneset/'||standard_name URL, 
+            symbol gene, 
+            NCBI_id
+            FROM gene_set gset
+            INNER JOIN gene_set_gene_symbol gsgs on gset.id = gsgs.gene_set_id
+            INNER JOIN gene_symbol gsym on gsym.id = gene_symbol_id
+            JOIN gene_set_details on gsgs.gene_set_id = gene_set_details.gene_set_id
+            WHERE primary_name = ?;
+        """
+        cur = database_connection.cursor()
+        cur.execute(query,(pathway_id,))
+        for row in cur.fetchall():
+            id = self.add_prefix('entrez', str(row['NCBI_id']))
+            biolink_class = self.biolink_class(self.OUTPUT_CLASS)  # set a default class
+            identifiers = {'entrez':id}                         # dict of entity id's various identifiers
 
-connection = sqlite3.connect("data/MSigDB.sqlite", check_same_thread=False)
-connection.row_factory = sqlite3.Row
+            names_synonyms = [self.Names(name = row['gene'])]   # dict of entity id's various names & synonyms 
+            element = self.Element(id, biolink_class, identifiers, names_synonyms)
+            connection = self.Connection(source_element_id, self.PREDICATE,self.INVERSE_PREDICATE)
+            connection.attributes.append(self.Attribute(
+                            name = 'biolink:knowledge_level',
+                            value = self.KNOWLEDGE_LEVEL,
+                            type = 'biolink:knowledge_level',
+                            value_type = 'String')
+                            )
+            connection.attributes.append(self.Attribute(
+                            name = 'biolink:agent_type',
+                            value = self.AGENT_TYPE,
+                            type = 'biolink:agent_type',
+                            value_type = 'String')
+                            )
+            element.connections.append(connection)
+            ################################################
+            # Trawl for Reactome or GO identifiers
+            if row['exact_source'] is not None:
+                identifier = row['exact_source']
+                if row['exact_source'].startswith('R-'):
+                    identifier = self.add_prefix('reactome',row['exact_source'], 'Pathway')
+                    element.identifiers['reactome'] = identifier
+                elif row['exact_source'].startswith('GO:'):
+                    element.identifiers['go'] = identifier
+                elif row['exact_source'].startswith('HP:'):
+                    element.identifiers['hpo'] = identifier
+                attribute = self.Attribute('exact_source', identifier)
+                element.attributes.append(attribute)
 
-def get_pathway_count():
-    query = """ 
-    SELECT COUNT(DISTINCT STANDARD_NAME) FROM GENESET;
-    """
-    cur = connection.cursor()
-    cur.execute(query)
-    return cur.fetchall()
+            primary_knowledge_source = self.Attribute(
+                    name= 'biolink:primary_knowledge_source',
+                    value= 'infores:msigdb',
+                    value_type= 'biolink:InformationResource',
+                    type= 'biolink:primary_knowledge_source',
+                    url = row['URL']
+                )
+            primary_knowledge_source.attribute_source = 'infores:molepro'
+            connection.attributes.append(primary_knowledge_source)
 
-# get total number of pathways (when not overlap, p value will be automatically 1).
-pathway_n_tot = get_pathway_count()
-    
-def get_pathways(gene_id):
-    # do we need this :GENESET.GENESET_LISTING_URL
-    query = """
-    SELECT GENESET.STANDARD_NAME,
-    GENESET.SYSTEMATIC_NAME,
-    GENESET.ORGANISM,
-    GENESET.PMID,
-    GENESET.AUTHORS,
-    GENESET.EXACT_SOURCE,
-    GENESET.GENESET_LISTING_URL, 
-    GENESET.EXTERNAL_DETAILS_URL,
-    GENESET.CATEGORY_CODE,
-    GENESET.SUB_CATEGORY_CODE,
-    GENESET.CONTRIBUTOR,
-    GENESET.CONTRIBUTOR_ORG,
-    GENESET.DESCRIPTION_BRIEF,
-    GENESET.DESCRIPTION_FULL,
-    GENESET.REFINEMENT_DATASETS,
-    GENESET.VALIDATION_DATASETS,
-    GENESET.FILTERED_BY_SIMILARITY
+            # ADD ELEMENT TO GENE LIST
+            gene_list.append(element)
 
-    FROM MEMBER
-    JOIN MEMBER_MAP ON (MEMBER_MAP.MEMBERS_1 = MEMBER.MEMBERS_1)
-    JOIN GENESET ON (GENESET.STANDARD_NAME = MEMBER_MAP.STANDARD_NAME)
-    WHERE CATEGORY_CODE != 'ARCHIVED'
-    AND MEMBER.MEMBERS_3 = ?;
-    """
-    cur = connection.cursor()
-    cur.execute(query,(gene_id,))
-    return cur.fetchall()
 
-def get_genes(pathway_id):
+#######################################################################################################
+# Read JSON file (config/species.json) that contains mapping of Reactome species.
+# Then the JSON file is saved into a variable, speciesMap, for general usage by all class methods.
+def get_species_mapping(self):      
+    with open('config/species.json') as json_file:
+        self.species_map = json.load(json_file)  
 
-    query = """
-    SELECT MEMBER.MEMBERS_1,
-    MEMBER.MEMBERS_2,
-    MEMBER.MEMBERS_3
 
-    FROM MEMBER_MAP
-    JOIN MEMBER ON (MEMBER.MEMBERS_1 = MEMBER_MAP.MEMBERS_1)
-    WHERE MEMBER_MAP.STANDARD_NAME = ?;
-    """
-    cur = connection.cursor()
-    cur.execute(query,(pathway_id,))
-    return cur.fetchall()
+#######################################################################################################
+# It is necessary to change the prefix of the reactome identifiers from the Reactome database to be
+# the acceptable Biolink prefix (based on content of prefixMap.json).
+def fix_reactome_prefix(self, fieldname, identifier):
+    return self.add_prefix('reactome', self.de_prefix(fieldname, identifier,'Pathway'), 'Pathway')
