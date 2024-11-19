@@ -3,6 +3,7 @@ FROM python:3-alpine AS packaging-image
 RUN mkdir -p /usr/src/base
 COPY util/python/transformers-2.5 /usr/src/base
 WORKDIR /usr/src/base
+RUN pip install -U pip setuptools
 RUN python setup.py bdist_wheel
 RUN mkdir -p /usr/src/moleprodb
 COPY transformers/molepro-db/python-flask-server /usr/src/moleprodb
@@ -30,7 +31,7 @@ ADD https://translator.broadinstitute.org/db/moleprodb_hierarchy_transformer_inf
 WORKDIR /usr/src/app
 COPY --from=packaging-image /usr/src/base/dist .
 COPY --from=packaging-image /usr/src/moleprodb/dist .
-RUN pip3 install -I moleprodb_transformer-2.5.2-py3-none-any.whl
+RUN pip3 install -I moleprodb_transformer-2.6.0-py3-none-any.whl
 RUN pip3 install -I base_transformer-2.5.1-py3-none-any.whl
 COPY transformers/molepro-db/python-flask-server/requirements.txt .
 RUN pip3 install --no-cache-dir -r requirements.txt
