@@ -13,5 +13,6 @@ ADD https://translator.broadinstitute.org/db/molecular-data-provider-2.6.0.tgz /
 RUN gunzip molecular-data-provider-2.6.0.tgz
 RUN tar xf molecular-data-provider-2.6.0.tar
 WORKDIR /usr/src/target/molecular-data-provider-2.6.0
+COPY MoleProAPI/java-play-framework-server/conf conf
 EXPOSE 9200
 CMD ["./bin/molecular-data-provider", "-J-Xmx4096m", "-Dplay.http.secret.key='{passrowd}'", "-Dhttp.port=9200"]
