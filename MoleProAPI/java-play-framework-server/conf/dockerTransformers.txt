@@ -10,6 +10,7 @@ https://molepro-gtopdb-transformer.ci.transltr.io/gtopdb/molecules
 https://molepro-hmdb-transformer.ci.transltr.io/hmdb/metabolites
 https://molepro-drugcentral-transformer.ci.transltr.io/drugcentral/compounds
 https://molepro-inxightdrugs-transformer.ci.transltr.io/inxight_drugs/substances
+https://molepro-cmap-transformer.ci.transltr.io/cmap/compound/producer
 https://molepro-stitch-transformer.ci.transltr.io/stitch/chemicals
 https://molepro-rxnorm-transformer.ci.transltr.io/rxnorm/molecules
 https://molepro-biggmodels-transformer.ci.transltr.io/bigg/metabolites
@@ -18,6 +19,7 @@ https://molepro-probeminer-transformer.ci.transltr.io/probeminer/chemicals
 https://molepro-bindingdb-transformer.ci.transltr.io/bindingdb/ligands
 https://molepro-pharmgkb-transformer.ci.transltr.io/pharmgkb/chemicals
 https://molepro-kinomescan-transformer.ci.transltr.io/kinomescan/compounds
+https://molepro-dsstoxdb-transformer.ci.transltr.io/dsstoxdb/chemical
 # drugs
 https://molepro-inxightdrugs-transformer.ci.transltr.io/inxight_drugs/drugs
 https://molepro-inxightdrugs-transformer.ci.transltr.io/inxight_drugs/relationships
@@ -98,13 +100,21 @@ https://molepro-depmap-transformer.ci.transltr.io/depmap/correlation
 https://molepro-biggmodels-transformer.ci.transltr.io/bigg/reactions
 https://molepro-biggmodels-transformer.ci.transltr.io/bigg/genes
 https://molepro-biggmodels-transformer.ci.transltr.io/bigg/gene-reactions
+https://molepro-reactome-transformer.ci.transltr.io/reactome/entity-producer
+https://molepro-reactome-transformer.ci.transltr.io/reactome/reaction-producer
+https://molepro-reactome-transformer.ci.transltr.io/reactome/complex-producer
+https://molepro-reactome-transformer.ci.transltr.io/reactome/reaction
+https://molepro-reactome-transformer.ci.transltr.io/reactome/complex
 # pathways
 https://molepro-ctd-transformer.ci.transltr.io/ctdbase/go-associations
 https://molepro-ctd-transformer.ci.transltr.io/ctdbase/pathway-associations
 https://molepro-ctd-transformer.ci.transltr.io/ctdbase/phenotype-interactions
 https://molepro-hmdb-transformer.ci.transltr.io/hmdb/pathways
+https://molepro-msigdb-transformer.ci.transltr.io/msigdb/pathway-producer
 https://molepro-msigdb-transformer.ci.transltr.io/msigdb/genes
 https://molepro-msigdb-transformer.ci.transltr.io/msigdb/pathways
+https://molepro-reactome-transformer.ci.transltr.io/reactome/pathway-producer
+https://molepro-reactome-transformer.ci.transltr.io/reactome/pathway
 # locations
 https://molepro-hmdb-transformer.ci.transltr.io/hmdb/locations
 # exporters
@@ -121,6 +131,7 @@ https://molepro-gelinea-transformer.ci.transltr.io/gelinea/enrichment
 # protein-protein interactions
 https://molepro-string-transformer.ci.transltr.io/string/links
 https://molepro-string-transformer.ci.transltr.io/string/physical_links
+https://molepro-reactome-transformer.ci.transltr.io/reactome/interaction
 # node normalizer
 https://molepro-node-normalizer-transformer.ci.transltr.io/node/normalizer
 # MolePro DB

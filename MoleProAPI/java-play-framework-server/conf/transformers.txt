@@ -10,6 +10,7 @@ https://molepro-gtopdb-transformer.transltr.io/gtopdb/molecules
 https://molepro-hmdb-transformer.transltr.io/hmdb/metabolites
 https://molepro-drugcentral-transformer.transltr.io/drugcentral/compounds
 https://molepro-inxightdrugs-transformer.transltr.io/inxight_drugs/substances
+https://molepro-cmap-transformer.transltr.io/cmap/compound/producer
 https://molepro-stitch-transformer.transltr.io/stitch/chemicals
 https://molepro-rxnorm-transformer.transltr.io/rxnorm/molecules
 https://molepro-biggmodels-transformer.transltr.io/bigg/metabolites
@@ -18,6 +19,7 @@ https://molepro-probeminer-transformer.transltr.io/probeminer/chemicals
 https://molepro-bindingdb-transformer.transltr.io/bindingdb/ligands
 https://molepro-pharmgkb-transformer.transltr.io/pharmgkb/chemicals
 https://molepro-kinomescan-transformer.transltr.io/kinomescan/compounds
+https://molepro-dsstoxdb-transformer.transltr.io/dsstoxdb/chemical
 # drugs
 https://molepro-inxightdrugs-transformer.transltr.io/inxight_drugs/drugs
 https://molepro-inxightdrugs-transformer.transltr.io/inxight_drugs/relationships
@@ -98,13 +100,21 @@ https://molepro-depmap-transformer.transltr.io/depmap/correlation
 https://molepro-biggmodels-transformer.transltr.io/bigg/reactions
 https://molepro-biggmodels-transformer.transltr.io/bigg/genes
 https://molepro-biggmodels-transformer.transltr.io/bigg/gene-reactions
+https://molepro-reactome-transformer.transltr.io/reactome/entity-producer
+https://molepro-reactome-transformer.transltr.io/reactome/reaction-producer
+https://molepro-reactome-transformer.transltr.io/reactome/complex-producer
+https://molepro-reactome-transformer.transltr.io/reactome/reaction
+https://molepro-reactome-transformer.transltr.io/reactome/complex
 # pathways
 https://molepro-ctd-transformer.transltr.io/ctdbase/go-associations
 https://molepro-ctd-transformer.transltr.io/ctdbase/pathway-associations
 https://molepro-ctd-transformer.transltr.io/ctdbase/phenotype-interactions
 https://molepro-hmdb-transformer.transltr.io/hmdb/pathways
+https://molepro-msigdb-transformer.transltr.io/msigdb/pathway-producer
 https://molepro-msigdb-transformer.transltr.io/msigdb/genes
 https://molepro-msigdb-transformer.transltr.io/msigdb/pathways
+https://molepro-reactome-transformer.transltr.io/reactome/pathway-producer
+https://molepro-reactome-transformer.transltr.io/reactome/pathway
 # locations
 https://molepro-hmdb-transformer.transltr.io/hmdb/locations
 # exporters
@@ -120,6 +130,8 @@ https://molepro-gelinea-transformer.transltr.io/gelinea/enrichment
 #
 # protein-protein interactions
 https://molepro-string-transformer.transltr.io/string/links
+https://molepro-string-transformer.transltr.io/string/physical_links
+https://molepro-reactome-transformer.transltr.io/reactome/interaction
 # node normalizer
 https://molepro-node-normalizer-transformer.transltr.io/node/normalizer
 # MolePro DB
