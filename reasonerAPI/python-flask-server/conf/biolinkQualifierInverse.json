@@ -1,0 +1,4 @@
+{
+    "biolink:causes": "biolink:caused_by",
+    "biolink:caused_by": "biolink:causes"
+}

@@ -10,12 +10,12 @@ info:
     url: https://github.com/broadinstitute/molecular-data-provider/blob/master/LICENSE
   termsOfService: https://github.com/broadinstitute/molecular-data-provider/blob/master/terms_of_service.md
   title: MolePro
-  version: 1.5.0.1
+  version: 1.5.0.2
   x-translator:
     component: KP
     team:
     - Molecular Data Provider
-    biolink-version: 4.1.6
+    biolink-version: 4.2.4
     infores: infores:molepro
     externalDocs:
       description: The values for component and team are restricted according to this
