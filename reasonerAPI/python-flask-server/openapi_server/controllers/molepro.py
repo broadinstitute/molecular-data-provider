@@ -102,10 +102,12 @@ class MolePro:
 
         # apply constraints
         for constraint in mole_edge.target_constraints:
-            logger.info('Filtering {} nodes'.format(collection_info['size']))
+            if collection_info is not None:
+                logger.info('Filtering {} nodes'.format(collection_info['size']))
             collection_info = self.apply_constraint('Element attribute filter', constraint, collection_info)
         for constraint in mole_edge.edge_constraints:
-            logger.info('Filtering {} edges'.format(collection_info['size']))
+            if collection_info is not None:
+                logger.info('Filtering {} edges'.format(collection_info['size']))
             collection_info = self.apply_constraint('Connection attribute filter', constraint, collection_info)
 
         # for each element in a collection response, add an edge and associated nodes
@@ -219,11 +221,15 @@ class MolePro:
             self.logs.append(LogEntry(datetime.datetime.now(), LogLevel.INFO, LogLevel.INFO, log_msg))
 
         with closing(requests.post(url, json=query)) as response_obj:
-            response_json = response_obj.json()
             if response_obj.status_code != 200:
                 log_msg = "failed querying transformer {} at {} with {}".format(transformer['name'], url, response_obj.status_code)
-                self.logs.append(LogEntry(datetime.datetime.now(), LogLevel.WARNING, str(response_obj.status_code), log_msg))
+                self.logs.append(LogEntry(datetime.datetime.now(), LogLevel.ERROR, str(response_obj.status_code), log_msg))
+                logger.error(log_msg)
+                log_msg = "response: {}".format(response_obj.text)
+                self.logs.append(LogEntry(datetime.datetime.now(), LogLevel.ERROR, str(response_obj.status_code), log_msg))
+                logger.error(log_msg)
                 return None
+            response_json = response_obj.json()
             return response_json
 
 
