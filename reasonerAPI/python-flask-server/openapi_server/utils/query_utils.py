@@ -28,6 +28,16 @@ with open('conf/biolinkPredicateInverse.json') as json_file:
         map_predicate[value] = key
     print("start with predicate {} inverses".format(len(map_predicate)))
 
+# read the biolink qualifier inverse file
+map_qualifier_inverse = {}
+with open('conf/biolinkQualifierInverse.json') as json_file:
+    # read the map
+    map_inverse = json.load(json_file)
+    for key, value in map_inverse.items():
+        map_qualifier_inverse[key] = value
+        map_qualifier_inverse[value] = key
+    print("start with qualifier {} inverses".format(len(map_qualifier_inverse)))
+
 # methods
 def reverse_response(response: Response, query_graph: QueryGraph, debug=False):
     ''' 
@@ -45,22 +55,35 @@ def reverse_response(response: Response, query_graph: QueryGraph, debug=False):
         flipped_response.message.knowledge_graph.edges.get(r_edge_id).object = response.message.knowledge_graph.edges.get(r_edge_id).subject
         flipped_response.message.knowledge_graph.edges.get(r_edge_id).subject = response.message.knowledge_graph.edges.get(r_edge_id).object
 
+        # get the flipped edge; this will be the one to modify
+        flipped_edge = flipped_response.message.knowledge_graph.edges.get(r_edge_id)
+
         # flip the predicate
         if map_predicate.get(response.message.knowledge_graph.edges.get(r_edge_id).predicate):
-            flipped_response.message.knowledge_graph.edges.get(r_edge_id).predicate = map_predicate.get(response.message.knowledge_graph.edges.get(r_edge_id).predicate)
+            # flipped_response.message.knowledge_graph.edges.get(r_edge_id).predicate = map_predicate.get(response.message.knowledge_graph.edges.get(r_edge_id).predicate)
+            flipped_edge.predicate = map_predicate.get(response.message.knowledge_graph.edges.get(r_edge_id).predicate)
 
-        # qualifiers: for each qualifier, flip object/subject
-        list_qualifiers: list[Qualifier] = r_edge_value.qualifiers
+        # qualifiers: for each qualifier, flip object/subject in the flipped message
+
+        # BUG 378: was flipping qualifiers on original edge, not new copied flipped edge        
+        # list_qualifiers: list[Qualifier] = r_edge_value.qualifiers
+        list_qualifiers: list[Qualifier] = flipped_edge.qualifiers
         for qualifier in list_qualifiers:
             # make sure you only flip once
             if 'object_' in qualifier.qualifier_type_id:
                 qualifier.qualifier_type_id = qualifier.qualifier_type_id.replace('object_', 'subject_')
                 if debug:
+                # if debug or (flipped_edge.subject == 'CHEBI:7936'):
                     print("flipped object qualifier to: {}".format(qualifier))
             elif 'subject_' in qualifier.qualifier_type_id:
                 qualifier.qualifier_type_id = qualifier.qualifier_type_id.replace('subject_', 'object_')
                 if debug:
+                # if debug or (flipped_edge.subject == 'CHEBI:7936'):
                     print("flipped subject qualifier to: {}".format(qualifier))
+
+            # flip values if needed
+            if map_qualifier_inverse.get(qualifier.qualifier_value):
+                qualifier.qualifier_value = map_qualifier_inverse.get(qualifier.qualifier_value)
 
     # replace the query graph
     flipped_response.message.query_graph = query_graph
