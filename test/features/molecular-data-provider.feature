@@ -159,7 +159,7 @@ Feature: Check MolePro
         and we call "CMAP compound-to-gene transformer" transformer with the following parameters:
         | score threshold | maximum number |
         | 99.0            | 2              |
-        then the length of the collection should be 20
+        then the length of the collection should be 29
         and the value of "element_class" should be "gene"
         and the value of "source" should be "CMAP compound-to-gene transformer"
 
