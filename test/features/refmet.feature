@@ -1,4 +1,4 @@
-Feature: Check CMAP transformer
+Feature: Check RefMet transformer
 
     Background: Specify transformer API
         Given a transformer at "https://translator.broadinstitute.org/refmet"
