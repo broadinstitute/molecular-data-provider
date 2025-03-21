@@ -1,4 +1,4 @@
-Feature: Check Drugbank transformer
+Feature: Check CMAP transformer
 
     Background: Specify transformer API
         Given a transformer at "https://translator.broadinstitute.org/drugbank"
@@ -8,6 +8,7 @@ Feature: Check Drugbank transformer
         Given the transformer
         when we fire "/compounds/transformer_info" query
         then the value of "name" should be "DrugBank compound-list producer"
+        and the value of "version" should be "2.4.0"
         and the value of "function" should be "producer"
         and the value of "knowledge_map.input_class" should be "none"
         and the value of "knowledge_map.output_class" should be "compound"
@@ -18,6 +19,7 @@ Feature: Check Drugbank transformer
         Given the transformer
         when we fire "/molecules/transformer_info" query
         then the value of "name" should be "DrugBank molecule-list producer"
+        and the value of "version" should be "2.4.0"
         and the value of "function" should be "producer"
         and the value of "knowledge_map.input_class" should be "none"
         and the value of "knowledge_map.output_class" should be "MolecularEntity"
@@ -27,7 +29,8 @@ Feature: Check Drugbank transformer
     Scenario: Check DrugBank gene target transformer info
         Given the transformer
         when we fire "/gene_targets/transformer_info" query
-        then the value of "name" should be "DrugBank target genes transformer"
+        then the value of "name" should be "DrugBank gene interactions transformer"
+        and the value of "version" should be "2.4.0"
         and the value of "function" should be "transformer"
         and the value of "knowledge_map.input_class" should be "compound"
         and the value of "knowledge_map.output_class" should be "gene"
@@ -37,10 +40,23 @@ Feature: Check Drugbank transformer
     Scenario: Check DrugBank protein target transformer info
         Given the transformer
         when we fire "/protein_targets/transformer_info" query
-        then the value of "name" should be "DrugBank target proteins transformer"
+        then the value of "name" should be "DrugBank protein interactions transformer"
+        and the value of "version" should be "2.4.0"
         and the value of "function" should be "transformer"
         and the value of "knowledge_map.input_class" should be "compound"
         and the value of "knowledge_map.output_class" should be "protein"
+        and the size of "parameters" should be 0
+
+
+    Scenario: Check DrugBank inhibitors transformer info
+        Given the transformer
+        when we fire "/inhibitors/transformer_info" query
+        then the value of "name" should be "DrugBank inhibitors transformer"
+        and the value of "function" should be "transformer"
+        and the value of "knowledge_map.input_class" should be "gene"
+        and the value of "knowledge_map.output_class" should be "compound"
+        and the value of "version" should be "2.4.1"
+        and the value of "properties.source_version" should be "5.1.8 (2021-01-03)"
         and the size of "parameters" should be 0
 
 
@@ -191,3 +207,51 @@ Feature: Check Drugbank transformer
         }
         """
         then the size of the response is 28
+
+
+    Scenario: Check DrugBank inhibitors transformer
+        Given the transformer
+        when we fire "/inhibitors/transform" query with the following body:
+        """
+        {
+            "controls": [],
+            "collection": [
+                {
+                    "id": "HGNC:384",
+                    "biolink_class":"Gene",
+                    "provided_by":"test",
+                    "source":"test",
+                    "identifiers": {
+                        "hgnc": "HGNC:384"
+                    }
+                }
+            ]
+        }
+        """
+        then the size of the response is 8
+        and the response contains the following entries in "id"
+            | id               |
+            | DrugBank:DB00157 |
+            | DrugBank:DB00936 |
+            | DrugBank:DB00945 |
+            | DrugBank:DB03461 |
+            | DrugBank:DB03467 |
+            | DrugBank:DB04674 |
+            | DrugBank:DB07768 |
+            | DrugBank:DB07931 |
+        and the response only contains the following entries in "id"
+            | id               |
+            | DrugBank:DB00157 |
+            | DrugBank:DB00936 |
+            | DrugBank:DB00945 |
+            | DrugBank:DB03461 |
+            | DrugBank:DB03467 |
+            | DrugBank:DB04674 |
+            | DrugBank:DB07768 |
+            | DrugBank:DB07931 |
+        and the response contains the following entries in "source_element_id" of "connections" array
+            | source_element_id |
+            | HGNC:384          |
+        and the response only contains the following entries in "source_element_id" of "connections" array
+            | source_element_id |
+            | HGNC:384          |
