@@ -15,26 +15,26 @@ class KmQualifier(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, qualifier_type_id=None, qualifier_values=None):  # noqa: E501
+    def __init__(self, qualifier_type_id=None, applicable_values=None):  # noqa: E501
         """KmQualifier - a model defined in OpenAPI
 
         :param qualifier_type_id: The qualifier_type_id of this KmQualifier.  # noqa: E501
         :type qualifier_type_id: str
-        :param qualifier_values: The qualifier_values of this KmQualifier.  # noqa: E501
-        :type qualifier_values: List[str]
+        :param applicable_values: The applicable_values of this KmQualifier.  # noqa: E501
+        :type applicable_values: List[str]
         """
         self.openapi_types = {
             'qualifier_type_id': str,
-            'qualifier_values': List[str]
+            'applicable_values': List[str]
         }
 
         self.attribute_map = {
             'qualifier_type_id': 'qualifier_type_id',
-            'qualifier_values': 'qualifier_values'
+            'applicable_values': 'applicable_values'
         }
 
         self._qualifier_type_id = qualifier_type_id
-        self._qualifier_values = qualifier_values
+        self._applicable_values = applicable_values
 
     @classmethod
     def from_dict(cls, dikt) -> 'KmQualifier':
@@ -73,26 +73,24 @@ class KmQualifier(Model):
         self._qualifier_type_id = qualifier_type_id
 
     @property
-    def qualifier_values(self):
-        """Gets the qualifier_values of this KmQualifier.
+    def applicable_values(self):
+        """Gets the applicable_values of this KmQualifier.
 
         Values associated with the type of the qualifier, drawn from a set of controlled values by the type as specified in the Biolink model (e.g. 'expression' or 'abundance' for the qualifier type 'subject_aspect', etc).  # noqa: E501
 
-        :return: The qualifier_values of this KmQualifier.
+        :return: The applicable_values of this KmQualifier.
         :rtype: List[str]
         """
-        return self._qualifier_values
+        return self._applicable_values
 
-    @qualifier_values.setter
-    def qualifier_values(self, qualifier_values):
-        """Sets the qualifier_values of this KmQualifier.
+    @applicable_values.setter
+    def applicable_values(self, applicable_values):
+        """Sets the applicable_values of this KmQualifier.
 
         Values associated with the type of the qualifier, drawn from a set of controlled values by the type as specified in the Biolink model (e.g. 'expression' or 'abundance' for the qualifier type 'subject_aspect', etc).  # noqa: E501
 
-        :param qualifier_values: The qualifier_values of this KmQualifier.
-        :type qualifier_values: List[str]
+        :param applicable_values: The applicable_values of this KmQualifier.
+        :type applicable_values: List[str]
         """
-        if qualifier_values is None:
-            raise ValueError("Invalid value for `qualifier_values`, must not be `None`")  # noqa: E501
 
-        self._qualifier_values = qualifier_values
+        self._applicable_values = applicable_values
