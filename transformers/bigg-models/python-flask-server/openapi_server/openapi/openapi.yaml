@@ -4,7 +4,7 @@ info:
     email: translator@broadinstitute.org
   termsOfService: http://bigg.ucsd.edu/about
   title: Transformer API for BiGG Models transformer
-  version: 2.3.0
+  version: 2.3.0.1
 servers:
 - url: https://translator.broadinstitute.org/bigg
 tags:
