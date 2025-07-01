@@ -29,7 +29,7 @@ Feature: Check CMAP transformer
     Scenario: Check DrugBank gene target transformer info
         Given the transformer
         when we fire "/gene_targets/transformer_info" query
-        then the value of "name" should be "DrugBank gene interactions transformer"
+        then the value of "name" should be "DrugBank target genes transformer"
         and the value of "version" should be "2.4.0"
         and the value of "function" should be "transformer"
         and the value of "knowledge_map.input_class" should be "compound"
@@ -40,7 +40,7 @@ Feature: Check CMAP transformer
     Scenario: Check DrugBank protein target transformer info
         Given the transformer
         when we fire "/protein_targets/transformer_info" query
-        then the value of "name" should be "DrugBank protein interactions transformer"
+        then the value of "name" should be "DrugBank target proteins transformer"
         and the value of "version" should be "2.4.0"
         and the value of "function" should be "transformer"
         and the value of "knowledge_map.input_class" should be "compound"
