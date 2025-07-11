@@ -10,12 +10,12 @@ Feature: Check HGNC  transformer
         then the value of "name" should be "HGNC gene-list producer"
         and the value of "label" should be "HGNC"
         and the value of "infores" should be "infores:hgnc"
-        and the value of "version" should be "2.5.0"
+        and the value of "version" should be "2.6.0"
         and the value of "function" should be "producer"
         and the value of "knowledge_map.input_class" should be "none"
         and the value of "knowledge_map.output_class" should be "gene"
         and the size of "knowledge_map.nodes" should be 1
-        and the value of "properties.source_version" should be "2023-01-01"
+        and the value of "properties.source_version" should be "2025-05-06"
         and the size of "parameters" should be 1
 
 
