@@ -194,9 +194,9 @@ Feature: Check reasoner API
           "submitter": "behave test"
         }
         """
-        then the size of "message.results" should be 2103
-        and the size of "message.knowledge_graph.edges" should be 2103
-        and the size of "message.knowledge_graph.nodes" should be 1056
+        then the size of "message.results" should be 1766
+        and the size of "message.knowledge_graph.edges" should be 1766
+        and the size of "message.knowledge_graph.nodes" should be 1016
 
 
     Scenario: Check query with ChemicalEntity instead of SmallMolecule
@@ -311,7 +311,7 @@ Feature: Check reasoner API
         """
         then the size of "message.results" should be 374
         and the size of "message.knowledge_graph.edges" should be 374
-        and the size of "message.knowledge_graph.nodes" should be 247
+        and the size of "message.knowledge_graph.nodes" should be 246
 
 
     Scenario: Check query with node constraints
@@ -685,5 +685,5 @@ Feature: Check reasoner API
         """
         then the size of "message.results" should be 117
         and the size of "message.knowledge_graph.edges" should be 117
-        and the size of "message.knowledge_graph.nodes" should be 116
+        and the size of "message.knowledge_graph.nodes" should be 118
 
