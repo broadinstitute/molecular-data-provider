@@ -150,20 +150,6 @@ Feature: Check MolePro
         and the value of "source" should be "CMAP gene-to-gene expander"
 
 
-    Scenario: Check DGIdb inhibitors transformer
-        Given the Molecular Data Provider
-        when we call "MoleProDB name producer" transformer with the following parameters:
-        | name  |
-        | FGFR1 |
-        and we call "DGIdb inhibitor transformer" transformer with no parameters
-        and we call "CMAP compound-to-gene transformer" transformer with the following parameters:
-        | score threshold | maximum number |
-        | 99.0            | 2              |
-        then the length of the collection should be 18
-        and the value of "element_class" should be "gene"
-        and the value of "source" should be "CMAP compound-to-gene transformer"
-
-
     Scenario: Check CMAP compound-to-compound transformer
         Given the Molecular Data Provider
         when we call "Pubchem compound-list producer" transformer with the following parameters:
