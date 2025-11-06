@@ -1,7 +1,6 @@
 openapi: 3.0.0
 info:
-  title: Transformer API for DGIdb
-  termsOfService: http://www.dgidb.org/getting_started
+  title: Transformer API for Molecular Data Provider
 
   version: 2.6.0
 
@@ -9,7 +8,7 @@ info:
     email: translator@broadinstitute.org
 
 servers:
-- url: https://translator.broadinstitute.org/dgidb
+- url: https://translator.broadinstitute.org/<path>
 
 tags:
   - name: transformers
@@ -28,7 +27,7 @@ paths:
         required: true
         schema:
           type: string
-          enum: [molecules, targets, inhibitors]
+          enum: [SERVICE-LIST]
       - name: cache
         in: query
         description: >-
@@ -59,7 +58,7 @@ paths:
         required: true
         schema:
           type: string
-          enum: [molecules, targets, inhibitors]
+          enum: [SERVICE-LIST]
       - name: cache
         in: query
         description: >-
