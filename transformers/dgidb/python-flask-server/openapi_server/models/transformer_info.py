@@ -21,13 +21,15 @@ class TransformerInfo(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name=None, label=None, description=None, version=None, function=None, knowledge_map=None, properties=None, parameters=None):  # noqa: E501
+    def __init__(self, name=None, label=None, infores=None, description=None, version=None, function=None, knowledge_map=None, properties=None, parameters=None):  # noqa: E501
         """TransformerInfo - a model defined in OpenAPI
 
         :param name: The name of this TransformerInfo.  # noqa: E501
         :type name: str
         :param label: The label of this TransformerInfo.  # noqa: E501
         :type label: str
+        :param infores: The infores of this TransformerInfo.  # noqa: E501
+        :type infores: str
         :param description: The description of this TransformerInfo.  # noqa: E501
         :type description: str
         :param version: The version of this TransformerInfo.  # noqa: E501
@@ -44,6 +46,7 @@ class TransformerInfo(Model):
         self.openapi_types = {
             'name': str,
             'label': str,
+            'infores': str,
             'description': str,
             'version': str,
             'function': str,
@@ -55,6 +58,7 @@ class TransformerInfo(Model):
         self.attribute_map = {
             'name': 'name',
             'label': 'label',
+            'infores': 'infores',
             'description': 'description',
             'version': 'version',
             'function': 'function',
@@ -65,6 +69,7 @@ class TransformerInfo(Model):
 
         self._name = name
         self._label = label
+        self._infores = infores
         self._description = description
         self._version = version
         self._function = function
@@ -128,8 +133,33 @@ class TransformerInfo(Model):
         :param label: The label of this TransformerInfo.
         :type label: str
         """
+        if label is None:
+            raise ValueError("Invalid value for `label`, must not be `None`")  # noqa: E501
 
         self._label = label
+
+    @property
+    def infores(self):
+        """Gets the infores of this TransformerInfo.
+
+        Information resource identifier.  # noqa: E501
+
+        :return: The infores of this TransformerInfo.
+        :rtype: str
+        """
+        return self._infores
+
+    @infores.setter
+    def infores(self, infores):
+        """Sets the infores of this TransformerInfo.
+
+        Information resource identifier.  # noqa: E501
+
+        :param infores: The infores of this TransformerInfo.
+        :type infores: str
+        """
+
+        self._infores = infores
 
     @property
     def description(self):
@@ -174,6 +204,8 @@ class TransformerInfo(Model):
         :param version: The version of this TransformerInfo.
         :type version: str
         """
+        if version is None:
+            raise ValueError("Invalid value for `version`, must not be `None`")  # noqa: E501
 
         self._version = version
 
@@ -224,6 +256,8 @@ class TransformerInfo(Model):
         :param knowledge_map: The knowledge_map of this TransformerInfo.
         :type knowledge_map: KnowledgeMap
         """
+        if knowledge_map is None:
+            raise ValueError("Invalid value for `knowledge_map`, must not be `None`")  # noqa: E501
 
         self._knowledge_map = knowledge_map
 
