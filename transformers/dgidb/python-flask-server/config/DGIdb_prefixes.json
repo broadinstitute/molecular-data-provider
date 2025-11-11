@@ -1,0 +1,34 @@
+{
+    "PUBCHEM.COMPOUND": {
+        "field_name": "pubchem",
+        "molepro_prefix": "CID:"
+    },
+    "CHEMBL": {
+        "field_name": "chembl",
+        "molepro_prefix": "ChEMBL:"
+    },
+    "DRUGBANK": {
+        "field_name": "drugbank",
+        "molepro_prefix": "DrugBank:"
+    },
+    "IUPHAR.LIGAND": {
+        "field_name": "gtopdb",
+        "molepro_prefix": "GTOPDB:"
+    },
+    "PHARMGKB.DRUG": {
+        "field_name": "pharmgkb",
+        "molepro_prefix": "PHARMGKB.CHEMICAL:"
+    },
+    "PUBCHEM.SUBSTANCE": {
+        "field_name": "pubchem-sid",
+        "molepro_prefix": "SID:"
+    },
+    "NCIT": {
+        "field_name": "nci_thesaurus",
+        "molepro_prefix": "NCIT:"
+    },
+    "TTD.DRUG": {
+        "field_name": "ttd",
+        "molepro_prefix": "TTD.DRUG:"
+    }
+}

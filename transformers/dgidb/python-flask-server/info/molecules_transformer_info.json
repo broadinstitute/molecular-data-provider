@@ -1,25 +1,29 @@
 {
     "name": "DGIdb compound-list producer",
     "label": "DGIdb",
-    "description": "Compound-list producer based on DGIdb (http://dgidb.org/).",
-    "version": "2.1.0",
+    "infores":"infores:dgidb", 
+    "description": "Compound-list producer based on DGIdb (https://www.dgidb.org/).",
+    "version": "2.6.0",
     "function": "producer",
     "knowledge_map": {
         "input_class": "none",
-        "output_class": "compound",
+        "output_class": "SmallMolecule",
         "predicates": []
     },
     "properties": {
-        "list_predicate": "related_to",
-        "member_predicate": "related_to",
         "source_url": "http://dgidb.org/",
-        "terms_of_service": "http://www.dgidb.org/getting_started"
+        "source_version": "v5",
+        "source_date": "2024-11-27",
+        "terms_of_service": "https://github.com/dgidb/dgidb-v5/blob/main/LICENSE"
     },
     "parameters": [
         {
             "example": "aspirin",
-            "name": "compounds",
+            "name": "compound",
+            "description": "Name or identifier of compound",
             "type": "string",
+            "multivalued": true,
+            "required": true,
             "suggested_values": "semicolon-separated list of compounds names or ChEMBL IDs"
         }
     ]

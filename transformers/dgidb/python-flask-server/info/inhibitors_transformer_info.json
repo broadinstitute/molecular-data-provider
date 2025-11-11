@@ -1,23 +1,69 @@
 {
     "name": "DGIdb inhibitor transformer",
     "label": "DGIdb",
+    "infores":"infores:dgidb", 
     "description": "Drug-list transformer based on DGIdb compound information (http://dgidb.org/).",
-    "version": "2.1.1",
+    "version": "2.6.0",
     "function": "transformer",
     "knowledge_map": {
         "input_class": "gene",
         "output_class": "compound",
-        "predicates": [{
-            "subject": "Gene",
-            "predicate": "affects",
-            "object": "ChemicalSubstance"
-        }]
+        "nodes": {
+            "Gene" : {
+                "id_prefixes": ["NCBIGENE","ENSEMBL","HGNC"],
+                "count": -1,
+                "attributes": []
+            }
+        },
+        "edges": [
+            {
+                "subject": "Gene",
+                "predicate": "biolink:interacts_with",
+                "inverse_predicate": "biolink:interacts_with",
+                "object": "SmallMolecule",
+                "knowledge_level":"knowledge_assertion",
+                "agent_type":"automated_agent",
+                "source": "DGIDB",
+                "count": -1,
+                "attributes": [
+                    {
+                        "attribute_type_id": "biolink:primary_knowledge_source",
+                        "source": "MolePro"
+                    },
+                    {
+                        "attribute_type_id": "association",
+                        "source": "DGIDB",
+                        "names": [
+                            "association"
+                        ]
+                    },
+                    {
+                        "attribute_type_id": "biolink:publication",
+                        "source": "DGIDB",
+                        "names": [
+                            "PMIDs"
+                        ]
+                    }                      
+                ],
+                "qualifiers": [
+                    {
+                        "qualifier_type_id": "subject_aspect_qualifier"
+                    },
+                    {
+                        "qualifier_type_id": "subject_direction_qualifier"
+                    },
+                    {
+                        "qualifier_type_id": "causal_mechanism_qualifier"
+                    }
+                ]                
+            }
+        ]
     },
     "properties": {
-        "list_predicate": "related_to",
-        "member_predicate": "related_to",
         "source_url": "http://dgidb.org/",
-        "terms_of_service": "http://www.dgidb.org/getting_started"
+        "source_version": "v5",
+        "source_date": "2024-11-27",
+        "terms_of_service": "https://github.com/dgidb/dgidb-v5/blob/main/LICENSE"
     },
     "parameters": []
 }
