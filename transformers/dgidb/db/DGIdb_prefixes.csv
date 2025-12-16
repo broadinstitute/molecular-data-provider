@@ -1,0 +1,10 @@
+DGIdb_prefix,field_name,molepro_prefix
+PUBCHEM.COMPOUND,pubchem,CID:
+CHEMBL,chembl,ChEMBL:
+DRUGBANK,drugbank,DrugBank:
+IUPHAR.LIGAND,gtopdb,GTOPDB:
+PHARMGKB.DRUG,pharmgkb,PHARMGKB.CHEMICAL:
+PUBCHEM.SUBSTANCE,pubchem-sid,SID:
+NCIT,nci_thesaurus,NCIT:
+TTD.DRUG,ttd,TTD.DRUG:
+rxcui,rxcui,rxcui:

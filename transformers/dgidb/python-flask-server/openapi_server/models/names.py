@@ -15,36 +15,46 @@ class Names(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name=None, synonyms=None, source=None, url=None):  # noqa: E501
+    def __init__(self, name=None, synonyms=None, name_type=None, source=None, provided_by=None, language=None):  # noqa: E501
         """Names - a model defined in OpenAPI
 
         :param name: The name of this Names.  # noqa: E501
         :type name: str
         :param synonyms: The synonyms of this Names.  # noqa: E501
         :type synonyms: List[str]
+        :param name_type: The name_type of this Names.  # noqa: E501
+        :type name_type: str
         :param source: The source of this Names.  # noqa: E501
         :type source: str
-        :param url: The url of this Names.  # noqa: E501
-        :type url: str
+        :param provided_by: The provided_by of this Names.  # noqa: E501
+        :type provided_by: str
+        :param language: The language of this Names.  # noqa: E501
+        :type language: str
         """
         self.openapi_types = {
             'name': str,
             'synonyms': List[str],
+            'name_type': str,
             'source': str,
-            'url': str
+            'provided_by': str,
+            'language': str
         }
 
         self.attribute_map = {
             'name': 'name',
             'synonyms': 'synonyms',
+            'name_type': 'name_type',
             'source': 'source',
-            'url': 'url'
+            'provided_by': 'provided_by',
+            'language': 'language'
         }
 
         self._name = name
         self._synonyms = synonyms
+        self._name_type = name_type
         self._source = source
-        self._url = url
+        self._provided_by = provided_by
+        self._language = language
 
     @classmethod
     def from_dict(cls, dikt) -> 'Names':
@@ -104,10 +114,35 @@ class Names(Model):
         self._synonyms = synonyms
 
     @property
+    def name_type(self):
+        """Gets the name_type of this Names.
+
+        Type of names and synonyms, e.g. inn, trademarked name.  # noqa: E501
+
+        :return: The name_type of this Names.
+        :rtype: str
+        """
+        return self._name_type
+
+    @name_type.setter
+    def name_type(self, name_type):
+        """Sets the name_type of this Names.
+
+        Type of names and synonyms, e.g. inn, trademarked name.  # noqa: E501
+
+        :param name_type: The name_type of this Names.
+        :type name_type: str
+        """
+        if name_type is None:
+            raise ValueError("Invalid value for `name_type`, must not be `None`")  # noqa: E501
+
+        self._name_type = name_type
+
+    @property
     def source(self):
         """Gets the source of this Names.
 
-        Source of names and synonyms.  # noqa: E501
+        Primary source of names and synonyms.  # noqa: E501
 
         :return: The source of this Names.
         :rtype: str
@@ -118,7 +153,7 @@ class Names(Model):
     def source(self, source):
         """Sets the source of this Names.
 
-        Source of names and synonyms.  # noqa: E501
+        Primary source of names and synonyms.  # noqa: E501
 
         :param source: The source of this Names.
         :type source: str
@@ -129,24 +164,49 @@ class Names(Model):
         self._source = source
 
     @property
-    def url(self):
-        """Gets the url of this Names.
+    def provided_by(self):
+        """Gets the provided_by of this Names.
 
-        URL for additional information.  # noqa: E501
+        Transformer that produced the names and synonyms.  # noqa: E501
 
-        :return: The url of this Names.
+        :return: The provided_by of this Names.
         :rtype: str
         """
-        return self._url
+        return self._provided_by
 
-    @url.setter
-    def url(self, url):
-        """Sets the url of this Names.
+    @provided_by.setter
+    def provided_by(self, provided_by):
+        """Sets the provided_by of this Names.
 
-        URL for additional information.  # noqa: E501
+        Transformer that produced the names and synonyms.  # noqa: E501
 
-        :param url: The url of this Names.
-        :type url: str
+        :param provided_by: The provided_by of this Names.
+        :type provided_by: str
+        """
+        if provided_by is None:
+            raise ValueError("Invalid value for `provided_by`, must not be `None`")  # noqa: E501
+
+        self._provided_by = provided_by
+
+    @property
+    def language(self):
+        """Gets the language of this Names.
+
+        Language of names and synonyms.  # noqa: E501
+
+        :return: The language of this Names.
+        :rtype: str
+        """
+        return self._language
+
+    @language.setter
+    def language(self, language):
+        """Sets the language of this Names.
+
+        Language of names and synonyms.  # noqa: E501
+
+        :param language: The language of this Names.
+        :type language: str
         """
 
-        self._url = url
+        self._language = language
