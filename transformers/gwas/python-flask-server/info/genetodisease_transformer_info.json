@@ -60,7 +60,7 @@
         ]
     },
     "properties": {
-        "source_url": "https://genetics-kp.test.transltr.io/genetics_provider/trapi/v1.5/query",
+        "source_url": "https://genetics-kp.transltr.io/genetics_provider/trapi/v1.5/query",
         "source_version": "v1.5"
     },
     "parameters": [
