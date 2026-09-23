@@ -3,7 +3,7 @@
     "label": "HGNC",
     "infores": "infores:hgnc",
     "description": "Gene-list specified by gene symbols.",
-    "version": "2.5.0",
+    "version": "2.6.0",
     "function": "producer",
     "knowledge_map": {
         "input_class": "none",
@@ -64,7 +64,8 @@
     },
     "properties": {
         "source_url": "https://www.genenames.org",
-        "source_version": "2023-01-01",
+        "source_version": "YYYY-MM-DD",
+        "source_date": "YYYY-MM-DD",
         "terms_of_service": "https://www.genenames.org/about/license/"
     },
     "parameters": [
