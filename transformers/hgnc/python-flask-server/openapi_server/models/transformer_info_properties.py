@@ -15,13 +15,15 @@ class TransformerInfoProperties(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, source_url=None, source_version=None, terms_of_service=None, method=None, method_url=None):  # noqa: E501
+    def __init__(self, source_url=None, source_version=None, source_date=None, terms_of_service=None, method=None, method_url=None):  # noqa: E501
         """TransformerInfoProperties - a model defined in OpenAPI
 
         :param source_url: The source_url of this TransformerInfoProperties.  # noqa: E501
         :type source_url: str
         :param source_version: The source_version of this TransformerInfoProperties.  # noqa: E501
         :type source_version: str
+        :param source_date: The source_date of this TransformerInfoProperties.  # noqa: E501
+        :type source_date: str
         :param terms_of_service: The terms_of_service of this TransformerInfoProperties.  # noqa: E501
         :type terms_of_service: str
         :param method: The method of this TransformerInfoProperties.  # noqa: E501
@@ -32,6 +34,7 @@ class TransformerInfoProperties(Model):
         self.openapi_types = {
             'source_url': str,
             'source_version': str,
+            'source_date': str,
             'terms_of_service': str,
             'method': str,
             'method_url': str
@@ -40,6 +43,7 @@ class TransformerInfoProperties(Model):
         self.attribute_map = {
             'source_url': 'source_url',
             'source_version': 'source_version',
+            'source_date': 'source_date',
             'terms_of_service': 'terms_of_service',
             'method': 'method',
             'method_url': 'method_url'
@@ -47,6 +51,7 @@ class TransformerInfoProperties(Model):
 
         self._source_url = source_url
         self._source_version = source_version
+        self._source_date = source_date
         self._terms_of_service = terms_of_service
         self._method = method
         self._method_url = method_url
@@ -107,6 +112,29 @@ class TransformerInfoProperties(Model):
         """
 
         self._source_version = source_version
+
+    @property
+    def source_date(self):
+        """Gets the source_date of this TransformerInfoProperties.
+
+        Date of injest of underlying data or a wrapped service.  # noqa: E501
+
+        :return: The source_date of this TransformerInfoProperties.
+        :rtype: str
+        """
+        return self._source_date
+
+    @source_date.setter
+    def source_date(self, source_date):
+        """Sets the source_date of this TransformerInfoProperties.
+
+        Date of injest of underlying data or a wrapped service.  # noqa: E501
+
+        :param source_date: The source_date of this TransformerInfoProperties.
+        :type source_date: str
+        """
+
+        self._source_date = source_date
 
     @property
     def terms_of_service(self):

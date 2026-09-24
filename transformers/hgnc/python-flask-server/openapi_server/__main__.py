@@ -13,7 +13,7 @@ app.add_api('openapi.yaml',
 
 
 def main():
-    app.run(port=8490, debug=True)
+    app.run(port=8490, debug=True, use_reloader=False)
 
 
 if __name__ == '__main__':

@@ -1,8 +1,8 @@
 import sqlite3
+import sys
 import pandas as pd
 
-connection_source = sqlite3.connect("data/HGNC.sqlite", check_same_thread=False)
-connection_source.row_factory = sqlite3.Row
+connection_source = None
 
 CHUNK_SIZE = 25000
 DO_IF_EXISTS = 'append'
@@ -60,23 +60,60 @@ def create_database():
             lncrnadb                 TEXT,
             enzyme_id                TEXT,
             intermediate_filament_db TEXT,
-            rna_central_ids          INT,
+            rna_central_id           INT,
             lncipedia                TEXT,
             gtrnadb                  TEXT,
             agr                      TEXT,
             mane_select              TEXT,
             gencc                    TEXT
         );
+
+        CREATE TABLE version (
+            version    TEXT
+        );
     '''
     cur = connection_source.cursor()
     cur.executescript(statement)
 
 
-def build_database():
-    df = pd.read_csv('data/hgnc_complete_set_2023-01-01.txt', sep="\t", low_memory=False)
-    print(len(df))
+def validate_columns(df):
+    # Get column names from the SQLite database
+    cur = connection_source.cursor()
+    cur.execute("PRAGMA table_info(hgnc);")
+    db_columns = [row[1] for row in cur.fetchall()]  # Extract column names from the schema
+    cur.close()
+
+    # Get column names from the DataFrame
+    df_columns = df.columns.tolist()
+
+    # Compare columns
+    missing_in_db = [col for col in df_columns if col not in db_columns]
+    missing_in_df = [col for col in db_columns if col not in df_columns]
+
+    if missing_in_db:
+        print("Columns in DataFrame but missing in database:", missing_in_db, file=sys.stderr)
+    if missing_in_df:
+        print("Columns in database but missing in DataFrame:", missing_in_df, file=sys.stderr)
+    if missing_in_db or missing_in_df:
+        print("Column mismatch between DataFrame and database schema.", file=sys.stderr)
+        sys.exit(1)
+
+def insert_version(version):
+    statement = """
+        INSERT INTO version (version) VALUES (?);
+    """
+    cur = connection_source.cursor()
+    cur.execute(statement, (version,))
+    cur.close()
+
+
+def build_database(folder):
+    insert_version(folder)
+    df = pd.read_csv(f'data/{folder}/hgnc_complete_set_{folder}.txt', sep="\t", low_memory=False)
+    print('gene count:', len(df))
+    validate_columns(df)
     df.to_sql("hgnc", connection_source, if_exists=DO_IF_EXISTS, index=False, chunksize=CHUNK_SIZE)
-    print("hgnc_complete_set")
+    print("hgnc_complete_set loaded into database.")
 
 
 def create_index(table, column, colate=None):
@@ -97,7 +134,21 @@ def create_indexes():
     create_index('hgnc', 'ensembl_gene_id')
 
 
+def main():
+    global connection_source
+    if len(sys.argv) > 1:
+        folder = sys.argv[1]
+        connection_source = sqlite3.connect(f"data/{folder}/HGNC.sqlite", check_same_thread=False)
+        connection_source.row_factory = sqlite3.Row
+        create_database()
+        build_database(folder)
+        create_indexes()
+        connection_source.commit()
+        connection_source.close()
+    else:
+        print("Please provide the folder path as an argument.", file=sys.stderr)
+        sys.exit(1)
+
+
 if __name__ == "__main__":
-    create_database()
-    build_database()
-    create_indexes()
+    main()

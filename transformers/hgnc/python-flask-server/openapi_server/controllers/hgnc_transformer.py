@@ -15,6 +15,8 @@ class HgncGeneProducer(Producer):
 
     def update_transformer_info(self, info):
         info.knowledge_map.nodes[self.biolink_class('Gene')].count = get_gene_count()
+        info.properties.source_version = get_version()
+        info.properties.source_date = get_version()
 
 
     def find_names(self, name):
@@ -53,6 +55,8 @@ class HgncGeneProducer(Producer):
             identifiers['ensembl'] = self.add_prefix('ensembl', row['ensembl_gene_id'])
         if row['omim_id'] is not None:
             identifiers['mim'] = self.add_prefix('mim', row['omim_id'])
+        if row['mirbase'] is not None:
+            identifiers['mirbase'] = self.add_prefix('mirbase', row['mirbase'])
         return identifiers
 
 
@@ -102,7 +106,7 @@ def get_gene(hgnc_id):
         select 
             hgnc_id, symbol, name, locus_group, locus_type, location,
             alias_symbol, alias_name, prev_symbol, prev_name, gene_group,
-            entrez_id, ensembl_gene_id, omim_id
+            entrez_id, ensembl_gene_id, omim_id, mirbase
         from hgnc
         where hgnc_id = ?
     '''
@@ -122,3 +126,14 @@ def get_gene_count():
     for row in cur.fetchall():
         return row['count']
     return -1
+
+
+def get_version():
+    query = '''
+        select version from version
+    '''
+    cur = connection.cursor()
+    cur.execute(query)
+    for row in cur.fetchall():
+        return row['version']
+    return None

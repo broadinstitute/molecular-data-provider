@@ -4,7 +4,7 @@ info:
     email: translator@broadinstitute.org
   termsOfService: https://www.genenames.org/about/license/
   title: Transformer API for HGNC
-  version: 2.5.0
+  version: 2.6.0
 servers:
 - url: https://translator.broadinstitute.org/hgnc
 tags:
@@ -142,9 +142,9 @@ components:
             subject: subject
             count: 6
             qualifiers:
-            - qualifier_values: expression
+            - applicable_values: expression
               qualifier_type_id: subject_aspect
-            - qualifier_values: expression
+            - applicable_values: expression
               qualifier_type_id: subject_aspect
             attributes:
             - names:
@@ -171,9 +171,9 @@ components:
             subject: subject
             count: 6
             qualifiers:
-            - qualifier_values: expression
+            - applicable_values: expression
               qualifier_type_id: subject_aspect
-            - qualifier_values: expression
+            - applicable_values: expression
               qualifier_type_id: subject_aspect
             attributes:
             - names:
@@ -233,6 +233,7 @@ components:
           terms_of_service: terms_of_service
           method_url: method_url
           source_url: source_url
+          source_date: source_date
       properties:
         name:
           description: Name of the transformer.
@@ -390,9 +391,9 @@ components:
           subject: subject
           count: 6
           qualifiers:
-          - qualifier_values: expression
+          - applicable_values: expression
             qualifier_type_id: subject_aspect
-          - qualifier_values: expression
+          - applicable_values: expression
             qualifier_type_id: subject_aspect
           attributes:
           - names:
@@ -419,9 +420,9 @@ components:
           subject: subject
           count: 6
           qualifiers:
-          - qualifier_values: expression
+          - applicable_values: expression
             qualifier_type_id: subject_aspect
-          - qualifier_values: expression
+          - applicable_values: expression
             qualifier_type_id: subject_aspect
           attributes:
           - names:
@@ -522,9 +523,9 @@ components:
         subject: subject
         count: 6
         qualifiers:
-        - qualifier_values: expression
+        - applicable_values: expression
           qualifier_type_id: subject_aspect
-        - qualifier_values: expression
+        - applicable_values: expression
           qualifier_type_id: subject_aspect
         attributes:
         - names:
@@ -615,7 +616,7 @@ components:
       additionalProperties: false
       description: An additional nuance attached to a connection
       example:
-        qualifier_values: expression
+        applicable_values: expression
         qualifier_type_id: subject_aspect
       properties:
         qualifier_type_id:
@@ -625,7 +626,7 @@ components:
           example: subject_aspect
           title: qualifier_type_id
           type: string
-        qualifier_values:
+        applicable_values:
           description: "Values associated with the type of the qualifier, drawn from\
             \ a set of controlled values by the type as specified in the Biolink model\
             \ (e.g. 'expression' or 'abundance' for the qualifier type 'subject_aspect',\
@@ -633,11 +634,10 @@ components:
           example: expression
           items:
             type: string
-          title: qualifier_values
+          title: applicable_values
           type: array
       required:
       - qualifier_type_id
-      - qualifier_values
       title: km_qualifier
       type: object
     km_attribute:
@@ -718,6 +718,7 @@ components:
     element:
       example:
         biolink_class: biolink_class
+        is_set: true
         identifiers:
           key: ""
         provided_by: provided_by
@@ -848,6 +849,10 @@ components:
           description: BioLink class of the element.
           title: biolink_class
           type: string
+        is_set:
+          description: Indicates whether the element represents a set.
+          title: is_set
+          type: boolean
         identifiers:
           additionalProperties: true
           description: identifiers of the element.
@@ -1172,6 +1177,7 @@ components:
         terms_of_service: terms_of_service
         method_url: method_url
         source_url: source_url
+        source_date: source_date
       properties:
         source_url:
           description: URL for underlying data or a wrapped service.
@@ -1181,16 +1187,22 @@ components:
           description: Version of the underlying source or data.
           title: source_version
           type: string
+        source_date:
+          description: Date of injest of underlying data or a wrapped service.
+          title: source_date
+          type: string
         terms_of_service:
           description: Link to the page that describes the terms of service for the
             transformer.
           title: terms_of_service
           type: string
         method:
+          deprecated: true
           description: A method used to generate output lists.
           title: method
           type: string
         method_url:
+          deprecated: true
           description: Link to a description of a method used to generate output lists.
           title: method_url
           type: string
