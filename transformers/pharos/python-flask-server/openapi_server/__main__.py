@@ -6,7 +6,9 @@ from openapi_server import encoder
 
 app = connexion.App(__name__, specification_dir='./openapi/')
 app.app.json_encoder = encoder.JSONEncoder
-app.add_api('openapi.yaml',arguments={'title': 'Transformer API for Pharos expander'},pythonic_params=True)
+app.add_api('openapi.yaml',
+            arguments={'title': 'Transformer API for Pharos transformer'},
+            pythonic_params=True)
 
 
 def main():

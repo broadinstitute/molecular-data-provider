@@ -1,31 +1,36 @@
 {
     "name": "Pharos compound-list producer",
     "label": "Pharos",
+    "infores": "infores:pharos",
     "description": "Compound-list producer based on Pharos (https://pharos.nih.gov).",
-    "version": "2.3.0",
+    "version": "2.6.0",
     "function": "producer",
     "knowledge_map": {
         "input_class": "none",
         "output_class": "compound",
         "nodes": {
-            "ChemicalSubstance" : {
-                "id_prefixes": ["CID"],
+            "SmallMolecule" : {
+                "id_prefixes": ["CID", "CHEMBL.COMPOUND"],
                 "count": -1,
                 "attributes": []
             }
         },
-        "predicates": []
+        "edges": []
     },
     "properties": {
         "source_url": "https://pharos.nih.gov",
+        "source_version":"6.11.0",
+        "source_date": "2021-05-03",
         "terms_of_service": "https://pharos.nih.gov/about"
     },
     "parameters": [
         {
             "example": "aspirin",
-            "name": "compounds",
+            "name": "compound",
             "type": "string",
-            "suggested_values": "semicolon-separated list of compounds names"
+            "required": true,
+            "multivalued": true,
+            "description": "Compound names."
         }
     ],
     "required_attributes": []

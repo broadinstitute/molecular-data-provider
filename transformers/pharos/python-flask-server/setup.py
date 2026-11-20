@@ -4,7 +4,7 @@ import sys
 from setuptools import setup, find_packages
 
 NAME = "pharos-transformer"
-VERSION = "2.3.1"
+VERSION = "2.6.0"
 
 # To install the library, run the following
 #

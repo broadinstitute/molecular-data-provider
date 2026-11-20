@@ -1,46 +1,215 @@
 {
     "name": "Pharos target genes transformer",
     "label": "Pharos",
+    "infores": "infores:pharos",
     "description": "Compound-to-target transformer based on Pharos (https://pharos.nih.gov).",
-    "version": "2.3.1",
+    "version": "2.6.0",
     "function": "transformer",
     "knowledge_map": {
         "input_class": "compound",
         "output_class": "gene",
         "nodes":{
-            "ChemicalSubstance": {
-                "attribute":[],
-                "count": -1,
+            "SmallMolecule": {
                 "id_prefixes": [
                     "CHEMBL.COMPOUND",
                     "CID"
-                ]
-            },                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
-            "Gene":{
-                "attribute":[],
+                ],
                 "count": -1,
+                "attributes": []
+            },
+            "Gene":{
                 "id_prefixes": [
                     "NCBIGene"
+                ],
+                "count": -1,
+                "attributes": [
+                    {
+                        "attribute_type_id": "target_development_level",
+                        "description": "Pharos target development level (Tdark, Tbio, Tchem, Tclin).",
+                        "source": "Pharos",
+                        "names": ["target_development_level"]
+                    },
+                    {
+                        "attribute_type_id": "symbol",
+                        "description": "Gene symbol of the target.",
+                        "source": "Pharos",
+                        "names": ["symbol"]
+                    }
                 ]
             }
         },
         "edges": [
             {
-                "subject": "ChemicalSubstance",
-                "predicate": "affects",
-                "inverse_predicate": "affected_by",
+                "subject": "SmallMolecule",
+                "predicate": "biolink:affects",
+                "inverse_predicate": "biolink:affected_by",
                 "object": "Gene",
                 "source": "Pharos",
                 "count": -1,
-                "attributes": []
+                "knowledge_level": "knowledge_assertion",
+                "agent_type": "not_provided",
+                "qualifiers": [
+                    {
+                        "qualifier_type_id": "qualified_predicate",
+                        "applicable_values": ["biolink:causes"]
+                    },
+                    {
+                        "qualifier_type_id": "object_aspect_qualifier",
+                        "applicable_values": ["activity", "expression", "stability", "transport"]
+                    },
+                    {
+                        "qualifier_type_id": "object_direction_qualifier",
+                        "applicable_values": ["increased", "decreased"]
+                    },
+                    {
+                        "qualifier_type_id": "causal_mechanism_qualifier",
+                        "applicable_values": [
+                            "activation", "agonism", "allosteric_antagonism", "allosteric_modulation",
+                            "antagonism", "antisense_inhibition", "gating_inhibition", "inhibition",
+                            "inverse_agonism", "modulation", "molecular_channel_blockage",
+                            "molecular_channel_opening", "negative_allosteric_modulation", "partial_agonism",
+                            "positive_allosteric_modulation", "positive_modulation", "releasing_agent"
+                        ]
+                    }
+                ],
+                "attributes": [
+                    {
+                        "attribute_type_id": "biolink:primary_knowledge_source",
+                        "source": "MolePro"
+                    },
+                    {
+                        "attribute_type_id": "biolink:knowledge_level",
+                        "source": "MolePro"
+                    },
+                    {
+                        "attribute_type_id": "biolink:agent_type",
+                        "source": "MolePro"
+                    },
+                    {
+                        "attribute_type_id": "biolink:publication",
+                        "source": "Pharos",
+                        "names": ["publication"]
+                    },
+                    {
+                        "attribute_type_id": "action_type",
+                        "source": "Pharos",
+                        "names": ["action_type"]
+                    },
+                    {
+                        "attribute_type_id": "reference",
+                        "source": "Pharos",
+                        "names": ["reference"]
+                    },
+                    {
+                        "attribute_type_id": "IC50",
+                        "description": "Activity value; the type is taken from act_type (e.g. IC50, Ki).",
+                        "source": "Pharos",
+                        "names": ["act_type"]
+                    }
+                ]
+            },
+            {
+                "subject": "SmallMolecule",
+                "predicate": "biolink:directly_physically_interacts_with",
+                "inverse_predicate": "biolink:directly_physically_interacts_with",
+                "object": "Gene",
+                "source": "Pharos",
+                "count": -1,
+                "knowledge_level": "knowledge_assertion",
+                "agent_type": "not_provided",
+                "qualifiers": [
+                    {
+                        "qualifier_type_id": "subject_aspect_qualifier",
+                        "applicable_values": ["antibody", "binding_agent"]
+                    }
+                ],
+                "attributes": [
+                    {
+                        "attribute_type_id": "biolink:primary_knowledge_source",
+                        "source": "MolePro"
+                    },
+                    {
+                        "attribute_type_id": "biolink:knowledge_level",
+                        "source": "MolePro"
+                    },
+                    {
+                        "attribute_type_id": "biolink:agent_type",
+                        "source": "MolePro"
+                    },
+                    {
+                        "attribute_type_id": "biolink:publication",
+                        "source": "Pharos",
+                        "names": ["publication"]
+                    },
+                    {
+                        "attribute_type_id": "action_type",
+                        "source": "Pharos",
+                        "names": ["action_type"]
+                    },
+                    {
+                        "attribute_type_id": "reference",
+                        "source": "Pharos",
+                        "names": ["reference"]
+                    },
+                    {
+                        "attribute_type_id": "IC50",
+                        "description": "Activity value; the type is taken from act_type (e.g. IC50, Ki).",
+                        "source": "Pharos",
+                        "names": ["act_type"]
+                    }
+                ]
+            },
+            {
+                "subject": "SmallMolecule",
+                "predicate": "biolink:is_substrate_of",
+                "inverse_predicate": "biolink:has_substrate",
+                "object": "Gene",
+                "source": "Pharos",
+                "count": -1,
+                "knowledge_level": "knowledge_assertion",
+                "agent_type": "not_provided",
+                "attributes": [
+                    {
+                        "attribute_type_id": "biolink:primary_knowledge_source",
+                        "source": "MolePro"
+                    },
+                    {
+                        "attribute_type_id": "biolink:knowledge_level",
+                        "source": "MolePro"
+                    },
+                    {
+                        "attribute_type_id": "biolink:agent_type",
+                        "source": "MolePro"
+                    },
+                    {
+                        "attribute_type_id": "biolink:publication",
+                        "source": "Pharos",
+                        "names": ["publication"]
+                    },
+                    {
+                        "attribute_type_id": "action_type",
+                        "source": "Pharos",
+                        "names": ["action_type"]
+                    },
+                    {
+                        "attribute_type_id": "reference",
+                        "source": "Pharos",
+                        "names": ["reference"]
+                    },
+                    {
+                        "attribute_type_id": "IC50",
+                        "description": "Activity value; the type is taken from act_type (e.g. IC50, Ki).",
+                        "source": "Pharos",
+                        "names": ["act_type"]
+                    }
+                ]
             }
         ]
     },
     "properties": {
-        "list_predicate": "related_to",
-        "member_predicate": "related_to",
         "source_url": "https://pharos.nih.gov",
-        "source_version":"version 6.11.0 of TCRD, downloaded May 3, 2021",
+        "source_version":"6.11.0",
+        "source_date": "2021-05-03",
         "terms_of_service": "https://pharos.nih.gov/about"
     },
     "parameters": [],

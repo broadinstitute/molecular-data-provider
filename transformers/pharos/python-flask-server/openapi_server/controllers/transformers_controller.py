@@ -1,4 +1,5 @@
 import connexion
+import json
 import six
 from typing import Dict
 from typing import Tuple
@@ -8,13 +9,14 @@ from openapi_server.models.element import Element  # noqa: E501
 from openapi_server.models.error_msg import ErrorMsg  # noqa: E501
 from openapi_server.models.transformer_info import TransformerInfo  # noqa: E501
 from openapi_server.models.transformer_query import TransformerQuery  # noqa: E501
+from openapi_server import encoder
 from openapi_server import util
 
 from openapi_server.controllers.pharos_transformer import PharosGeneInteractionsTransformer
 from openapi_server.controllers.pharos_transformer import PharosCompoundProducer
 
 transformer = { 'gene_targets': PharosGeneInteractionsTransformer(),
-                'producer': PharosCompoundProducer()
+                'compounds': PharosCompoundProducer()
 }
 
 def service_transform_post(service, body, cache=None):  # noqa: E501
@@ -33,7 +35,8 @@ def service_transform_post(service, body, cache=None):  # noqa: E501
     """
     if connexion.request.is_json:
         transformer_query = TransformerQuery.from_dict(connexion.request.get_json())  # noqa: E501
-    return transformer[service].transform(transformer_query)
+    result = transformer[service].transform(transformer_query)
+    return json.loads(json.dumps(result, cls=encoder.JSONEncoder))
 
 
 def service_transformer_info_get(service, cache=None):  # noqa: E501
@@ -48,4 +51,5 @@ def service_transformer_info_get(service, cache=None):  # noqa: E501
 
     :rtype: Union[TransformerInfo, Tuple[TransformerInfo, int], Tuple[TransformerInfo, int, Dict[str, str]]
     """
-    return transformer[service].transformer_info(cache)
+    result = transformer[service].transformer_info(cache)
+    return json.loads(json.dumps(result, cls=encoder.JSONEncoder))
