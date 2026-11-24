@@ -1,29 +1,32 @@
 #stage for packaging transfomers
-FROM python:3-alpine AS packaging-image
+FROM python:3.13-alpine AS packaging-image
 RUN mkdir -p /usr/src/base
-COPY util/python/transformers-2.0 /usr/src/base
+COPY util/python/transformers-2.5 /usr/src/base
 WORKDIR /usr/src/base
+RUN pip install -U pip setuptools
 RUN python setup.py bdist_wheel
 RUN mkdir -p /usr/src/pharos
 COPY transformers/pharos/python-flask-server /usr/src/pharos
 WORKDIR /usr/src/pharos
 RUN python setup.py bdist_wheel
 #stage for installing transformers on server
-FROM python:3-alpine AS runtime-image
+FROM python:3.13-alpine AS runtime-image
 RUN mkdir -p /usr/src/app
 RUN mkdir -p /usr/src/app/data
 RUN mkdir -p /usr/src/app/info
+RUN mkdir -p /usr/src/app/conf
 COPY transformers/pharos/python-flask-server/info /usr/src/app/info
+COPY transformers/pharos/python-flask-server/conf /usr/src/app/conf
 WORKDIR /usr/src/app/data
 COPY transformers/pharos/python-flask-server/data/TargetDevelopmentLevel.json .
-COPY util/python/transformers-2.0/config/BiolinkClassMap.txt .
-COPY util/python/transformers-2.0/config/prefixMap.json .
+COPY util/python/transformers-2.5/config/BiolinkClassMap.txt .
+COPY util/python/transformers-2.5/config/prefixMap.json .
 ADD https://translator.broadinstitute.org/db/Pharos.sqlite .
 WORKDIR /usr/src/app
 COPY --from=packaging-image /usr/src/base/dist .
 COPY --from=packaging-image /usr/src/pharos/dist .
-RUN pip3 install -I pharos_transformer-2.3.1-py3-none-any.whl
-RUN pip3 install -I base_transformer-2.0.0-py3-none-any.whl
+RUN pip3 install -I pharos_transformer-2.6.0-py3-none-any.whl
+RUN pip3 install -I base_transformer-2.5.1-py3-none-any.whl
 COPY transformers/pharos/python-flask-server/requirements.txt .
 RUN pip3 install --no-cache-dir -r requirements.txt
 EXPOSE 8080

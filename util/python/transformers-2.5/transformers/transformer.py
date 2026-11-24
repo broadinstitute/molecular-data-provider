@@ -53,14 +53,17 @@ class Transformer:
         
         if self.info.function == 'producer':
             return self.produce(controls)
+        collection = self.getCollection(query)
+        if collection is None and self.info.function in ('expander', 'filter', 'exporter', 'transformer'):
+            return ({ "status": 400, "title": "Bad Request", "detail": "collection is required", "type": "about:blank" }, 400 )
         if self.info.function == 'expander':
-            return self.expand(self.getCollection(query), controls)
+            return self.expand(collection, controls)
         if self.info.function == 'filter':
-            return self.filter(self.getCollection(query), controls)
+            return self.filter(collection, controls)
         if self.info.function == 'exporter':
-            return self.export(self.getCollection(query), controls)
+            return self.export(collection, controls)
         if self.info.function == 'transformer':
-            return self.map(self.getCollection(query), controls)
+            return self.map(collection, controls)
         return ({ "status": 500, "title": "Internal Server Error",
             "detail": "Function '"+self.info.function+"' not implemented", "type": "about:blank" }, 500 )
 
@@ -220,6 +223,8 @@ class Transformer:
         if str(identifier).upper().find(prefix.upper()) == 0:
             return True
         prefix = self.get_prefix(fieldname, molepro_class, 'biolink_prefix')
+        if prefix is not None:
+            prefix = prefix + ':'
         if str(identifier).upper().find(prefix.upper()) == 0:
             return True
         else:
@@ -249,6 +254,8 @@ class Transformer:
         if prefix is not None and prefix != '' and str(identifier).upper().find(prefix.upper()) == 0: 
             return identifier[len(prefix):]
         prefix = self.get_prefix(fieldname, molepro_class, 'biolink_prefix')
+        if prefix is not None:
+            prefix = prefix + ':'
         if prefix is not None and prefix != '' and str(identifier).upper().find(prefix.upper()) == 0: 
             return identifier[len(prefix)+1:]
         return identifier

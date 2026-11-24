@@ -15,7 +15,7 @@ class Attribute(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, attribute_type_id=None, original_attribute_name=None, value=None, value_type_id=None, attribute_source=None, value_url=None, description=None, provided_by=None):  # noqa: E501
+    def __init__(self, attribute_type_id=None, original_attribute_name=None, value=None, value_type_id=None, attribute_source=None, value_url=None, description=None, attributes=None, provided_by=None):  # noqa: E501
         """Attribute - a model defined in OpenAPI
 
         :param attribute_type_id: The attribute_type_id of this Attribute.  # noqa: E501
@@ -32,6 +32,8 @@ class Attribute(Model):
         :type value_url: str
         :param description: The description of this Attribute.  # noqa: E501
         :type description: str
+        :param attributes: The attributes of this Attribute.  # noqa: E501
+        :type attributes: List[Attribute]
         :param provided_by: The provided_by of this Attribute.  # noqa: E501
         :type provided_by: str
         """
@@ -43,6 +45,7 @@ class Attribute(Model):
             'attribute_source': str,
             'value_url': str,
             'description': str,
+            'attributes': List[Attribute],
             'provided_by': str
         }
 
@@ -54,6 +57,7 @@ class Attribute(Model):
             'attribute_source': 'attribute_source',
             'value_url': 'value_url',
             'description': 'description',
+            'attributes': 'attributes',
             'provided_by': 'provided_by'
         }
 
@@ -64,6 +68,7 @@ class Attribute(Model):
         self._attribute_source = attribute_source
         self._value_url = value_url
         self._description = description
+        self._attributes = attributes
         self._provided_by = provided_by
 
     @classmethod
@@ -245,6 +250,29 @@ class Attribute(Model):
         """
 
         self._description = description
+
+    @property
+    def attributes(self):
+        """Gets the attributes of this Attribute.
+
+        A list of attributes providing further information about the parent attribute.   # noqa: E501
+
+        :return: The attributes of this Attribute.
+        :rtype: List[Attribute]
+        """
+        return self._attributes
+
+    @attributes.setter
+    def attributes(self, attributes):
+        """Sets the attributes of this Attribute.
+
+        A list of attributes providing further information about the parent attribute.   # noqa: E501
+
+        :param attributes: The attributes of this Attribute.
+        :type attributes: List[Attribute]
+        """
+
+        self._attributes = attributes
 
     @property
     def provided_by(self):
