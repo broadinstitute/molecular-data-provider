@@ -13,6 +13,11 @@ Pathway	Pathway
 pathway	Pathway
 Protein	Protein
 protein	Protein
+Publication	Publication
+publication	Publication
+document	Publication
+target	Target
+Target	Target
 Drug	Drug
 drug	Drug
 Assay	Assay
@@ -29,3 +34,9 @@ Reaction	MolecularActivity
 MolecularActivity	MolecularActivity
 BiologicalProcess	BiologicalProcess
 CellularComponent	CellularComponent
+unknown	ChemicalEntity
+oligosaccharide	MolecularEntity
+oligonucleotide	MolecularEntity
+enzyme	Protein
+antibody	ChemicalEntity
+cell	Cell
